@@ -9,14 +9,14 @@ public class DevelopCard {
    private final HashMap<ResourceType, Integer> cost;
    private final HashMap<ResourceType, Integer> requirement;
    private final HashMap<ResourceType, Integer> product;
-   private final int vicoryPoints;
+   private final int victoryPoints;
 
    public DevelopCard(CardFlag cardFlag, HashMap<ResourceType, Integer> cost, HashMap<ResourceType, Integer> requirement, HashMap<ResourceType, Integer> product, int victoryPoints) {
       this.cardFlag = cardFlag;
       this.cost = new HashMap<>(cost);
       this.requirement = requirement;
       this.product = product;
-      this.vicoryPoints = victoryPoints;
+      this.victoryPoints = victoryPoints;
    }
 
 
@@ -33,7 +33,7 @@ public class DevelopCard {
 
    //public void buy(Warehouse w, Chest c, CardSlot[] slotArray, int slot)
    public int getVictoryPoints(){
-      return vicoryPoints;
+      return victoryPoints;
 
    }
 
