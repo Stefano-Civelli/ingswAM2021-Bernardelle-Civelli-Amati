@@ -32,7 +32,7 @@ class ChestTest {
 
     }
     catch (Exception e){}
-    assertEquals(chest.totalResources(),19);
+    assertEquals(chest.totalNumberOfResources(),19);
 
   }
 
@@ -49,7 +49,7 @@ class ChestTest {
 
     }
     catch (Exception e){}
-    assertEquals(chest.totalResources(),18);
+    assertEquals(chest.totalNumberOfResources(),18);
 
   }
 
