@@ -58,15 +58,15 @@ public class CardSlots {
 
   /**
    *
-   * @param playerBoard
+   * @param playerboard
    * @return
    */
   public ArrayList<DevelopCard> activatableCards(PlayerBoard playerboard){
-    List<DevelopCard> activatablecards = new ArrayList<>();
+    ArrayList<DevelopCard> activatablecards = new ArrayList<>();
 
     for(int i=0; i<3; i++)
-      if (!developcards[i].isEmpty() && developcards[i].returnTopCard().isActivatable(playerboard))
-        activatablecards.add(developcards[i].returnTopCard);
+      if (!developcards[i].isEmpty() && developcards[i].get(developcards[i].size()-1).isActivatable(playerboard))
+        activatablecards.add(developcards[i].get(developcards[i].size()-1));
 
     return activatablecards;
   }

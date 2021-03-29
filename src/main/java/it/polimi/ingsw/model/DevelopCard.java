@@ -20,10 +20,10 @@ public class DevelopCard {
    }
 
 
-   //TODO
-   public Resources getCost(){
-      return null;
-   }
+//   //TODO
+//   public Resources getCost(){
+//      return null;
+//   }
 
 
    //TODO
@@ -32,7 +32,7 @@ public class DevelopCard {
    }
 
    //public void buy(Warehouse w, Chest c, CardSlot[] slotArray, int slot)
-   public int getVicoryPoints(){
+   public int getVictoryPoints(){
       return vicoryPoints;
 
    }
