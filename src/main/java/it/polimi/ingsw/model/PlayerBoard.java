@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.market.Market;
+import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.track.Track;
 import java.util.*;
 
@@ -44,18 +46,18 @@ public class PlayerBoard {
       return;
    }
 
-   public void addDevelopCard(){
-      return 0;
+   public void addDevelopCard() {
+      return;
    }
 
-   public void shopMarketColumn(){
+   public void shopMarketColumn() {
       return;
    }
    public void shopMarketRow(){
       return;
    }
 
-   public void activateLeadercard(){
+   public void activateLeadercard() {
       return;
    }
 
@@ -63,8 +65,8 @@ public class PlayerBoard {
       return;
    }
 
-   public void baseProduction(){
-
+   public void baseProduction() {
+      return;
    }
 
 
