@@ -14,7 +14,7 @@ public class Chest {
       throw new Exception();
 
     if(resources.containsKey(resource))
-      resources.replace(resource, resources.get(resource)+quantity);
+      resources.replace(resource, resources.get(resource) + quantity);
     else
       resources.put(resource, quantity);
   }
@@ -33,7 +33,11 @@ public class Chest {
       throw new Exception();
   }
 
-  public int totalResources(){
-    return resources.entrySet().stream().map( i -> i.getValue()).reduce(0, (a, b) -> a+b);
+  public int totalNumberOfResources(){
+    return resources.entrySet().stream().map( i -> i.getValue()).reduce(0, (a, b) -> a + b);
+  }
+
+  public int getNumberOf(ResourceType resource){
+    return resources.get(resource);
   }
 }
