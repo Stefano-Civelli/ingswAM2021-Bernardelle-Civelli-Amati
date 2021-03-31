@@ -20,15 +20,15 @@ public class DevelopCard {
    }
 
 
-//   //TODO
-//   public Resources getCost(){
-//      return null;
-//   }
+
+   public HashMap<ResourceType, Integer> getCost(){
+      return new HashMap<>(cost);
+   }
 
 
    //TODO
    public void produce(Chest chest, Warehouse warehouse ){
-      return;
+
    }
 
    //public void buy(Warehouse w, Chest c, CardSlot[] slotArray, int slot)

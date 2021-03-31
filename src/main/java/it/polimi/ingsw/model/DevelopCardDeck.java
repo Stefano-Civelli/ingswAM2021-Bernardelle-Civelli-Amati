@@ -2,11 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.track.EndGameObservable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 //non deve avere nessuno nella sua lista di observer nel caso in cui la partita sia multiplayer
 
@@ -80,17 +77,16 @@ public class DevelopCardDeck implements EndGameObservable {
 //      return temp;
 //   }
 
-   //TODO check
+
    public List<DevelopCard> buyableCards(PlayerBoard playerBoard) {
       //forse va fatto con una lista
-      return Arrays.stream(cardsCube).filter(x -> x.isBuyable(playerBoard)).collect(Collectors.toList());
+      return Arrays.stream(cardsCube).flatMap(Arrays::stream).flatMap(Collection::stream).filter(x -> x.isBuyable(playerBoard)).collect(Collectors.toList());
    }
 
 
    /**
     * method needed for the single player mode
     * it removes two cards of the lowes possible level from the top
-    *
     * @param color indicates the color of the cards to remove
     */
    public void RemoveTwoCards(DevelopCardColor color) {
@@ -112,11 +108,9 @@ public class DevelopCardDeck implements EndGameObservable {
       }
    }
 
-
    public DevelopCard getCard(int row, int column) {
       return cardsCube[row][column].get(cardsCube[row][column].size() - 1);
    }
-
 
    public void removeCard(DevelopCard card) {
       int row = card.getCardFlag().getLevel();
@@ -131,7 +125,6 @@ public class DevelopCardDeck implements EndGameObservable {
       }
       notifyForEndGame();
    }
-
 
    @Override
    public void addToEndGameObserverList(EndGameObserver observerToAdd) {
