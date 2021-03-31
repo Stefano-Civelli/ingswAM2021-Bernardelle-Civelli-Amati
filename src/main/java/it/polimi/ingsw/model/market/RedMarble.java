@@ -8,8 +8,13 @@ public class RedMarble extends MarketMarble{
     public RedMarble(){}
 
     @Override
-    public void addResource(Track track, Warehouse warehouse, ResourceType onWhiteMarble) {
-        track.moveForward(1);
+    public void addResource(InterfacePlayerBoard playerBoard, int warehouseLevel, ResourceType onWhiteMarble) {
+        playerBoard.getTrack().moveForward(1);
     }
+
+    /*@Override
+    public boolean equals(Object obj) {
+        return obj != null && getClass() == obj.getClass();
+    }*/
 
 }

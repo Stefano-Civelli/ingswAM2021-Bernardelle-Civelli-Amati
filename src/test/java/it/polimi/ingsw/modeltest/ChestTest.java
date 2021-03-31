@@ -1,4 +1,4 @@
-package it.polimi.ingsw.modelTest;
+package it.polimi.ingsw.modeltest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;

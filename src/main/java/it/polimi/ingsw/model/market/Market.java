@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.market;
 
-import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,14 +10,14 @@ public class Market {
     private static Market instance;
 
     private MarketMarble slide;
-    private MarketMarble[][] marbles;
+    private final MarketMarble[][] marbles;
 
 
     private Market() {
         final int nRow = 3,
                 nColumn = 4;
         this.marbles = new MarketMarble[nRow][nColumn];
-        List<MarketMarble> marbles= new ArrayList<MarketMarble>(Arrays.asList(
+        List<MarketMarble> marbles= new ArrayList<>(Arrays.asList(
                 new WhiteMarble(), new WhiteMarble(), new WhiteMarble(), new WhiteMarble(),
                 new NormalMarble(ResourceType.SHIELD), new NormalMarble(ResourceType.SHIELD),
                 new NormalMarble(ResourceType.STONE), new NormalMarble(ResourceType.STONE),
@@ -41,7 +41,7 @@ public class Market {
     }
 
     private List<MarketMarble> getRow(int row) {
-        return new ArrayList<MarketMarble>(Arrays.asList(this.marbles[row]));
+        return new ArrayList<>(Arrays.asList(this.marbles[row]));
     }
 
     private  List<MarketMarble> getColumn(int column) {

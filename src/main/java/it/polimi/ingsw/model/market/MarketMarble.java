@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.modelException.WarehouseException;
-import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.model.modelException.*;
 
 public abstract class MarketMarble {
 
-    public abstract void addResource(Track track, Warehouse warehouse, ResourceType onWhiteMarble) throws WarehouseException;
+    public abstract void addResource(InterfacePlayerBoard playerBoard, int warehouseLevel, ResourceType onWhiteMarble)
+            throws IncorrectResourceTypeException, AbuseOfFaithException, NotEnoughSpaceException;
 
 }

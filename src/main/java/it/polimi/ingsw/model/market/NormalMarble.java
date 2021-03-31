@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.modelException.WarehouseException;
-import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.model.modelException.*;
 
 public class NormalMarble extends MarketMarble{
 
@@ -13,8 +12,18 @@ public class NormalMarble extends MarketMarble{
     }
 
     @Override
-    public void addResource(Track track, Warehouse warehouse, ResourceType onWhiteMarble) throws WarehouseException {
-        warehouse.addResources(this.resource, 1, 1);
+    public void addResource(InterfacePlayerBoard playerBoard, int warehouseLevel, ResourceType onWhiteMarble)
+            throws IncorrectResourceTypeException, AbuseOfFaithException, NotEnoughSpaceException {
+        playerBoard.getWarehouse().addResources(this.resource, warehouseLevel, 1);
     }
+
+    /*@Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        return this.resource == ((NormalMarble) obj).resource;
+    }*/
 
 }

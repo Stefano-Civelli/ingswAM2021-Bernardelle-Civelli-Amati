@@ -1,8 +1,6 @@
-package it.polimi.ingsw.modelTest;
+package it.polimi.ingsw.modeltest;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class LorenzoTrackTest {
 

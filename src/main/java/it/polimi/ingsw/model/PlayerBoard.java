@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.track.Track;
 import java.util.*;
 
 
-public class PlayerBoard {
+public class PlayerBoard implements InterfacePlayerBoard {
 
    private final String username;
    private final CardSlots cardSlots;
