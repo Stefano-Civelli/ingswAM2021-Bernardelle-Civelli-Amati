@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.IncorrectResourceTypeException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughSpaceException;
 

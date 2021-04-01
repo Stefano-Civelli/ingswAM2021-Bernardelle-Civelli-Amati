@@ -8,12 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DevelopCard {
-
-   private final CardFlag cardFlag;
-   private final HashMap<ResourceType, Integer> cost;
-   private final HashMap<ResourceType, Integer> requirement;
-   private final HashMap<ResourceType, Integer> product;
-   private final int victoryPoints;
+   //removed final to eneble JSON parsing
+   private  CardFlag cardFlag;
+   private  HashMap<ResourceType, Integer> cost;
+   private  HashMap<ResourceType, Integer> requirement;
+   private  HashMap<ResourceType, Integer> product;
+   private  int victoryPoints;
 
    public DevelopCard(CardFlag cardFlag, HashMap<ResourceType, Integer> cost, HashMap<ResourceType, Integer> requirement, HashMap<ResourceType, Integer> product, int victoryPoints) {
       this.cardFlag = cardFlag;
@@ -21,6 +21,9 @@ public class DevelopCard {
       this.requirement = requirement;
       this.product = product;
       this.victoryPoints = victoryPoints;
+   }
+   public DevelopCard(){
+
    }
 
    /**
@@ -46,7 +49,6 @@ public class DevelopCard {
       return foundSuitableSlot;
    }
 
-
    /**
     * Checks if the player passed as a parameter can activate the card (this)
     * @param playerBoard the player that wants to know if the card can be activated
@@ -64,12 +66,6 @@ public class DevelopCard {
       }
       return true;
    }
-
-
-   public void buy(PlayerBoard playerBoard){
-      //deve anche rimuoversi dal deck la carta
-   }
-
 
    public CardFlag getCardFlag(){
       return cardFlag;

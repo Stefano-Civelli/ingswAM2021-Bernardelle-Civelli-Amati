@@ -17,5 +17,11 @@ public class CardFlag {
       return color;
    }
 
-
+   @Override
+   public String toString() {
+      return "CardFlag{" +
+              "level=" + level +
+              ", color=" + color +
+              '}';
+   }
 }

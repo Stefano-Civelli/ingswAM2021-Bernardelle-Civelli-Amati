@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.IncorrectResourceTypeException;
+import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesExeption;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughSpaceException;
 import it.polimi.ingsw.utility.Pair;
 

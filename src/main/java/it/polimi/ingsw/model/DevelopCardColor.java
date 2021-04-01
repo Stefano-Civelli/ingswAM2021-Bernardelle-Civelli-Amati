@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 public enum DevelopCardColor {
    GREEN(0), PURPLE(1), BLUE(2), YELLOW(3);
+
    private final int column;
 
    DevelopCardColor(int i){
@@ -12,4 +13,11 @@ public enum DevelopCardColor {
       return column;
    }
 
+   //need to make it better
+   @Override
+   public String toString() {
+      return "DevelopCardColor{" +
+              "column=" + column +
+              '}';
+   }
 }

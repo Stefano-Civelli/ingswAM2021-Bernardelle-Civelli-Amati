@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.track.EndGameObservable;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -9,23 +10,23 @@ import java.util.stream.Collectors;
 
 public class DevelopCardDeck implements EndGameObservable {
 
-   private final List<DevelopCard>[][] cardsCube;
+   //metto prima nella lista per fare il parsing e poi costruisco la matrice (forse posso farlo nel costruttore dopo che JSON ha finito)
+   private List<DevelopCard> developCardList;
+   private List<DevelopCard>[][] cardsCube;
    //observers are added to the Observerlist only for singleplayer game
-   private final List<EndGameObserver> endGameObserverList;
+   private final List<EndGameObserver> endGameObserverList = new ArrayList<>();;
+
+
 
    public DevelopCardDeck() {
-      this.endGameObserverList = new ArrayList<>();
-      cardsCube = new ArrayList[3][4];
-      for (int i = 0; i < cardsCube.length; i++) {
-         for (int j = 0; j < cardsCube[i].length; j++) {
-            cardsCube[i][j] = new ArrayList<DevelopCard>(); //crea le 16 ArrayList
-            //qua devo creare le carte e aggiungere 1 ad 1 tutte le carte al deck
-            // cardsCube[i][j] = new DevelopCard( passare i parametri );
 
-            //color order hardcodato: Green Blue Yellow Purple
+      //here costruisco la matrice e ci dispongo la lista di carte
+      //color order hardcodato: Green Blue Yellow Purple
+   }
 
-         }
-      }
+   //TODO CANCELLARE QURESTO METODO PERCHE' SERVE SOLO PER IL TESTING
+   public DevelopCard getDevelopCard() {
+      return developCardList.get(1);
    }
 
    /**
@@ -44,30 +45,9 @@ public class DevelopCardDeck implements EndGameObservable {
 
    }
 
-
-//   // Play getCard sul deck
-//   // io direi che lasciamo qua la classe e vediamo cosa ci dicono venerdi
-//
-//   public DevelopCard buyCard(int i, int j, int destinationSlot) throws CantBuyException { //diventerà void
-//      //devo fare il controllo se soddisfo i requisiti qua
-//      DevelopCard temp = new DevelopCard;
-//      temp = cardsCube[i][j].get(cardsCube[i][j].size()-1);
-//      try {
-//         //Warehouse w = Game.getInstance().getCurrentPlayer().getWarehouse();
-//         temp.buy(w,c,slotArray,slot);
-//      }catch(){
-//
-//      }
-//      cardsCube[i][j].remove(cardsCube[i][j].size()-1);
-//      return temp;
-//   }
-
-
    public List<DevelopCard> buyableCards(PlayerBoard playerBoard) {
-      //forse va fatto con una lista
       return Arrays.stream(cardsCube).flatMap(Arrays::stream).flatMap(Collection::stream).filter(x -> x.isBuyable(playerBoard)).collect(Collectors.toList());
    }
-
 
    /**
     * method needed for the single player mode
