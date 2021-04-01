@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,30 +23,13 @@ public class DevelopCard {
       this.victoryPoints = victoryPoints;
    }
 
-
-
-   public HashMap<ResourceType, Integer> getCost(){
-      return new HashMap<>(cost);
-   }
-
-
-   //TODO
-   public void produce(Chest chest, Warehouse warehouse ){
-
-   }
-
-   //public void buy(Warehouse w, Chest c, CardSlot[] slotArray, int slot)
-   public int getVictoryPoints(){
-      return victoryPoints;
-
-   }
-
-
    /**
     * Checks if the player passed as a parameter can buy the card (this)
     * @param playerBoard the player that wants to know if the card can be bought
     * @return true if the card can be bought, false if it can't
     */
+   //TODO vedere se c'è posto nello slot
+   //TODO cambiare playerboard con la sua interfaccia
    public boolean isBuyable(PlayerBoard playerBoard){
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
@@ -83,5 +70,17 @@ public class DevelopCard {
 
    public CardFlag getCardFlag(){
       return cardFlag;
+   }
+
+   public HashMap<ResourceType, Integer> getCost(){
+      return new HashMap<>(cost);
+   }
+
+   public HashMap<ResourceType, Integer> getProduct(){
+      return new HashMap<>(product);
+   }
+
+   public int getVictoryPoints(){
+      return victoryPoints;
    }
 }

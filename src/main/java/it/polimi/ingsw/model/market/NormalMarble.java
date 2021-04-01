@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.modelException.*;
+import it.polimi.ingsw.model.modelexceptions.IncorrectResourceTypeException;
+import it.polimi.ingsw.model.modelexceptions.NotEnoughSpaceException;
 
 public class NormalMarble extends MarketMarble{
 

@@ -16,4 +16,6 @@ public class CardFlag {
    public DevelopCardColor getColor(){
       return color;
    }
+
+
 }

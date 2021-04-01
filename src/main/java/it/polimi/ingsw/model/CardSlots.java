@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.modelException.InvalidCardPlacementException;
+import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
 
 import java.util.ArrayList;
 import java.util.List;
