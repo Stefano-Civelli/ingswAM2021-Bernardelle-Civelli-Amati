@@ -28,19 +28,22 @@ public class DevelopCard {
     * @param playerBoard the player that wants to know if the card can be bought
     * @return true if the card can be bought, false if it can't
     */
-   //TODO vedere se c'è posto nello slot
-   //TODO cambiare playerboard con la sua interfaccia
-   public boolean isBuyable(PlayerBoard playerBoard){
+   public boolean isBuyable(InterfacePlayerBoard playerBoard){
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
-      for(Map.Entry<ResourceType, Integer> entry : cost.entrySet()){
-         //controlla se la somma tra magazzino e chest è sufficiente
-         if(warehouse.getNumberOf(entry.getKey()) + chest.getNumberOf(entry.getKey()) < entry.getValue()) {
+      CardSlots cardSlots = playerBoard.getCardSlots();
+      //check if the number of resources is sufficient
+      for(Map.Entry<ResourceType, Integer> entry : cost.entrySet())
+         if (warehouse.getNumberOf(entry.getKey()) + chest.getNumberOf(entry.getKey()) < entry.getValue())
             return false;
-         }
 
-      }
-      return true;
+      //check if there is a lower level card so that the new one can be put on top
+      boolean foundSuitableSlot = false;
+      for(int i=1; i<=3 && !foundSuitableSlot; i++)
+         if (cardSlots.returnTopCard(i).getCardFlag().getLevel() == this.getCardFlag().getLevel() - 1)
+            foundSuitableSlot = true;
+
+      return foundSuitableSlot;
    }
 
 
@@ -49,11 +52,11 @@ public class DevelopCard {
     * @param playerBoard the player that wants to know if the card can be activated
     * @return true if the card can be activated, false if it can't
     */
-   public boolean isActivatable(PlayerBoard playerBoard){
+   public boolean isActivatable(InterfacePlayerBoard playerBoard){
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       for(Map.Entry<ResourceType, Integer> entry : requirement.entrySet()){
-         //controlla se la somma tra magazzino e chest è sufficiente
+         //check if the number of resources is sufficient
          if(warehouse.getNumberOf(entry.getKey()) + chest.getNumberOf(entry.getKey()) < entry.getValue()) {
             return false;
          }

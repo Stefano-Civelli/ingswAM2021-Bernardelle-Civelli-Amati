@@ -9,4 +9,6 @@ public interface InterfacePlayerBoard {
     Chest getChest();
 
     Track getTrack();
+
+    CardSlots getCardSlots();
 }

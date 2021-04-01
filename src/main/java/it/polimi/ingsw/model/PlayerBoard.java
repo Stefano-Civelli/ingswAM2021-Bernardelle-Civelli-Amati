@@ -75,17 +75,21 @@ public class PlayerBoard implements InterfacePlayerBoard {
    public String getUsername() {
       return username;
    }
-
+   @Override
    public Warehouse getWarehouse() {
       return warehouse;
    }
-
+   @Override
    public Chest getChest() {
       return chest;
    }
-
+   @Override
    public Track getTrack() {
       return track;
+   }
+   @Override
+   public CardSlots getCardSlots() {
+      return null;
    }
 
    public DevelopCardDeck getDevelopCardDeck() {
