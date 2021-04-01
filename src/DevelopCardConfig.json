@@ -1,0 +1,48 @@
+{
+    "developCardList": [{
+        "cardFlag": {
+            "level": "1",
+            "color": "GREEN"
+        },
+        "cost": {
+            "GOLD": "2",
+            "STONE": "1",
+            "SERVANT": "3"
+        },
+        "requirement": {
+            "GOLD": "2",
+            "STONE": "1",
+            "SERVANT": "3"
+        },
+        "product": {
+            "GOLD": "5",
+            "STONE": "1"
+        },
+        "victoryPoints": "2"
+    },
+        {
+            "cardFlag": {
+                "level": "7",
+                "color": "GREEN"
+            },
+            "cost": {
+                "GOLD": "2",
+                "STONE": "1",
+                "SERVANT": "3",
+                "SHIELD": "157"
+
+            },
+            "requirement": {
+                "GOLD": "2",
+                "STONE": "1",
+                "SERVANT": "3"
+            },
+            "product": {
+                "GOLD": "5",
+                "STONE": "1"
+            },
+            "victoryPoints": "2"
+        }
+    ]
+
+}

@@ -8,11 +8,12 @@ import java.util.List;
 public class CardSlots {
   private final List<DevelopCard>[] developcards;
   private int totalCards;
+  private final int numberOfCardSlots = 3;
 
   public CardSlots(){
     totalCards = 0;
-    developcards = new ArrayList[3];
-    for(int i=0; i<3; i++)
+    developcards = new ArrayList[numberOfCardSlots];
+    for(int i=0; i<numberOfCardSlots; i++)
       developcards[i] = new ArrayList<DevelopCard>();
   }
 
@@ -23,7 +24,7 @@ public class CardSlots {
   public int calculateDevelopCardScore(){
     int score = 0;
 
-    for(int i=0; i<3; i++)
+    for(int i=0; i<numberOfCardSlots; i++)
       for(DevelopCard x : developcards[i])
         score += x.getVictoryPoints();
 
@@ -64,10 +65,14 @@ public class CardSlots {
   public ArrayList<DevelopCard> activatableCards(PlayerBoard playerboard){
     ArrayList<DevelopCard> activatablecards = new ArrayList<>();
 
-    for(int i=0; i<3; i++)
+    for(int i=0; i<numberOfCardSlots; i++)
       if (!developcards[i].isEmpty() && developcards[i].get(developcards[i].size()-1).isActivatable(playerboard))
         activatablecards.add(developcards[i].get(developcards[i].size()-1));
 
     return activatablecards;
+  }
+
+  public int getNumberOfCardSlots() {
+    return numberOfCardSlots;
   }
 }

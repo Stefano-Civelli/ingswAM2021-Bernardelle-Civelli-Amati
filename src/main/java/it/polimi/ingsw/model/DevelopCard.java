@@ -8,12 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DevelopCard {
-
-   private final CardFlag cardFlag;
-   private final HashMap<ResourceType, Integer> cost;
-   private final HashMap<ResourceType, Integer> requirement;
-   private final HashMap<ResourceType, Integer> product;
-   private final int victoryPoints;
+   //removed final to eneble JSON parsing
+   private  CardFlag cardFlag;
+   private  HashMap<ResourceType, Integer> cost;
+   private  HashMap<ResourceType, Integer> requirement;
+   private  HashMap<ResourceType, Integer> product;
+   private  int victoryPoints;
 
    public DevelopCard(CardFlag cardFlag, HashMap<ResourceType, Integer> cost, HashMap<ResourceType, Integer> requirement, HashMap<ResourceType, Integer> product, int victoryPoints) {
       this.cardFlag = cardFlag;
@@ -21,6 +21,9 @@ public class DevelopCard {
       this.requirement = requirement;
       this.product = product;
       this.victoryPoints = victoryPoints;
+   }
+   public DevelopCard(){
+
    }
 
    /**
@@ -39,13 +42,12 @@ public class DevelopCard {
 
       //check if there is a lower level card so that the new one can be put on top
       boolean foundSuitableSlot = false;
-      for(int i=1; i<=3 && !foundSuitableSlot; i++)
+      for(int i=1; i<=cardSlots.getNumberOfCardSlots() && !foundSuitableSlot; i++)
          if (cardSlots.returnTopCard(i).getCardFlag().getLevel() == this.getCardFlag().getLevel() - 1)
             foundSuitableSlot = true;
 
       return foundSuitableSlot;
    }
-
 
    /**
     * Checks if the player passed as a parameter can activate the card (this)
@@ -65,12 +67,6 @@ public class DevelopCard {
       return true;
    }
 
-
-   public void buy(PlayerBoard playerBoard){
-      //deve anche rimuoversi dal deck la carta
-   }
-
-
    public CardFlag getCardFlag(){
       return cardFlag;
    }
@@ -85,5 +81,9 @@ public class DevelopCard {
 
    public int getVictoryPoints(){
       return victoryPoints;
+   }
+
+   public HashMap<ResourceType, Integer> getRequirement() {
+      return requirement;
    }
 }
