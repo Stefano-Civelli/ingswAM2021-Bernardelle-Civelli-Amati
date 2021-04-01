@@ -26,21 +26,6 @@ public class DevelopCardDeck implements EndGameObservable {
 
          }
       }
-//      HashMap<ResourceType, Integer> costMap = new HashMap<>();
-//      HashMap<ResourceType, Integer> requirementMap = new HashMap<>();
-//      HashMap<ResourceType, Integer> productMap = new HashMap<>();
-//      CardFlag tempCardFlag = new CardFlag(1,DevelopCardColor.BLUE);
-//      cardsCube[0][0].add(new DevelopCard(tempCardFlag, costMap, requirementMap, productMap));
-//      costMap.clear();
-//      requirementMap.clear();
-//      productMap.clear();
-//
-//      cardsCube[0][0].add(new DevelopCard(tempCardFlag, costMap, requirementMap, productMap));
-//
-//      cardsCube[0][0].add(new DevelopCard(tempCardFlag, costMap, requirementMap, productMap));
-//
-//      cardsCube[0][0].add(new DevelopCard(tempCardFlag, costMap, requirementMap, productMap));
-
    }
 
    /**

@@ -39,7 +39,7 @@ public class DevelopCard {
 
       //check if there is a lower level card so that the new one can be put on top
       boolean foundSuitableSlot = false;
-      for(int i=1; i<=3 && !foundSuitableSlot; i++)
+      for(int i=1; i<=cardSlots.getNumberOfCardSlots() && !foundSuitableSlot; i++)
          if (cardSlots.returnTopCard(i).getCardFlag().getLevel() == this.getCardFlag().getLevel() - 1)
             foundSuitableSlot = true;
 
@@ -85,5 +85,9 @@ public class DevelopCard {
 
    public int getVictoryPoints(){
       return victoryPoints;
+   }
+
+   public HashMap<ResourceType, Integer> getRequirement() {
+      return requirement;
    }
 }
