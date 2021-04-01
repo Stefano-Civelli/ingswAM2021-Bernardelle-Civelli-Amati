@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JsonTest {
 
-   File cardConfigFile = new File("C:\\Users\\PC\\IdeaProjects\\ingswAM2021-Bernardelle-Civelli-Amati\\src\\DevelopCardConfig.json");
+   File cardConfigFile = new File("src/DevelopCardConfig.json");
    @Test
    void parseTest3() {
       try {
