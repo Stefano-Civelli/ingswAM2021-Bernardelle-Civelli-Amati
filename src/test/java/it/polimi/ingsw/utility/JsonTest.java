@@ -1,6 +1,5 @@
 package it.polimi.ingsw.utility;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.model.CardFlag;
 import it.polimi.ingsw.model.DevelopCard;
 import org.junit.jupiter.api.Test;
