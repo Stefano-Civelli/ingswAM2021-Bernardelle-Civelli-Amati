@@ -1,16 +1,20 @@
 {
     "developCardList": [{
-        "cardFlag": {
+        "cardFlag":
+        {
             "level": "1",
             "color": "GREEN"
         },
-        "cost": {
+        "cost":
+        {
             "SHIELD": "2"
         },
-        "requirement": {
+        "requirement":
+        {
             "GOLD": "1"
         },
-        "product": {
+        "product":
+        {
             "FAITH": "1"
         },
         "victoryPoints": "1"
