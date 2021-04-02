@@ -35,7 +35,17 @@ public class PlayerBoard implements InterfacePlayerBoard {
 
 
    public int returnScore(){
-      return track.calculateTrackScore() + cardSlots.calculateDevelopCardScore() + ;
+      List<Integer> playerscore = new ArrayList<>();
+
+      playerscore.add(track.calculateTrackScore());
+      playerscore.add(cardSlots.calculateDevelopCardScore());
+
+      for(LeaderCard x : leaderCards)
+         if(x.isActive())
+            playerscore.add(x.getVictoryPoints());
+
+      playerscore.add((warehouse.totalNumberOfResources() + chest.totalNumberOfResources())/5);
+      return playerscore.stream().reduce(0, (a,b) -> a+b);
    }
 
    public void discardLeader(int leaderPosition1, int leaderPosition2){
