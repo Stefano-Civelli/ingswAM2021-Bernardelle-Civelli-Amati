@@ -59,9 +59,14 @@ public class PlayerBoard implements InterfacePlayerBoard {
       return playerscore.stream().reduce(0, (a,b) -> a+b);
    }
 
-
+   /**
+    * remove 2 of the 4 leader cards
+    * @param leaderPosition1, first card to remove
+    * @param leaderPosition2, second card to remove
+    */
    public void discardLeader(int leaderPosition1, int leaderPosition2){
-
+      leaderCards.remove(leaderPosition1);
+      leaderCards.remove(leaderPosition1);
       return;
    }
 
@@ -101,7 +106,8 @@ public class PlayerBoard implements InterfacePlayerBoard {
       return;
    }
 
-   public void baseProduction() {
+   public void baseProduction(ResourceType resource1, ResourceType resource2) {
+
       return;
    }
 

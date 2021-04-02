@@ -1,5 +1,6 @@
 {
-    "developCardList": [{
+    "developCardList": [
+        {
         "cardFlag": {
             "level": "1",
             "color": "GREEN"
@@ -14,39 +15,30 @@
             "FAITH": "1"
         },
         "victoryPoints": "1"
-    },
-        {
-            "cardFlag": {
-                "level": "3",
-                "color": "YELLOW"
-            },
-            "cost": {
-                "STONE": "5",
-                "SERVANT": "2"
-
-            },
-            "requirement": {
-                "STONE": "1",
-                "SERVANT": "1"
-            },
-            "product": {
-                "GOLD": "2",
-                "SHIELD": "2",
-                "FAITH": "1"
-            },
-            "victoryPoints": "10"
         },
         {
             "cardFlag": {
-                "level": "7",
-                "color": "GREEN"
+                "level": "1",
+                "color": "PURPLE"
             },
             "cost": {
-                "GOLD": "2",
-                "STONE": "1",
-                "SERVANT": "3",
-                "SHIELD": "157"
-
+                "SERVANT": "2"
+            },
+            "requirement": {
+                "STONE": "1"
+            },
+            "product": {
+                "FAITH": "1"
+            },
+            "victoryPoints": "1"
+        },
+        {
+            "cardFlag": {
+                "level": "1",
+                "color": "BLUE"
+            },
+            "cost": {
+                "GOLD": "2"
             },
             "requirement": {
                 "GOLD": "2",
