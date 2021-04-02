@@ -84,7 +84,6 @@ public class PlayerBoard implements InterfacePlayerBoard {
     */
    public void shopMarketColumn(int column) {
       tempMarketMarble = new ArrayList<>(market.pushInColumn(column));
-      return;
    }
 
    /**
@@ -93,7 +92,6 @@ public class PlayerBoard implements InterfacePlayerBoard {
     */
    public void shopMarketRow(int row){
       tempMarketMarble = new ArrayList<>(market.pushInRow(row));
-      return;
    }
 
 
