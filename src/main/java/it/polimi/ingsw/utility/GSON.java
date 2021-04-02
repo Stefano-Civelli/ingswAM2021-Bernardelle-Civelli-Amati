@@ -8,20 +8,6 @@ import it.polimi.ingsw.model.DevelopCardDeck;
 
 import java.io.*;
 
-//
-//public class GSON {
-//   File developCardConfigFile = new File("C:\\Users\\PC\\IdeaProjects\\ingswAM2021-Bernardelle-Civelli-Amati\\src\\DevelopCardConfig.json");
-//
-//   //build my own deserializer
-//   public static void developCardJsonDeserializer(File cardsJsonFile) throws FileNotFoundException {
-//      JsonElement fileElement = JsonParser.parseReader(new FileReader(cardsJsonFile));
-//      JsonObject fileObject = fileElement.getAsJsonObject();
-//
-//      JsonObject cardFlagJsonObject = fileObject.get("cardFlag").getAsJsonObject();
-//      CardFlag cardFlag = new CardFlag(cardFlagJsonObject.get("level").getAsInt(), DevelopCardColor.GREEN); //problema sul green
-//   }
-//}
-
 public class GSON{
    public static void cardParser(File file) throws IOException {
       GsonBuilder builder = new GsonBuilder();
