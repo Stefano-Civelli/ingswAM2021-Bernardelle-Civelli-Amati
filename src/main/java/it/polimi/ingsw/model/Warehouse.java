@@ -92,8 +92,4 @@ public class Warehouse {
                 .reduce(Integer::sum).orElse(0);
         // AGGIUNGERE LE LEADER QUANDO IMPLEMENTATE
     }
-
-    public int totalNumberOfResources() {
-        return getNumberOf(ResourceType.GOLD) + getNumberOf(ResourceType.SHIELD) + getNumberOf(ResourceType.STONE) + getNumberOf(ResourceType.SERVANT);
-    }
 }

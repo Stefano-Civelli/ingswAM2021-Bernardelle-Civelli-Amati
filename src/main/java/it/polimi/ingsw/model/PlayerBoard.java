@@ -20,16 +20,15 @@ public class PlayerBoard implements InterfacePlayerBoard {
    private final Market market;
    private Track track;
    private final DevelopCardDeck developCardDeck;
-   private final List<MarketMarble> tempMarketMarble;
+   private List<MarketMarble> tempMarketMarble;
    private final Map<ResourceType, Integer> tempResources;
-
+   File trackConfigFile = new File("src/SquareConfig.json");
 
    public PlayerBoard(String username, ArrayList<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck){
       this.username = username;
       this.leaderCards = new ArrayList<>(leaderCards);
       this.chest = new Chest();
       this.warehouse = new Warehouse();
-      File trackConfigFile = new File("src/SquareConfig.json");
       try {
          this.track = GSON.trackParser(trackConfigFile);
       } catch (IOException e) {
@@ -42,7 +41,10 @@ public class PlayerBoard implements InterfacePlayerBoard {
       this.tempResources = new HashMap<>();
    }
 
-
+   /**
+    * Calculate player's score
+    * @return total points the player scored
+    */
    public int returnScore(){
       List<Integer> playerscore = new ArrayList<>();
 
@@ -53,15 +55,18 @@ public class PlayerBoard implements InterfacePlayerBoard {
          if(x.isActive())
             playerscore.add(x.getVictoryPoints());
 
-      playerscore.add((warehouse.totalNumberOfResources() + chest.totalNumberOfResources())/5);
+      playerscore.add((warehouse.totalResources() + chest.totalNumberOfResources())/5);
       return playerscore.stream().reduce(0, (a,b) -> a+b);
    }
 
+
    public void discardLeader(int leaderPosition1, int leaderPosition2){
+
       return;
    }
 
    public void activateProduction(){
+
       return;
    }
 
@@ -69,12 +74,24 @@ public class PlayerBoard implements InterfacePlayerBoard {
       return;
    }
 
-   public void shopMarketColumn() {
+   /**
+    * Saves the market marbles taken from the market in tempMarketMarble
+    * @param column indicates which column get from market
+    */
+   public void shopMarketColumn(int column) {
+      tempMarketMarble = new ArrayList<>(market.pushInColumn(column));
       return;
    }
-   public void shopMarketRow(){
+
+   /**
+    * Saves the market marbles taken from the market in tempMarketMarble
+    * @param row indicates which row get from market
+    */
+   public void shopMarketRow(int row){
+      tempMarketMarble = new ArrayList<>(market.pushInRow(row));
       return;
    }
+
 
    public void activateLeadercard() {
       return;

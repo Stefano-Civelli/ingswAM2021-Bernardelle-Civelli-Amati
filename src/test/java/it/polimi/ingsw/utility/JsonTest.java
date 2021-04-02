@@ -2,6 +2,7 @@ package it.polimi.ingsw.utility;
 
 import it.polimi.ingsw.model.CardFlag;
 import it.polimi.ingsw.model.DevelopCard;
+import it.polimi.ingsw.model.track.Square;
 import it.polimi.ingsw.model.track.Track;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class JsonTest {
 
    File cardConfigFile = new File("src/DevelopCardConfig.json");
+   File trackConfigFile = new File("src/SquareConfig.json");
+
    @Test
    void parseTest3() {
       try {
@@ -22,13 +25,19 @@ class JsonTest {
       }
    }
 
-   File trackConfigFile = new File("src/SquareConfig.json");
    @Test
-   void parseTest4() {
+   void parseTestForTrackConfigFile() {
       Track track;
       try {
          track = GSON.trackParser(trackConfigFile);
-         System.out.println(track.getTrack()[0].getActive());
+         for(Square x : track.getTrack())
+            System.out.print(x.getActive() + " ");
+         System.out.println();
+         for(Square x : track.getTrack())
+            System.out.print(x.getVictoryPoints() + " ");
+         System.out.println();
+         for(Square x : track.getTrack())
+            System.out.print(x.getRed() + " ");
       } catch (IOException e) {
          e.printStackTrace();
       }

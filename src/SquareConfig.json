@@ -22,14 +22,109 @@
       "active": "0"
     },
     {
-      "victoryPoints": "1",
+      "victoryPoints": "2",
       "red": "false",
       "active": "0"
     },
     {
-      "victoryPoints": "1",
+      "victoryPoints": "2",
+      "red": "false",
+      "active": "1"
+    },
+    {
+      "victoryPoints": "2",
+      "red": "false",
+      "active": "1"
+    },
+    {
+      "victoryPoints": "4",
+      "red": "false",
+      "active": "1"
+    },
+    {
+      "victoryPoints": "4",
+      "red": "true",
+      "active": "1"
+    },
+    {
+      "victoryPoints": "4",
       "red": "false",
       "active": "0"
+    },
+    {
+      "victoryPoints": "6",
+      "red": "false",
+      "active": "0"
+    },
+    {
+      "victoryPoints": "6",
+      "red": "false",
+      "active": "0"
+    },
+    {
+      "victoryPoints": "6",
+      "red": "false",
+      "active": "2"
+    },
+    {
+      "victoryPoints": "9",
+      "red": "false",
+      "active": "2"
+    },
+    {
+      "victoryPoints": "9",
+      "red": "false",
+      "active": "2"
+    },
+    {
+      "victoryPoints": "9",
+      "red": "false",
+      "active": "2"
+    },
+    {
+      "victoryPoints": "12",
+      "red": "true",
+      "active": "2"
+    },
+    {
+      "victoryPoints": "12",
+      "red": "false",
+      "active": "0"
+    },
+    {
+      "victoryPoints": "12",
+      "red": "false",
+      "active": "0"
+    },
+    {
+      "victoryPoints": "16",
+      "red": "false",
+      "active": "3"
+    },
+    {
+      "victoryPoints": "16",
+      "red": "false",
+      "active": "3"
+    },
+    {
+      "victoryPoints": "16",
+      "red": "false",
+      "active": "3"
+    },
+    {
+      "victoryPoints": "20",
+      "red": "false",
+      "active": "3"
+    },
+    {
+      "victoryPoints": "20",
+      "red": "false",
+      "active": "3"
+    },
+    {
+      "victoryPoints": "20",
+      "red": "true",
+      "active": "3"
     }
   ]
 }
