@@ -3,6 +3,10 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.utility.GSON;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -14,7 +18,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
    private final List<LeaderCard> leaderCards;
    private final Chest chest;
    private final Market market;
-   private final Track track;
+   private Track track;
    private final DevelopCardDeck developCardDeck;
    private final List<MarketMarble> tempMarketMarble;
    private final Map<ResourceType, Integer> tempResources;
@@ -25,7 +29,12 @@ public class PlayerBoard implements InterfacePlayerBoard {
       this.leaderCards = new ArrayList<>(leaderCards);
       this.chest = new Chest();
       this.warehouse = new Warehouse();
-      this.track = new Track();
+      File trackConfigFile = new File("src/SquareConfig.json");
+      try {
+         this.track = GSON.trackParser(trackConfigFile);
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
       this.cardSlots = new CardSlots();
       this.market = market;
       this.developCardDeck = developCardDeck;

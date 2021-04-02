@@ -10,7 +10,7 @@ public class Game {
 
    public void gameModelGenerator(){
    //file path to construct the DevelopCardDeck class from JSON config file
-   File cardConfigFile = new File("C:\\Users\\PC\\IdeaProjects\\ingswAM2021-Bernardelle-Civelli-Amati\\src\\DevelopCardConfig.json");
+   File cardConfigFile = new File("src/DevelopCardConfig.json");
    try {
       GSON.cardParser(cardConfigFile);
    } catch (IOException e) {

@@ -5,18 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LorenzoTrack implements VaticanReportObservable, EndGameObservable{
-  final Square[] track;
+  Square[] track;
   int playerPosition;
-  final List<VaticanReportObserver> vaticanReportObserverList;
-  final List<EndGameObserver> endGameObserverList;
+  final List<VaticanReportObserver> vaticanReportObserverList = new ArrayList<>();
+  final List<EndGameObserver> endGameObserverList = new ArrayList<>();
 
   public LorenzoTrack() {
-    track = new Square[25];
-    playerPosition = 0;
-    vaticanReportObserverList = new ArrayList<>();
-    endGameObserverList = new ArrayList<>();
-
-    for (int i = 0; i < 25; i++) {
+    /*for (int i = 0; i < 25; i++) {
       if (i <= 3)
         track[i] = new Square(1, false, 0);
       else if (i <= 6) {
@@ -49,7 +44,11 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable{
         track[i] = new Square(20, false, 3);
       else
         track[i] = new Square(20, true, 3);
-    }
+    }*/
+  }
+
+  public Square[] getTrack() {
+    return track;
   }
 
   public void moveForward(int faith) {

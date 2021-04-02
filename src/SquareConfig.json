@@ -1,0 +1,35 @@
+{
+  "playerPosition": "0",
+  "track": [
+    {
+      "victoryPoints": "1",
+      "red": "false",
+      "active": "0"
+    },
+    {
+      "victoryPoints": "1",
+      "red": "false",
+      "active": "0"
+    },
+    {
+      "victoryPoints": "1",
+      "red": "false",
+      "active": "0"
+    },
+    {
+      "victoryPoints": "1",
+      "red": "false",
+      "active": "0"
+    },
+    {
+      "victoryPoints": "1",
+      "red": "false",
+      "active": "0"
+    },
+    {
+      "victoryPoints": "1",
+      "red": "false",
+      "active": "0"
+    }
+  ]
+}

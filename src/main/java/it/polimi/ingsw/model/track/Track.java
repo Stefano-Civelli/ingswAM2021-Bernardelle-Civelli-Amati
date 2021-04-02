@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Track extends LorenzoTrack implements VaticanReportObserver {
-  private final int[] popeCards;
+  private final int[] popeCards = new int[]{-1, -1, -1};
 
   public Track() {
-    super();
-    this.popeCards = new int[]{-1, -1, -1};
   }
 
   /**
@@ -89,7 +87,6 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
         break;
     }
   }
-
 
   @Override
   public void update(int active) {
