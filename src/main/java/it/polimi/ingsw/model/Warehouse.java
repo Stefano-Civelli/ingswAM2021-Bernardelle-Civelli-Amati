@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.modelException.WarehouseException;
+import it.polimi.ingsw.model.modelexceptions.WarehouseException;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.Arrays;

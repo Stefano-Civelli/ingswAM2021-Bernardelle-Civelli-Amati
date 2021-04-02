@@ -1,19 +1,25 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.modelException.InvalidCardPlacementException;
+import it.polimi.ingsw.controller.EndGameObserver;
+import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
+import it.polimi.ingsw.model.track.EndGameObservable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardSlots {
-  private final List<DevelopCard>[] developcards;
+public class CardSlots implements EndGameObservable {
+  private final List<List<DevelopCard>> developcards;
+  private final int numberofcardslots = 3;
   private int totalCards;
+  private final List<EndGameObserver> endGameObserverList;
+
 
   public CardSlots(){
     totalCards = 0;
-    developcards = new ArrayList[3];
-    for(int i=0; i<3; i++)
-      developcards[i] = new ArrayList<DevelopCard>();
+    developcards = new ArrayList<>();
+    for(int i=0; i<numberofcardslots; i++)
+      developcards.add(new ArrayList<DevelopCard>());
+    endGameObserverList = new ArrayList<>();
   }
 
   /**
@@ -23,9 +29,9 @@ public class CardSlots {
   public int calculateDevelopCardScore(){
     int score = 0;
 
-    for(int i=0; i<3; i++)
-      for(DevelopCard x : developcards[i])
-        score += x.getVictoryPoints();
+    for(List<DevelopCard> x : developcards)
+      for(DevelopCard y : x)
+        score += y.getVictoryPoints();
 
     return score;
   }
@@ -35,7 +41,7 @@ public class CardSlots {
    * @return
    */
   public DevelopCard returnTopCard(int slot) {
-      return developcards[slot].get(developcards[slot].size()-1);
+    return developcards.get(slot).get(developcards.get(slot).size()-1);
   }
 
   /**
@@ -46,12 +52,12 @@ public class CardSlots {
   public void addDevelopCard(int slot, DevelopCard developCard) throws InvalidCardPlacementException {
       int levelCardToAdd = developCard.getCardFlag().getLevel();
 
-      if(levelCardToAdd == 1 && developcards[slot].isEmpty())
-        developcards[slot].add(developCard);
+      if(levelCardToAdd == 1 && developcards.get(slot).isEmpty())
+        developcards.get(slot).add(developCard);
       else
         throw new InvalidCardPlacementException();
-      if(levelCardToAdd == developcards[slot].get(developcards[slot].size()-1).getCardFlag().getLevel()+1)
-        developcards[slot].add(developCard);
+      if(levelCardToAdd == developcards.get(slot).get(developcards.get(slot).size()-1).getCardFlag().getLevel()+1)
+        developcards.get(slot).add(developCard);
       else
         throw new InvalidCardPlacementException();
   }
@@ -64,10 +70,33 @@ public class CardSlots {
   public ArrayList<DevelopCard> activatableCards(PlayerBoard playerboard){
     ArrayList<DevelopCard> activatablecards = new ArrayList<>();
 
-    for(int i=0; i<3; i++)
-      if (!developcards[i].isEmpty() && developcards[i].get(developcards[i].size()-1).isActivatable(playerboard))
-        activatablecards.add(developcards[i].get(developcards[i].size()-1));
+    for(List<DevelopCard> x : developcards)
+      if (!x.isEmpty() && x.get(x.size()-1).isActivatable(playerboard))
+        activatablecards.add(x.get(x.size()-1));
 
     return activatablecards;
+  }
+
+  public void addedACardInACardSlot(){
+    totalCards++;
+    if (totalCards == 7)
+      notifyForEndGame();
+  }
+
+  @Override
+  public void addToEndGameObserverList(EndGameObserver observerToAdd) {
+    if(!endGameObserverList.contains(observerToAdd))
+      endGameObserverList.add(observerToAdd);
+  }
+
+  @Override
+  public void removeFromEndGameObserverList(EndGameObserver observerToRemove) {
+    endGameObserverList.remove(observerToRemove);
+  }
+
+  @Override
+  public void notifyForEndGame() {
+    for(EndGameObserver x : endGameObserverList)
+      x.update();
   }
 }

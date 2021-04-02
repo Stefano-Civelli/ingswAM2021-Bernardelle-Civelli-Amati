@@ -10,7 +10,9 @@ public class DiscardToken implements ActionToken {
 
     private DevelopCardColor color;
 
-    public DiscardToken() {}
+    public DiscardToken(DevelopCardColor color) {
+        this.color = color;
+    }
 
     @Override
     public void useToken(List<ActionToken> tokens, LorenzoTrack trackLorenzo, DevelopCardDeck deck) {

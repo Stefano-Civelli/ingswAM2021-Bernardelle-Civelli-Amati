@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.modelException.WarehouseException;
+import it.polimi.ingsw.model.modelexceptions.WarehouseException;
 import it.polimi.ingsw.model.track.Track;
 
 public class NormalMarble extends MarketMarble{

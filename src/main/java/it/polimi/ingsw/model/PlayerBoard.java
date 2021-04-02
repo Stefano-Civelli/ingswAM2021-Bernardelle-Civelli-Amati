@@ -35,7 +35,7 @@ public class PlayerBoard {
 
 
    public int returnScore(){
-      return 0;
+      return track.calculateTrackScore() + cardSlots.calculateDevelopCardScore() + ;
    }
 
    public void discardLeader(int leaderPosition1, int leaderPosition2){
