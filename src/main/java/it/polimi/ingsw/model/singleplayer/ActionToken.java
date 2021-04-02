@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ActionToken {
 
-    public void useToken(List<ActionToken> tokens, LorenzoTrack trackLorenzo, DevelopCardDeck deck);
+    void useToken(List<ActionToken> tokens, LorenzoTrack trackLorenzo, DevelopCardDeck deck);
 
 }

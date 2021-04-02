@@ -16,4 +16,12 @@ public class CardFlag {
    public DevelopCardColor getColor(){
       return color;
    }
+
+   @Override
+   public String toString() {
+      return "CardFlag{" +
+              "level=" + level +
+              ", color=" + color +
+              '}';
+   }
 }

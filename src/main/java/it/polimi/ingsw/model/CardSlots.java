@@ -77,6 +77,10 @@ public class CardSlots implements EndGameObservable {
     return activatablecards;
   }
 
+  public int getNumberOfCardSlots() {
+    return numberofcardslots;
+  }
+
   public void addedACardInACardSlot(){
     totalCards++;
     if (totalCards == 7)

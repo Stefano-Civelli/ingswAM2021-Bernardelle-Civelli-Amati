@@ -1,14 +1,13 @@
 package it.polimi.ingsw.model.singleplayer;
 
-import it.polimi.ingsw.model.DevelopCardColor;
-import it.polimi.ingsw.model.DevelopCardDeck;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.track.LorenzoTrack;
 
 import java.util.List;
 
 public class DiscardToken implements ActionToken {
 
-    private DevelopCardColor color;
+    private final DevelopCardColor color;
 
     public DiscardToken(DevelopCardColor color) {
         this.color = color;
@@ -16,7 +15,7 @@ public class DiscardToken implements ActionToken {
 
     @Override
     public void useToken(List<ActionToken> tokens, LorenzoTrack trackLorenzo, DevelopCardDeck deck) {
-
+        deck.RemoveTwoCards(this.color);
     }
 
 }

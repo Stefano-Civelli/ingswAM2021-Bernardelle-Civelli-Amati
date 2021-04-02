@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.track.Track;
 import java.util.*;
 
 
-public class PlayerBoard {
+public class PlayerBoard implements InterfacePlayerBoard {
 
    private final String username;
    private final CardSlots cardSlots;
@@ -75,17 +75,21 @@ public class PlayerBoard {
    public String getUsername() {
       return username;
    }
-
+   @Override
    public Warehouse getWarehouse() {
       return warehouse;
    }
-
+   @Override
    public Chest getChest() {
       return chest;
    }
-
+   @Override
    public Track getTrack() {
       return track;
+   }
+   @Override
+   public CardSlots getCardSlots() {
+      return null;
    }
 
    public DevelopCardDeck getDevelopCardDeck() {
