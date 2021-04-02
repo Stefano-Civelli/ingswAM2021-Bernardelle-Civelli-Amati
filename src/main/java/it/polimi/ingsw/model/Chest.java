@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.MissingResourceToRemoveException;
-import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesExeption;
+import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,13 +23,13 @@ public class Chest {
       resources.put(resource, quantity);
   }
 
-  public void removeResources(ResourceType resource, int quantity) throws MissingResourceToRemoveException, NotEnoughResourcesExeption, AbuseOfFaithException{
+  public void removeResources(ResourceType resource, int quantity) throws MissingResourceToRemoveException, NotEnoughResourcesException, AbuseOfFaithException{
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException();
 
     if(resources.containsKey(resource)) {
       if (resources.get(resource) - quantity < 0)
-        throw new NotEnoughResourcesExeption();
+        throw new NotEnoughResourcesException();
 
       resources.replace(resource, resources.get(resource) - quantity);
     }
