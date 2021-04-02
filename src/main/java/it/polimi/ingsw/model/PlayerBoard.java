@@ -71,7 +71,6 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
    public void activateProduction(){
-
       return;
    }
 

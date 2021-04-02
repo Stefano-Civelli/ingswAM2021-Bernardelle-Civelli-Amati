@@ -11,8 +11,9 @@ public class Game {
    public void gameModelGenerator(){
    //file path to construct the DevelopCardDeck class from JSON config file
    File cardConfigFile = new File("src/DevelopCardConfig.json");
+   DevelopCardDeck developCardDeck;
    try {
-      GSON.cardParser(cardConfigFile);
+      developCardDeck = GSON.cardParser(cardConfigFile);
    } catch (IOException e) {
       e.printStackTrace();
    }

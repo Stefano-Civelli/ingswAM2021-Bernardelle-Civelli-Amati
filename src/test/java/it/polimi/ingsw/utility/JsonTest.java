@@ -2,6 +2,7 @@ package it.polimi.ingsw.utility;
 
 import it.polimi.ingsw.model.CardFlag;
 import it.polimi.ingsw.model.DevelopCard;
+import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.track.Square;
 import it.polimi.ingsw.model.track.Track;
 import org.junit.jupiter.api.Test;
@@ -17,9 +18,12 @@ class JsonTest {
    File trackConfigFile = new File("src/SquareConfig.json");
 
    @Test
-   void parseTest3() {
+   void developCardParseTest() {
+      DevelopCardDeck developCardDeck;
       try {
-         GSON.cardParser(cardConfigFile);
+         developCardDeck = GSON.cardParser(cardConfigFile);
+         System.out.println(developCardDeck.getDevelopCard().getCardFlag());
+         System.out.println(developCardDeck.getDevelopCard().getCost());
       } catch (IOException e) {
          e.printStackTrace();
       }
