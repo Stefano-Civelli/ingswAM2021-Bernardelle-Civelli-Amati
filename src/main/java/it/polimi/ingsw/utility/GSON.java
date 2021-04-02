@@ -5,10 +5,12 @@ import it.polimi.ingsw.model.CardFlag;
 import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.DevelopCardColor;
 import it.polimi.ingsw.model.DevelopCardDeck;
+import it.polimi.ingsw.model.track.Track;
 
 import java.io.*;
 
 public class GSON{
+
    public static void cardParser(File file) throws IOException {
       GsonBuilder builder = new GsonBuilder();
       //builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
@@ -24,6 +26,17 @@ public class GSON{
 //         System.out.println("Key: " + property + " value: " + user.getProperties().get(property));
 //      }
       reader.close();
+   }
+
+   public static Track trackParser(File file) throws IOException {
+      GsonBuilder builder = new GsonBuilder();
+      //builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+      Gson gson = builder.create();
+      FileInputStream inputStream = new FileInputStream(file);
+      InputStreamReader reader = new InputStreamReader(inputStream);
+      Track track = gson.fromJson(reader, Track.class);
+      reader.close();
+      return track;
    }
    }
 

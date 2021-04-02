@@ -34,9 +34,9 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
 
-   public int returnScore(){
-      return track.calculateTrackScore() + cardSlots.calculateDevelopCardScore() + ;
-   }
+//   public int returnScore(){
+//      return track.calculateTrackScore() + cardSlots.calculateDevelopCardScore() + ;
+//   }
 
    public void discardLeader(int leaderPosition1, int leaderPosition2){
       return;
