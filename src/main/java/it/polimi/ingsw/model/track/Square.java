@@ -1,4 +1,4 @@
-package it.polimi.ingsw.modeltest.tracktest;
+package it.polimi.ingsw.model.track;
 
 public class Square {
   private int victoryPoints;

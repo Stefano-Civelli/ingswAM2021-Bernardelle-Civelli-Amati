@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.modeltest.tracktest.Track;
+import it.polimi.ingsw.model.track.Track;
 
 public interface InterfacePlayerBoard {
 

@@ -8,14 +8,16 @@ import java.util.Map;
 
 public class Chest {
   private final Map<ResourceType, Integer> resources;
+  private final Map<ResourceType, Integer> tempResourcesMap;
 
   public Chest(){
     resources = new HashMap<>();
+    tempResourcesMap = new HashMap<>();
   }
 
-  public void addResources(ResourceType resource, int quantity) throws Exception {
+  public void addResources(ResourceType resource, int quantity) throws AbuseOfFaithException {
     if(resource == ResourceType.FAITH)
-      throw new Exception();
+      throw new AbuseOfFaithException("Adding faith to chest is not allowed");
 
     if(resources.containsKey(resource))
       resources.replace(resource, resources.get(resource) + quantity);
@@ -44,4 +46,13 @@ public class Chest {
   public int getNumberOf(ResourceType resource){
     return resources.get(resource);
   }
+
+  public void mergeMapResources(){
+    resources.entrySet()
+             .forEach(entry -> tempResourcesMap.merge(
+                    entry.getKey(),
+                    entry.getValue(),
+                    (key, value) -> entry.getValue()   + value));
+  }
+
 }
