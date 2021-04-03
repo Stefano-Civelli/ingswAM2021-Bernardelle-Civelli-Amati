@@ -1,19 +1,16 @@
 package it.polimi.ingsw.model.market;
 
-import it.polimi.ingsw.model.InterfacePlayerBoard;
-import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.*;
+
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
 
 class NormalMarbleTest {
 
     @Test
-    void addResource() throws AbuseOfFaithException, IncorrectResourceTypeException, NegativeQuantityException,
+    public void addResourceTest() throws AbuseOfFaithException, IncorrectResourceTypeException, NegativeQuantityException,
             LevelNotExistsException, NotEnoughSpaceException {
         InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
 
@@ -31,7 +28,7 @@ class NormalMarbleTest {
 
     @Test
     @SuppressWarnings({"Possible", "AssertBetweenInconvertibleTypes"})
-    void testEquals() throws AbuseOfFaithException {
+    public void testEqualsTest() throws AbuseOfFaithException {
         assertEquals(new NormalMarble(ResourceType.SHIELD), new NormalMarble(ResourceType.SHIELD));
         assertNotEquals(new NormalMarble(ResourceType.GOLD), new NormalMarble(ResourceType.SHIELD));
         assertNotEquals(new NormalMarble(ResourceType.SHIELD), new NormalMarble(ResourceType.STONE));
