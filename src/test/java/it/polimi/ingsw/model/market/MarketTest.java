@@ -100,8 +100,4 @@ class MarketTest {
         }
     }
 
-    @Test
-    public void getStatus() {
-
-    }
 }

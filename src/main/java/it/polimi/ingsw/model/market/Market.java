@@ -115,6 +115,11 @@ public class Market {
         return marbles;
     }
 
+    /**
+     * Get the current arrangement of marbles in this market
+     *
+     * @return the marbles' arrangement
+     */
     public MarketMarble[][] getStatus() {
         return this.marbles.clone();
     }
