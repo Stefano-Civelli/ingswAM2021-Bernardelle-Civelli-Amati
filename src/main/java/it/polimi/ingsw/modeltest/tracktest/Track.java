@@ -1,8 +1,4 @@
-package it.polimi.ingsw.model.track;
-
-import it.polimi.ingsw.controller.EndGameObserver;
-import java.util.ArrayList;
-import java.util.List;
+package it.polimi.ingsw.modeltest.tracktest;
 
 public class Track extends LorenzoTrack implements VaticanReportObserver {
   private final int[] popeCards = new int[]{-1, -1, -1};

@@ -1,16 +1,12 @@
 package it.polimi.ingsw.utility;
 
-import it.polimi.ingsw.model.CardFlag;
-import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.DevelopCardDeck;
-import it.polimi.ingsw.model.track.Square;
-import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.modeltest.tracktest.Square;
+import it.polimi.ingsw.modeltest.tracktest.Track;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class JsonTest {
 
