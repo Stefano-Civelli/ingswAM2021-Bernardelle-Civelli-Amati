@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 
 import java.util.*;
@@ -19,20 +20,23 @@ public class Market {
 
     private Market() {
         this.marbles = new MarketMarble[this.nRow][this.nColumn];
-        List<MarketMarble> marbles= new ArrayList<>(Arrays.asList(
-                new WhiteMarble(), new WhiteMarble(), new WhiteMarble(), new WhiteMarble(),
-                new NormalMarble(ResourceType.SHIELD), new NormalMarble(ResourceType.SHIELD),
-                new NormalMarble(ResourceType.STONE), new NormalMarble(ResourceType.STONE),
-                new NormalMarble(ResourceType.GOLD), new NormalMarble(ResourceType.GOLD),
-                new NormalMarble(ResourceType.SERVANT), new NormalMarble(ResourceType.SERVANT),
-                new RedMarble()
-        ));
-        Collections.shuffle(marbles);
-        Iterator<MarketMarble> marblesIterator = marbles.iterator();
-        for(int i = 0; i < this.marbles.length; i++)
-            for(int j = 0; j < this.marbles[i].length; j++)
-                this.marbles[i][j] = marblesIterator.next();
-        this.slide = marblesIterator.next();
+        try {
+            List<MarketMarble> marbles = new ArrayList<>(Arrays.asList(
+                    new WhiteMarble(), new WhiteMarble(), new WhiteMarble(), new WhiteMarble(),
+                    new NormalMarble(ResourceType.SHIELD), new NormalMarble(ResourceType.SHIELD),
+                    new NormalMarble(ResourceType.STONE), new NormalMarble(ResourceType.STONE),
+                    new NormalMarble(ResourceType.GOLD), new NormalMarble(ResourceType.GOLD),
+                    new NormalMarble(ResourceType.SERVANT), new NormalMarble(ResourceType.SERVANT),
+                    new RedMarble()
+            ));
+
+            Collections.shuffle(marbles);
+            Iterator<MarketMarble> marblesIterator = marbles.iterator();
+            for(int i = 0; i < this.marbles.length; i++)
+                for(int j = 0; j < this.marbles[i].length; j++)
+                    this.marbles[i][j] = marblesIterator.next();
+            this.slide = marblesIterator.next();
+        } catch (AbuseOfFaithException ignored) {}
     }
 
     /**

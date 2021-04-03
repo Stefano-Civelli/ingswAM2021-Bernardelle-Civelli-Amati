@@ -7,7 +7,11 @@ public class NormalMarble extends MarketMarble{
 
     private final ResourceType resource;
 
-    public NormalMarble(ResourceType resource) {
+    public NormalMarble(ResourceType resource) throws AbuseOfFaithException {
+        if(resource == null)
+            throw new NullPointerException();
+        if(resource == ResourceType.FAITH)
+            throw new AbuseOfFaithException();
         this.resource = resource;
     }
 
