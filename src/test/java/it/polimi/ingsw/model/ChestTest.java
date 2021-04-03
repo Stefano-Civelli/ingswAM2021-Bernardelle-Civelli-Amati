@@ -2,9 +2,6 @@ package it.polimi.ingsw.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import it.polimi.ingsw.model.Chest;
-import it.polimi.ingsw.model.ResourceType;
 import org.junit.jupiter.api.Test;
 
 class ChestTest {

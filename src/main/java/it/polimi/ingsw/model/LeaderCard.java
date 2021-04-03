@@ -36,6 +36,7 @@ public class LeaderCard {
     return victoryPoints;
   }
 
-
-
+  public ResourceType resourceOnWhite(){
+    return MarbleModifierBehaviour.get();
+  }
 }

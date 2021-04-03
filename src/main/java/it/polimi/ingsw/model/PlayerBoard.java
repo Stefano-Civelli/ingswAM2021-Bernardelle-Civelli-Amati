@@ -2,9 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
-import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
-import it.polimi.ingsw.model.track.Track;
-import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
+import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
 
@@ -65,22 +63,16 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
    /**
-    * remove 2 of the 4 leader cards
-    * @param leaderPosition1, index of the first card to remove
-    * @param leaderPosition2, index of the second card to remove
+    * remove 1 of the leader cards from leadercards array
+    * @param leaderPosition, index of the leadercard to remove
     */
-   public void discardLeader(int leaderPosition1, int leaderPosition2){
-      leaderCards.remove(leaderPosition1);
-      leaderCards.remove(leaderPosition2-1);
-      return;
+   public void discardLeader(int leaderPosition){
+      leaderCards.remove(leaderPosition);
    }
 
-   public void activateProduction(){
-      return;
-   }
 
-   public void addDevelopCard() {
-      return;
+   public void addDevelopCard(int row, int column, int cardSlot) throws InvalidCardPlacementException {
+      cardSlots.addDevelopCard(cardSlot, developCardDeck.getCard(row, column));
    }
 
    /**
@@ -100,12 +92,24 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
 
-   public void activateLeaderCard() {
-      return;
+   public void activateLeaderCard(int leaderToActivate) {
+      if(!leaderCards.get(leaderToActivate).isActive())
+         leaderCards.get(leaderToActivate).activate();
    }
 
-   public void addMarbleToWarehouse(){
-      return;
+   public void addMarbleToWarehouse(int marbleIndex, int level, LeaderCard leaderCard) throws InvalidLeaderCardException, LevelNotExistsException, IncorrectResourceTypeException, NotEnoughSpaceException {
+      if (!leaderCards.contains(leaderCard))
+         throw new InvalidLeaderCardException("Your hand doesn't contain this card");
+      if (leaderCard == null) {
+         if (marbleIndex >= 0 && marbleIndex < tempMarketMarble.size())
+            tempMarketMarble.get(marbleIndex).addResource(this, level, null);
+         else
+            throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
+      }
+      else if(leaderCard.isActive())
+         tempMarketMarble.get(marbleIndex).addResource(this, level, leaderCard.resourceOnWhite());
+      else
+         throw new InvalidLeaderCardException("U need to activate the leader card before asking to use it");
    }
 
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) {
@@ -120,7 +124,16 @@ public class PlayerBoard implements InterfacePlayerBoard {
             e.printStackTrace();
          }
       }
-      return;
+   }
+
+   public void startProducingProcedure(DevelopCard developCard){
+      if (developCard.isActivatable(this))
+         tempResources = new HashMap<>(developCard.getCost());
+   }
+
+   public void startBuyingProcedure(DevelopCard developCard){
+      if (developCard.isBuyable(this))
+         tempResources = new HashMap<>(developCard.getCost());
    }
 
 
