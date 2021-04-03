@@ -33,7 +33,6 @@ class ChestTest {
     }
     catch (Exception e){}
     assertEquals(chest.totalNumberOfResources(),19);
-
   }
 
   @Test

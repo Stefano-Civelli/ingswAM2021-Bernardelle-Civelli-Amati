@@ -1,12 +1,16 @@
 package it.polimi.ingsw.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+
 
 public enum ResourceType {
   STONE, GOLD, SERVANT, FAITH, SHIELD;
 
 
-  @JsonCreator
+  /**
+   * static factory method that constructs enum by string
+   * @param v string to create the enum
+   * @return a new enumeration
+   */
   public static ResourceType fromValue(String v) {
     for (ResourceType resourceType : values()) {
       if (resourceType.name().equals(v)) {

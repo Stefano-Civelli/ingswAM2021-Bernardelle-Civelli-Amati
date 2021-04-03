@@ -1,15 +1,9 @@
-package it.polimi.ingsw.model.track;
-
-import it.polimi.ingsw.controller.EndGameObserver;
-import java.util.ArrayList;
-import java.util.List;
+package it.polimi.ingsw.modeltest.tracktest;
 
 public class Track extends LorenzoTrack implements VaticanReportObserver {
-  private final int[] popeCards;
+  private final int[] popeCards = new int[]{-1, -1, -1};
 
   public Track() {
-    super();
-    this.popeCards = new int[]{-1, -1, -1};
   }
 
   /**
@@ -33,7 +27,7 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
    * Let the player move his faith marker along the track
    * Every time a player steps on a red Square the track's observers are notified
    * When a player reaches the end (Square 24) the observer that manage the end game is notified
-   * @param faith number of steps to do on the track
+   * @param faith number of steps to do on the track from the current position
    */
   public void moveForward(int faith){
     for(int i=0; i<faith; i++){
@@ -89,7 +83,6 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
         break;
     }
   }
-
 
   @Override
   public void update(int active) {

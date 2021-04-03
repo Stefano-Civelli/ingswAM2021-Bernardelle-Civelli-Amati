@@ -15,13 +15,13 @@ public class DevelopCard {
    private  HashMap<ResourceType, Integer> product;
    private  int victoryPoints;
 
-   public DevelopCard(CardFlag cardFlag, HashMap<ResourceType, Integer> cost, HashMap<ResourceType, Integer> requirement, HashMap<ResourceType, Integer> product, int victoryPoints) {
-      this.cardFlag = cardFlag;
-      this.cost = new HashMap<>(cost);
-      this.requirement = requirement;
-      this.product = product;
-      this.victoryPoints = victoryPoints;
-   }
+//   public DevelopCard(CardFlag cardFlag, HashMap<ResourceType, Integer> cost, HashMap<ResourceType, Integer> requirement, HashMap<ResourceType, Integer> product, int victoryPoints) {
+//      this.cardFlag = cardFlag;
+//      this.cost = new HashMap<>(cost);
+//      this.requirement = requirement;
+//      this.product = product;
+//      this.victoryPoints = victoryPoints;
+//   }
    public DevelopCard(){
 
    }
