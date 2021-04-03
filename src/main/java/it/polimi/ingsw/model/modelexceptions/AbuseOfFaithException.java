@@ -9,5 +9,4 @@ public class AbuseOfFaithException extends Exception {
   public AbuseOfFaithException(String message) {
     super(message);
   }
-
 }

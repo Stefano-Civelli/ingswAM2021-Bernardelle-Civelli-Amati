@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
+import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
 
 import java.io.File;
@@ -105,14 +107,18 @@ public class PlayerBoard implements InterfacePlayerBoard {
       return;
    }
 
-   //TODO
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) {
-      tempResources = Stream.of(new Object[][] {
-              { resource1, 1 },
-              { resource2, 1 },
-      }).collect(Collectors.toMap(data -> (ResourceType) data[0], data -> (Integer) data[1]));
-
-      //dove metto product? non solo in questo caso ma anche in tutte le altre produce
+      if(warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) > 0 && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) > 0) {
+         tempResources = Stream.of(new Object[][]{
+                 {resource1, 1},
+                 {resource2, 1},
+         }).collect(Collectors.toMap(data -> (ResourceType) data[0], data -> (Integer) data[1]));
+         try {
+            chest.addResources(product, 1);
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
       return;
    }
 
