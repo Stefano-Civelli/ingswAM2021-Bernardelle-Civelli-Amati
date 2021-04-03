@@ -1,12 +1,9 @@
 package it.polimi.ingsw.utility;
 
 import com.google.gson.*;
-import it.polimi.ingsw.model.CardFlag;
-import it.polimi.ingsw.model.DevelopCard;
-import it.polimi.ingsw.model.DevelopCardColor;
 import it.polimi.ingsw.model.DevelopCardDeck;
-import it.polimi.ingsw.model.track.LorenzoTrack;
-import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.modeltest.tracktest.LorenzoTrack;
+import it.polimi.ingsw.modeltest.tracktest.Track;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.track;
+package it.polimi.ingsw.modeltest.tracktest;
 
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
