@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
+import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.track.Track;
@@ -86,7 +87,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
     * Saves the market marbles taken from the market in tempMarketMarble
     * @param column indicates which column get from market
     */
-   public void shopMarketColumn(int column) {
+   public void shopMarketColumn(int column) throws RowOrColumnNotExistsException {
       tempMarketMarble = new ArrayList<>(market.pushInColumn(column));
    }
 
@@ -94,7 +95,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
     * Saves the market marbles taken from the market in tempMarketMarble
     * @param row indicates which row get from market
     */
-   public void shopMarketRow(int row){
+   public void shopMarketRow(int row) throws RowOrColumnNotExistsException {
       tempMarketMarble = new ArrayList<>(market.pushInRow(row));
    }
 

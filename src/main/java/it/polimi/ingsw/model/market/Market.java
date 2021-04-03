@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 public class Market {
 
+    private final int nRow = 3,
+            nColumn = 4;
+
     private static Market instance;
 
     private MarketMarble slide;
@@ -15,9 +18,7 @@ public class Market {
 
 
     private Market() {
-        final int nRow = 3,
-                nColumn = 4;
-        this.marbles = new MarketMarble[nRow][nColumn];
+        this.marbles = new MarketMarble[this.nRow][this.nColumn];
         List<MarketMarble> marbles= new ArrayList<>(Arrays.asList(
                 new WhiteMarble(), new WhiteMarble(), new WhiteMarble(), new WhiteMarble(),
                 new NormalMarble(ResourceType.SHIELD), new NormalMarble(ResourceType.SHIELD),
@@ -34,7 +35,6 @@ public class Market {
         this.slide = marblesIterator.next();
     }
 
-
     /**
      * If Market isn't instantiated instantiates it
      *
@@ -45,6 +45,14 @@ public class Market {
             return  Market.instance;
         Market.instance = new Market();
         return  Market.instance;
+    }
+
+    public int getNumberOfRow() {
+        return this.nRow;
+    }
+
+    public int getNumberOfColumn() {
+        return this.nColumn;
     }
 
     private List<MarketMarble> getRow(int row) throws RowOrColumnNotExistsException {
@@ -68,6 +76,7 @@ public class Market {
      *
      * @param row the row in which to push the marble
      * @return the row before pushing the marble
+     * @throws RowOrColumnNotExistsException this row doesn't exist
      */
     public List<MarketMarble> pushInRow(int row) throws RowOrColumnNotExistsException {
         List<MarketMarble> marbles = this.getRow(row);
@@ -84,6 +93,13 @@ public class Market {
         return marbles;
     }
 
+    /**
+     * Push the marble in slide in the specified row from right
+     *
+     * @param column the row in which to push the marble
+     * @return the row before pushing the marble
+     * @throws RowOrColumnNotExistsException this column doesn't exist
+     */
     public List<MarketMarble> pushInColumn(int column) throws RowOrColumnNotExistsException {
         List<MarketMarble> marbles = this.getColumn(column);
         MarketMarble swap1,

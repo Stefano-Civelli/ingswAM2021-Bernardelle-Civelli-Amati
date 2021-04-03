@@ -18,4 +18,8 @@ public class RedMarble extends MarketMarble{
         playerBoard.getTrack().moveForward(1);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && this.getClass() == obj.getClass();
+    }
 }

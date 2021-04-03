@@ -25,4 +25,8 @@ public class WhiteMarble extends MarketMarble{
         } catch (AbuseOfFaithException ignored) {}
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && this.getClass() == obj.getClass();
+    }
 }
