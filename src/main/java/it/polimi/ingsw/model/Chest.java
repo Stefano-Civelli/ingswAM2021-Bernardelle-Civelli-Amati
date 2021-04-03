@@ -19,10 +19,10 @@ public class Chest {
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException("Adding faith to chest is not allowed");
 
-    if(resources.containsKey(resource))
-      resources.replace(resource, resources.get(resource) + quantity);
+    if(tempResourcesMap.containsKey(resource))
+      tempResourcesMap.replace(resource, tempResourcesMap.get(resource) + quantity);
     else
-      resources.put(resource, quantity);
+      tempResourcesMap.put(resource, quantity);
   }
 
   public void removeResources(ResourceType resource, int quantity) throws MissingResourceToRemoveException, NotEnoughResourcesException, AbuseOfFaithException{
@@ -40,7 +40,7 @@ public class Chest {
   }
 
   public int totalNumberOfResources(){
-    return resources.entrySet().stream().map(i -> i.getValue()).reduce(0, (a, b) -> a + b);
+    return resources.entrySet().stream().map(i -> i.getValue()).reduce(0, Integer::sum);
   }
 
   public int getNumberOf(ResourceType resource){
@@ -48,11 +48,11 @@ public class Chest {
   }
 
   public void mergeMapResources(){
-    resources.entrySet()
-             .forEach(entry -> tempResourcesMap.merge(
+
+    tempResourcesMap.entrySet()
+             .forEach(entry -> resources.merge(
                     entry.getKey(),
                     entry.getValue(),
                     (key, value) -> entry.getValue()   + value));
   }
-
 }
