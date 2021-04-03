@@ -28,7 +28,7 @@ class RedMarbleTest {
 //        assertEquals(0, playerBoard.getTrack().calculateTrackScore());
 //        marble1.addResource(playerBoard, 0, null);
 //        assertEquals(points, playerBoard.getTrack().calculateTrackScore());
-//    }
+//       }
 
     @Test
     @SuppressWarnings({"Possible", "AssertBetweenInconvertibleTypes"})
