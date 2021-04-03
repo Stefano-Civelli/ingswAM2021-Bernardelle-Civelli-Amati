@@ -61,7 +61,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
             playerscore.add(x.getVictoryPoints());
 
       playerscore.add((warehouse.totalResources() + chest.totalNumberOfResources())/5);
-      return playerscore.stream().reduce(0, (a,b) -> a+b);
+      return playerscore.stream().reduce(0, Integer::sum);
    }
 
    /**

@@ -40,7 +40,7 @@ public class Chest {
   }
 
   public int totalNumberOfResources(){
-    return resources.entrySet().stream().map(i -> i.getValue()).reduce(0, (a, b) -> a + b);
+    return resources.entrySet().stream().map(i -> i.getValue()).reduce(0, Integer::sum);
   }
 
   public int getNumberOf(ResourceType resource){

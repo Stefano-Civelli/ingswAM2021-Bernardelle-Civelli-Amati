@@ -14,11 +14,9 @@ public class DevelopCardDeck implements EndGameObservable {
    private List<DevelopCard> developCardList;
    private List<DevelopCard>[][] cardsCube;
    //observers are added to the Observerlist only for singleplayer game
-   private final List<EndGameObserver> endGameObserverList = new ArrayList<>();;
+   private final List<EndGameObserver> endGameObserverList = new ArrayList<>();
 
-
-
-   public DevelopCardDeck() {
+   public DevelopCardDeck(){
 
       //here costruisco la matrice e ci dispongo la lista di carte
       //color order hardcodato: Green Blue Yellow Purple
@@ -45,7 +43,7 @@ public class DevelopCardDeck implements EndGameObservable {
 
    }
 
-   public List<DevelopCard> buyableCards(InterfacePlayerBoard playerBoard) {
+   public List<DevelopCard> buyableCards(PlayerBoard playerBoard) {
       return Arrays.stream(cardsCube).flatMap(Arrays::stream).flatMap(Collection::stream).filter(x -> x.isBuyable(playerBoard)).collect(Collectors.toList());
    }
 
