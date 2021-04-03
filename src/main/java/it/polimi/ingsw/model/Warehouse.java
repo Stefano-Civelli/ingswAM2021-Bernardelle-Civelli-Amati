@@ -21,6 +21,17 @@ public class Warehouse {
         return NUMBER_OF_WAREHOUSELEVELS;
     }
 
+    /**
+     * Add some resources in a specified level of warehouse
+     *
+     * @param resource the type of resource to add
+     * @param level the level of warehouse in which to add resources
+     * @param quantity the number of resources to add
+     * @throws IncorrectResourceTypeException this resource type can't be added in this level of warehouse
+     * @throws NotEnoughSpaceException there is not enough space on this level to add this amount of resources
+     * @throws AbuseOfFaithException resource type is faith, faith can't be added into warehouse
+     * @throws LevelNotExistsException this level doesn't exist
+     */
     public void addResources(ResourceType resource, int level, int quantity)
             throws IncorrectResourceTypeException, NotEnoughSpaceException,
             AbuseOfFaithException, LevelNotExistsException {
@@ -46,6 +57,16 @@ public class Warehouse {
         throw new LevelNotExistsException();
     }
 
+    /**
+     * Remove some resources from a specified level of warehouse
+     *
+     * @param resource the type of resource to remove
+     * @param level the level of warehouse from which to remove resources
+     * @param quantity the number of resources to remove
+     * @throws NotEnoughResourcesException there are not enough resources on this level to remove this amount of them
+     * @throws IncorrectResourceTypeException In this level there is another type of resources
+     * @throws LevelNotExistsException this level doesn't exist
+     */
     public void removeResources(ResourceType resource, int level, int quantity)
             throws NotEnoughResourcesException, IncorrectResourceTypeException, LevelNotExistsException {
         if(resource == null)
@@ -66,7 +87,15 @@ public class Warehouse {
         throw new LevelNotExistsException();
     }
 
-    public void swapLevels(int level1, int level2 ) throws NotEnoughSpaceException, LevelNotExistsException {
+    /**
+     * Swap the contained resources of two level
+     *
+     * @param level1 one level to swap
+     * @param level2 the other level to swap
+     * @throws NotEnoughSpaceException one of these level too small to contain the number of resources contained in the other
+     * @throws LevelNotExistsException one or both of these levels doesn't exist
+     */
+    public void swapLevels(int level1, int level2) throws NotEnoughSpaceException, LevelNotExistsException {
         if(0 <= level1 && level1 <= this.levels.length - 1 && 0 <= level2 && level2 <= this.levels.length - 1) {
             if(this.levels[level1] != null && this.levels[level1].getValue() >= this.levels.length - level2 ||
                     this.levels[level2] != null && this.levels[level2].getValue() >= this.levels.length - level1)
@@ -79,17 +108,36 @@ public class Warehouse {
         throw new LevelNotExistsException();
     }
 
+    /**
+     * Move some resources from one level to another
+     *
+     * @param sourceLevel the level from which to take resources
+     * @param destinationLevel the level in which to put resources
+     * @param quantity the number of resources to move
+     */
     public void moveResource(int sourceLevel, int destinationLevel, int quantity) {}
 
+    /**
+     * Returns the total amount of the specified resources contained in the warehouse
+     *
+     * @param resource the resource type
+     * @return the number of contained resources of this type
+     */
     public int getNumberOf(ResourceType resource) {
         return Arrays.stream(this.levels).filter(Objects::nonNull).filter( (i) -> i.getKey() == resource )
                 .map(Pair::getValue).reduce(Integer::sum).orElse(0);
         // AGGIUNGERE LE LEADER QUANDO IMPLEMENTATE
+
     }
 
+    /**
+     *
+     * @return total number of resources contained in the warehouse
+     */
     public int totalResources() {
         return Arrays.stream(this.levels).filter(Objects::nonNull).map(Pair::getValue)
                 .reduce(Integer::sum).orElse(0);
         // AGGIUNGERE LE LEADER QUANDO IMPLEMENTATE
+
     }
 }

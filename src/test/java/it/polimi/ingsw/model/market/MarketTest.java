@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.market;
 
-import it.polimi.ingsw.model.market.*;
 import it.polimi.ingsw.model.modelexceptions.*;
 
 import org.junit.jupiter.api.Test;
