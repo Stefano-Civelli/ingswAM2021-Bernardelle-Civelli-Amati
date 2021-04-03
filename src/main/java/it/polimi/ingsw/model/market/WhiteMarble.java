@@ -20,9 +20,13 @@ public class WhiteMarble extends MarketMarble{
     @Override
     public void addResource(InterfacePlayerBoard playerBoard, int warehouseLevel, ResourceType onWhiteMarble)
             throws IncorrectResourceTypeException, NotEnoughSpaceException, LevelNotExistsException {
+        if(onWhiteMarble == null)
+            return;
+        if(onWhiteMarble == ResourceType.FAITH)
+            playerBoard.getTrack().moveForward(1);
         try {
             playerBoard.getWarehouse().addResources(onWhiteMarble, warehouseLevel, 1);
-        } catch (AbuseOfFaithException ignored) {}
+        } catch (AbuseOfFaithException | NegativeQuantityException ignored) {}
     }
 
     @Override
