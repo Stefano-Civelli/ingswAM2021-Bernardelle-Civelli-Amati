@@ -145,5 +145,17 @@ class TrackTest {
       track2.moveForward(8);
       assertEquals(track.calculateTrackScore(), 9);
       assertEquals(track2.calculateTrackScore(), 2+3+12);
+      //removing track from track2 observerlist it shouldn't be notified when track2 reaches a red square
+      track2.removeFromVaticanReportObserverList(track);
+      track.moveForward(8);
+      track2.moveForward(8);
+      assertEquals(track.calculateTrackScore(), 3+16);
+      assertEquals(track2.calculateTrackScore(), 2+3+4+20);
+   }
+
+   //need to add a test to check the endGame notify call
+   @Test
+   void checkForEndGameNotifyCall(){
+      //
    }
 }
