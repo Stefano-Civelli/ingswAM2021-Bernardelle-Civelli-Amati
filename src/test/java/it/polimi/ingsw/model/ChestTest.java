@@ -29,9 +29,9 @@ class ChestTest {
          chest.addResources(ResourceType.SERVANT, 4);
          chest.addResources(ResourceType.SHIELD, 5);
          chest.addResources(ResourceType.SHIELD, 5);
-
       }
       catch (Exception e){}
+      chest.mergeMapResources();
       assertEquals(chest.totalNumberOfResources(),19);
    }
 
@@ -44,8 +44,8 @@ class ChestTest {
          chest.addResources(ResourceType.SERVANT, 4);
          chest.addResources(ResourceType.SHIELD, 5);
          chest.addResources(ResourceType.SHIELD, 5);
+         chest.mergeMapResources();
          chest.removeResources(ResourceType.GOLD, 1);
-
       }
       catch (Exception e){}
       assertEquals(chest.totalNumberOfResources(),18);
@@ -61,6 +61,7 @@ class ChestTest {
       try {
          chest.addResources(ResourceType.GOLD, 2);
          chest.addResources(ResourceType.SHIELD, 4);
+         chest.mergeMapResources();
          chest.removeResources(ResourceType.GOLD, 3);
       }
       catch (Exception e){pippo = true;}
@@ -76,6 +77,7 @@ class ChestTest {
       try {
          chest.addResources(ResourceType.GOLD, 2);
          chest.addResources(ResourceType.SHIELD, 4);
+         chest.mergeMapResources();
          chest.removeResources(ResourceType.GOLD, 2);
       }
       catch (Exception e){pippo = true;}

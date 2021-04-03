@@ -45,7 +45,7 @@ public class DevelopCardDeck implements EndGameObservable {
 
    }
 
-   public List<DevelopCard> buyableCards(PlayerBoard playerBoard) {
+   public List<DevelopCard> buyableCards(InterfacePlayerBoard playerBoard) {
       return Arrays.stream(cardsCube).flatMap(Arrays::stream).flatMap(Collection::stream).filter(x -> x.isBuyable(playerBoard)).collect(Collectors.toList());
    }
 
