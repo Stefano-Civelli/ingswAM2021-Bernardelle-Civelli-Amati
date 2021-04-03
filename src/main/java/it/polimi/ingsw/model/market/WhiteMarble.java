@@ -22,7 +22,7 @@ public class WhiteMarble extends MarketMarble{
             throws IncorrectResourceTypeException, NotEnoughSpaceException, LevelNotExistsException {
         try {
             playerBoard.getWarehouse().addResources(onWhiteMarble, warehouseLevel, 1);
-        } catch (AbuseOfFaithException ignored) {}
+        } catch (AbuseOfFaithException | NegativeQuantityException ignored) {}
     }
 
     @Override

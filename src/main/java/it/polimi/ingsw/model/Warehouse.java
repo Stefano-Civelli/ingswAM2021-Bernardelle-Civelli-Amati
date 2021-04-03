@@ -34,9 +34,13 @@ public class Warehouse {
      */
     public void addResources(ResourceType resource, int level, int quantity)
             throws IncorrectResourceTypeException, NotEnoughSpaceException,
-            AbuseOfFaithException, LevelNotExistsException {
+            AbuseOfFaithException, LevelNotExistsException, NegativeQuantityException {
+        if(quantity < 0)
+            throw new NegativeQuantityException();
         if(resource == null)
             throw new NullPointerException();
+        if(quantity == 0)
+            return;
         if(resource == ResourceType.FAITH)
             throw new AbuseOfFaithException("Adding faith to warehouse is not allowed");
         if(level >= 0 && level < this.levels.length) {
@@ -74,9 +78,13 @@ public class Warehouse {
      * @throws LevelNotExistsException this level doesn't exist
      */
     public void removeResources(ResourceType resource, int level, int quantity)
-            throws NotEnoughResourcesException, IncorrectResourceTypeException, LevelNotExistsException {
+            throws NotEnoughResourcesException, IncorrectResourceTypeException, LevelNotExistsException, NegativeQuantityException {
+        if(quantity < 0)
+            throw new NegativeQuantityException();
         if(resource == null)
             throw new NullPointerException();
+        if(quantity == 0)
+            return;
         if(level >= 0 && level < this.levels.length) {
             if(this.levels[level] == null)
                 throw new NotEnoughResourcesException("The level " + level + " of warehouse is empty");
@@ -104,12 +112,13 @@ public class Warehouse {
      */
     public void swapLevels(int level1, int level2) throws NotEnoughSpaceException, LevelNotExistsException {
         if(0 <= level1 && level1 <= this.levels.length - 1 && 0 <= level2 && level2 <= this.levels.length - 1) {
-            if(this.levels[level1] != null && this.levels[level1].getValue() >= this.levels.length - level2 ||
-                    this.levels[level2] != null && this.levels[level2].getValue() >= this.levels.length - level1)
+            if(this.levels[level1] != null && this.levels[level1].getValue() > this.levels.length - level2 ||
+                    this.levels[level2] != null && this.levels[level2].getValue() > this.levels.length - level1)
                 throw new NotEnoughSpaceException();
             Pair<ResourceType, Integer> swap = this.levels[level1];
             this.levels[level1] = this.levels[level2];
             this.levels[level2] = swap;
+            return;
         }
         // AGGIUNGERE LE LEADER QUANDO IMPLEMENTATE
         throw new LevelNotExistsException();

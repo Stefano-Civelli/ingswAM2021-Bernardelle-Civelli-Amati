@@ -26,7 +26,7 @@ public class NormalMarble extends MarketMarble{
             throws IncorrectResourceTypeException, NotEnoughSpaceException, LevelNotExistsException {
         try {
             playerBoard.getWarehouse().addResources(this.resource, warehouseLevel, 1);
-        } catch (AbuseOfFaithException ignored) {}
+        } catch (AbuseOfFaithException | NegativeQuantityException ignored) {}
     }
 
     @Override
