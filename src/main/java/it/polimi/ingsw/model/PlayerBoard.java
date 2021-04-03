@@ -8,6 +8,8 @@ import it.polimi.ingsw.utility.GSON;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class PlayerBoard implements InterfacePlayerBoard {
@@ -21,7 +23,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
    private Track track;
    private final DevelopCardDeck developCardDeck;
    private List<MarketMarble> tempMarketMarble;
-   private final Map<ResourceType, Integer> tempResources;
+   private Map<ResourceType, Integer> tempResources;
    File trackConfigFile = new File("src/SquareConfig.json");
 
    public PlayerBoard(String username, ArrayList<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck){
@@ -61,12 +63,12 @@ public class PlayerBoard implements InterfacePlayerBoard {
 
    /**
     * remove 2 of the 4 leader cards
-    * @param leaderPosition1, first card to remove
-    * @param leaderPosition2, second card to remove
+    * @param leaderPosition1, index of the first card to remove
+    * @param leaderPosition2, index of the second card to remove
     */
    public void discardLeader(int leaderPosition1, int leaderPosition2){
       leaderCards.remove(leaderPosition1);
-      leaderCards.remove(leaderPosition1);
+      leaderCards.remove(leaderPosition2-1);
       return;
    }
 
@@ -95,7 +97,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
 
-   public void activateLeadercard() {
+   public void activateLeaderCard() {
       return;
    }
 
@@ -103,29 +105,37 @@ public class PlayerBoard implements InterfacePlayerBoard {
       return;
    }
 
-   public void baseProduction(ResourceType resource1, ResourceType resource2) {
+   //TODO
+   public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) {
+      tempResources = Stream.of(new Object[][] {
+              { resource1, 1 },
+              { resource2, 1 },
+      }).collect(Collectors.toMap(data -> (ResourceType) data[0], data -> (Integer) data[1]));
 
+      //dove metto product? non solo in questo caso ma anche in tutte le altre produce
       return;
    }
-
-
 
 
    public String getUsername() {
       return username;
    }
+
    @Override
    public Warehouse getWarehouse() {
       return warehouse;
    }
+
    @Override
    public Chest getChest() {
       return chest;
    }
+
    @Override
    public Track getTrack() {
       return track;
    }
+
    @Override
    public CardSlots getCardSlots() {
       return null;

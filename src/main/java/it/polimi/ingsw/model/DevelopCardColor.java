@@ -11,13 +11,8 @@ public enum DevelopCardColor {
       color = c;
    }
 
-   public int getColumn(){
-      return column;
-   }
+   public int getColumn(){ return column; }
 
-   //need to make it better
    @Override
-   public String toString() {
-      return color;
-   }
+   public String toString() { return color; }
 }
