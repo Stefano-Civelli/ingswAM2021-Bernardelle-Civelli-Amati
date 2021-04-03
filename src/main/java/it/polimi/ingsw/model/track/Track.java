@@ -1,4 +1,4 @@
-package it.polimi.ingsw.modeltest.tracktest;
+package it.polimi.ingsw.model.track;
 
 public class Track extends LorenzoTrack implements VaticanReportObserver {
   private final int[] popeCards = new int[]{-1, -1, -1};

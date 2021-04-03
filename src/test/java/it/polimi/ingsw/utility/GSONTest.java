@@ -1,14 +1,14 @@
 package it.polimi.ingsw.utility;
 
 import it.polimi.ingsw.model.DevelopCardDeck;
-import it.polimi.ingsw.modeltest.tracktest.Square;
-import it.polimi.ingsw.modeltest.tracktest.Track;
+import it.polimi.ingsw.model.track.Square;
+import it.polimi.ingsw.model.track.Track;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 
-class JsonTest {
+class GSONTest {
 
    File cardConfigFile = new File("src/DevelopCardConfig.json");
    File trackConfigFile = new File("src/SquareConfig.json");

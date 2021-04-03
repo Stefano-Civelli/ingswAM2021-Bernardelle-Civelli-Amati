@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.EndGameObserver;
-import it.polimi.ingsw.modeltest.tracktest.EndGameObservable;
+import it.polimi.ingsw.model.track.EndGameObservable;
 
 import java.util.*;
 import java.util.stream.Collectors;

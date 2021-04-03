@@ -1,4 +1,4 @@
-package it.polimi.ingsw.modeltest.tracktest;
+package it.polimi.ingsw.model.track;
 
 public interface VaticanReportObservable {
   public void addToVaticanReportObserverList(VaticanReportObserver observerToAdd);

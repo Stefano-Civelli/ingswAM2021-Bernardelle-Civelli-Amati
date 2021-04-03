@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
-import it.polimi.ingsw.modeltest.tracktest.EndGameObservable;
+import it.polimi.ingsw.model.track.EndGameObservable;
 
 import java.util.ArrayList;
 import java.util.List;

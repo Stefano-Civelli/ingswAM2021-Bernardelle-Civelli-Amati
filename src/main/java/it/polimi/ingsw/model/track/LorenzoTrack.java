@@ -1,4 +1,4 @@
-package it.polimi.ingsw.modeltest.tracktest;
+package it.polimi.ingsw.model.track;
 import it.polimi.ingsw.controller.EndGameObserver;
 
 import java.util.ArrayList;
