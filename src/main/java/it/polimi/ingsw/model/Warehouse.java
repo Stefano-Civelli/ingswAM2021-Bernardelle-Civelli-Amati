@@ -40,18 +40,24 @@ public class Warehouse {
         if(resource == ResourceType.FAITH)
             throw new AbuseOfFaithException("Adding faith to warehouse is not allowed");
         if(level >= 0 && level < this.levels.length) {
-            if(this.levels[level] == null)
-                this.levels[level] = new Pair<>(resource, quantity);
-            if(this.levels[level].getKey() == resource) {
-                if (this.levels[level].getValue() + quantity >= this.levels.length - level)
+            if(this.levels[level] == null) {
+                if(quantity > this.levels.length - level)
                     throw new NotEnoughSpaceException("In level " + level + " of warehouse there is not enough space");
-                this.levels[level] =
-                        new Pair<>(resource, this.levels[level].getValue() + quantity);
-            }
-            else
+                for(int i = 0; i < this.levels.length; i++)
+                    if(i != level && this.levels[i] != null && this.levels[i].getKey() == resource)
+                        throw new IncorrectResourceTypeException(
+                                "The resource type " + resource + " is already present in another warehouse level"
+                        );
+                this.levels[level] = new Pair<>(resource, quantity);
+            } else if(this.levels[level].getKey() == resource) {
+                if (this.levels[level].getValue() + quantity > this.levels.length - level)
+                    throw new NotEnoughSpaceException("In level " + level + " of warehouse there is not enough space");
+                this.levels[level] = new Pair<>(resource, this.levels[level].getValue() + quantity);
+            } else
                 throw new IncorrectResourceTypeException(
-                        "In level " + level + " of warehouse there is already another type of resource"
+                    "In level " + level + " of warehouse there is already another type of resource"
                 );
+            return;
         }
         // AGGIUNGERE LE LEADER QUANDO IMPLEMENTATE
         throw new LevelNotExistsException();
@@ -74,14 +80,15 @@ public class Warehouse {
         if(level >= 0 && level < this.levels.length) {
             if(this.levels[level] == null)
                 throw new NotEnoughResourcesException("The level " + level + " of warehouse is empty");
-            if(this.levels[level].getKey() != resource)
+            else if(this.levels[level].getKey() != resource)
                 throw new IncorrectResourceTypeException("In level " + level + " of warehouse there is another type of resource");
-            if(this.levels[level].getValue() < quantity )
+            else if(this.levels[level].getValue() < quantity )
                 throw new NotEnoughResourcesException("In level " + level + " of warehouse there aren't enough resources");
-            if(this.levels[level].getValue() > quantity )
+            else if(this.levels[level].getValue() > quantity )
                 this.levels[level] = new Pair<>(resource, this.levels[level].getValue() - quantity);
-            if(this.levels[level].getValue() == quantity )
+            else if(this.levels[level].getValue() == quantity )
                 this.levels[level] = null;
+            return;
         }
         // AGGIUNGERE LE LEADER QUANDO IMPLEMENTATE
         throw new LevelNotExistsException();
