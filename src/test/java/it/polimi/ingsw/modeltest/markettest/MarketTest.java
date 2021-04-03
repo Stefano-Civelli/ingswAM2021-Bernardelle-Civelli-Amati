@@ -2,6 +2,7 @@ package it.polimi.ingsw.modeltest.markettest;
 
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
+import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ class MarketTest {
     }
 
     @Test
-    public void pushInRowTest() {
+    public void pushInRowTest() throws RowOrColumnNotExistsException {
         Market market = Market.getInstance();
         List<MarketMarble> marbles1 = market.pushInRow(0);      // A B C D
         List<MarketMarble> marbles2 = market.pushInRow(0);      // B C D E
@@ -39,8 +40,9 @@ class MarketTest {
     }
 
     @Test
-    public void pushInColumn() {
+    public void pushInColumn() throws RowOrColumnNotExistsException {
         Market market = Market.getInstance();
+
         List<MarketMarble> marbles1 = market.pushInColumn(0);      // A B C
         List<MarketMarble> marbles2 = market.pushInColumn(0);      // B C D
         List<MarketMarble> marbles3 = market.pushInColumn(0);      // C D A
@@ -58,6 +60,16 @@ class MarketTest {
         assertEquals(marblesTmp1, marblesTmp2);
 
         assertEquals(marbles1.get(0), marbles3.get(marbles3.size() - 1));
+    }
+
+    @Test
+    public void exceptionTest() {
+        Market market = Market.getInstance();
+        MarketMarble[][] status = market.getStatus();
+        assertThrows(RowOrColumnNotExistsException.class, () -> market.pushInRow(-1) );
+        assertThrows(RowOrColumnNotExistsException.class, () -> market.pushInRow(3) );
+        assertThrows(RowOrColumnNotExistsException.class, () -> market.pushInColumn(-1) );
+        assertThrows(RowOrColumnNotExistsException.class, () -> market.pushInColumn(4) );
     }
 
     @Test

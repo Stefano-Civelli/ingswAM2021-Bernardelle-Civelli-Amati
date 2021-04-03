@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,6 +34,12 @@ public class Market {
         this.slide = marblesIterator.next();
     }
 
+
+    /**
+     * If Market isn't instantiated instantiates it
+     *
+     * @return the Market instance
+     */
     public static Market getInstance() {
         if(Market.instance != null)
             return  Market.instance;
@@ -40,15 +47,29 @@ public class Market {
         return  Market.instance;
     }
 
-    private List<MarketMarble> getRow(int row) {
-        return new ArrayList<>(Arrays.asList(this.marbles[row]));
+    private List<MarketMarble> getRow(int row) throws RowOrColumnNotExistsException {
+        try {
+            return new ArrayList<>(Arrays.asList(this.marbles[row]));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new RowOrColumnNotExistsException("This row doesn't exist in market");
+        }
     }
 
-    private  List<MarketMarble> getColumn(int column) {
-        return Arrays.stream(this.marbles).map(i -> i[column]).collect(Collectors.toCollection(ArrayList::new));
+    private  List<MarketMarble> getColumn(int column) throws RowOrColumnNotExistsException {
+        try {
+            return Arrays.stream(this.marbles).map(i -> i[column]).collect(Collectors.toCollection(ArrayList::new));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new RowOrColumnNotExistsException("This row doesn't exist in market");
+        }
     }
 
-    public List<MarketMarble> pushInRow(int row) {
+    /**
+     * Push the marble in slide in the specified row from right
+     *
+     * @param row the row in which to push the marble
+     * @return the row before pushing the marble
+     */
+    public List<MarketMarble> pushInRow(int row) throws RowOrColumnNotExistsException {
         List<MarketMarble> marbles = this.getRow(row);
         MarketMarble swap1,
                 swap2;
@@ -63,7 +84,7 @@ public class Market {
         return marbles;
     }
 
-    public List<MarketMarble> pushInColumn(int column) {
+    public List<MarketMarble> pushInColumn(int column) throws RowOrColumnNotExistsException {
         List<MarketMarble> marbles = this.getColumn(column);
         MarketMarble swap1,
                 swap2;
