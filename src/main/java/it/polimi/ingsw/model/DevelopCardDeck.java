@@ -6,27 +6,27 @@ import it.polimi.ingsw.model.track.EndGameObservable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//non deve avere nessuno nella sua lista di observer nel caso in cui la partita sia multiplayer
 
 public class DevelopCardDeck implements EndGameObservable {
 
-   //metto prima nella lista per fare il parsing e poi costruisco la matrice (forse posso farlo nel costruttore dopo che JSON ha finito)
    private List<DevelopCard> developCardList;
    private List<DevelopCard>[][] cardsCube;
-   //observers are added to the Observerlist only for singleplayer game
+   //observers are added to the Observerlist only for singleplayer game.
+   //So this Class should have an empty observer list if the game is multiplayer
    private final List<EndGameObserver> endGameObserverList = new ArrayList<>();
 
+   /**
+    * Default constructor because construction is handled by the cardParser method
+    */
    public DevelopCardDeck(){
    }
 
    /**
     * this method is called by the cardParser method in GSON class to complete the setup process of this class
-    * what the mehtod does......
+    * it takes the developCardList maps it inside of the 3*4 List's matrix. Every List inside the matrix gets shuffled.
     */
    public void setupClass(){
       cardsCube = new ArrayList[3][4];
-      //here costruisco la matrice e ci dispongo la lista di carte
-      //color order hardcodato: Green Blue Yellow Purple
       List<CardFlag> cardFlagList = developCardList.stream().map(DevelopCard::getCardFlag).distinct().collect(Collectors.toList());
       for (CardFlag cardFlag : cardFlagList) {
             List<DevelopCard> tempDevelopCardList = developCardList.stream().filter(x -> x.getCardFlag().equals(cardFlag)).collect(Collectors.toList());
@@ -35,14 +35,8 @@ public class DevelopCardDeck implements EndGameObservable {
          }
    }
 
-   //TODO CANCELLARE QURESTO METODO PERCHE' SERVE SOLO PER IL TESTING
-   public DevelopCard getDevelopCard() {
-      return developCardList.get(1);
-   }
-
    /**
     * returns the visible cards (the ones on top of the card square)
-    *
     * @return matrix of DevelopCard
     */
    public DevelopCard[][] visibleCards() {
@@ -56,7 +50,12 @@ public class DevelopCardDeck implements EndGameObservable {
 
    }
 
-   public List<DevelopCard> buyableCards(PlayerBoard playerBoard) {
+   /**
+    * Returns a list of the cards that the specified player can buy in a specific moment
+    * @param playerBoard the player
+    * @return the list of buyable cards
+    */
+   public List<DevelopCard> buyableCards(InterfacePlayerBoard playerBoard) {
       return Arrays.stream(cardsCube).flatMap(Arrays::stream).flatMap(Collection::stream).filter(x -> x.isBuyable(playerBoard)).collect(Collectors.toList());
    }
 
@@ -84,21 +83,27 @@ public class DevelopCardDeck implements EndGameObservable {
       }
    }
 
+   /**
+    * returns the reference to a card contained in the Deck
+    * @param row the row of the card to return
+    * @param column the column of the card to return
+    * @return the specified card
+    */
    public DevelopCard getCard(int row, int column) {
       return cardsCube[row][column].get(cardsCube[row][column].size() - 1);
    }
 
+   /**
+    * removes the specified card from the deck
+    * @param card the reference of the card to remove
+    */
    public void removeCard(DevelopCard card) {
       int row = card.getCardFlag().getLevel() - 1;
       int column = card.getCardFlag().getColor().getColumn();
-
       cardsCube[row][column].remove(cardsCube[row][column].size() - 1);
-
-      for (int i = 0; i < cardsCube.length; i++) {
-         if (!cardsCube[i][column].isEmpty()) {
+      for (int i = 0; i < cardsCube.length; i++)
+         if (!cardsCube[i][column].isEmpty())
             return;
-         }
-      }
       notifyForEndGame();
    }
 

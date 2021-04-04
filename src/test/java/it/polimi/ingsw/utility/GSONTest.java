@@ -18,8 +18,6 @@ class GSONTest {
       DevelopCardDeck developCardDeck;
       try {
          developCardDeck = GSON.cardParser(cardConfigFile);
-         System.out.println(developCardDeck.getDevelopCard().getCardFlag());
-         System.out.println(developCardDeck.getDevelopCard().getCost());
          for (int i = 0; i < developCardDeck.visibleCards().length; i++) {
             for (int j = 0; j < developCardDeck.visibleCards()[i].length; j++) {
                System.out.print(developCardDeck.visibleCards()[i][j].getCardFlag().getLevel() + " ");
