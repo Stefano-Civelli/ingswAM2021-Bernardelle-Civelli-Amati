@@ -54,9 +54,10 @@ class GSONTest {
       DevelopCardDeck developCardDeck;
       try {
          developCardDeck = GSON.cardParser(cardConfigFile);
+         developCardDeck.removeCard(developCardDeck.getCard(0,0));
          for (int i = 0; i < developCardDeck.visibleCards().length; i++) {
             for (int j = 0; j < developCardDeck.visibleCards()[i].length; j++) {
-               System.out.print(developCardDeck.visibleCards()[i][j].getCardFlag().getColor() + " ");
+               System.out.print(developCardDeck.visibleCards()[i][j].getCost() + " ");
             }
             System.out.println();
          }

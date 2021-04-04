@@ -19,19 +19,21 @@ public class DevelopCardDeck implements EndGameObservable {
    public DevelopCardDeck(){
    }
 
+   /**
+    * this method is called by the cardParser method in GSON class to complete the setup process of this class
+    * what the mehtod does......
+    */
    public void setupClass(){
       cardsCube = new ArrayList[3][4];
       //here costruisco la matrice e ci dispongo la lista di carte
       //color order hardcodato: Green Blue Yellow Purple
       List<CardFlag> cardFlagList = developCardList.stream().map(DevelopCard::getCardFlag).distinct().collect(Collectors.toList());
       for (CardFlag cardFlag : cardFlagList) {
-            cardsCube[cardFlag.getLevel()-1][cardFlag.getColor().getColumn()] = developCardList.stream().filter(x -> x.getCardFlag().equals(cardFlag)).collect(Collectors.toList());
-
+            List<DevelopCard> tempDevelopCardList = developCardList.stream().filter(x -> x.getCardFlag().equals(cardFlag)).collect(Collectors.toList());
+            Collections.shuffle(tempDevelopCardList);
+            cardsCube[cardFlag.getLevel()-1][cardFlag.getColor().getColumn()] = tempDevelopCardList;
          }
    }
-
-
-
 
    //TODO CANCELLARE QURESTO METODO PERCHE' SERVE SOLO PER IL TESTING
    public DevelopCard getDevelopCard() {
