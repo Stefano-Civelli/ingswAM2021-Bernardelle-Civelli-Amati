@@ -25,6 +25,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
    private final DevelopCardDeck developCardDeck;
    private List<MarketMarble> tempMarketMarble;
    private Map<ResourceType, Integer> tempResources;
+   private IStartBehaviour startBehaviour;
    File trackConfigFile = new File("src/SquareConfig.json");
 
    public PlayerBoard(String username, ArrayList<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck){
@@ -112,6 +113,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
          throw new InvalidLeaderCardException("U need to activate the leader card before asking to use it");
    }
 
+   //spostare anche questo in ProduceBehaviour
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) {
       if(warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) > 0 && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) > 0) {
          tempResources = Stream.of(new Object[][]{
@@ -128,14 +130,18 @@ public class PlayerBoard implements InterfacePlayerBoard {
 
    public void startProducingProcedure(DevelopCard developCard){
       if (developCard.isActivatable(this))
-         tempResources = new HashMap<>(developCard.getCost());
+         startBehaviour = new ProduceBehaviour(this, developCard);
    }
 
    public void startBuyingProcedure(DevelopCard developCard){
       if (developCard.isBuyable(this))
-         tempResources = new HashMap<>(developCard.getCost());
+         startBehaviour = new BuyBehaviour(this, developCard);
    }
 
+   //TODO
+   public void useResource(){
+      return;
+   }
 
    public String getUsername() {
       return username;
