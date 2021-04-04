@@ -17,6 +17,7 @@ public class GSON{
       InputStreamReader reader = new InputStreamReader(inputStream);
       DevelopCardDeck developCardDeck = gson.fromJson(reader, DevelopCardDeck.class);
       reader.close();
+      developCardDeck.setupClass();
       return developCardDeck;
    }
 

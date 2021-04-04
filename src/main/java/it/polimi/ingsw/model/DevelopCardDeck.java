@@ -17,10 +17,21 @@ public class DevelopCardDeck implements EndGameObservable {
    private final List<EndGameObserver> endGameObserverList = new ArrayList<>();
 
    public DevelopCardDeck(){
+   }
 
+   public void setupClass(){
+      cardsCube = new ArrayList[3][4];
       //here costruisco la matrice e ci dispongo la lista di carte
       //color order hardcodato: Green Blue Yellow Purple
+      List<CardFlag> cardFlagList = developCardList.stream().map(DevelopCard::getCardFlag).distinct().collect(Collectors.toList());
+      for (CardFlag cardFlag : cardFlagList) {
+            cardsCube[cardFlag.getLevel()-1][cardFlag.getColor().getColumn()] = developCardList.stream().filter(x -> x.getCardFlag().equals(cardFlag)).collect(Collectors.toList());
+
+         }
    }
+
+
+
 
    //TODO CANCELLARE QURESTO METODO PERCHE' SERVE SOLO PER IL TESTING
    public DevelopCard getDevelopCard() {
@@ -33,7 +44,7 @@ public class DevelopCardDeck implements EndGameObservable {
     * @return matrix of DevelopCard
     */
    public DevelopCard[][] visibleCards() {
-      DevelopCard[][] temp = new DevelopCard[4][4];
+      DevelopCard[][] temp = new DevelopCard[3][4];
       for (int i = 0; i < cardsCube.length; i++) {
          for (int j = 0; j < cardsCube[i].length; j++) {
             temp[i][j] = cardsCube[i][j].get(cardsCube[i][j].size() - 1);
@@ -76,7 +87,7 @@ public class DevelopCardDeck implements EndGameObservable {
    }
 
    public void removeCard(DevelopCard card) {
-      int row = card.getCardFlag().getLevel();
+      int row = card.getCardFlag().getLevel() - 1;
       int column = card.getCardFlag().getColor().getColumn();
 
       cardsCube[row][column].remove(cardsCube[row][column].size() - 1);

@@ -20,6 +20,47 @@ class GSONTest {
          developCardDeck = GSON.cardParser(cardConfigFile);
          System.out.println(developCardDeck.getDevelopCard().getCardFlag());
          System.out.println(developCardDeck.getDevelopCard().getCost());
+         for (int i = 0; i < developCardDeck.visibleCards().length; i++) {
+            for (int j = 0; j < developCardDeck.visibleCards()[i].length; j++) {
+               System.out.print(developCardDeck.visibleCards()[i][j].getCardFlag().getLevel() + " ");
+            }
+            System.out.println();
+         }
+
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
+   @Test
+   void developCardParseTest2() {
+      DevelopCardDeck developCardDeck;
+      try {
+         developCardDeck = GSON.cardParser(cardConfigFile);
+         for (int i = 0; i < developCardDeck.visibleCards().length; i++) {
+            for (int j = 0; j < developCardDeck.visibleCards()[i].length; j++) {
+               System.out.print(developCardDeck.visibleCards()[i][j].getCardFlag().getColor() + " ");
+            }
+            System.out.println();
+         }
+
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
+
+   //remove some cards before printing
+   @Test
+   void developCardParseTest3() {
+      DevelopCardDeck developCardDeck;
+      try {
+         developCardDeck = GSON.cardParser(cardConfigFile);
+         for (int i = 0; i < developCardDeck.visibleCards().length; i++) {
+            for (int j = 0; j < developCardDeck.visibleCards()[i].length; j++) {
+               System.out.print(developCardDeck.visibleCards()[i][j].getCardFlag().getColor() + " ");
+            }
+            System.out.println();
+         }
+
       } catch (IOException e) {
          e.printStackTrace();
       }
