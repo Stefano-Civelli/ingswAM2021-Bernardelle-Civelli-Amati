@@ -39,6 +39,8 @@ class RedMarbleTest {
         assertNotEquals(new RedMarble(), new NormalMarble(ResourceType.SHIELD));
         assertNotEquals(new RedMarble(), new NormalMarble(ResourceType.STONE));
         assertNotEquals(new RedMarble(), new WhiteMarble());
+        assertNotEquals(new RedMarble(), null);
+        assertNotEquals(new RedMarble(), new Object());
     }
 
 }
