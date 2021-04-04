@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.EndGameObserver;
+import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.model.track.EndGameObservable;
 
 import java.util.*;
@@ -88,8 +89,11 @@ public class DevelopCardDeck implements EndGameObservable {
     * @param row the row of the card to return
     * @param column the column of the card to return
     * @return the specified card
+    * @throws RowOrColumnNotExistsException if the card position is invalid
     */
-   public DevelopCard getCard(int row, int column) {
+   public DevelopCard getCard(int row, int column) throws RowOrColumnNotExistsException {
+      if(row<0 || row>2 || column<0 || column>3)
+         throw new RowOrColumnNotExistsException();
       return cardsCube[row][column].get(cardsCube[row][column].size() - 1);
    }
 

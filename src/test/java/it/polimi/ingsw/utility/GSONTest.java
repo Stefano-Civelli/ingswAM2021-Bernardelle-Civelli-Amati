@@ -1,6 +1,7 @@
 package it.polimi.ingsw.utility;
 
 import it.polimi.ingsw.model.DevelopCardDeck;
+import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.model.track.Square;
 import it.polimi.ingsw.model.track.Track;
 import org.junit.jupiter.api.Test;
@@ -48,7 +49,7 @@ class GSONTest {
 
    //remove some cards before printing
    @Test
-   void developCardParseTest3() {
+   void developCardParseTest3() throws RowOrColumnNotExistsException {
       DevelopCardDeck developCardDeck;
       try {
          developCardDeck = GSON.cardParser(cardConfigFile);
