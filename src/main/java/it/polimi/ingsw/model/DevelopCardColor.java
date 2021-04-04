@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 public enum DevelopCardColor {
-   GREEN(0, "Green"), PURPLE(1, "Purple"), BLUE(2, "Blue"), YELLOW(3, "Yellow");
+   GREEN(0, "Green"), BLUE(1, "Blue"), YELLOW(2, "Yellow"), PURPLE(3, "Purple");
 
    private final int column;
    private final String color;
