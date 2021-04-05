@@ -72,7 +72,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
 
-   public void addDevelopCard(int row, int column, int cardSlot) throws InvalidCardPlacementException {
+   public void addDevelopCard(int row, int column, int cardSlot) throws InvalidCardPlacementException, RowOrColumnNotExistsException {
       cardSlots.addDevelopCard(cardSlot, developCardDeck.getCard(row, column));
    }
 

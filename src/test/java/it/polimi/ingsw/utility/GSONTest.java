@@ -1,6 +1,7 @@
 package it.polimi.ingsw.utility;
 
 import it.polimi.ingsw.model.DevelopCardDeck;
+import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.model.track.Square;
 import it.polimi.ingsw.model.track.Track;
 import org.junit.jupiter.api.Test;
@@ -18,8 +19,6 @@ class GSONTest {
       DevelopCardDeck developCardDeck;
       try {
          developCardDeck = GSON.cardParser(cardConfigFile);
-         System.out.println(developCardDeck.getDevelopCard().getCardFlag());
-         System.out.println(developCardDeck.getDevelopCard().getCost());
          for (int i = 0; i < developCardDeck.visibleCards().length; i++) {
             for (int j = 0; j < developCardDeck.visibleCards()[i].length; j++) {
                System.out.print(developCardDeck.visibleCards()[i][j].getCardFlag().getLevel() + " ");
@@ -50,7 +49,7 @@ class GSONTest {
 
    //remove some cards before printing
    @Test
-   void developCardParseTest3() {
+   void developCardParseTest3() throws RowOrColumnNotExistsException {
       DevelopCardDeck developCardDeck;
       try {
          developCardDeck = GSON.cardParser(cardConfigFile);
