@@ -10,12 +10,12 @@ import java.util.List;
 class MarketTest {
 
     @Test
-    public void getInstanceTest() {
+    void getInstanceTest() {
         assertSame(Market.getInstance(), Market.getInstance());
     }
 
     @Test
-    public void pushInRowTest() throws RowOrColumnNotExistsException {
+    void pushInRowTest() throws RowOrColumnNotExistsException {
         Market market = Market.getInstance();
         for(int i = 0; i < market.getNumberOfRow(); i++) {
             List<MarketMarble> marbles1 = market.pushInRow(0);      // A B C D
@@ -39,7 +39,7 @@ class MarketTest {
     }
 
     @Test
-    public void pushInColumn() throws RowOrColumnNotExistsException {
+    void pushInColumn() throws RowOrColumnNotExistsException {
         Market market = Market.getInstance();
         for(int i = 0; i < market.getNumberOfColumn(); i++) {
             List<MarketMarble> marbles1 = market.pushInColumn(0);      // A B C
@@ -63,7 +63,7 @@ class MarketTest {
     }
 
     @Test
-    public void mixedPushRowColumn() throws RowOrColumnNotExistsException {
+    void mixedPushRowColumn() throws RowOrColumnNotExistsException {
         //slide: M            E           d
         // a b c d        a b c d     a b c M
         // E f g h <  =>  f g h M  => f g h L
@@ -80,7 +80,7 @@ class MarketTest {
     }
 
     @Test
-    public void exceptionTest() {
+    void exceptionTest() {
         Market market = Market.getInstance();
         MarketMarble[][] status1 = market.getStatus();
         assertThrows(RowOrColumnNotExistsException.class, () -> market.pushInRow(-1) );

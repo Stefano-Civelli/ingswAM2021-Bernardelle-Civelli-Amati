@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.modelexceptions.*;
 class WarehouseTest {
 
     @Test
-    public void addAndRemoveInWarehouseTest() throws IncorrectResourceTypeException, LevelNotExistsException,
+    void addAndRemoveInWarehouseTest() throws IncorrectResourceTypeException, LevelNotExistsException,
             NotEnoughSpaceException, AbuseOfFaithException, NotEnoughResourcesException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         warehouse.addResources(ResourceType.SERVANT, 0, 0);
@@ -26,7 +26,7 @@ class WarehouseTest {
     }
 
     @Test
-    public void addAndRemoveInWarehouseIncorrectResourceTest() throws IncorrectResourceTypeException, LevelNotExistsException,
+    void addAndRemoveInWarehouseIncorrectResourceTest() throws IncorrectResourceTypeException, LevelNotExistsException,
             NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         warehouse.addResources(ResourceType.GOLD, 0, 2);
@@ -36,7 +36,7 @@ class WarehouseTest {
     }
 
     @Test
-    public void addAndRemoveInWarehouseNotEnoughSpaceTest() throws IncorrectResourceTypeException, LevelNotExistsException,
+    void addAndRemoveInWarehouseNotEnoughSpaceTest() throws IncorrectResourceTypeException, LevelNotExistsException,
             NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         assertThrows(NotEnoughSpaceException.class, () -> warehouse.addResources(ResourceType.GOLD, 0, 4));
@@ -55,13 +55,13 @@ class WarehouseTest {
     }
 
     @Test
-    public void addAbuseOfFaithTest() {
+    void addAbuseOfFaithTest() {
         Warehouse warehouse = new Warehouse();
         assertThrows(AbuseOfFaithException.class, () -> warehouse.addResources(ResourceType.FAITH, 0, 1));
     }
 
     @Test
-    public void addAndRemoveLevelNotExistsTest() {
+    void addAndRemoveLevelNotExistsTest() {
         Warehouse warehouse = new Warehouse();
         assertThrows(LevelNotExistsException.class, () -> warehouse.addResources(ResourceType.GOLD, -1, 1));
         assertThrows(LevelNotExistsException.class, () -> warehouse.addResources(ResourceType.GOLD, 3, 1));
@@ -70,14 +70,14 @@ class WarehouseTest {
     }
 
     @Test
-    public void addAndRemoveNegativeQuantityTest() {
+    void addAndRemoveNegativeQuantityTest() {
         Warehouse warehouse = new Warehouse();
         assertThrows(NegativeQuantityException.class, () -> warehouse.addResources(ResourceType.GOLD, 0, -2));
         assertThrows(NegativeQuantityException.class, () -> warehouse.removeResources(ResourceType.GOLD, 1, -1));
     }
 
     @Test
-    public void removeNotEnoughResourcesTest() throws IncorrectResourceTypeException, LevelNotExistsException,
+    void removeNotEnoughResourcesTest() throws IncorrectResourceTypeException, LevelNotExistsException,
             NotEnoughSpaceException, AbuseOfFaithException, NotEnoughResourcesException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         assertThrows(NotEnoughResourcesException.class, () -> warehouse.removeResources(ResourceType.GOLD, 0, 1));
@@ -90,7 +90,7 @@ class WarehouseTest {
     }
 
     @Test
-    public void swapTest() throws IncorrectResourceTypeException, LevelNotExistsException,
+    void swapTest() throws IncorrectResourceTypeException, LevelNotExistsException,
             NotEnoughSpaceException, AbuseOfFaithException, NotEnoughResourcesException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         warehouse.addResources(ResourceType.GOLD, 0, 2);        // l0: 2 gold    | l1:            | l2:
@@ -110,7 +110,7 @@ class WarehouseTest {
     }
 
     @Test
-    public void swapNotEnoughSpaceTest() throws IncorrectResourceTypeException, LevelNotExistsException,
+    void swapNotEnoughSpaceTest() throws IncorrectResourceTypeException, LevelNotExistsException,
             NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         warehouse.addResources(ResourceType.GOLD, 0, 2);
@@ -121,7 +121,7 @@ class WarehouseTest {
     }
 
     @Test
-    public void swapLevelNotExistTest() {
+    void swapLevelNotExistTest() {
         Warehouse warehouse = new Warehouse();
         assertThrows(LevelNotExistsException.class, () -> warehouse.swapLevels(-1, 2));
         assertThrows(LevelNotExistsException.class, () -> warehouse.swapLevels(0, 20));
@@ -134,7 +134,7 @@ class WarehouseTest {
     }
 
     @Test
-    public void resourcesAmountTest() throws IncorrectResourceTypeException, NegativeQuantityException,
+    void resourcesAmountTest() throws IncorrectResourceTypeException, NegativeQuantityException,
             LevelNotExistsException, NotEnoughSpaceException, AbuseOfFaithException, NotEnoughResourcesException {
         Warehouse warehouse = new Warehouse();
         assertEquals(warehouse.getNumberOf(ResourceType.FAITH), 0);
@@ -161,7 +161,7 @@ class WarehouseTest {
     }
 
     @Test
-    public void totalResourcesTest() throws IncorrectResourceTypeException, NegativeQuantityException,
+    void totalResourcesTest() throws IncorrectResourceTypeException, NegativeQuantityException,
             LevelNotExistsException, NotEnoughSpaceException, AbuseOfFaithException, NotEnoughResourcesException {
         Warehouse warehouse = new Warehouse();
         assertEquals(warehouse.totalResources(), 0);

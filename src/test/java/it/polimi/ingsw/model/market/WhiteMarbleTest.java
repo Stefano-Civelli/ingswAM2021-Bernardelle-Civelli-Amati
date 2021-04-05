@@ -11,7 +11,7 @@ import java.util.ArrayList;
 class WhiteMarbleTest {
 
     @Test
-    public void addResourceTest() throws AbuseOfFaithException, IncorrectResourceTypeException, NegativeQuantityException,
+    void addResourceTest() throws AbuseOfFaithException, IncorrectResourceTypeException, NegativeQuantityException,
             LevelNotExistsException, NotEnoughSpaceException {
         InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
 
@@ -46,12 +46,14 @@ class WhiteMarbleTest {
 
     @Test
     @SuppressWarnings({"Possible", "AssertBetweenInconvertibleTypes"})
-    public void testEqualsTest() throws AbuseOfFaithException {
+    void testEqualsTest() throws AbuseOfFaithException {
         assertEquals(new WhiteMarble(), new WhiteMarble());
         assertNotEquals(new WhiteMarble(), new NormalMarble(ResourceType.SHIELD));
         assertNotEquals(new WhiteMarble(), new NormalMarble(ResourceType.STONE));
+        assertNotEquals(new WhiteMarble(), new NormalMarble(ResourceType.SERVANT));
+        assertNotEquals(new WhiteMarble(), new NormalMarble(ResourceType.GOLD));
         assertNotEquals(new WhiteMarble(), new RedMarble());
-        assertNotEquals(new WhiteMarble(), null);
         assertNotEquals(new WhiteMarble(), new Object());
+        assertNotEquals(new WhiteMarble(), null);
     }
 }

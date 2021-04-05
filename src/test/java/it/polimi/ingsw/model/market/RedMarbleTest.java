@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RedMarbleTest {
 
     @Test
-    public void addResourceTest() throws IncorrectResourceTypeException,
+    void addResourceTest() throws IncorrectResourceTypeException,
             LevelNotExistsException, NotEnoughSpaceException {
         InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
 
@@ -34,13 +34,15 @@ class RedMarbleTest {
 
     @Test
     @SuppressWarnings({"Possible", "AssertBetweenInconvertibleTypes"})
-    public void testEqualsTest() throws AbuseOfFaithException {
+    void testEqualsTest() throws AbuseOfFaithException {
         assertEquals(new RedMarble(), new RedMarble());
         assertNotEquals(new RedMarble(), new NormalMarble(ResourceType.SHIELD));
         assertNotEquals(new RedMarble(), new NormalMarble(ResourceType.STONE));
+        assertNotEquals(new RedMarble(), new NormalMarble(ResourceType.GOLD));
+        assertNotEquals(new RedMarble(), new NormalMarble(ResourceType.SERVANT));
         assertNotEquals(new RedMarble(), new WhiteMarble());
-        assertNotEquals(new RedMarble(), null);
         assertNotEquals(new RedMarble(), new Object());
+        assertNotEquals(new RedMarble(), null);
     }
 
 }
