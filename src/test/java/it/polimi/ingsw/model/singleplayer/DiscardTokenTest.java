@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.singleplayer;
 import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.DevelopCardColor;
 import it.polimi.ingsw.model.DevelopCardDeck;
+import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DiscardTokenTest {
 
     @Test
-    void useTokenTest() throws IOException {
+    void useTokenTest() throws IOException, RowOrColumnNotExistsException {
         DevelopCardDeck deck = GSON.cardParser(new File("src/DevelopCardConfig.json"));
         DevelopCard card = deck.getCard(0, DevelopCardColor.BLUE.getColumn()),
                 cardU = deck.getCard(1, DevelopCardColor.BLUE.getColumn());
