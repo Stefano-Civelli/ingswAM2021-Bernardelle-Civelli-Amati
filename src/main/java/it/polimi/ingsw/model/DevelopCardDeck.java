@@ -30,7 +30,10 @@ public class DevelopCardDeck implements EndGameObservable {
       cardsCube = new ArrayList[3][4];
       List<CardFlag> cardFlagList = developCardList.stream().map(DevelopCard::getCardFlag).distinct().collect(Collectors.toList());
       for (CardFlag cardFlag : cardFlagList) {
-            List<DevelopCard> tempDevelopCardList = developCardList.stream().filter(x -> x.getCardFlag().equals(cardFlag)).collect(Collectors.toList());
+            List<DevelopCard> tempDevelopCardList = developCardList.stream()
+                                                               .filter(x -> x.getCardFlag()
+                                                               .equals(cardFlag))
+                                                               .collect(Collectors.toList());
             Collections.shuffle(tempDevelopCardList);
             cardsCube[cardFlag.getLevel()-1][cardFlag.getColor().getColumn()] = tempDevelopCardList;
          }
@@ -57,7 +60,11 @@ public class DevelopCardDeck implements EndGameObservable {
     * @return the list of buyable cards
     */
    public List<DevelopCard> buyableCards(InterfacePlayerBoard playerBoard) {
-      return Arrays.stream(cardsCube).flatMap(Arrays::stream).flatMap(Collection::stream).filter(x -> x.isBuyable(playerBoard)).collect(Collectors.toList());
+      return Arrays.stream(cardsCube)
+              .flatMap(Arrays::stream)
+              .flatMap(Collection::stream)
+              .filter(x -> x.isBuyable(playerBoard))
+              .collect(Collectors.toList());
    }
 
    /**

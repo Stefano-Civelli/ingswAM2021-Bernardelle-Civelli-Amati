@@ -130,6 +130,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
 
    public void startProducingProcedure(DevelopCard developCard){
       if (developCard.isActivatable(this))
+         //forse la behaviour potrebbe venire iniettata dal controller in base a cosa deve fare. poi faccio solo il metodo che chiama il metodo della behaviour
          startBehaviour = new ProduceBehaviour(this, developCard);
    }
 
