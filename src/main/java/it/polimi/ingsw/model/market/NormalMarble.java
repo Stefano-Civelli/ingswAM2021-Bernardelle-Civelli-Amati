@@ -41,4 +41,5 @@ public class NormalMarble extends MarketMarble{
             return false;
         return this.resource == ((NormalMarble) obj).resource;
     }
+
 }

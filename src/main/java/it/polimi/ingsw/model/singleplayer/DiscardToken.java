@@ -13,6 +13,8 @@ public class DiscardToken implements ActionToken {
     private final DevelopCardColor color;
 
     public DiscardToken(DevelopCardColor color) {
+        if(color == null)
+            throw new NullPointerException();
         this.color = color;
     }
 
@@ -26,6 +28,15 @@ public class DiscardToken implements ActionToken {
     @Override
     public void useToken(List<ActionToken> tokens, LorenzoTrack trackLorenzo, DevelopCardDeck deck) {
         deck.RemoveTwoCards(this.color);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null)
+            return false;
+        if(this.getClass() != obj.getClass())
+            return false;
+        return this.color == ((DiscardToken) obj).color;
     }
 
 }

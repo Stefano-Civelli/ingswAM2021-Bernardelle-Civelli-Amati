@@ -27,4 +27,9 @@ public class ShuffleToken implements ActionToken {
         trackLorenzo.moveForward(1);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && this.getClass() == obj.getClass();
+    }
+
 }

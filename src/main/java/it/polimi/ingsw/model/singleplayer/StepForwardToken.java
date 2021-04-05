@@ -24,4 +24,9 @@ public class StepForwardToken implements ActionToken {
         trackLorenzo.moveForward(2);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && this.getClass() == obj.getClass();
+    }
+
 }
