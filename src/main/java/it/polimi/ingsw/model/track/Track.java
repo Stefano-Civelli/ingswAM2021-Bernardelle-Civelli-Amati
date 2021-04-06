@@ -3,6 +3,10 @@ package it.polimi.ingsw.model.track;
 public class Track extends LorenzoTrack implements VaticanReportObserver {
   private final int[] popeCards = new int[]{-1, -1, -1};
 
+  /**
+   * constructor of the class
+   * instances of this class are made with a json file
+   */
   public Track() {
   }
 
@@ -54,8 +58,10 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
   }
 
   /**
-   * Set the popeCards value
-   * @param active indicate which is the activeZone i should be in to flip the popeCard
+   * Method called by update() of VaticanReportObserver interface
+   * once it's called it check if the player is into the active zone that it receives from the update
+   * Set the correct value in popeCards array, depending on active and position of the player
+   * @param active indicate which is the activeZone i should be in to flip the popeCard related to that zone
    */
   public void checkIfCurrentPositionIsActive(int active) {
     if (popeCards[active] == -1) {
