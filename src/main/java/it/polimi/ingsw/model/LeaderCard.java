@@ -29,9 +29,9 @@ public class LeaderCard {
     return active;
   }
 
-  //TODO decidere se farlo con tipo di ritorno oppure no
-   public void applyDiscount(HashMap<ResourceType, Integer> costMapToDiscount){
-      DiscountBehaviour.apply(costMapToDiscount);
+
+   public HashMap<ResourceType, Integer> applyDiscount(HashMap<ResourceType, Integer> mapToDiscount){
+      return DiscountBehaviour.apply(mapToDiscount);
    }
 
    public ResourceType resourceOnWhite(){
@@ -42,22 +42,45 @@ public class LeaderCard {
       return victoryPoints;
    }
 
-//
-////sono da mettere in game---------------------------------------------------------
-//   Function<HashMap<ResourceType, Integer>, HashMap<ResourceType, Integer>> servantDiscount = resources -> {
-//      if(resources.containsKey(ResourceType.SERVANT))
-//         resources.put(ResourceType.SERVANT, resources.get(ResourceType.SERVANT) - 1);
-//   };
-//
-//   Function<HashMap<ResourceType, Integer>, HashMap<ResourceType, Integer>> noDiscount = resources -> {
-//      if(resources.containsKey(ResourceType.SERVANT))
-//         resources.put(ResourceType.SERVANT, resources.get(ResourceType.SERVANT) - 1);
-//   };
-//
-//   Supplier<ResourceType> whiteToServant = () -> { return ResourceType.SERVANT; };
-//   Supplier<ResourceType> whiteToGold = () -> { return ResourceType.GOLD; };
-//   Supplier<ResourceType> whiteToStone = () -> { return ResourceType.STONE; };
-//   Supplier<ResourceType> whiteToShield = () -> { return ResourceType.SHIELD; };
-//   Supplier<ResourceType> whiteToNothing = () -> { return null; };
-//
+
+
+//sono da mettere in game---------------------------------------------------------
+   Function<HashMap<ResourceType, Integer>, HashMap<ResourceType, Integer>> servantDiscount = resources -> {
+      HashMap<ResourceType, Integer> tempResources = new HashMap<>(resources);
+      if(tempResources.containsKey(ResourceType.SERVANT))
+         tempResources.put(ResourceType.SERVANT, resources.get(ResourceType.SERVANT) - 1);
+      return tempResources;
+   };
+
+   Function<HashMap<ResourceType, Integer>, HashMap<ResourceType, Integer>> goldDiscount = resources -> {
+      HashMap<ResourceType, Integer> tempResources = new HashMap<>(resources);
+      if(tempResources.containsKey(ResourceType.GOLD))
+         tempResources.put(ResourceType.GOLD, resources.get(ResourceType.GOLD) - 1);
+      return tempResources;
+   };
+
+   Function<HashMap<ResourceType, Integer>, HashMap<ResourceType, Integer>> shieldDiscount = resources -> {
+      HashMap<ResourceType, Integer> tempResources = new HashMap<>(resources);
+      if(tempResources.containsKey(ResourceType.SHIELD))
+         tempResources.put(ResourceType.SHIELD, resources.get(ResourceType.SHIELD) - 1);
+      return tempResources;
+   };
+
+   Function<HashMap<ResourceType, Integer>, HashMap<ResourceType, Integer>> stoneDiscount = resources -> {
+      HashMap<ResourceType, Integer> tempResources = new HashMap<>(resources);
+      if(tempResources.containsKey(ResourceType.STONE))
+         tempResources.put(ResourceType.STONE, resources.get(ResourceType.STONE) - 1);
+      return tempResources;
+   };
+
+   Function<HashMap<ResourceType, Integer>, HashMap<ResourceType, Integer>> noDiscount = resources -> {
+      return resources;
+   };
+
+   Supplier<ResourceType> whiteToServant = () -> { return ResourceType.SERVANT; };
+   Supplier<ResourceType> whiteToGold = () -> { return ResourceType.GOLD; };
+   Supplier<ResourceType> whiteToStone = () -> { return ResourceType.STONE; };
+   Supplier<ResourceType> whiteToShield = () -> { return ResourceType.SHIELD; };
+   Supplier<ResourceType> whiteToNothing = () -> { return null; };
+
 }

@@ -137,7 +137,11 @@ public class PlayerBoard implements InterfacePlayerBoard {
       if (developCard.isBuyable(this))
          startBehaviour = new BuyBehaviour(this, developCard);
    }
-
+//------------------------------------------------------------------------------------
+   public void startBehaviour (IStartBehaviour startBehaviour){
+      this.startBehaviour = startBehaviour;
+   }
+//----------------------------------------------------------------------------------------
    public void useResource(ResourceType resource, boolean warehouse, int level){
       startBehaviour.useResource(resource, warehouse, level);
    }
