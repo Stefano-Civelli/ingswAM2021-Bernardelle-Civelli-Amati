@@ -7,7 +7,6 @@ public class BuyBehaviour implements IStartBehaviour{
     private Map<ResourceType, Integer> tempResources;
     private Chest chest;
     private Warehouse warehouse;
-    private DevelopCard developCard; //per me non serve salvarcelo in locale
 
     public BuyBehaviour(InterfacePlayerBoard player, DevelopCard developCard){
       tempResources = new HashMap<>(developCard.getRequirement());

@@ -99,21 +99,20 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
    public void addMarbleToWarehouse(int marbleIndex, int level, LeaderCard leaderCard) throws InvalidLeaderCardException, LevelNotExistsException, IncorrectResourceTypeException, NotEnoughSpaceException {
-      if (!leaderCards.contains(leaderCard))
-         throw new InvalidLeaderCardException("Your hand doesn't contain this card");
       if (leaderCard == null) {
          if (marbleIndex >= 0 && marbleIndex < tempMarketMarble.size())
             tempMarketMarble.get(marbleIndex).addResource(this, level, null);
          else
             throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
       }
-      else if(leaderCard.isActive())
+      if (!leaderCards.contains(leaderCard))
+         throw new InvalidLeaderCardException("Your hand doesn't contain this card");
+      if(!(leaderCard == null) && leaderCard.isActive())
          tempMarketMarble.get(marbleIndex).addResource(this, level, leaderCard.resourceOnWhite());
       else
          throw new InvalidLeaderCardException("U need to activate the leader card before asking to use it");
    }
 
-   //spostare anche questo in ProduceBehaviour
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) {
       if(warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) > 0 && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) > 0) {
          tempResources = Stream.of(new Object[][]{
@@ -130,6 +129,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
 
    public void startProducingProcedure(DevelopCard developCard){
       if (developCard.isActivatable(this))
+         //forse la behaviour potrebbe venire iniettata dal controller in base a cosa deve fare. poi faccio solo il metodo che chiama il metodo della behaviour
          startBehaviour = new ProduceBehaviour(this, developCard);
    }
 
@@ -138,9 +138,8 @@ public class PlayerBoard implements InterfacePlayerBoard {
          startBehaviour = new BuyBehaviour(this, developCard);
    }
 
-   //TODO
-   public void useResource(){
-      return;
+   public void useResource(ResourceType resource, boolean warehouse, int level){
+      startBehaviour.useResource(resource, warehouse, level);
    }
 
    public String getUsername() {

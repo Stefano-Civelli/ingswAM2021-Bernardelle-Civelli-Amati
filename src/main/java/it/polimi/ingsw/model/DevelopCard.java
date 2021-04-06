@@ -1,29 +1,16 @@
 package it.polimi.ingsw.model;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DevelopCard {
-   //removed final to eneble JSON parsing
    private  CardFlag cardFlag;
    private  HashMap<ResourceType, Integer> cost;
    private  HashMap<ResourceType, Integer> requirement;
    private  HashMap<ResourceType, Integer> product;
    private  int victoryPoints;
 
-//   public DevelopCard(CardFlag cardFlag, HashMap<ResourceType, Integer> cost, HashMap<ResourceType, Integer> requirement, HashMap<ResourceType, Integer> product, int victoryPoints) {
-//      this.cardFlag = cardFlag;
-//      this.cost = new HashMap<>(cost);
-//      this.requirement = requirement;
-//      this.product = product;
-//      this.victoryPoints = victoryPoints;
-//   }
    public DevelopCard(){
-
    }
 
    /**
@@ -59,10 +46,8 @@ public class DevelopCard {
       Chest chest = playerBoard.getChest();
       for(Map.Entry<ResourceType, Integer> entry : requirement.entrySet()){
          //check if the number of resources is sufficient
-         if(warehouse.getNumberOf(entry.getKey()) + chest.getNumberOf(entry.getKey()) < entry.getValue()) {
+         if(warehouse.getNumberOf(entry.getKey()) + chest.getNumberOf(entry.getKey()) < entry.getValue())
             return false;
-         }
-
       }
       return true;
    }
