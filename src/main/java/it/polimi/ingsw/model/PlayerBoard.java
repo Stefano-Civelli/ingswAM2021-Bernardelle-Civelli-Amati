@@ -138,8 +138,8 @@ public class PlayerBoard implements InterfacePlayerBoard {
          startBehaviour = new BuyBehaviour(this, developCard);
    }
 
-   public void useResource(){
-      //startBehaviour.useResource();
+   public void useResource(ResourceType resource, boolean warehouse, int level){
+      startBehaviour.useResource(resource, warehouse, level);
    }
 
    public String getUsername() {
