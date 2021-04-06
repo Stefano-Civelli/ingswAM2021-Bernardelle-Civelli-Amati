@@ -9,4 +9,5 @@ public class InvalidCardPlacementException extends Exception {
   public InvalidCardPlacementException(String message) {
     super(message);
   }
+
 }

@@ -9,4 +9,5 @@ public class IncorrectResourceTypeException extends Exception {
     public IncorrectResourceTypeException(String message) {
         super(message);
     }
+
 }

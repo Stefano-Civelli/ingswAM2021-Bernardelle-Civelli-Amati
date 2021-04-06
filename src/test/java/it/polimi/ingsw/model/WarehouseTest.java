@@ -134,6 +134,64 @@ class WarehouseTest {
     }
 
     @Test
+    void moveTest() throws IncorrectResourceTypeException, LevelNotExistsException,
+            NotEnoughSpaceException, AbuseOfFaithException, NotEnoughResourcesException, NegativeQuantityException {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addResources(ResourceType.GOLD, 0, 2);
+        warehouse.moveResource(0, 0, 2);
+        warehouse.moveResource(0, 1, 2);
+        warehouse.moveResource(0, 1, 0);
+        warehouse.moveResource(1, 0, 0);
+        assertThrows(NotEnoughResourcesException.class, () -> warehouse.removeResources(ResourceType.GOLD, 0, 2));
+        warehouse.removeResources(ResourceType.GOLD, 1, 2);
+    }
+
+    @Test
+    void moveNegativeQuantityTest() throws IncorrectResourceTypeException, NegativeQuantityException,
+            LevelNotExistsException, NotEnoughSpaceException, AbuseOfFaithException {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addResources(ResourceType.GOLD, 0, 2);
+        assertThrows(NegativeQuantityException.class, () -> warehouse.moveResource(0, 1, -1));
+    }
+
+    @Test
+    void moveNotEnoughResourcesTest() throws IncorrectResourceTypeException, LevelNotExistsException,
+            NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addResources(ResourceType.GOLD, 0, 1);
+        assertThrows(NotEnoughResourcesException.class, () -> warehouse.moveResource(0, 1, 2));
+        assertThrows(NotEnoughResourcesException.class, () -> warehouse.moveResource(1, 2, 2));
+    }
+
+    @Test
+    void moveNotEnoughSpaceTest() throws IncorrectResourceTypeException, LevelNotExistsException,
+            NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addResources(ResourceType.GOLD, 0, 2);
+        assertThrows(NotEnoughSpaceException.class, () -> warehouse.moveResource(0, 2, 2));
+        warehouse.addResources(ResourceType.GOLD, 0, 1);
+        assertThrows(NotEnoughSpaceException.class, () -> warehouse.moveResource(0, 1, 3));
+        assertThrows(NotEnoughSpaceException.class, () -> warehouse.moveResource(0, 2, 3));
+    }
+
+    @Test
+    void moveIncorrectResourceTypeTest() throws IncorrectResourceTypeException, LevelNotExistsException,
+            NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addResources(ResourceType.GOLD, 0, 2);
+        assertThrows(IncorrectResourceTypeException.class, () -> warehouse.moveResource(0, 2, 1));
+        warehouse.addResources(ResourceType.SERVANT, 1, 1);
+        assertThrows(IncorrectResourceTypeException.class, () -> warehouse.moveResource(0, 1, 1));
+    }
+
+    @Test
+    void moveLevelNotExistTest() {
+        Warehouse warehouse = new Warehouse();
+        assertThrows(LevelNotExistsException.class, () -> warehouse.moveResource(0, 4, 1));
+        assertThrows(LevelNotExistsException.class, () -> warehouse.moveResource(-1, 1, 1));
+    }
+
+    @Test
     void resourcesAmountTest() throws IncorrectResourceTypeException, NegativeQuantityException,
             LevelNotExistsException, NotEnoughSpaceException, AbuseOfFaithException, NotEnoughResourcesException {
         Warehouse warehouse = new Warehouse();

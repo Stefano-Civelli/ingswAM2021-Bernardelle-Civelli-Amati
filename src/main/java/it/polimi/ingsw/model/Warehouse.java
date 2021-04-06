@@ -202,7 +202,6 @@ public class Warehouse {
         }
 
         // One normal level and one leader card level
-
         if(0 <= level1 && level1 <= this.numberOfWarehouseLevels() - 1
                 && this.numberOfWarehouseLevels() <= level2 && level2 < this.numberOfAllLevels()
                 || this.numberOfWarehouseLevels() <= level1 && level1 < this.numberOfAllLevels()
@@ -238,7 +237,104 @@ public class Warehouse {
      * @param destinationLevel the level in which to put resources
      * @param quantity the number of resources to move
      */
-    public void moveResource(int sourceLevel, int destinationLevel, int quantity) {}
+    public void moveResource(int sourceLevel, int destinationLevel, int quantity)
+            throws NegativeQuantityException, NotEnoughResourcesException,
+            NotEnoughSpaceException, IncorrectResourceTypeException, LevelNotExistsException {
+        if (quantity < 0)
+            throw new NegativeQuantityException();
+        if(quantity == 0)
+            return;
+
+        // Both normal levels
+        if (0 <= sourceLevel && sourceLevel <= this.numberOfWarehouseLevels() - 1
+                && 0 <= destinationLevel && destinationLevel <= this.numberOfWarehouseLevels() - 1) {
+            if (this.levels[sourceLevel] == null)
+                throw new NotEnoughResourcesException();
+            if (this.levels[sourceLevel].getValue() < quantity)
+                throw new NotEnoughResourcesException();
+            if (this.levels[sourceLevel].getValue() > quantity)
+                throw new IncorrectResourceTypeException(
+                        "There cannot be two warehouse levels containing the same resource type. " +
+                                "You must move all the resources from one normal level to another.");
+            if (this.levels[destinationLevel] == null) {
+                if (quantity > this.numberOfWarehouseLevels() - destinationLevel)
+                    throw new NotEnoughSpaceException();
+                this.levels[destinationLevel] = this.levels[sourceLevel];
+                this.levels[sourceLevel] = null;
+                return;
+            }
+            if(sourceLevel != destinationLevel)
+                throw  new IncorrectResourceTypeException(
+                        "The destination level contains already another type of resources");
+            return;
+        }
+
+        // Both leader card levels
+        if(this.numberOfWarehouseLevels() <= sourceLevel && sourceLevel < this.numberOfAllLevels()
+                && this.numberOfWarehouseLevels() <= destinationLevel && destinationLevel < this.numberOfAllLevels()) {
+            int sourceLeader = sourceLevel - this.numberOfWarehouseLevels(),
+                    destinationLeader = destinationLevel - this.numberOfWarehouseLevels();
+            if(this.leaderLevels.get(sourceLeader).getKey() != this.leaderLevels.get(destinationLeader).getKey())
+                throw new IncorrectResourceTypeException();
+            if(this.leaderLevels.get(sourceLeader).getValue() < quantity)
+                throw new NotEnoughResourcesException();
+            if(this.leaderLevels.get(destinationLeader).getValue() + quantity > 2)
+                throw new NotEnoughSpaceException();
+            this.leaderLevels.set(destinationLeader, new Pair<>(this.leaderLevels.get(destinationLeader).getKey(),
+                    quantity + this.leaderLevels.get(destinationLeader).getValue()));
+            this.leaderLevels.set(sourceLeader, new Pair<>(this.leaderLevels.get(sourceLeader).getKey(),
+                    this.leaderLevels.get(sourceLeader).getValue() - quantity));
+            return;
+        }
+
+        // Source normal level and destination leader card level
+        if(0 <= sourceLevel && sourceLevel <= this.numberOfWarehouseLevels() - 1
+                && this.numberOfWarehouseLevels() <= destinationLevel && destinationLevel < this.numberOfAllLevels()) {
+            int destinationLeader = destinationLevel - this.numberOfWarehouseLevels();
+
+            if (this.levels[sourceLevel] == null)
+                throw new NotEnoughResourcesException();
+            if (this.levels[sourceLevel].getValue() < quantity)
+                throw new NotEnoughResourcesException();
+            if(this.levels[sourceLevel].getKey() != this.leaderLevels.get(destinationLeader).getKey())
+                throw new IncorrectResourceTypeException();
+            if(this.leaderLevels.get(destinationLeader).getValue() + quantity > 2)
+                throw new NotEnoughSpaceException();
+            this.leaderLevels.set(destinationLeader, new Pair<>(this.leaderLevels.get(destinationLeader).getKey(),
+                    this.leaderLevels.get(destinationLeader).getValue() + quantity));
+            this.levels[sourceLevel] = new Pair<>(this.levels[sourceLevel].getKey(),
+                    this.levels[sourceLevel].getValue() - quantity);
+            return;
+        }
+
+        // Destination normal level and source leader card level
+        if(this.numberOfWarehouseLevels() <= sourceLevel && sourceLevel < this.numberOfAllLevels()
+                && 0 <= destinationLevel && destinationLevel <= this.numberOfWarehouseLevels() - 1) {
+            int sourceLeader = sourceLevel - this.numberOfWarehouseLevels();
+            if(this.leaderLevels.get(sourceLeader).getValue() < quantity)
+                throw new NotEnoughResourcesException();
+            if (this.levels[destinationLevel] == null) {
+                if (quantity > this.numberOfWarehouseLevels() - destinationLevel)
+                    throw new NotEnoughSpaceException();
+                this.levels[destinationLevel] = new Pair<>(this.leaderLevels.get(sourceLeader).getKey(),
+                        quantity);
+                this.levels[sourceLevel] = new Pair<>(this.leaderLevels.get(sourceLeader).getKey(),
+                        this.leaderLevels.get(sourceLeader).getValue() - quantity);
+                return;
+            }
+            if(this.leaderLevels.get(sourceLeader).getKey() != this.levels[destinationLevel].getKey())
+                throw  new IncorrectResourceTypeException();
+            if(quantity + this.levels[destinationLevel].getValue() > this.numberOfWarehouseLevels() - destinationLevel)
+                throw new NotEnoughSpaceException();
+            this.levels[destinationLevel] = new Pair<>(this.levels[destinationLevel].getKey(),
+                    quantity + this.levels[destinationLevel].getValue());
+            this.levels[sourceLevel] = new Pair<>(this.leaderLevels.get(sourceLeader).getKey(),
+                    this.leaderLevels.get(sourceLeader).getValue() - quantity);
+            return;
+        }
+
+        throw new LevelNotExistsException();
+    }
 
     /**
      * Returns the total amount of the specified resources contained in the warehouse
@@ -256,7 +352,7 @@ public class Warehouse {
 
     /**
      *
-     * @return total number of resources contained in the warehouse
+     * @return total amount of resources contained in the warehouse
      */
     public int totalResources() {
         return Arrays.stream(this.levels).filter(Objects::nonNull).map(Pair::getValue)
@@ -265,4 +361,5 @@ public class Warehouse {
                 this.leaderLevels.stream().filter(Objects::nonNull).map(Pair::getValue)
                     .reduce(Integer::sum).orElse(0);
     }
+
 }

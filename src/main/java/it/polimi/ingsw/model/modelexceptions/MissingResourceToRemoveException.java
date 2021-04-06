@@ -9,4 +9,5 @@ public class MissingResourceToRemoveException extends Exception {
   public MissingResourceToRemoveException(String message) {
     super(message);
   }
+
 }

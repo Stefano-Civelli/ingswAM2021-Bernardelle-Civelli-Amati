@@ -33,3 +33,4 @@ public class ShuffleToken implements ActionToken {
     }
 
 }
+

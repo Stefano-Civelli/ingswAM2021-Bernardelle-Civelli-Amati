@@ -21,4 +21,6 @@ public class SinglePlayer extends Game {
               new ShuffleToken(), new StepForwardToken(), new StepForwardToken()
       ));
    }
+
 }
+
