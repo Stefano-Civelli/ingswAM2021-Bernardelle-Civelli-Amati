@@ -37,8 +37,6 @@ public class ProduceBehaviour implements IStartBehaviour{
     else {
       try {
         this.chest.removeResources(resource, 1);
-      } catch (MissingResourceToRemoveException e) {
-        e.printStackTrace();
       } catch (NotEnoughResourcesException e) {
         e.printStackTrace();
       } catch (AbuseOfFaithException e) {
