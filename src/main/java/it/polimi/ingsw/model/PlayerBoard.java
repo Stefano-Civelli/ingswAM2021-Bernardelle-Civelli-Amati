@@ -167,7 +167,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
 
    @Override
    public CardSlots getCardSlots() {
-      return null;
+      return cardSlots;
    }
 
    public DevelopCardDeck getDevelopCardDeck() {

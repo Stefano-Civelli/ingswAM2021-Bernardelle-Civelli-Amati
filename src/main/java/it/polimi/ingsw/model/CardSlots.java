@@ -41,6 +41,8 @@ public class CardSlots implements EndGameObservable {
    * @return
    */
   public DevelopCard returnTopCard(int slot) {
+    if(developcards.get(slot).isEmpty())
+       return new DevelopCard(0);
     return developcards.get(slot).get(developcards.get(slot).size()-1);
   }
 

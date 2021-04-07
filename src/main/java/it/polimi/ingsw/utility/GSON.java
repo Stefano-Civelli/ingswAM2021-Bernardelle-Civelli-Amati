@@ -2,6 +2,7 @@ package it.polimi.ingsw.utility;
 
 import com.google.gson.*;
 import it.polimi.ingsw.model.DevelopCardDeck;
+import it.polimi.ingsw.model.LeaderCardDeck;
 import it.polimi.ingsw.model.track.LorenzoTrack;
 import it.polimi.ingsw.model.track.Track;
 
@@ -42,7 +43,19 @@ public class GSON{
       reader.close();
       return track;
    }
-   }
+
+//   public static LeaderCardDeck leaderCardParser(File file) throws IOException {
+//      GsonBuilder builder = new GsonBuilder();
+//      //builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+//      Gson gson = builder.create();
+//      FileInputStream inputStream = new FileInputStream(file);
+//      InputStreamReader reader = new InputStreamReader(inputStream);
+//      LeaderCardDeck leaderCardDeck = gson.fromJson(reader, LeaderCardDeck.class);
+//      reader.close();
+//      return leaderCardDeck;
+//   }
+
+}
 
 
 

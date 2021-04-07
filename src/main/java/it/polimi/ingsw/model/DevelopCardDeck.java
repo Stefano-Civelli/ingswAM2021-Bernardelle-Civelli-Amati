@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.EndGameObserver;
+import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.model.track.EndGameObservable;
 
@@ -60,9 +61,8 @@ public class DevelopCardDeck implements EndGameObservable {
     * @return the list of buyable cards
     */
    public List<DevelopCard> buyableCards(InterfacePlayerBoard playerBoard) {
-      return Arrays.stream(cardsCube)
+      return Arrays.stream(visibleCards())
               .flatMap(Arrays::stream)
-              .flatMap(Collection::stream)
               .filter(x -> x.isBuyable(playerBoard))
               .collect(Collectors.toList());
    }
@@ -108,10 +108,15 @@ public class DevelopCardDeck implements EndGameObservable {
     * removes the specified card from the deck
     * @param card the reference of the card to remove
     */
-   public void removeCard(DevelopCard card) {
+   public void removeCard(DevelopCard card) throws InvalidCardException {
+      if(card == null)
+         return;
       int row = card.getCardFlag().getLevel() - 1;
       int column = card.getCardFlag().getColor().getColumn();
+      if(!cardsCube[row][column].get(cardsCube[row][column].size() - 1).equals(card))
+         throw new InvalidCardException();
       cardsCube[row][column].remove(cardsCube[row][column].size() - 1);
+      //checks if the column where i removed a card is completly empty call the notifyForEndGame method
       for (int i = 0; i < cardsCube.length; i++)
          if (!cardsCube[i][column].isEmpty())
             return;

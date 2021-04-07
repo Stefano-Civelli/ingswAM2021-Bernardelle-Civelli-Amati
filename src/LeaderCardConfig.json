@@ -1,0 +1,19 @@
+{
+  "leaderCardList" : [
+    {
+      "active": "true",
+      "victoryPoints": "2",
+      "effect" :
+      {
+        "name": "double points",
+        "argument": "points",
+        "operator": "*2"
+      }
+    },
+    {
+      "active": "true",
+      "victoryPoints": "2",
+      "marbleModifierBehaviour": "() -> { return ResourceType.SERVANT; }"
+    }
+  ]
+}

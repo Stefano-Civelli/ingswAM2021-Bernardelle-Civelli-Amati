@@ -11,9 +11,6 @@ public class Chest {
 
   public Chest(){
     resources = new HashMap<>();
-    for(ResourceType v : ResourceType.values()){
-      resources.put(v,0);
-    }
     tempResourcesMap = new HashMap<>();
   }
 
@@ -29,11 +26,15 @@ public class Chest {
   public void removeResources(ResourceType resource, int quantity) throws NotEnoughResourcesException, AbuseOfFaithException{
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException();
+
+    if(resources.containsKey(resource)) {
       if (resources.get(resource) - quantity < 0)
         throw new NotEnoughResourcesException("not enough resources");
 
       resources.replace(resource, resources.get(resource) - quantity);
-
+    }
+    else
+      throw new NotEnoughResourcesException("you have 0 of the specified resource");
   }
 
   public int totalNumberOfResources(){
@@ -41,6 +42,8 @@ public class Chest {
   }
 
   public int getNumberOf(ResourceType resource){
+    if(!resources.containsKey(resource))
+      return 0;
     return resources.get(resource);
   }
 

@@ -13,6 +13,10 @@ public class DevelopCard {
    public DevelopCard(){
    }
 
+   public DevelopCard(int level){
+      this.cardFlag = new CardFlag(level, null);
+   }
+
    /**
     * Checks if the player passed as a parameter can buy the card (this)
     * @param playerBoard the player that wants to know if the card can be bought
@@ -28,12 +32,10 @@ public class DevelopCard {
             return false;
 
       //check if there is a lower level card so that the new one can be put on top
-      boolean foundSuitableSlot = false;
-      for(int i=1; i<=cardSlots.getNumberOfCardSlots() && !foundSuitableSlot; i++)
+      for(int i=0; i<cardSlots.getNumberOfCardSlots(); i++)
          if (cardSlots.returnTopCard(i).getCardFlag().getLevel() == this.getCardFlag().getLevel() - 1)
-            foundSuitableSlot = true;
-
-      return foundSuitableSlot;
+            return true;
+      return false;
    }
 
    /**
@@ -71,4 +73,18 @@ public class DevelopCard {
    public HashMap<ResourceType, Integer> getRequirement() {
       return requirement;
    }
+
+   @Override
+   public boolean equals(Object obj) {
+      if (obj == this)
+         return true;
+      if (!(obj instanceof DevelopCard))
+         return false;
+      DevelopCard d = (DevelopCard) obj;
+      return (this.cardFlag.equals(d.cardFlag)) && (this.cost.equals(d.cost)) &&
+              (this.victoryPoints == d.victoryPoints) && (this.product.equals(d.product)) &&
+              (this.requirement.equals(d.requirement));
+   }
+
 }
+
