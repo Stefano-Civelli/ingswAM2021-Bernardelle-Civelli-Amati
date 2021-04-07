@@ -13,6 +13,7 @@ public class DevelopCard {
    public DevelopCard(){
    }
 
+   //TODO controllare se è na roba legale
    public DevelopCard(int level){
       this.cardFlag = new CardFlag(level, null);
    }
@@ -88,3 +89,5 @@ public class DevelopCard {
 
 }
 
+//chest.remove(warehouse.remove)
+//alex mi da una remove(risorsa, numero) che mi ritorna quante ne mancano da togliere
