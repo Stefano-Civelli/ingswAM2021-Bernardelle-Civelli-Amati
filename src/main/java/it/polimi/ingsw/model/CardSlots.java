@@ -54,10 +54,10 @@ public class CardSlots implements EndGameObservable {
   public void addDevelopCard(int slot, DevelopCard developCard) throws InvalidCardPlacementException {
       int levelCardToAdd = developCard.getCardFlag().getLevel();
 
-      if(levelCardToAdd == 1 && developcards.get(slot).isEmpty())
+      if(levelCardToAdd == 1 && developcards.get(slot).isEmpty()) {
         developcards.get(slot).add(developCard);
-      else
-        throw new InvalidCardPlacementException();
+        return;
+      }
       if(levelCardToAdd == developcards.get(slot).get(developcards.get(slot).size()-1).getCardFlag().getLevel()+1)
         developcards.get(slot).add(developCard);
       else

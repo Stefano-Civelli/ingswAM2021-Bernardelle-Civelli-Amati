@@ -53,7 +53,6 @@ public class DevelopCardDeck implements EndGameObservable {
          }
       }
       return temp;
-
    }
 
    /**
