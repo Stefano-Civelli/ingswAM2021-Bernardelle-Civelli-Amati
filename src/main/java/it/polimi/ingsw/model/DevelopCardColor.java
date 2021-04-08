@@ -11,6 +11,15 @@ public enum DevelopCardColor {
       color = c;
    }
 
+   public static DevelopCardColor fromValue(String v) {
+      for (DevelopCardColor developCardColor : values()) {
+         if (developCardColor.name().equals(v)) {
+            return developCardColor;
+         }
+      }
+      throw new IllegalArgumentException("invalid string value passed: " + v);
+   }
+
    public int getColumn(){ return column; }
 
    @Override

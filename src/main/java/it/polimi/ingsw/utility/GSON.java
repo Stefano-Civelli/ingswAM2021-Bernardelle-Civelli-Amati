@@ -1,12 +1,17 @@
 package it.polimi.ingsw.utility;
 
 import com.google.gson.*;
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.model.DevelopCardDeck;
-import it.polimi.ingsw.model.LeaderCardDeck;
+import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
+import it.polimi.ingsw.model.leadercard.CardBehaviour;
+import it.polimi.ingsw.model.leadercard.LeaderProduceBehaviour;
+import it.polimi.ingsw.model.leadercard.MarbleModifierBehaviour;
 import it.polimi.ingsw.model.track.LorenzoTrack;
 import it.polimi.ingsw.model.track.Track;
 
 import java.io.*;
+
 
 public class GSON{
 
@@ -44,16 +49,22 @@ public class GSON{
       return track;
    }
 
-//   public static LeaderCardDeck leaderCardParser(File file) throws IOException {
-//      GsonBuilder builder = new GsonBuilder();
-//      //builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-//      Gson gson = builder.create();
-//      FileInputStream inputStream = new FileInputStream(file);
-//      InputStreamReader reader = new InputStreamReader(inputStream);
-//      LeaderCardDeck leaderCardDeck = gson.fromJson(reader, LeaderCardDeck.class);
-//      reader.close();
-//      return leaderCardDeck;
-//   }
+   public static LeaderCardDeck leaderCardParser(File file) throws IOException {
+      RuntimeTypeAdapterFactory<CardBehaviour> cardBehaviourAdapter = RuntimeTypeAdapterFactory.of(CardBehaviour.class, "type");
+      cardBehaviourAdapter
+              .registerSubtype(MarbleModifierBehaviour.class, "MarbleModifierBehaviour")
+              .registerSubtype(LeaderProduceBehaviour.class, "ProduceBehaviour");
+
+      GsonBuilder builder = new GsonBuilder()
+              .enableComplexMapKeySerialization()
+              .registerTypeAdapterFactory(cardBehaviourAdapter);
+      Gson gson = builder.create();
+      FileInputStream inputStream = new FileInputStream(file);
+      InputStreamReader reader = new InputStreamReader(inputStream);
+      LeaderCardDeck leaderCardDeck = gson.fromJson(reader, LeaderCardDeck.class);
+      reader.close();
+      return leaderCardDeck;
+   }
 
 }
 

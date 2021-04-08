@@ -2,18 +2,21 @@
   "leaderCardList" : [
     {
       "active": "true",
+      "requiredResources": "GOLD",
+      "requiredCardFlags": [
+      [
+        {"level": "1", "color": "YELLOW"}, "1"
+      ],
+      [
+        {"level": "2", "color": "GREEN"}, "3"
+      ]
+    ],
       "victoryPoints": "2",
-      "effect" :
-      {
-        "name": "double points",
-        "argument": "points",
-        "operator": "*2"
+      "cardBehaviour": {
+          "type": "MarbleModifierBehaviour",
+          "onWhite": "GOLD"
       }
-    },
-    {
-      "active": "true",
-      "victoryPoints": "2",
-      "marbleModifierBehaviour": "() -> { return ResourceType.SERVANT; }"
+
     }
   ]
 }
