@@ -23,8 +23,8 @@ public class CardSlots implements EndGameObservable {
   }
 
   /**
-   *
-   * @return
+   * calculate the amount of victory points of the DevelopCard in CardSlots
+   * @return the score of CardSlots
    */
   public int calculateDevelopCardScore(){
     int score = 0;
@@ -37,8 +37,9 @@ public class CardSlots implements EndGameObservable {
   }
 
   /**
-   *
-   * @return
+   * find the card that is positioned in the last position of a slot
+   * @param slot, slot of which the caller wants to know the top card
+   * @return the last card of a slot (the highest in level)
    */
   public DevelopCard returnTopCard(int slot) {
     if(developcards.get(slot).isEmpty())
@@ -47,27 +48,34 @@ public class CardSlots implements EndGameObservable {
   }
 
   /**
-   *
-   * @param slot
-   * @param developCard
+   * add a DevelopCard in one of the slots if that is possible
+   * @param slot, slot in which the caller wants to put the card
+   * @param developCard, card to add
    */
   public void addDevelopCard(int slot, DevelopCard developCard) throws InvalidCardPlacementException {
       int levelCardToAdd = developCard.getCardFlag().getLevel();
 
+      for(List<DevelopCard> d : developcards)
+        if(d.contains(developCard))
+          throw new InvalidCardPlacementException();
+
       if(levelCardToAdd == 1 && developcards.get(slot).isEmpty()) {
         developcards.get(slot).add(developCard);
+        addedACardInACardSlot();
         return;
       }
-      if(levelCardToAdd == developcards.get(slot).get(developcards.get(slot).size()-1).getCardFlag().getLevel()+1)
+      if(levelCardToAdd == developcards.get(slot).get(developcards.get(slot).size()-1).getCardFlag().getLevel()+1) {
         developcards.get(slot).add(developCard);
+        addedACardInACardSlot();
+      }
       else
         throw new InvalidCardPlacementException();
   }
 
   /**
-   *
-   * @param playerboard
-   * @return
+   * Let the player knows which are the cards in CardSlots that can be used to produce
+   * @param playerboard of the player who wants to know which card can active
+   * @return a list of activatable cards, the one the player can use to produce
    */
   public ArrayList<DevelopCard> activatableCards(PlayerBoard playerboard){
     ArrayList<DevelopCard> activatablecards = new ArrayList<>();
@@ -79,11 +87,18 @@ public class CardSlots implements EndGameObservable {
     return activatablecards;
   }
 
+  /**
+   * getter for the number of slots
+   * @return the number of slots
+   */
   public int getNumberOfCardSlots() {
     return numberofcardslots;
   }
 
-  public void addedACardInACardSlot(){
+  /**
+   * add 1 to card's counter
+   */
+  private void addedACardInACardSlot(){
     totalCards++;
     if (totalCards == 7)
       notifyForEndGame();
