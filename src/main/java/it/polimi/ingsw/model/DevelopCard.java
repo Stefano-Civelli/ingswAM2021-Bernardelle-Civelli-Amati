@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,11 +29,13 @@ public class DevelopCard {
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
+      //TODO per essere comprabile deve essere visibile
       //check if the number of resources is sufficient
       for(Map.Entry<ResourceType, Integer> entry : cost.entrySet())
          if (warehouse.getNumberOf(entry.getKey()) + chest.getNumberOf(entry.getKey()) < entry.getValue())
             return false;
 
+      //TODO posso metterla nella classe cardslots sta logica?
       //check if there is a lower level card so that the new one can be put on top
       for(int i=0; i<cardSlots.getNumberOfCardSlots(); i++)
          if (cardSlots.returnTopCard(i).getCardFlag().getLevel() == this.getCardFlag().getLevel() - 1)
@@ -47,6 +51,9 @@ public class DevelopCard {
    public boolean isActivatable(InterfacePlayerBoard playerBoard){
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
+      CardSlots cardSlots = playerBoard.getCardSlots();
+      //TODO se il giocatore non ha la carta non può attivarla
+      //cardSlots.contains(this);
       for(Map.Entry<ResourceType, Integer> entry : requirement.entrySet()){
          //check if the number of resources is sufficient
          if(warehouse.getNumberOf(entry.getKey()) + chest.getNumberOf(entry.getKey()) < entry.getValue())
@@ -54,6 +61,20 @@ public class DevelopCard {
       }
       return true;
    }
+
+   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException {
+      Warehouse warehouse = playerBoard.getWarehouse();
+      Chest chest = playerBoard.getChest();
+      CardSlots cardslots = playerBoard.getCardSlots();
+      //rimuovo risorse eventualmente trowando eccezone
+      //chest.remove(warehouse.remove)
+      //alex mi da una remove(risorsa, numero) che mi ritorna quante ne mancano da togliere
+
+      //metto la carta nel cardSlot
+      cardslots.addDevelopCard(cardSlotNumber,this);
+   }
+
+
 
    public CardFlag getCardFlag(){
       return cardFlag;
@@ -88,6 +109,3 @@ public class DevelopCard {
    }
 
 }
-
-//chest.remove(warehouse.remove)
-//alex mi da una remove(risorsa, numero) che mi ritorna quante ne mancano da togliere
