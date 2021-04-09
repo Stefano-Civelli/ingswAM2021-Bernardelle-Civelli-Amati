@@ -1,7 +1,7 @@
 package it.polimi.ingsw.utility;
 
 import it.polimi.ingsw.model.DevelopCardDeck;
-import it.polimi.ingsw.model.LeaderCardDeck;
+import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.model.track.Square;

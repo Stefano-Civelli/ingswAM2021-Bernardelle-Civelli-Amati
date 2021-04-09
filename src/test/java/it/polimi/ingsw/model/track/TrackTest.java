@@ -114,8 +114,7 @@ class TrackTest {
       track.addToVaticanReportObserverList(track2);
       track2.addToVaticanReportObserverList(track);
       track.moveForward(5);
-      track2.moveForward(16);
-      track2.moveForward(1);
+      track2.moveForward(17);
       assertEquals(track.calculateTrackScore(), 2+2);
       assertEquals(track2.calculateTrackScore(), 12+2+3);
    }

@@ -44,9 +44,9 @@ public class GSON{
       Gson gson = builder.create();
       FileInputStream inputStream = new FileInputStream(file);
       InputStreamReader reader = new InputStreamReader(inputStream);
-      LorenzoTrack track = gson.fromJson(reader, LorenzoTrack.class);
+      LorenzoTrack lorenzoTrack = gson.fromJson(reader, LorenzoTrack.class);
       reader.close();
-      return track;
+      return lorenzoTrack;
    }
 
    public static LeaderCardDeck leaderCardParser(File file) throws IOException {
