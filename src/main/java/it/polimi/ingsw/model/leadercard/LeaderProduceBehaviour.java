@@ -10,6 +10,7 @@ public class LeaderProduceBehaviour extends CardBehaviour{
 
    private ResourceType resourceToRemove;
 
+   @Override
    public void produce(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException {
 
       Chest chest = playerboard.getChest();
@@ -18,7 +19,7 @@ public class LeaderProduceBehaviour extends CardBehaviour{
       //TODO
       // playerboard.getWarehouse().removeResources();
       //se non sono riuscito da warehouse rimuovo da chest
-      //se non riesco ancora throw eccezione (mi basta inoltrare quella della chest/magazzino)
+      //se non riesco ancora throw eccezione (mi basta inoltrare quella della chest/magazzino cioè not enough resources)
       playerboard.getTrack().moveForward(1);
       chest.addResources(resourceToAdd,1);
    }

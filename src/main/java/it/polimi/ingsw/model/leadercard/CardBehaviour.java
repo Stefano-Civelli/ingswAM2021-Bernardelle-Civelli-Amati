@@ -8,6 +8,10 @@ import java.util.HashMap;
 
 public abstract class CardBehaviour {
 
+   /**
+    * returns the resource white marble ResourceType produced by the LeaderCard ability
+    * @return can be null if this leadercard doesn't convert white marbles
+    */
    public ResourceType getOnWhite() {
       return null;
    }
@@ -20,7 +24,7 @@ public abstract class CardBehaviour {
       //eccezione I can't produce oppure non produrre niente
    }
 
-   public HashMap<ResourceType, Integer> disconunt(HashMap<ResourceType, Integer> resources){
+   public HashMap<ResourceType, Integer> discount(HashMap<ResourceType, Integer> resources){
       return resources;
    }
 
