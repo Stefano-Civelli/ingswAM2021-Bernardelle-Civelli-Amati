@@ -28,33 +28,31 @@ class ChestTest {
    }
 
    @Test
-   void totalResourcesTest() {
+   void totalResourcesTest() throws NegativeQuantityException, AbuseOfFaithException {
       Chest chest = new Chest();
-      try {
-         chest.addResources(ResourceType.GOLD, 2);
-         chest.addResources(ResourceType.STONE, 3);
-         chest.addResources(ResourceType.SERVANT, 4);
-         chest.addResources(ResourceType.SHIELD, 5);
-         chest.addResources(ResourceType.SHIELD, 5);
-      }
-      catch (AbuseOfFaithException | NegativeQuantityException e){e.getMessage();}
+
+      chest.addResources(ResourceType.GOLD, 2);
+      chest.addResources(ResourceType.STONE, 3);
+      chest.addResources(ResourceType.SERVANT, 4);
+      chest.addResources(ResourceType.SHIELD, 5);
+      chest.addResources(ResourceType.SHIELD, 5);
+
       chest.mergeMapResources();
       assertEquals(chest.totalNumberOfResources(),19);
    }
 
    @Test
-   void totalResourcesTest2() {
+   void totalResourcesTest2() throws NegativeQuantityException, AbuseOfFaithException, NotEnoughResourcesException {
       Chest chest = new Chest();
-      try {
-         chest.addResources(ResourceType.GOLD, 2);
-         chest.addResources(ResourceType.STONE, 3);
-         chest.addResources(ResourceType.SERVANT, 4);
-         chest.addResources(ResourceType.SHIELD, 5);
-         chest.addResources(ResourceType.SHIELD, 5);
-         chest.mergeMapResources();
-         chest.removeResources(ResourceType.GOLD, 1);
-      }
-      catch (Exception e){e.getMessage();}
+
+      chest.addResources(ResourceType.GOLD, 2);
+      chest.addResources(ResourceType.STONE, 3);
+      chest.addResources(ResourceType.SERVANT, 4);
+      chest.addResources(ResourceType.SHIELD, 5);
+      chest.addResources(ResourceType.SHIELD, 5);
+      chest.mergeMapResources();
+      chest.removeResources(ResourceType.GOLD, 1);
+
       assertEquals(chest.totalNumberOfResources(),18);
       assertEquals(chest.getNumberOf(ResourceType.GOLD), 1);
    }
@@ -72,17 +70,15 @@ class ChestTest {
    }
 
    @Test
-   void exceptionSubtraction2() {
-      boolean flag = false;
+   void exceptionSubtraction2() throws NegativeQuantityException, AbuseOfFaithException, NotEnoughResourcesException {
       Chest chest = new Chest();
-      try {
-         chest.addResources(ResourceType.GOLD, 2);
-         chest.addResources(ResourceType.SHIELD, 4);
-         chest.mergeMapResources();
-         chest.removeResources(ResourceType.GOLD, 2);
-      }
-      catch (Exception e){flag = true;}
-      assertFalse( flag );
+
+      chest.addResources(ResourceType.GOLD, 2);
+      chest.addResources(ResourceType.SHIELD, 4);
+      chest.mergeMapResources();
+      chest.removeResources(ResourceType.GOLD, 2);
+
+      assertEquals(chest.getNumberOf(ResourceType.GOLD), 0);
    }
 
    @Test
