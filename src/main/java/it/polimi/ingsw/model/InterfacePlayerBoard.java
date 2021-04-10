@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.track.Track;
 
 import java.util.List;

@@ -99,18 +99,18 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
    public void addMarbleToWarehouse(int marbleIndex, LeaderCard leaderCard) throws InvalidLeaderCardException, NotEnoughSpaceException {
-      if (leaderCard == null) {
-         if (marbleIndex >= 0 && marbleIndex < tempMarketMarble.size())
-            tempMarketMarble.get(marbleIndex).addResource(this, null);
-         else
-            throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
-      }
-      if (!leaderCards.contains(leaderCard))
-         throw new InvalidLeaderCardException("Your hand doesn't contain this card");
-      if(!(leaderCard == null) && leaderCard.isActive())
-         tempMarketMarble.get(marbleIndex).addResource(this, leaderCard.resourceOnWhite());
-      else
-         throw new InvalidLeaderCardException("U need to activate the leader card before asking to use it");
+//      if (leaderCard == null) {
+//         if (marbleIndex >= 0 && marbleIndex < tempMarketMarble.size())
+//            tempMarketMarble.get(marbleIndex).addResource(this, null);
+//         else
+//            throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
+//      }
+//      if (!leaderCards.contains(leaderCard))
+//         throw new InvalidLeaderCardException("Your hand doesn't contain this card");
+//      if(!(leaderCard == null) && leaderCard.isActive())
+//         tempMarketMarble.get(marbleIndex).addResource(this, leaderCard.resourceOnWhite());
+//      else
+//         throw new InvalidLeaderCardException("U need to activate the leader card before asking to use it");
    }
 
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) {
@@ -149,6 +149,11 @@ public class PlayerBoard implements InterfacePlayerBoard {
    @Override
    public CardSlots getCardSlots() {
       return cardSlots;
+   }
+
+   @Override
+   public List<LeaderCard> getLeaderCards() {
+      return new ArrayList<>(this.leaderCards);
    }
 
    public DevelopCardDeck getDevelopCardDeck() {
