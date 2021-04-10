@@ -68,7 +68,7 @@ public class LeaderCard {
    }
 
 
-   public void getProduct(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NotEnoughResourcesException {
+   public void getProduct(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NegativeQuantityException {
       cardBehaviour.produce(resourceToAdd, playerboard);
    }
 

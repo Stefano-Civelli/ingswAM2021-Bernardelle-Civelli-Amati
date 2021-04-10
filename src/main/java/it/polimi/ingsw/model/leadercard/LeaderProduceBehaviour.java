@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.InterfacePlayerBoard;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
+import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
 public class LeaderProduceBehaviour extends CardBehaviour{
@@ -12,7 +13,7 @@ public class LeaderProduceBehaviour extends CardBehaviour{
    private ResourceType resourceToRemove;
 
    @Override
-   public void produce(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NotEnoughResourcesException {
+   public void produce(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NegativeQuantityException {
 
       Chest chest = playerboard.getChest();
       Warehouse warehouse = playerboard.getWarehouse();

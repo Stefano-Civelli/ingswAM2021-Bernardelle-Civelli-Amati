@@ -64,6 +64,7 @@ public class GSON{
       InputStreamReader reader = new InputStreamReader(inputStream);
       LeaderCardDeck leaderCardDeck = gson.fromJson(reader, LeaderCardDeck.class);
       reader.close();
+      leaderCardDeck.shuffleLeaderList();
       return leaderCardDeck;
    }
 

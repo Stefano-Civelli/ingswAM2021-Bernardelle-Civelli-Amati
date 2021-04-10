@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
+import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +37,7 @@ class ChestTest {
          chest.addResources(ResourceType.SHIELD, 5);
          chest.addResources(ResourceType.SHIELD, 5);
       }
-      catch (AbuseOfFaithException | NotEnoughResourcesException e){e.getMessage();}
+      catch (AbuseOfFaithException | NegativeQuantityException e){e.getMessage();}
       chest.mergeMapResources();
       assertEquals(chest.totalNumberOfResources(),19);
    }
@@ -59,7 +60,7 @@ class ChestTest {
    }
 
    @Test
-   void exceptionSubtraction() throws AbuseOfFaithException, NotEnoughResourcesException {
+   void exceptionSubtraction() throws AbuseOfFaithException, NegativeQuantityException {
 
       Chest chest = new Chest();
 
@@ -85,7 +86,7 @@ class ChestTest {
    }
 
    @Test
-   void abuseOfFaithExceptionTest() throws AbuseOfFaithException, NotEnoughResourcesException {
+   void abuseOfFaithExceptionTest() throws AbuseOfFaithException, NegativeQuantityException {
       Chest chest = new Chest();
 
       chest.addResources(ResourceType.GOLD, 2);
@@ -96,7 +97,7 @@ class ChestTest {
    }
 
    @Test
-   void removeZeroResourcesTest() throws AbuseOfFaithException, NotEnoughResourcesException {
+   void removeZeroResourcesTest() throws AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException {
       Chest chest = new Chest();
 
       chest.addResources(ResourceType.GOLD, 2);
@@ -109,7 +110,7 @@ class ChestTest {
    }
 
    @Test
-   void removeNegativeQuantity() throws AbuseOfFaithException, NotEnoughResourcesException {
+   void removeNegativeQuantity() throws AbuseOfFaithException, NegativeQuantityException {
       Chest chest = new Chest();
 
       chest.addResources(ResourceType.GOLD, 2);
@@ -119,13 +120,13 @@ class ChestTest {
    }
 
    @Test
-   void addNegativeQuantity() throws AbuseOfFaithException, NotEnoughResourcesException {
+   void addNegativeQuantity() throws AbuseOfFaithException, NegativeQuantityException {
       Chest chest = new Chest();
 
       chest.addResources(ResourceType.GOLD, 2);
       chest.addResources(ResourceType.SHIELD, 4);
       chest.mergeMapResources();
-      assertThrows(NotEnoughResourcesException.class, () -> chest.addResources(ResourceType.GOLD, -10));
+      assertThrows(NegativeQuantityException.class, () -> chest.addResources(ResourceType.GOLD, -10));
       assertEquals(chest.getNumberOf(ResourceType.GOLD), 2);
    }
 }

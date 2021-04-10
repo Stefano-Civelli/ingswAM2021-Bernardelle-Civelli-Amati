@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
+import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
 import java.util.HashMap;
@@ -14,12 +15,12 @@ public class Chest {
     tempResourcesMap = new HashMap<>();
   }
 
-  public void addResources(ResourceType resource, int quantity) throws AbuseOfFaithException, NotEnoughResourcesException {
+  public void addResources(ResourceType resource, int quantity) throws AbuseOfFaithException, NegativeQuantityException {
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException("Adding faith to chest is not allowed");
       //if the key is not present adds a new element to the map with value quantity
     if(quantity < 0)
-      throw new NotEnoughResourcesException("U are adding a negative quantity of a resource, that's not allowed");
+      throw new NegativeQuantityException("you are adding a negative quantity of a resource, that's not allowed");
       tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
 
   }

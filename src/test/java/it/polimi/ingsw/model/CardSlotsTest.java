@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.market.Market;
-import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
-import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
-import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
-import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
+import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 
@@ -115,7 +112,7 @@ class CardSlotsTest {
   }
 
   @Test //i can check here if notyForEndGame is called cause i've added 7 cards to CardSlots
-  void activatableCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException, NotEnoughResourcesException {
+  void activatableCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException, NegativeQuantityException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);
