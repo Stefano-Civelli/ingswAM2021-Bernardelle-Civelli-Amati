@@ -32,6 +32,10 @@ public class CardFlag {
       if (!(obj instanceof CardFlag))
          return false;
       CardFlag c = (CardFlag) obj;
+      if(c.getLevel() == 0)
+         return (this.color == c.color);
+      if(this.getLevel() == 0)
+         return (this.color == c.color);
       return (this.level == c.level) && (this.color == c.color);
    }
 }

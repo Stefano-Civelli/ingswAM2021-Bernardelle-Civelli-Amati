@@ -1,22 +1,236 @@
 {
   "leaderCardList" : [
     {
-      "active": "true",
-      "requiredResources": "GOLD",
+      "active": "false",
+      "requiredResources": "NONE",
       "requiredCardFlags": [
-      [
-        {"level": "1", "color": "YELLOW"}, "1"
+        [
+          {"level": "0", "color": "YELLOW"}, "1"
+        ],
+        [
+          {"level": "0", "color": "GREEN"}, "1"
+        ]
       ],
-      [
-        {"level": "2", "color": "GREEN"}, "3"
-      ]
-    ],
       "victoryPoints": "2",
       "cardBehaviour": {
-          "type": "MarbleModifierBehaviour",
-          "onWhite": "GOLD"
+          "type": "DiscountBehaviour",
+          "resourceToDiscount": "SERVANT"
       }
-
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
+          {"level": "0", "color": "BLUE"}, "1"
+        ],
+        [
+          {"level": "0", "color": "PURPLE"}, "1"
+        ]
+      ],
+      "victoryPoints": "2",
+      "cardBehaviour": {
+        "type": "DiscountBehaviour",
+        "resourceToDiscount": "SHIELD"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
+          {"level": "0", "color": "BLUE"}, "1"
+        ],
+        [
+          {"level": "0", "color": "GREEN"}, "1"
+        ]
+      ],
+      "victoryPoints": "2",
+      "cardBehaviour": {
+        "type": "DiscountBehaviour",
+        "resourceToDiscount": "STONE"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
+          {"level": "0", "color": "YELLOW"}, "1"
+        ],
+        [
+          {"level": "0", "color": "PURPLE"}, "1"
+        ]
+      ],
+      "victoryPoints": "2",
+      "cardBehaviour": {
+        "type": "DiscountBehaviour",
+        "resourceToDiscount": "GOLD"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "GOLD",
+      "requiredCardFlags": [],
+      "victoryPoints": "3",
+      "cardBehaviour": {
+        "type": "StorageBehaviour",
+        "storageType": "STONE"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "STONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "3",
+      "cardBehaviour": {
+        "type": "StorageBehaviour",
+        "storageType": "SERVANT"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "SERVANT",
+      "requiredCardFlags": [],
+      "victoryPoints": "3",
+      "cardBehaviour": {
+        "type": "StorageBehaviour",
+        "storageType": "SHIELD"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "SHIELD",
+      "requiredCardFlags": [],
+      "victoryPoints": "3",
+      "cardBehaviour": {
+        "type": "StorageBehaviour",
+        "storageType": "GOLD"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
+          {"level": "0", "color": "YELLOW"}, "2"
+        ],
+        [
+          {"level": "0", "color": "BLUE"}, "1"
+        ]
+      ],
+      "victoryPoints": "5",
+      "cardBehaviour": {
+        "type": "MarbleModifierBehaviour",
+        "onWhite": "SERVANT"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
+          {"level": "0", "color": "GREEN"}, "2"
+        ],
+        [
+          {"level": "0", "color": "PURPLE"}, "1"
+        ]
+      ],
+      "victoryPoints": "5",
+      "cardBehaviour": {
+        "type": "MarbleModifierBehaviour",
+        "onWhite": "SHIELD"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
+          {"level": "0", "color": "BLUE"}, "2"
+        ],
+        [
+          {"level": "0", "color": "YELLOW"}, "1"
+        ]
+      ],
+      "victoryPoints": "5",
+      "cardBehaviour": {
+        "type": "MarbleModifierBehaviour",
+        "onWhite": "STONE"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
+          {"level": "0", "color": "PURPLE"}, "2"
+        ],
+        [
+          {"level": "0", "color": "GREEN"}, "1"
+        ]
+      ],
+      "victoryPoints": "5",
+      "cardBehaviour": {
+        "type": "MarbleModifierBehaviour",
+        "onWhite": "GOLD"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
+          {"level": "2", "color": "YELLOW"}, "1"
+        ]
+      ],
+      "victoryPoints": "4",
+      "cardBehaviour": {
+        "type": "LeaderProduceBehaviour",
+        "resourceToRemove": "SHIELD"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
+          {"level": "2", "color": "BLUE"}, "1"
+        ]
+      ],
+      "victoryPoints": "4",
+      "cardBehaviour": {
+        "type": "LeaderProduceBehaviour",
+        "resourceToRemove": "SERVANT"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
+          {"level": "2", "color": "PURPLE"}, "1"
+        ]
+      ],
+      "victoryPoints": "4",
+      "cardBehaviour": {
+        "type": "LeaderProduceBehaviour",
+        "resourceToRemove": "STONE"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
+          {"level": "2", "color": "GREEN"}, "1"
+        ]
+      ],
+      "victoryPoints": "4",
+      "cardBehaviour": {
+        "type": "LeaderProduceBehaviour",
+        "resourceToRemove": "GOLD"
+      }
     }
   ]
 }

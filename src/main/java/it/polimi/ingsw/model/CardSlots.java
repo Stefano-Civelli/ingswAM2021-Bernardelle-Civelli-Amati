@@ -104,6 +104,14 @@ public class CardSlots implements EndGameObservable {
       notifyForEndGame();
   }
 
+  public int numberOf(CardFlag cardFlag){
+    int numberOf = 0;
+
+    for(List<DevelopCard> x : developCards)
+      numberOf += x.stream().filter( d -> d.getCardFlag().equals(cardFlag)).count();
+    return numberOf;
+  }
+
   @Override
   public void addToEndGameObserverList(EndGameObserver observerToAdd) {
     if(!endGameObserverList.contains(observerToAdd))

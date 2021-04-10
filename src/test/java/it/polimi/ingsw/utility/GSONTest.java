@@ -1,6 +1,6 @@
 package it.polimi.ingsw.utility;
 
-import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
@@ -24,13 +24,9 @@ class GSONTest {
       DevelopCardDeck developCardDeck;
       try {
          developCardDeck = GSON.cardParser(cardConfigFile);
-         for (int i = 0; i < developCardDeck.visibleCards().length; i++) {
-            for (int j = 0; j < developCardDeck.visibleCards()[i].length; j++) {
-               System.out.print(developCardDeck.visibleCards()[i][j].getCardFlag().getLevel() + " ");
-            }
-            System.out.println();
+         for(DevelopCard d : developCardDeck.visibleCards()){
+            System.out.println(d.getCardFlag().getLevel());
          }
-
       } catch (IOException e) {
          e.printStackTrace();
       }
@@ -42,11 +38,8 @@ class GSONTest {
       DevelopCardDeck developCardDeck;
       try {
          developCardDeck = GSON.cardParser(cardConfigFile);
-         for (int i = 0; i < developCardDeck.visibleCards().length; i++) {
-            for (int j = 0; j < developCardDeck.visibleCards()[i].length; j++) {
-               System.out.print(developCardDeck.visibleCards()[i][j].getCardFlag().getColor() + " ");
-            }
-            System.out.println();
+         for(DevelopCard d : developCardDeck.visibleCards()){
+            System.out.println(d.getCardFlag().getLevel());
          }
 
       } catch (IOException e) {
@@ -61,11 +54,8 @@ class GSONTest {
       try {
          developCardDeck = GSON.cardParser(cardConfigFile);
          developCardDeck.removeCard(developCardDeck.getCard(0,0));
-         for (int i = 0; i < developCardDeck.visibleCards().length; i++) {
-            for (int j = 0; j < developCardDeck.visibleCards()[i].length; j++) {
-               System.out.print(developCardDeck.visibleCards()[i][j].getCost() + " ");
-            }
-            System.out.println();
+         for(DevelopCard d : developCardDeck.visibleCards()){
+            System.out.println(d.getCardFlag().getLevel());
          }
 
       } catch (IOException | InvalidCardException e) {
@@ -96,11 +86,9 @@ class GSONTest {
       LeaderCardDeck leaderCardDeck;
       try {
          leaderCardDeck = GSON.leaderCardParser(leaderCardConfigFile);
-         for (LeaderCard l : leaderCardDeck.getLeaderCardList()) {
+         for (LeaderCard l : leaderCardDeck.getLeaderCardList())
             System.out.println(l.resourceOnWhite());
-            l.printRequiredCardFlags();
-         }
-         
+
       } catch (IOException e) {
          e.printStackTrace();
       }

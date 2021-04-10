@@ -54,6 +54,6 @@ public class Chest {
              .forEach(entry -> resources.merge(
                     entry.getKey(),
                     entry.getValue(),
-                    (key, value) -> entry.getValue()   + value));
+                    (key, value) -> entry.getValue() + value));
   }
 }
