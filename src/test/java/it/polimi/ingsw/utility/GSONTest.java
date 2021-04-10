@@ -1,6 +1,10 @@
 package it.polimi.ingsw.utility;
 
+import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.model.DevelopCardDeck;
+import it.polimi.ingsw.model.leadercard.LeaderCard;
+import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
+import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.model.track.Square;
 import it.polimi.ingsw.model.track.Track;
@@ -13,6 +17,7 @@ class GSONTest {
 
    File cardConfigFile = new File("src/DevelopCardConfig.json");
    File trackConfigFile = new File("src/SquareConfig.json");
+   File leaderCardConfigFile = new File("src/LeaderCardConfig.json");
 
    @Test
    void developCardParseTest() {
@@ -30,6 +35,8 @@ class GSONTest {
          e.printStackTrace();
       }
    }
+
+
    @Test
    void developCardParseTest2() {
       DevelopCardDeck developCardDeck;
@@ -61,7 +68,7 @@ class GSONTest {
             System.out.println();
          }
 
-      } catch (IOException e) {
+      } catch (IOException | InvalidCardException e) {
          e.printStackTrace();
       }
    }
@@ -83,4 +90,20 @@ class GSONTest {
          e.printStackTrace();
       }
    }
+
+   @Test
+   void leaderCardParseTest() {
+      LeaderCardDeck leaderCardDeck;
+      try {
+         leaderCardDeck = GSON.leaderCardParser(leaderCardConfigFile);
+         for (LeaderCard l : leaderCardDeck.getLeaderCardList()) {
+            System.out.println(l.resourceOnWhite());
+            l.printRequiredCardFlags();
+         }
+         
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
+
 }

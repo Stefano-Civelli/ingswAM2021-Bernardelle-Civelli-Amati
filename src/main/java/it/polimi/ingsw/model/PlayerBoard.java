@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.modelexceptions.*;
@@ -25,7 +26,6 @@ public class PlayerBoard implements InterfacePlayerBoard {
    private final DevelopCardDeck developCardDeck;
    private List<MarketMarble> tempMarketMarble;
    private Map<ResourceType, Integer> tempResources;
-   private IStartBehaviour startBehaviour;
    File trackConfigFile = new File("src/SquareConfig.json");
 
    public PlayerBoard(String username, ArrayList<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck){
@@ -127,21 +127,6 @@ public class PlayerBoard implements InterfacePlayerBoard {
       }
    }
 
-   public void startProducingProcedure(DevelopCard developCard){
-      if (developCard.isActivatable(this))
-         //forse la behaviour potrebbe venire iniettata dal controller in base a cosa deve fare. poi faccio solo il metodo che chiama il metodo della behaviour
-         startBehaviour = new ProduceBehaviour(this, developCard);
-   }
-
-   public void startBuyingProcedure(DevelopCard developCard){
-      if (developCard.isBuyable(this))
-         startBehaviour = new BuyBehaviour(this, developCard);
-   }
-
-   public void useResource(ResourceType resource, boolean warehouse, int level){
-      startBehaviour.useResource(resource, warehouse, level);
-   }
-
    public String getUsername() {
       return username;
    }
@@ -163,7 +148,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
 
    @Override
    public CardSlots getCardSlots() {
-      return null;
+      return cardSlots;
    }
 
    public DevelopCardDeck getDevelopCardDeck() {

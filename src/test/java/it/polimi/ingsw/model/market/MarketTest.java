@@ -64,11 +64,11 @@ class MarketTest {
 
     @Test
     void mixedPushRowColumn() throws RowOrColumnNotExistsException {
-        //slide: M            E           d
-        // a b c d        a b c d     a b c M
-        // E f g h <  =>  f g h M  => f g h L
-        // i j k L        i j k L     i j k E
-        //                      ^           ^
+        //slide: M            E            d
+        // a b c d        a b c d      a b c M
+        // E f g h <  =>  f g h M  =>  f g h L
+        // i j k L        i j k L      i j k E
+        //                      ^            ^
         Market market = Market.getInstance();
         List<MarketMarble> marbles1 = market.pushInRow(1);
         List<MarketMarble> marbles2 = market.pushInColumn(3);

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
-import it.polimi.ingsw.model.modelexceptions.MissingResourceToRemoveException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
 import java.util.HashMap;
@@ -18,25 +17,24 @@ public class Chest {
   public void addResources(ResourceType resource, int quantity) throws AbuseOfFaithException {
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException("Adding faith to chest is not allowed");
+      //if the key is not present adds a new element to the map with value quantity
+      tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
 
-    if(tempResourcesMap.containsKey(resource))
-      tempResourcesMap.replace(resource, tempResourcesMap.get(resource) + quantity);
-    else
-      tempResourcesMap.put(resource, quantity);
   }
 
-  public void removeResources(ResourceType resource, int quantity) throws MissingResourceToRemoveException, NotEnoughResourcesException, AbuseOfFaithException{
+
+  public void removeResources(ResourceType resource, int quantity) throws NotEnoughResourcesException, AbuseOfFaithException{
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException();
 
     if(resources.containsKey(resource)) {
       if (resources.get(resource) - quantity < 0)
-        throw new NotEnoughResourcesException();
+        throw new NotEnoughResourcesException("not enough resources");
 
       resources.replace(resource, resources.get(resource) - quantity);
     }
     else
-      throw new MissingResourceToRemoveException();
+      throw new NotEnoughResourcesException("you have 0 of the specified resource");
   }
 
   public int totalNumberOfResources(){
@@ -44,6 +42,8 @@ public class Chest {
   }
 
   public int getNumberOf(ResourceType resource){
+    if(!resources.containsKey(resource))
+      return 0;
     return resources.get(resource);
   }
 
