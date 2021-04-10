@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,9 +47,7 @@ class DevelopCardDeckTest {
       } catch (InvalidCardException e) {
          pippo = true;
       }
-//      for(DevelopCard d : developCardDeck.visibleCards()){
-//         System.out.println(d.getCardFlag().getLevel());
-//      }
+
       assertFalse(pippo);
       assertEquals(previous, developCardDeck.visibleCards());
    }

@@ -78,7 +78,6 @@ public class DevelopCard {
    }
 
 
-
    public CardFlag getCardFlag(){
       return cardFlag;
    }
