@@ -130,9 +130,18 @@ class TrackTest {
       assertEquals(track.calculateTrackScore(), 12+3+2);
    }
 
-   //need to add a test to check the endGame notify call
    @Test
-   void checkForEndGameNotifyCall(){
-      //
+   void moreMovesThanAllowed() throws IOException {
+
+      track = GSON.trackParser(trackConfigFile);
+      track2 = GSON.trackParser(trackConfigFile);
+
+      track2.addToVaticanReportObserverList(track);
+      track.addToVaticanReportObserverList(track2);
+      track.moveForward(4);
+      track2.moveForward(30);
+
+      assertEquals(track2.playerPosition, 24);
+      assertEquals(track.calculateTrackScore(), 2);
    }
 }
