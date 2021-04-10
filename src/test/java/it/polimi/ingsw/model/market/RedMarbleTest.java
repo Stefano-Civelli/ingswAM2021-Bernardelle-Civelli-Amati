@@ -5,32 +5,32 @@ import it.polimi.ingsw.model.modelexceptions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RedMarbleTest {
 
-//    @Test
-//    void addResourceTest() throws IncorrectResourceTypeException,
-//            LevelNotExistsException, NotEnoughSpaceException {
-//        InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
-//
-//        MarketMarble marble1 = new RedMarble();
-//
-//        int points0 = playerBoard.getTrack().getTrack()[0].getVictoryPoints(),
-//                points1 = 0,
-//                position = 0;
-//        for(int i = 0; i < playerBoard.getTrack().getTrack().length; i++)
-//            if(playerBoard.getTrack().getTrack()[i].getVictoryPoints() > points0) {
-//                points1 = playerBoard.getTrack().getTrack()[i].getVictoryPoints();
-//                position = i;
-//                break;
-//            }
-//        playerBoard.getTrack().moveForward(position - 1);
-//        assertEquals(points0, playerBoard.getTrack().calculateTrackScore());
-//        marble1.addResource(playerBoard, 0, null);
-//        assertEquals(points1, playerBoard.getTrack().calculateTrackScore());
-//       }
+    @Test
+    void addResourceTest() throws NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+        InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
+
+        MarketMarble marble1 = new RedMarble();
+
+        int points0 = playerBoard.getTrack().getTrack()[0].getVictoryPoints(),
+                points1 = 0,
+                position = 0;
+        for(int i = 0; i < playerBoard.getTrack().getTrack().length; i++)
+            if(playerBoard.getTrack().getTrack()[i].getVictoryPoints() > points0) {
+                points1 = playerBoard.getTrack().getTrack()[i].getVictoryPoints();
+                position = i;
+                break;
+            }
+        playerBoard.getTrack().moveForward(position - 1);
+        assertEquals(points0, playerBoard.getTrack().calculateTrackScore());
+        marble1.addResource(playerBoard, Optional.empty());
+        assertEquals(points1, playerBoard.getTrack().calculateTrackScore());
+       }
 
     @Test
     @SuppressWarnings({"Possible", "AssertBetweenInconvertibleTypes"})

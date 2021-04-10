@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.track.Track;
 
+import java.util.List;
+
 public interface InterfacePlayerBoard {
 
     Warehouse getWarehouse();
@@ -11,4 +13,6 @@ public interface InterfacePlayerBoard {
     Track getTrack();
 
     CardSlots getCardSlots();
+
+    List<LeaderCard> getLeaderCards();
 }

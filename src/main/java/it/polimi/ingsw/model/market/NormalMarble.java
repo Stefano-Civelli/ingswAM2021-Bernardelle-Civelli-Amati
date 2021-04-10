@@ -22,7 +22,7 @@ public class NormalMarble extends MarketMarble{
      *
      * @param playerBoard the player board of the player to whom the resources belong
      * @param leaderCard this parameter will be ignored in this type of marble
-     * @throws NotEnoughSpaceException in this level of warehouse there isn't enough space
+     * @throws NotEnoughSpaceException there isn't enough space in the warehouse to add this resource
      */
     @Override
     public void addResource(InterfacePlayerBoard playerBoard, Optional<LeaderCard> leaderCard)

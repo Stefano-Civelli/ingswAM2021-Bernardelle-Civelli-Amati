@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class WhiteMarbleTest {
 
@@ -16,7 +17,7 @@ class WhiteMarbleTest {
 //        InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
 //
 //        MarketMarble marble = new WhiteMarble();
-//        playerBoard.getWarehouse().addResources(ResourceType.GOLD, 0, 1);
+//        playerBoard.getWarehouse().addResource(ResourceType.GOLD);
 //        marble.addResource(playerBoard, 0, ResourceType.GOLD);
 //        assertEquals(2, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
 //
