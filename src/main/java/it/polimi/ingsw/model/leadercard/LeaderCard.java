@@ -1,31 +1,48 @@
 package it.polimi.ingsw.model.leadercard;
 
-import it.polimi.ingsw.model.CardFlag;
-import it.polimi.ingsw.model.InterfacePlayerBoard;
-import it.polimi.ingsw.model.ResourceType;
-import it.polimi.ingsw.model.leadercard.CardBehaviour;
-import it.polimi.ingsw.model.leadercard.MarbleModifierBehaviour;
-import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
-import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
+import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.modelexceptions.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.*;
 
 public class LeaderCard {
 
+   @Expose(deserialize = false)
+   private final int numberOfRequiredResources = 5;
    private boolean active;
-   private ResourceType requiredResources;
-   private Map<CardFlag,Integer> requiredCardFlags;
+   private ResourceType requiredResources; //is null if no resources are required
+   private Map<CardFlag,Integer> requiredCardFlags; //is empty if no flags are required
    private  int victoryPoints;
    private CardBehaviour cardBehaviour;
 
    public LeaderCard(){
    }
 
-   public void activate(){
+   /**
+    * if allowed sets the LeaderCard state to active
+    * @param playerBoard the player that wants to activate the card
+    * @throws NotEnoughResourcesException if the player doesn't have the resources (CardFlags or ResourceType) to activatethe card
+    * @throws InvalidLeaderCardException if this card is not
+    */
+   public void activate(InterfacePlayerBoard playerBoard) throws NotEnoughResourcesException, InvalidLeaderCardException {
+      Warehouse warehouse = playerBoard.getWarehouse();
+      Chest chest = playerBoard.getChest();
+      CardSlots cardSlots = playerBoard.getCardSlots();
+
+      if(!playerBoard.getLeaderCards().contains(this))
+         throw new InvalidLeaderCardException("this is not one of your cards");
+
+      for(Map.Entry<CardFlag, Integer> entry : requiredCardFlags.entrySet()){
+         if(cardSlots.numberOf(entry.getKey()) < entry.getValue()){
+            throw new NotEnoughResourcesException("you need more flags to be able to activate this card");
+         }
+      }
+
+      if (warehouse.getNumberOf(requiredResources) + chest.getNumberOf(requiredResources) < numberOfRequiredResources)
+            throw new NotEnoughResourcesException("you can't activate this card, you need more resources");
+
       active = true;
    }
 
@@ -55,7 +72,7 @@ public class LeaderCard {
       cardBehaviour.produce(resourceToAdd, playerboard);
    }
 
-   public void addStorageSpace(InterfacePlayerBoard playerBoard){
+   public void addStorageSpace(InterfacePlayerBoard playerBoard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException {
       cardBehaviour.createStorage(playerBoard);
    }
 

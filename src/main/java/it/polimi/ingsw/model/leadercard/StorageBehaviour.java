@@ -1,6 +1,16 @@
 package it.polimi.ingsw.model.leadercard;
 
+import it.polimi.ingsw.model.InterfacePlayerBoard;
+import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.modelexceptions.LevelAlreadyPresentException;
+import it.polimi.ingsw.model.modelexceptions.MaxLeaderCardLevelsException;
+
 public class StorageBehaviour extends CardBehaviour{
 
-   //propaga un eccezione mandata dal wareouse se ho già aggiunto il numero max di storage
+   private ResourceType storageType;
+
+   @Override
+   public void createStorage(InterfacePlayerBoard playerboard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException {
+      playerboard.getWarehouse().addLeaderCardLevel(storageType);
+   }
 }

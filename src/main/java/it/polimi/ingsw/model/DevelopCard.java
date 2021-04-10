@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
+import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,18 +33,20 @@ public class DevelopCard {
       CardSlots cardSlots = playerBoard.getCardSlots();
       DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
 
+      //check if the card is visible
+      if(!developCardDeck.visibleCards().contains(this))
+         return false;
 
-      //TODO per essere comprabile deve essere visibile
       //check if the number of resources is sufficient
       for(Map.Entry<ResourceType, Integer> entry : cost.entrySet())
          if (warehouse.getNumberOf(entry.getKey()) + chest.getNumberOf(entry.getKey()) < entry.getValue())
             return false;
 
-      //TODO posso metterla nella classe cardslots sta logica?
       //check if there is a lower level card so that the new one can be put on top
       for(int i=0; i<cardSlots.getNumberOfCardSlots(); i++)
          if (cardSlots.returnTopCard(i).getCardFlag().getLevel() == this.getCardFlag().getLevel() - 1)
             return true;
+
       return false;
    }
 
@@ -55,25 +59,35 @@ public class DevelopCard {
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
-      //TODO se il giocatore non ha la carta non può attivarla
-      //cardSlots.contains(this);
+
       for(Map.Entry<ResourceType, Integer> entry : requirement.entrySet()){
          //check if the number of resources is sufficient
          if(warehouse.getNumberOf(entry.getKey()) + chest.getNumberOf(entry.getKey()) < entry.getValue())
             return false;
       }
-      return true;
+
+      //check if the card is on top of a card slot
+      for(int i=0; i<cardSlots.getNumberOfCardSlots(); i++)
+         if (cardSlots.returnTopCard(i).equals(this))
+            return true;
+
+      return false;
    }
 
-   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException {
+   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException, NotEnoughResourcesException{
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardslots = playerBoard.getCardSlots();
-      //rimuovo risorse eventualmente trowando eccezone
-      //chest.remove(warehouse.remove)
-      //alex mi da una remove(risorsa, numero) che mi ritorna quante ne mancano da togliere
+      if(!this.isBuyable(playerBoard))
+         throw new NotEnoughResourcesException("this card is not buyable");
 
-      //metto la carta nel cardSlot
+      for(Map.Entry<ResourceType, Integer> entry : requirement.entrySet()){
+         int remainingToRemove = warehouse.removeResources(entry.getKey(),entry.getValue());
+         try {
+            chest.removeResources(entry.getKey(), remainingToRemove);
+         }catch(AbuseOfFaithException e){}
+      }
+
       cardslots.addDevelopCard(cardSlotNumber,this);
    }
 
@@ -82,20 +96,8 @@ public class DevelopCard {
       return cardFlag;
    }
 
-   public HashMap<ResourceType, Integer> getCost(){
-      return new HashMap<>(cost);
-   }
-
-   public HashMap<ResourceType, Integer> getProduct(){
-      return new HashMap<>(product);
-   }
-
    public int getVictoryPoints(){
       return victoryPoints;
-   }
-
-   public HashMap<ResourceType, Integer> getRequirement() {
-      return requirement;
    }
 
    @Override

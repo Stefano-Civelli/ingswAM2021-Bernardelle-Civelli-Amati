@@ -93,9 +93,9 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
 
-   public void activateLeaderCard(int leaderToActivate) {
+   public void activateLeaderCard(int leaderToActivate) throws NotEnoughResourcesException, InvalidLeaderCardException {
       if(!leaderCards.get(leaderToActivate).isActive())
-         leaderCards.get(leaderToActivate).activate();
+         leaderCards.get(leaderToActivate).activate(this);
    }
 
    public void addMarbleToWarehouse(int marbleIndex, LeaderCard leaderCard) throws InvalidLeaderCardException, NotEnoughSpaceException {

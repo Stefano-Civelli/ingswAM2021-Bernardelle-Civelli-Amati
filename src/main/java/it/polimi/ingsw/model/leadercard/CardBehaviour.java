@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.leadercard;
 import it.polimi.ingsw.model.InterfacePlayerBoard;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
+import it.polimi.ingsw.model.modelexceptions.LevelAlreadyPresentException;
+import it.polimi.ingsw.model.modelexceptions.MaxLeaderCardLevelsException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
 import java.util.HashMap;
@@ -17,7 +19,7 @@ public abstract class CardBehaviour {
       return null;
    }
 
-   public void createStorage(InterfacePlayerBoard playerboard) {
+   public void createStorage(InterfacePlayerBoard playerboard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException {
       //eccezione I can't create a storage
    }
 

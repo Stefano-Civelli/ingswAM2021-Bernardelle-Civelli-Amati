@@ -43,7 +43,7 @@ public class Chest {
   }
 
   public int getNumberOf(ResourceType resource){
-    if(!resources.containsKey(resource))
+    if(resource == null || !resources.containsKey(resource))
       return 0;
     return resources.get(resource);
   }
