@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.leadercard;
 import it.polimi.ingsw.model.InterfacePlayerBoard;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
+import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
 import java.util.HashMap;
 
@@ -20,7 +21,7 @@ public abstract class CardBehaviour {
       //eccezione I can't create a storage
    }
 
-   public void produce(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException {
+   public void produce(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NotEnoughResourcesException {
       //eccezione I can't produce oppure non produrre niente
    }
 
