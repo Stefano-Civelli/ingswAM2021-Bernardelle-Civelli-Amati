@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +17,7 @@ class DevelopCardDeckTest {
    File cardConfigFile = new File("src/DevelopCardConfig.json");
 
    @Test
-   void buyableCardsTest() throws AbuseOfFaithException, IOException {
+   void buyableCardsTest() throws AbuseOfFaithException, IOException, NotEnoughResourcesException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), Market.getInstance(), developCardDeck);
@@ -100,7 +99,7 @@ class DevelopCardDeckTest {
    }
 
    @Test
-   void canBuyAllCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException {
+   void canBuyAllCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException, NotEnoughResourcesException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), Market.getInstance(), developCardDeck);

@@ -1,10 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.EndGameObserver;
-import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
+import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
@@ -18,14 +17,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class CardSlotsTest {
 
   File cardConfigFile = new File("src/DevelopCardConfig.json");
-  boolean flag = false;
 
   @Test
-  void emptyCalculateDevelopCardScore() throws IOException {
+  void emptyCalculateDevelopCardScore() {
     int totalPoints = 0;
     CardSlots cardSlots = new CardSlots();
-    DevelopCardDeck developCardDeck;
-    developCardDeck = GSON.cardParser(cardConfigFile);
 
     assertEquals(totalPoints, cardSlots.calculateDevelopCardScore());
   }
@@ -119,12 +115,12 @@ class CardSlotsTest {
   }
 
   @Test //i can check here if notyForEndGame is called cause i've added 7 cards to CardSlots
-  void activatableCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException {
+  void activatableCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException, NotEnoughResourcesException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);
 
-    InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), Market.getInstance(), developCardDeck);
+    InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), Market.getInstance(), developCardDeck);
     playerBoard.getChest().addResources(ResourceType.GOLD,10);
     playerBoard.getChest().addResources(ResourceType.SERVANT,10);
     playerBoard.getChest().addResources(ResourceType.STONE,10);
@@ -167,10 +163,16 @@ class CardSlotsTest {
   }
 
   @Test
-  void returnTopCardOfAnEmptySlot() throws IOException {
+  void returnTopCardOfAnEmptySlot() {
     CardSlots cardSlots = new CardSlots();
-    DevelopCardDeck developCardDeck;
-    developCardDeck = GSON.cardParser(cardConfigFile);
+
     assertEquals(0, cardSlots.returnTopCard(2).getCardFlag().getLevel());
+  }
+
+  @Test
+  void addANullCard() {
+    CardSlots cardSlots = new CardSlots();
+
+    assertThrows(NullPointerException.class, () -> cardSlots.addDevelopCard(0,null));
   }
 }

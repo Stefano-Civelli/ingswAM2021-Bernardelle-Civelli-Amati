@@ -14,21 +14,22 @@ public class Chest {
     tempResourcesMap = new HashMap<>();
   }
 
-  public void addResources(ResourceType resource, int quantity) throws AbuseOfFaithException {
+  public void addResources(ResourceType resource, int quantity) throws AbuseOfFaithException, NotEnoughResourcesException {
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException("Adding faith to chest is not allowed");
       //if the key is not present adds a new element to the map with value quantity
+    if(quantity < 0)
+      throw new NotEnoughResourcesException("U are adding a negative quantity of a resource, that's not allowed");
       tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
 
   }
-
 
   public void removeResources(ResourceType resource, int quantity) throws NotEnoughResourcesException, AbuseOfFaithException{
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException();
 
     if(resources.containsKey(resource)) {
-      if (resources.get(resource) - quantity < 0)
+      if (resources.get(resource) - quantity < 0 || quantity < 0)
         throw new NotEnoughResourcesException("not enough resources");
 
       resources.replace(resource, resources.get(resource) - quantity);

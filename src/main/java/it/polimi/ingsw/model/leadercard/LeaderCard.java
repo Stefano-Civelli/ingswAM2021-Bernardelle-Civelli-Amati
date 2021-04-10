@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.leadercard.CardBehaviour;
 import it.polimi.ingsw.model.leadercard.MarbleModifierBehaviour;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
+import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,7 @@ public class LeaderCard {
    }
 
 
-   public void getProduct(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException {
+   public void getProduct(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NotEnoughResourcesException {
       cardBehaviour.produce(resourceToAdd, playerboard);
    }
 

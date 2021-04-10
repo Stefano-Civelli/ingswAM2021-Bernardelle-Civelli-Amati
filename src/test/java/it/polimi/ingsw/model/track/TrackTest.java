@@ -14,27 +14,18 @@ class TrackTest {
    Track track;
    Track track2;
 
-   @Test
-   void calculateTrackScoreTEST() {
-      {
-         try {
-            track = GSON.trackParser(trackConfigFile);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
+   @Test //test the score of the track if the player has never moved his faith marker
+   void calculateTrackScoreTEST() throws IOException {
+
+      track = GSON.trackParser(trackConfigFile);
       assertEquals(track.calculateTrackScore(), 1);
    }
 
-   @Test
-   void calculateTrackScoreTEST2() {
-      {
-         try {
-            track = GSON.trackParser(trackConfigFile);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
+   @Test //test if victory points implementation actually works
+   void calculateTrackScoreTEST2() throws IOException {
+
+      track = GSON.trackParser(trackConfigFile);
+
       track.moveForward(4);
       assertEquals(track.calculateTrackScore(), 2);
       track.moveForward(1);
@@ -43,49 +34,27 @@ class TrackTest {
       assertEquals(track.calculateTrackScore(), 4);
    }
 
-
    @Test
-   void checkIfCurrentPositionIsActiveTEST() {
-      {
-         try {
-            track = GSON.trackParser(trackConfigFile);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
-      {
-         try {
-            track2 = GSON.trackParser(trackConfigFile);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
+   void checkIfCurrentPositionIsActiveTEST() throws IOException {
+
+      track = GSON.trackParser(trackConfigFile);
+      track2 = GSON.trackParser(trackConfigFile);
+
       track.addToVaticanReportObserverList(track2);
       track2.addToVaticanReportObserverList(track);
       track.moveForward(8);
       assertEquals(track2.calculateTrackScore(), 1);
       assertEquals(track.calculateTrackScore(), 4+2);
       track2.moveForward(8);
-      assertEquals(track.calculateTrackScore(), 4+2);
       assertEquals(track2.calculateTrackScore(), 4);
+      assertEquals(track.calculateTrackScore(), 4+2);
    }
 
    @Test
-   void checkIfCurrentPositionIsActiveTEST2() {
-      {
-         try {
-            track = GSON.trackParser(trackConfigFile);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
-      {
-         try {
-            track2 = GSON.trackParser(trackConfigFile);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
+   void checkIfCurrentPositionIsActiveTEST2() throws IOException {
+      track = GSON.trackParser(trackConfigFile);
+      track2 = GSON.trackParser(trackConfigFile);
+
       track.addToVaticanReportObserverList(track2);
       track2.addToVaticanReportObserverList(track);
       track.moveForward(7);
@@ -96,21 +65,11 @@ class TrackTest {
    }
 
    @Test
-   void checkIfCurrentPositionIsActiveTEST3() {
-      {
-         try {
-            track = GSON.trackParser(trackConfigFile);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
-      {
-         try {
-            track2 = GSON.trackParser(trackConfigFile);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
+   void checkIfCurrentPositionIsActiveTEST3() throws IOException {
+
+      track = GSON.trackParser(trackConfigFile);
+      track2 = GSON.trackParser(trackConfigFile);
+
       track.addToVaticanReportObserverList(track2);
       track2.addToVaticanReportObserverList(track);
       track.moveForward(5);
@@ -120,21 +79,11 @@ class TrackTest {
    }
 
    @Test
-   void checkIfCurrentPositionIsActiveTEST4() {
-      {
-         try {
-            track = GSON.trackParser(trackConfigFile);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
-      {
-         try {
-            track2 = GSON.trackParser(trackConfigFile);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
+   void checkIfCurrentPositionIsActiveTEST4() throws IOException {
+
+      track = GSON.trackParser(trackConfigFile);
+      track2 = GSON.trackParser(trackConfigFile);
+
       track.addToVaticanReportObserverList(track2);
       track2.addToVaticanReportObserverList(track);
       track.moveForward(4);
@@ -144,7 +93,7 @@ class TrackTest {
       track2.moveForward(8);
       assertEquals(track.calculateTrackScore(), 9);
       assertEquals(track2.calculateTrackScore(), 2+3+12);
-      //removing track from track2 observerlist it shouldn't be notified when track2 reaches a red square
+      //removing track from track2 observerList it shouldn't be notified when track2 reaches a red square
       track2.removeFromVaticanReportObserverList(track);
       track.moveForward(8);
       track2.moveForward(8);
@@ -152,9 +101,47 @@ class TrackTest {
       assertEquals(track2.calculateTrackScore(), 2+3+4+20);
    }
 
-   //need to add a test to check the endGame notify call
    @Test
-   void checkForEndGameNotifyCall(){
-      //
+   void negativeInputTest() throws IOException {
+      track = GSON.trackParser(trackConfigFile);
+      track.moveForward(-1);
+      assertEquals(track.calculateTrackScore(), 1);
+   }
+
+   @Test
+   void negativeInputTest2() throws IOException {
+
+      track = GSON.trackParser(trackConfigFile);
+      track2 = GSON.trackParser(trackConfigFile);
+
+      track.addToVaticanReportObserverList(track2);
+      track2.addToVaticanReportObserverList(track);
+      track.moveForward(8);
+      assertEquals(track2.calculateTrackScore(), 1);
+      assertEquals(track.calculateTrackScore(), 4+2);
+      track2.moveForward(8);
+      assertEquals(track2.calculateTrackScore(), 4);
+      assertEquals(track.calculateTrackScore(), 4+2);
+      track.moveForward(-1);
+      assertEquals(track2.calculateTrackScore(), 4);
+      assertEquals(track.calculateTrackScore(), 4+2);
+      track.moveForward(8);
+      assertEquals(track2.calculateTrackScore(), 4);
+      assertEquals(track.calculateTrackScore(), 12+3+2);
+   }
+
+   @Test
+   void moreMovesThanAllowed() throws IOException {
+
+      track = GSON.trackParser(trackConfigFile);
+      track2 = GSON.trackParser(trackConfigFile);
+
+      track2.addToVaticanReportObserverList(track);
+      track.addToVaticanReportObserverList(track2);
+      track.moveForward(4);
+      track2.moveForward(30);
+
+      assertEquals(track2.playerPosition, 24);
+      assertEquals(track.calculateTrackScore(), 2);
    }
 }

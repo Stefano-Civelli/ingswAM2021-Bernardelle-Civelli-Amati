@@ -52,7 +52,7 @@ public class CardSlots implements EndGameObservable {
    * @param slot, slot in which the caller wants to put the card (int between 0 and numberOfCardSlots)
    * @param developCard, card to add
    */
-  public void addDevelopCard(int slot, DevelopCard developCard) throws InvalidCardPlacementException {
+  public void addDevelopCard(int slot, DevelopCard developCard) throws InvalidCardPlacementException, NullPointerException {
       int levelCardToAdd = developCard.getCardFlag().getLevel();
 
       for(List<DevelopCard> d : developCards)

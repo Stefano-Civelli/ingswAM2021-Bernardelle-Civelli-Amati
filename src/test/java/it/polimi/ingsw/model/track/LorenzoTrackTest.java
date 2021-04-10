@@ -13,21 +13,11 @@ class LorenzoTrackTest {
   LorenzoTrack lorenzoTrack;
 
   @Test
-  void checkIfCurrentPositionIsActiveTEST() {
-    {
-      try {
-        track = GSON.trackParser(trackConfigFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    {
-      try {
-        lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
+  void checkIfCurrentPositionIsActiveTEST() throws IOException {
+
+    track = GSON.trackParser(trackConfigFile);
+    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
+
     lorenzoTrack.addToVaticanReportObserverList(track);
     track.moveForward(8);
     assertEquals(track.calculateTrackScore(), 4+2);
@@ -36,21 +26,11 @@ class LorenzoTrackTest {
   }
 
   @Test
-  void checkIfCurrentPositionIsActiveTEST2() {
-    {
-      try {
-        track = GSON.trackParser(trackConfigFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    {
-      try {
-        lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
+  void checkIfCurrentPositionIsActiveTEST2() throws IOException {
+
+    track = GSON.trackParser(trackConfigFile);
+    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
+
     lorenzoTrack.addToVaticanReportObserverList(track);
     track.moveForward(7);
     lorenzoTrack.moveForward(8);
@@ -60,21 +40,11 @@ class LorenzoTrackTest {
   }
 
   @Test
-  void checkIfCurrentPositionIsActiveTEST3() {
-    {
-      try {
-        track = GSON.trackParser(trackConfigFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    {
-      try {
-        lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
+  void checkIfCurrentPositionIsActiveTEST3() throws IOException {
+
+    track = GSON.trackParser(trackConfigFile);
+    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
+
     lorenzoTrack.addToVaticanReportObserverList(track);
     track.moveForward(7);
     lorenzoTrack.moveForward(8);
@@ -85,21 +55,11 @@ class LorenzoTrackTest {
   }
 
   @Test
-  void checkIfCurrentPositionIsActiveTEST4() {
-    {
-      try {
-        track = GSON.trackParser(trackConfigFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    {
-      try {
-        lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
+  void checkIfCurrentPositionIsActiveTEST4() throws IOException {
+
+    track = GSON.trackParser(trackConfigFile);
+    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
+
     lorenzoTrack.addToVaticanReportObserverList(track);
     track.moveForward(5);
     lorenzoTrack.moveForward(17);
@@ -107,21 +67,11 @@ class LorenzoTrackTest {
   }
 
   @Test
-  void checkIfCurrentPositionIsActiveTEST5() {
-    {
-      try {
-        track = GSON.trackParser(trackConfigFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    {
-      try {
-        lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
+  void checkIfCurrentPositionIsActiveTEST5() throws IOException {
+
+    track = GSON.trackParser(trackConfigFile);
+    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
+
     lorenzoTrack.addToVaticanReportObserverList(track);
     track.moveForward(4);
     lorenzoTrack.moveForward(8);
@@ -129,16 +79,26 @@ class LorenzoTrackTest {
     track.moveForward(4);
     lorenzoTrack.moveForward(8);
     assertEquals(track.calculateTrackScore(), 6+3);
-    //removing track from track2 observerList it shouldn't be notified when track2 reaches a red square
+    //removing track from lorenzoTrack observerList it shouldn't be notified when lorenzoTrack reaches a red square
     lorenzoTrack.removeFromVaticanReportObserverList(track);
     track.moveForward(8);
     lorenzoTrack.moveForward(8);
     assertEquals(track.calculateTrackScore(), 3+16);
   }
 
-  //need to add a test to check the endGame notify call
   @Test
-  void checkForEndGameNotifyCall(){
-    //
+  void moreMovesThanAllowed() throws IOException {
+
+    track = GSON.trackParser(trackConfigFile);
+    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
+
+    lorenzoTrack.addToVaticanReportObserverList(track);
+    track.moveForward(4);
+    lorenzoTrack.moveForward(30);
+
+    assertEquals(lorenzoTrack.playerPosition, 24);
+    assertEquals(track.calculateTrackScore(), 2);
   }
+
+
 }
