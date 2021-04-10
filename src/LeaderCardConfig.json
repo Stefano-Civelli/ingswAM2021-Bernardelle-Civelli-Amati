@@ -113,6 +113,23 @@
       "requiredResources": "NONE",
       "requiredCardFlags": [
         [
+          {"level": "0", "color": "YELLOW"}, "2"
+        ],
+        [
+          {"level": "0", "color": "BLUE"}, "1"
+        ]
+      ],
+      "victoryPoints": "5",
+      "cardBehaviour": {
+        "type": "MarbleModifierBehaviour",
+        "onWhite": "SERVANT"
+      }
+    },
+    {
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [
+        [
           {"level": "0", "color": "GREEN"}, "2"
         ],
         [

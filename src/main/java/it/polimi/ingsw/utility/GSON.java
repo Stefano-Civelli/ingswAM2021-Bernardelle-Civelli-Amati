@@ -52,7 +52,7 @@ public class GSON{
       RuntimeTypeAdapterFactory<CardBehaviour> cardBehaviourAdapter = RuntimeTypeAdapterFactory.of(CardBehaviour.class, "type");
       cardBehaviourAdapter
               .registerSubtype(MarbleModifierBehaviour.class, "MarbleModifierBehaviour")
-              .registerSubtype(LeaderProduceBehaviour.class, "ProduceBehaviour")
+              .registerSubtype(LeaderProduceBehaviour.class, "LeaderProduceBehaviour")
               .registerSubtype(DiscountBehaviour.class, "DiscountBehaviour")
               .registerSubtype(StorageBehaviour.class, "StorageBehaviour");
 

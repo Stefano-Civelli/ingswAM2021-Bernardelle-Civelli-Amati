@@ -86,11 +86,9 @@ class GSONTest {
       LeaderCardDeck leaderCardDeck;
       try {
          leaderCardDeck = GSON.leaderCardParser(leaderCardConfigFile);
-         for (LeaderCard l : leaderCardDeck.getLeaderCardList()) {
+         for (LeaderCard l : leaderCardDeck.getLeaderCardList())
             System.out.println(l.resourceOnWhite());
-            l.printRequiredCardFlags();
-         }
-         
+
       } catch (IOException e) {
          e.printStackTrace();
       }
