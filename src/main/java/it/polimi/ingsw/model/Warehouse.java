@@ -11,19 +11,24 @@ import java.util.stream.Collectors;
 
 public class Warehouse {
 
-    private final int NUMBER_OF_WAREHOUSE_LEVELS = 3;
+    private final int NUMBER_OF_NORMAL_LEVELS = 3;
+    private final int MAX_SPECIAL_LEVELS = 2;
 
     private final Pair<ResourceType, Integer>[] levels;
     private final List<Pair<ResourceType, Integer>> leaderLevels;
 
     @SuppressWarnings("unchecked")
     public Warehouse() {
-        this.levels = new Pair[NUMBER_OF_WAREHOUSE_LEVELS];
-        this.leaderLevels = new ArrayList<>();
+        this.levels = new Pair[this.NUMBER_OF_NORMAL_LEVELS];
+        this.leaderLevels = new ArrayList<>(this.MAX_SPECIAL_LEVELS);
+    }
+
+    public int maxLeaderCardsLevels() {
+        return this.MAX_SPECIAL_LEVELS;
     }
 
     public int numberOfWarehouseLevels() {
-        return this.NUMBER_OF_WAREHOUSE_LEVELS;
+        return this.NUMBER_OF_NORMAL_LEVELS;
     }
 
     public int numberOfLeaderCardsLevels() {
@@ -31,7 +36,7 @@ public class Warehouse {
     }
 
     public int numberOfAllLevels() {
-        return this.NUMBER_OF_WAREHOUSE_LEVELS + this.leaderLevels.size();
+        return this.NUMBER_OF_NORMAL_LEVELS + this.leaderLevels.size();
     }
 
     /**
@@ -40,7 +45,14 @@ public class Warehouse {
      * @param resourceType the resource type of the storage leader card to activate
      * @return number of the level created
      */
-    public int addLeaderCardLevel(ResourceType resourceType) {
+    public int addLeaderCardLevel(ResourceType resourceType)
+            throws MaxLeaderCardLevelsException, LevelAlreadyPresentException {
+        if(resourceType == null)
+            throw new NullPointerException();
+        if(this.numberOfLeaderCardsLevels() + 1 > this.maxLeaderCardsLevels())
+            throw new MaxLeaderCardLevelsException();
+        if(getSpecialLevel(resourceType) != -1)
+            throw new LevelAlreadyPresentException();
         Pair<ResourceType, Integer> pair = new Pair<>(resourceType, 0);
         this.leaderLevels.add(pair);
         return this.leaderLevels.lastIndexOf(pair);
@@ -103,6 +115,18 @@ public class Warehouse {
      */
     public int removeResources(ResourceType resourceType, int quantity) {
 
+        // Remove in normal levels
+        int level = this.getNormalLevel(resourceType);
+        if(level != -1) {
+            if( this.levels[level].getValue() <= quantity) {
+                quantity -= this.levels[level].getValue();
+                this.levels[level] = null;
+            } else {
+                this.levels[level] = new Pair<>(resourceType, this.levels[level].getValue() - quantity);
+                quantity = 0;
+            }
+        }
+
         //Remove in leader card levels
         for(int i = 0; i < this.numberOfLeaderCardsLevels(); i++) {
             if(this.leaderLevels.get(i).getKey() == resourceType) {
@@ -118,18 +142,43 @@ public class Warehouse {
             }
         }
 
-        int level = this.getNormalLevel(resourceType);
-        if(level != -1) {
-            if( this.levels[level].getValue() <= quantity) {
-                quantity -= this.levels[level].getValue();
-                this.levels[level] = null;
-            } else {
-                this.levels[level] = new Pair<>(resourceType, this.levels[level].getValue() - quantity);
-                quantity = 0;
-            }
-        }
-
         return quantity;
+    }
+
+    private int getNormalLevel(ResourceType resource) {
+        return Arrays.stream(this.levels).map( (i) -> i!= null ? i.getKey() : null )
+                .collect(Collectors.toList()).indexOf(resource) ;
+    }
+
+    private int getSpecialLevel(ResourceType resource) {
+        return this.leaderLevels.stream().map( (i) -> i!= null ? i.getKey() : null )
+                .collect(Collectors.toList()).indexOf(resource) ;
+    }
+
+    /**
+     * Returns the total amount of the specified resources contained in the warehouse
+     *
+     * @param resource the resource type
+     * @return the number of contained resources of this type
+     */
+    public int getNumberOf(ResourceType resource) {
+        return Arrays.stream(this.levels).filter(Objects::nonNull).filter( (i) -> i.getKey() == resource )
+                .map(Pair::getValue).reduce(Integer::sum).orElse(0)
+                +
+                this.leaderLevels.stream().filter(Objects::nonNull).filter( (i) -> i.getKey() == resource )
+                        .map(Pair::getValue).reduce(Integer::sum).orElse(0);
+    }
+
+    /**
+     *
+     * @return total amount of resources contained in the warehouse
+     */
+    public int totalResources() {
+        return Arrays.stream(this.levels).filter(Objects::nonNull).map(Pair::getValue)
+                .reduce(Integer::sum).orElse(0)
+                +
+                this.leaderLevels.stream().filter(Objects::nonNull).map(Pair::getValue)
+                        .reduce(Integer::sum).orElse(0);
     }
 
 //
@@ -422,36 +471,5 @@ public class Warehouse {
 //
 //        throw new LevelNotExistsException();
 //    }
-
-    private int getNormalLevel(ResourceType resource) {
-        return Arrays.stream(this.levels).map( (i) -> i!= null ? i.getKey() : null )
-                .collect(Collectors.toList()).indexOf(resource) ;
-    }
-
-    /**
-     * Returns the total amount of the specified resources contained in the warehouse
-     *
-     * @param resource the resource type
-     * @return the number of contained resources of this type
-     */
-    public int getNumberOf(ResourceType resource) {
-        return Arrays.stream(this.levels).filter(Objects::nonNull).filter( (i) -> i.getKey() == resource )
-                    .map(Pair::getValue).reduce(Integer::sum).orElse(0)
-                +
-                this.leaderLevels.stream().filter(Objects::nonNull).filter( (i) -> i.getKey() == resource )
-                    .map(Pair::getValue).reduce(Integer::sum).orElse(0);
-    }
-
-    /**
-     *
-     * @return total amount of resources contained in the warehouse
-     */
-    public int totalResources() {
-        return Arrays.stream(this.levels).filter(Objects::nonNull).map(Pair::getValue)
-                    .reduce(Integer::sum).orElse(0)
-                +
-                this.leaderLevels.stream().filter(Objects::nonNull).map(Pair::getValue)
-                    .reduce(Integer::sum).orElse(0);
-    }
 
 }
