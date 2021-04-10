@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
-import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
-import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
+import it.polimi.ingsw.model.modelexceptions.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,12 +72,13 @@ public class DevelopCard {
       return false;
    }
 
-   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException, NotEnoughResourcesException{
+   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException, NotEnoughResourcesException, NotBuyableException, InvalidCardException {
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardslots = playerBoard.getCardSlots();
+      DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
       if(!this.isBuyable(playerBoard))
-         throw new NotEnoughResourcesException("this card is not buyable");
+         throw new NotBuyableException("you are trying to buy a card you cannot buy");
 
       for(Map.Entry<ResourceType, Integer> entry : requirement.entrySet()){
          int remainingToRemove = warehouse.removeResources(entry.getKey(),entry.getValue());
@@ -89,6 +88,8 @@ public class DevelopCard {
       }
 
       cardslots.addDevelopCard(cardSlotNumber,this);
+      developCardDeck.removeCard(this);
+
    }
 
 

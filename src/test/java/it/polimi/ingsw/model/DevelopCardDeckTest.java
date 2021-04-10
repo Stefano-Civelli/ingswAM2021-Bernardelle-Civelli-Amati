@@ -21,7 +21,7 @@ class DevelopCardDeckTest {
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), Market.getInstance(), developCardDeck);
       playerBoard.getChest().addResources(ResourceType.GOLD,3);
-      playerBoard.getChest().mergeMapResources();
+      playerBoard.getChest().endOfTurnMapsMerge();
       for(DevelopCard d : developCardDeck.buyableCards(playerBoard))
          assertTrue(d.isBuyable(playerBoard));
    }
@@ -92,7 +92,7 @@ class DevelopCardDeckTest {
       playerBoard.getChest().addResources(ResourceType.SERVANT,9);
       playerBoard.getChest().addResources(ResourceType.SHIELD,9);
       playerBoard.getChest().addResources(ResourceType.STONE,9);
-      playerBoard.getChest().mergeMapResources();
+      playerBoard.getChest().endOfTurnMapsMerge();
 
       playerBoard.getCardSlots().addDevelopCard(1, developCardDeck.getCard(0,0));
       try {

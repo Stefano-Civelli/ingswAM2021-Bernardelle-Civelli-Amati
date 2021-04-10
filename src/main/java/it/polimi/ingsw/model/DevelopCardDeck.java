@@ -91,15 +91,16 @@ public class DevelopCardDeck implements EndGameObservable {
    }
 
    /**
-    * returns the reference to a card contained in the Deck
-    * @param row the row of the card to return
-    * @param column the column of the card to return
+    * returns the reference to a card contained in the Deck given the position row/column
+    * @param row the row of the card to return (first is 0). row is related to the card level
+    * @param column the column of the card to return (first is 0). column is related to card the color
     * @return the specified card
     * @throws RowOrColumnNotExistsException if the card position is invalid
     */
    public DevelopCard getCard(int row, int column) throws RowOrColumnNotExistsException {
       if(row<0 || row>2 || column<0 || column>3)
-         throw new RowOrColumnNotExistsException();
+         throw new RowOrColumnNotExistsException("row is between 0 and " + (cardsCube.length-1) + " , column is between 0 and " + (cardsCube[0].length-1));
+
       return cardsCube[row][column].get(cardsCube[row][column].size() - 1);
    }
 

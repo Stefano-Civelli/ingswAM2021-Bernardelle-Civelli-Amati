@@ -122,7 +122,7 @@ class CardSlotsTest {
     playerBoard.getChest().addResources(ResourceType.SERVANT,10);
     playerBoard.getChest().addResources(ResourceType.STONE,10);
     playerBoard.getChest().addResources(ResourceType.SHIELD,10);
-    playerBoard.getChest().mergeMapResources();
+    playerBoard.getChest().endOfTurnMapsMerge();
 
     cardSlots.addDevelopCard(0, developCardDeck.getCard(0,0));
     cardSlots.addDevelopCard(0, developCardDeck.getCard(1,0));

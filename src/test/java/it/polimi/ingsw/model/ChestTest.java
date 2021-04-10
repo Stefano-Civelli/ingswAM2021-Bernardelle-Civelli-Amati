@@ -37,7 +37,7 @@ class ChestTest {
       chest.addResources(ResourceType.SHIELD, 5);
       chest.addResources(ResourceType.SHIELD, 5);
 
-      chest.mergeMapResources();
+      chest.endOfTurnMapsMerge();
       assertEquals(chest.totalNumberOfResources(),19);
    }
 
@@ -50,7 +50,7 @@ class ChestTest {
       chest.addResources(ResourceType.SERVANT, 4);
       chest.addResources(ResourceType.SHIELD, 5);
       chest.addResources(ResourceType.SHIELD, 5);
-      chest.mergeMapResources();
+      chest.endOfTurnMapsMerge();
       chest.removeResources(ResourceType.GOLD, 1);
 
       assertEquals(chest.totalNumberOfResources(),18);
@@ -64,7 +64,7 @@ class ChestTest {
 
       chest.addResources(ResourceType.GOLD, 2);
       chest.addResources(ResourceType.SHIELD, 4);
-      chest.mergeMapResources();
+      chest.endOfTurnMapsMerge();
       assertThrows(NotEnoughResourcesException.class, () -> chest.removeResources(ResourceType.GOLD, 3));
 
    }
@@ -75,7 +75,7 @@ class ChestTest {
 
       chest.addResources(ResourceType.GOLD, 2);
       chest.addResources(ResourceType.SHIELD, 4);
-      chest.mergeMapResources();
+      chest.endOfTurnMapsMerge();
       chest.removeResources(ResourceType.GOLD, 2);
 
       assertEquals(chest.getNumberOf(ResourceType.GOLD), 0);
@@ -88,7 +88,7 @@ class ChestTest {
       chest.addResources(ResourceType.GOLD, 2);
       chest.addResources(ResourceType.SHIELD, 4);
       assertThrows(AbuseOfFaithException.class, () -> chest.addResources(ResourceType.FAITH, 4));
-      chest.mergeMapResources();
+      chest.endOfTurnMapsMerge();
       assertThrows(AbuseOfFaithException.class, () -> chest.removeResources(ResourceType.FAITH, 1));
    }
 
@@ -98,7 +98,7 @@ class ChestTest {
 
       chest.addResources(ResourceType.GOLD, 2);
       chest.addResources(ResourceType.SHIELD, 4);
-      chest.mergeMapResources();
+      chest.endOfTurnMapsMerge();
       chest.removeResources(ResourceType.GOLD, 0);
 
       assertEquals(chest.getNumberOf(ResourceType.GOLD), 2);
@@ -111,7 +111,7 @@ class ChestTest {
 
       chest.addResources(ResourceType.GOLD, 2);
       chest.addResources(ResourceType.SHIELD, 4);
-      chest.mergeMapResources();
+      chest.endOfTurnMapsMerge();
       assertThrows(NotEnoughResourcesException.class, () -> chest.removeResources(ResourceType.GOLD, -10));
    }
 
@@ -121,7 +121,7 @@ class ChestTest {
 
       chest.addResources(ResourceType.GOLD, 2);
       chest.addResources(ResourceType.SHIELD, 4);
-      chest.mergeMapResources();
+      chest.endOfTurnMapsMerge();
       assertThrows(NegativeQuantityException.class, () -> chest.addResources(ResourceType.GOLD, -10));
       assertEquals(chest.getNumberOf(ResourceType.GOLD), 2);
    }

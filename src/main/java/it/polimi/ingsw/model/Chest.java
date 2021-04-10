@@ -49,7 +49,7 @@ public class Chest {
     return resources.get(resource);
   }
 
-  public void mergeMapResources(){
+  public void endOfTurnMapsMerge(){
 
     tempResourcesMap.entrySet()
              .forEach(entry -> resources.merge(
