@@ -45,11 +45,11 @@ public class DevelopCardDeck implements EndGameObservable {
     * returns the visible cards (the ones on top of the card square)
     * @return matrix of DevelopCard
     */
-   public DevelopCard[][] visibleCards() {
-      DevelopCard[][] temp = new DevelopCard[3][4];
+   public ArrayList<DevelopCard> visibleCards() {
+      ArrayList<DevelopCard> temp = new ArrayList<>();
       for (int i = 0; i < cardsCube.length; i++) {
          for (int j = 0; j < cardsCube[i].length; j++) {
-            temp[i][j] = cardsCube[i][j].get(cardsCube[i][j].size() - 1);
+            temp.add(cardsCube[i][j].get(cardsCube[i][j].size() - 1));
          }
       }
       return temp;
@@ -61,8 +61,7 @@ public class DevelopCardDeck implements EndGameObservable {
     * @return the list of buyable cards
     */
    public List<DevelopCard> buyableCards(InterfacePlayerBoard playerBoard) {
-      return Arrays.stream(visibleCards())
-              .flatMap(Arrays::stream)
+      return visibleCards().stream()
               .filter(x -> x.isBuyable(playerBoard))
               .collect(Collectors.toList());
    }

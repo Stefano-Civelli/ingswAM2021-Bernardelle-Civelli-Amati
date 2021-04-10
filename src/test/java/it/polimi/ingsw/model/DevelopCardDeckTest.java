@@ -42,25 +42,21 @@ class DevelopCardDeckTest {
       developCardDeck = GSON.cardParser(cardConfigFile);
       boolean pippo = false;
       boolean isSame = true;
-      DevelopCard[][] previous = developCardDeck.visibleCards();
+      ArrayList<DevelopCard> previous = developCardDeck.visibleCards();
       try {
          developCardDeck.removeCard(null);
       } catch (InvalidCardException e) {
          pippo = true;
       }
+//      for(DevelopCard d : developCardDeck.visibleCards()){
+//         System.out.println(d.getCardFlag().getLevel());
+//      }
       assertFalse(pippo);
-      for (int i = 0; i < developCardDeck.visibleCards().length; i++)
-         for (int j = 0; j < developCardDeck.visibleCards()[i].length; j++)
-            if(previous[i][j] != developCardDeck.visibleCards()[i][j]) {
-               isSame = false;
-               break;
-            }
-
-      assertTrue(isSame);
+      assertEquals(previous, developCardDeck.visibleCards());
    }
 
    @Test
-   void removeInvalidCard() throws IOException, RowOrColumnNotExistsException {
+   void removeInvalidCard() throws IOException, RowOrColumnNotExistsException, InvalidCardException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       boolean pippo = false;
@@ -70,18 +66,10 @@ class DevelopCardDeckTest {
       } catch (InvalidCardException e) {
          System.out.println("This first remove doesn't work as it should");
       }
-      try {
-         developCardDeck.removeCard(developCard);
-      } catch (InvalidCardException e) {
-         pippo = true;
-      }
-      assertTrue(pippo);
 
-      DevelopCard[][] visible = developCardDeck.visibleCards();
-      for(int i=0; i<visible.length; i++)
-         for(int j=0; j<visible[i].length; j++)
-            if(visible[i][j].equals(developCard))
-               assertTrue(false);
+      assertThrows(InvalidCardException.class, () -> developCardDeck.removeCard(developCard));
+
+      assertFalse(developCardDeck.visibleCards().contains(developCard));
    }
 
    @Test

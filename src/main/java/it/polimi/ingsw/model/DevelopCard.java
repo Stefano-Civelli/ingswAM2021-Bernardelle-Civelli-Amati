@@ -29,6 +29,9 @@ public class DevelopCard {
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
+      DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
+
+
       //TODO per essere comprabile deve essere visibile
       //check if the number of resources is sufficient
       for(Map.Entry<ResourceType, Integer> entry : cost.entrySet())
