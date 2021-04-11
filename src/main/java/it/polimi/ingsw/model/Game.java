@@ -45,5 +45,6 @@ public class Game {
       playerBoardList.add(playerBoard);
    }
 
+
    //il current player direi che non lo tiene game ma il turn manager
 }

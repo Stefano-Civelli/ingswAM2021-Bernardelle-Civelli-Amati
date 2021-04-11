@@ -9,7 +9,9 @@ import java.util.stream.Collectors;
 
 public class WhiteMarble extends MarketMarble{
 
-    public WhiteMarble(){}
+    public WhiteMarble(){
+        //isWhite = true;
+    }
 
     /**
      * Adds the resources owed to the player due to this marble

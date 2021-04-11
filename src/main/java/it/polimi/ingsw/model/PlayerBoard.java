@@ -96,41 +96,29 @@ public class PlayerBoard implements InterfacePlayerBoard {
       tempMarketMarble = new ArrayList<>(market.pushInRow(row));
    }
 
-
    public void setLeaderCardActive(int leaderToActivate) throws NotEnoughResourcesException, InvalidLeaderCardException {
       if(!leaderCards.get(leaderToActivate).isActive())
          leaderCards.get(leaderToActivate).activate(this);
    }
 
    public void addMarbleToWarehouse(int marbleIndex, Integer leaderPosition) throws InvalidLeaderCardException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
-      if(leaderPosition == null)
-         tempMarketMarble.get(marbleIndex).addResource(this, Optional.empty());
-      else {
-         if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
-            throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
-         if (leaderPosition < 0 || leaderPosition >= leaderCards.size())
-            throw new IndexOutOfBoundsException("The index of the leaderCard u gave me doesn't match the length of my array");
-         if(leaderCards.get(leaderPosition).isActive())
-            tempMarketMarble.get(marbleIndex).addResource(this, Optional.of(leaderCards.get(leaderPosition)));
-         else
-            throw new InvalidLeaderCardException("The leader card u want to use isn't been activated yet");
-      }
-   }
-//   public void addMarbleToWarehouse(int marbleIndex, Optional<LeaderCard> leaderCard) throws InvalidLeaderCardException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
-//         if(!leaderCard.isEmpty())
-//
-//         if (marbleIndex >= 0 && marbleIndex < tempMarketMarble.size())
-//            tempMarketMarble.get(marbleIndex).addResource(this, leaderCard);
-//         else
-//            throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
+//      if(leaderPosition == null && tempMarketMarble.get(marbleIndex).isWhite()) {
+//         for (LeaderCard x : leaderCards)
+//            if (x.resourceOnWhite() != null)
+//               throw new InvalidLeaderCardException("U need to chose a leader card to convert the marble");
+//         tempMarketMarble.get(marbleIndex).addResource(this, Optional.empty());
 //      }
-//      if (!leaderCards.contains(leaderCard))
-//         throw new InvalidLeaderCardException("Your hand doesn't contain this card");
-//      if(leaderCard != null && leaderCard.isActive())
-//         tempMarketMarble.get(marbleIndex).addResource(this, leaderCard.resourceOnWhite());
-//      else
-//         throw new InvalidLeaderCardException("U need to activate the leader card before asking to use it");
-//   }
+//      else {
+//         if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
+//            throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
+//         if (leaderPosition < 0 || leaderPosition >= leaderCards.size())
+//            throw new IndexOutOfBoundsException("The index of the leaderCard u gave me doesn't match the length of my array");
+//         if(leaderCards.get(leaderPosition).isActive())
+//            tempMarketMarble.get(marbleIndex).addResource(this, Optional.of(leaderCards.get(leaderPosition)));
+//         else
+//            throw new InvalidLeaderCardException("The leader card u want to use isn't been activated yet");
+//      }
+   }
 
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) throws AbuseOfFaithException {
       if(warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) > 0 && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) > 0) {

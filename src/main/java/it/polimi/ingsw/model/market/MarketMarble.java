@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public abstract class MarketMarble {
 
+    //private boolean isWhite = false;
+
     /**
      * Adds the resources owed to the player due to this marble
      *
@@ -20,5 +22,5 @@ public abstract class MarketMarble {
      */
     public abstract void addResource(InterfacePlayerBoard playerBoard, Optional<LeaderCard> leaderCard)
             throws NotEnoughSpaceException, MoreWhiteLeaderCardsException;
-
+    //public boolean isWhite(){}
 }
