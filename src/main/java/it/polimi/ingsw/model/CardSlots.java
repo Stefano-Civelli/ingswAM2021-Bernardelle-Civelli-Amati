@@ -55,6 +55,8 @@ public class CardSlots implements EndGameObservable {
   public void addDevelopCard(int slot, DevelopCard developCard) throws InvalidCardPlacementException, NullPointerException {
       int levelCardToAdd = developCard.getCardFlag().getLevel();
 
+      if (slot<0 || slot>2)
+        throw new IndexOutOfBoundsException("Slot need to be between 0 and " + (numberOfCardSlots-1));
       for(List<DevelopCard> d : developCards)
         if(d.contains(developCard))
           throw new InvalidCardPlacementException();

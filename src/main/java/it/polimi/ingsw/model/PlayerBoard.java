@@ -50,17 +50,17 @@ public class PlayerBoard implements InterfacePlayerBoard {
     * @return total points the player scored
     */
    public int returnScore(){
-      List<Integer> playerscore = new ArrayList<>();
+      List<Integer> playerScore = new ArrayList<>();
 
-      playerscore.add(track.calculateTrackScore());
-      playerscore.add(cardSlots.calculateDevelopCardScore());
+      playerScore.add(track.calculateTrackScore());
+      playerScore.add(cardSlots.calculateDevelopCardScore());
 
       for(LeaderCard x : leaderCards)
          if(x.isActive())
-            playerscore.add(x.getVictoryPoints());
+            playerScore.add(x.getVictoryPoints());
 
-      playerscore.add((warehouse.totalResources() + chest.totalNumberOfResources())/5);
-      return playerscore.stream().reduce(0, Integer::sum);
+      playerScore.add((warehouse.totalResources() + chest.totalNumberOfResources())/5);
+      return playerScore.stream().reduce(0, Integer::sum);
    }
 
    /**
@@ -93,37 +93,51 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
 
-   public void setLeaderCardActve(int leaderToActivate) throws NotEnoughResourcesException, InvalidLeaderCardException {
+   public void setLeaderCardActive(int leaderToActivate) throws NotEnoughResourcesException, InvalidLeaderCardException {
       if(!leaderCards.get(leaderToActivate).isActive())
          leaderCards.get(leaderToActivate).activate(this);
    }
 
-   public void addMarbleToWarehouse(int marbleIndex, LeaderCard leaderCard) throws InvalidLeaderCardException, NotEnoughSpaceException {
-//      if (leaderCard == null) {
+   public void addMarbleToWarehouse(int marbleIndex, Integer leaderPosition) throws InvalidLeaderCardException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+      if(leaderPosition == null)
+         tempMarketMarble.get(marbleIndex).addResource(this, Optional.empty());
+      else {
+         if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
+            throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
+         if (leaderPosition < 0 || leaderPosition >= leaderCards.size())
+            throw new IndexOutOfBoundsException("The index of the leaderCard u gave me doesn't match the length of my array");
+         if(leaderCards.get(leaderPosition).isActive())
+            tempMarketMarble.get(marbleIndex).addResource(this, Optional.of(leaderCards.get(leaderPosition)));
+         else
+            throw new InvalidLeaderCardException("The leader card u want to use isn't been activated yet");
+      }
+   }
+//   public void addMarbleToWarehouse(int marbleIndex, Optional<LeaderCard> leaderCard) throws InvalidLeaderCardException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+//         if(!leaderCard.isEmpty())
+//
 //         if (marbleIndex >= 0 && marbleIndex < tempMarketMarble.size())
-//            tempMarketMarble.get(marbleIndex).addResource(this, null);
+//            tempMarketMarble.get(marbleIndex).addResource(this, leaderCard);
 //         else
 //            throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
 //      }
 //      if (!leaderCards.contains(leaderCard))
 //         throw new InvalidLeaderCardException("Your hand doesn't contain this card");
-//      if(!(leaderCard == null) && leaderCard.isActive())
+//      if(leaderCard != null && leaderCard.isActive())
 //         tempMarketMarble.get(marbleIndex).addResource(this, leaderCard.resourceOnWhite());
 //      else
 //         throw new InvalidLeaderCardException("U need to activate the leader card before asking to use it");
-   }
+//   }
 
-   public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) {
+   public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) throws AbuseOfFaithException {
       if(warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) > 0 && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) > 0) {
          tempResources = Stream.of(new Object[][]{
                  {resource1, 1},
                  {resource2, 1},
          }).collect(Collectors.toMap(data -> (ResourceType) data[0], data -> (Integer) data[1]));
+
          try {
             chest.addResources(product, 1);
-         } catch (Exception e) {
-            e.printStackTrace();
-         }
+         } catch (NegativeQuantityException e) {} //non si verifica mai perché la sto chiamando io e gli sto passando 1
       }
    }
 

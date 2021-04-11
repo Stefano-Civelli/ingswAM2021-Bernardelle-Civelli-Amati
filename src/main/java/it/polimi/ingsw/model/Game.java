@@ -33,7 +33,9 @@ public class Game {
    }
 
 
-   public void addPlayer(String username){
+   public void addPlayer(String username) {
+      //need to add a check because we don't need to add a player that is already in the list
+      //need also to check that the max number of players in this lobby isn't exceeded
       List<LeaderCard> fourInitialLeadercardsForPlayer =
               leadercardDeck.getLeaderCardList()
                             .stream()
@@ -44,7 +46,7 @@ public class Game {
    }
 
 
-   //il current player direi che non lo tiene game ma il turn managerr
+   //il current player direi che non lo tiene game ma il turn manager
 
 
 }
