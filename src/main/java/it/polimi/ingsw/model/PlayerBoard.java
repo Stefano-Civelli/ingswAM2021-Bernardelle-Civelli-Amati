@@ -93,7 +93,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
 
-   public void activateLeaderCard(int leaderToActivate) throws NotEnoughResourcesException, InvalidLeaderCardException {
+   public void setLeaderCardActve(int leaderToActivate) throws NotEnoughResourcesException, InvalidLeaderCardException {
       if(!leaderCards.get(leaderToActivate).isActive())
          leaderCards.get(leaderToActivate).activate(this);
    }
@@ -152,7 +152,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
    @Override
-   public List<LeaderCard> getLeaderCards() {
+   public ArrayList<LeaderCard> getLeaderCards() {
       return new ArrayList<>(this.leaderCards);
    }
 

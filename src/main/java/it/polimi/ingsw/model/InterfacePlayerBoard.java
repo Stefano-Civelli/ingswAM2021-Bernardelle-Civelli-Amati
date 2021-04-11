@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.track.Track;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface InterfacePlayerBoard {
@@ -15,7 +16,7 @@ public interface InterfacePlayerBoard {
 
     CardSlots getCardSlots();
 
-    List<LeaderCard> getLeaderCards();
+    ArrayList<LeaderCard> getLeaderCards();
 
     DevelopCardDeck getDevelopCardDeck();
 }

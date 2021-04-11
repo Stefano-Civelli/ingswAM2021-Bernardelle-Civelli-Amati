@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 class DevelopCardTest {
@@ -52,6 +53,26 @@ class DevelopCardTest {
       developCardDeck.getCard(0,2).buy(playerBoard,2);
       for(DevelopCard d : developCardDeck.visibleCards())
             assertTrue(d.isBuyable(playerBoard));
+   }
+
+   @Test
+   void notVisibleCardIsBuyable() throws NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, IOException {
+      DevelopCardDeck developCardDeck;
+      developCardDeck = GSON.cardParser(cardConfigFile);
+      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), Market.getInstance(), developCardDeck);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getChest().addResources(ResourceType.GOLD,1);
+      playerBoard.getChest().addResources(ResourceType.STONE,2);
+      playerBoard.getChest().endOfTurnMapsMerge();
+      HashMap<ResourceType, Integer> cost = new HashMap<>();
+      cost.put(ResourceType.GOLD,2);
+      cost.put(ResourceType.STONE,2);
+      DevelopCard developCard = new DevelopCard(new CardFlag(1,DevelopCardColor.BLUE)
+                                                , cost, new HashMap<>(), new HashMap<>()
+                                                , 10);
+
+      //false because in order to be buyable the card has to be a visible card in the deck
+      assertFalse(developCard.isBuyable(playerBoard));
    }
 
    @Test
@@ -105,5 +126,23 @@ class DevelopCardTest {
    }
 
 
+   @Test
+   void isActivatebleTest() throws IOException, RowOrColumnNotExistsException, NegativeQuantityException, AbuseOfFaithException, NotEnoughSpaceException, InvalidCardPlacementException, NotBuyableException, NotEnoughResourcesException, InvalidCardException {
+      DevelopCardDeck developCardDeck;
+      developCardDeck = GSON.cardParser(cardConfigFile);
+      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), Market.getInstance(), developCardDeck);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
+      playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
+      playerBoard.getChest().addResources(ResourceType.GOLD,99);
+      playerBoard.getChest().addResources(ResourceType.STONE,99);
+      playerBoard.getChest().addResources(ResourceType.SERVANT,99);
+      playerBoard.getChest().addResources(ResourceType.SHIELD,99);
+      playerBoard.getChest().endOfTurnMapsMerge();
+      developCardDeck.getCard(0,0).buy(playerBoard,0);
+      CardSlots cardSlots = playerBoard.getCardSlots();
+      assertTrue(cardSlots.activatableCards(playerBoard).contains(cardSlots.returnTopCard(0)));
 
+
+   }
 }
