@@ -28,16 +28,12 @@ public class PlayerBoard implements InterfacePlayerBoard {
    private Map<ResourceType, Integer> tempResources;
    private final File trackConfigFile = new File("src/SquareConfig.json");
 
-   public PlayerBoard(String username, List<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck){
+   public PlayerBoard(String username, List<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck) throws IOException {
       this.username = username;
       this.leaderCards = new ArrayList<>(leaderCards);
       this.chest = new Chest();
       this.warehouse = new Warehouse();
-      try {
-         this.track = GSON.trackParser(trackConfigFile);
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
+      this.track = GSON.trackParser(trackConfigFile);
       this.cardSlots = new CardSlots();
       this.market = market;
       this.developCardDeck = developCardDeck;
@@ -64,10 +60,19 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
    /**
-    * remove 1 of the leader cards from leadercards array
-    * @param leaderPosition, index of the leadercard to remove
+    * remove 1 of the leader cards from leaderCards array in the beginning of the game
+    * @param leaderPosition, index of the leaderCard to remove
     */
-   public void discardLeader(int leaderPosition){
+   public void discardLeaderAtBegin(int leaderPosition) throws InvalidLeaderCardException {
+      if(leaderCards.size() < 3)
+         throw new InvalidLeaderCardException("U can not call this method at this point of the game");
+      leaderCards.remove(leaderPosition);
+   }
+
+   //the caller of this method needs to call the method moveForward() on the other players if the exception isn't catch
+   public void discardLeader(int leaderPosition) throws InvalidLeaderCardException {
+      if(leaderCards.size() > 2 || leaderCards.get(leaderPosition).isActive())
+         throw new InvalidLeaderCardException("U can't remove this card in this moment");
       leaderCards.remove(leaderPosition);
    }
 
