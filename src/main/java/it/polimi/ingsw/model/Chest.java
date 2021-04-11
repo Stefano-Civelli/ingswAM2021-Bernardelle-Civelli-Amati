@@ -31,7 +31,7 @@ public class Chest {
 
     if(resources.containsKey(resource)) {
       if (resources.get(resource) - quantity < 0 || quantity < 0)
-        throw new NotEnoughResourcesException("not enough resources");
+        throw new NotEnoughResourcesException("you are trying to remove more resources than you have");
 
       resources.replace(resource, resources.get(resource) - quantity);
     }

@@ -83,7 +83,7 @@ public class DevelopCard {
       return false;
    }
 
-   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException, NotEnoughResourcesException, NotBuyableException, InvalidCardException, NegativeQuantityException {
+   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException, NotBuyableException {
       CardSlots cardslots = playerBoard.getCardSlots();
       DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
       HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
@@ -94,23 +94,42 @@ public class DevelopCard {
       for(LeaderCard l : playerBoard.getLeaderCards())
          localCost = l.applyDiscount(localCost);
 
-      removeResourcesFrom(localCost, playerBoard.getWarehouse(), playerBoard.getChest());
+      try {
+         removeResourcesFrom(localCost, playerBoard.getWarehouse(), playerBoard.getChest());
+      } catch (NegativeQuantityException e) {
+         e.printStackTrace();
+      } catch (NotEnoughResourcesException e) {
+         throw new NotBuyableException("you don't have enough resources to buy this card");
+      }
 
       cardslots.addDevelopCard(cardSlotNumber,this);
-      developCardDeck.removeCard(this);
+      try {
+         developCardDeck.removeCard(this);
+      } catch (InvalidCardException e) {
+         throw new NotBuyableException("you can't buy this card because it's not a visible card in the deck");
+      }
 
    }
 
-   public void produce(InterfacePlayerBoard playerBoard) throws NotActivatableException, NotEnoughResourcesException, NegativeQuantityException {
+   public void produce(InterfacePlayerBoard playerBoard) throws NotActivatableException {
       if(!this.isActivatable(playerBoard))
          throw new NotActivatableException("you can't activate this card");
 
-      removeResourcesFrom(requirement, playerBoard.getWarehouse(), playerBoard.getChest());
+      try {
+         removeResourcesFrom(requirement, playerBoard.getWarehouse(), playerBoard.getChest());
+      } catch (NegativeQuantityException e) {
+         e.printStackTrace();
+      } catch (NotEnoughResourcesException e) {
+         throw new NotActivatableException("you don't have enough resources to activate this card");
+      }
 
       for(Map.Entry<ResourceType, Integer> entry : product.entrySet()) {
          try {
-            playerBoard.getChest().addResources(entry.getKey(),entry.getValue());
-         } catch (AbuseOfFaithException e) {
+            if(entry.getKey().equals(ResourceType.FAITH))
+               playerBoard.getTrack().moveForward(entry.getValue());
+            else
+               playerBoard.getChest().addResources(entry.getKey(),entry.getValue());
+         } catch (AbuseOfFaithException | NegativeQuantityException e) {
             e.printStackTrace();
          }
       }
