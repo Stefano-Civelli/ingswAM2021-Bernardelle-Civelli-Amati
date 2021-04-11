@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.*;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RedMarbleTest {
 
     @Test
-    void addResourceTest() throws NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+    void addResourceTest() throws NotEnoughSpaceException, MoreWhiteLeaderCardsException, IOException {
         InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
 
         MarketMarble marble1 = new RedMarble();

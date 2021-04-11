@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
-import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
-import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
+import it.polimi.ingsw.model.leadercard.LeaderCard;
+import it.polimi.ingsw.model.modelexceptions.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +14,12 @@ public class DevelopCard {
    private  HashMap<ResourceType, Integer> product;
    private  int victoryPoints;
 
-   public DevelopCard(){
+   public DevelopCard(CardFlag cardFlag, HashMap<ResourceType, Integer> cost, HashMap<ResourceType, Integer> requirement, HashMap<ResourceType, Integer> product, int victoryPoints) {
+      this.cardFlag = cardFlag;
+      this.cost = cost;
+      this.requirement = requirement;
+      this.product = product;
+      this.victoryPoints = victoryPoints;
    }
 
    //TODO controllare se è na roba legale
@@ -32,13 +37,17 @@ public class DevelopCard {
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
       DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
+      HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
+      //apply discount
+      for(LeaderCard l : playerBoard.getLeaderCards())
+         localCost = l.applyDiscount(localCost);
 
       //check if the card is visible
       if(!developCardDeck.visibleCards().contains(this))
          return false;
 
       //check if the number of resources is sufficient
-      for(Map.Entry<ResourceType, Integer> entry : cost.entrySet())
+      for(Map.Entry<ResourceType, Integer> entry : localCost.entrySet())
          if (warehouse.getNumberOf(entry.getKey()) + chest.getNumberOf(entry.getKey()) < entry.getValue())
             return false;
 
@@ -74,14 +83,20 @@ public class DevelopCard {
       return false;
    }
 
-   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException, NotEnoughResourcesException{
+   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException, NotEnoughResourcesException, NotBuyableException, InvalidCardException {
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardslots = playerBoard.getCardSlots();
+      DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
+      HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
       if(!this.isBuyable(playerBoard))
-         throw new NotEnoughResourcesException("this card is not buyable");
+         throw new NotBuyableException("you are trying to buy a card you cannot buy");
 
-      for(Map.Entry<ResourceType, Integer> entry : requirement.entrySet()){
+      //apply discount
+      for(LeaderCard l : playerBoard.getLeaderCards())
+         localCost = l.applyDiscount(localCost);
+
+      for(Map.Entry<ResourceType, Integer> entry : localCost.entrySet()){
          int remainingToRemove = warehouse.removeResources(entry.getKey(),entry.getValue());
          try {
             chest.removeResources(entry.getKey(), remainingToRemove);
@@ -89,6 +104,8 @@ public class DevelopCard {
       }
 
       cardslots.addDevelopCard(cardSlotNumber,this);
+      developCardDeck.removeCard(this);
+
    }
 
 

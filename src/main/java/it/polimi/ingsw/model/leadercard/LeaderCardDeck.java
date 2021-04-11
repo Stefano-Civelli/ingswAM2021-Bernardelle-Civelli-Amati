@@ -13,6 +13,8 @@ public class LeaderCardDeck {
   public LeaderCardDeck(){
   }
 
+  //TODO metodo per dare la carta al player
+
   public LeaderCard removeCard(){
     return leaderCardList.remove(leaderCardList.size()-1);
   }

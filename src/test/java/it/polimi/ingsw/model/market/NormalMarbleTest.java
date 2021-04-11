@@ -5,13 +5,15 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
 class NormalMarbleTest {
 
     @Test
-    void addResourceTest() throws AbuseOfFaithException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+    void addResourceTest() throws AbuseOfFaithException, NotEnoughSpaceException, MoreWhiteLeaderCardsException, IOException {
         InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
 
         MarketMarble marble1 = new NormalMarble(ResourceType.GOLD);

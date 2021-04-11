@@ -17,7 +17,12 @@ public class LeaderCard {
    private  int victoryPoints;
    private CardBehaviour cardBehaviour;
 
-   public LeaderCard(){
+   public LeaderCard(ResourceType requiredResources, Map<CardFlag, Integer> requiredCardFlags, int victoryPoints, CardBehaviour cardBehaviour) {
+      this.active = false;
+      this.requiredResources = requiredResources;
+      this.requiredCardFlags = requiredCardFlags;
+      this.victoryPoints = victoryPoints;
+      this.cardBehaviour = cardBehaviour;
    }
 
    /**
@@ -56,7 +61,10 @@ public class LeaderCard {
 
 
    public HashMap<ResourceType, Integer> applyDiscount(HashMap<ResourceType, Integer> mapToDiscount){
-      return cardBehaviour.discount(mapToDiscount);
+      if(this.isActive())
+         return cardBehaviour.discount(mapToDiscount);
+      else
+         return new HashMap<>(mapToDiscount);
    }
 
    /**
@@ -64,16 +72,21 @@ public class LeaderCard {
     * @return
     */
    public ResourceType resourceOnWhite(){
-      return cardBehaviour.getOnWhite();
+      if(this.isActive())
+         return cardBehaviour.getOnWhite();
+      else
+         return null;
    }
 
 
    public void getProduct(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NegativeQuantityException {
-      cardBehaviour.produce(resourceToAdd, playerboard);
+      if(this.isActive())
+         cardBehaviour.produce(resourceToAdd, playerboard);
    }
 
    public void addStorageSpace(InterfacePlayerBoard playerBoard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException {
-      cardBehaviour.createStorage(playerBoard);
+      if(this.isActive())
+         cardBehaviour.createStorage(playerBoard);
    }
 
    //TODO cancellarla, è solo per testare
