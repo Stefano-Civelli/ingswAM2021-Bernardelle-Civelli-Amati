@@ -49,8 +49,9 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable{
 
   @Override
   public void addToVaticanReportObserverList(VaticanReportObserver observerToAdd) {
-    if(!vaticanReportObserverList.contains(observerToAdd))
+    if (!vaticanReportObserverList.contains(observerToAdd)){
       vaticanReportObserverList.add(observerToAdd);
+    }
   }
 
   @Override

@@ -13,7 +13,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
 public class PlayerBoard implements InterfacePlayerBoard {
 
    private final String username;
