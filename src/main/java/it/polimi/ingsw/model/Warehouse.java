@@ -87,6 +87,8 @@ public class Warehouse {
      * @throws AbuseOfFaithException resource type is faith, faith can't be added into warehouse
      */
     public void addResource(ResourceType resource) throws AbuseOfFaithException, NotEnoughSpaceException {
+        if(resource == null)
+            throw new NullPointerException();
         if(resource == ResourceType.FAITH)
             throw new AbuseOfFaithException();
 
