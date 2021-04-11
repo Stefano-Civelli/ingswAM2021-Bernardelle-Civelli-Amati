@@ -26,9 +26,9 @@ public class PlayerBoard implements InterfacePlayerBoard {
    private final DevelopCardDeck developCardDeck;
    private List<MarketMarble> tempMarketMarble;
    private Map<ResourceType, Integer> tempResources;
-   File trackConfigFile = new File("src/SquareConfig.json");
+   private final File trackConfigFile = new File("src/SquareConfig.json");
 
-   public PlayerBoard(String username, ArrayList<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck){
+   public PlayerBoard(String username, List<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck){
       this.username = username;
       this.leaderCards = new ArrayList<>(leaderCards);
       this.chest = new Chest();
