@@ -18,35 +18,30 @@ public class Game {
    private Market market;
    private DevelopCardDeck developCardDeck;
    private List<PlayerBoard> playerBoardList;
-
-   //----------da mettere in chi chiama game??--------------
    private final File cardConfigFile = new File("src/DevelopCardConfig.json");
    private final File leaderCardConfigFile = new File("src/LeaderCardConfig.json");
-   //----------da mettere in chi chiama game??----------------
 
-
-   public Game(File leaderCardConfigFile, File cardConfigFile, Market market,  List<PlayerBoard> playerBoardList) throws IOException {
+   public Game() throws IOException {
       this.leadercardDeck = GSON.leaderCardParser(leaderCardConfigFile);
       this.developCardDeck = GSON.cardParser(cardConfigFile);
-      this.market = market;
+      this.market = Market.getInstance();
       this.playerBoardList = new ArrayList<>();
    }
 
 
-   public void addPlayer(String username) {
+   public void addPlayer(String username) throws IOException {
       //need to add a check because we don't need to add a player that is already in the list
-      //need also to check that the max number of players in this lobby isn't exceeded
-      List<LeaderCard> fourInitialLeadercardsForPlayer =
+      //need also to check that the max number of players in this lobby isn't exceeded -> that's not necessary
+      List<LeaderCard> fourInitialLeaderCardsForPlayer =
               leadercardDeck.getLeaderCardList()
                             .stream()
                             .limit(4)
                             .collect(Collectors.toList());
-      PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeadercardsForPlayer, market, developCardDeck);
+
+      PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, market, developCardDeck);
       playerBoardList.add(playerBoard);
    }
 
 
    //il current player direi che non lo tiene game ma il turn manager
-
-
 }
