@@ -114,10 +114,15 @@ public class DevelopCardDeck implements EndGameObservable {
          return;
       int row = card.getCardFlag().getLevel() - 1;
       int column = card.getCardFlag().getColor().getColumn();
-      //TODO chiedere all'alex e a pie se ha senso
-      if(cardsCube[row][column].get(cardsCube[row][column].size() - 1) != card)
-         throw new InvalidCardException();
+
+      try {
+         if(getCard(row,column) != card)
+            throw new InvalidCardException();
+      } catch (RowOrColumnNotExistsException e) {
+         e.printStackTrace();
+      }
       cardsCube[row][column].remove(cardsCube[row][column].size() - 1);
+
       //checks if the column where i removed a card is completly empty call the notifyForEndGame method
       for (int i = 0; i < cardsCube.length; i++)
          if (!cardsCube[i][column].isEmpty())

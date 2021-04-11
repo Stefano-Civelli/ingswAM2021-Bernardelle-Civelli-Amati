@@ -16,7 +16,7 @@ public abstract class CardBehaviour {
       return null;
    }
 
-   public void createStorage(InterfacePlayerBoard playerboard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException {
+   public void createStorage(InterfacePlayerBoard playerboard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException, AbuseOfFaithException {
       //eccezione I can't create a storage
    }
 

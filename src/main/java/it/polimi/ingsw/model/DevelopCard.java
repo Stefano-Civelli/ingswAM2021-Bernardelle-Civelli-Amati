@@ -83,9 +83,7 @@ public class DevelopCard {
       return false;
    }
 
-   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException, NotEnoughResourcesException, NotBuyableException, InvalidCardException {
-      Warehouse warehouse = playerBoard.getWarehouse();
-      Chest chest = playerBoard.getChest();
+   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException, NotEnoughResourcesException, NotBuyableException, InvalidCardException, NegativeQuantityException {
       CardSlots cardslots = playerBoard.getCardSlots();
       DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
       HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
@@ -96,18 +94,28 @@ public class DevelopCard {
       for(LeaderCard l : playerBoard.getLeaderCards())
          localCost = l.applyDiscount(localCost);
 
-      for(Map.Entry<ResourceType, Integer> entry : localCost.entrySet()){
-         int remainingToRemove = warehouse.removeResources(entry.getKey(),entry.getValue());
-         try {
-            chest.removeResources(entry.getKey(), remainingToRemove);
-         }catch(AbuseOfFaithException e){}
-      }
+      removeResourcesFrom(localCost, playerBoard.getWarehouse(), playerBoard.getChest());
 
       cardslots.addDevelopCard(cardSlotNumber,this);
       developCardDeck.removeCard(this);
 
    }
 
+   public void produce(InterfacePlayerBoard playerBoard) throws NotActivatableException, NotEnoughResourcesException, NegativeQuantityException {
+      if(!this.isActivatable(playerBoard))
+         throw new NotActivatableException("you can't activate this card");
+
+      removeResourcesFrom(requirement, playerBoard.getWarehouse(), playerBoard.getChest());
+
+      for(Map.Entry<ResourceType, Integer> entry : product.entrySet()) {
+         try {
+            playerBoard.getChest().addResources(entry.getKey(),entry.getValue());
+         } catch (AbuseOfFaithException e) {
+            e.printStackTrace();
+         }
+      }
+
+   }
 
    public CardFlag getCardFlag(){
       return cardFlag;
@@ -129,4 +137,14 @@ public class DevelopCard {
               (this.requirement.equals(d.requirement));
    }
 
+   private void removeResourcesFrom(HashMap<ResourceType, Integer> target, Warehouse warehouse, Chest chest) throws NegativeQuantityException, NotEnoughResourcesException {
+      for(Map.Entry<ResourceType, Integer> entry : target.entrySet()) {
+         int remainingToRemove = warehouse.removeResources(entry.getKey(),entry.getValue());
+         try {
+            chest.removeResources(entry.getKey(), remainingToRemove);
+         }catch(AbuseOfFaithException e){
+            e.printStackTrace();
+         }
+      }
+   }
 }

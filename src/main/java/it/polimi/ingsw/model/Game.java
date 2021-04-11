@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class Game {
 
-   private LeaderCardDeck leadercardDeck;
+   private LeaderCardDeck leaderCardDeck;
    private Market market;
    private DevelopCardDeck developCardDeck;
    private List<PlayerBoard> playerBoardList;
@@ -21,10 +21,9 @@ public class Game {
    //mettere i due file nella classe che chiama game
    //private final File cardConfigFile = new File("src/DevelopCardConfig.json");
    //private final File leaderCardConfigFile = new File("src/LeaderCardConfig.json");
-   //
 
    public Game(File cardConfigFile, File leaderCardConfigFile) throws IOException {
-      this.leadercardDeck = GSON.leaderCardParser(leaderCardConfigFile);
+      this.leaderCardDeck = GSON.leaderCardParser(leaderCardConfigFile);
       this.developCardDeck = GSON.cardParser(cardConfigFile);
       this.market = Market.getInstance();
       this.playerBoardList = new ArrayList<>();
@@ -33,7 +32,7 @@ public class Game {
    //need also to check that the max number of players in this lobby isn't exceeded -> that's not necessary
    public void addPlayer(String username) throws IOException, InvalidUsernameException {
       List<LeaderCard> fourInitialLeaderCardsForPlayer =
-              leadercardDeck.getLeaderCardList()
+              leaderCardDeck.getLeaderCardList()
                             .stream()
                             .limit(4)
                             .collect(Collectors.toList());

@@ -26,12 +26,12 @@ public class LeaderCard {
    }
 
    /**
-    * if allowed sets the LeaderCard state to active
+    * if it's allowed sets the LeaderCard state to active
     * @param playerBoard the player that wants to activate the card
     * @throws NotEnoughResourcesException if the player doesn't have the resources (CardFlags or ResourceType) to activatethe card
     * @throws InvalidLeaderCardException if this card is not
     */
-   public void activate(InterfacePlayerBoard playerBoard) throws NotEnoughResourcesException, InvalidLeaderCardException {
+   public void setActive(InterfacePlayerBoard playerBoard) throws NotEnoughResourcesException, InvalidLeaderCardException {
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
@@ -84,17 +84,9 @@ public class LeaderCard {
          cardBehaviour.produce(resourceToAdd, playerboard);
    }
 
-   public void addStorageSpace(InterfacePlayerBoard playerBoard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException {
+   public void addStorageSpace(InterfacePlayerBoard playerBoard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException, AbuseOfFaithException {
       if(this.isActive())
          cardBehaviour.createStorage(playerBoard);
    }
 
-   //TODO cancellarla, è solo per testare
-   public void printRequiredCardFlags(){
-      for(Map.Entry<CardFlag,Integer> e : requiredCardFlags.entrySet()){
-         System.out.println(e.getKey().getLevel());
-         System.out.println(e.getKey().getColor().toString());
-         System.out.println(e.getValue());
-      }
-   }
 }
