@@ -6,4 +6,6 @@ public interface VaticanReportObserver {
    * @param active represent the active zone in which the vatican report is held
    */
   public void update(int active);
+
+  public void addToVaticanReportObserverList(VaticanReportObserver observerToAdd);
 }

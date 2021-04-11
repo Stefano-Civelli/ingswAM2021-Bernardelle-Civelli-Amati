@@ -25,6 +25,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
    private final DevelopCardDeck developCardDeck;
    private List<MarketMarble> tempMarketMarble;
    private Map<ResourceType, Integer> tempResources;
+   private int tempIndexWhiteToAdd;
    private final File trackConfigFile = new File("src/SquareConfig.json");
 
    public PlayerBoard(String username, List<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck) throws IOException {
@@ -101,23 +102,26 @@ public class PlayerBoard implements InterfacePlayerBoard {
          leaderCards.get(leaderToActivate).activate(this);
    }
 
+
    public void addMarbleToWarehouse(int marbleIndex, Integer leaderPosition) throws InvalidLeaderCardException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
-//      if(leaderPosition == null && tempMarketMarble.get(marbleIndex).isWhite()) {
-//         for (LeaderCard x : leaderCards)
-//            if (x.resourceOnWhite() != null)
-//               throw new InvalidLeaderCardException("U need to chose a leader card to convert the marble");
-//         tempMarketMarble.get(marbleIndex).addResource(this, Optional.empty());
-//      }
-//      else {
-//         if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
-//            throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
-//         if (leaderPosition < 0 || leaderPosition >= leaderCards.size())
-//            throw new IndexOutOfBoundsException("The index of the leaderCard u gave me doesn't match the length of my array");
-//         if(leaderCards.get(leaderPosition).isActive())
-//            tempMarketMarble.get(marbleIndex).addResource(this, Optional.of(leaderCards.get(leaderPosition)));
-//         else
-//            throw new InvalidLeaderCardException("The leader card u want to use isn't been activated yet");
-//      }
+         if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
+            throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
+         try {
+            tempMarketMarble.get(marbleIndex).addResource(this, Optional.empty());
+         }catch (MoreWhiteLeaderCardsException e){
+            tempIndexWhiteToAdd = marbleIndex;
+            throw new MoreWhiteLeaderCardsException(e.getMessage());
+         }
+   }
+
+   public void addWhiteToWarehouse(int leaderPosition) throws InvalidLeaderCardException, NotEnoughSpaceException {
+      if (leaderPosition < 0 || leaderPosition >= leaderCards.size())
+         throw new InvalidLeaderCardException("The index of the leaderCard u gave me doesn't match the length of my array");
+      try {
+         tempMarketMarble.get(tempIndexWhiteToAdd).addResource(this, Optional.of(leaderCards.get(leaderPosition)));
+      } catch (MoreWhiteLeaderCardsException e) {
+         e.printStackTrace();
+      }
    }
 
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) throws AbuseOfFaithException {
