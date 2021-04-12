@@ -39,6 +39,8 @@ public class WhiteMarble extends MarketMarble{
 
         try{
             playerBoard.getWarehouse().addResource(resourceOnWhite);
+        } catch (NullPointerException ignored) {
+            // The resource that must be added is null -> do nothing
         } catch (AbuseOfFaithException ignored){
             playerBoard.getTrack().moveForward(1);
         }
