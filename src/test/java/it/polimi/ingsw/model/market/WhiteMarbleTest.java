@@ -1,15 +1,43 @@
 package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.leadercard.LeaderCard;
+import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 class WhiteMarbleTest {
+
+    @Test
+    void addNoLeaderCardsTest() throws IOException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+        InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
+        MarketMarble marble = new WhiteMarble();
+        marble.addResource(playerBoard, Optional.empty());
+        assertEquals(0, playerBoard.getWarehouse().totalResources());
+    }
+
+//    @Test
+//    void addNoWhiteLeaderTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException {
+//        List<LeaderCard> cards = GSON.leaderCardParser(new File("src/LeaderCardConfig.json")).getLeaderCardList();
+//        InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
+//        LeaderCard card = null;
+//        for(LeaderCard currentCard : cards) {
+//            currentCard.setActive(playerBoard);
+//            if(currentCard.resourceOnWhite() == null)
+//
+//        }
+//    }
+
+
 
 //    @Test
 //    void addResourceTest() throws AbuseOfFaithException, IncorrectResourceTypeException, NegativeQuantityException,

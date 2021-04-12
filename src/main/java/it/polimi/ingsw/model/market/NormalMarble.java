@@ -30,7 +30,9 @@ public class NormalMarble extends MarketMarble{
             throws NotEnoughSpaceException {
         try {
             playerBoard.getWarehouse().addResource(this.resource);
-        } catch (AbuseOfFaithException ignored) {}
+        } catch (AbuseOfFaithException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
