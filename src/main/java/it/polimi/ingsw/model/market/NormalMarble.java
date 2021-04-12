@@ -31,6 +31,7 @@ public class NormalMarble extends MarketMarble{
         try {
             playerBoard.getWarehouse().addResource(this.resource);
         } catch (AbuseOfFaithException e) {
+            // This code should never be executed
             e.printStackTrace();
         }
     }
