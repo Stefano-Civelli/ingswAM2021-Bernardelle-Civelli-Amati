@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
@@ -13,7 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PlayerBoard implements InterfacePlayerBoard {
+public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, MoveForwardObservable {
 
    private final String username;
    private final CardSlots cardSlots;
@@ -27,6 +28,7 @@ public class PlayerBoard implements InterfacePlayerBoard {
    private Map<ResourceType, Integer> tempResources;
    private int tempIndexWhiteToAdd;
    private final File trackConfigFile = new File("src/SquareConfig.json");
+   private final Set<MoveForwardObserver> moveForwardObserverList = new HashSet<>();
 
    public PlayerBoard(String username, List<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck) throws IOException {
       this.username = username;
@@ -69,11 +71,11 @@ public class PlayerBoard implements InterfacePlayerBoard {
       leaderCards.remove(leaderPosition);
    }
 
-   //the caller of this method needs to call the method moveForward() on the other players if the exception isn't catch
    public void discardLeader(int leaderPosition) throws InvalidLeaderCardException {
       if(leaderCards.size() > 2 || leaderCards.get(leaderPosition).isActive())
          throw new InvalidLeaderCardException("U can't remove this card in this moment");
       leaderCards.remove(leaderPosition);
+      notifyForMoveForward();
    }
 
 
@@ -103,11 +105,19 @@ public class PlayerBoard implements InterfacePlayerBoard {
    }
 
 
-   public void addMarbleToWarehouse(int marbleIndex, Integer leaderPosition) throws InvalidLeaderCardException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+   public void addMarbleToWarehouse(int marbleIndex, Integer leaderPosition) throws InvalidLeaderCardException, MoreWhiteLeaderCardsException, NotEnoughSpaceException {
          if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
             throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
          try {
-            tempMarketMarble.get(marbleIndex).addResource(this, Optional.empty());
+            try {
+               tempMarketMarble.get(marbleIndex).addResource(this, Optional.empty());
+            } catch (NotEnoughSpaceException e) {
+               for(MarketMarble x : tempMarketMarble) {
+                  tempMarketMarble.remove(x);
+                  notifyForMoveForward();
+                  throw new NotEnoughSpaceException();
+               }
+            }
          }catch (MoreWhiteLeaderCardsException e){
             tempIndexWhiteToAdd = marbleIndex;
             throw new MoreWhiteLeaderCardsException(e.getMessage());
@@ -168,5 +178,29 @@ public class PlayerBoard implements InterfacePlayerBoard {
 
    public DevelopCardDeck getDevelopCardDeck() {
       return developCardDeck;
+   }
+
+   @Override
+   public void removeFromMoveForwardObserverList(MoveForwardObserver observerToRemove) {
+      moveForwardObserverList.remove(observerToRemove);
+   }
+
+   //bisogna fare override di equals?
+   @Override
+   public void notifyForMoveForward() {
+      for(MoveForwardObserver x : moveForwardObserverList)
+         if(!x.equals(this))
+            x.update();
+   }
+
+   @Override
+   public void update() {
+      track.moveForward(1);
+   }
+
+   @Override
+   public void addToMoveForwardObserverList(MoveForwardObserver observerToAdd) {
+      if(moveForwardObserverList.add(observerToAdd))
+         observerToAdd.addToMoveForwardObserverList(this);
    }
 }
