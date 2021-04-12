@@ -1,14 +1,14 @@
 package it.polimi.ingsw.model.track;
 import it.polimi.ingsw.controller.EndGameObserver;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class LorenzoTrack implements VaticanReportObservable, EndGameObservable{
   Square[] track;
   int playerPosition;
-  final List<VaticanReportObserver> vaticanReportObserverList = new ArrayList<>();
-  final List<EndGameObserver> endGameObserverList = new ArrayList<>();
+  final Set<VaticanReportObserver> vaticanReportObserverList = new HashSet<>();
+  final Set<EndGameObserver> endGameObserverList = new HashSet<>();
 
   /**
    * constructor of the class
@@ -49,9 +49,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable{
 
   @Override
   public void addToVaticanReportObserverList(VaticanReportObserver observerToAdd) {
-    if (!vaticanReportObserverList.contains(observerToAdd)){
-      vaticanReportObserverList.add(observerToAdd);
-    }
+    vaticanReportObserverList.add(observerToAdd);
   }
 
   @Override
@@ -67,8 +65,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable{
 
   @Override
   public void addToEndGameObserverList(EndGameObserver observerToAdd) {
-    if(!endGameObserverList.contains(observerToAdd))
-      endGameObserverList.add(observerToAdd);
+    endGameObserverList.add(observerToAdd);
   }
 
   @Override

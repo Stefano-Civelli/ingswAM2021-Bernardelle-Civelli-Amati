@@ -97,9 +97,7 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
 
   @Override
   public void addToVaticanReportObserverList(VaticanReportObserver observerToAdd) {
-    if (!vaticanReportObserverList.contains(observerToAdd)){
-      vaticanReportObserverList.add(observerToAdd);
-    }
-    observerToAdd.addToVaticanReportObserverList(this);
+    if(vaticanReportObserverList.add(observerToAdd))
+      observerToAdd.addToVaticanReportObserverList(this);
   }
 }

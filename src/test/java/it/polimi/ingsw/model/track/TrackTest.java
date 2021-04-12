@@ -41,7 +41,6 @@ class TrackTest {
       track2 = GSON.trackParser(trackConfigFile);
 
       track.addToVaticanReportObserverList(track2);
-      track2.addToVaticanReportObserverList(track);
       track.moveForward(8);
       assertEquals(track2.calculateTrackScore(), 1);
       assertEquals(track.calculateTrackScore(), 4+2);
@@ -56,7 +55,6 @@ class TrackTest {
       track2 = GSON.trackParser(trackConfigFile);
 
       track.addToVaticanReportObserverList(track2);
-      track2.addToVaticanReportObserverList(track);
       track.moveForward(7);
       track2.moveForward(8);
       track2.moveForward(8);
@@ -71,7 +69,6 @@ class TrackTest {
       track2 = GSON.trackParser(trackConfigFile);
 
       track.addToVaticanReportObserverList(track2);
-      track2.addToVaticanReportObserverList(track);
       track.moveForward(5);
       track2.moveForward(17);
       assertEquals(track.calculateTrackScore(), 2+2);
@@ -85,7 +82,6 @@ class TrackTest {
       track2 = GSON.trackParser(trackConfigFile);
 
       track.addToVaticanReportObserverList(track2);
-      track2.addToVaticanReportObserverList(track);
       track.moveForward(4);
       track2.moveForward(8);
       track.moveForward(4);
@@ -115,7 +111,6 @@ class TrackTest {
       track2 = GSON.trackParser(trackConfigFile);
 
       track.addToVaticanReportObserverList(track2);
-      track2.addToVaticanReportObserverList(track);
       track.moveForward(8);
       assertEquals(track2.calculateTrackScore(), 1);
       assertEquals(track.calculateTrackScore(), 4+2);
@@ -137,7 +132,6 @@ class TrackTest {
       track2 = GSON.trackParser(trackConfigFile);
 
       track2.addToVaticanReportObserverList(track);
-      track.addToVaticanReportObserverList(track2);
       track.moveForward(4);
       track2.moveForward(30);
 
