@@ -41,7 +41,9 @@ public class WhiteMarble extends MarketMarble{
             playerBoard.getWarehouse().addResource(resourceOnWhite);
         } catch (NullPointerException ignored) {
             // The resource that must be added is null -> do nothing
-        } catch (AbuseOfFaithException ignored){
+            // Don't print the stack trace because it's in the normal flow of the program that this exception can be thrown
+        } catch (AbuseOfFaithException e) {
+            // The resource that must be added is faith -> add it in track
             playerBoard.getTrack().moveForward(1);
         }
 
