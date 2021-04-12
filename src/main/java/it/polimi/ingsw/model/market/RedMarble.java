@@ -24,4 +24,5 @@ public class RedMarble extends MarketMarble{
     public boolean equals(Object obj) {
         return obj != null && this.getClass() == obj.getClass();
     }
+
 }

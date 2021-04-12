@@ -18,8 +18,8 @@ public abstract class MarketMarble {
      * @throws MoreWhiteLeaderCardsException in case the player has more than one leader card that can modify this type of marble,
      *                   and is not specified which must be used.
      */
-
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public abstract void addResource(InterfacePlayerBoard playerBoard, Optional<LeaderCard> leaderCard)
             throws NotEnoughSpaceException, MoreWhiteLeaderCardsException;
+
 }

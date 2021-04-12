@@ -233,4 +233,5 @@ class WhiteMarbleTest {
         assertNotEquals(new WhiteMarble(), new Object());
         assertNotEquals(new WhiteMarble(), null);
     }
+
 }
