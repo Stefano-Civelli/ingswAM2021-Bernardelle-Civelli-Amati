@@ -16,9 +16,9 @@ public class DevelopCard {
 
    public DevelopCard(CardFlag cardFlag, HashMap<ResourceType, Integer> cost, HashMap<ResourceType, Integer> requirement, HashMap<ResourceType, Integer> product, int victoryPoints) {
       this.cardFlag = cardFlag;
-      this.cost = cost;
-      this.requirement = requirement;
-      this.product = product;
+      this.cost = cost != null ? new HashMap<>(cost) : new HashMap<>();
+      this.requirement = requirement != null ? new HashMap<>(requirement) : new HashMap<>();
+      this.product = product != null ? new HashMap<>(product) : new HashMap<>();
       this.victoryPoints = victoryPoints;
    }
 
@@ -40,7 +40,7 @@ public class DevelopCard {
       HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
       //apply discount
       for(LeaderCard l : playerBoard.getLeaderCards())
-         localCost = l.applyDiscount(localCost);
+         l.applyDiscount(localCost);
 
       //check if the card is visible
       if(!developCardDeck.visibleCards().contains(this))
@@ -92,7 +92,7 @@ public class DevelopCard {
 
       //apply discount
       for(LeaderCard l : playerBoard.getLeaderCards())
-         localCost = l.applyDiscount(localCost);
+         l.applyDiscount(localCost);
 
       try {
          removeResourcesFrom(localCost, playerBoard.getWarehouse(), playerBoard.getChest());

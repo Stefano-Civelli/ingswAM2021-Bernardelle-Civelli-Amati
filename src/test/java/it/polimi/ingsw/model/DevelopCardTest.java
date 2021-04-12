@@ -212,3 +212,5 @@ class DevelopCardTest {
 //
 //   }
 }
+
+//TODO      DevelopCard devCard1 = new DevelopCard(new CardFlag(1,DevelopCardColor.BLUE), null, null, null, 0);

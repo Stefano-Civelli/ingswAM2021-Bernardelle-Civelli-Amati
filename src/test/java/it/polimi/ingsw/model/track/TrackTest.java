@@ -13,6 +13,8 @@ class TrackTest {
    File trackConfigFile = new File("src/SquareConfig.json");
    Track track;
    Track track2;
+   Track track3;
+   Track track4;
 
    @Test //test the score of the track if the player has never moved his faith marker
    void calculateTrackScoreTEST() throws IOException {
@@ -137,5 +139,25 @@ class TrackTest {
 
       assertEquals(track2.playerPosition, 24);
       assertEquals(track.calculateTrackScore(), 2);
+   }
+
+   @Test
+   void vaticanReportTestObserver() throws IOException {
+
+      track = GSON.trackParser(trackConfigFile);
+      track2 = GSON.trackParser(trackConfigFile);
+      track2.addToVaticanReportObserverList(track);
+      track3 = GSON.trackParser(trackConfigFile);
+      track3.addToVaticanReportObserverList(track);
+      track3.addToVaticanReportObserverList(track2);
+      track4 = GSON.trackParser(trackConfigFile);
+      track4.addToVaticanReportObserverList(track);
+      track4.addToVaticanReportObserverList(track2);
+      track4.addToVaticanReportObserverList(track3);
+
+      assertEquals(track.vaticanReportObserverList.size(),3);
+      assertEquals(track2.vaticanReportObserverList.size(),3);
+      assertEquals(track3.vaticanReportObserverList.size(),3);
+      assertEquals(track4.vaticanReportObserverList.size(),3);
    }
 }

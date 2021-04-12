@@ -32,7 +32,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
 
    public PlayerBoard(String username, List<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck) throws IOException {
       this.username = username;
-      this.leaderCards = new ArrayList<>(leaderCards);
+      this.leaderCards = leaderCards != null ? new ArrayList<>(leaderCards) : new ArrayList<>();
       this.chest = new Chest();
       this.warehouse = new Warehouse();
       this.track = GSON.trackParser(trackConfigFile);
@@ -105,23 +105,22 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
    }
 
 
-   public void addMarbleToWarehouse(int marbleIndex, Integer leaderPosition) throws InvalidLeaderCardException, MoreWhiteLeaderCardsException, NotEnoughSpaceException {
+   public void addMarbleToWarehouse(int marbleIndex, Integer leaderPosition) throws MoreWhiteLeaderCardsException, NotEnoughSpaceException {
          if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
             throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
-         try {
             try {
                tempMarketMarble.get(marbleIndex).addResource(this, Optional.empty());
             } catch (NotEnoughSpaceException e) {
-               for(MarketMarble x : tempMarketMarble) {
-                  tempMarketMarble.remove(x);
+               //for(MarketMarble x : tempMarketMarble) {
+                  tempMarketMarble.remove(marbleIndex);
                   notifyForMoveForward();
-                  throw new NotEnoughSpaceException();
-               }
-            }
-         }catch (MoreWhiteLeaderCardsException e){
-            tempIndexWhiteToAdd = marbleIndex;
-            throw new MoreWhiteLeaderCardsException(e.getMessage());
+               //}
+               throw new NotEnoughSpaceException("you can't add this resource");
+            } catch (MoreWhiteLeaderCardsException e){
+               tempIndexWhiteToAdd = marbleIndex;
+               throw new MoreWhiteLeaderCardsException(e.getMessage());
          }
+      tempMarketMarble.remove(marbleIndex);
    }
 
    public void addWhiteToWarehouse(int leaderPosition) throws InvalidLeaderCardException, NotEnoughSpaceException {
@@ -185,11 +184,9 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
       moveForwardObserverList.remove(observerToRemove);
    }
 
-   //bisogna fare override di equals?
    @Override
    public void notifyForMoveForward() {
       for(MoveForwardObserver x : moveForwardObserverList)
-         if(!x.equals(this))
             x.update();
    }
 

@@ -15,11 +15,13 @@ public class DiscountBehaviour extends CardBehaviour{
    }
 
    @Override
-   public HashMap<ResourceType, Integer> discount(HashMap<ResourceType, Integer> resources){
-      HashMap<ResourceType, Integer> tempResources = new HashMap<>(resources);
-      if(tempResources.containsKey(resourceToDiscount))
-         tempResources.replace(resourceToDiscount, resources.get(resourceToDiscount) - 1);
-      return tempResources;
+   public void discount(HashMap<ResourceType, Integer> resources){
+      if(resources.containsKey(resourceToDiscount)){
+         if(resources.get(resourceToDiscount) == 1)
+            resources.remove(resourceToDiscount);
+         else
+            resources.replace(resourceToDiscount, resources.get(resourceToDiscount) - 1);
+   }
    }
 
 }

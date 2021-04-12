@@ -24,9 +24,7 @@ public abstract class CardBehaviour {
       //eccezione I can't produce oppure non produrre niente
    }
 
-   public HashMap<ResourceType, Integer> discount(HashMap<ResourceType, Integer> resources){
-      return resources;
-   }
+   public void discount(HashMap<ResourceType, Integer> resources){ }
 
 
 }

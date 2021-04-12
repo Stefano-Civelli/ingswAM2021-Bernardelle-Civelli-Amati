@@ -45,9 +45,8 @@ public class LeaderCard {
          }
       }
 
-      if(requiredResources != null)
-          if (warehouse.getNumberOf(requiredResources) + chest.getNumberOf(requiredResources) < numberOfRequiredResources)
-                throw new NotEnoughResourcesException("you can't activate this card, you need more resources");
+      if (requiredResources != null && warehouse.getNumberOf(requiredResources) + chest.getNumberOf(requiredResources) < numberOfRequiredResources)
+            throw new NotEnoughResourcesException("you can't activate this card, you need more resources");
 
       active = true;
    }
@@ -60,12 +59,15 @@ public class LeaderCard {
       return victoryPoints;
    }
 
-
-   public HashMap<ResourceType, Integer> applyDiscount(HashMap<ResourceType, Integer> mapToDiscount){
+   /**
+    * applies discount to the map passed as a parameter
+    * the method modifies the map  passed as a parameter to apply the discount
+    * @param mapToDiscount the map that gets discounted
+    */
+   public void applyDiscount(HashMap<ResourceType, Integer> mapToDiscount){
       if(this.isActive())
-         return cardBehaviour.discount(mapToDiscount);
-      else
-         return new HashMap<>(mapToDiscount);
+         cardBehaviour.discount(mapToDiscount);
+
    }
 
    /**
@@ -78,7 +80,6 @@ public class LeaderCard {
       else
          return null;
    }
-
 
    public void getProduct(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NegativeQuantityException {
       if(this.isActive())
