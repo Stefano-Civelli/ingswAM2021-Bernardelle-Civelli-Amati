@@ -27,7 +27,7 @@ class NormalMarbleTest {
     }
 
     @Test
-    void addNoSpaceTest() throws AbuseOfFaithException, IOException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+    void addNoSpaceTest() throws AbuseOfFaithException, IOException, NotEnoughSpaceException {
         InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
 
         MarketMarble marble1 = new NormalMarble(ResourceType.GOLD);

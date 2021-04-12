@@ -59,7 +59,7 @@ public class Warehouse {
      * Create a new special level in warehouse for a leader card of type storage
      *
      * @param resourceType the resource type of the storage leader card to activate
-     * @return number of the level created
+     * @return index of the level created
      * @throws MaxLeaderCardLevelsException the maximum number of leader card's levels has already been added. It is not possible to add another one.
      * @throws LevelAlreadyPresentException a leader card's level of this resource type is already added. It is not possible to add another one.
      * @throws AbuseOfFaithException resource type is faith, a warehouse can't contain faith

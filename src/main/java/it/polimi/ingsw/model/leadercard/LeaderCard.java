@@ -20,7 +20,7 @@ public class LeaderCard {
    public LeaderCard(ResourceType requiredResources, Map<CardFlag, Integer> requiredCardFlags, int victoryPoints, CardBehaviour cardBehaviour) {
       this.active = false;
       this.requiredResources = requiredResources;
-      this.requiredCardFlags = requiredCardFlags;
+      this.requiredCardFlags = requiredCardFlags != null? new HashMap<>(requiredCardFlags) : new HashMap<>();
       this.victoryPoints = victoryPoints;
       this.cardBehaviour = cardBehaviour;
    }
@@ -45,8 +45,9 @@ public class LeaderCard {
          }
       }
 
-      if (warehouse.getNumberOf(requiredResources) + chest.getNumberOf(requiredResources) < numberOfRequiredResources)
-            throw new NotEnoughResourcesException("you can't activate this card, you need more resources");
+      if(requiredResources != null)
+          if (warehouse.getNumberOf(requiredResources) + chest.getNumberOf(requiredResources) < numberOfRequiredResources)
+                throw new NotEnoughResourcesException("you can't activate this card, you need more resources");
 
       active = true;
    }

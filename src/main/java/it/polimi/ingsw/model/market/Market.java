@@ -19,7 +19,7 @@ public class Market {
     public Market() {
         this.marbles = new MarketMarble[this.nRow][this.nColumn];
         try {
-            List<MarketMarble> marbles = new ArrayList<>(Arrays.asList(
+            List<MarketMarble> marbles = new ArrayList<>(List.of(
                     new WhiteMarble(), new WhiteMarble(), new WhiteMarble(), new WhiteMarble(),
                     new NormalMarble(ResourceType.SHIELD), new NormalMarble(ResourceType.SHIELD),
                     new NormalMarble(ResourceType.STONE), new NormalMarble(ResourceType.STONE),
