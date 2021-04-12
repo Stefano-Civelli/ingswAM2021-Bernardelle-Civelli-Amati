@@ -10,13 +10,8 @@ import java.util.List;
 class MarketTest {
 
     @Test
-    void getInstanceTest() {
-        assertSame(Market.getInstance(), Market.getInstance());
-    }
-
-    @Test
     void pushInRowTest() throws RowOrColumnNotExistsException {
-        Market market = Market.getInstance();
+        Market market = new Market();
         for(int i = 0; i < market.getNumberOfRow(); i++) {
             List<MarketMarble> marbles1 = market.pushInRow(0);      // A B C D
             List<MarketMarble> marbles2 = market.pushInRow(0);      // B C D E
@@ -40,7 +35,7 @@ class MarketTest {
 
     @Test
     void pushInColumn() throws RowOrColumnNotExistsException {
-        Market market = Market.getInstance();
+        Market market = new Market();
         for(int i = 0; i < market.getNumberOfColumn(); i++) {
             List<MarketMarble> marbles1 = market.pushInColumn(0);      // A B C
             List<MarketMarble> marbles2 = market.pushInColumn(0);      // B C D
@@ -69,7 +64,7 @@ class MarketTest {
         // E f g h <  =>  f g h M  =>  f g h L
         // i j k L        i j k L      i j k E
         //                      ^            ^
-        Market market = Market.getInstance();
+        Market market = new Market();
         List<MarketMarble> marbles1 = market.pushInRow(1);
         List<MarketMarble> marbles2 = market.pushInColumn(3);
         List<MarketMarble> marbles3 = market.pushInColumn(3);
@@ -81,7 +76,7 @@ class MarketTest {
 
     @Test
     void exceptionTest() {
-        Market market = Market.getInstance();
+        Market market = new Market();
         MarketMarble[][] status1 = market.getStatus();
         assertThrows(RowOrColumnNotExistsException.class, () -> market.pushInRow(-1) );
         assertThrows(RowOrColumnNotExistsException.class, () -> market.pushInRow(market.getNumberOfRow()) );

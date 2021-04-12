@@ -25,7 +25,7 @@ public class Game {
    public Game(File cardConfigFile, File leaderCardConfigFile) throws IOException {
       this.leaderCardDeck = GSON.leaderCardParser(leaderCardConfigFile);
       this.developCardDeck = GSON.cardParser(cardConfigFile);
-      this.market = Market.getInstance();
+      this.market = new Market();
       this.playerBoardList = new ArrayList<>();
    }
 

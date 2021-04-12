@@ -12,13 +12,11 @@ public class Market {
     private final int nRow = 3,
             nColumn = 4;
 
-    private static Market instance;
-
     private MarketMarble slide;
     private final MarketMarble[][] marbles;
 
 
-    private Market() {
+    public Market() {
         this.marbles = new MarketMarble[this.nRow][this.nColumn];
         try {
             List<MarketMarble> marbles = new ArrayList<>(Arrays.asList(
@@ -37,18 +35,6 @@ public class Market {
                     this.marbles[i][j] = marblesIterator.next();
             this.slide = marblesIterator.next();
         } catch (AbuseOfFaithException ignored) {}
-    }
-
-    /**
-     * If Market isn't instantiated instantiates it
-     *
-     * @return the Market instance
-     */
-    public static Market getInstance() {
-        if(Market.instance != null)
-            return  Market.instance;
-        Market.instance = new Market();
-        return  Market.instance;
     }
 
     public int getNumberOfRow() {

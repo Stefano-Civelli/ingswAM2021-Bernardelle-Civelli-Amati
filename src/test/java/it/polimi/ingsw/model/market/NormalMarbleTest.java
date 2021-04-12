@@ -27,6 +27,18 @@ class NormalMarbleTest {
     }
 
     @Test
+    void addNoSpaceTest() throws AbuseOfFaithException, IOException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+        InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
+
+        MarketMarble marble1 = new NormalMarble(ResourceType.GOLD);
+        playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+        playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+        playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+        assertThrows(NotEnoughSpaceException.class, () -> marble1.addResource(playerBoard, Optional.empty()));
+        assertEquals(3, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
+    }
+
+    @Test
     void faithExceptionTest() {
         assertThrows(AbuseOfFaithException.class, () -> new NormalMarble(ResourceType.FAITH));
     }

@@ -19,7 +19,7 @@ class DevelopCardDeckTest {
    void buyableCardsTest() throws AbuseOfFaithException, IOException, NegativeQuantityException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), Market.getInstance(), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
       playerBoard.getChest().addResources(ResourceType.GOLD,3);
       playerBoard.getChest().endOfTurnMapsMerge();
       for(DevelopCard d : developCardDeck.buyableCards(playerBoard))
@@ -87,7 +87,7 @@ class DevelopCardDeckTest {
    void canBuyAllCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException, NegativeQuantityException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), Market.getInstance(), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
       playerBoard.getChest().addResources(ResourceType.GOLD,9);
       playerBoard.getChest().addResources(ResourceType.SERVANT,9);
       playerBoard.getChest().addResources(ResourceType.SHIELD,9);
