@@ -40,8 +40,7 @@ class WhiteMarbleTest {
 
 
 //    @Test
-//    void addResourceTest() throws AbuseOfFaithException, IncorrectResourceTypeException, NegativeQuantityException,
-//            LevelNotExistsException, NotEnoughSpaceException {
+//    void addResourceTest() {
 //        InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
 //
 //        MarketMarble marble = new WhiteMarble();
