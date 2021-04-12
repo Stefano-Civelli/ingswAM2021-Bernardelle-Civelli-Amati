@@ -8,6 +8,12 @@ public class DiscountBehaviour extends CardBehaviour{
 
    private ResourceType resourceToDiscount;
 
+   public DiscountBehaviour() {}
+
+   public DiscountBehaviour(ResourceType resourceToDiscount) {
+      this.resourceToDiscount = resourceToDiscount;
+   }
+
    @Override
    public HashMap<ResourceType, Integer> discount(HashMap<ResourceType, Integer> resources){
       HashMap<ResourceType, Integer> tempResources = new HashMap<>(resources);

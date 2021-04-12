@@ -12,6 +12,12 @@ public class LeaderProduceBehaviour extends CardBehaviour{
 
    private ResourceType resourceToRemove;
 
+   public LeaderProduceBehaviour() {}
+
+   public LeaderProduceBehaviour(ResourceType resourceToRemove) {
+      this.resourceToRemove = resourceToRemove;
+   }
+
    @Override
    public void produce(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NegativeQuantityException {
 
