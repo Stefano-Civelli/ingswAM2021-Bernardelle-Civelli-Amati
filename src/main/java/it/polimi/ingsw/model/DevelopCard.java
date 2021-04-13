@@ -14,7 +14,7 @@ public class DevelopCard {
    private  HashMap<ResourceType, Integer> product;
    private  int victoryPoints;
 
-   public DevelopCard(CardFlag cardFlag, HashMap<ResourceType, Integer> cost, HashMap<ResourceType, Integer> requirement, HashMap<ResourceType, Integer> product, int victoryPoints) {
+   public DevelopCard(CardFlag cardFlag, Map<ResourceType, Integer> cost, Map<ResourceType, Integer> requirement, Map<ResourceType, Integer> product, int victoryPoints) {
       this.cardFlag = cardFlag;
       this.cost = cost != null ? new HashMap<>(cost) : new HashMap<>();
       this.requirement = requirement != null ? new HashMap<>(requirement) : new HashMap<>();

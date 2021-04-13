@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.leadercard.DiscountBehaviour;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
+import it.polimi.ingsw.model.leadercard.MarbleModifierBehaviour;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.utility.GSON;
@@ -11,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 class DevelopCardTest {
@@ -115,7 +119,7 @@ class DevelopCardTest {
       playerBoard.getChest().addResources(ResourceType.SERVANT,99);
       playerBoard.getChest().addResources(ResourceType.SHIELD,99);
       playerBoard.getChest().endOfTurnMapsMerge();
-      //these tests do not influence eachother because they are done using a different cardslot numbers (0, 1 and 2)
+      //these tests do not influence each other because they are done using a different cardslot numbers (0, 1 and 2)
       //level 2 card in empty card slot (cardslot number 0)
       assertThrows(NotBuyableException.class, () -> developCardDeck.getCard(1,3).buy(playerBoard,0));
       //level 3 card on top of level 1 card (cardslot number 1)
@@ -188,29 +192,26 @@ class DevelopCardTest {
 
    }
 
+   //-----------------------------Test with activated LeaderCards in the PlayerBoard--------------------------------------------
 
-//   @Test //TODO
-//   void produceWithNotEnoughResources() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, RowOrColumnNotExistsException, InvalidCardPlacementException, NotBuyableException, NotActivatableException {
-//      DevelopCardDeck developCardDeck;
-//      developCardDeck = GSON.cardParser(cardConfigFile);
-//      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
-//      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
-//      playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
-//      playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
-//      playerBoard.getChest().addResources(ResourceType.GOLD,99);
-//      playerBoard.getChest().addResources(ResourceType.STONE,99);
-//      playerBoard.getChest().addResources(ResourceType.SERVANT,99);
-//      playerBoard.getChest().addResources(ResourceType.SHIELD,99);
-//      playerBoard.getChest().endOfTurnMapsMerge();
-//      developCardDeck.getCard(0,0).buy(playerBoard,0);
-//      developCardDeck.getCard(1,0).buy(playerBoard,0);
-//      CardSlots cardSlots = playerBoard.getCardSlots();
-//      assertThrows(NotActivatableException.class, () -> bottomCard.produce(playerBoard));
+  //non riesco a testare perchè la developcard non è tra le visible cards
+//   @Test
+//   void isBuyableWithDiscount() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException, NegativeQuantityException, AbuseOfFaithException, InvalidCardPlacementException, NotBuyableException {
+//      DevelopCard devCard1 = new DevelopCard(
+//              new CardFlag(1,DevelopCardColor.BLUE), Map.of(ResourceType.SERVANT, 3, ResourceType.STONE, 1), null, null, 0);
+//      LeaderCard card1 = new LeaderCard(
+//              null, null, 0, new DiscountBehaviour(ResourceType.STONE));
+//      LeaderCard card2 = new LeaderCard(
+//              null, null, 0, new DiscountBehaviour(ResourceType.SERVANT));
+//      InterfacePlayerBoard playerBoard1 = new PlayerBoard(
+//              "Mario", new ArrayList<>(List.of(card1, card2)), null, null);
 //
-//      //produce on the top card shouldn't throw exceptions
-//      cardSlots.returnTopCard(0).produce(playerBoard);
 //
+//      card1.setActive(playerBoard1);
+//      card2.setActive(playerBoard1);
+//      playerBoard1.getChest().addResources(ResourceType.SERVANT,2);
+//      playerBoard1.getChest().endOfTurnMapsMerge();
+//      assertTrue(devCard1.isBuyable(playerBoard1));
 //   }
 }
 
-//TODO      DevelopCard devCard1 = new DevelopCard(new CardFlag(1,DevelopCardColor.BLUE), null, null, null, 0);
