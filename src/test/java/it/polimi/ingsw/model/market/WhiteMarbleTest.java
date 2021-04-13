@@ -207,6 +207,10 @@ class WhiteMarbleTest {
         playerBoard.getWarehouse().addResource(ResourceType.GOLD);
 
         MarketMarble marble = new WhiteMarble();
+        assertThrows(NotEnoughSpaceException.class, () -> marble.addResource(playerBoard));
+        assertEquals(3, playerBoard.getWarehouse().totalResources());
+        assertEquals(3, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
+
         assertThrows(NotEnoughSpaceException.class, () -> marble.addResource(playerBoard, card1));
         assertEquals(3, playerBoard.getWarehouse().totalResources());
         assertEquals(3, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
@@ -218,6 +222,23 @@ class WhiteMarbleTest {
                 "test", new ArrayList<>(), null, null);
         MarketMarble marble = new WhiteMarble();
         assertThrows(NullPointerException.class, () -> marble.addResource(playerBoard, null));
+    }
+
+    @Test
+    void wrongLeaderTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException {
+        LeaderCard card1 = new LeaderCard(
+                null, null, 0, new StorageBehaviour(ResourceType.GOLD));
+        LeaderCard card2 = new LeaderCard(
+                null, null, 0, new MarbleModifierBehaviour(ResourceType.GOLD));
+        InterfacePlayerBoard playerBoard = new PlayerBoard(
+                "test", new ArrayList<>(List.of(card1)), null, null);
+        card1.setActive(playerBoard);
+
+        MarketMarble marble = new WhiteMarble();
+        assertThrows(WrongLeaderCardException.class, () -> marble.addResource(playerBoard, card1));
+        assertThrows(WrongLeaderCardException.class, () -> marble.addResource(playerBoard, card2));
+        assertEquals(0, playerBoard.getWarehouse().totalResources());
+
     }
 
     @Test

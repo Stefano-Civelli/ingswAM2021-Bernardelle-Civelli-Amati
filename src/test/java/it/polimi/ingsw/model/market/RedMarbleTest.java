@@ -13,7 +13,8 @@ class RedMarbleTest {
 
     @Test
     void addResourceTest() throws NotEnoughSpaceException, MoreWhiteLeaderCardsException, IOException {
-        InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
+        InterfacePlayerBoard playerBoard = new PlayerBoard(
+                "test", new ArrayList<>(), null, null);
 
         MarketMarble marble1 = new RedMarble();
 
@@ -30,7 +31,29 @@ class RedMarbleTest {
         assertEquals(points0, playerBoard.getTrack().calculateTrackScore());
         marble1.addResource(playerBoard);
         assertEquals(points1, playerBoard.getTrack().calculateTrackScore());
-       }
+    }
+
+    @Test
+    void addResourceLeaderTest() throws NotEnoughSpaceException, IOException, WrongLeaderCardException {
+        InterfacePlayerBoard playerBoard = new PlayerBoard(
+                "test", new ArrayList<>(), null, null);
+
+        MarketMarble marble1 = new RedMarble();
+
+        int points0 = playerBoard.getTrack().getTrack()[0].getVictoryPoints(),
+                points1 = 0,
+                position = 0;
+        for(int i = 0; i < playerBoard.getTrack().getTrack().length; i++)
+            if(playerBoard.getTrack().getTrack()[i].getVictoryPoints() > points0) {
+                points1 = playerBoard.getTrack().getTrack()[i].getVictoryPoints();
+                position = i;
+                break;
+            }
+        playerBoard.getTrack().moveForward(position - 1);
+        assertEquals(points0, playerBoard.getTrack().calculateTrackScore());
+        marble1.addResource(playerBoard, null);
+        assertEquals(points1, playerBoard.getTrack().calculateTrackScore());
+    }
 
     @Test
     @SuppressWarnings({"Possible", "AssertBetweenInconvertibleTypes"})

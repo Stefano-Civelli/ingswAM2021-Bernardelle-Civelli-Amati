@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.leadercard.LeaderCard;
+import it.polimi.ingsw.model.leadercard.MarbleModifierBehaviour;
 import it.polimi.ingsw.model.modelexceptions.*;
 
 import org.junit.jupiter.api.Test;
@@ -8,12 +10,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 class NormalMarbleTest {
 
     @Test
-    void addResourceTest() throws AbuseOfFaithException, NotEnoughSpaceException, MoreWhiteLeaderCardsException, IOException {
-        InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
+    void addResourceTest()
+            throws AbuseOfFaithException, NotEnoughSpaceException, MoreWhiteLeaderCardsException, IOException {
+        InterfacePlayerBoard playerBoard = new PlayerBoard(
+                "test", new ArrayList<>(), null, null);
 
         MarketMarble marble1 = new NormalMarble(ResourceType.GOLD);
         playerBoard.getWarehouse().addResource(ResourceType.GOLD);
@@ -26,8 +31,30 @@ class NormalMarbleTest {
     }
 
     @Test
+    void addResourceLeaderTest() throws AbuseOfFaithException, NotEnoughSpaceException, IOException,
+            WrongLeaderCardException, NotEnoughResourcesException, InvalidLeaderCardException {
+        LeaderCard card1 = new LeaderCard(
+                null, null, 0, new MarbleModifierBehaviour(ResourceType.GOLD));
+        InterfacePlayerBoard playerBoard = new PlayerBoard(
+                "test", List.of(card1), null, null);
+        card1.setActive(playerBoard);
+
+        MarketMarble marble1 = new NormalMarble(ResourceType.GOLD);
+        playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+        marble1.addResource(playerBoard, null);
+        assertEquals(2, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
+
+        MarketMarble marble2 = new NormalMarble(ResourceType.SERVANT);
+
+        marble2.addResource(playerBoard, card1);
+        assertEquals(1, playerBoard.getWarehouse().getNumberOf(ResourceType.SERVANT));
+        assertEquals(3, playerBoard.getWarehouse().totalResources());
+    }
+
+    @Test
     void addNoSpaceTest() throws AbuseOfFaithException, IOException, NotEnoughSpaceException {
-        InterfacePlayerBoard playerBoard = new PlayerBoard("test", new ArrayList<>(), null, null);
+        InterfacePlayerBoard playerBoard = new PlayerBoard(
+                "test", new ArrayList<>(), null, null);
 
         MarketMarble marble1 = new NormalMarble(ResourceType.GOLD);
         playerBoard.getWarehouse().addResource(ResourceType.GOLD);
