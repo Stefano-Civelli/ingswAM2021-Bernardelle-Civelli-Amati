@@ -21,7 +21,7 @@ class WhiteMarbleTest {
         InterfacePlayerBoard playerBoard = new PlayerBoard(
                 "test", new ArrayList<>(), null, null);
         MarketMarble marble = new WhiteMarble();
-        marble.addResource(playerBoard, Optional.empty());
+        marble.addResource(playerBoard);
         assertEquals(0, playerBoard.getWarehouse().totalResources());
     }
 
@@ -35,11 +35,11 @@ class WhiteMarbleTest {
 
         MarketMarble marble = new WhiteMarble();
 
-        marble.addResource(playerBoard1, Optional.empty());
+        marble.addResource(playerBoard1);
         assertEquals(0, playerBoard1.getWarehouse().totalResources());
 
         card1.setActive(playerBoard1);
-        marble.addResource(playerBoard1, Optional.empty());
+        marble.addResource(playerBoard1);
         assertEquals(0, playerBoard1.getWarehouse().totalResources());
 
         LeaderCard card2 = new LeaderCard(
@@ -48,11 +48,11 @@ class WhiteMarbleTest {
                 "test", new ArrayList<>(List.of(card1, card2)), null, null);
         playerBoard2.getWarehouse().addResource(ResourceType.SERVANT);
 
-        marble.addResource(playerBoard2, Optional.empty());
+        marble.addResource(playerBoard2);
         assertEquals(1, playerBoard2.getWarehouse().totalResources());
 
         card2.setActive(playerBoard2);
-        marble.addResource(playerBoard2, Optional.empty());
+        marble.addResource(playerBoard2);
         assertEquals(1, playerBoard2.getWarehouse().totalResources());
     }
 
@@ -67,7 +67,7 @@ class WhiteMarbleTest {
 
         MarketMarble marble = new WhiteMarble();
 
-        marble.addResource(playerBoard1, Optional.empty());
+        marble.addResource(playerBoard1);
         assertEquals(1, playerBoard1.getWarehouse().totalResources());
 
         LeaderCard card2 = new LeaderCard(
@@ -76,7 +76,7 @@ class WhiteMarbleTest {
                 "test", new ArrayList<>(List.of(card1, card2)), null, null);
         playerBoard2.getWarehouse().addResource(ResourceType.SERVANT);
 
-        marble.addResource(playerBoard2, Optional.empty());
+        marble.addResource(playerBoard2);
         assertEquals(1, playerBoard2.getWarehouse().totalResources());
     }
 
@@ -91,7 +91,7 @@ class WhiteMarbleTest {
 
         MarketMarble marble = new WhiteMarble();
 
-        marble.addResource(playerBoard1, Optional.empty());
+        marble.addResource(playerBoard1);
         assertEquals(1, playerBoard1.getWarehouse().totalResources());
         assertEquals(1, playerBoard1.getWarehouse().getNumberOf(ResourceType.GOLD));
 
@@ -100,14 +100,14 @@ class WhiteMarbleTest {
         InterfacePlayerBoard playerBoard2 = new PlayerBoard(
                 "test", new ArrayList<>(List.of(card1, card2)), null, null);
 
-        marble.addResource(playerBoard2, Optional.empty());
+        marble.addResource(playerBoard2);
         assertEquals(1, playerBoard2.getWarehouse().totalResources());
         assertEquals(1, playerBoard1.getWarehouse().getNumberOf(ResourceType.GOLD));
     }
 
     @Test
     void twoActiveWhiteLeaderTest() throws IOException, NotEnoughResourcesException,
-            InvalidLeaderCardException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+            InvalidLeaderCardException, NotEnoughSpaceException, WrongLeaderCardException {
         LeaderCard card1 = new LeaderCard(
                 null, null, 0, new MarbleModifierBehaviour(ResourceType.GOLD));
         LeaderCard card2 = new LeaderCard(
@@ -119,14 +119,14 @@ class WhiteMarbleTest {
 
         MarketMarble marble = new WhiteMarble();
 
-        assertThrows(MoreWhiteLeaderCardsException.class, () -> marble.addResource(playerBoard, Optional.empty()));
+        assertThrows(MoreWhiteLeaderCardsException.class, () -> marble.addResource(playerBoard));
         assertEquals(0, playerBoard.getWarehouse().totalResources());
 
-        marble.addResource(playerBoard, Optional.of(card1));
+        marble.addResource(playerBoard, card1);
         assertEquals(1, playerBoard.getWarehouse().totalResources());
         assertEquals(1, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
 
-        marble.addResource(playerBoard, Optional.of(card2));
+        marble.addResource(playerBoard, card2);
         assertEquals(2, playerBoard.getWarehouse().totalResources());
         assertEquals(1, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
         assertEquals(1, playerBoard.getWarehouse().getNumberOf(ResourceType.SERVANT));
@@ -154,13 +154,13 @@ class WhiteMarbleTest {
             }
         playerBoard.getTrack().moveForward(position - 1);
         assertEquals(points0, playerBoard.getTrack().calculateTrackScore());
-        marble.addResource(playerBoard, Optional.empty());
+        marble.addResource(playerBoard);
         assertEquals(points1, playerBoard.getTrack().calculateTrackScore());
     }
 
     @Test
     void faithTwoLeaderTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException,
-            NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+            NotEnoughSpaceException, WrongLeaderCardException {
         LeaderCard card1 = new LeaderCard(
                 null, null, 0, new MarbleModifierBehaviour(ResourceType.GOLD));
         LeaderCard card2 = new LeaderCard(
@@ -172,10 +172,10 @@ class WhiteMarbleTest {
 
         MarketMarble marble = new WhiteMarble();
 
-        assertThrows(MoreWhiteLeaderCardsException.class, () -> marble.addResource(playerBoard, Optional.empty()));
+        assertThrows(MoreWhiteLeaderCardsException.class, () -> marble.addResource(playerBoard));
         assertEquals(0, playerBoard.getWarehouse().totalResources());
 
-        marble.addResource(playerBoard, Optional.of(card1));
+        marble.addResource(playerBoard, card1);
         assertEquals(1, playerBoard.getWarehouse().totalResources());
         assertEquals(1, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
 
@@ -190,7 +190,7 @@ class WhiteMarbleTest {
             }
         playerBoard.getTrack().moveForward(position - 1);
         assertEquals(points0, playerBoard.getTrack().calculateTrackScore());
-        marble.addResource(playerBoard, Optional.of(card2));
+        marble.addResource(playerBoard, card2);
         assertEquals(points1, playerBoard.getTrack().calculateTrackScore());
     }
 
@@ -207,13 +207,12 @@ class WhiteMarbleTest {
         playerBoard.getWarehouse().addResource(ResourceType.GOLD);
 
         MarketMarble marble = new WhiteMarble();
-        assertThrows(NotEnoughSpaceException.class, () -> marble.addResource(playerBoard, Optional.of(card1)));
+        assertThrows(NotEnoughSpaceException.class, () -> marble.addResource(playerBoard, card1));
         assertEquals(3, playerBoard.getWarehouse().totalResources());
         assertEquals(3, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
     }
 
     @Test
-    @SuppressWarnings("all") // For null value for Optional type, I can't find the specific string
     void nullLeaderTest() throws IOException {
         InterfacePlayerBoard playerBoard = new PlayerBoard(
                 "test", new ArrayList<>(), null, null);

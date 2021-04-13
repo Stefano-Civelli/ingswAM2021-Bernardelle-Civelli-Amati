@@ -109,7 +109,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
          if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
             throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
             try {
-               tempMarketMarble.get(marbleIndex).addResource(this, Optional.empty());
+               tempMarketMarble.get(marbleIndex).addResource(this);
             } catch (NotEnoughSpaceException e) {
                //for(MarketMarble x : tempMarketMarble) {
                   tempMarketMarble.remove(marbleIndex);
@@ -123,14 +123,11 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
       tempMarketMarble.remove(marbleIndex);
    }
 
-   public void addWhiteToWarehouse(int leaderPosition) throws InvalidLeaderCardException, NotEnoughSpaceException {
+   public void addWhiteToWarehouse(int leaderPosition)
+           throws InvalidLeaderCardException, NotEnoughSpaceException, WrongLeaderCardException {
       if (leaderPosition < 0 || leaderPosition >= leaderCards.size())
          throw new InvalidLeaderCardException("The index of the leaderCard u gave me doesn't match the length of my array");
-      try {
-         tempMarketMarble.get(tempIndexWhiteToAdd).addResource(this, Optional.of(leaderCards.get(leaderPosition)));
-      } catch (MoreWhiteLeaderCardsException e) {
-         e.printStackTrace();
-      }
+      tempMarketMarble.get(tempIndexWhiteToAdd).addResource(this, leaderCards.get(leaderPosition));
    }
 
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) throws AbuseOfFaithException {

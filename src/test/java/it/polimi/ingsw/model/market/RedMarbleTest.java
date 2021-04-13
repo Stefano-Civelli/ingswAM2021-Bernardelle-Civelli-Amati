@@ -29,7 +29,7 @@ class RedMarbleTest {
             }
         playerBoard.getTrack().moveForward(position - 1);
         assertEquals(points0, playerBoard.getTrack().calculateTrackScore());
-        marble1.addResource(playerBoard, Optional.empty());
+        marble1.addResource(playerBoard);
         assertEquals(points1, playerBoard.getTrack().calculateTrackScore());
        }
 

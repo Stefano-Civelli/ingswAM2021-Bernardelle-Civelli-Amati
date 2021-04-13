@@ -18,11 +18,11 @@ class NormalMarbleTest {
 
         MarketMarble marble1 = new NormalMarble(ResourceType.GOLD);
         playerBoard.getWarehouse().addResource(ResourceType.GOLD);
-        marble1.addResource(playerBoard, Optional.empty());
+        marble1.addResource(playerBoard);
         assertEquals(2, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
 
         MarketMarble marble2 = new NormalMarble(ResourceType.SERVANT);
-        marble2.addResource(playerBoard, Optional.empty());
+        marble2.addResource(playerBoard);
         assertEquals(1, playerBoard.getWarehouse().getNumberOf(ResourceType.SERVANT));
     }
 
@@ -34,7 +34,7 @@ class NormalMarbleTest {
         playerBoard.getWarehouse().addResource(ResourceType.GOLD);
         playerBoard.getWarehouse().addResource(ResourceType.GOLD);
         playerBoard.getWarehouse().addResource(ResourceType.GOLD);
-        assertThrows(NotEnoughSpaceException.class, () -> marble1.addResource(playerBoard, Optional.empty()));
+        assertThrows(NotEnoughSpaceException.class, () -> marble1.addResource(playerBoard));
         assertEquals(3, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
     }
 

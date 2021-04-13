@@ -13,10 +13,9 @@ public class RedMarble extends MarketMarble{
      * Adds the resources owed to the player due to this marble
      *
      * @param playerBoard the player board of the player to whom the resources belong
-     * @param leaderCard this parameter will be ignored in this type of marble
      */
     @Override
-    public void addResource(InterfacePlayerBoard playerBoard, Optional<LeaderCard> leaderCard) {
+    public void addResource(InterfacePlayerBoard playerBoard) {
         playerBoard.getTrack().moveForward(1);
     }
 
