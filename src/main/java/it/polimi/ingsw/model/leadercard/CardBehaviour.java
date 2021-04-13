@@ -16,15 +16,11 @@ public abstract class CardBehaviour {
       return null;
    }
 
-   public void createStorage(InterfacePlayerBoard playerboard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException, AbuseOfFaithException {
-      //eccezione I can't create a storage
-   }
+   public void createStorage(InterfacePlayerBoard playerboard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException, AbuseOfFaithException {}
 
-   public void produce(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NegativeQuantityException {
-      //eccezione I can't produce oppure non produrre niente
-   }
+   public void produce(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NotEnoughResourcesException {}
 
-   public void discount(HashMap<ResourceType, Integer> resources){ }
+   public void discount(HashMap<ResourceType, Integer> resources){}
 
 
 }

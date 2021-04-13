@@ -28,6 +28,8 @@ public class Chest {
   public void removeResources(ResourceType resource, int quantity) throws NotEnoughResourcesException, AbuseOfFaithException{
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException();
+    if(quantity == 0)
+      return;
 
     if(resources.containsKey(resource)) {
       if (resources.get(resource) - quantity < 0 || quantity < 0)

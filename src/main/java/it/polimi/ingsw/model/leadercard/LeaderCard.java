@@ -81,9 +81,9 @@ public class LeaderCard {
          return null;
    }
 
-   public void getProduct(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NegativeQuantityException {
+   public void getProduct(ResourceType resourceToAdd, InterfacePlayerBoard playerBoard) throws AbuseOfFaithException, NotEnoughResourcesException {
       if(this.isActive())
-         cardBehaviour.produce(resourceToAdd, playerboard);
+         cardBehaviour.produce(resourceToAdd, playerBoard);
    }
 
    public void addStorageSpace(InterfacePlayerBoard playerBoard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException, AbuseOfFaithException {
