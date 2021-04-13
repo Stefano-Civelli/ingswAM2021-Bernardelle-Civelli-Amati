@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.leadercard.LeaderCard;
-
-import java.util.Optional;
 
 public class RedMarble extends MarketMarble{
 

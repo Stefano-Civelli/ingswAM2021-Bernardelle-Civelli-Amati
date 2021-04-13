@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.modelexceptions.*;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class WhiteMarble extends MarketMarble{
