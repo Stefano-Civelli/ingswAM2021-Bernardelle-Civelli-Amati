@@ -22,15 +22,12 @@ public class DevelopCard {
       this.victoryPoints = victoryPoints;
    }
 
-   //TODO controllare se è na roba legale
-   public DevelopCard(int level){
-      this.cardFlag = new CardFlag(level, null);
-   }
 
    /**
     * Checks if the player passed as a parameter can buy the card (this)
-    * @param playerBoard the player that wants to know if the card can be bought
-    * @return true if the card can be bought, false if it can't
+    *
+    * @param playerBoard that wants to know if he can buy the card
+    * @return true if the card can be bought, false otherwise
     */
    public boolean isBuyable(InterfacePlayerBoard playerBoard){
       Warehouse warehouse = playerBoard.getWarehouse();
@@ -61,7 +58,8 @@ public class DevelopCard {
 
    /**
     * Checks if the player passed as a parameter can activate the card (this)
-    * @param playerBoard the player that wants to know if the card can be activated
+    *
+    * @param playerBoard that wants to know if he can activate the card
     * @return true if the card can be activated, false if it can't
     */
    public boolean isActivatable(InterfacePlayerBoard playerBoard){
@@ -83,6 +81,16 @@ public class DevelopCard {
       return false;
    }
 
+   /**
+    * handles the buying operation from start to finish.
+    * Removes the resources from the Player's warehouse and adds the new card to the specified CardSlot
+    * //TODO problema: potrebbe lanciare eccezione dopo aver rimosso le risorse dalla chest. potrei fare che questo metodo ritorna la carta che poi viene aggiunta allo slot nella playerboard.
+    *
+    * @param playerBoard that wants to buy the card
+    * @param cardSlotNumber number of the slot to put the new card in. (starts at 0)
+    * @throws InvalidCardPlacementException if the card can't be put in the specified slot
+    * @throws NotBuyableException if the card can't be bought
+    */
    public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException, NotBuyableException {
       CardSlots cardslots = playerBoard.getCardSlots();
       DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
@@ -96,13 +104,13 @@ public class DevelopCard {
 
       try {
          removeResourcesFrom(localCost, playerBoard.getWarehouse(), playerBoard.getChest());
-      } catch (NegativeQuantityException e) {
+      } catch (NegativeQuantityException | NotEnoughResourcesException e) {
          e.printStackTrace();
-      } catch (NotEnoughResourcesException e) {
-         throw new NotBuyableException("you don't have enough resources to buy this card");
       }
 
+      //TODO fix this problem
       cardslots.addDevelopCard(cardSlotNumber,this);
+
       try {
          developCardDeck.removeCard(this);
       } catch (InvalidCardException e) {
@@ -111,16 +119,19 @@ public class DevelopCard {
 
    }
 
+   /**
+    * activate the card production
+    * @param playerBoard that wants to activate the card
+    * @throws NotActivatableException if the card is not activatable by the specified player
+    */
    public void produce(InterfacePlayerBoard playerBoard) throws NotActivatableException {
       if(!this.isActivatable(playerBoard))
          throw new NotActivatableException("you can't activate this card");
 
       try {
          removeResourcesFrom(requirement, playerBoard.getWarehouse(), playerBoard.getChest());
-      } catch (NegativeQuantityException e) {
+      } catch (NegativeQuantityException | NotEnoughResourcesException e) {
          e.printStackTrace();
-      } catch (NotEnoughResourcesException e) {
-         throw new NotActivatableException("you don't have enough resources to activate this card");
       }
 
       for(Map.Entry<ResourceType, Integer> entry : product.entrySet()) {

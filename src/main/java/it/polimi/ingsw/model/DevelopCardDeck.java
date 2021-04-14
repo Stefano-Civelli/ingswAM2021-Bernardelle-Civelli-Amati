@@ -92,9 +92,11 @@ public class DevelopCardDeck implements EndGameObservable {
 
    /**
     * returns the reference to a card contained in the Deck given the position row/column
-    * @param row the row of the card to return (first is 0). row is related to the card level
-    * @param column the column of the card to return (first is 0). column is related to card the color
-    * @return the specified card
+    * NOTE: this method doesn't remove the card
+    *
+    * @param row the row of the card to return (start at 0). Row is related to the card level
+    * @param column the column of the card to return (start at 0). Column is related to card the color
+    * @return the card present at the given position
     * @throws RowOrColumnNotExistsException if the card position is invalid
     */
    public DevelopCard getCard(int row, int column) throws RowOrColumnNotExistsException {

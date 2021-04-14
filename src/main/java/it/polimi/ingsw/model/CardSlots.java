@@ -43,7 +43,7 @@ public class CardSlots implements EndGameObservable {
    */
   public DevelopCard returnTopCard(int slot) {
     if(developCards.get(slot).isEmpty())
-       return new DevelopCard(0); //when returnTopCard is called on an empty slot I return a card with level equals to 0
+       return new DevelopCard(new CardFlag(0,null), null, null, null, 0); //when returnTopCard is called on an empty slot I return a card with level equals to 0
     return developCards.get(slot).get(developCards.get(slot).size()-1);
   }
 

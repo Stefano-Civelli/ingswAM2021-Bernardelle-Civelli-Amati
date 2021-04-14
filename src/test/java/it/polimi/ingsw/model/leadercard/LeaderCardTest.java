@@ -177,17 +177,17 @@ class LeaderCardTest {
          playerBoard1.getWarehouse().addResource(ResourceType.STONE);
    }
 
-   @Test
-   void addStorageSpaceTest2() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException {
-      LeaderCard card1 = new LeaderCard(
-              null, null, 0, new StorageBehaviour(ResourceType.FAITH));
-      InterfacePlayerBoard playerBoard1 = new PlayerBoard(
-              "Mario", new ArrayList<>(List.of(card1)), null, null);
-
-      card1.setActive(playerBoard1);
-      assertThrows(AbuseOfFaithException.class, () -> card1.addStorageSpace(playerBoard1));
-
-   }
+//   @Test
+//   void addStorageSpaceTest2() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException {
+//      LeaderCard card1 = new LeaderCard(
+//              null, null, 0, new StorageBehaviour(ResourceType.FAITH));
+//      InterfacePlayerBoard playerBoard1 = new PlayerBoard(
+//              "Mario", new ArrayList<>(List.of(card1)), null, null);
+//
+//      card1.setActive(playerBoard1);
+//      assertThrows(AbuseOfFaithException.class, () -> card1.addStorageSpace(playerBoard1));
+//
+//   }
 
    @Test
    void defaultImplementationsTest() throws IOException, AbuseOfFaithException, NotEnoughResourcesException, MaxLeaderCardLevelsException, LevelAlreadyPresentException, InvalidLeaderCardException {
