@@ -17,7 +17,9 @@ public class StorageBehaviour extends CardBehaviour{
    }
 
    @Override
-   public void createStorage(InterfacePlayerBoard playerboard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException, AbuseOfFaithException {
-      playerboard.getWarehouse().addLeaderCardLevel(storageType);
+   public void createStorage(InterfacePlayerBoard playerboard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException {
+      try {
+         playerboard.getWarehouse().addLeaderCardLevel(storageType);
+      } catch (AbuseOfFaithException e) {e.printStackTrace();}
    }
 }
