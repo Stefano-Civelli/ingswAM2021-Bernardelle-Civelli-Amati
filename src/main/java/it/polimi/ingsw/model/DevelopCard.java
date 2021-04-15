@@ -40,8 +40,8 @@ public class DevelopCard {
          l.applyDiscount(localCost);
 
       //check if the card is visible
-      if(!developCardDeck.visibleCards().contains(this))
-         return false;
+//      if(!developCardDeck.visibleCards().contains(this))
+//         return false;
 
       //check if the number of resources is sufficient
       for(Map.Entry<ResourceType, Integer> entry : localCost.entrySet())
@@ -84,19 +84,21 @@ public class DevelopCard {
    /**
     * handles the buying operation from start to finish.
     * Removes the resources from the Player's warehouse and adds the new card to the specified CardSlot
-    * //TODO problema: potrebbe lanciare eccezione dopo aver rimosso le risorse dalla chest. potrei fare che questo metodo ritorna la carta che poi viene aggiunta allo slot nella playerboard.
     *
     * @param playerBoard that wants to buy the card
     * @param cardSlotNumber number of the slot to put the new card in. (starts at 0)
     * @throws InvalidCardPlacementException if the card can't be put in the specified slot
     * @throws NotBuyableException if the card can't be bought
+    * @return the card you bought
     */
-   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws InvalidCardPlacementException, NotBuyableException {
-      CardSlots cardslots = playerBoard.getCardSlots();
+   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws NotBuyableException {
+      CardSlots cardSlots = playerBoard.getCardSlots();
       DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
       HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
-      if(!this.isBuyable(playerBoard))
+      if(!this.isBuyable(playerBoard) ||
+              cardSlots.returnTopCard(cardSlotNumber).getCardFlag().getLevel() != (this.getCardFlag().getLevel() - 1))
          throw new NotBuyableException("you are trying to buy a card you cannot buy");
+
 
       //apply discount
       for(LeaderCard l : playerBoard.getLeaderCards())
@@ -108,14 +110,14 @@ public class DevelopCard {
          e.printStackTrace();
       }
 
-      //TODO fix this problem
-      cardslots.addDevelopCard(cardSlotNumber,this);
+
+      try {
+         cardSlots.addDevelopCard(cardSlotNumber,this);
+      } catch (InvalidCardPlacementException e) {e.printStackTrace();}
 
       try {
          developCardDeck.removeCard(this);
-      } catch (InvalidCardException e) {
-         throw new NotBuyableException("you can't buy this card because it's not a visible card in the deck");
-      }
+      } catch (InvalidCardException e) {e.printStackTrace();}
 
    }
 
@@ -170,11 +172,7 @@ public class DevelopCard {
    private void removeResourcesFrom(HashMap<ResourceType, Integer> target, Warehouse warehouse, Chest chest) throws NegativeQuantityException, NotEnoughResourcesException {
       for(Map.Entry<ResourceType, Integer> entry : target.entrySet()) {
          int remainingToRemove = warehouse.removeResources(entry.getKey(),entry.getValue());
-         try {
             chest.removeResources(entry.getKey(), remainingToRemove);
-         }catch(AbuseOfFaithException e){
-            e.printStackTrace();
-         }
       }
    }
 }

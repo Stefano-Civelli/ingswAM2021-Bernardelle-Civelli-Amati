@@ -41,9 +41,14 @@ public class LeaderCard {
     * @throws InvalidLeaderCardException if the player doesn't own this card
     */
    public void setActive(InterfacePlayerBoard playerBoard) throws NotEnoughResourcesException, InvalidLeaderCardException {
+      if(active)
+         return;
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
+
+      //TODO
+      //this.addStorageSpace(playerBoard);
 
       if(!playerBoard.getLeaderCards().contains(this))
          throw new InvalidLeaderCardException("this is not one of your cards");
@@ -110,7 +115,7 @@ public class LeaderCard {
     * @throws AbuseOfFaithException if you pass {@code ResourceType.FAITH} as the resource you want to add
     * @throws NotEnoughResourcesException if the player doesn't have the resources to activate the production
     */
-   public void getProduct(ResourceType resourceToAdd, InterfacePlayerBoard playerBoard) throws AbuseOfFaithException, NotEnoughResourcesException {
+   public void getProduct(ResourceType resourceToAdd, InterfacePlayerBoard playerBoard) throws AbuseOfFaithException, NotEnoughResourcesException, NeedAResourceToAddException {
       if(this.isActive())
          cardBehaviour.produce(resourceToAdd, playerBoard);
    }

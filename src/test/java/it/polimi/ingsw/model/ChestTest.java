@@ -80,16 +80,6 @@ class ChestTest {
       assertEquals(chest.getNumberOf(ResourceType.GOLD), 0);
    }
 
-   @Test
-   void abuseOfFaithExceptionTest() throws AbuseOfFaithException, NegativeQuantityException {
-      Chest chest = new Chest();
-
-      chest.addResources(ResourceType.GOLD, 2);
-      chest.addResources(ResourceType.SHIELD, 4);
-      assertThrows(AbuseOfFaithException.class, () -> chest.addResources(ResourceType.FAITH, 4));
-      chest.endOfTurnMapsMerge();
-      assertThrows(AbuseOfFaithException.class, () -> chest.removeResources(ResourceType.FAITH, 1));
-   }
 
    @Test
    void removeZeroResourcesTest() throws AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException {

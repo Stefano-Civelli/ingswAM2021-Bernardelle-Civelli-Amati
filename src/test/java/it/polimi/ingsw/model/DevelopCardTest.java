@@ -59,25 +59,25 @@ class DevelopCardTest {
             assertTrue(d.isBuyable(playerBoard));
    }
 
-   @Test
-   void notVisibleCardIsBuyable() throws NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, IOException {
-      DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
-      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
-      playerBoard.getChest().addResources(ResourceType.GOLD,1);
-      playerBoard.getChest().addResources(ResourceType.STONE,2);
-      playerBoard.getChest().endOfTurnMapsMerge();
-      HashMap<ResourceType, Integer> cost = new HashMap<>();
-      cost.put(ResourceType.GOLD,2);
-      cost.put(ResourceType.STONE,2);
-      DevelopCard developCard = new DevelopCard(new CardFlag(1,DevelopCardColor.BLUE)
-                                                , cost, new HashMap<>(), new HashMap<>()
-                                                , 10);
-
-      //false because in order to be buyable the card has to be a visible card in the deck
-      assertFalse(developCard.isBuyable(playerBoard));
-   }
+//   @Test    COMMENTED BECAUSE I REMOVED THIS CONROL FROM THE isBuyable METHOD
+//   void notVisibleCardIsBuyable() throws NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, IOException {
+//      DevelopCardDeck developCardDeck;
+//      developCardDeck = GSON.cardParser(cardConfigFile);
+//      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
+//      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+//      playerBoard.getChest().addResources(ResourceType.GOLD,1);
+//      playerBoard.getChest().addResources(ResourceType.STONE,2);
+//      playerBoard.getChest().endOfTurnMapsMerge();
+//      HashMap<ResourceType, Integer> cost = new HashMap<>();
+//      cost.put(ResourceType.GOLD,2);
+//      cost.put(ResourceType.STONE,2);
+//      DevelopCard developCard = new DevelopCard(new CardFlag(1,DevelopCardColor.BLUE)
+//                                                , cost, new HashMap<>(), new HashMap<>()
+//                                                , 10);
+//
+//      //false because in order to be buyable the card has to be a visible card in the deck
+//      assertFalse(developCard.isBuyable(playerBoard));
+//   }
 
    @Test
    void nullValueIsBuyable() throws IOException {
@@ -126,7 +126,7 @@ class DevelopCardTest {
       developCardDeck.getCard(0,0).buy(playerBoard,2);
       developCardDeck.getCard(1,0).buy(playerBoard,2);
       developCardDeck.getCard(0,0).buy(playerBoard,1);
-      assertThrows(InvalidCardPlacementException.class, () -> developCardDeck.getCard(2,0).buy(playerBoard,1));
+      assertThrows(NotBuyableException.class, () -> developCardDeck.getCard(2,0).buy(playerBoard,1));
    }
 
 
@@ -195,6 +195,9 @@ class DevelopCardTest {
    //TODO finire di testare produce
 
    //-----------------------------Test with activated LeaderCards in the PlayerBoard--------------------------------------------
+
+   //PER ALEX -> i test da qua in poi avevo in mente di farli con delle leadercard attive per provare robe tipo lo sconto
+
 
   //non riesco a testare perchè la developcard non è tra le visible cards
 //   @Test

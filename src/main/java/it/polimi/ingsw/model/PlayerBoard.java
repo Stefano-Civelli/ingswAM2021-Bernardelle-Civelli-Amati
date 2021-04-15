@@ -85,7 +85,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
 
    /**
     * Saves the market marbles taken from the market in tempMarketMarble
-    * @param column indicates which column get from market
+    * @param column indicates which column get from market (starts at 0)
     */
    public void shopMarketColumn(int column) throws RowOrColumnNotExistsException {
       tempMarketMarble = new ArrayList<>(market.pushInColumn(column));
@@ -93,7 +93,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
 
    /**
     * Saves the market marbles taken from the market in tempMarketMarble
-    * @param row indicates which row get from market
+    * @param row indicates which row get from market (starts at 0)
     */
    public void shopMarketRow(int row) throws RowOrColumnNotExistsException {
       tempMarketMarble = new ArrayList<>(market.pushInRow(row));

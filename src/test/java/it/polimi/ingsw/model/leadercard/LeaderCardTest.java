@@ -120,7 +120,7 @@ class LeaderCardTest {
    }
 
    @Test
-   void getProductTest1() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException, AbuseOfFaithException, NotEnoughSpaceException {
+   void getProductTest1() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException, AbuseOfFaithException, NotEnoughSpaceException, NeedAResourceToAddException {
       LeaderCard card1 = new LeaderCard(
               null, null, 0, new LeaderProduceBehaviour(ResourceType.GOLD));
       InterfacePlayerBoard playerBoard1 = new PlayerBoard(
@@ -190,7 +190,7 @@ class LeaderCardTest {
 //   }
 
    @Test
-   void defaultImplementationsTest() throws IOException, AbuseOfFaithException, NotEnoughResourcesException, MaxLeaderCardLevelsException, LevelAlreadyPresentException, InvalidLeaderCardException {
+   void defaultImplementationsTest() throws IOException, AbuseOfFaithException, NotEnoughResourcesException, MaxLeaderCardLevelsException, LevelAlreadyPresentException, InvalidLeaderCardException, NeedAResourceToAddException {
       LeaderCard card1 = new LeaderCard(
               null, null, 0, new MarbleModifierBehaviour(ResourceType.GOLD));
       LeaderCard card2 = new LeaderCard(

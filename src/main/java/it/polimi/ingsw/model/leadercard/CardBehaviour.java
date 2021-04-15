@@ -18,7 +18,7 @@ public abstract class CardBehaviour {
 
    public void createStorage(InterfacePlayerBoard playerboard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException {}
 
-   public void produce(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NotEnoughResourcesException {}
+   public void produce(ResourceType resourceToAdd, InterfacePlayerBoard playerboard) throws AbuseOfFaithException, NotEnoughResourcesException, NeedAResourceToAddException {}
 
    public void discount(HashMap<ResourceType, Integer> resources){}
 
