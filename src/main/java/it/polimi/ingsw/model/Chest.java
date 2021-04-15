@@ -15,6 +15,15 @@ public class Chest {
     tempResourcesMap = new HashMap<>();
   }
 
+  /**
+   *  add resources to the chest
+   *  NOTE: the newly added resources will be available to remove only after calling {@link #endOfTurnMapsMerge()}
+   *
+   * @param resource the resource to be added
+   * @param quantity how many resource to add
+   * @throws AbuseOfFaithException when trying to add ResourceType.FAITH
+   * @throws NegativeQuantityException if quantity < 0
+   */
   public void addResources(ResourceType resource, int quantity) throws AbuseOfFaithException, NegativeQuantityException {
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException("Adding faith to chest is not allowed");
@@ -25,10 +34,15 @@ public class Chest {
 
   }
 
-  public void removeResources(ResourceType resource, int quantity) throws NotEnoughResourcesException, AbuseOfFaithException{
-    if(resource == ResourceType.FAITH)
-      throw new AbuseOfFaithException();
-    if(quantity == 0)
+  /**
+   * removes resources from the chest
+   *
+   * @param resource the resource to be removed
+   * @param quantity how many resource to remove
+   * @throws NotEnoughResourcesException if you try to remove more resources than you have
+   */
+  public void removeResources(ResourceType resource, int quantity) throws NotEnoughResourcesException{
+    if(quantity == 0 || resource == ResourceType.FAITH)
       return;
 
     if(resources.containsKey(resource)) {
@@ -45,18 +59,32 @@ public class Chest {
       throw new NotEnoughResourcesException("you have 0 of the specified resource");
   }
 
+  /**
+   * the number of total resources contained (no distinction by type)
+   *
+   * @return the number of total resources as an int
+   */
   public int totalNumberOfResources(){
     return resources.entrySet().stream().map(i -> i.getValue()).reduce(0, Integer::sum);
   }
 
+  /**
+   * get the number of resources of the specified type contained in the chest
+   * NOTE: to make this method include newly added resources you need to call {@link #endOfTurnMapsMerge()}
+   *
+   * @param resource the Resource type
+   * @return the number of resources of the specified type
+   */
   public int getNumberOf(ResourceType resource){
     if(resource == null || !resources.containsKey(resource))
       return 0;
     return resources.get(resource);
   }
 
+  /**
+   * makes newly added resources available for removal
+   */
   public void endOfTurnMapsMerge(){
-
     tempResourcesMap.entrySet()
              .forEach(entry -> resources.merge(
                     entry.getKey(),
