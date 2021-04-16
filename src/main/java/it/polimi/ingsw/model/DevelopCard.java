@@ -89,7 +89,6 @@ public class DevelopCard {
     * @param cardSlotNumber number of the slot to put the new card in. (starts at 0)
     * @throws InvalidCardPlacementException if the card can't be put in the specified slot
     * @throws NotBuyableException if the card can't be bought
-    * @return the card you bought
     */
    public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws NotBuyableException {
       CardSlots cardSlots = playerBoard.getCardSlots();
@@ -161,7 +160,7 @@ public class DevelopCard {
    public boolean equals(Object obj) {
       if (obj == this)
          return true;
-      if (!(obj instanceof DevelopCard))
+      if (obj.getClass() != this.getClass())
          return false;
       DevelopCard d = (DevelopCard) obj;
       return (this.cardFlag.equals(d.cardFlag)) && (this.cost.equals(d.cost)) &&
