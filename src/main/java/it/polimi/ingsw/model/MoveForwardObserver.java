@@ -8,5 +8,5 @@ public interface MoveForwardObserver {
    */
   public void update();
 
-  public void addToMoveForwardObserverList(MoveForwardObserver observerToAdd);
+  public void addToMoveForwardObserverListObs(MoveForwardObserver observerToAdd);
 }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.EndGameObserver;
-
 public interface MoveForwardObservable {
   /**
    * add an observer to a list of observers

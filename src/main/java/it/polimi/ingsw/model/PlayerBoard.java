@@ -200,8 +200,14 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
    }
 
    @Override
+   public void addToMoveForwardObserverListObs(MoveForwardObserver observerToAdd) {
+      if(moveForwardObserverList.add(observerToAdd))
+         moveForwardObserverList.add(observerToAdd); //non penso sia necessaria
+   }
+
+   @Override
    public void addToMoveForwardObserverList(MoveForwardObserver observerToAdd) {
       if(moveForwardObserverList.add(observerToAdd))
-         observerToAdd.addToMoveForwardObserverList(this);
+         observerToAdd.addToMoveForwardObserverListObs(this);
    }
 }
