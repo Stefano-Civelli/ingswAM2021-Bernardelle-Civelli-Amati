@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.model.track.VaticanReportObserver;
 
 public interface MoveForwardObserver {
@@ -9,4 +10,6 @@ public interface MoveForwardObserver {
   public void update();
 
   public void addToMoveForwardObserverListObs(MoveForwardObserver observerToAdd);
+
+  public Track getTrack();
 }

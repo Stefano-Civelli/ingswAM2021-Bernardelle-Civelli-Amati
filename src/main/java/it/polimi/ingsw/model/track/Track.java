@@ -90,6 +90,10 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
     }
   }
 
+  public Integer getCurrentPosition(){
+    return playerPosition;
+  }
+
   @Override
   public void update(int active) {
     this.checkIfCurrentPositionIsActive(active);

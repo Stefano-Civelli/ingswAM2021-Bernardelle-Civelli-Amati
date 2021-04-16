@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 
 import java.io.File;
 import java.io.IOException;
@@ -215,8 +215,16 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
 
    @Override
    public void notifyForMoveForward() {
+      List<Pair<MoveForwardObserver, Integer>> orderedCall = new ArrayList<>();
+
       for(MoveForwardObserver x : moveForwardObserverList)
-            x.update();
+         orderedCall.add(new Pair<>(x, x.getTrack().getCurrentPosition()));
+
+      Collections.sort(orderedCall, Comparator.comparing(p -> p.getValue()));
+
+
+      for(Pair<MoveForwardObserver, Integer> x : orderedCall)
+            x.getKey().update();
    }
 
    @Override
