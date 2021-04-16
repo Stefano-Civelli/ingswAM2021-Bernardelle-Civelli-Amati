@@ -40,5 +40,4 @@ public class LeaderProduceBehaviour extends CardBehaviour{
          chest.addResources(resourceToAdd,1);
       } catch (NegativeQuantityException e) {e.printStackTrace();}
    }
-
 }

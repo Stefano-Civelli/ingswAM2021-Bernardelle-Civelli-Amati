@@ -18,7 +18,7 @@ public class Game {
    private DevelopCardDeck developCardDeck;
    private List<PlayerBoard> playerBoardList;
 
-   //mettere i due file nella classe che chiama game
+   //mettere i due file nella classe che chiama il costruttore game, oppure mettere direttamente nel main e propaghiamo che é meglio
    //private final File cardConfigFile = new File("src/DevelopCardConfig.json");
    //private final File leaderCardConfigFile = new File("src/LeaderCardConfig.json");
 

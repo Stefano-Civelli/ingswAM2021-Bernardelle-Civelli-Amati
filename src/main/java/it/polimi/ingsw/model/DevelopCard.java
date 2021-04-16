@@ -145,7 +145,6 @@ public class DevelopCard {
             e.printStackTrace();
          }
       }
-
    }
 
    public CardFlag getCardFlag(){

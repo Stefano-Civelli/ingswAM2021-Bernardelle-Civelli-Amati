@@ -75,7 +75,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
       if(leaderCards.size() > 2 || leaderCards.get(leaderPosition).isActive())
          throw new InvalidLeaderCardException("U can't remove this card in this moment");
       leaderCards.remove(leaderPosition);
-      notifyForMoveForward();
+      track.moveForward(1);
    }
 
 
@@ -95,26 +95,26 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
     * Saves the market marbles taken from the market in tempMarketMarble
     * @param row indicates which row get from market (starts at 0)
     */
-   public void shopMarketRow(int row) throws RowOrColumnNotExistsException {
+   public List<MarketMarble> shopMarketRow(int row) throws RowOrColumnNotExistsException {
       tempMarketMarble = new ArrayList<>(market.pushInRow(row));
+      return new ArrayList<>(tempMarketMarble);
    }
 
-   public void setLeaderCardActive(int leaderToActivate) throws NotEnoughResourcesException, InvalidLeaderCardException {
+   public List<MarketMarble> setLeaderCardActive(int leaderToActivate) throws NotEnoughResourcesException, InvalidLeaderCardException {
       if(!leaderCards.get(leaderToActivate).isActive())
          leaderCards.get(leaderToActivate).setActive(this);
+      return new ArrayList<>(tempMarketMarble);
    }
 
 
-   public void addMarbleToWarehouse(int marbleIndex, Integer leaderPosition) throws MoreWhiteLeaderCardsException, NotEnoughSpaceException {
+   public void addMarbleToWarehouse(int marbleIndex) throws MoreWhiteLeaderCardsException, NotEnoughSpaceException {
          if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
             throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
             try {
                tempMarketMarble.get(marbleIndex).addResource(this);
             } catch (NotEnoughSpaceException e) {
-               //for(MarketMarble x : tempMarketMarble) {
                   tempMarketMarble.remove(marbleIndex);
                   notifyForMoveForward();
-               //}
                throw new NotEnoughSpaceException("you can't add this resource");
             } catch (MoreWhiteLeaderCardsException e){
                tempIndexWhiteToAdd = marbleIndex;
@@ -123,11 +123,18 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
       tempMarketMarble.remove(marbleIndex);
    }
 
-   public void addWhiteToWarehouse(int leaderPosition)
-           throws InvalidLeaderCardException, NotEnoughSpaceException, WrongLeaderCardException {
+   public void addWhiteToWarehouse(int leaderPosition) throws InvalidLeaderCardException, NotEnoughSpaceException {
       if (leaderPosition < 0 || leaderPosition >= leaderCards.size())
          throw new InvalidLeaderCardException("The index of the leaderCard u gave me doesn't match the length of my array");
-      tempMarketMarble.get(tempIndexWhiteToAdd).addResource(this, leaderCards.get(leaderPosition));
+      try {
+         tempMarketMarble.get(tempIndexWhiteToAdd).addResource(this, leaderCards.get(leaderPosition));
+      } catch (NotEnoughSpaceException e) {
+         tempMarketMarble.remove(tempIndexWhiteToAdd);
+         notifyForMoveForward();
+         throw new NotEnoughSpaceException("you can't add this resource");
+      } catch (WrongLeaderCardException e) {
+         e.printStackTrace();
+      }
    }
 
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) throws AbuseOfFaithException {
@@ -177,7 +184,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
    }
 
    @Override
-   public void removeFromMoveForwardObserverList(MoveForwardObserver observerToRemove) {
+   public void removeFromMoveForwardObserverList (MoveForwardObserver observerToRemove) {
       moveForwardObserverList.remove(observerToRemove);
    }
 
