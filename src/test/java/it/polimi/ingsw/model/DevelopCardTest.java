@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.leadercard.DiscountBehaviour;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
-import it.polimi.ingsw.model.leadercard.MarbleModifierBehaviour;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.utility.GSON;
@@ -11,20 +10,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 class DevelopCardTest {
    File cardConfigFile = new File("src/DevelopCardConfig.json");
 
    @Test
-   void testIfLevel1AreBuyable() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
+   void testIfLevel1AreBuyable() throws IOException, NotEnoughSpaceException,
+           AbuseOfFaithException, NegativeQuantityException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "Mario", new ArrayList<>(), new Market(), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -40,10 +38,12 @@ class DevelopCardTest {
    }
 
    @Test
-   void everyCardIsBuyable() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, RowOrColumnNotExistsException, InvalidCardPlacementException, NotBuyableException {
+   void everyCardIsBuyable() throws IOException, NotEnoughSpaceException, AbuseOfFaithException,
+           NegativeQuantityException, RowOrColumnNotExistsException, NotBuyableException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "Mario", new ArrayList<>(), new Market(), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -83,16 +83,17 @@ class DevelopCardTest {
    void nullValueIsBuyable() throws IOException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
       assertThrows(NullPointerException.class, () -> developCardDeck.getCard(0,0).isBuyable(null));
    }
 
 
    @Test
-   void buyCardsFromSamePosition() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, RowOrColumnNotExistsException, InvalidCardPlacementException, NotBuyableException {
+   void buyCardsFromSamePosition() throws IOException, NotEnoughSpaceException, AbuseOfFaithException,
+           NegativeQuantityException, RowOrColumnNotExistsException, NotBuyableException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "Mario", new ArrayList<>(), new Market(), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -107,10 +108,12 @@ class DevelopCardTest {
    }
 
    @Test
-   void invalidCardSlotPlacementInBuy() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, RowOrColumnNotExistsException, InvalidCardPlacementException, NotBuyableException {
+   void invalidCardSlotPlacementInBuy() throws IOException, NotEnoughSpaceException, AbuseOfFaithException,
+           NegativeQuantityException, RowOrColumnNotExistsException, NotBuyableException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "Mario", new ArrayList<>(), new Market(), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -131,10 +134,11 @@ class DevelopCardTest {
 
 
    @Test
-   void isActivatebleTest() throws IOException, RowOrColumnNotExistsException, NegativeQuantityException, AbuseOfFaithException, NotEnoughSpaceException, InvalidCardPlacementException, NotBuyableException {
+   void isActivatebleTest() throws IOException, RowOrColumnNotExistsException, NegativeQuantityException,
+           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), new Market(), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -150,10 +154,12 @@ class DevelopCardTest {
    }
 
    @Test
-   void produceTestNoExceptions() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, RowOrColumnNotExistsException, InvalidCardPlacementException, NotBuyableException, NotActivatableException {
+   void produceTestNoExceptions() throws IOException, NotEnoughSpaceException, AbuseOfFaithException,
+           NegativeQuantityException, RowOrColumnNotExistsException, NotBuyableException, NotActivatableException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "Mario", new ArrayList<>(), new Market(), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -169,10 +175,12 @@ class DevelopCardTest {
    }
 
    @Test
-   void produceCardNotOnTop() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, RowOrColumnNotExistsException, InvalidCardPlacementException, NotBuyableException, NotActivatableException {
+   void produceCardNotOnTop() throws IOException, NotEnoughSpaceException, AbuseOfFaithException,
+           NegativeQuantityException, RowOrColumnNotExistsException, NotBuyableException, NotActivatableException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "Mario", new ArrayList<>(), new Market(), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -200,23 +208,298 @@ class DevelopCardTest {
 
 
   //non riesco a testare perchè la developcard non è tra le visible cards
-//   @Test
-//   void isBuyableWithDiscount() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException, NegativeQuantityException, AbuseOfFaithException, InvalidCardPlacementException, NotBuyableException {
-//      DevelopCard devCard1 = new DevelopCard(
-//              new CardFlag(1,DevelopCardColor.BLUE), Map.of(ResourceType.SERVANT, 3, ResourceType.STONE, 1), null, null, 0);
-//      LeaderCard card1 = new LeaderCard(
-//              null, null, 0, new DiscountBehaviour(ResourceType.STONE));
-//      LeaderCard card2 = new LeaderCard(
-//              null, null, 0, new DiscountBehaviour(ResourceType.SERVANT));
-//      InterfacePlayerBoard playerBoard1 = new PlayerBoard(
-//              "Mario", new ArrayList<>(List.of(card1, card2)), null, null);
-//
-//
-//      card1.setActive(playerBoard1);
-//      card2.setActive(playerBoard1);
-//      playerBoard1.getChest().addResources(ResourceType.SERVANT,2);
-//      playerBoard1.getChest().endOfTurnMapsMerge();
-//      assertTrue(devCard1.isBuyable(playerBoard1));
-//   }
+   @Test
+   void isBuyableWithDiscount() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException,
+           NegativeQuantityException, AbuseOfFaithException {
+      DevelopCard devCard1 = new DevelopCard(
+              new CardFlag(1,DevelopCardColor.BLUE),
+              Map.of(ResourceType.SERVANT, 3, ResourceType.STONE, 1),
+              null, null, 0);
+      LeaderCard card1 = new LeaderCard(
+              null, null, 0, new DiscountBehaviour(ResourceType.STONE));
+      LeaderCard card2 = new LeaderCard(
+              null, null, 0, new DiscountBehaviour(ResourceType.SERVANT));
+      InterfacePlayerBoard playerBoard1 = new PlayerBoard(
+              "Mario", new ArrayList<>(List.of(card1, card2)), null, null);
+
+
+      card1.setActive(playerBoard1);
+      card2.setActive(playerBoard1);
+      playerBoard1.getChest().addResources(ResourceType.SERVANT,2);
+      playerBoard1.getChest().endOfTurnMapsMerge();
+      assertTrue(devCard1.isBuyable(playerBoard1));
+   }
+
+   @Test
+   void buyWithDiscountTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException,
+           AbuseOfFaithException, NotEnoughSpaceException, NegativeQuantityException, NotBuyableException {
+      DevelopCard devCard = new DevelopCard(
+              new CardFlag(1,DevelopCardColor.BLUE),
+              Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
+              null, null, 0);
+      LeaderCard card1 = new LeaderCard(
+              null, null, 0, new DiscountBehaviour(ResourceType.STONE));
+      LeaderCard card2 = new LeaderCard(
+              null, null, 0, new DiscountBehaviour(ResourceType.SHIELD));
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "test", new ArrayList<>(List.of(card1, card2)), null, null);
+
+      card1.setActive(playerBoard);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
+      playerBoard.getChest().addResources(ResourceType.GOLD, 1);
+      playerBoard.getChest().addResources(ResourceType.STONE, 3);
+      playerBoard.getChest().endOfTurnMapsMerge();
+      try{
+         devCard.buy(playerBoard, 1);
+      } catch (NullPointerException ignored) {
+         // card can't remove itself from developCardDeck because developCardDeck is null
+      }
+      assertEquals(0, playerBoard.getWarehouse().totalResources());
+      assertEquals(0, playerBoard.getChest().totalNumberOfResources());
+      assertSame(playerBoard.getCardSlots().returnTopCard(1), devCard);
+   }
+
+   @Test
+   void buyNoResourcesTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException,
+           AbuseOfFaithException, NotEnoughSpaceException, NegativeQuantityException {
+      DevelopCard devCard = new DevelopCard(
+              new CardFlag(1, DevelopCardColor.BLUE),
+              Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
+              null, null, 0);
+      LeaderCard card1 = new LeaderCard(
+              null, null, 0, new DiscountBehaviour(ResourceType.STONE));
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "test", new ArrayList<>(List.of(card1)), null, null);
+
+      card1.setActive(playerBoard);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
+      playerBoard.getChest().addResources(ResourceType.STONE, 3);
+      playerBoard.getChest().endOfTurnMapsMerge();
+
+      assertThrows(NotBuyableException.class, () -> devCard.buy(playerBoard, 1));
+      assertEquals(3, playerBoard.getWarehouse().totalResources());
+      assertEquals(3, playerBoard.getChest().totalNumberOfResources());
+      assertEquals(0, playerBoard.getCardSlots().returnTopCard(1).getCardFlag().getLevel());
+   }
+
+   @Test
+   void buyNoSlotTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException,
+           AbuseOfFaithException, NotEnoughSpaceException, NegativeQuantityException {
+      DevelopCard devCard = new DevelopCard(
+              new CardFlag(2, DevelopCardColor.BLUE),
+              Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
+              null, null, 0);
+      LeaderCard card1 = new LeaderCard(
+              null, null, 0, new DiscountBehaviour(ResourceType.STONE));
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "test", new ArrayList<>(List.of(card1)), null, null);
+
+      card1.setActive(playerBoard);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getChest().addResources(ResourceType.STONE, 3);
+      playerBoard.getChest().endOfTurnMapsMerge();
+
+      assertThrows(NotBuyableException.class, () -> devCard.buy(playerBoard, 1));
+   }
+
+   @Test
+   void buyLevelTwoTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException,
+           AbuseOfFaithException, NotEnoughSpaceException, NegativeQuantityException, NotBuyableException {
+      DevelopCard devCard = new DevelopCard(
+              new CardFlag(2, DevelopCardColor.BLUE),
+              Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
+              null, null, 0);
+      LeaderCard card1 = new LeaderCard(
+              null, null, 0, new DiscountBehaviour(ResourceType.STONE));
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "test", new ArrayList<>(List.of(card1)), null, null);
+
+
+      DevelopCard devCard1 = new DevelopCard(
+              new CardFlag(1, DevelopCardColor.BLUE), Map.of(), null, null, 0);
+      try {
+         devCard1.buy(playerBoard, 1);
+      } catch (NullPointerException ignored) {}
+
+      card1.setActive(playerBoard);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getChest().addResources(ResourceType.STONE, 3);
+      playerBoard.getChest().endOfTurnMapsMerge();
+
+      try {
+         devCard.buy(playerBoard, 1);
+      } catch (NullPointerException ignored) {}
+
+      assertSame(devCard, playerBoard.getCardSlots().returnTopCard(1));
+   }
+
+   @Test
+   void buyWrongLevelTest() throws AbuseOfFaithException, NotEnoughSpaceException, NotEnoughResourcesException,
+           InvalidLeaderCardException, NegativeQuantityException, IOException {
+      DevelopCard devCard = new DevelopCard(
+              new CardFlag(2, DevelopCardColor.BLUE),
+              Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
+              null, null, 0);
+      LeaderCard card1 = new LeaderCard(
+              null, null, 0, new DiscountBehaviour(ResourceType.STONE));
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "test", new ArrayList<>(List.of(card1)), null, null);
+
+
+      DevelopCard devCard1 = new DevelopCard(
+              new CardFlag(1, DevelopCardColor.BLUE), Map.of(), null, null, 0);
+      try {
+         devCard1.buy(playerBoard, 1);
+      } catch (NullPointerException | NotBuyableException ignored) {}
+
+      card1.setActive(playerBoard);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getChest().addResources(ResourceType.STONE, 3);
+      playerBoard.getChest().endOfTurnMapsMerge();
+
+      assertThrows(NotBuyableException.class, () -> devCard.buy(playerBoard, 2));
+      assertEquals(0, playerBoard.getCardSlots().returnTopCard(2).getCardFlag().getLevel());
+      assertSame(devCard1, playerBoard.getCardSlots().returnTopCard(1));
+      assertEquals(4, playerBoard.getWarehouse().totalResources());
+      assertEquals(3, playerBoard.getChest().totalNumberOfResources());
+   }
+
+   @Test
+   void activatableTest() throws IOException, NotBuyableException, AbuseOfFaithException,
+           NotEnoughSpaceException, NegativeQuantityException {
+      DevelopCard devCard = new DevelopCard(
+              new CardFlag(1, DevelopCardColor.BLUE), null,
+              Map.of(ResourceType.GOLD, 2, ResourceType.STONE, 1), null, 0);
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "test", new ArrayList<>(), null, null);
+
+      try {
+         devCard.buy(playerBoard, 0);
+      } catch (NullPointerException ignored) {}
+
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getChest().addResources(ResourceType.STONE, 1);
+      playerBoard.getChest().endOfTurnMapsMerge();
+
+      assertTrue(devCard.isActivatable(playerBoard));
+   }
+
+   @Test
+   void activatableNoResourcesTest() throws IOException, NotBuyableException, AbuseOfFaithException,
+           NotEnoughSpaceException {
+      DevelopCard devCard = new DevelopCard(
+              new CardFlag(1, DevelopCardColor.BLUE), null,
+              Map.of(ResourceType.GOLD, 2, ResourceType.STONE, 1), null, 0);
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "test", new ArrayList<>(), null, null);
+
+      try {
+         devCard.buy(playerBoard, 0);
+      } catch (NullPointerException ignored) {}
+
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+
+      assertFalse(devCard.isActivatable(playerBoard));
+   }
+
+   @Test
+   void activatableNotInSlotTest() throws IOException, AbuseOfFaithException,
+           NotEnoughSpaceException, NegativeQuantityException {
+      DevelopCard devCard = new DevelopCard(
+              new CardFlag(1, DevelopCardColor.BLUE), null,
+              Map.of(ResourceType.GOLD, 2, ResourceType.STONE, 1), null, 0);
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "test", new ArrayList<>(), null, null);
+
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getChest().addResources(ResourceType.STONE, 1);
+      playerBoard.getChest().endOfTurnMapsMerge();
+
+      assertFalse(devCard.isActivatable(playerBoard));
+   }
+
+   @Test
+   void activatableNotOnTopTest() throws IOException, NotBuyableException, AbuseOfFaithException,
+           NotEnoughSpaceException, NegativeQuantityException {
+      DevelopCard devCard = new DevelopCard(
+              new CardFlag(1, DevelopCardColor.BLUE), Map.of(),
+              Map.of(ResourceType.GOLD, 2, ResourceType.STONE, 1), null, 0);
+      DevelopCard devCard2 = new DevelopCard(
+              new CardFlag(2, DevelopCardColor.BLUE), Map.of(), null, null, 0);
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "test", new ArrayList<>(), null, null);
+
+      try {
+         devCard.buy(playerBoard, 0);
+      } catch (NullPointerException ignored) {}
+      try {
+         devCard2.buy(playerBoard, 0);
+      } catch (NullPointerException ignored) {}
+
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getChest().addResources(ResourceType.STONE, 1);
+      playerBoard.getChest().endOfTurnMapsMerge();
+
+      assertFalse(devCard.isActivatable(playerBoard));
+   }
+
+   @Test
+   void produceTest() throws IOException, NotBuyableException, AbuseOfFaithException, NotEnoughSpaceException,
+           NegativeQuantityException, NotActivatableException {
+      DevelopCard devCard = new DevelopCard(
+              new CardFlag(1, DevelopCardColor.BLUE),
+              Map.of(),
+              Map.of(ResourceType.GOLD, 2, ResourceType.STONE, 1),
+              Map.of(ResourceType.FAITH, 1, ResourceType.SERVANT, 2),
+              0);
+      InterfacePlayerBoard playerBoard = new PlayerBoard(
+              "test", new ArrayList<>(), null, null);
+
+      try {
+         devCard.buy(playerBoard, 0);
+      } catch (NullPointerException ignored) {}
+
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+      playerBoard.getChest().addResources(ResourceType.STONE, 2);
+      playerBoard.getChest().endOfTurnMapsMerge();
+
+      int points0 = playerBoard.getTrack().getTrack()[0].getVictoryPoints(),
+              points1 = 0,
+              position = 0;
+      for(int i = 0; i < playerBoard.getTrack().getTrack().length; i++)
+         if(playerBoard.getTrack().getTrack()[i].getVictoryPoints() > points0) {
+            points1 = playerBoard.getTrack().getTrack()[i].getVictoryPoints();
+            position = i;
+            break;
+         }
+      playerBoard.getTrack().moveForward(position - 1);
+      assertEquals(points0, playerBoard.getTrack().calculateTrackScore());
+
+      devCard.produce(playerBoard);
+      playerBoard.getChest().endOfTurnMapsMerge();
+
+      assertEquals(points1, playerBoard.getTrack().calculateTrackScore());
+      assertEquals(0, playerBoard.getWarehouse().getNumberOf(ResourceType.GOLD));
+      assertEquals(1, playerBoard.getChest().getNumberOf(ResourceType.STONE));
+      assertEquals(2, playerBoard.getChest().getNumberOf(ResourceType.SERVANT));
+   }
 }
 
