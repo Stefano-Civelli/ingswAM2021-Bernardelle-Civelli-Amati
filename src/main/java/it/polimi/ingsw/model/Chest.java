@@ -65,7 +65,7 @@ public class Chest {
    * @return the number of total resources as an int
    */
   public int totalNumberOfResources(){
-    return resources.entrySet().stream().map(i -> i.getValue()).reduce(0, Integer::sum);
+    return resources.values().stream().reduce(0, Integer::sum);
   }
 
   /**
@@ -85,10 +85,10 @@ public class Chest {
    * makes newly added resources available for removal
    */
   public void endOfTurnMapsMerge(){
-    tempResourcesMap.entrySet()
-             .forEach(entry -> resources.merge(
-                    entry.getKey(),
-                    entry.getValue(),
-                    (key, value) -> entry.getValue() + value));
+    this.tempResourcesMap.forEach((tempKey, tempValue) -> this.resources.merge(
+            tempKey,
+            tempValue,
+            (key, value) -> value + tempValue));
+    this.tempResourcesMap.clear();
   }
 }
