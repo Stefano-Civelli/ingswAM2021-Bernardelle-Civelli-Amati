@@ -80,18 +80,4 @@ class GSONTest {
          e.printStackTrace();
       }
    }
-
-   @Test
-   void leaderCardParseTest() {
-      LeaderCardDeck leaderCardDeck;
-      try {
-         leaderCardDeck = GSON.leaderCardParser(leaderCardConfigFile);
-         for (LeaderCard l : leaderCardDeck.getLeaderCardList())
-            System.out.println(l.resourceOnWhite());
-
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-   }
-
 }

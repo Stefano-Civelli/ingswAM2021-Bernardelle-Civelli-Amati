@@ -67,7 +67,6 @@ public class GSON{
       leaderCardDeck.shuffleLeaderList();
       return leaderCardDeck;
    }
-
 }
 
 
