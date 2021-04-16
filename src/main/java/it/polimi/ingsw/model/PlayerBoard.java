@@ -169,9 +169,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
                  {resource2, 1},
          }).collect(Collectors.toMap(data -> (ResourceType) data[0], data -> (Integer) data[1]));
 
-         try {
-            chest.addResources(product, 1);
-         } catch (NegativeQuantityException e) {} //non si verifica mai perché la sto chiamando io e gli sto passando 1
+         chest.addResources(product, 1);
       }
    }
 

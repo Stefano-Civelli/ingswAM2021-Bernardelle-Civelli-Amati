@@ -99,6 +99,4 @@ class LorenzoTrackTest {
     assertEquals(lorenzoTrack.playerPosition, 24);
     assertEquals(track.calculateTrackScore(), 2);
   }
-
-
 }

@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.NeedAResourceToAddException;
-import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
 public class LeaderProduceBehaviour extends CardBehaviour{

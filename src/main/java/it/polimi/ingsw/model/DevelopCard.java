@@ -2,8 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.modelexceptions.*;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,7 +103,7 @@ public class DevelopCard {
 
       try {
          removeResourcesFrom(localCost, playerBoard.getWarehouse(), playerBoard.getChest());
-      } catch (NegativeQuantityException | NotEnoughResourcesException e) {
+      } catch (NotEnoughResourcesException e) {
          e.printStackTrace();
       }
 
@@ -131,7 +129,7 @@ public class DevelopCard {
 
       try {
          removeResourcesFrom(requirement, playerBoard.getWarehouse(), playerBoard.getChest());
-      } catch (NegativeQuantityException | NotEnoughResourcesException e) {
+      } catch (NotEnoughResourcesException e) {
          e.printStackTrace();
       }
 
@@ -141,7 +139,7 @@ public class DevelopCard {
                playerBoard.getTrack().moveForward(entry.getValue());
             else
                playerBoard.getChest().addResources(entry.getKey(),entry.getValue());
-         } catch (AbuseOfFaithException | NegativeQuantityException e) {
+         } catch (AbuseOfFaithException e) {
             e.printStackTrace();
          }
       }

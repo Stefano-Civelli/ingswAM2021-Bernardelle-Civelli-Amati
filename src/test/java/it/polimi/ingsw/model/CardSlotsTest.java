@@ -112,7 +112,7 @@ class CardSlotsTest {
   }
 
   @Test //i can check here if notyForEndGame is called cause i've added 7 cards to CardSlots
-  void activatableCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException, NegativeQuantityException {
+  void activatableCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);

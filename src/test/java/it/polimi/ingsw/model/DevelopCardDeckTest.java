@@ -16,7 +16,7 @@ class DevelopCardDeckTest {
    File cardConfigFile = new File("src/DevelopCardConfig.json");
 
    @Test
-   void buyableCardsTest() throws AbuseOfFaithException, IOException, NegativeQuantityException {
+   void buyableCardsTest() throws AbuseOfFaithException, IOException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
