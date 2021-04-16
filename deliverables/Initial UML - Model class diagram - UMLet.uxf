@@ -1,0 +1,1922 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <help_text>// Uncomment the following line to change the fontsize and font:
+fontsize=12
+// fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Potremmo sfruttare overloading al posto di mettere metodi che prendono parametri null
+
+
+-nelle carta solo metodo che ritorna i requirement
+-la playerboard toglie 1 ad 1 le risorse dal vettore temp e dal magazzino/chest</help_text>
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2416</x>
+      <y>1568</y>
+      <w>376</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;Singleton&gt;&gt;/
+Market
+--
+- slide: MarketMarble
+- matrix[3][4]: MarketMarble
+- static market: Market
+--
+- Market() 
+_+ getInstance(): Market_
++ pushCol(col: int): List&lt;MarketMarble&gt;
++ pushRow(row: int): List&lt;MarketMarble&gt;
++ getState(): MarketMarble[3][4]</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2024</x>
+      <y>1744</y>
+      <w>344</w>
+      <h>368</h>
+    </coordinates>
+    <panel_attributes>PlayerBoard
+--
+- username: String
+- developCards:CardSlots
+- leaderCards : ArrayList&lt;LeaderCard&gt;
+- warehouse: Warehouse
+- chest: Chest
+- market: Market
+- track: Track
+- developCardDeck: DevelopCardDeck
+- tempMarketMarble: ArrayList&lt;MarketMarble&gt;
+
+--
++ PlayerBoard(username: String, leardCards: ArrayList&lt;LeaderCard&gt;)
++ getUsername(): String
++ returnScore(): int
++ discardLeader(f: int, s: int): void
++ activateProduction(a: ArrayList&lt;int&gt;): void
++ addDevelopCard(row: int, col:int, cardslot: CardSlot): void
++ shopMarketColumn(col: int): void
++ shopMarketRow(row: int): void
+- addtoWarehouse(marble: ArrayList&lt;MarketMarble&gt;): void
+- calculateRosurcesScore(): int
++ activateLeaderCard(): void
++ vaticanReport(active: int): void      **forse da fare con gli observer**
++ addMarbleToWarehouse(m: int, l: int): void
++ startBuyingProcedure(developCard: DevelopCard)
++ startProducingProcedure(developCard: DevelopCard)
++ useResource(restype: ResourceType, boolean: warehouse, int: level)
+
++ baseProduction(risorsa 1, risorsa 2)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2192</x>
+      <y>2464</y>
+      <w>256</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>Chest
+--
+- resources: Map&lt;ResorceType, int&gt;
+- producedResources: Map&lt;ResorceType, int&gt;
+--
++ Chest()
++ addResources(r: ResourceType, q: int)
++ removeResource(r: ResourceType, q: int): void
++ totalResources(): int
++ addResources(r: Resources): void
++ addProducedResourcesToChest()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3800</x>
+      <y>1296</y>
+      <w>280</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>DevelopCard
+--
+- levelAndColor: CardFlag
+- cost: Map&lt;ResourceType, int&gt;
+- requirement: Map&lt;ResourceType, int&gt;
+- product: Map&lt;ResourceType, int&gt;
+--
++ DevelopCard()
++ getProduct()
++ getRequirement()
++ getCost()
+
++ isBuyable(player: Playerboard): boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1920</x>
+      <y>2464</y>
+      <w>264</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>Warehouse
+--
+- warehouse: Pair&lt;ResourceType, int&gt; [3]
+- additionalevel: Optional&lt; Pair&lt;ResourceType, int&gt; [2] &gt;
+--
++ Warehouse()
++ addResources(r: ResourceType, q: int): void
++ removeResource(r: ResourceType, q: int): void
+- firstLevelAdd(ResourceType): void
+- secondLevelAdd(ResourceType): void
+- thirdLevelAdd(ResourceType): void
++ reOrganize(from: int, to: int): void
++ totalResources(): int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3888</x>
+      <y>616</y>
+      <w>104</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;enumeration&gt;&gt;/
+ResourceType
+--
+STONE
+GOLD
+SERVANT
+SHIELD
+FAITH</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2784</x>
+      <y>1592</y>
+      <w>192</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;220.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3696</x>
+      <y>1080</y>
+      <w>360</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;singleton&gt;&gt;/
+DevelopCardDeck
+--
+- cardsCube[ ][ ]: List&lt;DevelopCard&gt;
+--
+- DevelopCardDeck
++ getInstance(): DevelopCardDeck_
++ visibleCards(): DevelopCard[ ][ ]
++ getcard(i: int, j: int): DevelopCard
++ removeTwoCards(color: DevelopCardColor)
++ buyableCards(player: PlayerBoard): List&lt;DevelopCards&gt;
++ removeCard(developCard: DevelopCard): void
+
+**mettere metodo che ritorna elenco di tutte le carte comprabili(fare con functional)
+il player a questo puntoi può escegliere di comprare solo una di queste**
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1488</x>
+      <y>1864</y>
+      <w>552</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>670.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3960</x>
+      <y>1248</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>3408</x>
+      <y>1376</y>
+      <w>376</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>quando voglio attivare una carta sviluppo devo da PlayerBoard:
+1- chiamare requiredResources() (che ritorna required) da playerboard.
+2- playerboard controlla se ci sono risorse sufficienti 
+3- chiama getProduct() che gli ritorna product
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3616</x>
+      <y>1440</y>
+      <w>200</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>230.0;40.0;10.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2568</x>
+      <y>1488</y>
+      <w>1336</w>
+      <h>568</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;640.0;10.0;690.0;1650.0;690.0;1650.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2360</x>
+      <y>1936</y>
+      <w>136</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2344</x>
+      <y>1648</y>
+      <w>88</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2048</x>
+      <y>2104</y>
+      <w>144</w>
+      <h>376</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>160.0;10.0;160.0;150.0;10.0;150.0;10.0;450.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2672</x>
+      <y>472</y>
+      <w>312</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>start deve:
+0-istanziare Market, DevCardDeck ...  
+1-scegliere a caso un giocatore che inizia
+2- gestire la distribuzione delle risorse iniziali a 
+ciascun giocatore
+3- distribuire le carte leader (2 da tenere 2 da scartare)
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2168</x>
+      <y>2104</y>
+      <w>160</w>
+      <h>376</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;150.0;180.0;150.0;180.0;450.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2656</x>
+      <y>888</y>
+      <w>320</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>SinglePlayer
+--
+- actionTokenStack: List&lt;ActionToken&gt; 
+- lorenzoTrack: LorenzoTrack
+--
++ SinglePlayer()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2368</x>
+      <y>552</y>
+      <w>272</w>
+      <h>272</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;abstract&gt;&gt;/
+Game
+--
+- playerBoards: List&lt;PlayerBoard&gt;
+- market: Market
+- currentPlayer: PlayerBoard
+- deckDevelop: DevelopCardDeck
+- deckLeader: List&lt;LeaderCard&gt;
+- game: Game
+--
++ getInstance(): Game
++ start(): void
++ createPlayer(username: String): void
++ getPlayerBoard(username: String): PlayerBoard
++ setCurrentPlayer(player: PlayerBoard): void
++ getCurrentPlayer(): PlayerBoard
++ nextPlayer(): PlayerBoard
++ end(): PlayerBoard
++ handleAction(action: Action): void
+
+
++ getInstance(b: boolean): Game
+
++ vaticanReports(active: int): void
+
+ </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2952</x>
+      <y>952</y>
+      <w>24</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2704</x>
+      <y>1048</y>
+      <w>520</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+ActionToken
+--
+--
++ useToken(actionTokenStack: List&lt;ActionToken&gt;, lorenzoTrack: LorenzoTrack, devCardDeck: DevelopCardDeck): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2952</x>
+      <y>1096</y>
+      <w>24</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2952</x>
+      <y>1144</y>
+      <w>240</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3168</x>
+      <y>1144</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2736</x>
+      <y>1144</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2736</x>
+      <y>1144</y>
+      <w>240</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2632</x>
+      <y>1192</y>
+      <w>200</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>ShuffleToken
+--
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2856</x>
+      <y>1192</y>
+      <w>200</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>StepForewardToken
+--
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3080</x>
+      <y>1192</y>
+      <w>208</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>DiscardToken
+--
+- color: DevelopCardColor
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>240</y>
+      <w>248</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;abstract&gt;&gt;
+Action
+--
+- user: String
+--
++ performAction(playerBoard: PlayerBoard): void
++ getUser():String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1104</x>
+      <y>312</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1488</x>
+      <y>352</y>
+      <w>256</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;300.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1720</x>
+      <y>360</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1232</x>
+      <y>360</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1232</x>
+      <y>352</y>
+      <w>280</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;330.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1128</x>
+      <y>408</y>
+      <w>216</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>ActivateProductionAction
+--
+- cardsToActivate: List&lt;DevelopCard&gt;
+--
++ performAction(playerBoard: PlayerBoard): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1384</x>
+      <y>408</y>
+      <w>216</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>MarketAction
+--
+rowOrColumn: int
+--
++ performAction(playerBoard: PlayerBoard): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1632</x>
+      <y>408</y>
+      <w>224</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>BuyDevelopCardAction
+--
+- column: int
+- row: int
+- cardSlot: int
+--
++ performAction(playerBoard: PlayerBoard): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2520</x>
+      <y>816</y>
+      <w>304</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0;360.0;60.0;360.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2856</x>
+      <y>1264</y>
+      <w>192</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>useToken(), dopo aver controllato 
+che il current sia Lorenzo, fa una 
+chiamata al metodo moveForeward 
+di Track passando faith costante a 2
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2872</x>
+      <y>1232</y>
+      <w>24</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>3088</x>
+      <y>1264</y>
+      <w>200</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>useToken(), dopo aver controllato 
+che il current sia Lorenzo, fa una 
+chiamata al metodo privato 
+discardDevelopCard() il quale in base 
+al colore associato a quel determinato
+token muove il puntatore di 
+DevelopCardDeck
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3096</x>
+      <y>1232</y>
+      <w>24</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3240</x>
+      <y>1064</y>
+      <w>24</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>864</x>
+      <y>408</y>
+      <w>224</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>DiscardLeaderCardAction
+--
+- leadercard: Leadercard  **oppure ci va un int??**
+--
++ performAction(playerBoard: PlayerBoard): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>976</x>
+      <y>352</y>
+      <w>280</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;330.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>976</x>
+      <y>360</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1488</x>
+      <y>360</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2632</x>
+      <y>1264</y>
+      <w>192</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>useToken(), dopo aver controllato 
+che il current sia Lorenzo, fa una 
+chiamata al metodo moveForeward 
+di Track passando faith costante a 1
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2640</x>
+      <y>1232</y>
+      <w>24</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2696</x>
+      <y>640</y>
+      <w>208</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>in handleAction() prima di chiamare
+performeAction() di Action controllo che 
+currentPlayer sia lo stesso che ha 
+chiesto di performare un'azione 
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2632</x>
+      <y>640</y>
+      <w>80</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;80.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1008</x>
+      <y>1728</y>
+      <w>488</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;abstractClass&gt;&gt;/
+LeaderCard
+--
+- active: boolean
+- requiredResources: Optional&lt;ResourceType&gt;        *sono 5*
+- requiredDevCards: Optional&lt; Map&lt;CardFlag, int&gt; &gt;
+- final victoryScore: int
+--
++ getActive(): boolean
++ setActive(player: Playerboard): void  **sulla carta magazzino ha funzioni in +**
++ WhiteMarbleAction() : ResourceType  
++ applyDiscount(originalCost: Resources): Resources
++ activateProduction(t: Track, player: PlayerBoard, resourceOutput: ResourceType)
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>848</x>
+      <y>1968</y>
+      <w>184</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>Storage
+--
+- storageResource: ResourceType
+- quantity: int
+--
++ Storage()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1496</x>
+      <y>1984</y>
+      <w>192</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Producer
+--
+- requiredResource: ResourceType
+--
++ Producer()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1280</x>
+      <y>1984</y>
+      <w>192</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>MarblesModifier
+--
+- onWhiteResource: ResourceType
+--
++ MarblesModifier()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1056</x>
+      <y>1984</y>
+      <w>200</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Discount
+--
+- discountedResource: ResourceType
+--
++ Discount()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1256</x>
+      <y>1896</y>
+      <w>136</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0;150.0;70.0;150.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>848</x>
+      <y>2064</y>
+      <w>744</w>
+      <h>528</h>
+    </coordinates>
+    <panel_attributes>setActive() prende un parametro warehouse in modo che:
+          se la carta leader (this) è di tipo di Storage
+                     aggiunge un livello aggiuntivo nel warehouse con il tipo di risorsa nell'attributo storageResource fissato
+                     e setta active a true;
+           se la carta leader (this) è di un altro tipo
+                     setta active a true e basta.
+(Aggiungere un metodo a warehouse per permetterlo)
+
+
+
+getWhiteMarbleResource():
+           se la carta leader (this) è di tipo di MarblesModifier
+                      restituisce il tipo di risorsa nell'attributo onWhiteResource
+           se la carta leader (this) è di un altro tipo
+                      restituisce null.
+(servirà alla playerBoard per passarlo alle classi marble (che dobbiamo fare) insieme al warehouse
+e al track (per la biglia rossa) in modo che si occupino loro di aggiungere le risorse ricevute dal mercato)
+
+
+
+ApplyDiscount() prende un parametro di tipo Resurces che reppresenta il costo di una carta sviluppo:
+          se la carta leader (this) è di tipo Discount:
+                       restituisce un nuovo oggetto Resurces con lo sconto applicato (sulla risorsa del tipo contenuto dall'atributo discountedResource);
+           se la carta leader (this) è di un altro tipo:
+                        restituisce lo stesso oggetto ricevuto come parametro.
+(decidere se vogliamo spostare la gestione delle risorse e dell'aggiunta delle carte sviluppo
+dentro la classe della devCard o se lasciarla in playerBoard, questo metodo in ogni caso non credo che cambierebbe molto)
+
+
+
+activateProduction(): prende un track, un warehouse, una chest e una resourceType in modo che:
+            se la carta leader (this) è di tipo Production:
+                         toglie dal warehouse una risorsa del tipo nell'attributo requiredResource, fa avanzare track di un punto fede e
+                         aggiunge alla chest una risorsa del tipo passato per parametro (a scelta dell'utente);
+            se la carta leader (this) è di un altro tipo
+                         il metodo termina senza fare nulla.
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1528</x>
+      <y>1784</y>
+      <w>208</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>In playerBoard avremo i riferimenti
+di tipo statico LeaderCard
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2960</x>
+      <y>1584</y>
+      <w>416</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;abstractClass&gt;&gt;/
+MarketMarble
+--
+--
++ addResource(PlayerBoard, onWhiteMarble: ResourceType)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3072</x>
+      <y>1752</y>
+      <w>168</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>RedMarble
+--
+--
++ RedMarble()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2824</x>
+      <y>1752</y>
+      <w>168</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>WhiteMarble
+--
+--
++ WhiteMarble()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3312</x>
+      <y>1752</y>
+      <w>168</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>NormalMarble
+--
+- resource: ResourceType
+--
++ NormalMarble()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3152</x>
+      <y>1656</y>
+      <w>24</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3152</x>
+      <y>1656</y>
+      <w>264</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0;310.0;70.0;310.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2904</x>
+      <y>1656</y>
+      <w>272</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>320.0;10.0;320.0;70.0;10.0;70.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2824</x>
+      <y>1824</y>
+      <w>488</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>addResource(...):
+         se la biglia (this) è di tipo RedMarble
+                  fa avanzare di una posizione il track;
+         se la biglia (this) è di tipo NormalMarble
+                  aggiunge al warehouse una risorsa del tipo contenuto nell'attributo resource
+         se la biglia (this) è di tipo WitheMarble
+                   aggiunge al warehouse una risorsa del tipo passato nel parametro onWhiteMarble
+                   (se non è null, se è null non aggiunge nulla)
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>3408</x>
+      <y>1584</y>
+      <w>232</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>La playerBoard chiama addResource
+su ogni biglia ricevuta dal mercato
+in modo da delegare l'aggiunta
+delle risrse corrette alla biglia ed
+evitare la catena di if e l'enum
+che non piacciono a margara.
+
+(a questo punto dovremmo fare una cosa
+simile anche con le devCard)
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>696</x>
+      <y>1848</y>
+      <w>264</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;interface&gt;&gt;/
+StorageInterface
+--
+--
++ addResource(r: ResourceType, q: int): void
++ removeResource(r: ResourceType, q: int): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>872</x>
+      <y>1920</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>744</x>
+      <y>1920</y>
+      <w>1232</w>
+      <h>784</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;960.0;1520.0;960.0;1520.0;930.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2632</x>
+      <y>608</y>
+      <w>1168</w>
+      <h>488</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>1440.0;590.0;1440.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1616</x>
+      <y>768</y>
+      <w>768</w>
+      <h>992</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>590.0;1220.0;590.0;890.0;10.0;890.0;10.0;10.0;940.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1528</x>
+      <y>1728</y>
+      <w>208</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>dare implementazione di default a tutti 
+i metodi in comune che non fanno nulla
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>4008</x>
+      <y>616</y>
+      <w>152</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;enumeration&gt;&gt;/
+DevelopCardColor
+--
+GREEN
+PURPLE
+BLUE
+YELLOW
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>4152</x>
+      <y>1320</y>
+      <w>208</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>CardFlag
+--
+- color: DevelopCardColor
+- level: int **level= -1 per dire qualsiasi**
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>4072</x>
+      <y>1336</y>
+      <w>96</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>616</x>
+      <y>408</y>
+      <w>216</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>ActivateLeaderCardAction
+--
+- leadercard: Leadercard  **oppure ci va un int??**
+--
++ performAction(playerBoard: PlayerBoard): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>368</x>
+      <y>408</y>
+      <w>216</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>InsertMarbleAction
+--
+- marble: int
+- leaderForWhite: LeaderCard
+- warehouseLevel: int
+--
++ performAction(playerBoard: PlayerBoard): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>2984</x>
+      <y>1496</y>
+      <w>312</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>non prendiamo il livello perché abbiamo deciso di 
+automatizzare il magazzino.
+L'utente ogni volta che va al mercato riceve 
+un array di Marbles e schiaccia in ordine di immissione su ognuna.
+Questo produce una action che ci permette di aggiungere nell'ordine voluto le risorse.
+Se le ultime non possono essere aggiunte vengono scartate 
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>4072</x>
+      <y>1112</y>
+      <w>280</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>buyCard di DevelopCardDeck chiama la buyCard di
+DevelopCard. DevelopCard controlla se la carta puó 
+essere messa all'interno del cardSlot.
+In caso affermativo chiama la removeResources di 
+la Resources che si occupa della rimozione delle risorse dal 
+magazzino/chest. Se queste non sono sufficienti viene 
+sollevata un'eccezione, altrimenti la DevelopCard si aggiiunge 
+al cardSlot e DevelopCardDeck rimuove la carta 
+da se
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>352</y>
+      <w>280</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;330.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>464</x>
+      <y>352</y>
+      <w>280</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;330.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>712</x>
+      <y>360</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>464</x>
+      <y>360</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>936</x>
+      <y>1936</y>
+      <w>672</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;820.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>936</x>
+      <y>1944</y>
+      <w>24</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1152</x>
+      <y>1944</y>
+      <w>24</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1584</x>
+      <y>1944</y>
+      <w>24</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>368</x>
+      <y>496</y>
+      <w>200</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>Nella view avró i riferimenti agli oggetti che 
+mostra a GUI?
+bg=0xffffc5
+fg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>0</x>
+      <y>0</y>
+      <w>1904</w>
+      <h>680</h>
+    </coordinates>
+    <panel_attributes>Controller
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1112</x>
+      <y>1656</y>
+      <w>224</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>I casi possibili di costo sono:
+1- 2 banner generici
+2- 5 risorse uguali
+3- 1 banner di livello 2
+4- 2 banner generici di un tipo + 1 di un altro tipo
+bg=0xffffc5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2200</x>
+      <y>360</y>
+      <w>296</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;Interface&gt;&gt;/
+GivesVictoryPoints
+--
++ getVictoryPoints(): int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>648</x>
+      <y>1808</y>
+      <w>352</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>per farla in modo giusto serve prima capire come gestire la richiesta di risorse
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>784</x>
+      <y>72</y>
+      <w>416</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>TurnManager
+--
++ endTurn()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>528</x>
+      <y>88</y>
+      <w>216</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>Controller
+--
+- model: Game
+- turnManager: TurnManager
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>736</x>
+      <y>152</y>
+      <w>64</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>504</y>
+      <w>224</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>ReOrganizeWarehouseAction
+--
+- newFirst: int
+- newSecond: int
+- newThird: int
+--
++ performAction(playerBoard: PlayerBoard): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1104</x>
+      <y>312</y>
+      <w>24</w>
+      <h>208</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1208</x>
+      <y>72</y>
+      <w>280</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>GameHandler
+--
+**forse la handleAction va qua??**</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>3856</x>
+      <y>576</y>
+      <w>472</w>
+      <h>232</h>
+    </coordinates>
+    <panel_attributes>Enumerations
+
+fg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>112</x>
+      <y>408</y>
+      <w>216</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>SourceResource
+--
+- resource: ResourceType
+- level: int 
+--
++ performAction(playerBoard: PlayerBoard): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>208</x>
+      <y>360</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>208</x>
+      <y>352</y>
+      <w>280</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;330.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2240</x>
+      <y>1400</y>
+      <w>240</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Square
+--
+- red: boolean
+- final victoryPoints: int
+- final active: int
+--
++ Square()
++ getVictoryPoints(): int
++ getRed(): boolean
++ getActive(): int
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2240</x>
+      <y>1232</y>
+      <w>240</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>Track
+--
+- popeCards [3]: int
+--
++ Track()
++ calculateTrackScore(): int
++ moveForward(faith: int): void
++ checkIfCurrentIsActive(active: int): void
+- switchPopeCardsActivation(active: int): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1840</x>
+      <y>1056</y>
+      <w>328</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+VaticanReportObservable
+--
++ addToVaticanReportObserverList(VaticanReportObserver): void
++ removeFromVaticanReportObserverList (VaticanReportObserver): void
++ notifyForVaticanReport(active: int): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2064</x>
+      <y>1248</y>
+      <w>136</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+VaticanReportObserver
+--
++ update(active: int): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2104</x>
+      <y>1128</y>
+      <w>24</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2352</x>
+      <y>1008</y>
+      <w>24</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2088</x>
+      <y>1304</y>
+      <w>168</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0;190.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2352</x>
+      <y>1368</y>
+      <w>24</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2208</x>
+      <y>928</y>
+      <w>288</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+EndGameObservable
+--
++ addToEndGameObserverList(EndGameObserver): void
++ removeFromEndGameObserverList(EndGameObserver): void
++ notifyForEndGame(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2160</x>
+      <y>1096</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2224</x>
+      <y>1080</y>
+      <w>280</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>LorenzoTrack
+--
+- track[25]: Square
+- playerPosition: int
+- vaticanReportObserverList: List&lt;VaticanReportObserver&gt;
+- endGameObserverList: List&lt;EndGameObserver&gt; 
+--
++ LorenzoTrack()
++ moveForward(faith: int): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2352</x>
+      <y>1176</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2480</x>
+      <y>1896</y>
+      <w>272</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>CardSlots
+--
+- cardSlots: List&lt;DevelopCard&gt;[3]
+- leaderCardsProduction: List&lt;LeaderCard&gt;
+- totalcard: int
+--
++ calculateDevelopCardScore(): int
++ returnTopCard(slot: int): DevelopCard
++ addDevelopCard(slot: int, developCard: DevelopCard): void
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2432</x>
+      <y>1768</y>
+      <w>296</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+EndGameObservable
+--
++ addToEndGameObserverList(EndGameObserver): void
++ removeFromEndGameObserverList(EndGameObserver): void
++ notifyForEndGame(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2568</x>
+      <y>1840</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2496</x>
+      <y>920</y>
+      <w>176</w>
+      <h>232</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;270.0;120.0;270.0;120.0;10.0;200.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2360</x>
+      <y>2024</y>
+      <w>224</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0;110.0;140.0;260.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2568</x>
+      <y>2096</y>
+      <w>320</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+IStartBehaviour
+--
++ useResource(restype: ResourceType, boolean: warehouse, int: level)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2496</x>
+      <y>2264</y>
+      <w>536</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>ProduceBehaviour
+--
+- tempResources: Map&lt;ResourceType, int&gt;
+- chest: Chest
+- warehouse: Warehouse
+- developCard: DevelopCard
+--
++ Produce(player: PlayerBoard, developCard: DevelopCard)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2608</x>
+      <y>2400</y>
+      <w>536</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>BuyBehaviour
+--
+- tempResources: Map&lt;ResourceType, int&gt;
+- chest: Chest
+- warehouse: Warehouse
+- cardSlot: int
+- developCard: DevelopCard
+--
++ Buy(player: PlayerBoard, developCard: DevelopCard, cardSlot: int)
+
+
+**
+
+**</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2584</x>
+      <y>2152</y>
+      <w>88</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2792</x>
+      <y>2152</y>
+      <w>296</w>
+      <h>264</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;70.0;320.0;100.0;350.0;310.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2216</x>
+      <y>1680</y>
+      <w>24</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2160</x>
+      <y>1608</y>
+      <w>120</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>InterfacePlayerboard
+--
++ getWarehouse()
++ getCardSlots()
++ getDevelopCardDeck()
++ getChest()
++ getTrack()</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
