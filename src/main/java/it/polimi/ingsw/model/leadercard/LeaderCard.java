@@ -126,9 +126,8 @@ public class LeaderCard {
     *
     * @param playerBoard that wants to activate a Storage type LeaderCard
     * @throws MaxLeaderCardLevelsException if the maximum number of additional storages is surpassed
-    * @throws LevelAlreadyPresentException when you try to add 2 storages that contain the same ResourceType
     */
-   public void addStorageSpace(InterfacePlayerBoard playerBoard) throws MaxLeaderCardLevelsException, LevelAlreadyPresentException {
+   public void addStorageSpace(InterfacePlayerBoard playerBoard) throws MaxLeaderCardLevelsException {
       if(this.isActive())
          cardBehaviour.createStorage(playerBoard);
    }
