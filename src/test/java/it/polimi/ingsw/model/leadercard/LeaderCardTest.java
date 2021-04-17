@@ -164,7 +164,7 @@ class LeaderCardTest {
 
 
    @Test
-   void addStorageSpaceTest() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException, MaxLeaderCardLevelsException, AbuseOfFaithException, LevelAlreadyPresentException, NotEnoughSpaceException {
+   void addStorageSpaceTest() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException, MaxLeaderCardLevelsException, AbuseOfFaithException, NotEnoughSpaceException {
       LeaderCard card1 = new LeaderCard(
               null, null, 0, new StorageBehaviour(ResourceType.STONE));
       InterfacePlayerBoard playerBoard1 = new PlayerBoard(
@@ -190,7 +190,7 @@ class LeaderCardTest {
 //   }
 
    @Test
-   void defaultImplementationsTest() throws IOException, AbuseOfFaithException, NotEnoughResourcesException, MaxLeaderCardLevelsException, LevelAlreadyPresentException, InvalidLeaderCardException, NeedAResourceToAddException {
+   void defaultImplementationsTest() throws IOException, AbuseOfFaithException, NotEnoughResourcesException, MaxLeaderCardLevelsException, InvalidLeaderCardException, NeedAResourceToAddException {
       LeaderCard card1 = new LeaderCard(
               null, null, 0, new MarbleModifierBehaviour(ResourceType.GOLD));
       LeaderCard card2 = new LeaderCard(
