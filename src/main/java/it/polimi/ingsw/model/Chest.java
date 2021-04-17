@@ -21,15 +21,14 @@ public class Chest {
    * @param resource the resource to be added
    * @param quantity how many resource to add
    * @throws AbuseOfFaithException when trying to add ResourceType.FAITH
-   * @throws NegativeQuantityException if quantity < 0
    */
-  public void addResources(ResourceType resource, int quantity) throws AbuseOfFaithException, NegativeQuantityException {
+  public void addResources(ResourceType resource, int quantity) throws AbuseOfFaithException {
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException("Adding faith to chest is not allowed");
       //if the key is not present adds a new element to the map with value quantity
     if(quantity < 0)
-      throw new NegativeQuantityException("you are adding a negative quantity of a resource, that's not allowed");
-      tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
+      return;
+    tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
 
   }
 

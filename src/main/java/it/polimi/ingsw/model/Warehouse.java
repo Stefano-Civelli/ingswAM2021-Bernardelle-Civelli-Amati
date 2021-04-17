@@ -61,19 +61,16 @@ public class Warehouse {
      * @param resourceType the resource type of the storage leader card to activate
      * @return index of the level created
      * @throws MaxLeaderCardLevelsException the maximum number of leader card's levels has already been added. It is not possible to add another one.
-     * @throws LevelAlreadyPresentException a leader card's level of this resource type is already added. It is not possible to add another one.
      * @throws AbuseOfFaithException resource type is faith, a warehouse can't contain faith
      */
     public int addLeaderCardLevel(ResourceType resourceType)
-            throws MaxLeaderCardLevelsException, LevelAlreadyPresentException, AbuseOfFaithException {
+            throws MaxLeaderCardLevelsException, AbuseOfFaithException {
         if(resourceType == null)
             throw new NullPointerException();
         if(resourceType == ResourceType.FAITH)
             throw new AbuseOfFaithException();
         if(this.numberOfLeaderCardsLevels() + 1 > this.maxLeaderCardsLevels())
             throw new MaxLeaderCardLevelsException();
-        if(getSpecialLevel(resourceType) != -1)
-            throw new LevelAlreadyPresentException();
         Pair<ResourceType, Integer> pair = new Pair<>(resourceType, 0);
         this.leaderLevels.add(pair);
         return this.leaderLevels.lastIndexOf(pair);
@@ -136,14 +133,14 @@ public class Warehouse {
      * @param resourceType the type of the resource to remove
      * @param quantity the maximum number of resources to remove
      * @return the number of resources which couldn't be removed
-     * @throws NegativeQuantityException the specified quantity is negative
      * @throws NullPointerException the specified resource is null
      */
-    public int removeResources(ResourceType resourceType, int quantity) throws NegativeQuantityException {
+    //@ requires quantity > 0;
+    public int removeResources(ResourceType resourceType, int quantity) {
         if(resourceType == null)
             throw new NullPointerException();
         if(quantity < 0)
-            throw new NegativeQuantityException();
+            return quantity;
 
         // Remove in normal levels
         int level = this.getNormalLevel(resourceType);
@@ -177,11 +174,6 @@ public class Warehouse {
 
     private int getNormalLevel(ResourceType resource) {
         return Arrays.stream(this.levels).map( (i) -> i!= null ? i.getKey() : null )
-                .collect(Collectors.toList()).indexOf(resource) ;
-    }
-
-    private int getSpecialLevel(ResourceType resource) {
-        return this.leaderLevels.stream().map( (i) -> i!= null ? i.getKey() : null )
                 .collect(Collectors.toList()).indexOf(resource) ;
     }
 

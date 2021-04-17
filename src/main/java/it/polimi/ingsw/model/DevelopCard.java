@@ -165,7 +165,7 @@ public class DevelopCard {
               (this.requirement.equals(d.requirement));
    }
 
-   private void removeResourcesFrom(HashMap<ResourceType, Integer> target, Warehouse warehouse, Chest chest) throws NegativeQuantityException, NotEnoughResourcesException {
+   private void removeResourcesFrom(HashMap<ResourceType, Integer> target, Warehouse warehouse, Chest chest) throws NotEnoughResourcesException {
       for(Map.Entry<ResourceType, Integer> entry : target.entrySet()) {
          int remainingToRemove = warehouse.removeResources(entry.getKey(),entry.getValue());
             chest.removeResources(entry.getKey(), remainingToRemove);

@@ -28,15 +28,11 @@ public class LeaderProduceBehaviour extends CardBehaviour{
       Chest chest = playerBoard.getChest();
       Warehouse warehouse = playerBoard.getWarehouse();
       int remainingToRemove = 0;
-      try {
-         remainingToRemove = warehouse.removeResources(resourceToRemove, 1);
-      } catch (NegativeQuantityException e) {e.printStackTrace();}
-
+      remainingToRemove = warehouse.removeResources(resourceToRemove, 1);
       chest.removeResources(resourceToRemove, remainingToRemove);
 
       playerBoard.getTrack().moveForward(1);
-      try {
-         chest.addResources(resourceToAdd,1);
-      } catch (NegativeQuantityException e) {e.printStackTrace();}
+      chest.addResources(resourceToAdd,1);
    }
+
 }

@@ -11,7 +11,7 @@ import it.polimi.ingsw.model.modelexceptions.*;
 class WarehouseTest {
 
     @Test
-    void numberLevelsTest() throws LevelAlreadyPresentException, AbuseOfFaithException, MaxLeaderCardLevelsException {
+    void numberLevelsTest() throws AbuseOfFaithException, MaxLeaderCardLevelsException {
         Warehouse warehouse = new Warehouse();
         assertEquals(2, warehouse.maxLeaderCardsLevels());
         assertEquals(3, warehouse.numberOfNormalLevels());
@@ -71,7 +71,7 @@ class WarehouseTest {
     }
 
     @Test
-    void addAndRemoveTest() throws NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
+    void addAndRemoveTest() throws NotEnoughSpaceException, AbuseOfFaithException {
         Warehouse warehouse = new Warehouse();
         warehouse.addResource(ResourceType.SERVANT);
         warehouse.addResource(ResourceType.SERVANT);
@@ -119,7 +119,7 @@ class WarehouseTest {
     }
 
     @Test
-    void addFaithTest() throws NegativeQuantityException {
+    void addFaithTest() {
         Warehouse warehouse = new Warehouse();
         assertThrows(AbuseOfFaithException.class, () -> warehouse.addResource(ResourceType.FAITH));
         assertEquals(1, warehouse.removeResources(ResourceType.FAITH, 1));
@@ -178,7 +178,7 @@ class WarehouseTest {
     }
 
     @Test
-    void addLeaderCardTest() throws LevelAlreadyPresentException, MaxLeaderCardLevelsException,
+    void addLeaderCardTest() throws MaxLeaderCardLevelsException,
             AbuseOfFaithException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse();
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
@@ -191,8 +191,7 @@ class WarehouseTest {
     }
 
     @Test
-    void maxLeaderCardTest() throws LevelAlreadyPresentException, MaxLeaderCardLevelsException,
-            AbuseOfFaithException, NotEnoughSpaceException {
+    void maxLeaderCardTest() throws MaxLeaderCardLevelsException, AbuseOfFaithException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse();
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
         warehouse.addLeaderCardLevel(ResourceType.STONE);
@@ -219,17 +218,7 @@ class WarehouseTest {
     }
 
     @Test
-    void leaderAlreadyPresentTest()
-            throws LevelAlreadyPresentException, AbuseOfFaithException, MaxLeaderCardLevelsException {
-        Warehouse warehouse = new Warehouse();
-        warehouse.addLeaderCardLevel(ResourceType.GOLD);
-        assertThrows(LevelAlreadyPresentException.class, () -> warehouse.addLeaderCardLevel(ResourceType.GOLD));
-        assertEquals(1, warehouse.numberOfLeaderCardsLevels());
-    }
-
-    @Test
-    void addInLeaderTest() throws LevelAlreadyPresentException, AbuseOfFaithException,
-            MaxLeaderCardLevelsException, NotEnoughSpaceException {
+    void addInLeaderTest() throws AbuseOfFaithException, MaxLeaderCardLevelsException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse();
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
         warehouse.addResource(ResourceType.GOLD);
@@ -246,8 +235,7 @@ class WarehouseTest {
     }
 
     @Test
-    void removeFromLeaderTest() throws LevelAlreadyPresentException, AbuseOfFaithException,
-            MaxLeaderCardLevelsException, NotEnoughSpaceException {
+    void removeFromLeaderTest() throws AbuseOfFaithException, MaxLeaderCardLevelsException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse();
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
         warehouse.addLeaderCardLevel(ResourceType.SHIELD);
@@ -271,8 +259,8 @@ class WarehouseTest {
     }
 
     @Test
-    void addAndRemoveInLeaderTest() throws LevelAlreadyPresentException, AbuseOfFaithException,
-            MaxLeaderCardLevelsException, NotEnoughSpaceException, NegativeQuantityException {
+    void addAndRemoveInLeaderTest()
+            throws AbuseOfFaithException, MaxLeaderCardLevelsException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse();
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
         warehouse.addLeaderCardLevel(ResourceType.SHIELD);
@@ -293,8 +281,7 @@ class WarehouseTest {
     }
 
     @Test
-    void addNoSpaceInLeader() throws LevelAlreadyPresentException, AbuseOfFaithException,
-            MaxLeaderCardLevelsException, NotEnoughSpaceException {
+    void addNoSpaceInLeader() throws AbuseOfFaithException, MaxLeaderCardLevelsException, NotEnoughSpaceException {
         Warehouse warehouse = new Warehouse();
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
         warehouse.addResource(ResourceType.SHIELD);
@@ -322,8 +309,8 @@ class WarehouseTest {
     }
 
     @Test
-    void resourcesAmountInLeaderTest() throws NotEnoughSpaceException, AbuseOfFaithException,
-            LevelAlreadyPresentException, MaxLeaderCardLevelsException {
+    void resourcesAmountInLeaderTest()
+            throws NotEnoughSpaceException, AbuseOfFaithException, MaxLeaderCardLevelsException {
         Warehouse warehouse = new Warehouse();
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
         assertEquals(0, warehouse.getNumberOf(ResourceType.FAITH));
@@ -364,8 +351,8 @@ class WarehouseTest {
     }
 
     @Test
-    void totalResourcesInLeaderTest() throws NotEnoughSpaceException, AbuseOfFaithException,
-            LevelAlreadyPresentException, MaxLeaderCardLevelsException {
+    void totalResourcesInLeaderTest()
+            throws NotEnoughSpaceException, AbuseOfFaithException, MaxLeaderCardLevelsException {
         Warehouse warehouse = new Warehouse();
         assertEquals(warehouse.totalResources(), 0);
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
