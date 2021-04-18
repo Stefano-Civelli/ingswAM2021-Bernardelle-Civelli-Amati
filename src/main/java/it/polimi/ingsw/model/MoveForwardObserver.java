@@ -7,9 +7,9 @@ public interface MoveForwardObserver {
   /**
    * when the observable class changes it's state notify the observer calling this method
    */
-  public void update();
+  void update();
 
-  public void addToMoveForwardObserverListObs(MoveForwardObserver observerToAdd);
+  void addToMoveForwardObserverListObs(MoveForwardObserver observerToAdd);
 
-  public Track getTrack();
+  Track getTrack();
 }

@@ -22,5 +22,4 @@ public abstract class CardBehaviour {
 
    public void discount(HashMap<ResourceType, Integer> resources){}
 
-
 }

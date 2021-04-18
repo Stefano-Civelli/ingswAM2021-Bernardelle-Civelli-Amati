@@ -6,24 +6,28 @@ public enum DevelopCardColor {
    private final int column;
    private final String color;
 
-   DevelopCardColor(int i, String c){
-      column = i;
-      color = c;
+   DevelopCardColor(int column, String color){
+      this.column = column;
+      this.color = color;
    }
 
-   public static DevelopCardColor fromValue(String v) {
+   public static DevelopCardColor fromValue(String value) {
       for (DevelopCardColor developCardColor : values()) {
-         if (developCardColor.name().equals(v)) {
+         if (developCardColor.name().equals(value)) {
             return developCardColor;
          }
       }
-      throw new IllegalArgumentException("invalid string value passed: " + v);
+      throw new IllegalArgumentException("invalid string value passed: " + value);
    }
 
-   public int getColumn(){ return column; }
+   public int getColumn(){
+      return column;
+   }
 
    @Override
-   public String toString() { return color; }
+   public String toString() {
+      return color;
+   }
 
 
 }

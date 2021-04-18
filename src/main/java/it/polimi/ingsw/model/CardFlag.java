@@ -38,4 +38,5 @@ public class CardFlag {
          return (this.color == c.color);
       return (this.level == c.level) && (this.color == c.color);
    }
+
 }

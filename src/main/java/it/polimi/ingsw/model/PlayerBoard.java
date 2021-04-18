@@ -100,8 +100,9 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
     * Saves the market marbles taken from the market in tempMarketMarble
     * @param column indicates which column get from market (starts at 0)
     */
-   public void shopMarketColumn(int column) throws RowOrColumnNotExistsException {
+   public List<MarketMarble> shopMarketColumn(int column) throws RowOrColumnNotExistsException {
       tempMarketMarble = new ArrayList<>(market.pushInColumn(column));
+      return new ArrayList<>(tempMarketMarble);
    }
 
    /**
@@ -218,7 +219,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
       for(MoveForwardObserver x : moveForwardObserverList)
          orderedCall.add(new Pair<>(x, x.getTrack().getCurrentPosition()));
 
-      Collections.sort(orderedCall, Comparator.comparing(p -> p.getValue()));
+      orderedCall.sort(Comparator.comparing(Pair::getValue));
 
 
       for(Pair<MoveForwardObserver, Integer> x : orderedCall)
@@ -241,4 +242,5 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
       if(moveForwardObserverList.add(observerToAdd))
          observerToAdd.addToMoveForwardObserverListObs(this);
    }
+
 }

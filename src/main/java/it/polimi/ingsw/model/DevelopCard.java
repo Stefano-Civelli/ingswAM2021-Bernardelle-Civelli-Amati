@@ -85,7 +85,6 @@ public class DevelopCard {
     *
     * @param playerBoard that wants to buy the card
     * @param cardSlotNumber number of the slot to put the new card in. (starts at 0)
-    * @throws InvalidCardPlacementException if the card can't be put in the specified slot
     * @throws NotBuyableException if the card can't be bought
     */
    public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws NotBuyableException {

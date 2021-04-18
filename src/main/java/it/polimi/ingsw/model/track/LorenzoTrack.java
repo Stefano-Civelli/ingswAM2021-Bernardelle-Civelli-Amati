@@ -78,4 +78,5 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable{
     for(EndGameObserver x : endGameObserverList)
       x.update();
   }
+
 }

@@ -8,15 +8,16 @@ public enum ResourceType {
 
   /**
    * static factory method that constructs enum by string
-   * @param v string to create the enum
+   * @param value string to create the enum
    * @return a new enumeration
    */
-  public static ResourceType fromValue(String v) {
+  public static ResourceType fromValue(String value) {
     for (ResourceType resourceType : values()) {
-      if (resourceType.name().equals(v)) {
+      if (resourceType.name().equals(value)) {
         return resourceType;
       }
     }
-    throw new IllegalArgumentException("invalid string value passed: " + v);
+    throw new IllegalArgumentException("invalid string value passed: " + value);
   }
+
 }

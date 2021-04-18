@@ -89,4 +89,5 @@ public class Chest {
             (key, value) -> value + tempValue));
     this.tempResourcesMap.clear();
   }
+
 }

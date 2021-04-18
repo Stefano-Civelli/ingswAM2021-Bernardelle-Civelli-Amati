@@ -18,7 +18,7 @@ public class CardSlots implements EndGameObservable {
     totalCards = 0;
     developCards = new ArrayList<>();
     for(int i = 0; i< numberOfCardSlots; i++)
-      developCards.add(new ArrayList<DevelopCard>());
+      developCards.add(new ArrayList<>());
     endGameObserverList = new ArrayList<>();
   }
 
@@ -130,4 +130,5 @@ public class CardSlots implements EndGameObservable {
     for(EndGameObserver x : endGameObserverList)
       x.update();
   }
+
 }

@@ -9,15 +9,15 @@ import java.util.stream.Collectors;
 
 public class Market {
 
-    private final int nRow = 3,
-            nColumn = 4;
+    private final int N_ROW = 3,
+            N_COLUMN = 4;
 
     private MarketMarble slide;
     private final MarketMarble[][] marbles;
 
 
     public Market() {
-        this.marbles = new MarketMarble[this.nRow][this.nColumn];
+        this.marbles = new MarketMarble[this.N_ROW][this.N_COLUMN];
         try {
             List<MarketMarble> marbles = new ArrayList<>(List.of(
                     new WhiteMarble(), new WhiteMarble(), new WhiteMarble(), new WhiteMarble(),
@@ -38,11 +38,11 @@ public class Market {
     }
 
     public int getNumberOfRow() {
-        return this.nRow;
+        return this.N_ROW;
     }
 
     public int getNumberOfColumn() {
-        return this.nColumn;
+        return this.N_COLUMN;
     }
 
     private List<MarketMarble> getRow(int row) throws RowOrColumnNotExistsException {

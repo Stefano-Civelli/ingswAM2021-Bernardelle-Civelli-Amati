@@ -6,13 +6,13 @@ public interface EndGameObservable {
    * add an observer to a list of observers
    * @param observerToAdd
    */
-  public void addToEndGameObserverList(EndGameObserver observerToAdd);
+  void addToEndGameObserverList(EndGameObserver observerToAdd);
 
   /**
    * remove an observer from a list of observers
    * @param observerToRemove
    */
-  public void removeFromEndGameObserverList(EndGameObserver observerToRemove);
+  void removeFromEndGameObserverList(EndGameObserver observerToRemove);
 
   /**
    * notify the endgame observers that the game is in the endgame state
