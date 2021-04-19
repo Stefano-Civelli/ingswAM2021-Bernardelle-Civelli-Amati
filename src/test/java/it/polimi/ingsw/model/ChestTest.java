@@ -101,7 +101,9 @@ class ChestTest {
       chest.addResources(ResourceType.GOLD, 2);
       chest.addResources(ResourceType.SHIELD, 4);
       chest.endOfTurnMapsMerge();
-      assertThrows(NotEnoughResourcesException.class, () -> chest.removeResources(ResourceType.GOLD, -10));
+      assertThrows(NegativeQuantityException.class, () -> chest.addResources(ResourceType.GOLD, -10));
+      assertThrows(NotEnoughResourcesException.class, () -> chest.removeResources(ResourceType.GOLD, 10));
+      assertThrows(NegativeQuantityException.class, () -> chest.removeResources(ResourceType.GOLD, -10));
    }
 
    @Test

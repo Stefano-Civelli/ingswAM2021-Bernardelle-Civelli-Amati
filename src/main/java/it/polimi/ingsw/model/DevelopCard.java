@@ -107,6 +107,8 @@ public class DevelopCard {
       }
 
 
+
+
       try {
          cardSlots.addDevelopCard(cardSlotNumber,this);
       } catch (InvalidCardPlacementException e) {e.printStackTrace();}
@@ -134,11 +136,11 @@ public class DevelopCard {
 
       for(Map.Entry<ResourceType, Integer> entry : product.entrySet()) {
          try {
-            if(entry.getKey().equals(ResourceType.FAITH))
+            if (entry.getKey().equals(ResourceType.FAITH))
                playerBoard.getTrack().moveForward(entry.getValue());
             else
-               playerBoard.getChest().addResources(entry.getKey(),entry.getValue());
-         } catch (AbuseOfFaithException e) {
+               playerBoard.getChest().addResources(entry.getKey(), entry.getValue());
+         } catch (AbuseOfFaithException | NegativeQuantityException e) {
             e.printStackTrace();
          }
       }

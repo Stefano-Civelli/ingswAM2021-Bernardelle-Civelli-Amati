@@ -282,7 +282,7 @@ class DevelopCardTest {
 
    @Test
    void buyNoSlotTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException,
-           AbuseOfFaithException, NotEnoughSpaceException {
+           AbuseOfFaithException, NotEnoughSpaceException, NegativeQuantityException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(2, DevelopCardColor.BLUE),
               Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
@@ -305,7 +305,7 @@ class DevelopCardTest {
 
    @Test
    void buyLevelTwoTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException,
-           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException {
+           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(2, DevelopCardColor.BLUE),
               Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
@@ -430,7 +430,7 @@ class DevelopCardTest {
 
    @Test
    void activatableNotOnTopTest() throws IOException, NotBuyableException, AbuseOfFaithException,
-           NotEnoughSpaceException {
+           NotEnoughSpaceException, NegativeQuantityException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(1, DevelopCardColor.BLUE), Map.of(),
               Map.of(ResourceType.GOLD, 2, ResourceType.STONE, 1), null, 0);
@@ -455,7 +455,7 @@ class DevelopCardTest {
    }
 
    @Test
-   void produceTest() throws IOException, NotBuyableException, AbuseOfFaithException, NotEnoughSpaceException, NotActivatableException {
+   void produceTest() throws IOException, NotBuyableException, AbuseOfFaithException, NotEnoughSpaceException, NotActivatableException, NegativeQuantityException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(1, DevelopCardColor.BLUE),
               Map.of(),

@@ -53,7 +53,7 @@ class WarehouseTest {
     }
 
     @Test
-    void removeTest() throws AbuseOfFaithException, NotEnoughSpaceException {
+    void removeTest() throws AbuseOfFaithException, NotEnoughSpaceException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         warehouse.addResource(ResourceType.SERVANT);
         warehouse.addResource(ResourceType.SERVANT);
@@ -71,7 +71,7 @@ class WarehouseTest {
     }
 
     @Test
-    void addAndRemoveTest() throws NotEnoughSpaceException, AbuseOfFaithException {
+    void addAndRemoveTest() throws NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         warehouse.addResource(ResourceType.SERVANT);
         warehouse.addResource(ResourceType.SERVANT);
@@ -87,7 +87,7 @@ class WarehouseTest {
     }
 
     @Test
-    void addNoSpaceTest() throws NotEnoughSpaceException, AbuseOfFaithException {
+    void addNoSpaceTest() throws NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         warehouse.addResource(ResourceType.SERVANT);
         warehouse.addResource(ResourceType.SERVANT);
@@ -119,7 +119,7 @@ class WarehouseTest {
     }
 
     @Test
-    void addFaithTest() {
+    void addFaithTest() throws NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         assertThrows(AbuseOfFaithException.class, () -> warehouse.addResource(ResourceType.FAITH));
         assertEquals(1, warehouse.removeResources(ResourceType.FAITH, 1));
@@ -134,7 +134,7 @@ class WarehouseTest {
     }
 
     @Test
-    void resourcesAmountTest() throws NotEnoughSpaceException, AbuseOfFaithException {
+    void resourcesAmountTest() throws NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         assertEquals(0, warehouse.getNumberOf(ResourceType.FAITH));
         assertEquals(0, warehouse.getNumberOf(ResourceType.GOLD));
@@ -163,7 +163,7 @@ class WarehouseTest {
     }
 
     @Test
-    void totalResourcesTest() throws NotEnoughSpaceException, AbuseOfFaithException {
+    void totalResourcesTest() throws NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         assertEquals(warehouse.totalResources(), 0);
         warehouse.addResource(ResourceType.GOLD);
@@ -235,7 +235,7 @@ class WarehouseTest {
     }
 
     @Test
-    void removeFromLeaderTest() throws AbuseOfFaithException, MaxLeaderCardLevelsException, NotEnoughSpaceException {
+    void removeFromLeaderTest() throws AbuseOfFaithException, MaxLeaderCardLevelsException, NotEnoughSpaceException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
         warehouse.addLeaderCardLevel(ResourceType.SHIELD);
@@ -260,7 +260,7 @@ class WarehouseTest {
 
     @Test
     void addAndRemoveInLeaderTest()
-            throws AbuseOfFaithException, MaxLeaderCardLevelsException, NotEnoughSpaceException {
+            throws AbuseOfFaithException, MaxLeaderCardLevelsException, NotEnoughSpaceException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
         warehouse.addLeaderCardLevel(ResourceType.SHIELD);
@@ -281,7 +281,7 @@ class WarehouseTest {
     }
 
     @Test
-    void addNoSpaceInLeader() throws AbuseOfFaithException, MaxLeaderCardLevelsException, NotEnoughSpaceException {
+    void addNoSpaceInLeader() throws AbuseOfFaithException, MaxLeaderCardLevelsException, NotEnoughSpaceException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
         warehouse.addResource(ResourceType.SHIELD);
@@ -310,7 +310,7 @@ class WarehouseTest {
 
     @Test
     void resourcesAmountInLeaderTest()
-            throws NotEnoughSpaceException, AbuseOfFaithException, MaxLeaderCardLevelsException {
+            throws NotEnoughSpaceException, AbuseOfFaithException, MaxLeaderCardLevelsException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
         assertEquals(0, warehouse.getNumberOf(ResourceType.FAITH));
@@ -352,7 +352,7 @@ class WarehouseTest {
 
     @Test
     void totalResourcesInLeaderTest()
-            throws NotEnoughSpaceException, AbuseOfFaithException, MaxLeaderCardLevelsException {
+            throws NotEnoughSpaceException, AbuseOfFaithException, MaxLeaderCardLevelsException, NegativeQuantityException {
         Warehouse warehouse = new Warehouse();
         assertEquals(warehouse.totalResources(), 0);
         warehouse.addLeaderCardLevel(ResourceType.GOLD);
@@ -374,4 +374,12 @@ class WarehouseTest {
         assertEquals(4, warehouse.totalResources());
     }
 
+    @Test
+    void removeNegativeQuantityTest() throws AbuseOfFaithException, NotEnoughSpaceException, NegativeQuantityException {
+        Warehouse warehouse = new Warehouse();
+        warehouse.addResource(ResourceType.GOLD);
+        assertThrows(NegativeQuantityException.class, () -> warehouse.removeResources(ResourceType.GOLD, -1) );
+        warehouse.removeResources(ResourceType.GOLD, 0);
+        warehouse.removeResources(ResourceType.GOLD, 1);
+    }
 }
