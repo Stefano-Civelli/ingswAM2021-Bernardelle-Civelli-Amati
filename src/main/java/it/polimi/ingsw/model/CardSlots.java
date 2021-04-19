@@ -30,8 +30,7 @@ public class CardSlots implements EndGameObservable {
     int score = 0;
 
     for(List<DevelopCard> x : developCards)
-      for(DevelopCard y : x)
-        score += y.getVictoryPoints();
+      score += x.stream().map(a -> a.getVictoryPoints()).reduce(0, Integer::sum);
 
     return score;
   }

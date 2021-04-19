@@ -57,7 +57,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
          if(x.isActive())
             playerScore.add(x.getVictoryPoints());
 
-      playerScore.add((warehouse.totalResources() + chest.totalNumberOfResources())/5);
+      playerScore.add(Math.floorDiv((warehouse.totalResources() + chest.totalNumberOfResources()), 5));
       return playerScore.stream().reduce(0, Integer::sum);
    }
 
