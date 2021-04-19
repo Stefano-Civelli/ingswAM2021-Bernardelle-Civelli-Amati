@@ -133,9 +133,9 @@ public class Warehouse {
      * @param resourceType the type of the resource to remove
      * @param quantity the maximum number of resources to remove
      * @return the number of resources which couldn't be removed
+     * @throws NegativeQuantityException quantity is a negative number
      * @throws NullPointerException the specified resource is null
      */
-    //@ requires quantity > 0;
     public int removeResources(ResourceType resourceType, int quantity) throws NegativeQuantityException {
         if(resourceType == null)
             throw new NullPointerException();
