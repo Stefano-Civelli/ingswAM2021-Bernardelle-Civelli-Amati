@@ -92,8 +92,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
     * @throws InvalidCardPlacementException if the card can't be placed in the slot passed as parameter
     * @throws RowOrColumnNotExistsException if the index of row or column doesn't exists
     */
-   public void addDevelopCard(int row, int column, int cardSlot) throws InvalidCardPlacementException, RowOrColumnNotExistsException {
-      cardSlots.addDevelopCard(cardSlot, developCardDeck.getCard(row, column));
+   public void addDevelopCard(int row, int column, int cardSlot) throws InvalidCardPlacementException, RowOrColumnNotExistsException, NotBuyableException {
+      developCardDeck.getCard(row, column).buy(this, cardSlot);
    }
 
    /**

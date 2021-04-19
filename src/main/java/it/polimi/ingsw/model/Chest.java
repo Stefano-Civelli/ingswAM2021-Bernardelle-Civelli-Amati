@@ -29,8 +29,8 @@ public class Chest {
       //if the key is not present adds a new element to the map with value quantity
     if(quantity < 0)
       throw new NegativeQuantityException("you are adding a negative quantity of a resource, that's not allowed");
-    tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
 
+    tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
   }
 
   /**
@@ -55,7 +55,6 @@ public class Chest {
         resources.remove(resource);
       else
         resources.replace(resource, resources.get(resource) - quantity);
-
     }
     else
       throw new NotEnoughResourcesException("you have 0 of the specified resource");
@@ -87,11 +86,9 @@ public class Chest {
    * makes newly added resources available for removal
    */
   public void endOfTurnMapsMerge(){
-    this.tempResourcesMap.forEach((tempKey, tempValue) -> this.resources.merge(
-            tempKey,
-            tempValue,
-            (key, value) -> value + tempValue));
+    for(Map.Entry<ResourceType, Integer> entry : tempResourcesMap.entrySet()){
+        resources.put(entry.getKey(), resources.containsKey(entry.getKey()) ? resources.get(entry.getKey()) + entry.getValue() : entry.getValue());
+    }
     this.tempResourcesMap.clear();
   }
-
 }
