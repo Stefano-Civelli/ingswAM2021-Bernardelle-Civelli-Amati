@@ -16,7 +16,7 @@ class DevelopCardDeckTest {
    File cardConfigFile = new File("src/DevelopCardConfig.json");
 
    @Test
-   void buyableCardsTest() throws AbuseOfFaithException, IOException {
+   void buyableCardsTest() throws AbuseOfFaithException, IOException, NegativeQuantityException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
@@ -84,7 +84,7 @@ class DevelopCardDeckTest {
    }
 
    @Test
-   void canBuyAllCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException {
+   void canBuyAllCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException, NegativeQuantityException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);

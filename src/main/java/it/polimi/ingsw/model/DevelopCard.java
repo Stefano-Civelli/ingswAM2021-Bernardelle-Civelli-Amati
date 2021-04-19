@@ -102,7 +102,7 @@ public class DevelopCard {
 
       try {
          removeResourcesFrom(localCost, playerBoard.getWarehouse(), playerBoard.getChest());
-      } catch (NotEnoughResourcesException e) {
+      } catch (NegativeQuantityException | NotEnoughResourcesException e) {
          e.printStackTrace();
       }
 
@@ -128,7 +128,7 @@ public class DevelopCard {
 
       try {
          removeResourcesFrom(requirement, playerBoard.getWarehouse(), playerBoard.getChest());
-      } catch (NotEnoughResourcesException e) {
+      } catch (NegativeQuantityException | NotEnoughResourcesException e) {
          e.printStackTrace();
       }
 
@@ -164,7 +164,7 @@ public class DevelopCard {
               (this.requirement.equals(d.requirement));
    }
 
-   private void removeResourcesFrom(HashMap<ResourceType, Integer> target, Warehouse warehouse, Chest chest) throws NotEnoughResourcesException {
+   private void removeResourcesFrom(HashMap<ResourceType, Integer> target, Warehouse warehouse, Chest chest) throws NotEnoughResourcesException, NegativeQuantityException {
       for(Map.Entry<ResourceType, Integer> entry : target.entrySet()) {
          int remainingToRemove = warehouse.removeResources(entry.getKey(),entry.getValue());
             chest.removeResources(entry.getKey(), remainingToRemove);

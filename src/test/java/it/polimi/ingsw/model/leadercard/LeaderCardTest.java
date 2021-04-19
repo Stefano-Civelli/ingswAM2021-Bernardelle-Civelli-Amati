@@ -213,4 +213,7 @@ class LeaderCardTest {
       assertEquals(mapToDiscount, mapToDiscountClone);
       assertNull(card2.resourceOnWhite());
    }
+
+
+
 }

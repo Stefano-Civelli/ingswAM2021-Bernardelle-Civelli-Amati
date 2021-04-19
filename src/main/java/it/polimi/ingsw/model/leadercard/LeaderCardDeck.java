@@ -5,10 +5,11 @@ import it.polimi.ingsw.model.leadercard.LeaderCard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LeaderCardDeck {
 
-  private ArrayList<LeaderCard> leaderCardList;
+  private List<LeaderCard> leaderCardList;
 
   public LeaderCardDeck(){
   }
@@ -21,7 +22,17 @@ public class LeaderCardDeck {
     Collections.shuffle(leaderCardList);
   }
 
-  public ArrayList<LeaderCard> getLeaderCardList() {
+  public List<LeaderCard> getLeaderCardList() {
     return new ArrayList<>(leaderCardList);
   }
+
+  public List<LeaderCard> drawFourCards(){
+    List<LeaderCard> fourCards = new ArrayList<>();
+    for(int i=0; i<4; i++){
+      fourCards.add(leaderCardList.get(i));
+      leaderCardList.remove(i);
+    }
+    return fourCards;
+  }
+
 }

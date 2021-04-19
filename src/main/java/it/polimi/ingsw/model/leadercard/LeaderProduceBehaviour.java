@@ -6,13 +6,12 @@ import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.NeedAResourceToAddException;
+import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
 public class LeaderProduceBehaviour extends CardBehaviour{
 
    private ResourceType resourceToRemove;
-
-   public LeaderProduceBehaviour() {}
 
    public LeaderProduceBehaviour(ResourceType resourceToRemove) {
       this.resourceToRemove = resourceToRemove;
@@ -28,11 +27,15 @@ public class LeaderProduceBehaviour extends CardBehaviour{
       Chest chest = playerBoard.getChest();
       Warehouse warehouse = playerBoard.getWarehouse();
       int remainingToRemove = 0;
-      remainingToRemove = warehouse.removeResources(resourceToRemove, 1);
-      chest.removeResources(resourceToRemove, remainingToRemove);
+      try {
+         remainingToRemove = warehouse.removeResources(resourceToRemove, 1);
+         chest.removeResources(resourceToRemove, remainingToRemove);
+      }catch(NegativeQuantityException e){e.printStackTrace();}
 
       playerBoard.getTrack().moveForward(1);
-      chest.addResources(resourceToAdd,1);
+      try {
+         chest.addResources(resourceToAdd,1);
+      } catch (NegativeQuantityException e) {e.printStackTrace();}
    }
 
 }

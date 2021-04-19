@@ -31,11 +31,7 @@ public class Game {
 
    //need also to check that the max number of players in this lobby isn't exceeded -> that's not necessary
    public void addPlayer(String username) throws IOException, InvalidUsernameException {
-      List<LeaderCard> fourInitialLeaderCardsForPlayer =
-              leaderCardDeck.getLeaderCardList()
-                            .stream()
-                            .limit(4)
-                            .collect(Collectors.toList());
+      List<LeaderCard> fourInitialLeaderCardsForPlayer = leaderCardDeck.drawFourCards();
       for(PlayerBoard x : playerBoardList)
          if(x.getUsername().equals(username))
             throw new InvalidUsernameException("This username is already taken");

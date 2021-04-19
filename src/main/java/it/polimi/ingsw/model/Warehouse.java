@@ -136,11 +136,11 @@ public class Warehouse {
      * @throws NullPointerException the specified resource is null
      */
     //@ requires quantity > 0;
-    public int removeResources(ResourceType resourceType, int quantity) {
+    public int removeResources(ResourceType resourceType, int quantity) throws NegativeQuantityException {
         if(resourceType == null)
             throw new NullPointerException();
         if(quantity < 0)
-            return quantity;
+            throw new NegativeQuantityException();
 
         // Remove in normal levels
         int level = this.getNormalLevel(resourceType);
