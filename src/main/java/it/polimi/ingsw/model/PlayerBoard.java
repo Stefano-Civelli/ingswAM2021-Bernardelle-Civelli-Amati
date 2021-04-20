@@ -163,12 +163,13 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
     * @param product, resource that the player wants to gain
     * @throws AbuseOfFaithException if one of the 3 resources is faith, he can't throw faith and he can't gain faith
     */
-   public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) throws AbuseOfFaithException {
+   public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) throws AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException {
       if(warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) > 0 && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) > 0) {
-         tempResources = Stream.of(new Object[][]{
-                 {resource1, 1},
-                 {resource2, 1},
-         }).collect(Collectors.toMap(data -> (ResourceType) data[0], data -> (Integer) data[1]));
+            int remainingToRemove = warehouse.removeResources(resource1,1);
+            chest.removeResources(resource1, remainingToRemove);
+
+            remainingToRemove = warehouse.removeResources(resource2, 1);
+            chest.removeResources(resource2, remainingToRemove);
 
          try {
             chest.addResources(product, 1);
