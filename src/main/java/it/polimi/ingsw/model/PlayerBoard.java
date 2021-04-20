@@ -114,6 +114,10 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
       return new ArrayList<>(tempMarketMarble);
    }
 
+   public List<MarketMarble> getTempMarketMarble() {
+      return new ArrayList<>(tempMarketMarble);
+   }
+
    /**
     * add one of the tempMarketMarble resources to warehouse
     * @param marbleIndex, the index of the marble to remove from tempMarketMarble (starts at 0)

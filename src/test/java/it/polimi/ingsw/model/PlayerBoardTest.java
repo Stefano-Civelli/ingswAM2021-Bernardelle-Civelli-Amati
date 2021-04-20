@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.leadercard.LeaderCard;
+import it.polimi.ingsw.model.leadercard.MarbleModifierBehaviour;
 import it.polimi.ingsw.model.leadercard.StorageBehaviour;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
@@ -24,8 +25,10 @@ class PlayerBoardTest {
     String usr = "talla";
     DevelopCardDeck developCardDeck = GSON.cardParser(cardConfigFile);
     List<LeaderCard> leaderCards = new ArrayList<>();
+    leaderCards.add(new LeaderCard(null, null, 4, new MarbleModifierBehaviour(ResourceType.SERVANT)));
+    leaderCards.add(new LeaderCard(null, null, 6, new MarbleModifierBehaviour(ResourceType.SHIELD)));
+    leaderCards.add(new LeaderCard(null, null, 4, new StorageBehaviour(ResourceType.SERVANT)));
     leaderCards.add(new LeaderCard(null, null, 4, new StorageBehaviour(ResourceType.GOLD)));
-    leaderCards.add(new LeaderCard(null, null, 6, new StorageBehaviour(ResourceType.STONE)));
 
     return new PlayerBoard(usr, leaderCards, market, developCardDeck);
   }
@@ -231,5 +234,73 @@ class PlayerBoardTest {
     assertEquals(warehouse.getNumberOf(ResourceType.GOLD), 0);
     assertEquals(chest.getNumberOf(ResourceType.SERVANT), 1);
     assertEquals(chest.getNumberOf(ResourceType.GOLD), 2);
+  }
+
+  @Test
+  void addMarbleToWarehouseTest() throws IOException, RowOrColumnNotExistsException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+    PlayerBoard playerBoard = initializer();
+
+    playerBoard.shopMarketRow(1);
+    assertEquals(4, playerBoard.getTempMarketMarble().size());
+
+    playerBoard.addMarbleToWarehouse(0);
+    assertEquals(3, playerBoard.getTempMarketMarble().size());
+
+    playerBoard.addMarbleToWarehouse(2);
+    assertThrows(IndexOutOfBoundsException.class, () -> playerBoard.addMarbleToWarehouse(2));
+    assertEquals(2, playerBoard.getTempMarketMarble().size());
+
+    playerBoard.addMarbleToWarehouse(1);
+    playerBoard.addMarbleToWarehouse(0);
+    assertEquals(0, playerBoard.getTempMarketMarble().size());
+  }
+
+  @Test
+  void NotEnoughSpaceExceptionTest() throws IOException, RowOrColumnNotExistsException, NotEnoughSpaceException,
+          MoreWhiteLeaderCardsException, InvalidLeaderCardException, NotEnoughResourcesException, AbuseOfFaithException {
+
+    PlayerBoard playerBoard = initializer();
+    playerBoard.getLeaderCards().get(0).setActive(playerBoard);
+    playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+    playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+    playerBoard.getWarehouse().addResource(ResourceType.GOLD);
+    playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
+    playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
+    playerBoard.getWarehouse().addResource(ResourceType.STONE);
+
+    playerBoard.shopMarketColumn(1);
+
+    assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(2));
+    assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(1));
+    assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(0));
+  }
+
+  @Test
+  void discardLeaderAtBeginningTest() throws IOException, InvalidLeaderCardException {
+    PlayerBoard playerBoard = initializer();
+    List<LeaderCard> support = new ArrayList<>(playerBoard.getLeaderCards());
+
+    playerBoard.discardLeaderAtBegin(2);
+    assertTrue(!playerBoard.getLeaderCards().contains(support.get(2)));
+    assertEquals(playerBoard.getLeaderCards().size(), 3);
+
+    playerBoard.discardLeaderAtBegin(0);
+    assertTrue(!playerBoard.getLeaderCards().contains(support.get(0)));
+    assertEquals(playerBoard.getLeaderCards().size(), 2);
+    assertThrows(InvalidLeaderCardException.class, () -> playerBoard.discardLeaderAtBegin(0));
+  }
+
+  @Test
+  void discardLeaderDuringTheGameTest() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException {
+    PlayerBoard playerBoard = initializer();
+    List<LeaderCard> support = new ArrayList<>(playerBoard.getLeaderCards());
+
+    playerBoard.discardLeaderAtBegin(2);
+    playerBoard.discardLeaderAtBegin(0);
+
+    playerBoard.getLeaderCards().get(0).setActive(playerBoard);
+    assertThrows(InvalidLeaderCardException.class, () -> playerBoard.discardLeader(0));
+    playerBoard.discardLeader(1);
+    assertEquals(1, playerBoard.getLeaderCards().size());
   }
 }
