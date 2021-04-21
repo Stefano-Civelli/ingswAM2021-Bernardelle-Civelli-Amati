@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 public class CardFlag {
+
    private final int level;
    private final DevelopCardColor color;
 

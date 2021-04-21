@@ -11,8 +11,6 @@ import it.polimi.ingsw.utility.Pair;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, MoveForwardObservable {
 
@@ -22,7 +20,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
    private final List<LeaderCard> leaderCards;
    private final Chest chest;
    private final Market market;
-   private Track track;
+   private final Track track;
    private final DevelopCardDeck developCardDeck;
    private List<MarketMarble> tempMarketMarble;
    private Map<ResourceType, Integer> tempResources;
@@ -177,7 +175,10 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
 
          try {
             chest.addResources(product, 1);
-         } catch (NegativeQuantityException e) {} //non si verifica mai perché la sto chiamando io e gli sto passando 1
+         } catch (NegativeQuantityException e) {
+            //non si verifica mai perché la sto chiamando io e gli sto passando 1
+            e.printStackTrace();
+         }
       }
    }
 

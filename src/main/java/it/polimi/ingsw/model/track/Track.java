@@ -16,13 +16,13 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
    */
   public int calculateTrackScore(){
     int points = 0;
-    //total score is obtained by summing the popecards that the player has flipped...
+    //total score is obtained by summing the pope cards that the player has flipped...
     for(int x : popeCards)
       if(x != -1)
         points += x;
       else
         points += 0;
-    //...and the victorypoints of the square he is in
+    //...and the victory points of the square he is in
     points += track[playerPosition].getVictoryPoints();
     return points;
   }

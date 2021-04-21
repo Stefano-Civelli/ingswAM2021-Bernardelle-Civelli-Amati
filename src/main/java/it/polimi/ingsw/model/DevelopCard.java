@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DevelopCard {
-   private  CardFlag cardFlag;
-   private  HashMap<ResourceType, Integer> cost;
-   private  HashMap<ResourceType, Integer> requirement;
-   private  HashMap<ResourceType, Integer> product;
-   private  int victoryPoints;
+   private final CardFlag cardFlag;
+   private final HashMap<ResourceType, Integer> cost;
+   private final HashMap<ResourceType, Integer> requirement;
+   private final HashMap<ResourceType, Integer> product;
+   private final int victoryPoints;
 
    public DevelopCard(CardFlag cardFlag, Map<ResourceType, Integer> cost, Map<ResourceType, Integer> requirement, Map<ResourceType, Integer> product, int victoryPoints) {
       this.cardFlag = cardFlag;
@@ -19,7 +19,6 @@ public class DevelopCard {
       this.product = product != null ? new HashMap<>(product) : new HashMap<>();
       this.victoryPoints = victoryPoints;
    }
-
 
    /**
     * Checks if the player passed as a parameter can buy the card (this)
@@ -33,6 +32,7 @@ public class DevelopCard {
       CardSlots cardSlots = playerBoard.getCardSlots();
       DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
       HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
+
       //apply discount
       for(LeaderCard l : playerBoard.getLeaderCards())
          l.applyDiscount(localCost);

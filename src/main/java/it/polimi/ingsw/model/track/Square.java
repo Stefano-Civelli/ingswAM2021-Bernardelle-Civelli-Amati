@@ -1,8 +1,12 @@
 package it.polimi.ingsw.model.track;
 
 public class Square {
+
+  @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
   private int victoryPoints;
+  @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
   private boolean red;
+  @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
   private int active;
 
   /**

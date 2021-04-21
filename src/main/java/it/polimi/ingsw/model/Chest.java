@@ -48,7 +48,7 @@ public class Chest {
       return;
 
     if(resources.containsKey(resource)) {
-      if (resources.get(resource) - quantity < 0 || quantity < 0)
+      if (resources.get(resource) - quantity < 0)
         throw new NotEnoughResourcesException("you are trying to remove more resources than you have");
 
       if(resources.get(resource) == quantity)

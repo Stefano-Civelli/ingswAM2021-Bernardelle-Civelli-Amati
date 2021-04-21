@@ -18,4 +18,5 @@ public interface InterfacePlayerBoard {
     List<LeaderCard> getLeaderCards();
 
     DevelopCardDeck getDevelopCardDeck();
+
 }

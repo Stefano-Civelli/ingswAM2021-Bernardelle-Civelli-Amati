@@ -10,22 +10,24 @@ import java.util.stream.Collectors;
 
 public class DevelopCardDeck implements EndGameObservable {
 
+   @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because the field value is assigned using reflection
    private List<DevelopCard> developCardList;
    private List<DevelopCard>[][] cardsCube;
-   //observers are added to the Observerlist only for singleplayer game.
+
+   //observers are added to the Observer list only for single player game.
    //So this Class should have an empty observer list if the game is multiplayer
    private final List<EndGameObserver> endGameObserverList = new ArrayList<>();
 
    /**
     * Default constructor because construction is handled by the cardParser method
     */
-   public DevelopCardDeck(){
-   }
+   public DevelopCardDeck() {}
 
    /**
     * this method is called by the cardParser method in GSON class to complete the setup process of this class
     * it creates the card matrix from the card list
     */
+   @SuppressWarnings("unchecked")
    public void setupClass(){
       cardsCube = new ArrayList[3][4];
       List<CardFlag> cardFlagList = developCardList.stream().map(DevelopCard::getCardFlag).distinct().collect(Collectors.toList());
@@ -42,10 +44,11 @@ public class DevelopCardDeck implements EndGameObservable {
     * Shuffles the Deck
     */
    public void shuffleDeck(){
-      for (int i = 0; i < cardsCube.length; i++) {
-         for (int j = 0; j < cardsCube[i].length; j++) {
-            Collections.shuffle(cardsCube[i][j]);
-         }}
+      for (List<DevelopCard>[] lists : cardsCube) {
+         for (List<DevelopCard> list : lists) {
+            Collections.shuffle(list);
+         }
+      }
    }
 
    //TODO probabilmente non serve questo metodo (o magari farlo private)
@@ -55,9 +58,9 @@ public class DevelopCardDeck implements EndGameObservable {
     */
    public ArrayList<DevelopCard> visibleCards() {
       ArrayList<DevelopCard> temp = new ArrayList<>();
-      for (int i = 0; i < cardsCube.length; i++) {
-         for (int j = 0; j < cardsCube[i].length; j++) {
-            temp.add(cardsCube[i][j].get(cardsCube[i][j].size() - 1));
+      for (List<DevelopCard>[] lists : cardsCube) {
+         for (List<DevelopCard> list : lists) {
+            temp.add(list.get(list.size() - 1));
          }
       }
       return temp;
@@ -134,8 +137,8 @@ public class DevelopCardDeck implements EndGameObservable {
       cardsCube[row][column].remove(cardsCube[row][column].size() - 1);
 
       //checks if the column where i removed a card is completly empty call the notifyForEndGame method
-      for (int i = 0; i < cardsCube.length; i++)
-         if (!cardsCube[i][column].isEmpty())
+      for (List<DevelopCard>[] lists : cardsCube)
+         if (!lists[column].isEmpty())
             return;
       notifyForEndGame();
    }

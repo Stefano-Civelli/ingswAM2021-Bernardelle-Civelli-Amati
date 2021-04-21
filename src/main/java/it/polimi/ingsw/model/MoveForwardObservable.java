@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 public interface MoveForwardObservable {
+
   /**
    * add an observer to a list of observers
    * @param observerToAdd
@@ -17,5 +18,6 @@ public interface MoveForwardObservable {
    * notify the moveForward observers that they have to move their faith marker
    */
   void notifyForMoveForward();
+
 }
 
