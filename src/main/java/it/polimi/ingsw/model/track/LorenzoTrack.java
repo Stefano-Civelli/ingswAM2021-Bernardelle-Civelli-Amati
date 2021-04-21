@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model.track;
 import it.polimi.ingsw.controller.EndGameObserver;
+import it.polimi.ingsw.model.EndGameObservable;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class LorenzoTrack implements VaticanReportObservable, EndGameObservable{
+public class LorenzoTrack implements VaticanReportObservable, EndGameObservable {
   Square[] track;
   int playerPosition;
   final Set<VaticanReportObserver> vaticanReportObserverList = new HashSet<>();

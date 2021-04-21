@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.track;
+package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.EndGameObserver;
 
 public interface EndGameObservable {
