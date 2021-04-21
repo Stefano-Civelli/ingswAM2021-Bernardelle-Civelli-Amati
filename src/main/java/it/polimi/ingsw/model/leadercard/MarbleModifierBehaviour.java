@@ -9,8 +9,6 @@ public class MarbleModifierBehaviour extends CardBehaviour {
 
    private ResourceType onWhite;
 
-   public MarbleModifierBehaviour() {}
-
    public MarbleModifierBehaviour(ResourceType resourceOnWhite) {
       this.onWhite = resourceOnWhite;
    }

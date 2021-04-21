@@ -8,8 +8,6 @@ public class DiscountBehaviour extends CardBehaviour{
 
    private ResourceType resourceToDiscount;
 
-   public DiscountBehaviour() {}
-
    public DiscountBehaviour(ResourceType resourceToDiscount) {
       this.resourceToDiscount = resourceToDiscount;
    }

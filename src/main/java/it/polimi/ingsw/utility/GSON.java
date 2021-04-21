@@ -14,7 +14,6 @@ public class GSON{
 
    public static DevelopCardDeck cardParser(File file) throws IOException {
       GsonBuilder builder = new GsonBuilder();
-      //builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
       Gson gson = builder.create();
       FileInputStream inputStream = new FileInputStream(file);
       InputStreamReader reader = new InputStreamReader(inputStream);
@@ -26,7 +25,6 @@ public class GSON{
 
    public static Track trackParser(File file) throws IOException {
       GsonBuilder builder = new GsonBuilder();
-      //builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
       Gson gson = builder.create();
       FileInputStream inputStream = new FileInputStream(file);
       InputStreamReader reader = new InputStreamReader(inputStream);
@@ -37,7 +35,6 @@ public class GSON{
 
    public static LorenzoTrack lorenzoTrackParser(File file) throws IOException {
       GsonBuilder builder = new GsonBuilder();
-      //builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
       Gson gson = builder.create();
       FileInputStream inputStream = new FileInputStream(file);
       InputStreamReader reader = new InputStreamReader(inputStream);

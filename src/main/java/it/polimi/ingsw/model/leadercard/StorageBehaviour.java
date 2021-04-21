@@ -9,8 +9,6 @@ public class StorageBehaviour extends CardBehaviour{
 
    private ResourceType storageType;
 
-   public StorageBehaviour() {}
-
    public StorageBehaviour(ResourceType storageType) {
       this.storageType = storageType;
    }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 
+import java.util.Locale;
 
 public enum ResourceType {
   STONE, GOLD, SERVANT, FAITH, SHIELD;
