@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.modelexceptions;
 
-public class InvalidCardException extends Exception {
+public class InvalidCardException extends ModelException {
 
    public InvalidCardException() {
       super();

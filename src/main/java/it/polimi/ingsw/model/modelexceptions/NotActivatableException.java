@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.modelexceptions;
 
-public class NotActivatableException extends Exception{
+public class NotActivatableException extends ModelException {
 
    public NotActivatableException() {
       super();

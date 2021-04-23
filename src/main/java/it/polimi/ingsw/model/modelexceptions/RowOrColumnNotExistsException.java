@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.modelexceptions;
 
-public class RowOrColumnNotExistsException extends Exception {
+public class RowOrColumnNotExistsException extends ModelException {
 
     public RowOrColumnNotExistsException() {
         super();

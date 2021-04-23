@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.modelexceptions;
 
-public class NegativeQuantityException extends Exception {
+public class NegativeQuantityException extends ModelException {
 
    public NegativeQuantityException() {
       super();

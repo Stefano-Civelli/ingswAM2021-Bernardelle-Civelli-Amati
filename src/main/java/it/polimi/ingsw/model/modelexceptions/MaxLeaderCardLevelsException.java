@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.modelexceptions;
 
-public class MaxLeaderCardLevelsException extends Exception {
+public class MaxLeaderCardLevelsException extends ModelException {
 
     public MaxLeaderCardLevelsException() {
         super();

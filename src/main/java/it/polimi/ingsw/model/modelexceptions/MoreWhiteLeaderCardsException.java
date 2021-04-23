@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.modelexceptions;
 
-public class MoreWhiteLeaderCardsException extends Exception {
+public class MoreWhiteLeaderCardsException extends ModelException {
 
     public MoreWhiteLeaderCardsException() {
         super();
