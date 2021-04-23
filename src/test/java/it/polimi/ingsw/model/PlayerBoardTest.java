@@ -199,7 +199,7 @@ class PlayerBoardTest {
   }
 
   @Test
-  void baseProductionTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException {
+  void baseProductionTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException, AlreadyProducedException {
     PlayerBoard playerBoard = initializer();
     Chest chest = playerBoard.getChest();
     Warehouse warehouse = playerBoard.getWarehouse();
@@ -217,7 +217,7 @@ class PlayerBoardTest {
   }
 
   @Test
-  void baseProductionWithChestRemovingTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException {
+  void baseProductionWithChestRemovingTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException, AlreadyProducedException {
     PlayerBoard playerBoard = initializer();
     Chest chest = playerBoard.getChest();
     Warehouse warehouse = playerBoard.getWarehouse();
@@ -257,7 +257,7 @@ class PlayerBoardTest {
 
   @Test
   void NotEnoughSpaceExceptionTest() throws IOException, RowOrColumnNotExistsException, NotEnoughSpaceException,
-          MoreWhiteLeaderCardsException, InvalidLeaderCardException, NotEnoughResourcesException, AbuseOfFaithException {
+          InvalidLeaderCardException, NotEnoughResourcesException, AbuseOfFaithException {
 
     PlayerBoard playerBoard = initializer();
     playerBoard.getLeaderCards().get(0).setActive(playerBoard);
@@ -270,6 +270,7 @@ class PlayerBoardTest {
 
     playerBoard.shopMarketColumn(1);
 
+
     assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(2));
     assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(1));
     assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(0));
@@ -281,11 +282,11 @@ class PlayerBoardTest {
     List<LeaderCard> support = new ArrayList<>(playerBoard.getLeaderCards());
 
     playerBoard.discardLeaderAtBegin(2);
-    assertTrue(!playerBoard.getLeaderCards().contains(support.get(2)));
+    assertFalse(playerBoard.getLeaderCards().contains(support.get(2)));
     assertEquals(playerBoard.getLeaderCards().size(), 3);
 
     playerBoard.discardLeaderAtBegin(0);
-    assertTrue(!playerBoard.getLeaderCards().contains(support.get(0)));
+    assertFalse(playerBoard.getLeaderCards().contains(support.get(0)));
     assertEquals(playerBoard.getLeaderCards().size(), 2);
     assertThrows(InvalidLeaderCardException.class, () -> playerBoard.discardLeaderAtBegin(0));
   }

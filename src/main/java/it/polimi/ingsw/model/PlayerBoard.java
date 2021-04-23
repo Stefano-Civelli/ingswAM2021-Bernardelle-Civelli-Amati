@@ -27,6 +27,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
    private int tempIndexWhiteToAdd;
    private final File trackConfigFile = new File("src/SquareConfig.json");
    private final Set<MoveForwardObserver> moveForwardObserverList = new HashSet<>();
+   private final boolean[] alreadyProduced;
 
    public PlayerBoard(String username, List<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck) throws IOException {
       this.username = username;
@@ -39,6 +40,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
       this.developCardDeck = developCardDeck;
       this.tempMarketMarble = new ArrayList<>();
       this.tempResources = new HashMap<>();
+      this.alreadyProduced = new boolean[this.cardSlots.getNumberOfCardSlots() + 2];
+      Arrays.fill(this.alreadyProduced, false);
    }
 
    /**
@@ -165,7 +168,10 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
     * @param product, resource that the player wants to gain
     * @throws AbuseOfFaithException if one of the 3 resources is faith, he can't throw faith and he can't gain faith
     */
-   public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product) throws AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException {
+   public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product)
+           throws AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException, AlreadyProducedException {
+      if(alreadyProduced[0])
+         throw new AlreadyProducedException();
       if(warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) > 0 && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) > 0) {
             int remainingToRemove = warehouse.removeResources(resource1,1);
             chest.removeResources(resource1, remainingToRemove);
@@ -180,6 +186,28 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
             e.printStackTrace();
          }
       }
+   }
+
+   public boolean areMarblesFinished() {
+      return this.tempMarketMarble.isEmpty();
+   }
+
+   public void developProduce(int slotIndex) throws NotActivatableException, AlreadyProducedException {
+      if(this.alreadyProduced[slotIndex + 1])
+         throw new AlreadyProducedException();
+      this.cardSlots.returnTopCard(slotIndex).produce(this);
+   }
+
+   public void leaderProduce(int leaderIndex, ResourceType product) throws NotEnoughResourcesException,
+           AbuseOfFaithException, NeedAResourceToAddException, AlreadyProducedException {
+      if(this.alreadyProduced[cardSlots.getNumberOfCardSlots() + leaderIndex + 1])
+         throw new AlreadyProducedException();
+      this.leaderCards.get(leaderIndex).getProduct(product, this);
+   }
+
+   public void enterFinalTurnPhase() {
+      this.chest.endOfTurnMapsMerge();
+      Arrays.fill(this.alreadyProduced, false);
    }
 
    public String getUsername() {
