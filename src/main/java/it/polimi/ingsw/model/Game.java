@@ -35,9 +35,13 @@ public class Game {
       for(PlayerBoard x : playerBoardList)
          if(x.getUsername().equals(username))
             throw new InvalidUsernameException("This username is already taken");
-
       PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, market, developCardDeck);
       playerBoardList.add(playerBoard);
+   }
+
+   public String startGame() {
+      Collections.shuffle(this.playerBoardList);
+      return this.playerBoardList.get(0).getUsername();
    }
 
    public PlayerBoard getPlayerBoard(String userName) {
