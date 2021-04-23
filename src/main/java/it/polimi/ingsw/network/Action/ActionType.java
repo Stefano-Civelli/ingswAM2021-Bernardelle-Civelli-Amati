@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.messages;
+package it.polimi.ingsw.network.Action;
 
 public enum ActionType {
 
@@ -6,6 +6,8 @@ public enum ActionType {
    MARKET_UPDATE,
    CHOSE_RESOURCES,
    PRODUCE,
+   BASE_PRODUCE,
+   LEADER_PRODUCE,
    SHOP_MARKET,
    BUY_CARD,
    DISCARD_LEADER,
