@@ -40,6 +40,9 @@ public class Game {
       playerBoardList.add(playerBoard);
    }
 
+   public PlayerBoard getPlayerBoard(String userName) {
+      return playerBoardList.stream().filter(playerBoard -> playerBoard.getUsername().equals(userName))
+              .collect(Collectors.toList()).get(0);
+   }
 
-   //il current player direi che non lo tiene game ma il turn manager
 }
