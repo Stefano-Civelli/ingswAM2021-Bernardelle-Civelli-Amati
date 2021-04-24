@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.Action;
+package it.polimi.ingsw.network.action;
 
 import it.polimi.ingsw.controller.IGameState;
 import it.polimi.ingsw.controller.PhaseType;

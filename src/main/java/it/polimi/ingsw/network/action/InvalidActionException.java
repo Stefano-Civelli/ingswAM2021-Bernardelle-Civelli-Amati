@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.Action;
+package it.polimi.ingsw.network.action;
 
 public class InvalidActionException extends Exception {
 

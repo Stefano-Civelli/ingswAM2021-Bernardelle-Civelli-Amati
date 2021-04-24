@@ -1,11 +1,11 @@
 package it.polimi.ingsw.controller;
 
 
-import it.polimi.ingsw.network.Action.ActionType;
+import it.polimi.ingsw.network.action.ActionType;
 
 import java.util.List;
 
-import static it.polimi.ingsw.network.Action.ActionType.*;
+import static it.polimi.ingsw.network.action.ActionType.*;
 
 public enum PhaseType {
 

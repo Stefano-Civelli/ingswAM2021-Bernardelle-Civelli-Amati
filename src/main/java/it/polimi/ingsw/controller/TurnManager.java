@@ -3,8 +3,8 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.modelexceptions.ModelException;
-import it.polimi.ingsw.network.Action.Action;
-import it.polimi.ingsw.network.Action.InvalidActionException;
+import it.polimi.ingsw.network.action.Action;
+import it.polimi.ingsw.network.action.InvalidActionException;
 import it.polimi.ingsw.network.messages.Message;
 
 import java.io.File;
