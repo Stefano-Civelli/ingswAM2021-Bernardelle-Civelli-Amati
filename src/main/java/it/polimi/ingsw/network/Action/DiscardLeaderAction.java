@@ -16,7 +16,15 @@ public class DiscardLeaderAction extends Action {
         if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
             gameState.getGame().getPlayerBoard(super.userName).enterFinalTurnPhase();
         gameState.getGame().getPlayerBoard(super.userName).discardLeader(this.leaderCardIndex);
-        return gameState.getCurrentPhase() == PhaseType.PRODUCING ? PhaseType.FINAL : PhaseType.INITIAL;
+        if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
+            return PhaseType.FINAL;
+        if(gameState.getCurrentPhase() == PhaseType.SETUP_DISCARDLEADER) {
+            if(gameState.getGame().getPlayerBoard(super.userName).getLeaderCards().size() > 2)
+                return PhaseType.SETUP_DISCARDLEADER;
+            else
+                return PhaseType.END_SETUP;
+        }
+        return PhaseType.INITIAL;
     }
 
 }

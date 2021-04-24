@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 
 public class Game {
 
-   private LeaderCardDeck leaderCardDeck;
-   private Market market;
-   private DevelopCardDeck developCardDeck;
-   private List<PlayerBoard> playerBoardList;
+   private final LeaderCardDeck leaderCardDeck;
+   private final Market market;
+   private final DevelopCardDeck developCardDeck;
+   private final List<PlayerBoard> playerBoardList;
 
    //mettere i due file nella classe che chiama il costruttore game, oppure mettere direttamente nel main e propaghiamo che é meglio
    //private final File cardConfigFile = new File("src/DevelopCardConfig.json");
@@ -44,9 +44,22 @@ public class Game {
       return this.playerBoardList.get(0).getUsername();
    }
 
-   public PlayerBoard getPlayerBoard(String userName) {
-      return playerBoardList.stream().filter(playerBoard -> playerBoard.getUsername().equals(userName))
-              .collect(Collectors.toList()).get(0);
+   public String nextPlayer(String currentPlayer) throws InvalidUsernameException {
+      for(int i = 0; i < this.playerBoardList.size(); i++)
+         if(this.playerBoardList.get(i).getUsername().equals(currentPlayer))
+            return i + 1 < this.playerBoardList.size()
+                    ? this.playerBoardList.get(i + 1).getUsername()
+                    : this.playerBoardList.get(0).getUsername();
+      throw new InvalidUsernameException();
+   }
+
+   public PlayerBoard getPlayerBoard(String username) throws InvalidUsernameException {
+      try {
+         return playerBoardList.stream().filter(playerBoard -> playerBoard.getUsername().equals(username))
+                 .collect(Collectors.toList()).get(0);
+      } catch (IndexOutOfBoundsException e) {
+         throw new InvalidUsernameException();
+      }
    }
 
 }

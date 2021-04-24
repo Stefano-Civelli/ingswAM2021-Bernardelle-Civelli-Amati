@@ -28,15 +28,23 @@ public class TurnManager implements IGameState {
         this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
     }
 
-    public synchronized Message handleAction(Action action) {
+    public synchronized Message handleAction(Action action) throws InvalidUsernameException {
         //TODO
         // sostituire i new Message con i messaggi corretti e spezzare la ModelException nelle varie eccezioni possibili
         try {
-            action.performAction(this);
+            this.currentPhase = action.performAction(this);
         } catch (InvalidActionException e) {
             return new Message();
         } catch (ModelException e) {
             return new Message();
+        }
+        if(this.currentPhase == PhaseType.END_SETUP) {
+            this.currentPlayer = this.game.nextPlayer(this.currentPlayer);
+            this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
+        }
+        if(this.currentPhase == PhaseType.END) {
+            this.currentPlayer = this.game.nextPlayer(this.currentPlayer);
+            this.currentPhase = PhaseType.INITIAL;
         }
         return new Message();
     }
