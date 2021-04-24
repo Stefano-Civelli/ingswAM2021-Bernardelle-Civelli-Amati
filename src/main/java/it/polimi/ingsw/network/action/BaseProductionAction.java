@@ -14,7 +14,7 @@ public class BaseProductionAction extends Action {
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, ModelException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
-        gameState.getGame().getPlayerBoard(super.userName).baseProduction(this.resource1, this.resource2, this.product);
+        gameState.getGame().getPlayerBoard(super.username).baseProduction(this.resource1, this.resource2, this.product);
         return PhaseType.PRODUCING;
     }
 

@@ -13,8 +13,8 @@ public class InsertMarbleAction extends Action {
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, ModelException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
-        gameState.getGame().getPlayerBoard(super.userName).addMarbleToWarehouse(this.marbleIndex);
-        return gameState.getGame().getPlayerBoard(super.userName).areMarblesFinished()
+        gameState.getGame().getPlayerBoard(super.username).addMarbleToWarehouse(this.marbleIndex);
+        return gameState.getGame().getPlayerBoard(super.username).areMarblesFinished()
                 ? PhaseType.FINAL : PhaseType.SHOPPING;
     }
 

@@ -10,7 +10,7 @@ public class EndTurnAction extends Action {
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, ModelException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
-        gameState.getGame().getPlayerBoard(super.userName).enterFinalTurnPhase();
+        gameState.getGame().getPlayerBoard(super.username).enterFinalTurnPhase();
         return gameState.getCurrentPhase() == PhaseType.SETUP_DISCARDLEADER ? PhaseType.END_SETUP : PhaseType.END;
     }
 

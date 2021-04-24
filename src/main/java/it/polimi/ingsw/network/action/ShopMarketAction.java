@@ -17,9 +17,9 @@ public class ShopMarketAction extends Action {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
         if(inRow)
-            gameState.getGame().getPlayerBoard(super.userName).shopMarketRow(index);
+            gameState.getGame().getPlayerBoard(super.username).shopMarketRow(index);
         else
-            gameState.getGame().getPlayerBoard(super.userName).shopMarketColumn(index);
+            gameState.getGame().getPlayerBoard(super.username).shopMarketColumn(index);
         return PhaseType.SHOPPING;
     }
 

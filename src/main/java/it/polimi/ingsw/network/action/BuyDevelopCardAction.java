@@ -13,7 +13,7 @@ public class BuyDevelopCardAction extends Action {
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, ModelException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
-        gameState.getGame().getPlayerBoard(super.userName).addDevelopCard(row, column, cardSlot);
+        gameState.getGame().getPlayerBoard(super.username).addDevelopCard(row, column, cardSlot);
         return PhaseType.FINAL;
     }
 

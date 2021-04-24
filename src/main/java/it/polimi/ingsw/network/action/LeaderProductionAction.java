@@ -17,7 +17,7 @@ public class LeaderProductionAction extends Action {
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, ModelException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
-        gameState.getGame().getPlayerBoard(super.userName).leaderProduce(this.leaderCardIndex, this.product);
+        gameState.getGame().getPlayerBoard(super.username).leaderProduce(this.leaderCardIndex, this.product);
         return PhaseType.PRODUCING;
     }
 }

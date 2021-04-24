@@ -14,9 +14,9 @@ public class ActivateLeaderAction extends Action {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
         if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
-            gameState.getGame().getPlayerBoard(super.userName).enterFinalTurnPhase();
-        gameState.getGame().getPlayerBoard(super.userName).getLeaderCards().get(this.leaderCard)
-                .setActive(gameState.getGame().getPlayerBoard(super.userName));
+            gameState.getGame().getPlayerBoard(super.username).enterFinalTurnPhase();
+        gameState.getGame().getPlayerBoard(super.username).getLeaderCards().get(this.leaderCard)
+                .setActive(gameState.getGame().getPlayerBoard(super.username));
         return gameState.getCurrentPhase() == PhaseType.PRODUCING ? PhaseType.FINAL : PhaseType.INITIAL;
     }
 

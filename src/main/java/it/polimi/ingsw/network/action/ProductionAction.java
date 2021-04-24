@@ -13,7 +13,7 @@ public class ProductionAction extends Action {
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, ModelException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
-        gameState.getGame().getPlayerBoard(super.userName).developProduce(this.cardIndex);
+        gameState.getGame().getPlayerBoard(super.username).developProduce(this.cardIndex);
         return PhaseType.PRODUCING;
     }
 
