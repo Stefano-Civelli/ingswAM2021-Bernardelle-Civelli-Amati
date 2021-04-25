@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.action.Action;
 import it.polimi.ingsw.utility.GSON;
 
+//TODO aggiugere receiver e setReceiver
 public class Message {
 
    //provare a vedere se deserializzando LoginMessage posso impostare questi attributi private

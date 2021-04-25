@@ -65,7 +65,7 @@ public class Server implements ModelObserver {
             /* accepts connections; for every connection accepted,
              * create a new Thread executing a ClientHandler */
             Socket clientSocket = socket.accept();
-            clientSocket.setSoTimeout(ConfigParameters.SERVER_TIMEOUT * 1000); // NEEDED TO REALIZE THAT A CLIENT HAS DISCONNECTED UNCLEANLY
+            //clientSocket.setSoTimeout(ConfigParameters.SERVER_TIMEOUT * 1000); // NEEDED TO REALIZE THAT A CLIENT HAS DISCONNECTED UNCLEANLY
             ServerClientHandler clientHandler = new ServerClientHandler(clientSocket, server);
             new Thread(clientHandler).start();
          } catch (IOException e) {

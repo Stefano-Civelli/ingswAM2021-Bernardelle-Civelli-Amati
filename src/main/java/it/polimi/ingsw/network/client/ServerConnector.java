@@ -24,6 +24,8 @@ public class ServerConnector {
       out = new PrintWriter(server.getOutputStream());
       in = new Scanner(server.getInputStream());
 
+      client.displayLogin();
+
       while (true) {
         Message msg = messageParserFromJson(in.nextLine());
         client.handleMessage(msg);
