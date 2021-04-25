@@ -8,27 +8,30 @@ import it.polimi.ingsw.utility.GSON;
 public class Message {
 
   //provare a vedere se deserializzando LoginMessage posso impostare questi attributi private
-  private String username = null; //username del Client mittente
+  private String username = null; //username del Client mittente,
   private MessageType messageType;
   private String payload = null; //usiamo il payload in questo modo:
                                  //-da Server a Client per 1)notificare gli update -> Oggetti serializzati 2)messaggi di servizio;
                                  //-da Client a Server per contenere le Action in formato Json
+
   private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
 
-  public Message(MessageType messageType) { this.messageType = messageType; }
+  public Message(MessageType messageType) {
+    this.messageType = messageType;
+  }
 
   public Message(MessageType messageType, String username) {
     this.messageType = messageType;
     this.username = username;
   }
 
-  public Message(MessageType messageType, String username, String payload){
+  public Message(MessageType messageType, String username, String payload) {
     this.messageType = messageType;
     this.username = username;
     this.payload = payload;
   }
 
-  public Message(MessageType messageType, String username, Object object){
+  public Message(MessageType messageType, String username, Object object) {
     this.messageType = messageType;
     this.username = username;
     this.payload = gsonBuilder.toJson(object);
@@ -46,7 +49,4 @@ public class Message {
     this.username = usr;
   }
 
-
- //------------------------------------------------------
-  public void setPlayer(String player) { return; }
 }
