@@ -30,7 +30,7 @@ public class Game {
       this.playerBoardList = new ArrayList<>();
    }
 
-
+   //need also to check that the max number of players in this lobby isn't exceeded -> that's not necessary
    public void addPlayer(String username) throws IOException {
       List<LeaderCard> fourInitialLeaderCardsForPlayer = leaderCardDeck.drawFourCards();
 
