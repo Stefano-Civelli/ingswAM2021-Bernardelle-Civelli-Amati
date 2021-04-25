@@ -112,6 +112,7 @@ public class ServerClientHandler implements Runnable {
       String jsonMessage = gsonBuilder.toJson(message);
       jsonMessage = jsonMessage.replaceAll("\n", " ");
       out.println(jsonMessage);
+      out.flush();
 
    }
 

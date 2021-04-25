@@ -45,6 +45,7 @@ public class ServerConnector {
   //TODO
   private Message messageParserFromJson(String in){
     Message message = null;
+    System.out.println(in);
 
     return message;
   }

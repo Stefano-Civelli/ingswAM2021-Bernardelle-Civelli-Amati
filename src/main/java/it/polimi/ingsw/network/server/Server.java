@@ -32,7 +32,7 @@ public class Server implements ModelObserver {
    // contains all the connected clients, no matter if they are logged (comodo usarla per pingare)
    private TurnManager turnManager;
    private int playersNumber = 0;
-   private List<String> loggedPlayers; //si sono già anche loggati oltre che connessi (cioè hanno inserito l'username)
+   private final List<String> loggedPlayers = new ArrayList<>(); //si sono già anche loggati oltre che connessi (cioè hanno inserito l'username)
 
 
    public static void main(String[] args) {
@@ -193,7 +193,7 @@ public class Server implements ModelObserver {
 
    public boolean isTaken(String username){
       for(ServerClientHandler s : connectedClients)
-         if(s.getUsername().equals(username))
+         if(username.equals(s.getUsername()))
             return true;
 
       return false;
