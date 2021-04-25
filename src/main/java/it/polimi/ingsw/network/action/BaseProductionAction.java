@@ -8,7 +8,9 @@ import it.polimi.ingsw.model.modelexceptions.ModelException;
 public class BaseProductionAction extends Action {
 
     @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because the field value is assigned using reflection
-    private ResourceType resource1, resource2, product;
+    private ResourceType resource1,
+            resource2,
+            product;
 
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, ModelException {
