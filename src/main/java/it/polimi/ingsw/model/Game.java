@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 
 import java.io.File;
@@ -22,9 +23,9 @@ public class Game {
    //private final File cardConfigFile = new File("src/DevelopCardConfig.json");
    //private final File leaderCardConfigFile = new File("src/LeaderCardConfig.json");
 
-   public Game(File cardConfigFile, File leaderCardConfigFile) throws IOException {
-      this.leaderCardDeck = GSON.leaderCardParser(leaderCardConfigFile);
-      this.developCardDeck = GSON.cardParser(cardConfigFile);
+   public Game() throws IOException {
+      this.leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
+      this.developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
       this.market = new Market();
       this.playerBoardList = new ArrayList<>();
    }

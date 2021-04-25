@@ -13,7 +13,7 @@ public enum ActionType {
    DISCARD_LEADER,
    END_TURN,
    ACTIVATE_LEADER,
-   PLACE_MARBLE,
+   INSERT_MARBLE,
    CHOOSE_WHITE_LEADER;
 
    private String typeOfMessage;

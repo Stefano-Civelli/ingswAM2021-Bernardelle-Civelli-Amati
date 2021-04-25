@@ -21,5 +21,4 @@ public abstract class Action {
     protected boolean checkValid(IGameState gameState) {
         return gameState.getCurrentPlayer().equals(this.username) && gameState.getCurrentPhase().isValid(this.type);
     }
-
 }
