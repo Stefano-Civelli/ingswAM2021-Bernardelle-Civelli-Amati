@@ -4,6 +4,7 @@ import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.TurnManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.ModelObserver;
+import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -144,7 +145,7 @@ public class Server implements ModelObserver {
    }
 
    private void start() {
-      Game game;
+      Game game = null;
       try {
          if(playersNumber == 1)
             game = new SinglePlayer();
@@ -155,7 +156,12 @@ public class Server implements ModelObserver {
          sendToClient(new Message(MessageType.GENERIC_MESSAGE));
       }
 
-      turnManager = new TurnManager(loggedPlayers, game);
+      try {
+         turnManager = new TurnManager(game, loggedPlayers);
+      }catch (IOException e) {
+         //TODO sistemare il costruttore di playerboard
+         e.printStackTrace();
+      }
       sendToClient(new Message(MessageType.GAME_STARTED));
    }
 
