@@ -53,7 +53,9 @@ public class ServerClientHandler implements Runnable {
       server.addClient(this); // probabilmente serve aggiungerlo ora perchè così so che non posso far connettere + player di quanti sono rischiesti
 
          while (true) {
-            Message message = messageParser(in.nextLine());
+            String messageString = in.nextLine();
+            messageString = messageString.replaceAll("\n", " "); //devo inviare senza a capo
+            Message message = messageParser(messageString);
             messageReceived(message);
          }
 

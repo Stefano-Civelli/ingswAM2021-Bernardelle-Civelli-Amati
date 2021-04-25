@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.model.DevelopCardColor;
+
 //fare attenzione perché per la CLI posso printare con lo stesso tipo (ad esempio LOGIN_FAILED) cose diverse (grazie al payload), pensare se puó essere fatto anche con GUI
 public enum MessageType {
 
@@ -30,4 +32,14 @@ public enum MessageType {
 
   ERROR,
   NEXT_STATE;
+
+  public static MessageType fromValue(String value) {
+    for (MessageType messageType : values()) {
+      if (messageType.name().equals(value)) {
+        return messageType;
+      }
+    }
+    throw new IllegalArgumentException("invalid string value passed: " + value);
+  }
+
 }
