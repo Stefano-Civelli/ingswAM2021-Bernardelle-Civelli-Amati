@@ -16,8 +16,8 @@ public class SinglePlayer extends Game {
    private final LorenzoTrack lorenzoTrack;
    private final File lorenzoTrackConfigFile = new File("src/SquareConfig.json");
 
-   public SinglePlayer(File cardConfigFile, File leaderCardConfigFile) throws IOException {
-      super(cardConfigFile, leaderCardConfigFile);
+   public SinglePlayer() throws IOException {
+      super();
       this.lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
 
       this.actionTokenStack = new ArrayList<ActionToken>(Arrays.asList(

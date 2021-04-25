@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.leadercard.*;
 import it.polimi.ingsw.model.track.LorenzoTrack;
 import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.network.action.*;
 
 import java.io.*;
 
@@ -63,6 +64,30 @@ public class GSON{
       reader.close();
       leaderCardDeck.shuffleLeaderList();
       return leaderCardDeck;
+   }
+
+   //in caso non funzioni passare il Type dell'action e usare switch per creare un Action sottoclassata
+   public static Action buildAction(String payload){
+      RuntimeTypeAdapterFactory<Action> actionAdapter = RuntimeTypeAdapterFactory.of(Action.class, "Type");
+      actionAdapter
+              .registerSubtype(InsertMarbleAction.class, "INSERT_MARBLE")
+              .registerSubtype(ActivateLeaderAction.class, "ACTIVATE_LEADER")
+              .registerSubtype(BaseProductionAction.class, "BASE_PRODUCE")
+              .registerSubtype(BuyDevelopCardAction.class, "BUY_CARD")
+              .registerSubtype(DiscardLeaderAction.class, "DISCARD_LEADER")
+              .registerSubtype(LeaderProductionAction.class, "LEADER_PRODUCE")
+              .registerSubtype(ProductionAction.class, "PRODUCE")
+              .registerSubtype(ShopMarketAction.class, "SHOP_MARKET");
+      //man mano che si aggiungono sottoclassi di Action registarle anche qui
+
+      GsonBuilder builder = new GsonBuilder()
+              .enableComplexMapKeySerialization()
+              .registerTypeAdapterFactory(actionAdapter);
+      Gson gson = builder.create();
+
+      Action action = gson.fromJson(payload, Action.class);
+
+      return action;
    }
 }
 
