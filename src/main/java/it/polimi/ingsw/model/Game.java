@@ -29,12 +29,10 @@ public class Game {
       this.playerBoardList = new ArrayList<>();
    }
 
-   //need also to check that the max number of players in this lobby isn't exceeded -> that's not necessary
-   public void addPlayer(String username) throws IOException, InvalidUsernameException {
+
+   public void addPlayer(String username) throws IOException {
       List<LeaderCard> fourInitialLeaderCardsForPlayer = leaderCardDeck.drawFourCards();
-      for(PlayerBoard x : playerBoardList)
-         if(x.getUsername().equals(username))
-            throw new InvalidUsernameException("This username is already taken");
+
       PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, market, developCardDeck);
       playerBoardList.add(playerBoard);
    }

@@ -12,33 +12,30 @@ import java.io.*;
 
 public class GSON{
 
+   private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
+
+
    public static DevelopCardDeck cardParser(File file) throws IOException {
-      GsonBuilder builder = new GsonBuilder();
-      Gson gson = builder.create();
       FileInputStream inputStream = new FileInputStream(file);
       InputStreamReader reader = new InputStreamReader(inputStream);
-      DevelopCardDeck developCardDeck = gson.fromJson(reader, DevelopCardDeck.class);
+      DevelopCardDeck developCardDeck = gsonBuilder.fromJson(reader, DevelopCardDeck.class);
       reader.close();
       developCardDeck.setupClass();
       return developCardDeck;
    }
 
    public static Track trackParser(File file) throws IOException {
-      GsonBuilder builder = new GsonBuilder();
-      Gson gson = builder.create();
       FileInputStream inputStream = new FileInputStream(file);
       InputStreamReader reader = new InputStreamReader(inputStream);
-      Track track = gson.fromJson(reader, Track.class);
+      Track track = gsonBuilder.fromJson(reader, Track.class);
       reader.close();
       return track;
    }
 
    public static LorenzoTrack lorenzoTrackParser(File file) throws IOException {
-      GsonBuilder builder = new GsonBuilder();
-      Gson gson = builder.create();
       FileInputStream inputStream = new FileInputStream(file);
       InputStreamReader reader = new InputStreamReader(inputStream);
-      LorenzoTrack lorenzoTrack = gson.fromJson(reader, LorenzoTrack.class);
+      LorenzoTrack lorenzoTrack = gsonBuilder.fromJson(reader, LorenzoTrack.class);
       reader.close();
       return lorenzoTrack;
    }
