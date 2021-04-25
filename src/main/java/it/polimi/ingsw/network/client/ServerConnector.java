@@ -45,6 +45,7 @@ public class ServerConnector {
   //TODO
   private Message messageParserFromJson(String in){
     Message message = null;
+
     return message;
   }
 
@@ -56,6 +57,7 @@ public class ServerConnector {
   }
 
   public void sendToServer(String msg) {
+    msg = msg.replaceAll("\n", " "); //devo inviare senza a capo
     out.println(msg);
     out.flush();
   }
