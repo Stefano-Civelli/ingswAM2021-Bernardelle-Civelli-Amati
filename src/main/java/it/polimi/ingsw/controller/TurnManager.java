@@ -36,7 +36,7 @@ public class TurnManager implements IGameState {
     private PhaseType currentPhase = null;
     private final Game game;
 
-    public TurnManager(Game game, List<String> usernames) throws IOException, InvalidUsernameException {
+    public TurnManager(Game game, List<String> usernames) throws IOException {
         this.game = game;
         for(String username : usernames)
             this.game.addPlayer(username);
