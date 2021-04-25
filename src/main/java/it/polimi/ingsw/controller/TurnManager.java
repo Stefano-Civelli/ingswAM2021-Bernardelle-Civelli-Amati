@@ -6,11 +6,31 @@ import it.polimi.ingsw.model.modelexceptions.ModelException;
 import it.polimi.ingsw.network.action.Action;
 import it.polimi.ingsw.network.action.InvalidActionException;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 
-import java.io.File;
 import java.io.IOException;
 
 public class TurnManager implements IGameState {
+
+    private static class GameState {
+
+        private final String player;
+        private final PhaseType phase;
+
+        public GameState(String player, PhaseType phase) {
+            this.player = player;
+            this.phase = phase;
+        }
+
+        public String getPlayer() {
+            return player;
+        }
+
+        public PhaseType getPhase() {
+            return phase;
+        }
+    }
+
     private String currentPlayer = null;
     private PhaseType currentPhase = null;
     private final Game game;
@@ -28,25 +48,33 @@ public class TurnManager implements IGameState {
         this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
     }
 
-    public synchronized /*Message*/ void handleAction(Action action) throws InvalidUsernameException {
+    public synchronized Message handleAction(Action action) {
         //TODO
         // sostituire i new Message con i messaggi corretti e spezzare la ModelException nelle varie eccezioni possibili
         try {
             this.currentPhase = action.performAction(this);
         } catch (InvalidActionException e) {
-            //return new Message();
+            return new Message(MessageType.ERROR, null, "Error");
         } catch (ModelException e) {
-            //return new Message();
+            return new Message(MessageType.ERROR, null, "Error");
         }
         if(this.currentPhase == PhaseType.END_SETUP) {
-            this.currentPlayer = this.game.nextPlayer(this.currentPlayer);
+            try {
+                this.currentPlayer = this.game.nextPlayer(this.currentPlayer);
+            } catch (InvalidUsernameException e) {
+                e.printStackTrace();
+            }
             this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
         }
         if(this.currentPhase == PhaseType.END) {
-            this.currentPlayer = this.game.nextPlayer(this.currentPlayer);
+            try {
+                this.currentPlayer = this.game.nextPlayer(this.currentPlayer);
+            }catch (InvalidUsernameException e) {
+                e.printStackTrace();
+            }
             this.currentPhase = PhaseType.INITIAL;
         }
-        //return new Message();
+        return new Message(MessageType.NEXT_STATE, null, new GameState(this.currentPlayer, this.currentPhase));
     }
 
     @Override
