@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.client;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
@@ -13,10 +15,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Client {
-  //public static final int MIN_PORT = Server.MIN_PORT_NUMBER;
-  //public static final int MAX_PORT = Server.MAX_PORT_NUMBER;
-  public static final int MIN_PORT = 1024;
-  public static final int MAX_PORT = 65535;
+  public static final int MIN_PORT = Server.MIN_PORT_NUMBER;
+  public static final int MAX_PORT = Server.MAX_PORT_NUMBER;
+  private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
 
   private Socket server;
   private ViewInterface view;
@@ -71,10 +72,13 @@ public class Client {
       serverConnector = new ServerConnector(server, this);
       serverConnector.handleServerConnection();
       startPinging();
-      view.displayLogin();
     } catch (IOException e) {
       view.displaySetupFailure();
     }
+  }
+
+  public void displayLogin(){
+    view.displayLogin();
   }
 
   public void handleMessage(Message msg){
@@ -88,7 +92,7 @@ public class Client {
         view.displayFailedLogin(msg);
         view.displayLogin();
         break;
-      case LOGIN_SUCCEEDED:
+      case LOGIN_SUCCESSFUL:
         view.displayLoginSuccessful();
         break;
       case NUMBER_OF_PLAYERS:
@@ -103,7 +107,7 @@ public class Client {
       case OTHER_USER_JOINED:
         view.displayOtherUserJoined(msg);
         break;
-      case U_JOINED:
+      case YOU_JOINED:
         view.displayYouJoined();
         view.displayOtherUserJoined(msg);
     }
@@ -132,10 +136,8 @@ public class Client {
     System.exit(0);
   }
 
-  //TODO
   private String parserToJson(Message msg){
-    //
-    return null;
+    return  gsonBuilder.toJson(msg);
   }
 
   public String getUsername() { return this.username; }
