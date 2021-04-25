@@ -40,6 +40,8 @@ public class Game {
 
    public String startGame() {
       Collections.shuffle(this.playerBoardList);
+      this.playerBoardList
+              .forEach(playerBoard -> playerBoard.getTrack().moveForward(initialFaith(playerBoard.getUsername())));
       return this.playerBoardList.get(0).getUsername();
    }
 
@@ -50,6 +52,28 @@ public class Game {
                     ? this.playerBoardList.get(i + 1).getUsername()
                     : this.playerBoardList.get(0).getUsername();
       throw new InvalidUsernameException();
+   }
+
+   public int initialResources(String username) {
+      int index = this.playerBoardList.stream().map(PlayerBoard::getUsername)
+              .collect(Collectors.toList()).indexOf(username);
+      switch(index) {
+         case 2 : case 3:
+            return 1;
+         case 4:
+            return 2;
+      }
+      return 0;
+   }
+
+   public int initialFaith(String username) {
+      int index = this.playerBoardList.stream().map(PlayerBoard::getUsername)
+              .collect(Collectors.toList()).indexOf(username);
+      switch(index) {
+         case 3 : case 4:
+            return 1;
+      }
+      return 0;
    }
 
    public PlayerBoard getPlayerBoard(String username) throws InvalidUsernameException {
