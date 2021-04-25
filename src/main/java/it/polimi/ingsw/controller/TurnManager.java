@@ -16,7 +16,7 @@ public class TurnManager implements IGameState {
     private final Game game;
 
     public TurnManager() throws IOException {
-        this.game = new Game(new File("src/DevelopCardConfig.json"), new File("src/LeaderCardConfig.json"));
+        this.game = new Game();
     }
 
     public void addPlayer(String userName) throws IOException, InvalidUsernameException {
@@ -28,15 +28,15 @@ public class TurnManager implements IGameState {
         this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
     }
 
-    public synchronized Message handleAction(Action action) throws InvalidUsernameException {
+    public synchronized /*Message*/ void handleAction(Action action) throws InvalidUsernameException {
         //TODO
         // sostituire i new Message con i messaggi corretti e spezzare la ModelException nelle varie eccezioni possibili
         try {
             this.currentPhase = action.performAction(this);
         } catch (InvalidActionException e) {
-            return new Message();
+            //return new Message();
         } catch (ModelException e) {
-            return new Message();
+            //return new Message();
         }
         if(this.currentPhase == PhaseType.END_SETUP) {
             this.currentPlayer = this.game.nextPlayer(this.currentPlayer);
@@ -46,7 +46,7 @@ public class TurnManager implements IGameState {
             this.currentPlayer = this.game.nextPlayer(this.currentPlayer);
             this.currentPhase = PhaseType.INITIAL;
         }
-        return new Message();
+        //return new Message();
     }
 
     @Override
