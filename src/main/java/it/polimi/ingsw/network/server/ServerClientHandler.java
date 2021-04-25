@@ -53,9 +53,7 @@ public class ServerClientHandler implements Runnable {
       server.addClient(this); // probabilmente serve aggiungerlo ora perchè così so che non posso far connettere + player di quanti sono rischiesti
 
          while (true) {
-            String messageString = in.nextLine();
-            messageString = messageString.replaceAll("\n", " "); //devo inviare senza a capo
-            Message message = messageParser(messageString);
+            Message message = messageParser(in.nextLine());
             messageReceived(message);
          }
 
@@ -111,9 +109,9 @@ public class ServerClientHandler implements Runnable {
 
 
    protected void sendMessage(Message message) {
-
-         String jsonMessage = gsonBuilder.toJson(message);
-         out.println(jsonMessage);
+      String jsonMessage = gsonBuilder.toJson(message);
+      jsonMessage = jsonMessage.replaceAll("\n", " ");
+      out.println(jsonMessage);
 
    }
 
