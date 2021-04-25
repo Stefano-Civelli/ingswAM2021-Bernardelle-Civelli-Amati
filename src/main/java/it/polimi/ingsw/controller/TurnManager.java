@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
 import java.io.IOException;
+import java.util.List;
 
 public class TurnManager implements IGameState {
 
@@ -35,12 +36,10 @@ public class TurnManager implements IGameState {
     private PhaseType currentPhase = null;
     private final Game game;
 
-    public TurnManager() throws IOException {
+    public TurnManager(List<String> usernames) throws IOException, InvalidUsernameException {
         this.game = new Game();
-    }
-
-    public void addPlayer(String userName) throws IOException, InvalidUsernameException {
-        this.game.addPlayer(userName);
+        for(String username : usernames)
+            this.game.addPlayer(username);
     }
 
     public void startGame() {
