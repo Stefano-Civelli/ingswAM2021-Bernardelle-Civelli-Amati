@@ -16,12 +16,7 @@ public enum PhaseType {
    FINAL(List.of(DISCARD_LEADER, ACTIVATE_LEADER, END_TURN)),
    END(List.of());
 
-
    private final List<ActionType> availableActionsList;
-
-   PhaseType(ActionType a){
-      availableActionsList = List.of(a);
-   }
 
    PhaseType(List<ActionType> l){
       availableActionsList = l;
