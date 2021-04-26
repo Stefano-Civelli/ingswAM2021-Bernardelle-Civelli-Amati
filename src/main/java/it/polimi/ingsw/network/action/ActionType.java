@@ -2,8 +2,6 @@ package it.polimi.ingsw.network.action;
 
 public enum ActionType {
 
-   MARKET_SETUP,
-   MARKET_UPDATE,
    CHOSE_RESOURCES,
    PRODUCE,
    BASE_PRODUCE,
@@ -16,16 +14,19 @@ public enum ActionType {
    INSERT_MARBLE,
    CHOOSE_WHITE_LEADER;
 
-   private String typeOfMessage;
-
-   ActionType(String typeOfMessage) {
-      this.typeOfMessage = typeOfMessage;
+   /**
+    * static factory method that constructs enum by string
+    *
+    * @param value string to create the enum
+    * @return a new enumeration
+    */
+   public static ActionType fromValue(String value) {
+      for (ActionType actionType : values()) {
+         if (actionType.name().equals(value)) {
+            return actionType;
+         }
+      }
+      throw new IllegalArgumentException("invalid string value passed: " + value);
    }
 
-   ActionType() {
-   }
-
-   public String toString() {
-      return typeOfMessage;
-   }
 }

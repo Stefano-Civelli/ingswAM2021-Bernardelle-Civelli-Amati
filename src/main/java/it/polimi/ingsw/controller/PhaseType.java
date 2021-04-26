@@ -22,6 +22,21 @@ public enum PhaseType {
       availableActionsList = l;
    }
 
+   /**
+    * static factory method that constructs enum by string
+    *
+    * @param value string to create the enum
+    * @return a new enumeration
+    */
+   public static PhaseType fromValue(String value) {
+      for (PhaseType phaseType : values()) {
+         if (phaseType.name().equals(value)) {
+            return phaseType;
+         }
+      }
+      throw new IllegalArgumentException("invalid string value passed: " + value);
+   }
+
    public boolean isValid(ActionType actionType) {
       return this.availableActionsList.contains(actionType);
    }
