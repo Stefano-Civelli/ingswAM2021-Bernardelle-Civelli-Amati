@@ -30,6 +30,7 @@ public class TurnManager implements IGameState {
         public PhaseType getPhase() {
             return phase;
         }
+
     }
 
     private String currentPlayer = null;
@@ -42,9 +43,10 @@ public class TurnManager implements IGameState {
             this.game.addPlayer(username);
     }
 
-    public void startGame() {
+    public List<String> startGame() {
         this.currentPlayer = this.game.startGame();
         this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
+        return this.game.getOrderedPlayers();
     }
 
     public synchronized Message handleAction(Action action) {

@@ -85,4 +85,8 @@ public class Game {
       }
    }
 
+   public List<String> getOrderedPlayers() {
+      return this.playerBoardList.stream().map(PlayerBoard::getUsername).collect(Collectors.toList());
+   }
+
 }
