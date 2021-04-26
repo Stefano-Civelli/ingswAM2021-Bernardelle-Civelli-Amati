@@ -162,7 +162,7 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayLobbyCreated(){
-    out.println("Lobby created! Waiting for " + numOfPlayers + " other(s) player(s)...");
+    out.println("Lobby created! Waiting for " + (numOfPlayers - 1) + " other player(s)...");
   }
 
   @Override
