@@ -15,7 +15,7 @@ public class ServerClientHandler implements Runnable {
    private final Socket clientSocket;
    private final Server server;
    private BufferedReader in;
-   private BufferedWriter out;
+   private PrintWriter out;
 
    private String username;
    private boolean connected; // Default: true
@@ -38,7 +38,7 @@ public class ServerClientHandler implements Runnable {
    public void run() {
       try {
          in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-         out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+         out = new PrintWriter(clientSocket.getOutputStream());
          handleClientConnection(); // sta qua dentro finchè la connessione è aperta
       } catch (IOException e) {
          //TODO gestire disconnessione per scadenza timeout del socket
@@ -62,6 +62,7 @@ public class ServerClientHandler implements Runnable {
 
          System.out.println("connection lost on client " + clientSocket.getInetAddress());
          connected = false;
+         server.notifyClientDisconnection(this);
          //handleClientDisconnection(); //TODO -----------------------------------------------------
          clientSocket.close();
       }
@@ -93,6 +94,7 @@ public class ServerClientHandler implements Runnable {
 
             //prima di darlo al turn manager trasformo in azione
             Action action = message.getAction();
+            action.setUsername(username);
             Message answerMessage = server.getTurnManager().handleAction(action);
             //turn manager sends back an answere message to be forwarded to the client
             confirmationMessage(answerMessage);
@@ -112,7 +114,7 @@ public class ServerClientHandler implements Runnable {
          case ERROR:
             sendMessage(answerMessage);
             break;
-         case NEXT_STATE:
+         case NEXT_TURN_STATE:
             server.sendBroadcast(answerMessage);
             break;
       }
@@ -124,14 +126,8 @@ public class ServerClientHandler implements Runnable {
    protected void sendMessage(Message message) {
       String jsonMessage = gsonBuilder.toJson(message);
       jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
-      try {
-         out.write(jsonMessage);
-         out.newLine();
-         out.flush();
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-
+      out.println(jsonMessage);
+      out.flush();
 
    }
 

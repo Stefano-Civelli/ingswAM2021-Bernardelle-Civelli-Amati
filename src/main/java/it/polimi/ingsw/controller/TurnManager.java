@@ -13,7 +13,7 @@ import java.util.List;
 
 public class TurnManager implements IGameState {
 
-    private static class GameState {
+    public static class GameState {
 
         private final String player;
         private final PhaseType phase;
@@ -75,7 +75,7 @@ public class TurnManager implements IGameState {
             }
             this.currentPhase = PhaseType.INITIAL;
         }
-        return new Message(MessageType.NEXT_STATE, new GameState(this.currentPlayer, this.currentPhase));
+        return new Message(MessageType.NEXT_TURN_STATE, new GameState(this.currentPlayer, this.currentPhase));
     }
 
     @Override

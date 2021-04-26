@@ -65,7 +65,7 @@ public class GSON{
 
    //in caso non funzioni passare il Type dell'action e usare switch per creare un Action sottoclassata
    public static Action buildAction(String payload){
-      RuntimeTypeAdapterFactory<Action> actionAdapter = RuntimeTypeAdapterFactory.of(Action.class, "Type");
+      RuntimeTypeAdapterFactory<Action> actionAdapter = RuntimeTypeAdapterFactory.of(Action.class, "type");
       actionAdapter
               .registerSubtype(InsertMarbleAction.class, "INSERT_MARBLE")
               .registerSubtype(ActivateLeaderAction.class, "ACTIVATE_LEADER")
