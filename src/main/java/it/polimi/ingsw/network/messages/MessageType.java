@@ -8,7 +8,7 @@ public enum MessageType {
   PING,
   LOGIN,
   NUMBER_OF_PLAYERS,
-  NUMBER_OF_PLAYERS_FAILED,
+  INVALID_NUMBER_OF_PLAYERS,
   LOGIN_FAILED,
   LOGIN_SUCCESSFUL,
   WAIT_FOR_LOBBY_CREATION,
@@ -28,10 +28,15 @@ public enum MessageType {
   MARKET_UPDATED,
   TRACK_UPDATED,
   DEVELOP_CARD_DECK_UPDATED,
+  CARD_SLOT_UPDATE,
   WINNING_PLAYER,
 
+  DECK_SETUP,
+  MARKET_SETUP,
+  LEADERCARD_SETUP,
+
   ERROR,
-  NEXT_STATE;
+  NEXT_TURN_STATE;
 
   public static MessageType fromValue(String value) {
     for (MessageType messageType : values()) {

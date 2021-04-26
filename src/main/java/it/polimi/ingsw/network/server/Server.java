@@ -147,6 +147,7 @@ public class Server implements ModelObserver {
 
    private void start() {
       Game game = null;
+      List<String> playersInOrder = null;
       try {
          if(playersNumber == 1)
             game = new SinglePlayer();
@@ -158,12 +159,13 @@ public class Server implements ModelObserver {
       }
 
       try {
-         turnManager = new TurnManager(game, loggedPlayers);
+         turnManager = new TurnManager(game, loggedPlayers());
+         playersInOrder = turnManager.startGame();
       }catch (IOException e) {
          //TODO sistemare il costruttore di playerboard
          e.printStackTrace();
       }
-      sendToClient(new Message(MessageType.GAME_STARTED));
+      sendToClient(new Message(MessageType.GAME_STARTED, playersInOrder));
    }
 
 
