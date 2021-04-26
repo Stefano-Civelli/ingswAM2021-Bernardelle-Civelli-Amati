@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.leadercard.MarbleModifierBehaviour;
 import it.polimi.ingsw.model.leadercard.StorageBehaviour;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
+import it.polimi.ingsw.model.market.RedMarble;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
@@ -257,7 +258,7 @@ class PlayerBoardTest {
 
   @Test
   void NotEnoughSpaceExceptionTest() throws IOException, RowOrColumnNotExistsException, NotEnoughSpaceException,
-          InvalidLeaderCardException, NotEnoughResourcesException, AbuseOfFaithException {
+          InvalidLeaderCardException, NotEnoughResourcesException, AbuseOfFaithException, MoreWhiteLeaderCardsException {
 
     PlayerBoard playerBoard = initializer();
     playerBoard.getLeaderCards().get(0).setActive(playerBoard);
@@ -270,10 +271,20 @@ class PlayerBoardTest {
 
     playerBoard.shopMarketColumn(1);
 
+    if(playerBoard.getTempMarketMarble().get(2) instanceof RedMarble)
+      playerBoard.addMarbleToWarehouse(2);
+    else
+      assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(2));
 
-    assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(2));
-    assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(1));
-    assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(0));
+    if(playerBoard.getTempMarketMarble().get(1) instanceof RedMarble)
+      playerBoard.addMarbleToWarehouse(1);
+    else
+      assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(1));
+
+    if(playerBoard.getTempMarketMarble().get(0) instanceof RedMarble)
+      playerBoard.addMarbleToWarehouse(0);
+    else
+      assertThrows(NotEnoughSpaceException.class, () -> playerBoard.addMarbleToWarehouse(0));
   }
 
   @Test
