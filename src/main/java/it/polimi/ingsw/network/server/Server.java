@@ -4,7 +4,6 @@ import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.TurnManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.ModelObserver;
-import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -27,27 +26,30 @@ public class Server implements ModelObserver {
    public static final int MAX_PORT_NUMBER = 65535;
    private static final int SINGLE_PLAYER_NUMBER = 1;
    private static final int MAX_MULTIPLAYER_NUMBER = 4;
-   private Map<String, ServerClientHandler> usernameToClientHandler = new HashMap<>();
+   private Map<String, ServerClientHandler> usernameToClientHandler = new HashMap<>(); //l'opposto non serve perchè ho la get username sul clientHandler
    private List<ServerClientHandler> connectedClients = new ArrayList<>(); // utente aggiunto a questa lista appena viene creato il socket, non ha ancora un username assegnato
    // contains all the connected clients, no matter if they are logged (comodo usarla per pingare)
-   private TurnManager turnManager;
-   private int playersNumber = 0;
    private final List<String> loggedPlayers = new ArrayList<>(); //si sono già anche loggati oltre che connessi (cioè hanno inserito l'username)
+   private int playersNumber = 0;
+   private TurnManager turnManager;
+
 
 
    public static void main(String[] args) {
       int serverPortNumber;
 
-
       if (args.length == 1) {
          serverPortNumber = Integer.parseInt(args[0]);
-      } else {
+         System.out.println("Server started on port: " + serverPortNumber);
+      } else if(ConfigParameters.TESTING) {
+         serverPortNumber = 7659;
+         System.out.println("starting server in TESTING configuration on port " + serverPortNumber);
+      }
+      else{
          Scanner in = new Scanner(System.in);
-         //can create a debug configuration
-         System.out.println("Set server port number on which to accept communication");
-         serverPortNumber = Integer.parseInt(in.nextLine());
-                 //integerImputValidation(stdin, MIN_PORT_NUMBER, MAX_PORT_NUMBER);
-         }
+         System.out.print("Set server port number: ");
+         serverPortNumber = integerInputValidation(in, MIN_PORT_NUMBER, MAX_PORT_NUMBER);
+      }
 
       ServerSocket socket;
       try {
@@ -65,7 +67,7 @@ public class Server implements ModelObserver {
             /* accepts connections; for every connection accepted,
              * create a new Thread executing a ClientHandler */
             Socket clientSocket = socket.accept();
-            //clientSocket.setSoTimeout(ConfigParameters.SERVER_TIMEOUT * 1000); // NEEDED TO REALIZE THAT A CLIENT HAS DISCONNECTED UNCLEANLY
+            //clientSocket.setSoTimeout(ConfigParameters.SERVER_TIMEOUT); // NEEDED TO REALIZE THAT A CLIENT HAS DISCONNECTED UNCLEANLY
             ServerClientHandler clientHandler = new ServerClientHandler(clientSocket, server);
             new Thread(clientHandler).start();
          } catch (IOException e) {
@@ -82,20 +84,20 @@ public class Server implements ModelObserver {
       if(playersNumber == 0){ //executed only for the first player to connect
          int tempPlayerNum = Integer.parseInt(message.getPayload());
          if (tempPlayerNum < SINGLE_PLAYER_NUMBER || tempPlayerNum > MAX_MULTIPLAYER_NUMBER) {
-            sendToClient(new Message(MessageType.NUMBER_OF_PLAYERS_FAILED, username, "You need to select a valid number of players, It must be between " + SINGLE_PLAYER_NUMBER + " and " + MAX_MULTIPLAYER_NUMBER));
+            sendToClient(new Message(username, MessageType.NUMBER_OF_PLAYERS_FAILED, "You need to select a valid number of players, It must be between " + SINGLE_PLAYER_NUMBER + " and " + MAX_MULTIPLAYER_NUMBER));
             return;
          }
          playersNumber = tempPlayerNum;
-         sendToClient(new Message(MessageType.LOBBY_CREATED, username));
+         sendToClient(new Message(username, MessageType.LOBBY_CREATED));
       }
       else
       {
          List<String> tmpConnectdPlyrs = new ArrayList<>(loggedPlayers);
          tmpConnectdPlyrs.remove(username); // to tell everybody except the player that connected
          for(String user: tmpConnectdPlyrs)
-            sendToClient(new Message(MessageType.OTHER_USER_JOINED, user, Integer.toString(loggedPlayers.size() - playersNumber)));
+            sendToClient(new Message(user, MessageType.OTHER_USER_JOINED, Integer.toString(NumberOfRemainingLobbySlots())));
 
-         sendToClient(new Message(MessageType.YOU_JOINED, username, Integer.toString(loggedPlayers.size() - playersNumber))); //sent to the player that joined
+         sendToClient(new Message(username, MessageType.YOU_JOINED, Integer.toString(NumberOfRemainingLobbySlots()))); //sent to the player that joined
 
          if (loggedPlayers.size() == playersNumber) {
             start();
@@ -103,7 +105,7 @@ public class Server implements ModelObserver {
       }
    }
 
-   public synchronized void handleLogin(Message message, ServerClientHandler serverClientHandler){ //TODO pensare se metterlo nell' handler
+   public synchronized void handleLogin(Message message, ServerClientHandler serverClientHandler){
       String username = message.getUsername();
 
       if(playersNumber != 0 && NumberOfRemainingLobbySlots() == 0){ // non viene mai fatto sul primo player
@@ -122,10 +124,9 @@ public class Server implements ModelObserver {
          if(isFirst()) {
             succesfulLogin(username, serverClientHandler);
             serverClientHandler.sendMessage(new Message(MessageType.NUMBER_OF_PLAYERS, "How many players do you want to play with?"));
-         } else if(playersNumber == 0) { //il player non è il primo a loggarsi ma il numero di giocatori è ancora 0 -> significa che qualcuno sta creando la lobby
-            //mando messaggio che dice di aspettare che venga creata la lobby
+         } else if(playersNumber == 0) {        //il player non è il primo a loggarsi ma il numero di giocatori è ancora 0 -> significa che qualcuno sta creando la lobby
             serverClientHandler.sendMessage(new Message(MessageType.WAIT_FOR_LOBBY_CREATION, "A player is creating the lobby, wait a few seconds"));
-         } else { //fatto quando il player non è il primo e la lobby esiste già
+         } else {                               //il player non è il primo e la lobby esiste già
             succesfulLogin(username, serverClientHandler);
             lobbySetup(message);
          }
@@ -136,7 +137,7 @@ public class Server implements ModelObserver {
       serverClientHandler.setUsername(username);
       usernameToClientHandler.put(username, serverClientHandler);
       loggedPlayers.add(username);
-      serverClientHandler.sendMessage(new Message(MessageType.LOGIN_SUCCESSFUL));
+      serverClientHandler.sendMessage(new Message(username, MessageType.LOGIN_SUCCESSFUL));
       serverClientHandler.setLogged(true);
    }
 
@@ -185,7 +186,7 @@ public class Server implements ModelObserver {
     *
     * @param client the {@link ServerClientHandler} to be added
     */
-   public synchronized void addClient(ServerClientHandler client){ //TODO per scrivere devo sincronizzare?
+   public synchronized void addClient(ServerClientHandler client){
 
       connectedClients.add(client);
    }
@@ -200,8 +201,10 @@ public class Server implements ModelObserver {
    }
 
 
-
-
+   /**
+    * sends the message to client set as username in the message. if username is null send broadcast
+    * @param message message to send
+    */
    public void sendToClient(Message message) { //quando entro qua i messaggi a cui serve l'username lo hanno, gli altri no
 
       String username = message.getUsername();
@@ -215,14 +218,36 @@ public class Server implements ModelObserver {
 
    }
 
+   /**
+    * always send broadcast message
+    * @param message message to send
+    */
    public void sendBroadcast(Message message) {
       for(ServerClientHandler s : connectedClients)
          s.sendMessage(message);
    }
 
-   //TODO validazione input
-   private static int integerInputValidation(Scanner stdin, int minPortNumber, int maxPortNumber) {
-      return 0;
+
+
+   private static int integerInputValidation(Scanner in, int minPortNumber, int maxPortNumber) {
+      boolean error = false;
+      int input = 0;
+      try {
+         input = Integer.parseInt(in.nextLine());
+      }catch(NumberFormatException e){
+         error = true;
+      }
+
+      while(error || input < minPortNumber || input > maxPortNumber){
+         error = false;
+         System.out.print("input must be between " + minPortNumber + " and " + maxPortNumber + ". try again: ");
+         try {
+            input = Integer.parseInt(in.nextLine());
+         }catch(NumberFormatException e){
+            error = true;
+         }
+      }
+      return input;
    }
 
    public TurnManager getTurnManager() {

@@ -21,18 +21,28 @@ public class Message {
       this.messageType = messageType;
    }
 
-   public Message(MessageType messageType, String username) {
-      this.messageType = messageType;
+   public Message(String username, MessageType messageType) {
       this.username = username;
+      this.messageType = messageType;
    }
 
-   public Message(MessageType messageType, String username, String payload) {
+   public Message(MessageType messageType, String payload) {
       this.messageType = messageType;
-      this.username = username;
       this.payload = payload;
    }
 
-   public Message(MessageType messageType, String username, Object object) {
+   public Message(MessageType messageType, Object object) {
+      this.messageType = messageType;
+      this.payload = gsonBuilder.toJson(object);
+   }
+
+   public Message(String username, MessageType messageType, String payload) {
+      this.username = username;
+      this.messageType = messageType;
+      this.payload = payload;
+   }
+
+   public Message(String username, MessageType messageType, Object object) {
       this.messageType = messageType;
       this.username = username;
       this.payload = gsonBuilder.toJson(object);

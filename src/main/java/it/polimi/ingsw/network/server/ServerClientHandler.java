@@ -5,18 +5,17 @@ import it.polimi.ingsw.network.action.Action;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
-import java.io.IOException;
+import java.io.*;
 
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
+import java.net.SocketTimeoutException;
 
 
 public class ServerClientHandler implements Runnable {
    private final Socket clientSocket;
    private final Server server;
-   private Scanner in;
-   private PrintWriter out;
+   private BufferedReader in;
+   private BufferedWriter out;
 
    private String username;
    private boolean connected; // Default: true
@@ -38,8 +37,8 @@ public class ServerClientHandler implements Runnable {
    @Override
    public void run() {
       try {
-         in = new Scanner(clientSocket.getInputStream());
-         out = new PrintWriter(clientSocket.getOutputStream());
+         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+         out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
          handleClientConnection(); // sta qua dentro finchè la connessione è aperta
       } catch (IOException e) {
          //TODO gestire disconnessione per scadenza timeout del socket
@@ -52,11 +51,20 @@ public class ServerClientHandler implements Runnable {
       System.out.println("Connected to " + clientSocket.getInetAddress());
       server.addClient(this); // probabilmente serve aggiungerlo ora perchè così so che non posso far connettere + player di quanti sono rischiesti
 
+      try {
          while (true) {
-            Message message = messageParser(in.nextLine());
+            Message message = messageParser(in.readLine());
             messageReceived(message);
          }
+      }catch(IOException e){
+         if(e instanceof SocketTimeoutException)
+            System.out.print("TIMEOUT, ");
 
+         System.out.println("connection lost on client " + clientSocket.getInetAddress());
+         connected = false;
+         //handleClientDisconnection(); //TODO -----------------------------------------------------
+         clientSocket.close();
+      }
    }
 
    /**
@@ -86,6 +94,7 @@ public class ServerClientHandler implements Runnable {
             //prima di darlo al turn manager trasformo in azione
             Action action = message.getAction();
             Message answerMessage = server.getTurnManager().handleAction(action);
+            //turn manager sends back an answere message to be forwarded to the client
             confirmationMessage(answerMessage);
             break;
 
@@ -96,13 +105,17 @@ public class ServerClientHandler implements Runnable {
    }
 
    private void confirmationMessage(Message answerMessage){
-      //ci metto come nome l'username
-      //switch sul tipo
-//      ERROR, -> mando solo a chi fa errore
-//      NEXT_STATE; -> mando a tutti
+      MessageType messageType = answerMessage.getMessageType();
+      answerMessage.setUsername(this.username);
 
-
-      sendMessage(answerMessage);
+      switch (messageType){
+         case ERROR:
+            sendMessage(answerMessage);
+            break;
+         case NEXT_STATE:
+            server.sendBroadcast(answerMessage);
+            break;
+      }
    }
 
 
@@ -110,9 +123,15 @@ public class ServerClientHandler implements Runnable {
 
    protected void sendMessage(Message message) {
       String jsonMessage = gsonBuilder.toJson(message);
-      jsonMessage = jsonMessage.replaceAll("\n", " ");
-      out.println(jsonMessage);
-      out.flush();
+      jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
+      try {
+         out.write(jsonMessage);
+         out.newLine();
+         out.flush();
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+
 
    }
 
@@ -122,7 +141,7 @@ public class ServerClientHandler implements Runnable {
    }
 
 
-   protected synchronized void closeConnection(String message) {
+   protected synchronized void handleClientDisconnection(String message) {
       sendMessage(new Message(MessageType.DISCONNECTED_SERVER_SIDE, message)); // notify user about the server-side disconnection
       try {
          clientSocket.close();

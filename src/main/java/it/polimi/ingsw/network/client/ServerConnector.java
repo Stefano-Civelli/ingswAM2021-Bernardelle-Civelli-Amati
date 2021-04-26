@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.client;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
@@ -9,6 +11,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ServerConnector {
+  private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
   private Client client;
   private Socket server;
   private PrintWriter out;
@@ -45,8 +48,7 @@ public class ServerConnector {
   //TODO
   private Message messageParserFromJson(String in){
     Message message = null;
-    System.out.println(in);
-
+    message = gsonBuilder.fromJson(in, Message.class);
     return message;
   }
 
