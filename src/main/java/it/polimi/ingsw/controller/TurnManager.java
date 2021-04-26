@@ -53,9 +53,9 @@ public class TurnManager implements IGameState {
         try {
             this.currentPhase = action.performAction(this);
         } catch (InvalidActionException e) {
-            return new Message(MessageType.ERROR, null, "Error");
+            return new Message(MessageType.ERROR,"Error");
         } catch (ModelException e) {
-            return new Message(MessageType.ERROR, null, "Error");
+            return new Message(MessageType.ERROR,"Error");
         }
         if(this.currentPhase == PhaseType.END_SETUP) {
             try {
@@ -73,7 +73,7 @@ public class TurnManager implements IGameState {
             }
             this.currentPhase = PhaseType.INITIAL;
         }
-        return new Message(MessageType.NEXT_STATE, null, new GameState(this.currentPlayer, this.currentPhase));
+        return new Message(MessageType.NEXT_STATE, new GameState(this.currentPlayer, this.currentPhase));
     }
 
     @Override

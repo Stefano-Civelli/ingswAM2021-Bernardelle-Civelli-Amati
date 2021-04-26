@@ -131,7 +131,7 @@ public class Cli implements ViewInterface {
       numOfPlayers = validateIntInput(1, 4); //1 for singlePlayer game -> check when opened in the server
 
       //meglio metterla quando ricevo il messaggio di avvenuta ricezione e username non already presente
-      Message loginMessage = new Message(MessageType.NUMBER_OF_PLAYERS, client.getUsername(), numOfPlayers);
+      Message loginMessage = new Message(client.getUsername(), MessageType.NUMBER_OF_PLAYERS, Integer.toString(numOfPlayers));
       client.sendToServer(loginMessage);
     }
 
