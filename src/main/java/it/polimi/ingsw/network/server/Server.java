@@ -42,7 +42,7 @@ public class Server implements ModelObserver {
          serverPortNumber = Integer.parseInt(args[0]);
          System.out.println("Server started on port: " + serverPortNumber);
       } else if(ConfigParameters.TESTING) {
-         serverPortNumber = 1111;
+         serverPortNumber = 7659;
          System.out.println("starting server in TESTING configuration on port " + serverPortNumber);
       }
       else{

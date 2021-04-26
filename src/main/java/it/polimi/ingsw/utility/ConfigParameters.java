@@ -9,5 +9,5 @@ public class ConfigParameters {
   public static final boolean TESTING = false;
   public static File cardConfigFile = new File("src/DevelopCardConfig.json");
   public static File leaderCardConfigFile = new File("src/LeaderCardConfig.json");
-  public static int countDown = 30;
+  public static int countDown = 10;
 }

@@ -23,6 +23,7 @@ public class Cli implements ViewInterface {
   //private boolean debug = ConfigParameters.DEBUG;
   private boolean debug = false;
   private int numOfPlayers = 0;
+  private int playersJoinedTheLobby = 0;
   private int countDown = ConfigParameters.countDown;
 
   /**
@@ -47,10 +48,10 @@ public class Cli implements ViewInterface {
     String ip;
     showTitle();
 
-    if (debug) {
+    if (ConfigParameters.TESTING) {
       ip = "localhost";
-      port = 1234;
-      out.println("DEBUG server: ip -> localhost, port -> 1234");
+      port = 7659;
+      out.println("DEBUG server: ip -> localhost, port -> 7659");
     } else {
       out.println("IP address of server?");
       ip = in.nextLine();
@@ -106,7 +107,7 @@ public class Cli implements ViewInterface {
 
     out.println("Choose your username:");
     username = in.nextLine();
-    Message loginMessage = new Message(MessageType.LOGIN, username);
+    Message loginMessage = new Message(username, MessageType.LOGIN);
     client.setUsername(username);
     client.sendToServer(loginMessage);
   }
@@ -152,17 +153,20 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayFailedLogin(Message msg) {
-    out.println(msg.getPayload());
+    String error = msg.getPayload();
+    out.println(error);
   }
 
   @Override
   public void displayLoginSuccessful() {
     out.println("You have been logged in successfully");
+    playersJoinedTheLobby =+ 1;
   }
 
   @Override
   public void displayLobbyCreated(){
-    out.println("Lobby created! Waiting for " + (numOfPlayers - 1) + " other player(s)...");
+    int remainingPlayersToJoin = numOfPlayers - playersJoinedTheLobby;
+    out.println("Lobby created! Waiting for " + remainingPlayersToJoin + " more player(s)...");
   }
 
   @Override
@@ -178,20 +182,22 @@ public class Cli implements ViewInterface {
 
   public void displayWaiting(){
     final int[] secondsRemaining = {this.countDown};
-    System.out.println("There is a player creating a lobby, try to login in a few seconds");
+    System.out.println("There's a player creating a lobby, retry to login in a few seconds");
     Timer myTimer = new Timer();
     TimerTask countDownTimer = new TimerTask() {
       @Override
       public void run() {
+        while (secondsRemaining[0] > 0) {
           System.out.println("Waiting time: " + secondsRemaining[0] + " second(s) ...");
+          secondsRemaining[0] -= 1;
+        }
       }
     };
 
-    while(secondsRemaining[0] > 0){
-      myTimer.scheduleAtFixedRate(countDownTimer, 0, 1000);
-      secondsRemaining[0] -= 1;
-    }
+    myTimer.schedule(countDownTimer, 0, 1*1000);
 
-    displayLogin();
+    if(secondsRemaining[0] == 0)
+      out.println("Countdown terminated, retry to login");
+      displayLogin();
   }
 }

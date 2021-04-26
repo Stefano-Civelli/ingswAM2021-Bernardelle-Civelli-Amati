@@ -56,12 +56,15 @@ public class ServerClientHandler implements Runnable {
             Message message = messageParser(in.readLine());
             messageReceived(message);
          }
-      }catch(SocketTimeoutException e){
-         System.out.println("timeout scaduto, connection lost on client " + clientSocket.getInetAddress());
+      }catch(IOException e){
+         if(e instanceof SocketTimeoutException)
+            System.out.print("TIMEOUT, ");
+
+         System.out.println("connection lost on client " + clientSocket.getInetAddress());
          connected = false;
          //handleClientDisconnection(); //TODO -----------------------------------------------------
+         clientSocket.close();
       }
-
    }
 
    /**
@@ -123,6 +126,7 @@ public class ServerClientHandler implements Runnable {
       jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
       try {
          out.write(jsonMessage);
+         out.newLine();
          out.flush();
       } catch (IOException e) {
          e.printStackTrace();
