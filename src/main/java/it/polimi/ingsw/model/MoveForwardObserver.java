@@ -10,8 +10,5 @@ public interface MoveForwardObserver {
    */
   void update();
 
-  void addToMoveForwardObserverListObs(MoveForwardObserver observerToAdd);
-
-  Track getTrack();
-
+  int getTrackPosition();
 }
