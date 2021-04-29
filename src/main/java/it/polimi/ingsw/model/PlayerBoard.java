@@ -79,8 +79,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
     * @throws InvalidLeaderCardException if the leaderCard is activated or the index is outOfBound
     */
    public void discardLeader(int leaderPosition) throws InvalidLeaderCardException {
-      if(leaderCards.size() > 2 || leaderCards.get(leaderPosition).isActive())
-         throw new InvalidLeaderCardException("U can't remove this card in this moment");
+      if( leaderPosition < 0 || leaderPosition > 2 || leaderCards.get(leaderPosition).isActive())
+         throw new InvalidLeaderCardException("You can't remove this card in this moment");
       leaderCards.remove(leaderPosition);
       track.moveForward(1);
    }
@@ -127,6 +127,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
     */
    public void addMarbleToWarehouse(int marbleIndex) throws MoreWhiteLeaderCardsException, NotEnoughSpaceException {
          if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
+            // TODO sostituire con un'eccezione vera
             throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
             try {
                tempMarketMarble.get(marbleIndex).addResource(this);
@@ -169,7 +170,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
     * @throws AbuseOfFaithException if one of the 3 resources is faith, he can't throw faith and he can't gain faith
     */
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product)
-           throws AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException, AlreadyProducedException {
+           throws AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException,
+           AlreadyProducedException, NeedAResourceToAddException {
       if(alreadyProduced[0])
          throw new AlreadyProducedException();
       if(warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) > 0 && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) > 0) {
@@ -184,6 +186,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
          } catch (NegativeQuantityException e) {
             //non si verifica mai perché la sto chiamando io e gli sto passando 1
             e.printStackTrace();
+         } catch (NullPointerException e) {
+            throw new NeedAResourceToAddException();
          }
       }
    }

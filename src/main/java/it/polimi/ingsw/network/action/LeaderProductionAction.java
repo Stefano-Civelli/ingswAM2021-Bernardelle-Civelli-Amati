@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.action;
 import it.polimi.ingsw.controller.IGameState;
 import it.polimi.ingsw.controller.PhaseType;
 import it.polimi.ingsw.model.ResourceType;
-import it.polimi.ingsw.model.modelexceptions.ModelException;
+import it.polimi.ingsw.model.modelexceptions.*;
 
 public class LeaderProductionAction extends Action {
 
@@ -14,7 +14,9 @@ public class LeaderProductionAction extends Action {
     private ResourceType product;
 
     @Override
-    public PhaseType performAction(IGameState gameState) throws InvalidActionException, ModelException {
+    public PhaseType performAction(IGameState gameState) throws InvalidActionException,
+            InvalidUsernameException, NeedAResourceToAddException, AlreadyProducedException,
+            NotEnoughResourcesException, AbuseOfFaithException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
         gameState.getGame().getPlayerBoard(super.username).leaderProduce(this.leaderCardIndex, this.product);

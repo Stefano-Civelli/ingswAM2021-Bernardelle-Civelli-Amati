@@ -3,6 +3,9 @@ package it.polimi.ingsw.model;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.network.messages.ErrorType;
 import org.junit.jupiter.api.Test;
 
 import it.polimi.ingsw.model.modelexceptions.*;
@@ -382,4 +385,5 @@ class WarehouseTest {
         warehouse.removeResources(ResourceType.GOLD, 0);
         warehouse.removeResources(ResourceType.GOLD, 1);
     }
+
 }

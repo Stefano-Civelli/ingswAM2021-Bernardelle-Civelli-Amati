@@ -200,7 +200,7 @@ class PlayerBoardTest {
   }
 
   @Test
-  void baseProductionTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException, AlreadyProducedException {
+  void baseProductionTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException, AlreadyProducedException, NeedAResourceToAddException {
     PlayerBoard playerBoard = initializer();
     Chest chest = playerBoard.getChest();
     Warehouse warehouse = playerBoard.getWarehouse();
@@ -218,7 +218,7 @@ class PlayerBoardTest {
   }
 
   @Test
-  void baseProductionWithChestRemovingTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException, AlreadyProducedException {
+  void baseProductionWithChestRemovingTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException, AlreadyProducedException, NeedAResourceToAddException {
     PlayerBoard playerBoard = initializer();
     Chest chest = playerBoard.getChest();
     Warehouse warehouse = playerBoard.getWarehouse();
