@@ -7,10 +7,10 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class LeaderProductionAction extends Action {
 
-    @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because the field value is assigned using reflection
+    @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private int leaderCardIndex;
 
-    @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because the field value is assigned using reflection
+    @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private ResourceType product;
 
     @Override

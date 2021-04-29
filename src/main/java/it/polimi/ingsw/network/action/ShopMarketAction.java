@@ -6,10 +6,10 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class ShopMarketAction extends Action {
 
-    @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because the field value is assigned using reflection
+    @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private boolean inRow; // if true -> row, else -> column
 
-    @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because the field value is assigned using reflection
+    @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private int index;
 
     @Override

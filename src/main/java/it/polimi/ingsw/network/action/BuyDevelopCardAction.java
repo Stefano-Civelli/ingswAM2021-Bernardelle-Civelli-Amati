@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class BuyDevelopCardAction extends Action {
 
-    @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because fields' value is assigned using reflection
+    @SuppressWarnings("UnusedDeclaration") // Because fields' value is assigned using reflection
     private int row,
             column,
             cardSlotIndex;
