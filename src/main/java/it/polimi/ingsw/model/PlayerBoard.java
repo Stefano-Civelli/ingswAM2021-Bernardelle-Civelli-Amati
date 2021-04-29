@@ -25,7 +25,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
    private List<MarketMarble> tempMarketMarble;
    private Map<ResourceType, Integer> tempResources;
    private int tempIndexWhiteToAdd;
-   private final File trackConfigFile = new File("src/SquareConfig.json");
+   private final File trackConfigFile = new File("src/SquareConfig.json"); // TODO Move in ConfigParameters (??)
    private final Set<MoveForwardObserver> moveForwardObserverList = new HashSet<>();
    private final boolean[] alreadyProduced;
 

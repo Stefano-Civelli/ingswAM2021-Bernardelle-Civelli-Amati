@@ -62,7 +62,7 @@ public class ServerClientHandler implements Runnable {
 
          System.out.println("connection lost on client " + clientSocket.getInetAddress());
          connected = false;
-         server.notifyClientDisconnection(this);
+         //server.notifyClientDisconnection(this);
          //handleClientDisconnection(); //TODO -----------------------------------------------------
          clientSocket.close();
       }

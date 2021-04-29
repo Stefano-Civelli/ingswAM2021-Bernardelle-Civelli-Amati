@@ -59,7 +59,7 @@ public class TurnManager implements IGameState {
         } catch (NotEnoughResourcesException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.NOT_ENOUGH_RESOURCES);
         } catch (InvalidLeaderCardException e) {
-            // TODO si usa sia se la leader non esiste sia se si cerca di rimuovere una leader attiva, magari differenziare
+            // TODO si usa sia per quando la leader non esiste sia se si cerca di rimuovere una leader attiva, magari differenziare
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_LEADERCARD);
         } catch (AlreadyProducedException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.ALREADY_PRODUCED);
@@ -72,7 +72,7 @@ public class TurnManager implements IGameState {
         } catch (InvalidCardPlacementException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_CARD_PLACEMENT);
         } catch (RowOrColumnNotExistsException e) {
-            // TODO Usato sia per le carte che per il mercato, magari dividere le eccezioni per poter creare due diversi errori
+            // TODO Usato sia per le carte che per il mercato, magari dividere le eccezioni per poter creare due eroori diversi
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_ROW_OR_COLUMN);
         } catch (WrongResourceNumberException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.WRONG_RESOURCES_NUMBER);
@@ -86,12 +86,14 @@ public class TurnManager implements IGameState {
         } catch (NotActivatableException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.NOT_ACTIVATABLE_PRODUCTION);
         } catch (ModelException e) {
+            e.printStackTrace();
             return new Message(this.currentPlayer, MessageType.ERROR,ErrorType.UNKNOWN_MODEL_ERROR);
         } catch (Exception e) {
+            e.printStackTrace();
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.UNKNOWN_ERROR);
         }
 
-        // If the player turn is ended change the current palyer
+        // If the player turn is ended change the current player
         if(this.currentPhase == PhaseType.END_SETUP) {
             try {
                 this.currentPlayer = this.game.nextPlayer(this.currentPlayer);
@@ -129,4 +131,5 @@ public class TurnManager implements IGameState {
     public Game getGame() {
         return this.game;
     }
+
 }

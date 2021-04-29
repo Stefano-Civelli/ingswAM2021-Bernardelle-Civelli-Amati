@@ -84,7 +84,7 @@ public class Server implements ModelObserver {
       if(playersNumber == 0){ //executed only for the first player to connect
          int tempPlayerNum = Integer.parseInt(message.getPayload());
          if (tempPlayerNum < SINGLE_PLAYER_NUMBER || tempPlayerNum > MAX_MULTIPLAYER_NUMBER) {
-            sendToClient(new Message(username, MessageType.NUMBER_OF_PLAYERS_FAILED, "You need to select a valid number of players, It must be between " + SINGLE_PLAYER_NUMBER + " and " + MAX_MULTIPLAYER_NUMBER));
+            sendToClient(new Message(username, MessageType.INVALID_NUMBER_OF_PLAYERS, "You need to select a valid number of players, It must be between " + SINGLE_PLAYER_NUMBER + " and " + MAX_MULTIPLAYER_NUMBER));
             return;
          }
          playersNumber = tempPlayerNum;
@@ -159,7 +159,7 @@ public class Server implements ModelObserver {
       }
 
       try {
-         turnManager = new TurnManager(game, loggedPlayers());
+         turnManager = new TurnManager(game, loggedPlayers);
          playersInOrder = turnManager.startGame();
       }catch (IOException e) {
          //TODO sistemare il costruttore di playerboard

@@ -2,8 +2,7 @@ package it.polimi.ingsw.network.action;
 
 import it.polimi.ingsw.controller.IGameState;
 import it.polimi.ingsw.controller.PhaseType;
-import it.polimi.ingsw.model.modelexceptions.InvalidLeaderCardException;
-import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
+import it.polimi.ingsw.model.modelexceptions.*;
 
 public class DiscardLeaderAction extends Action {
 

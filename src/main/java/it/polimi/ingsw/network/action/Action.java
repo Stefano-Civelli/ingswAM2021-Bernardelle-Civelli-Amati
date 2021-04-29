@@ -8,6 +8,7 @@ public abstract class Action {
 
     protected String username = null;
 
+    // TODO togliere il suppress a MismatchedQueryAndUpdateOfCollection dove non serve
     @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because the field value is assigned using reflection
     private ActionType type;
 
