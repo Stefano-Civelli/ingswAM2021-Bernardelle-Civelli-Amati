@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, MoveForwardObservable {
+public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable {
 
    private final String username;
    private final CardSlots cardSlots;
@@ -157,6 +157,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
          tempMarketMarble.remove(tempIndexWhiteToAdd);
          notifyForMoveForward();
          throw new NotEnoughSpaceException("you can't add this resource");
+         //anziché lanciare l'eccezione creiamo un messaggio di tipo NotEnoughSpaceException e nel payload scriviamo -> you can't add this resource, l'user lato client servirá per distinguere chi non muove
       } catch (WrongLeaderCardException e) {
          e.printStackTrace();
       }
@@ -218,6 +219,14 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
       return username;
    }
 
+   public Set<MoveForwardObserver> getMoveForwardObserverList() {
+      return new HashSet<>(moveForwardObserverList);
+   }
+
+   public void setTrackObserverOn (PlayerBoard playerBoard) {
+
+   }
+
    @Override
    public Warehouse getWarehouse() {
       return warehouse;
@@ -248,39 +257,22 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
    }
 
    @Override
-   public void removeFromMoveForwardObserverList (MoveForwardObserver observerToRemove) {
-      moveForwardObserverList.remove(observerToRemove);
-   }
-
-   @Override
    public void notifyForMoveForward() {
       List<Pair<MoveForwardObserver, Integer>> orderedCall = new ArrayList<>();
 
-      for(MoveForwardObserver x : moveForwardObserverList)
-         orderedCall.add(new Pair<>(x, x.getTrack().getCurrentPosition()));
+      for (MoveForwardObserver x : moveForwardObserverList)
+         orderedCall.add(new Pair<>(x, x.getTrackPosition()));
 
       orderedCall.sort(Comparator.comparing(Pair::getValue));
 
-
-      for(Pair<MoveForwardObserver, Integer> x : orderedCall)
-            x.getKey().update();
+      for (Pair<MoveForwardObserver, Integer> x : orderedCall)
+         x.getKey().update();
    }
 
-   @Override
-   public void update() {
-      track.moveForward(1);
-   }
-
-   @Override
-   public void addToMoveForwardObserverListObs(MoveForwardObserver observerToAdd) {
-      if(moveForwardObserverList.add(observerToAdd))
-         moveForwardObserverList.add(observerToAdd); //non penso sia necessaria
-   }
-
+   // MoveForwardObserver is a track, so in multiplayer (after have instantiated all players) call this method on each
+   // playerBoard passing the track of the other as parameter
    @Override
    public void addToMoveForwardObserverList(MoveForwardObserver observerToAdd) {
-      if(moveForwardObserverList.add(observerToAdd))
-         observerToAdd.addToMoveForwardObserverListObs(this);
+      moveForwardObserverList.add(observerToAdd);
    }
-
 }

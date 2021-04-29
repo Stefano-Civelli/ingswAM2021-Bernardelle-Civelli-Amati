@@ -97,7 +97,8 @@ class PlayerBoardTest {
   }
 
   @Test
-  void calculateTotalScoreOnlyAddingRemainingResourcesTest() throws IOException, NegativeQuantityException, AbuseOfFaithException, NotEnoughSpaceException {
+  void calculateTotalScoreOnlyAddingRemainingResourcesTest() throws IOException, NegativeQuantityException,
+          AbuseOfFaithException, NotEnoughSpaceException {
     PlayerBoard playerBoard = initializer();
     int sum = 1; //viene considerato anche il punto 1 del track non mosso
     Chest chest = playerBoard.getChest();
@@ -132,7 +133,8 @@ class PlayerBoardTest {
   }
 
   @Test
-  void calculateTotalScoreAlsoRemovingRemainingResourcesTest() throws IOException, NegativeQuantityException, AbuseOfFaithException, NotEnoughSpaceException, NotEnoughResourcesException {
+  void calculateTotalScoreAlsoRemovingRemainingResourcesTest() throws IOException, NegativeQuantityException,
+          AbuseOfFaithException, NotEnoughSpaceException, NotEnoughResourcesException {
     PlayerBoard playerBoard = initializer();
     int sum = 1; //viene considerato anche il punto 1 del track non mosso
     Chest chest = playerBoard.getChest();
@@ -200,7 +202,8 @@ class PlayerBoardTest {
   }
 
   @Test
-  void baseProductionTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException, AlreadyProducedException, NeedAResourceToAddException {
+  void baseProductionTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException,
+          NotEnoughResourcesException, AlreadyProducedException, NeedAResourceToAddException {
     PlayerBoard playerBoard = initializer();
     Chest chest = playerBoard.getChest();
     Warehouse warehouse = playerBoard.getWarehouse();
@@ -218,7 +221,8 @@ class PlayerBoardTest {
   }
 
   @Test
-  void baseProductionWithChestRemovingTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException, AlreadyProducedException, NeedAResourceToAddException {
+  void baseProductionWithChestRemovingTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException,
+          NegativeQuantityException, NotEnoughResourcesException, AlreadyProducedException, NeedAResourceToAddException {
     PlayerBoard playerBoard = initializer();
     Chest chest = playerBoard.getChest();
     Warehouse warehouse = playerBoard.getWarehouse();
