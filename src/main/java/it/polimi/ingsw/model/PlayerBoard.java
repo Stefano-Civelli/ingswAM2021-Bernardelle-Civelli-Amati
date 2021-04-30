@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
@@ -25,7 +26,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
    private List<MarketMarble> tempMarketMarble;
    private Map<ResourceType, Integer> tempResources;
    private int tempIndexWhiteToAdd;
-   private final File trackConfigFile = new File("src/SquareConfig.json");
    private final Set<MoveForwardObserver> moveForwardObserverList = new HashSet<>();
    private final boolean[] alreadyProduced;
 
@@ -34,7 +34,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObserver, M
       this.leaderCards = leaderCards != null ? new ArrayList<>(leaderCards) : new ArrayList<>();
       this.chest = new Chest();
       this.warehouse = new Warehouse();
-      this.track = GSON.trackParser(trackConfigFile);
+      this.track = GSON.trackParser(ConfigParameters.trackConfigFile);
       this.cardSlots = new CardSlots();
       this.market = market;
       this.developCardDeck = developCardDeck;

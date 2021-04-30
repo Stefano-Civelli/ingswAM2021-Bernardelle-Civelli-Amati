@@ -114,7 +114,7 @@ public class ServerClientHandler implements Runnable {
          case ERROR:
             sendMessage(answerMessage);
             break;
-         case NEXT_TURN_STATE:
+         case NEXT_TURN_STATE: //questa cosa non serve dirla al client, basta dirgli tipo turno finito a tutti e basta, poi loro con la logica capiscono cosa fare
             server.sendBroadcast(answerMessage);
             break;
       }

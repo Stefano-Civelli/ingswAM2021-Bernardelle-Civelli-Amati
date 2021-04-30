@@ -15,6 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class accepts connection to a client and assign the client handling
@@ -26,10 +27,10 @@ public class Server implements ModelObserver {
    public static final int MAX_PORT_NUMBER = 65535;
    private static final int SINGLE_PLAYER_NUMBER = 1;
    private static final int MAX_MULTIPLAYER_NUMBER = 4;
-   private Map<String, ServerClientHandler> usernameToClientHandler = new HashMap<>(); //l'opposto non serve perchè ho la get username sul clientHandler
-   private List<ServerClientHandler> connectedClients = new ArrayList<>(); // utente aggiunto a questa lista appena viene creato il socket, non ha ancora un username assegnato
-   // contains all the connected clients, no matter if they are logged (comodo usarla per pingare)
-   private final List<String> loggedPlayers = new ArrayList<>(); //si sono già anche loggati oltre che connessi (cioè hanno inserito l'username)
+   private final Map<String, ServerClientHandler> usernameToClientHandler = new HashMap<>(); //l'opposto non serve perchè ho la get username sul clientHandler
+   private final List<ServerClientHandler> connectedClients = new ArrayList<>(); //contiene solo i client che in questo momento sono "vivi" connessi con il server (comodo usarla per pingare)
+   private final List<String> acceptedClients = new ArrayList<>();// utente aggiunto a questa lista appena viene creato il socket, non ha ancora un username assegnato
+   // contains all the clients, no matter if they are connected
    private int playersNumber = 0;
    private TurnManager turnManager;
 
@@ -84,7 +85,7 @@ public class Server implements ModelObserver {
       if(playersNumber == 0){ //executed only for the first player to connect
          int tempPlayerNum = Integer.parseInt(message.getPayload());
          if (tempPlayerNum < SINGLE_PLAYER_NUMBER || tempPlayerNum > MAX_MULTIPLAYER_NUMBER) {
-            sendToClient(new Message(username, MessageType.NUMBER_OF_PLAYERS_FAILED, "You need to select a valid number of players, It must be between " + SINGLE_PLAYER_NUMBER + " and " + MAX_MULTIPLAYER_NUMBER));
+            sendToClient(new Message(username, MessageType.INVALID_NUMBER_OF_PLAYERS, "You need to select a valid number of players, It must be between " + SINGLE_PLAYER_NUMBER + " and " + MAX_MULTIPLAYER_NUMBER));
             return;
          }
          playersNumber = tempPlayerNum;
@@ -92,14 +93,14 @@ public class Server implements ModelObserver {
       }
       else
       {
-         List<String> tmpConnectdPlyrs = new ArrayList<>(loggedPlayers);
+         List<String> tmpConnectdPlyrs = loggedPlayers();
          tmpConnectdPlyrs.remove(username); // to tell everybody except the player that connected
          for(String user: tmpConnectdPlyrs)
             sendToClient(new Message(user, MessageType.OTHER_USER_JOINED, Integer.toString(NumberOfRemainingLobbySlots())));
 
          sendToClient(new Message(username, MessageType.YOU_JOINED, Integer.toString(NumberOfRemainingLobbySlots()))); //sent to the player that joined
 
-         if (loggedPlayers.size() == playersNumber) {
+         if (loggedPlayers().size() == playersNumber) {
             start();
          }
       }
@@ -135,14 +136,13 @@ public class Server implements ModelObserver {
 
    private void succesfulLogin(String username, ServerClientHandler serverClientHandler) { //TODO serve sincronizzare anche questo?
       serverClientHandler.setUsername(username);
-      usernameToClientHandler.put(username, serverClientHandler);
-      loggedPlayers.add(username);
-      serverClientHandler.sendMessage(new Message(username, MessageType.LOGIN_SUCCESSFUL));
       serverClientHandler.setLogged(true);
+      usernameToClientHandler.put(username, serverClientHandler);
+      serverClientHandler.sendMessage(new Message(username, MessageType.LOGIN_SUCCESSFUL));
    }
 
    private int NumberOfRemainingLobbySlots() {
-      return playersNumber - loggedPlayers.size();
+      return playersNumber - loggedPlayers().size();
    }
 
    private void start() {
@@ -202,7 +202,6 @@ public class Server implements ModelObserver {
       return false;
    }
 
-
    /**
     * sends the message to client set as username in the message. if username is null send broadcast
     * @param message message to send
@@ -257,8 +256,21 @@ public class Server implements ModelObserver {
    }
 
    public synchronized boolean isFirst() {
-      return loggedPlayers.isEmpty();
+      return loggedPlayers().isEmpty();
    }
 
+
+   public void notifyClientDisconnection(ServerClientHandler client) {
+      if(!client.isLogged())
+         acceptedClients.remove(client.getUsername()); //se si disconentte prima di essersi loggato lo elimino e me lo dimentico
+      connectedClients.remove(client);
+   }
+
+   public synchronized List<String> loggedPlayers(){ //if a player disconnects he can be still a logged player
+      return connectedClients.stream()
+              .filter(ServerClientHandler::isLogged)
+              .map(ServerClientHandler::getUsername)
+              .collect(Collectors.toList());
+   }
 
 }
