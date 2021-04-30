@@ -1,11 +1,16 @@
 package it.polimi.ingsw.model;
 
 public enum ResourceType {
-  STONE, GOLD, SERVANT, FAITH, SHIELD;
 
+  STONE,
+  GOLD,
+  SERVANT,
+  FAITH,
+  SHIELD;
 
   /**
    * static factory method that constructs enum by string
+   *
    * @param value string to create the enum
    * @return a new enumeration
    */

@@ -1,24 +1,29 @@
 package it.polimi.ingsw.model.track;
 import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.EndGameObservable;
+import it.polimi.ingsw.model.ModelObservable;
+import it.polimi.ingsw.model.ModelObserver;
+import it.polimi.ingsw.model.MoveForwardObserver;
+import it.polimi.ingsw.network.messages.Message;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class LorenzoTrack implements VaticanReportObservable, EndGameObservable {
+ //dovrei implementare MoveForewardObserver ma é un casino
+public class LorenzoTrack implements VaticanReportObservable, EndGameObservable, ModelObservable, MoveForwardObserver {
   Square[] track;
   int playerPosition;
   final Set<VaticanReportObserver> vaticanReportObserverList = new HashSet<>();
   final Set<EndGameObserver> endGameObserverList = new HashSet<>();
 
-  /**
-   * constructor of the class
-   * instances of this class are made with a json file
-   */
-  public LorenzoTrack() {
-  }
+   /**
+    * constructor of the class
+    * instances of this class are made with a json file
+    */
+   public LorenzoTrack() {
+   }
 
-  /**
+   /**
    * getter of the track
    * @return a track's clone
    */
@@ -80,4 +85,31 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable 
       x.update();
   }
 
+   @Override
+   public void update() {
+     moveForward(1);
+   }
+
+   @Override
+   public int getTrackPosition() {
+     return playerPosition;
+   }
+
+
+  @Override
+  public void notifyForUpdate(Message msg) {
+    //for(ModelObserver x : wrebfjkwrhqbfqr)
+      //x.update(msg);
+  }
+
+//  private Message TrackMoveUpdate(int playerPosition){
+//    return new
+//  }
+
+
+//   @Override
+//   public void addToMoveForwardObserverList(MoveForwardObserver observerToAdd) {
+//     moveForwardObserverList.add(observerToAdd);
+//     //moveForwardObserverList.add(observerToAdd); //non penso sia necessaria
+//   }
 }

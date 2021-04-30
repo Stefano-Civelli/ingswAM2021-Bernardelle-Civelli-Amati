@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>12</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1536</x>
+      <y>336</y>
+      <w>648</w>
+      <h>504</h>
+    </coordinates>
+    <panel_attributes>Server
+--
+_+ MIN_PORT_NUMBER: int = 1024_
+_+ MAX_PORT_NUMBER: int = 65535_
+_- SINGLE_PLAYER_NUMBER: int = 1_
+_- MAX_MULTIPLAYER_NUMBER: int = 4_
+- usernameToClientHandler: Map&lt;String, ServerClientHandler&gt;
+- connectedClients: List&lt;ServerClientHandler&gt;
+- loggedPlayers: List&lt;String&gt;
+- playersNumber: int = 0
+- turnManager: TurnManager
+--
+_+ main(args: String[]): void_
++ lobbySetup(message: Message): void
++ handleLogin(message: Message, serverClientHandler: ServerClientHandler) : void
++ succesfulLogin(username: String, serverClientHandler: ServerClientHandler): void
+- NumberOfRemainingLobbySlots(): int
+- start(): void
++ singleUpdate(message: Message): void
++ broadcastUpdate(message: Message): void
++ addClient(client: ServerClientHandler): void
++ isTaken(username: String): boolean
++ sendToClient(message: Message): void
++ sendBroadcast(message: Message): void
+_- integerInputValidation(in: Scanner, minPortNumber: int, maxPortNumber: int): int_
++ getTurnManager(): TurnManager
++ isFirst(): boolean
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1560</x>
+      <y>1008</y>
+      <w>612</w>
+      <h>408</h>
+    </coordinates>
+    <panel_attributes>ServerClientHandler 
+--
+- clientSocket: Socket
+- server: Server
+- in: BufferedReader
+- out: PrintWriter
+- username: String
+- connected: boolean
+- forcedToDisconnect: boolean
+- Logged: boolean
+_- gsonBuilder: Gson_
+--
+~ ServerClientHandler(client: Socket, server: Server)
++ run(): void
+- handleClientConnection(): void
+- messageReceived(message: Message): void
+- confirmationMessage(answerMessage: Message): void
+# sendMessage(message: Message): void
+- messageParser(jsonMessage: String): Message
+# handleClientDisconnection(message: String): void
++ connected(): boolean
++ isLogged(): boolean
++ setLogged(logged: boolean): void
++ getUsername(): String
++ setUsername(username: String): void
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2400</x>
+      <y>1008</y>
+      <w>588</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+Message
+--
+- username: String = null
+- messageType: MessageType
+- payload: String = null;
+_- gsonBuilder: Gson_
+--
++ Message(messageType: MessageType)
++ Message(username: String, messageType: MessageType)
++ Message(messageType: MessageType, payload: String)
++ Message(messageType: MessageType, object: Object)
++ Message(username: String, messageType: MessageType, payload: String)
++ Message(username: String, messageType: MessageType, object: Object)
++ getMessageType(): MessageType
++ getPayload(): String
++ getAction(): Action
++ setUsername(usr: String): void
++ getUsername(): String
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3804</x>
+      <y>348</y>
+      <w>516</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;abstract&gt;&gt;
+Action
+--
+# username: String
+- type: ActionType
+--
++ setUsername(username: String): void
++ performAction(gameState: IGameState): PhaseType
+# checkValid(gameState: IGameState): boolean
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2820</x>
+      <y>132</y>
+      <w>372</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>ProductionAction
+--
+- cardIndex: int
+--
++ performAction(gameState: IGameState): void
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3228</x>
+      <y>132</y>
+      <w>372</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>MarketAction
+--
+- inRow: boolean  // if true -&gt; row, else -&gt; column
+- index: int
+--
++ performAction(gameState: IGameState): void
+
+
+bg=#ffeeff
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3672</x>
+      <y>720</y>
+      <w>372</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>BuyDevelopCardAction
+--
+- column: int
+- row: int
+- cardSlotIndex: int
+--
++ performAction(gameState: IGameState): void
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2424</x>
+      <y>132</y>
+      <w>372</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>DiscardLeaderAction
+--
+- leaderCardIndex: int
+--
++ performAction(gameState: IGameState): void
+
+
+bg=#ffeeff
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3216</x>
+      <y>456</y>
+      <w>372</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>ActivateLeaderAction
+--
+- leaderCardIndex: int
+--
++ performAction(gameState: IGameState): void
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2820</x>
+      <y>456</y>
+      <w>372</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>InsertMarbleAction
+--
+- marbleIndex: int
+--
++ performAction(gameState: IGameState): void
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>732</x>
+      <y>1212</y>
+      <w>336</w>
+      <h>324</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+PhaseType
+--
+SETUP_CHOOSERESOURCES
+SETUP_DISCARDLEADER
+END_SETUP
+INITIAL
+SHOPPING
+SHOPPING_LEADER
+PRODUCING
+FINAL
+END
+--
+- availableActionsList: List&lt;ActionType&gt;
+--
++ PhaseType(actions: List&lt;ActionType&gt;)
+_+ fromValue(value: String): ActionType_
++ isValid(actionType: ActionType): boolean
+
+
+bg=#ffeeff
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>96</x>
+      <y>1284</y>
+      <w>432</w>
+      <h>228</h>
+    </coordinates>
+    <panel_attributes>TurnManager
+--
+- curentPlayer: String = null
+- currentPhase: PhaseType = null
+- game : Game
+--
++ TurnManager(game: Game, usernames: List&lt;String&gt;)
++ startGame(): List&lt;String&gt; 
++ handleAction(action: Action): Message
++ getCurrentPlayer(): String
++ getCurrentPhase(): PhaseType
++ getGame(): Game
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>168</x>
+      <y>1068</y>
+      <w>288</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+GameState
+--
++ getCurrentPlayer(): String
++ getCurrentPhase(): PhaseType
++ getGame(): Game
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>300</x>
+      <y>1176</y>
+      <w>36</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1848</x>
+      <y>828</y>
+      <w>36</w>
+      <h>204</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3084</x>
+      <y>1008</y>
+      <w>312</w>
+      <h>600</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+MessageType
+--
+PING
+LOGIN
+NUMBER_OF_PLAYERS
+INVALID_NUMBER_OF_PLAYERS
+LOGIN_FAILED
+LOGIN_SUCCESSFUL
+WAIT_FOR_LOBBY_CREATION
+LOBBY_CREATED
+YOU_JOINED
+OTHER_USER_JOINED
+SERVER_DOWN
+DISCONNECTED_SERVER_SIDE
+ACTION
+GENERIC_MESSAGE
+GAME_STARTED
+INIT_TURN
+END_TURN
+MARKET_UPDATED
+TRACK_UPDATED
+DEVELOP_CARD_DECK_UPDATED
+CARD_SLOT_UPDATE
+WINNING_PLAYER
+DECK_SETUP
+MARKET_SETUP
+LEADERCARD_SETUP
+ERROR
+NEXT_TURN_STATE
+--
+_+ fromValue(value: String): ActionType_
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2424</x>
+      <y>456</y>
+      <w>372</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>LeaderProductionAction
+--
+- leaderCardIndex: int
+- product: ResourceType
+--
++ performAction(gameState: IGameState): void
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>4092</x>
+      <y>720</y>
+      <w>372</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>BaseProductionAction
+--
+- reource1: ResourceType
+- resource2: ResourceType
+- product: ResourceType
+--
++ performAction(gameState: IGameState): void
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2424</x>
+      <y>720</y>
+      <w>372</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>ChooseLeaderOnWhiteMarbleAction
+--
+- leaderIndex: int
+--
++ performAction(gameState: IGameState): void
+
+
+bg=#ffeeff
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2820</x>
+      <y>720</y>
+      <w>372</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>ChooseResourcesAction
+--
+- resources: Map&lt;ResourceType, Integer&gt;
+--
++ performAction(gameState: IGameState): void
+
+
+bg=#ffeeff
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3216</x>
+      <y>720</y>
+      <w>372</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>EndTurnAction
+--
+--
++ performAction(gameState: IGameState): void
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>4200</x>
+      <y>588</y>
+      <w>36</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3924</x>
+      <y>588</y>
+      <w>36</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2604</x>
+      <y>468</y>
+      <w>1224</w>
+      <h>276</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>1000.0;10.0;930.0;10.0;930.0;140.0;10.0;140.0;10.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2988</x>
+      <y>468</y>
+      <w>840</w>
+      <h>276</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>680.0;10.0;610.0;10.0;610.0;140.0;10.0;140.0;10.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3384</x>
+      <y>468</y>
+      <w>444</w>
+      <h>276</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>350.0;10.0;280.0;10.0;280.0;140.0;10.0;140.0;10.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3576</x>
+      <y>468</y>
+      <w>252</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>190.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3012</x>
+      <y>348</y>
+      <w>816</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>660.0;110.0;590.0;110.0;590.0;10.0;10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2580</x>
+      <y>348</y>
+      <w>1248</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>1020.0;110.0;950.0;110.0;950.0;10.0;10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3396</x>
+      <y>228</y>
+      <w>432</w>
+      <h>276</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>340.0;210.0;270.0;210.0;270.0;110.0;10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3012</x>
+      <y>228</y>
+      <w>816</w>
+      <h>276</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>660.0;210.0;590.0;210.0;590.0;110.0;10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2580</x>
+      <y>228</y>
+      <w>1248</w>
+      <h>276</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>1020.0;210.0;950.0;210.0;950.0;110.0;10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>4416</x>
+      <y>348</y>
+      <w>312</w>
+      <h>300</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enum&gt;&gt;
+ActionType
+--
+CHOSE_RESOURCES
+PRODUCE
+BASE_PRODUCE
+LEADER_PRODUC,
+SHOP_MARKET
+BUY_CARD
+DISCARD_LEADER
+END_TURN
+ACTIVATE_LEADE,
+INSERT_MARBLE
+CHOOSE_WHITE_LEADER
+--
+_+ fromValue(value: String): ActionType_
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>4308</x>
+      <y>456</y>
+      <w>132</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2976</x>
+      <y>1092</y>
+      <w>132</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>516</x>
+      <y>1380</y>
+      <w>240</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>180.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>696</x>
+      <y>504</y>
+      <w>312</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+Model::ModelObserver
+--
+singleUpdate(msg: Message): void
+broadcastUpdate(msg: Message): void
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>996</x>
+      <y>552</y>
+      <w>564</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;450.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1368</x>
+      <y>36</y>
+      <w>3408</w>
+      <h>1632</h>
+    </coordinates>
+    <panel_attributes>network
+--
+bg=#ffffee</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>0</x>
+      <y>948</y>
+      <w>1200</w>
+      <h>720</h>
+    </coordinates>
+    <panel_attributes>controller
+--
+bg=#ffffee</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>324</x>
+      <y>492</y>
+      <w>252</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Model::GenericModelClass
+--
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>300</x>
+      <y>252</y>
+      <w>312</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+Model::ModelObservable
+--
+notifyForUpdate(msg: Message): void
+
+
+bg=#ffeeff</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>432</x>
+      <y>336</y>
+      <w>36</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>564</x>
+      <y>528</y>
+      <w>156</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>110.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>108</x>
+      <y>528</y>
+      <w>216</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>This class doesn't exist:
+it's just an example.</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

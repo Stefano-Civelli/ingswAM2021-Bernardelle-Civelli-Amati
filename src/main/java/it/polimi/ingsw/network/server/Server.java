@@ -159,7 +159,7 @@ public class Server implements ModelObserver {
       }
 
       try {
-         turnManager = new TurnManager(game, loggedPlayers());
+         turnManager = new TurnManager(game, loggedPlayers);
          playersInOrder = turnManager.startGame();
       }catch (IOException e) {
          //TODO sistemare il costruttore di playerboard

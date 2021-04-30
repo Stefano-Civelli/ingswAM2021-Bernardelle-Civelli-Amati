@@ -1,7 +1,11 @@
 package it.polimi.ingsw.model;
 
 public enum DevelopCardColor {
-   GREEN(0, "Green"), BLUE(1, "Blue"), YELLOW(2, "Yellow"), PURPLE(3, "Purple");
+
+   GREEN(0, "Green"),
+   BLUE(1, "Blue"),
+   YELLOW(2, "Yellow"),
+   PURPLE(3, "Purple");
 
    private final int column;
    private final String color;
@@ -11,6 +15,12 @@ public enum DevelopCardColor {
       this.color = color;
    }
 
+   /**
+    * static factory method that constructs enum by string
+    *
+    * @param value string to create the enum
+    * @return a new enumeration
+    */
    public static DevelopCardColor fromValue(String value) {
       for (DevelopCardColor developCardColor : values()) {
          if (developCardColor.name().equals(value)) {
