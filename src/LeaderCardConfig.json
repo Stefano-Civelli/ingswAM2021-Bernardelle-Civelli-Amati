@@ -1,6 +1,7 @@
 {
   "leaderCardList" : [
     {
+      "leaderId": "1",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -18,6 +19,7 @@
       }
     },
     {
+      "leaderId": "2",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -35,6 +37,7 @@
       }
     },
     {
+      "leaderId": "3",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -52,6 +55,7 @@
       }
     },
     {
+      "leaderId": "4",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -69,6 +73,7 @@
       }
     },
     {
+      "leaderId": "5",
       "active": "false",
       "requiredResources": "GOLD",
       "requiredCardFlags": [],
@@ -79,6 +84,7 @@
       }
     },
     {
+      "leaderId": "6",
       "active": "false",
       "requiredResources": "STONE",
       "requiredCardFlags": [],
@@ -89,6 +95,7 @@
       }
     },
     {
+      "leaderId": "7",
       "active": "false",
       "requiredResources": "SERVANT",
       "requiredCardFlags": [],
@@ -99,6 +106,7 @@
       }
     },
     {
+      "leaderId": "8",
       "active": "false",
       "requiredResources": "SHIELD",
       "requiredCardFlags": [],
@@ -109,6 +117,7 @@
       }
     },
     {
+      "leaderId": "9",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -126,6 +135,7 @@
       }
     },
     {
+      "leaderId": "10",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -143,6 +153,7 @@
       }
     },
     {
+      "leaderId": "11",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -160,6 +171,7 @@
       }
     },
     {
+      "leaderId": "12",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -177,6 +189,7 @@
       }
     },
     {
+      "leaderId": "13",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -191,6 +204,7 @@
       }
     },
     {
+      "leaderId": "14",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -205,6 +219,7 @@
       }
     },
     {
+      "leaderId": "15",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -219,6 +234,7 @@
       }
     },
     {
+      "leaderId": "16",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [

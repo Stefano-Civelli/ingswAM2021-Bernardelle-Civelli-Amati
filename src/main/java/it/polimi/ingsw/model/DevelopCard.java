@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DevelopCard {
+   private int devCardId;
    private final CardFlag cardFlag;
    private final HashMap<ResourceType, Integer> cost;
    private final HashMap<ResourceType, Integer> requirement;
@@ -152,6 +153,10 @@ public class DevelopCard {
 
    public int getVictoryPoints(){
       return victoryPoints;
+   }
+
+   public int getCardId(){
+      return devCardId;
    }
 
    @Override

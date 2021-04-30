@@ -1,22 +1,24 @@
 {
     "developCardList": [
         {
-        "cardFlag": {
-            "level": "1",
-            "color": "GREEN"
-        },
-        "cost": {
-            "SHIELD": "2"
-        },
-        "requirement": {
-            "GOLD": "1"
-        },
-        "product": {
-            "FAITH": "1"
-        },
-        "victoryPoints": "1"
+            "devCardId": "1",
+            "cardFlag": {
+                "level": "1",
+                "color": "GREEN"
+            },
+            "cost": {
+                "SHIELD": "2"
+            },
+            "requirement": {
+                "GOLD": "1"
+            },
+            "product": {
+                "FAITH": "1"
+            },
+            "victoryPoints": "1"
         },
         {
+            "devCardId": "2",
             "cardFlag": {
                 "level": "1",
                 "color": "PURPLE"
@@ -33,6 +35,7 @@
             "victoryPoints": "1"
         },
         {
+            "devCardId": "3",
             "cardFlag": {
                 "level": "1",
                 "color": "BLUE"
@@ -49,6 +52,7 @@
             "victoryPoints": "1"
         },
         {
+            "devCardId": "4",
             "cardFlag": {
                 "level": "1",
                 "color": "YELLOW"
@@ -65,6 +69,7 @@
             "victoryPoints": "1"
         },
         {
+            "devCardId": "5",
             "cardFlag": {
                 "level": "1",
                 "color": "GREEN"
@@ -84,6 +89,7 @@
             "victoryPoints": "2"
         },
         {
+            "devCardId": "6",
             "cardFlag": {
                 "level": "1",
                 "color": "PURPLE"
@@ -102,6 +108,7 @@
             "victoryPoints": "2"
         },
         {
+            "devCardId": "7",
             "cardFlag": {
                 "level": "1",
                 "color": "BLUE"
@@ -120,6 +127,7 @@
             "victoryPoints": "2"
         },
         {
+            "devCardId": "8",
             "cardFlag": {
                 "level": "1",
                 "color": "YELLOW"
@@ -138,6 +146,7 @@
             "victoryPoints": "2"
         },
         {
+            "devCardId": "9",
             "cardFlag": {
                 "level": "1",
                 "color": "GREEN"
@@ -156,6 +165,7 @@
             "victoryPoints": "3"
         },
         {
+            "devCardId": "10",
             "cardFlag": {
                 "level": "1",
                 "color": "PURPLE"
@@ -174,6 +184,7 @@
             "victoryPoints": "3"
         },
         {
+            "devCardId": "11",
             "cardFlag": {
                 "level": "1",
                 "color": "BLUE"
@@ -192,6 +203,7 @@
             "victoryPoints": "3"
         },
         {
+            "devCardId": "12",
             "cardFlag": {
                 "level": "1",
                 "color": "YELLOW"
@@ -210,6 +222,7 @@
             "victoryPoints": "3"
         },
         {
+            "devCardId": "13",
             "cardFlag": {
                 "level": "1",
                 "color": "GREEN"
@@ -229,6 +242,7 @@
             "victoryPoints": "4"
         },
         {
+            "devCardId": "14",
             "cardFlag": {
                 "level": "1",
                 "color": "PURPLE"
@@ -248,6 +262,7 @@
             "victoryPoints": "4"
         },
         {
+            "devCardId": "15",
             "cardFlag": {
                 "level": "1",
                 "color": "BLUE"
@@ -267,6 +282,7 @@
             "victoryPoints": "4"
         },
         {
+            "devCardId": "16",
             "cardFlag": {
                 "level": "1",
                 "color": "YELLOW"
@@ -286,6 +302,7 @@
             "victoryPoints": "4"
         },
         {
+            "devCardId": "17",
             "cardFlag": {
                 "level": "2",
                 "color": "GREEN"
@@ -302,6 +319,7 @@
             "victoryPoints": "5"
         },
         {
+            "devCardId": "18",
             "cardFlag": {
                 "level": "2",
                 "color": "PURPLE"
@@ -318,6 +336,7 @@
             "victoryPoints": "5"
         },
         {
+            "devCardId": "19",
             "cardFlag": {
                 "level": "2",
                 "color": "BLUE"
@@ -334,6 +353,7 @@
             "victoryPoints": "5"
         },
         {
+            "devCardId": "20",
             "cardFlag": {
                 "level": "2",
                 "color": "YELLOW"
@@ -350,6 +370,7 @@
             "victoryPoints": "5"
         },
         {
+            "devCardId": "21",
             "cardFlag": {
                 "level": "2",
                 "color": "GREEN"
@@ -368,6 +389,7 @@
             "victoryPoints": "6"
         },
         {
+            "devCardId": "22",
             "cardFlag": {
                 "level": "2",
                 "color": "PURPLE"
@@ -386,6 +408,7 @@
             "victoryPoints": "6"
         },
         {
+            "devCardId": "23",
             "cardFlag": {
                 "level": "2",
                 "color": "BLUE"
@@ -404,6 +427,7 @@
             "victoryPoints": "6"
         },
         {
+            "devCardId": "24",
             "cardFlag": {
                 "level": "2",
                 "color": "YELLOW"
@@ -422,6 +446,7 @@
             "victoryPoints": "6"
         },
         {
+            "devCardId": "25",
             "cardFlag": {
                 "level": "2",
                 "color": "GREEN"
@@ -439,6 +464,7 @@
             "victoryPoints": "7"
         },
         {
+            "devCardId": "26",
             "cardFlag": {
                 "level": "2",
                 "color": "PURPLE"
@@ -456,6 +482,7 @@
             "victoryPoints": "7"
         },
         {
+            "devCardId": "27",
             "cardFlag": {
                 "level": "2",
                 "color": "BLUE"
@@ -473,6 +500,7 @@
             "victoryPoints": "7"
         },
         {
+            "devCardId": "28",
             "cardFlag": {
                 "level": "2",
                 "color": "YELLOW"
@@ -490,6 +518,7 @@
             "victoryPoints": "7"
         },
         {
+            "devCardId": "29",
             "cardFlag": {
                 "level": "2",
                 "color": "GREEN"
@@ -508,6 +537,7 @@
             "victoryPoints": "8"
         },
         {
+            "devCardId": "30",
             "cardFlag": {
                 "level": "2",
                 "color": "PURPLE"
@@ -526,6 +556,7 @@
             "victoryPoints": "8"
         },
         {
+            "devCardId": "31",
             "cardFlag": {
                 "level": "2",
                 "color": "BLUE"
@@ -544,6 +575,7 @@
             "victoryPoints": "8"
         },
         {
+            "devCardId": "32",
             "cardFlag": {
                 "level": "2",
                 "color": "YELLOW"
@@ -562,6 +594,7 @@
             "victoryPoints": "8"
         },
         {
+            "devCardId": "33",
             "cardFlag": {
                 "level": "3",
                 "color": "GREEN"
@@ -579,6 +612,7 @@
             "victoryPoints": "9"
         },
         {
+            "devCardId": "34",
             "cardFlag": {
                 "level": "3",
                 "color": "PURPLE"
@@ -596,6 +630,7 @@
             "victoryPoints": "9"
         },
         {
+            "devCardId": "35",
             "cardFlag": {
                 "level": "3",
                 "color": "BLUE"
@@ -613,6 +648,7 @@
             "victoryPoints": "9"
         },
         {
+            "devCardId": "36",
             "cardFlag": {
                 "level": "3",
                 "color": "YELLOW"
@@ -630,6 +666,7 @@
             "victoryPoints": "9"
         },
         {
+            "devCardId": "37",
             "cardFlag": {
                 "level": "3",
                 "color": "GREEN"
@@ -650,6 +687,7 @@
             "victoryPoints": "10"
         },
         {
+            "devCardId": "38",
             "cardFlag": {
                 "level": "3",
                 "color": "PURPLE"
@@ -670,6 +708,7 @@
             "victoryPoints": "10"
         },
         {
+            "devCardId": "39",
             "cardFlag": {
                 "level": "3",
                 "color": "BLUE"
@@ -690,6 +729,7 @@
             "victoryPoints": "10"
         },
         {
+            "devCardId": "40",
             "cardFlag": {
                 "level": "3",
                 "color": "YELLOW"
@@ -710,6 +750,7 @@
             "victoryPoints": "10"
         },
         {
+            "devCardId": "41",
             "cardFlag": {
                 "level": "3",
                 "color": "GREEN"
@@ -727,6 +768,7 @@
             "victoryPoints": "11"
         },
         {
+            "devCardId": "42",
             "cardFlag": {
                 "level": "3",
                 "color": "PURPLE"
@@ -744,6 +786,7 @@
             "victoryPoints": "11"
         },
         {
+            "devCardId": "43",
             "cardFlag": {
                 "level": "3",
                 "color": "BLUE"
@@ -761,6 +804,7 @@
             "victoryPoints": "11"
         },
         {
+            "devCardId": "44",
             "cardFlag": {
                 "level": "3",
                 "color": "YELLOW"
@@ -778,6 +822,7 @@
             "victoryPoints": "11"
         },
         {
+            "devCardId": "45",
             "cardFlag": {
                 "level": "3",
                 "color": "GREEN"
@@ -796,6 +841,7 @@
             "victoryPoints": "12"
         },
         {
+            "devCardId": "46",
             "cardFlag": {
                 "level": "3",
                 "color": "PURPLE"
@@ -814,6 +860,7 @@
             "victoryPoints": "12"
         },
         {
+            "devCardId": "47",
             "cardFlag": {
                 "level": "3",
                 "color": "BLUE"
@@ -832,6 +879,7 @@
             "victoryPoints": "12"
         },
         {
+            "devCardId": "48",
             "cardFlag": {
                 "level": "3",
                 "color": "YELLOW"

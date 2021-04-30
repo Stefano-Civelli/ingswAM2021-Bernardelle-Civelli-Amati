@@ -11,6 +11,7 @@ public class LeaderCard {
 
    @Expose(deserialize = false)
    private final int numberOfRequiredResources = 5;
+   private int leaderId;
    private boolean active;
    private ResourceType requiredResources; //is null if no resources are required
    private Map<CardFlag,Integer> requiredCardFlags; //is empty if no flags are required
@@ -47,7 +48,7 @@ public class LeaderCard {
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
 
-      //TODO
+      //TODO se lo metto qua devo togliere il controllo isActive da addStorageSpace
       //this.addStorageSpace(playerBoard);
 
       if(!playerBoard.getLeaderCards().contains(this))
@@ -73,6 +74,10 @@ public class LeaderCard {
    public boolean isActive() {
     return active;
   }
+
+   public int getLeaderId() {
+      return leaderId;
+   }
 
    /**
     * get the number of victory points
