@@ -11,9 +11,9 @@ public abstract class Action {
     @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private ActionType type;
 
-    public final void setUsername(String userName) {
+    public final void setUsername(String username) {
         if(this.username == null)
-            this.username = userName;
+            this.username = username;
     }
 
     public abstract PhaseType performAction(IGameState gameState) throws InvalidActionException, ModelException;

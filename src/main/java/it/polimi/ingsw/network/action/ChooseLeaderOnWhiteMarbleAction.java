@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.IGameState;
 import it.polimi.ingsw.controller.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
-public class ChooseLeaderAction extends Action {
+public class ChooseLeaderOnWhiteMarbleAction extends Action {
 
     @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private int leaderIndex;

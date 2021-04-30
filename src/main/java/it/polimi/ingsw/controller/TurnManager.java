@@ -72,7 +72,7 @@ public class TurnManager implements IGameState {
         } catch (InvalidCardPlacementException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_CARD_PLACEMENT);
         } catch (RowOrColumnNotExistsException e) {
-            // TODO Usato sia per le carte che per il mercato, magari dividere le eccezioni per poter creare due eroori diversi
+            // TODO Usato sia per le carte che per il mercato, magari dividere le eccezioni per poter creare due errori diversi
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_ROW_OR_COLUMN);
         } catch (WrongResourceNumberException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.WRONG_RESOURCES_NUMBER);
@@ -113,7 +113,7 @@ public class TurnManager implements IGameState {
             this.currentPhase = PhaseType.INITIAL;
         }
 
-        // Send new state of turn to players
+        // Send new turn state to players
         return new Message(MessageType.NEXT_TURN_STATE, new TurnState(this.currentPlayer, this.currentPhase));
     }
 
