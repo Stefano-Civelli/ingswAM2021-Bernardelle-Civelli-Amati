@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -257,7 +259,9 @@ class PlayerBoardTest {
     assertEquals(2, playerBoard.getTempMarketMarble().size());
 
     playerBoard.addMarbleToWarehouse(1);
-    playerBoard.addMarbleToWarehouse(0);
+    try {
+      playerBoard.addMarbleToWarehouse(0);
+    } catch (NotEnoughSpaceException ignored) {}
     assertEquals(0, playerBoard.getTempMarketMarble().size());
   }
 
