@@ -1,6 +1,5 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.network.action.Action;
 import it.polimi.ingsw.network.action.InvalidActionException;
