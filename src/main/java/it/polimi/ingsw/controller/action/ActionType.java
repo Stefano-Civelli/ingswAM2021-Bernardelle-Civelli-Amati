@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.action;
+package it.polimi.ingsw.controller.action;
 
 public enum ActionType {
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import com.google.gson.*;
-import it.polimi.ingsw.network.action.Action;
+import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 

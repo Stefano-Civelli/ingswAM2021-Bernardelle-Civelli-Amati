@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.modelexceptions.*;
-import it.polimi.ingsw.network.action.Action;
-import it.polimi.ingsw.network.action.InvalidActionException;
+import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.controller.action.InvalidActionException;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
