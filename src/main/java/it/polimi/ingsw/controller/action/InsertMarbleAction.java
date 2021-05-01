@@ -1,7 +1,7 @@
-package it.polimi.ingsw.network.action;
+package it.polimi.ingsw.controller.action;
 
-import it.polimi.ingsw.controller.IGameState;
-import it.polimi.ingsw.controller.PhaseType;
+import it.polimi.ingsw.model.IGameState;
+import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
 public class InsertMarbleAction extends Action {
@@ -11,7 +11,7 @@ public class InsertMarbleAction extends Action {
 
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException,
-            InvalidUsernameException {
+            InvalidUsernameException, MarbleNotExistException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
         try {

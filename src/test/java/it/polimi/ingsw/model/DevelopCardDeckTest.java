@@ -27,7 +27,7 @@ class DevelopCardDeckTest {
    }
 
    @Test
-   void removePresentCard() throws IOException, InvalidCardException, RowOrColumnNotExistsException {
+   void removePresentCard() throws IOException, InvalidCardException, InvalidDevelopCardException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       DevelopCard previousCard = developCardDeck.getCard(0,0);
@@ -53,7 +53,7 @@ class DevelopCardDeckTest {
    }
 
    @Test
-   void removeInvalidCard() throws IOException, RowOrColumnNotExistsException, InvalidCardException {
+   void removeInvalidCard() throws IOException, InvalidDevelopCardException, InvalidCardException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       boolean pippo = false;
@@ -76,7 +76,7 @@ class DevelopCardDeckTest {
       boolean pippo = false;
       try {
          developCardDeck.getCard(1,12);
-      } catch (RowOrColumnNotExistsException e) {
+      } catch (InvalidDevelopCardException e) {
          pippo = true;
       }
       assertTrue(pippo);
@@ -84,7 +84,7 @@ class DevelopCardDeckTest {
    }
 
    @Test
-   void canBuyAllCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException, NegativeQuantityException {
+   void canBuyAllCards() throws IOException, AbuseOfFaithException, InvalidDevelopCardException, InvalidCardPlacementException, NegativeQuantityException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);

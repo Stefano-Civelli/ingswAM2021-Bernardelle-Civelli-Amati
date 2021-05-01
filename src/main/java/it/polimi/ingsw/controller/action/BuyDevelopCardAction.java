@@ -1,7 +1,7 @@
-package it.polimi.ingsw.network.action;
+package it.polimi.ingsw.controller.action;
 
-import it.polimi.ingsw.controller.IGameState;
-import it.polimi.ingsw.controller.PhaseType;
+import it.polimi.ingsw.model.IGameState;
+import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
 public class BuyDevelopCardAction extends Action {
@@ -14,7 +14,7 @@ public class BuyDevelopCardAction extends Action {
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException,
             InvalidUsernameException, NotBuyableException, InvalidCardPlacementException,
-            RowOrColumnNotExistsException {
+            InvalidDevelopCardException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
         gameState.getGame().getPlayerBoard(super.username).addDevelopCard(row, column, cardSlotIndex);

@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.messages;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.network.action.Action;
+import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.utility.GSON;
 
 //TODO aggiugere receiver e setReceiver

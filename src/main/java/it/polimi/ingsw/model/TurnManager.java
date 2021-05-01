@@ -1,9 +1,8 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.modelexceptions.*;
-import it.polimi.ingsw.network.action.Action;
-import it.polimi.ingsw.network.action.InvalidActionException;
+import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.controller.action.InvalidActionException;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -53,14 +52,16 @@ public class TurnManager implements IGameState {
         try {
             this.currentPhase = action.performAction(this);
         } catch (InvalidActionException e) {
+            // TODO differenziare player sbagliato e azione sbagliata in questa fase del gioco
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_ACTION);
         } catch (InvalidUsernameException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_USERNAME);
         } catch (NotEnoughResourcesException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.NOT_ENOUGH_RESOURCES);
         } catch (InvalidLeaderCardException e) {
-            // TODO si usa sia per quando la leader non esiste sia se si cerca di rimuovere una leader attiva, magari differenziare
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_LEADERCARD);
+        } catch(LeaderIsActiveException e) {
+            return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.CANNOT_DISCARD_ACTIVE_LEADER);
         } catch (AlreadyProducedException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.ALREADY_PRODUCED);
         } catch (NegativeQuantityException e) {
@@ -72,14 +73,14 @@ public class TurnManager implements IGameState {
         } catch (InvalidCardPlacementException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_CARD_PLACEMENT);
         } catch (RowOrColumnNotExistsException e) {
-            // TODO Usato sia per le carte che per il mercato, magari dividere le eccezioni per poter creare due errori diversi
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_ROW_OR_COLUMN);
-        } catch (WrongResourceNumberException e) {
+        } catch(InvalidDevelopCardException e) {
+            return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_DEVELOP_CARD);
+        }catch (WrongResourceNumberException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.WRONG_RESOURCES_NUMBER);
         } catch (NotEnoughSpaceException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.NOT_ENOUGH_SPACE);
         } catch (MarbleNotExistException e) {
-            // TODO addMarbleToWarehouse() in playerboard al momento trova IndexOutOfBound: meglio sostituirla con questa
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.MARBLE_NOT_EXIST);
         } catch (NeedAResourceToAddException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.NEED_RESOURCE_TO_PRODUCE);

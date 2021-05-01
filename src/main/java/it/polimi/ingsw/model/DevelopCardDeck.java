@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
+import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 
 import java.util.*;
@@ -108,11 +109,11 @@ public class DevelopCardDeck implements EndGameObservable {
     * @param row the row of the card to return (start at 0). Row is related to the card level
     * @param column the column of the card to return (start at 0). Column is related to card the color
     * @return the card present at the given position
-    * @throws RowOrColumnNotExistsException if the card position is invalid
+    * @throws InvalidDevelopCardException if the card position is invalid
     */
-   public DevelopCard getCard(int row, int column) throws RowOrColumnNotExistsException {
+   public DevelopCard getCard(int row, int column) throws InvalidDevelopCardException {
       if(row<0 || row>2 || column<0 || column>3)
-         throw new RowOrColumnNotExistsException("row is between 0 and " + (cardsCube.length-1) + " , column is between 0 and " + (cardsCube[0].length-1));
+         throw new InvalidDevelopCardException("row is between 0 and " + (cardsCube.length-1) + " , column is between 0 and " + (cardsCube[0].length-1));
 
       return cardsCube[row][column].get(cardsCube[row][column].size() - 1);
    }
@@ -131,7 +132,7 @@ public class DevelopCardDeck implements EndGameObservable {
       try {
          if(getCard(row,column) != card)
             throw new InvalidCardException();
-      } catch (RowOrColumnNotExistsException e) {
+      } catch (InvalidDevelopCardException e) {
          e.printStackTrace();
       }
       cardsCube[row][column].remove(cardsCube[row][column].size() - 1);

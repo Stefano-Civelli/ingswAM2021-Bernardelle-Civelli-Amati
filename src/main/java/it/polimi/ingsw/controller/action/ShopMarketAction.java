@@ -1,7 +1,7 @@
-package it.polimi.ingsw.network.action;
+package it.polimi.ingsw.controller.action;
 
-import it.polimi.ingsw.controller.IGameState;
-import it.polimi.ingsw.controller.PhaseType;
+import it.polimi.ingsw.model.IGameState;
+import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
 public class ShopMarketAction extends Action {

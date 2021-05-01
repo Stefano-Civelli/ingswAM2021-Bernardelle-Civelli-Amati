@@ -87,14 +87,17 @@ public class DevelopCard {
     * @param playerBoard that wants to buy the card
     * @param cardSlotNumber number of the slot to put the new card in. (starts at 0)
     * @throws NotBuyableException if the card can't be bought
+    * @throws InvalidCardPlacementException if the card cannot be placed in the specified slot
     */
-   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber) throws NotBuyableException {
+   public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber)
+           throws NotBuyableException, InvalidCardPlacementException {
       CardSlots cardSlots = playerBoard.getCardSlots();
       DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
       HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
-      if(!this.isBuyable(playerBoard) ||
-              cardSlots.returnTopCard(cardSlotNumber).getCardFlag().getLevel() != (this.getCardFlag().getLevel() - 1))
+      if(!this.isBuyable(playerBoard))
          throw new NotBuyableException("you are trying to buy a card you cannot buy");
+      if(cardSlots.returnTopCard(cardSlotNumber).getCardFlag().getLevel() != (this.getCardFlag().getLevel() - 1))
+         throw new InvalidCardPlacementException();
 
 
       //apply discount

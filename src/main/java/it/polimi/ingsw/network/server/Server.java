@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.controller.TurnManager;
+import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
