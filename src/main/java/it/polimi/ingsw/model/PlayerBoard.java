@@ -78,9 +78,11 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
     * @param leaderPosition, index of the leaderCard to remove (starts at 0)
     * @throws InvalidLeaderCardException if the leaderCard is activated or the index is outOfBound
     */
-   public void discardLeader(int leaderPosition) throws InvalidLeaderCardException {
-      if( leaderPosition < 0 || leaderPosition > 2 || leaderCards.get(leaderPosition).isActive())
+   public void discardLeader(int leaderPosition) throws InvalidLeaderCardException, LeaderIsActiveException {
+      if( leaderPosition < 0 || leaderPosition > 2)
          throw new InvalidLeaderCardException("You can't remove this card in this moment");
+      if(leaderCards.get(leaderPosition).isActive())
+         throw new LeaderIsActiveException();
       leaderCards.remove(leaderPosition);
       track.moveForward(1);
    }
@@ -91,9 +93,9 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
     * @param column, column of the Deck that identifies the Develop to add (starts at 0)
     * @param cardSlot, slot of CardSlots where the card is placed (starts at 0)
     * @throws InvalidCardPlacementException if the card can't be placed in the slot passed as parameter
-    * @throws RowOrColumnNotExistsException if the index of row or column doesn't exists
+    * @throws InvalidDevelopCardException if the index of row or column doesn't exists
     */
-   public void addDevelopCard(int row, int column, int cardSlot) throws InvalidCardPlacementException, RowOrColumnNotExistsException, NotBuyableException {
+   public void addDevelopCard(int row, int column, int cardSlot) throws InvalidDevelopCardException, NotBuyableException, InvalidCardPlacementException {
       developCardDeck.getCard(row, column).buy(this, cardSlot);
    }
 
@@ -125,10 +127,10 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
     * @throws MoreWhiteLeaderCardsException if the player has more than 1 leaderCard activated that modifies the white marble
     * @throws NotEnoughSpaceException if the resource can't be added
     */
-   public void addMarbleToWarehouse(int marbleIndex) throws MoreWhiteLeaderCardsException, NotEnoughSpaceException {
+   public void addMarbleToWarehouse(int marbleIndex)
+           throws MoreWhiteLeaderCardsException, NotEnoughSpaceException, MarbleNotExistException {
          if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
-            // TODO sostituire con un'eccezione vera
-            throw new IndexOutOfBoundsException("The index of the marble u gave me doesn't match the length of my array");
+            throw new MarbleNotExistException("The index of the marble u gave me doesn't match the length of my array");
             try {
                tempMarketMarble.get(marbleIndex).addResource(this);
             } catch (NotEnoughSpaceException e) {

@@ -24,7 +24,7 @@ class CardSlotsTest {
   }
 
   @Test
-  void calculateDevelopCardScore() throws IOException, RowOrColumnNotExistsException, InvalidCardPlacementException {
+  void calculateDevelopCardScore() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     int totalPoints = 0;
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
@@ -43,7 +43,7 @@ class CardSlotsTest {
   }
 
   @Test //placing the same card in 2 different slots
-  void checkSameCardPlacementExceptionTest1() throws IOException, RowOrColumnNotExistsException, InvalidCardPlacementException {
+  void checkSameCardPlacementExceptionTest1() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);
@@ -53,7 +53,7 @@ class CardSlotsTest {
   }
 
   @Test //placing the same card in 2 different slots
-  void checkSameCardPlacementExceptionTest2() throws IOException, RowOrColumnNotExistsException, InvalidCardPlacementException {
+  void checkSameCardPlacementExceptionTest2() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);
@@ -66,7 +66,7 @@ class CardSlotsTest {
   }
 
   @Test //placing a lvl 2 card into an empty slot
-  void checkInvalidLevelCardPlacementExceptionTest1() throws IOException, RowOrColumnNotExistsException, InvalidCardPlacementException {
+  void checkInvalidLevelCardPlacementExceptionTest1() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);
@@ -77,7 +77,7 @@ class CardSlotsTest {
   }
 
   @Test //placing a lvl 3 card on top of a lvl 1
-  void checkInvalidLevelCardPlacementExceptionTest2() throws IOException, RowOrColumnNotExistsException, InvalidCardPlacementException {
+  void checkInvalidLevelCardPlacementExceptionTest2() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);
@@ -87,7 +87,7 @@ class CardSlotsTest {
   }
 
   @Test //placing a lvl 1 card on top of a lvl 2
-  void checkInvalidLevelCardPlacementExceptionTest3() throws IOException, RowOrColumnNotExistsException, InvalidCardPlacementException {
+  void checkInvalidLevelCardPlacementExceptionTest3() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);
@@ -100,7 +100,7 @@ class CardSlotsTest {
   }
 
   @Test //trying to place a lvl 3 card in a slot that is full
-  void fullSlotAddDevelopCardTest() throws IOException, RowOrColumnNotExistsException, InvalidCardPlacementException {
+  void fullSlotAddDevelopCardTest() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);
@@ -112,7 +112,7 @@ class CardSlotsTest {
   }
 
   @Test //i can check here if notyForEndGame is called cause i've added 7 cards to CardSlots
-  void activatableCards() throws IOException, AbuseOfFaithException, RowOrColumnNotExistsException, InvalidCardPlacementException, NegativeQuantityException {
+  void activatableCards() throws IOException, AbuseOfFaithException, InvalidDevelopCardException, InvalidCardPlacementException, NegativeQuantityException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);
@@ -139,7 +139,7 @@ class CardSlotsTest {
   }
 
   @Test
-  void returnTopCard() throws IOException, RowOrColumnNotExistsException, InvalidCardPlacementException {
+  void returnTopCard() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);

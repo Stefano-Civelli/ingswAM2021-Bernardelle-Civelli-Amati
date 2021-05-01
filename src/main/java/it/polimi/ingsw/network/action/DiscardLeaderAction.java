@@ -11,7 +11,7 @@ public class DiscardLeaderAction extends Action {
 
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException,
-            InvalidUsernameException, InvalidLeaderCardException {
+            InvalidUsernameException, InvalidLeaderCardException, LeaderIsActiveException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
         if(gameState.getCurrentPhase() == PhaseType.PRODUCING)

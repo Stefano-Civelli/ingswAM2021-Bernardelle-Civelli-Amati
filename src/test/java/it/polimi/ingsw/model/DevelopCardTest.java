@@ -38,7 +38,7 @@ class DevelopCardTest {
    }
 
    @Test
-   void everyCardIsBuyable() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, RowOrColumnNotExistsException, NotBuyableException, NegativeQuantityException {
+   void everyCardIsBuyable() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
@@ -87,7 +87,7 @@ class DevelopCardTest {
 
 
    @Test
-   void buyCardsFromSamePosition() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, RowOrColumnNotExistsException, NotBuyableException, NegativeQuantityException {
+   void buyCardsFromSamePosition() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
@@ -106,7 +106,7 @@ class DevelopCardTest {
    }
 
    @Test
-   void invalidCardSlotPlacementInBuy() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, RowOrColumnNotExistsException, NotBuyableException, NegativeQuantityException {
+   void invalidCardSlotPlacementInBuy() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
@@ -126,13 +126,13 @@ class DevelopCardTest {
       developCardDeck.getCard(0,0).buy(playerBoard,2);
       developCardDeck.getCard(1,0).buy(playerBoard,2);
       developCardDeck.getCard(0,0).buy(playerBoard,1);
-      assertThrows(NotBuyableException.class, () -> developCardDeck.getCard(2,0).buy(playerBoard,1));
+      assertThrows(InvalidCardPlacementException.class, () -> developCardDeck.getCard(2,0).buy(playerBoard,1));
    }
 
 
    @Test
-   void isActivatebleTest() throws IOException, RowOrColumnNotExistsException,
-           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException {
+   void isActivatebleTest() throws IOException, InvalidDevelopCardException,
+           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), new Market(), developCardDeck);
@@ -151,7 +151,7 @@ class DevelopCardTest {
    }
 
    @Test
-   void produceTestNoExceptions() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, RowOrColumnNotExistsException, NotBuyableException, NotActivatableException, NegativeQuantityException {
+   void produceTestNoExceptions() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NotActivatableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
@@ -171,7 +171,7 @@ class DevelopCardTest {
    }
 
    @Test
-   void produceCardNotOnTop() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, RowOrColumnNotExistsException, NotBuyableException, NotActivatableException, NegativeQuantityException {
+   void produceCardNotOnTop() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NotActivatableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
@@ -247,7 +247,7 @@ class DevelopCardTest {
       playerBoard.getChest().endOfTurnMapsMerge();
       try{
          devCard.buy(playerBoard, 1);
-      } catch (NullPointerException ignored) {
+      } catch (NullPointerException | InvalidCardPlacementException ignored) {
          // card can't remove itself from developCardDeck because developCardDeck is null
       }
       assertEquals(0, playerBoard.getWarehouse().totalResources());
@@ -305,7 +305,7 @@ class DevelopCardTest {
 
    @Test
    void buyLevelTwoTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException,
-           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException {
+           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(2, DevelopCardColor.BLUE),
               Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
@@ -354,7 +354,7 @@ class DevelopCardTest {
               new CardFlag(1, DevelopCardColor.BLUE), Map.of(), null, null, 0);
       try {
          devCard1.buy(playerBoard, 1);
-      } catch (NullPointerException | NotBuyableException ignored) {}
+      } catch (NullPointerException | NotBuyableException | InvalidCardPlacementException ignored) {}
 
       card1.setActive(playerBoard);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
@@ -364,7 +364,7 @@ class DevelopCardTest {
       playerBoard.getChest().addResources(ResourceType.STONE, 3);
       playerBoard.getChest().endOfTurnMapsMerge();
 
-      assertThrows(NotBuyableException.class, () -> devCard.buy(playerBoard, 2));
+      assertThrows(InvalidCardPlacementException.class, () -> devCard.buy(playerBoard, 2));
       assertEquals(0, playerBoard.getCardSlots().returnTopCard(2).getCardFlag().getLevel());
       assertSame(devCard1, playerBoard.getCardSlots().returnTopCard(1));
       assertEquals(4, playerBoard.getWarehouse().totalResources());
@@ -373,7 +373,7 @@ class DevelopCardTest {
 
    @Test
    void activatableTest() throws IOException, NotBuyableException, AbuseOfFaithException,
-           NotEnoughSpaceException, NegativeQuantityException {
+           NotEnoughSpaceException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(1, DevelopCardColor.BLUE), null,
               Map.of(ResourceType.GOLD, 2, ResourceType.STONE, 1), null, 0);
@@ -403,7 +403,7 @@ class DevelopCardTest {
 
       try {
          devCard.buy(playerBoard, 0);
-      } catch (NullPointerException ignored) {}
+      } catch (NullPointerException | InvalidCardPlacementException ignored) {}
 
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
@@ -430,7 +430,7 @@ class DevelopCardTest {
 
    @Test
    void activatableNotOnTopTest() throws IOException, NotBuyableException, AbuseOfFaithException,
-           NotEnoughSpaceException, NegativeQuantityException {
+           NotEnoughSpaceException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(1, DevelopCardColor.BLUE), Map.of(),
               Map.of(ResourceType.GOLD, 2, ResourceType.STONE, 1), null, 0);
@@ -455,7 +455,7 @@ class DevelopCardTest {
    }
 
    @Test
-   void produceTest() throws IOException, NotBuyableException, AbuseOfFaithException, NotEnoughSpaceException, NotActivatableException, NegativeQuantityException {
+   void produceTest() throws IOException, NotBuyableException, AbuseOfFaithException, NotEnoughSpaceException, NotActivatableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(1, DevelopCardColor.BLUE),
               Map.of(),

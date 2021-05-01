@@ -11,7 +11,7 @@ public class InsertMarbleAction extends Action {
 
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException,
-            InvalidUsernameException {
+            InvalidUsernameException, MarbleNotExistException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
         try {

@@ -42,7 +42,7 @@ class PlayerBoardTest {
   }
 
   @Test
-  void calculateTotalScoreOnlyCardSlotsTest() throws IOException, RowOrColumnNotExistsException, InvalidCardPlacementException,
+  void calculateTotalScoreOnlyCardSlotsTest() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException,
           NotBuyableException, NegativeQuantityException, AbuseOfFaithException, NotEnoughResourcesException {
     PlayerBoard playerBoard = initializer();
     int sum = 1; //viene considerato anche il punto 1 del track non mosso
@@ -242,7 +242,8 @@ class PlayerBoardTest {
   }
 
   @Test
-  void addMarbleToWarehouseTest() throws IOException, RowOrColumnNotExistsException, NotEnoughSpaceException, MoreWhiteLeaderCardsException {
+  void addMarbleToWarehouseTest() throws IOException, RowOrColumnNotExistsException, NotEnoughSpaceException,
+          MoreWhiteLeaderCardsException, MarbleNotExistException {
     PlayerBoard playerBoard = initializer();
 
     playerBoard.shopMarketRow(1);
@@ -252,7 +253,7 @@ class PlayerBoardTest {
     assertEquals(3, playerBoard.getTempMarketMarble().size());
 
     playerBoard.addMarbleToWarehouse(2);
-    assertThrows(IndexOutOfBoundsException.class, () -> playerBoard.addMarbleToWarehouse(2));
+    assertThrows(MarbleNotExistException.class, () -> playerBoard.addMarbleToWarehouse(2));
     assertEquals(2, playerBoard.getTempMarketMarble().size());
 
     playerBoard.addMarbleToWarehouse(1);
@@ -262,7 +263,8 @@ class PlayerBoardTest {
 
   @Test
   void NotEnoughSpaceExceptionTest() throws IOException, RowOrColumnNotExistsException, NotEnoughSpaceException,
-          InvalidLeaderCardException, NotEnoughResourcesException, AbuseOfFaithException, MoreWhiteLeaderCardsException {
+          InvalidLeaderCardException, NotEnoughResourcesException, AbuseOfFaithException,
+          MoreWhiteLeaderCardsException, MarbleNotExistException {
 
     PlayerBoard playerBoard = initializer();
     playerBoard.getLeaderCards().get(0).setActive(playerBoard);
@@ -307,7 +309,7 @@ class PlayerBoardTest {
   }
 
   @Test
-  void discardLeaderDuringTheGameTest() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException {
+  void discardLeaderDuringTheGameTest() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException, LeaderIsActiveException {
     PlayerBoard playerBoard = initializer();
     List<LeaderCard> support = new ArrayList<>(playerBoard.getLeaderCards());
 
@@ -315,7 +317,7 @@ class PlayerBoardTest {
     playerBoard.discardLeaderAtBegin(0);
 
     playerBoard.getLeaderCards().get(0).setActive(playerBoard);
-    assertThrows(InvalidLeaderCardException.class, () -> playerBoard.discardLeader(0));
+    assertThrows(LeaderIsActiveException.class, () -> playerBoard.discardLeader(0));
     playerBoard.discardLeader(1);
     assertEquals(1, playerBoard.getLeaderCards().size());
   }

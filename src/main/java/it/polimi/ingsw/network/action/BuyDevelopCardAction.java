@@ -14,7 +14,7 @@ public class BuyDevelopCardAction extends Action {
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException,
             InvalidUsernameException, NotBuyableException, InvalidCardPlacementException,
-            RowOrColumnNotExistsException {
+            InvalidDevelopCardException {
         if(!super.checkValid(gameState))
             throw new InvalidActionException();
         gameState.getGame().getPlayerBoard(super.username).addDevelopCard(row, column, cardSlotIndex);
