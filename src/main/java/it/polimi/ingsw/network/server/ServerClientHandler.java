@@ -2,8 +2,10 @@ package it.polimi.ingsw.network.server;
 
 import com.google.gson.*;
 import it.polimi.ingsw.network.action.Action;
+import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.ConfigParameters;
 
 import java.io.*;
 
@@ -19,8 +21,7 @@ public class ServerClientHandler implements Runnable {
 
    private String username;
    private boolean connected; // Default: true
-   private boolean forcedToDisconnect; //true only if the player disconnection is caused by the server
-   private boolean Logged; // set to true when the players logs in
+   private boolean logged; // set to true when the players logs in
    private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
 
 
@@ -28,8 +29,7 @@ public class ServerClientHandler implements Runnable {
       this.clientSocket = client;
       this.server = server;
       this.connected = true;
-      this.Logged = false;
-      this.forcedToDisconnect = false;
+      this.logged = false;
       this.username = null;
    }
 
@@ -39,9 +39,9 @@ public class ServerClientHandler implements Runnable {
       try {
          in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
          out = new PrintWriter(clientSocket.getOutputStream());
+         startPinging();
          handleClientConnection(); // sta qua dentro finchè la connessione è aperta
       } catch (IOException e) {
-         //TODO gestire disconnessione per scadenza timeout del socket
          e.printStackTrace();
       }
    }
@@ -52,19 +52,24 @@ public class ServerClientHandler implements Runnable {
       server.addClient(this); // probabilmente serve aggiungerlo ora perchè così so che non posso far connettere + player di quanti sono rischiesti
 
       try {
+
          while (true) {
-            Message message = messageParser(in.readLine());
-            messageReceived(message);
+            try {
+               Message message = messageParser(in.readLine());
+               messageReceived(message);
+            }catch(JsonSyntaxException e){
+               sendMessage(new Message(MessageType.ERROR, ErrorType.MALFORMED_MESSAGE));
+            }
+
          }
+
       }catch(IOException e){
          if(e instanceof SocketTimeoutException)
             System.out.print("TIMEOUT, ");
 
          System.out.println("connection lost on client " + clientSocket.getInetAddress());
-         connected = false;
          //server.notifyClientDisconnection(this);
-         //handleClientDisconnection(); //TODO -----------------------------------------------------
-         clientSocket.close();
+         handleClientDisconnection(); //TODO -----------------------------------------------------
       }
    }
 
@@ -72,24 +77,34 @@ public class ServerClientHandler implements Runnable {
     * Called when the ClientHandler receive a message from a client
     */
    private void messageReceived(Message message) {
-//      if (message.getMessageType() == null)
-//         return;
+      if((username != null && !username.equals(message.getUsername())) || message.getMessageType() == null)
+         return;
+
 
       switch (message.getMessageType()) {
          //potrei fare istanceOf
+
          case LOGIN:
+            if(logged)
+               return;
             server.handleLogin(message, this);
             break;
 
          case NUMBER_OF_PLAYERS:
+            if(!logged)
+               return;
             server.lobbySetup(message);
             break;
 
          case PING:
             break;
 
+         case QUIT:
+            handleClientDisconnection();
+            break;
+
          case ACTION: //is an action
-            if(!message.getUsername().equals(username))
+            if(!logged)
                return; //does nothing if the sender is not who he claims to be
 
             //prima di darlo al turn manager trasformo in azione
@@ -124,6 +139,8 @@ public class ServerClientHandler implements Runnable {
 
 
    protected void sendMessage(Message message) {
+      if(!connected)
+         return;
       String jsonMessage = gsonBuilder.toJson(message);
       jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
       out.println(jsonMessage);
@@ -133,31 +150,38 @@ public class ServerClientHandler implements Runnable {
 
 
    private Message messageParser(String jsonMessage) throws JsonSyntaxException {
-      return gsonBuilder.fromJson(jsonMessage, Message.class);
+      Message parsedMessage = gsonBuilder.fromJson(jsonMessage, Message.class);
+      if(parsedMessage == null)
+         throw new JsonSyntaxException("Empty message");
+      return parsedMessage;
    }
 
 
-   protected synchronized void handleClientDisconnection(String message) {
-      sendMessage(new Message(MessageType.DISCONNECTED_SERVER_SIDE, message)); // notify user about the server-side disconnection
+   protected void handleClientDisconnection() {
+   if(!server.isGameStarted()) {
+      sendMessage(new Message(MessageType.DISCONNECTED_SERVER_SIDE)); // happens when there is no space in the game
+      server.notifyClientDisconnection(this); //forget about this client
+   }
+   connected = false;
+   //TODO devo dire al controller che ol player si è disconnesso
+   //close the socket
       try {
          clientSocket.close();
       } catch (IOException e) {
-         System.err.println(e.getMessage());
+         e.printStackTrace();
       }
-      forcedToDisconnect = true;
-      connected = false;
    }
 
-   public boolean connected() {
+   public boolean isConnected() {
       return connected;
    }
 
    public boolean isLogged() {
-      return Logged;
+      return logged;
    }
 
    public void setLogged(boolean logged) {
-      Logged = logged;
+      this.logged = logged;
    }
 
    public String getUsername() {
@@ -167,6 +191,26 @@ public class ServerClientHandler implements Runnable {
    public void setUsername(String username) {
       this.username = username;
    }
+
+   private void startPinging(){
+      Runnable pinger = () ->
+      {
+         while(connected){
+            Message messageToSend = new Message(MessageType.PING);
+            String jsonMessage = gsonBuilder.toJson(messageToSend);
+            jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
+            out.println(jsonMessage);
+            out.flush();
+            try {
+               Thread.sleep(ConfigParameters.CLIENT_TIMEOUT);
+            } catch (InterruptedException e) {
+               e.printStackTrace();
+            }
+         }
+      };
+      new Thread(pinger).start();
+   }
+
 
 
 }

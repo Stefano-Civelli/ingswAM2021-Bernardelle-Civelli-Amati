@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.messages.MessageType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ServerConnector {
@@ -33,7 +34,7 @@ public class ServerConnector {
         Message msg = messageParserFromJson(in.nextLine());
         client.handleMessage(msg);
       }
-    } catch(IOException e){
+    } catch(IOException | NoSuchElementException e){
       notifyServerLost();
       try {
         server.close();

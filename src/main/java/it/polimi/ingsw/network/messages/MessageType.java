@@ -9,7 +9,6 @@ public enum MessageType {
   LOGIN,
   NUMBER_OF_PLAYERS,
   INVALID_NUMBER_OF_PLAYERS,
-  LOGIN_FAILED,
   LOGIN_SUCCESSFUL,
   WAIT_FOR_LOBBY_CREATION,
   LOBBY_CREATED,
@@ -17,6 +16,7 @@ public enum MessageType {
   OTHER_USER_JOINED,
   SERVER_DOWN,
   DISCONNECTED_SERVER_SIDE,
+  RECONNECTED,
 
   ACTION, // -> se ho questo tipo il payload del messaggio deve contenere il Type dell'azione e i correti field per poter fare le doAction
 
@@ -36,6 +36,7 @@ public enum MessageType {
   LEADERCARD_SETUP,
 
   ERROR,
+  QUIT,
   NEXT_TURN_STATE;
 
   public static MessageType fromValue(String value) {

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.model.DevelopCardColor;
+
 public enum ErrorType {
     INVALID_ACTION,
     INVALID_USERNAME,
@@ -17,5 +19,19 @@ public enum ErrorType {
     NEED_RESOURCE_TO_PRODUCE, // For leader and base produce
     NOT_ACTIVATABLE_PRODUCTION,
     UNKNOWN_MODEL_ERROR,
-    UNKNOWN_ERROR
+    UNKNOWN_ERROR,
+    MALFORMED_MESSAGE,
+    LOBBY_FULL,
+    INVALID_LOGIN_USERNAME;
+
+
+    public static ErrorType fromValue(String value) {
+        for (ErrorType errorType : values()) {
+            if (errorType.name().equals(value)) {
+                return errorType;
+            }
+        }
+        throw new IllegalArgumentException("invalid string value passed: " + value);
+    }
+
 }

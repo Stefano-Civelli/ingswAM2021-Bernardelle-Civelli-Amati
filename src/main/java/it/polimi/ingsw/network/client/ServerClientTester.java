@@ -5,18 +5,21 @@ import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.ServerClientHandler;
 import it.polimi.ingsw.utility.ConfigParameters;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ServerClientTester {
 
-  private String username = null;
   private PrintWriter out;
-  private Scanner in;
+  private BufferedReader in;
+  Socket server;
 
   public static void main(String[] args) {
     ServerClientTester client = new ServerClientTester();
@@ -24,36 +27,31 @@ public class ServerClientTester {
     int port;
     String ip;
 
-    if (ConfigParameters.TESTING) {
-      ip = "localhost";
-      port = 7659;
-      System.out.println("DEBUG server: ip -> localhost, port -> 7659");
-      client.username = "gino";
-    }
-    else return;
+    ip = "localhost";
+    port = 7659;
+    System.out.println("DEBUG server: ip -> localhost, port -> 7659");
 
-    Socket server = new Socket();
+    client.server = new Socket();
     try {
-      server = new Socket(ip, port);
+      client.server = new Socket(ip, port);
+      System.out.println("connection established, you can start sending scemocoglione...");
       client.startPinging();
 
 
       try {
-         client.out = new PrintWriter(server.getOutputStream());
-         client.in = new Scanner(server.getInputStream());
-
+         client.out = new PrintWriter(client.server.getOutputStream());
+         client.in = new BufferedReader(new InputStreamReader(client.server.getInputStream()));
+         client.startSocketReader();
 
         while (true) {
           Scanner sys = new Scanner(System.in);
           client.sendToServer(sys.nextLine());
-          String msg = sys.nextLine();
-          System.out.println(msg);
         }
+
       } catch(IOException e){
-        //notifyServerLost();
         try {
-          server.close();
-        } catch (IOException ex) {}
+          client.server.close();
+        } catch (IOException ex) { ex.printStackTrace();}
       }
 
 
@@ -68,15 +66,37 @@ public class ServerClientTester {
     pingTimer.schedule(new TimerTask() {
       @Override
       public void run() {
-        sendToServer("{'username': 'gino', 'messageType': 'PING', 'payload': '' }");
+        sendToServer("{'username': null, 'messageType': 'PING', 'payload': null }");
       }
-    }, 1000, ConfigParameters.CLIENT_TIMEOUT * 1000);
+    }, 1000, ConfigParameters.CLIENT_TIMEOUT);
   }
 
   private void sendToServer(String sendThis){
     out.println(sendThis);
     out.flush();
   }
+
+
+  private void startSocketReader(){
+    Runnable socketReader = () ->
+    {
+      while(true){
+        String msg = null;
+        try {
+          msg = in.readLine();
+        } catch (IOException | NoSuchElementException e) {
+          try {
+            server.close();
+          } catch (IOException ex) { ex.printStackTrace();}
+          e.printStackTrace();
+        }
+        System.out.println(msg);
+      }
+    };
+    new Thread(socketReader).start();
+  }
+
+
 }
 
 

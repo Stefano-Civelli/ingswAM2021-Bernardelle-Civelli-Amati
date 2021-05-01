@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.TurnManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
+import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
@@ -28,12 +29,13 @@ public class Server implements ModelObserver {
    private static final int SINGLE_PLAYER_NUMBER = 1;
    private static final int MAX_MULTIPLAYER_NUMBER = 4;
    private final Map<String, ServerClientHandler> usernameToClientHandler = new HashMap<>(); //l'opposto non serve perchè ho la get username sul clientHandler
-   private final List<ServerClientHandler> connectedClients = new ArrayList<>(); //contiene solo i client che in questo momento sono "vivi" connessi con il server (comodo usarla per pingare)
-   private final List<String> acceptedClients = new ArrayList<>();// utente aggiunto a questa lista appena viene creato il socket, non ha ancora un username assegnato
+   private final List<ServerClientHandler> clients = new ArrayList<>(); //contiene tutti i client che si sono connessi al server
+   //private final List<String> connectedAndDisconnectedClients = new ArrayList<>();// utente aggiunto a questa lista appena viene creato il socket, non ha ancora un username assegnato
    // contains all the clients, no matter if they are connected
+   private boolean gameStarted = false;
    private int playersNumber = 0;
    private TurnManager turnManager;
-
+   // loggedplayers() e clients sono diverse solo se qualcuno levva durante la partita
 
 
    public static void main(String[] args) {
@@ -68,7 +70,7 @@ public class Server implements ModelObserver {
             /* accepts connections; for every connection accepted,
              * create a new Thread executing a ClientHandler */
             Socket clientSocket = socket.accept();
-            //clientSocket.setSoTimeout(ConfigParameters.SERVER_TIMEOUT); // NEEDED TO REALIZE THAT A CLIENT HAS DISCONNECTED UNCLEANLY
+            clientSocket.setSoTimeout(ConfigParameters.SERVER_TIMEOUT); // NEEDED TO REALIZE THAT A CLIENT HAS DISCONNECTED UNCLEANLY
             ServerClientHandler clientHandler = new ServerClientHandler(clientSocket, server);
             new Thread(clientHandler).start();
          } catch (IOException e) {
@@ -83,6 +85,8 @@ public class Server implements ModelObserver {
       String username = message.getUsername();
 
       if(playersNumber == 0){ //executed only for the first player to connect
+         if(message.getPayload() == null)
+            return; // pensare se mandare messaggio di errore
          int tempPlayerNum = Integer.parseInt(message.getPayload());
          if (tempPlayerNum < SINGLE_PLAYER_NUMBER || tempPlayerNum > MAX_MULTIPLAYER_NUMBER) {
             sendToClient(new Message(username, MessageType.INVALID_NUMBER_OF_PLAYERS, "You need to select a valid number of players, It must be between " + SINGLE_PLAYER_NUMBER + " and " + MAX_MULTIPLAYER_NUMBER));
@@ -106,40 +110,59 @@ public class Server implements ModelObserver {
       }
    }
 
-   public synchronized void handleLogin(Message message, ServerClientHandler serverClientHandler){
+   public synchronized void handleLogin(Message message, ServerClientHandler clientHandler){
       String username = message.getUsername();
 
+      if(isTaken(username) && gameStarted && !usernameToClientHandler.get(message.getUsername()).isConnected()) {
+         handleClientReconnection(message, clientHandler);
+         return;
+      }
+
       if(playersNumber != 0 && NumberOfRemainingLobbySlots() == 0){ // non viene mai fatto sul primo player
-         serverClientHandler.sendMessage(new Message(MessageType.LOGIN_FAILED, "ERROR: lobby is full"));
+         clientHandler.sendMessage(new Message(MessageType.ERROR, ErrorType.LOBBY_FULL));
+         clientHandler.handleClientDisconnection();
          return;
       }
 
       if(username == null || username.equals("")) {
-         serverClientHandler.sendMessage(new Message(MessageType.LOGIN_FAILED, "ERROR: you need to enter a username"));
+         clientHandler.sendMessage(new Message(MessageType.ERROR, ErrorType.INVALID_LOGIN_USERNAME));
          return;
       }
 
       if (isTaken(username))
-         serverClientHandler.sendMessage(new Message(MessageType.LOGIN_FAILED, "ERROR: this username is already taken"));
+         clientHandler.sendMessage(new Message(MessageType.ERROR, ErrorType.INVALID_LOGIN_USERNAME));
       else{
          if(isFirst()) {
-            succesfulLogin(username, serverClientHandler);
-            serverClientHandler.sendMessage(new Message(MessageType.NUMBER_OF_PLAYERS, "How many players do you want to play with?"));
+            succesfulLogin(username, clientHandler);
+            clientHandler.sendMessage(new Message(MessageType.NUMBER_OF_PLAYERS));
          } else if(playersNumber == 0) {        //il player non è il primo a loggarsi ma il numero di giocatori è ancora 0 -> significa che qualcuno sta creando la lobby
-            serverClientHandler.sendMessage(new Message(MessageType.WAIT_FOR_LOBBY_CREATION, "A player is creating the lobby, wait a few seconds"));
+            clientHandler.sendMessage(new Message(MessageType.WAIT_FOR_LOBBY_CREATION, "A player is creating the lobby, try again in a few seconds"));
          } else {                               //il player non è il primo e la lobby esiste già
-            succesfulLogin(username, serverClientHandler);
+            succesfulLogin(username, clientHandler);
             lobbySetup(message);
          }
       }
+
+
    }
 
-   private void succesfulLogin(String username, ServerClientHandler serverClientHandler) { //TODO serve sincronizzare anche questo?
-      serverClientHandler.setUsername(username);
-      serverClientHandler.setLogged(true);
-      usernameToClientHandler.put(username, serverClientHandler);
-      serverClientHandler.sendMessage(new Message(username, MessageType.LOGIN_SUCCESSFUL));
+   private void succesfulLogin(String username, ServerClientHandler clientHandler) { //TODO serve sincronizzare anche questo?
+      clientHandler.setUsername(username);
+      clientHandler.setLogged(true);
+      usernameToClientHandler.put(username, clientHandler);
+      clientHandler.sendMessage(new Message(username, MessageType.LOGIN_SUCCESSFUL));
    }
+
+
+   private void handleClientReconnection(Message message,ServerClientHandler clientHandler) {
+      notifyClientDisconnection(usernameToClientHandler.get(message.getUsername()));
+      addClient(clientHandler);
+      usernameToClientHandler.put(clientHandler.getUsername(), clientHandler);
+      clientHandler.sendMessage(new Message(MessageType.RECONNECTED));
+      // TODO mandargli lo stato
+   }
+
+
 
    private int NumberOfRemainingLobbySlots() {
       return playersNumber - loggedPlayers().size();
@@ -159,13 +182,14 @@ public class Server implements ModelObserver {
       }
 
       try {
-         turnManager = new TurnManager(game, loggedPlayers);
+         turnManager = new TurnManager(game, loggedPlayers());
          playersInOrder = turnManager.startGame();
       }catch (IOException e) {
          //TODO sistemare il costruttore di playerboard
          e.printStackTrace();
       }
       sendToClient(new Message(MessageType.GAME_STARTED, playersInOrder));
+      gameStarted = true;
    }
 
 
@@ -189,13 +213,12 @@ public class Server implements ModelObserver {
     * @param client the {@link ServerClientHandler} to be added
     */
    public synchronized void addClient(ServerClientHandler client){
-
-      connectedClients.add(client);
+      clients.add(client);
    }
 
 
    public boolean isTaken(String username){
-      for(ServerClientHandler s : connectedClients)
+      for(ServerClientHandler s : clients)
          if(username.equals(s.getUsername()))
             return true;
 
@@ -210,7 +233,7 @@ public class Server implements ModelObserver {
 
       String username = message.getUsername();
       if(username == null){              //messaggi senza username vengono inviati a tutti
-         for(ServerClientHandler s : connectedClients)
+         for(ServerClientHandler s : clients)
             s.sendMessage(message);
          return;
       }
@@ -224,7 +247,7 @@ public class Server implements ModelObserver {
     * @param message message to send
     */
    public void sendBroadcast(Message message) {
-      for(ServerClientHandler s : connectedClients)
+      for(ServerClientHandler s : clients)
          s.sendMessage(message);
    }
 
@@ -255,22 +278,30 @@ public class Server implements ModelObserver {
       return turnManager;
    }
 
-   public synchronized boolean isFirst() {
+   private synchronized boolean isFirst() {
       return loggedPlayers().isEmpty();
    }
 
 
    public void notifyClientDisconnection(ServerClientHandler client) {
-      if(!client.isLogged())
-         acceptedClients.remove(client.getUsername()); //se si disconentte prima di essersi loggato lo elimino e me lo dimentico
-      connectedClients.remove(client);
+      clients.remove(client); //se si disconentte prima di essersi loggato lo elimino e me lo dimentico
+      usernameToClientHandler.remove(client.getUsername());
    }
 
    public synchronized List<String> loggedPlayers(){ //if a player disconnects he can be still a logged player
-      return connectedClients.stream()
+      return clients.stream()
               .filter(ServerClientHandler::isLogged)
               .map(ServerClientHandler::getUsername)
               .collect(Collectors.toList());
    }
 
+   public synchronized List<ServerClientHandler> connectedPlayers(){
+      return clients.stream()
+              .filter(ServerClientHandler::isConnected)
+              .collect(Collectors.toList());
+   }
+
+   public boolean isGameStarted() {
+      return gameStarted;
+   }
 }

@@ -152,9 +152,8 @@ public class Cli implements ViewInterface {
   }
 
   @Override
-  public void displayFailedLogin(Message msg) {
-    String error = msg.getPayload();
-    out.println(error);
+  public void displayFailedLogin() {
+    out.print("Username already taken, Please... ");
   }
 
   @Override
@@ -199,5 +198,21 @@ public class Cli implements ViewInterface {
     if(secondsRemaining[0] == 0)
       out.println("Countdown terminated, retry to login");
       displayLogin();
+  }
+
+  @Override
+  public void displayServerDown() {
+    out.println("Disconnected");
+  }
+
+  @Override
+  public void displayLobbyFull() {
+    out.println("ERROR: Lobby is FULL");
+  }
+
+  @Override
+  public void displayReconnection() {
+    out.println("You have been successfully RECONNECTED !");
+    // TODO display dello stato aggiornato del gioco
   }
 }
