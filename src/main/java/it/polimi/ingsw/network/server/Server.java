@@ -282,7 +282,6 @@ public class Server implements ModelObserver {
       return loggedPlayers().isEmpty();
    }
 
-
    public void notifyClientDisconnection(ServerClientHandler client) {
       clients.remove(client); //se si disconentte prima di essersi loggato lo elimino e me lo dimentico
       usernameToClientHandler.remove(client.getUsername());

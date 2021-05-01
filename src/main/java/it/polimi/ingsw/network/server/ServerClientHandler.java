@@ -1,3 +1,4 @@
+
 package it.polimi.ingsw.network.server;
 
 import com.google.gson.*;
@@ -115,7 +116,7 @@ public class ServerClientHandler implements Runnable {
             confirmationMessage(answerMessage);
             break;
 
-            default: return;
+         default: return;
 
 
       }
@@ -124,7 +125,6 @@ public class ServerClientHandler implements Runnable {
    private void confirmationMessage(Message answerMessage){
       MessageType messageType = answerMessage.getMessageType();
       answerMessage.setUsername(this.username);
-
       switch (messageType){
          case ERROR:
             sendMessage(answerMessage);
@@ -158,13 +158,13 @@ public class ServerClientHandler implements Runnable {
 
 
    protected void handleClientDisconnection() {
-   if(!server.isGameStarted()) {
-      sendMessage(new Message(MessageType.DISCONNECTED_SERVER_SIDE)); // happens when there is no space in the game
-      server.notifyClientDisconnection(this); //forget about this client
-   }
-   connected = false;
-   //TODO devo dire al controller che ol player si è disconnesso
-   //close the socket
+      if(!server.isGameStarted()) {
+         sendMessage(new Message(MessageType.DISCONNECTED_SERVER_SIDE)); // happens when there is no space in the game
+         server.notifyClientDisconnection(this); //forget about this client
+      }
+      connected = false;
+      //TODO devo dire al controller che ol player si è disconnesso
+      //close the socket
       try {
          clientSocket.close();
       } catch (IOException e) {
@@ -214,4 +214,3 @@ public class ServerClientHandler implements Runnable {
 
 
 }
-
