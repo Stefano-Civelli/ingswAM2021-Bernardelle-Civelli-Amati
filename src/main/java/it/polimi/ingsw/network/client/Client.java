@@ -120,7 +120,7 @@ public class Client {
   private void handleError(ErrorType errorType) {
     System.out.println(errorType);
     switch (errorType){
-      case LOBBY_FULL:
+      case GAME_ALREADY_STARTED:
         view.displayLobbyFull();
         close();
         break;

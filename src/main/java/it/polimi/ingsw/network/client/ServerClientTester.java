@@ -84,6 +84,11 @@ public class ServerClientTester {
         String msg = null;
         try {
           msg = in.readLine();
+          if(msg == null){
+            System.out.println("disconnected from the server");
+            server.close();
+            break;
+          }
         } catch (IOException | NoSuchElementException e) {
           try {
             server.close();

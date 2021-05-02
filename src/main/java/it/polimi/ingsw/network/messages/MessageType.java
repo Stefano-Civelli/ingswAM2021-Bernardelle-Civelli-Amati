@@ -17,6 +17,7 @@ public enum MessageType {
   SERVER_DOWN,
   DISCONNECTED_SERVER_SIDE,
   RECONNECTED,
+  DISCONNECTED,
 
   ACTION, // -> se ho questo tipo il payload del messaggio deve contenere il Type dell'azione e i correti field per poter fare le doAction
 

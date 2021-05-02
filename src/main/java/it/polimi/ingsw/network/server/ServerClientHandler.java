@@ -1,4 +1,3 @@
-
 package it.polimi.ingsw.network.server;
 
 import com.google.gson.*;
@@ -23,6 +22,7 @@ public class ServerClientHandler implements Runnable {
    private String username;
    private boolean connected; // Default: true
    private boolean logged; // set to true when the players logs in
+   private boolean serverSideDisconnection;
    private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
 
 
@@ -40,7 +40,7 @@ public class ServerClientHandler implements Runnable {
       try {
          in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
          out = new PrintWriter(clientSocket.getOutputStream());
-         startPinging();
+         //startPinging();
          handleClientConnection(); // sta qua dentro finchè la connessione è aperta
       } catch (IOException e) {
          e.printStackTrace();
@@ -58,19 +58,14 @@ public class ServerClientHandler implements Runnable {
             try {
                Message message = messageParser(in.readLine());
                messageReceived(message);
-            }catch(JsonSyntaxException e){
-               sendMessage(new Message(MessageType.ERROR, ErrorType.MALFORMED_MESSAGE));
-            }
-
+            }catch(JsonSyntaxException e){ sendMessage(new Message(MessageType.ERROR, ErrorType.MALFORMED_MESSAGE));}
          }
 
-      }catch(IOException e){
+      }catch(IOException e){ //client crashes or timeout runs out
          if(e instanceof SocketTimeoutException)
             System.out.print("TIMEOUT, ");
-
-         System.out.println("connection lost on client " + clientSocket.getInetAddress());
-         //server.notifyClientDisconnection(this);
-         handleClientDisconnection(); //TODO -----------------------------------------------------
+         System.out.println("connection lost on client: " + clientSocket.getInetAddress() + "  --username: " + username);
+         server.handleClientDisconnection(this);
       }
    }
 
@@ -101,7 +96,7 @@ public class ServerClientHandler implements Runnable {
             break;
 
          case QUIT:
-            handleClientDisconnection();
+            server.handleClientDisconnection(this);
             break;
 
          case ACTION: //is an action
@@ -116,7 +111,7 @@ public class ServerClientHandler implements Runnable {
             confirmationMessage(answerMessage);
             break;
 
-         default: return;
+            default: return;
 
 
       }
@@ -125,6 +120,7 @@ public class ServerClientHandler implements Runnable {
    private void confirmationMessage(Message answerMessage){
       MessageType messageType = answerMessage.getMessageType();
       answerMessage.setUsername(this.username);
+
       switch (messageType){
          case ERROR:
             sendMessage(answerMessage);
@@ -134,9 +130,6 @@ public class ServerClientHandler implements Runnable {
             break;
       }
    }
-
-
-
 
    protected void sendMessage(Message message) {
       if(!connected)
@@ -148,7 +141,6 @@ public class ServerClientHandler implements Runnable {
 
    }
 
-
    private Message messageParser(String jsonMessage) throws JsonSyntaxException {
       Message parsedMessage = gsonBuilder.fromJson(jsonMessage, Message.class);
       if(parsedMessage == null)
@@ -157,21 +149,18 @@ public class ServerClientHandler implements Runnable {
    }
 
 
-   protected void handleClientDisconnection() {
-      if(!server.isGameStarted()) {
-         sendMessage(new Message(MessageType.DISCONNECTED_SERVER_SIDE)); // happens when there is no space in the game
-         server.notifyClientDisconnection(this); //forget about this client
-      }
-      connected = false;
-      //TODO devo dire al controller che ol player si è disconnesso
-      //close the socket
-      try {
-         clientSocket.close();
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-   }
 
+
+
+
+
+
+
+
+
+
+
+   // ------------------------------------------- GETTERS AND SETTERS --------------------------------------------------
    public boolean isConnected() {
       return connected;
    }
@@ -211,6 +200,15 @@ public class ServerClientHandler implements Runnable {
       new Thread(pinger).start();
    }
 
+   public void setConnected(boolean connected) {
+      this.connected = connected;
+   }
 
-
+   public void closeSocket(){
+      try {
+         clientSocket.close();
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
 }
