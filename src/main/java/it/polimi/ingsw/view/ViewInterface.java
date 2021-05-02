@@ -16,6 +16,6 @@ public interface ViewInterface {
   public void displayPlayersNumberChoice();
   public void displayWaiting();
   public void displayServerDown();
-  public void displayLobbyFull();
+  public void displayGameAlreadyStarted();
   public void displayReconnection();
 }

@@ -14,6 +14,7 @@ import java.net.SocketTimeoutException;
 
 
 public class ServerClientHandler implements Runnable {
+
    private final Socket clientSocket;
    private final Server server;
    private BufferedReader in;
@@ -24,7 +25,6 @@ public class ServerClientHandler implements Runnable {
    private boolean logged; // set to true when the players logs in
    private boolean serverSideDisconnection;
    private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
-
 
    ServerClientHandler(Socket client, Server server) {
       this.clientSocket = client;

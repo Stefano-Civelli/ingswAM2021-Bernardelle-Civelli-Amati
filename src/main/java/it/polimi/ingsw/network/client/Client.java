@@ -118,10 +118,9 @@ public class Client {
   }
 
   private void handleError(ErrorType errorType) {
-    System.out.println(errorType);
     switch (errorType){
       case GAME_ALREADY_STARTED:
-        view.displayLobbyFull();
+        view.displayGameAlreadyStarted();
         close();
         break;
       case INVALID_LOGIN_USERNAME:
