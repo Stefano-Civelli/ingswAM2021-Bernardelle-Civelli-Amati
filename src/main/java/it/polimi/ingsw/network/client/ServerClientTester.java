@@ -1,9 +1,11 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.controller.action.BuyDevelopCardAction;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.network.server.ServerClientHandler;
 import it.polimi.ingsw.utility.ConfigParameters;
+import it.polimi.ingsw.utility.GSON;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,6 +45,7 @@ public class ServerClientTester {
          client.in = new BufferedReader(new InputStreamReader(client.server.getInputStream()));
          Scanner sys = new Scanner(System.in);
          client.startSocketReader();
+         //client.createActionMessage();
          client.setup(sys);
 
         while (true) {
@@ -122,6 +125,20 @@ public class ServerClientTester {
     new Thread(socketReader).start();
   }
 
+
+
+  public String createActionMessage(){
+    Action action = new BuyDevelopCardAction(2,0,1);
+    // problema, devo settare il type in qualche modo, magari serve togliere \" ( posso farlo già lato client)
+    //String actionString = GSON.getGsonBuilder().toJson(action);
+    Message message = new Message("pippo", MessageType.ACTION, action);
+
+    String jsonMessage = GSON.getGsonBuilder().toJson(message);
+    jsonMessage = jsonMessage.replaceAll("\n", " ");
+    jsonMessage = jsonMessage.replaceAll("\\\\\"", "'"); // first 4 backslashes are to escape \"
+    System.out.println(jsonMessage);
+    return jsonMessage;
+  }
 
 }
 
