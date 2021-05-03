@@ -8,9 +8,9 @@
 | :----:        |    :----:   |          :----:  |     :----:  |
 | Server     | LOGIN_SUCCESFUL       | null    | sent to client when login procedure is succesful
 | Server     | RECONNECTED        | null     | sento to client when he succesfully reconnects 
-| Server     | ERROR        | [Heading IDs](#2)     | sento to client when he succesfully reconne
+| Server     | ERROR        | [an error](#ERRORs Description)     | sento to client when he succesfully reconne
 
 
 
 
-### Heading IDs {#2}
+### ERRORs Description
