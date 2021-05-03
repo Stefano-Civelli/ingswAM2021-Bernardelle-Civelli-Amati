@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
+import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
+import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
@@ -13,15 +15,21 @@ public class ShopMarketAction extends Action {
     private int index;
 
     @Override
-    public PhaseType performAction(IGameState gameState) throws InvalidActionException,
+    public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, RowOrColumnNotExistsException {
-        if(!super.checkValid(gameState))
+        if(!super.isCurrentPlayer(gameState))
+            throw new WrongPlayerException();
+        if(!this.isActionValid(gameState))
             throw new InvalidActionException();
         if(inRow)
             gameState.getGame().getPlayerBoard(super.username).shopMarketRow(index);
         else
             gameState.getGame().getPlayerBoard(super.username).shopMarketColumn(index);
         return PhaseType.SHOPPING;
+    }
+
+    private boolean isActionValid(IGameState gameState) {
+        return gameState.getCurrentPhase().isValid(ActionType.SHOP_MARKET);
     }
 
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
+import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
+import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
@@ -12,13 +14,19 @@ public class BuyDevelopCardAction extends Action {
             cardSlotIndex;
 
     @Override
-    public PhaseType performAction(IGameState gameState) throws InvalidActionException,
+    public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, NotBuyableException, InvalidCardPlacementException,
             InvalidDevelopCardException {
-        if(!super.checkValid(gameState))
+        if(!super.isCurrentPlayer(gameState))
+            throw new WrongPlayerException();
+        if(!this.isActionValid(gameState))
             throw new InvalidActionException();
         gameState.getGame().getPlayerBoard(super.username).addDevelopCard(row, column, cardSlotIndex);
         return PhaseType.FINAL;
+    }
+
+    private boolean isActionValid(IGameState gameState) {
+        return gameState.getCurrentPhase().isValid(ActionType.BUY_CARD);
     }
 
 }

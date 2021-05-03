@@ -1,6 +1,6 @@
-package it.polimi.ingsw.controller.action;
+package it.polimi.ingsw.controller.controllerexception;
 
-public class InvalidActionException extends Exception {
+public class InvalidActionException extends ControllerException {
 
     public InvalidActionException() {
         super();

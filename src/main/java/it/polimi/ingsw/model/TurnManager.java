@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.controllerexception.ControllerException;
+import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.controller.action.InvalidActionException;
+import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -51,9 +53,12 @@ public class TurnManager implements IGameState {
     public synchronized Message handleAction(Action action) {
         try {
             this.currentPhase = action.performAction(this);
+        } catch (WrongPlayerException e) {
+            return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.WRONG_PLAYER);
         } catch (InvalidActionException e) {
-            // TODO differenziare player sbagliato e azione sbagliata in questa fase del gioco
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_ACTION);
+        } catch (ControllerException e) {
+            return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.UNKNOWN_CONTROLLER_ERROR);
         } catch (InvalidUsernameException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_USERNAME);
         } catch (NotEnoughResourcesException e) {

@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.messages;
 
 public enum ErrorType {
     INVALID_ACTION,
+    WRONG_PLAYER, // not their turn
     INVALID_USERNAME,
     NOT_ENOUGH_RESOURCES,
     INVALID_LEADERCARD,
@@ -18,6 +19,7 @@ public enum ErrorType {
     MARBLE_NOT_EXIST,
     NEED_RESOURCE_TO_PRODUCE, // For leader and base produce
     NOT_ACTIVATABLE_PRODUCTION,
+    UNKNOWN_CONTROLLER_ERROR,
     UNKNOWN_MODEL_ERROR,
     UNKNOWN_ERROR
 }
