@@ -13,6 +13,13 @@ public class BuyDevelopCardAction extends Action {
             column,
             cardSlotIndex;
 
+    public BuyDevelopCardAction(int row, int column, int cardSlotIndex) {
+        this.row = row;
+        this.column = column;
+        this.cardSlotIndex = cardSlotIndex;
+        this.type = ActionType.BUY_CARD;
+    }
+
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, NotBuyableException, InvalidCardPlacementException,

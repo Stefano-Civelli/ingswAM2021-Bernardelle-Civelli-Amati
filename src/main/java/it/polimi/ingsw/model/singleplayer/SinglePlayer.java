@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.singleplayer;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.DevelopCardColor;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.track.LorenzoTrack;
@@ -16,8 +17,8 @@ public class SinglePlayer extends Game {
    private final LorenzoTrack lorenzoTrack;
    private final File lorenzoTrackConfigFile = new File("src/SquareConfig.json");
 
-   public SinglePlayer() throws IOException {
-      super();
+   public SinglePlayer(Controller controller) throws IOException {
+      super(controller);
       this.lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigFile);
 
       this.actionTokenStack = new ArrayList<ActionToken>(Arrays.asList(

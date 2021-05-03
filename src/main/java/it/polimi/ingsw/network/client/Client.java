@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
@@ -70,8 +71,8 @@ public class Client {
     try {
       server = new Socket(getServerIP(), getServerPort());
       serverConnector = new ServerConnector(server, this);
-      serverConnector.handleServerConnection();
       startPinging();
+      serverConnector.handleServerConnection();
     } catch (IOException e) {
       view.displaySetupFailure();
     }
@@ -87,10 +88,10 @@ public class Client {
       case PING:
         break;
       case SERVER_DOWN:
+        view.displayServerDown();
         break;
-      case LOGIN_FAILED:
-        view.displayFailedLogin(msg);
-        view.displayLogin();
+      case ERROR:
+        handleError(ErrorType.fromValue(msg.getPayload()));
         break;
       case LOGIN_SUCCESSFUL:
         view.displayLoginSuccessful();
@@ -104,6 +105,9 @@ public class Client {
       case LOBBY_CREATED:
         view.displayLobbyCreated();
         break;
+      case RECONNECTED:
+        view.displayReconnection();
+        break;
       case OTHER_USER_JOINED:
         view.displayOtherUserJoined(msg);
         break;
@@ -111,6 +115,20 @@ public class Client {
         view.displayYouJoined();
         view.displayOtherUserJoined(msg);
     }
+  }
+
+  private void handleError(ErrorType errorType) {
+    switch (errorType){
+      case GAME_ALREADY_STARTED:
+        view.displayGameAlreadyStarted();
+        close();
+        break;
+      case INVALID_LOGIN_USERNAME:
+        view.displayFailedLogin();
+        view.displayLogin();
+        break;
+    }
+
   }
 
   private void startPinging() {
@@ -121,8 +139,9 @@ public class Client {
       public void run() {
         sendToServer(new Message(MessageType.PING));
       }
-    }, 1000, ConfigParameters.CLIENT_TIMEOUT * 1000);
+    }, 1000, ConfigParameters.CLIENT_TIMEOUT);
   }
+
 
   public void sendToServer(Message msg) {
     if(msg.getMessageType() != MessageType.LOGIN)
@@ -132,6 +151,7 @@ public class Client {
   }
 
   public void close() {
+    System.out.println("You will be disconnected... Bye shdroonzo");
     serverConnector.stop();
     System.exit(0);
   }

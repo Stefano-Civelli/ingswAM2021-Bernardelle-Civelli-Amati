@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
@@ -18,16 +19,18 @@ public class Game {
    private final Market market;
    private final DevelopCardDeck developCardDeck;
    private final List<PlayerBoard> playerBoardList;
+   Controller controller;
 
    //mettere i due file nella classe che chiama il costruttore game, oppure mettere direttamente nel main e propaghiamo che é meglio
    //private final File cardConfigFile = new File("src/DevelopCardConfig.json");
    //private final File leaderCardConfigFile = new File("src/LeaderCardConfig.json");
 
-   public Game() throws IOException {
+   public Game(Controller controller) throws IOException {
       this.leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
       this.developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
       this.market = new Market();
       this.playerBoardList = new ArrayList<>();
+      this.controller = controller;
    }
 
    //need also to check that the max number of players in this lobby isn't exceeded -> that's not necessary
@@ -35,6 +38,7 @@ public class Game {
       List<LeaderCard> fourInitialLeaderCardsForPlayer = leaderCardDeck.drawFourCards();
 
       PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, market, developCardDeck);
+      playerBoard.setController(controller);
       playerBoardList.add(playerBoard);
    }
 

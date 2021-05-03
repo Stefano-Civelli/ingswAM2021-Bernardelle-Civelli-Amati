@@ -2,8 +2,11 @@ package it.polimi.ingsw.network.server;
 
 import com.google.gson.*;
 import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.ConfigParameters;
+import it.polimi.ingsw.utility.GSON;
 
 import java.io.*;
 
@@ -12,6 +15,7 @@ import java.net.SocketTimeoutException;
 
 
 public class ServerClientHandler implements Runnable {
+
    private final Socket clientSocket;
    private final Server server;
    private BufferedReader in;
@@ -19,17 +23,13 @@ public class ServerClientHandler implements Runnable {
 
    private String username;
    private boolean connected; // Default: true
-   private boolean forcedToDisconnect; //true only if the player disconnection is caused by the server
-   private boolean Logged; // set to true when the players logs in
-   private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
-
+   private boolean logged; // set to true when the players logs in
 
    ServerClientHandler(Socket client, Server server) {
       this.clientSocket = client;
       this.server = server;
       this.connected = true;
-      this.Logged = false;
-      this.forcedToDisconnect = false;
+      this.logged = false;
       this.username = null;
    }
 
@@ -39,9 +39,9 @@ public class ServerClientHandler implements Runnable {
       try {
          in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
          out = new PrintWriter(clientSocket.getOutputStream());
+         //startPinging();
          handleClientConnection(); // sta qua dentro finchè la connessione è aperta
       } catch (IOException e) {
-         //TODO gestire disconnessione per scadenza timeout del socket
          e.printStackTrace();
       }
    }
@@ -52,19 +52,22 @@ public class ServerClientHandler implements Runnable {
       server.addClient(this); // probabilmente serve aggiungerlo ora perchè così so che non posso far connettere + player di quanti sono rischiesti
 
       try {
+
          while (true) {
-            Message message = messageParser(in.readLine());
-            messageReceived(message);
+            try {
+               Message message = messageParser(in.readLine());
+               messageReceived(message);
+            }catch(JsonSyntaxException e){
+               e.printStackTrace();
+               sendMessage(new Message(MessageType.ERROR, ErrorType.MALFORMED_MESSAGE));
+            }
          }
-      }catch(IOException e){
+
+      }catch(IOException e){ //client crashes or timeout runs out
          if(e instanceof SocketTimeoutException)
             System.out.print("TIMEOUT, ");
-
-         System.out.println("connection lost on client " + clientSocket.getInetAddress());
-         connected = false;
-         //server.notifyClientDisconnection(this);
-         //handleClientDisconnection(); //TODO -----------------------------------------------------
-         clientSocket.close();
+         System.out.println("connection lost on client: " + clientSocket.getInetAddress() + "  --username: " + username);
+         server.handleClientDisconnection(this);
       }
    }
 
@@ -72,32 +75,40 @@ public class ServerClientHandler implements Runnable {
     * Called when the ClientHandler receive a message from a client
     */
    private void messageReceived(Message message) {
-//      if (message.getMessageType() == null)
-//         return;
+      if((username != null && !username.equals(message.getUsername())) || message.getMessageType() == null)
+         return;
+
 
       switch (message.getMessageType()) {
          //potrei fare istanceOf
+
          case LOGIN:
+            if(logged)
+               return;
             server.handleLogin(message, this);
             break;
 
          case NUMBER_OF_PLAYERS:
+            if(!logged)
+               return;
             server.lobbySetup(message);
             break;
 
          case PING:
             break;
 
-         case ACTION: //is an action
-            if(!message.getUsername().equals(username))
-               return; //does nothing if the sender is not who he claims to be
+         case QUIT:
+            server.handleClientDisconnection(this);
+            break;
 
-            //prima di darlo al turn manager trasformo in azione
+         case ACTION:
+            if(!server.isGameRunning())
+               return;
+
             Action action = message.getAction();
             action.setUsername(username);
-            Message answerMessage = server.getTurnManager().handleAction(action);
-            //turn manager sends back an answere message to be forwarded to the client
-            confirmationMessage(answerMessage);
+            Message errorOrEndTurn = server.getTurnManager().handleAction(action);
+            actionAnswereMessage(errorOrEndTurn);
             break;
 
             default: return;
@@ -106,7 +117,7 @@ public class ServerClientHandler implements Runnable {
       }
    }
 
-   private void confirmationMessage(Message answerMessage){
+   private void actionAnswereMessage(Message answerMessage){
       MessageType messageType = answerMessage.getMessageType();
       answerMessage.setUsername(this.username);
 
@@ -120,11 +131,10 @@ public class ServerClientHandler implements Runnable {
       }
    }
 
-
-
-
    protected void sendMessage(Message message) {
-      String jsonMessage = gsonBuilder.toJson(message);
+      if(!connected)
+         return;
+      String jsonMessage = GSON.getGsonBuilder().toJson(message);
       jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
       out.println(jsonMessage);
       out.flush();
@@ -133,31 +143,27 @@ public class ServerClientHandler implements Runnable {
 
 
    private Message messageParser(String jsonMessage) throws JsonSyntaxException {
-      return gsonBuilder.fromJson(jsonMessage, Message.class);
+
+      Message parsedMessage = GSON.getGsonBuilder().fromJson(jsonMessage, Message.class);
+      if(parsedMessage == null)
+         throw new JsonSyntaxException("Empty message");
+
+      return parsedMessage;
    }
 
 
-   protected synchronized void handleClientDisconnection(String message) {
-      sendMessage(new Message(MessageType.DISCONNECTED_SERVER_SIDE, message)); // notify user about the server-side disconnection
-      try {
-         clientSocket.close();
-      } catch (IOException e) {
-         System.err.println(e.getMessage());
-      }
-      forcedToDisconnect = true;
-      connected = false;
-   }
 
-   public boolean connected() {
+   // ------------------------------------------- GETTERS AND SETTERS --------------------------------------------------
+   public boolean isConnected() {
       return connected;
    }
 
    public boolean isLogged() {
-      return Logged;
+      return logged;
    }
 
    public void setLogged(boolean logged) {
-      Logged = logged;
+      this.logged = logged;
    }
 
    public String getUsername() {
@@ -168,6 +174,34 @@ public class ServerClientHandler implements Runnable {
       this.username = username;
    }
 
+   private void startPinging(){
+      Runnable pinger = () ->
+      {
+         while(connected){
+            Message messageToSend = new Message(MessageType.PING);
+            String jsonMessage = GSON.getGsonBuilder().toJson(messageToSend);
+            jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
+            out.println(jsonMessage);
+            out.flush();
+            try {
+               Thread.sleep(ConfigParameters.CLIENT_TIMEOUT);
+            } catch (InterruptedException e) {
+               e.printStackTrace();
+            }
+         }
+      };
+      new Thread(pinger).start();
+   }
 
+   public void setConnected(boolean connected) {
+      this.connected = connected;
+   }
+
+   public void closeSocket(){
+      try {
+         clientSocket.close();
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
 }
-

@@ -15,7 +15,6 @@ public class Message {
    //-da Server a Client per 1)notificare gli update -> Oggetti serializzati 2)messaggi di servizio;
    //-da Client a Server per contenere le Action in formato Json
 
-   private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
 
    public Message(MessageType messageType) {
       this.messageType = messageType;
@@ -33,7 +32,7 @@ public class Message {
 
    public Message(MessageType messageType, Object object) {
       this.messageType = messageType;
-      this.payload = gsonBuilder.toJson(object);
+      this.payload = GSON.getGsonBuilder().toJson(object);
    }
 
    public Message(String username, MessageType messageType, String payload) {
@@ -45,7 +44,7 @@ public class Message {
    public Message(String username, MessageType messageType, Object object) {
       this.messageType = messageType;
       this.username = username;
-      this.payload = gsonBuilder.toJson(object);
+      this.payload = GSON.getGsonBuilder().toJson(object);
    }
 
    public MessageType getMessageType() {

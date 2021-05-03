@@ -15,6 +15,9 @@ public class GSON{
 
    private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
 
+   public static Gson getGsonBuilder() {
+      return gsonBuilder;
+   }
 
    public static DevelopCardDeck cardParser(File file) throws IOException {
       FileInputStream inputStream = new FileInputStream(file);

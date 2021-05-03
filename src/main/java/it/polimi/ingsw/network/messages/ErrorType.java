@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages;
 
+import it.polimi.ingsw.model.DevelopCardColor;
+
 public enum ErrorType {
     INVALID_ACTION,
     WRONG_PLAYER, // not their turn
@@ -21,5 +23,19 @@ public enum ErrorType {
     NOT_ACTIVATABLE_PRODUCTION,
     UNKNOWN_CONTROLLER_ERROR,
     UNKNOWN_MODEL_ERROR,
-    UNKNOWN_ERROR
+    UNKNOWN_ERROR,
+    MALFORMED_MESSAGE,
+    GAME_ALREADY_STARTED,
+    INVALID_LOGIN_USERNAME;
+
+
+    public static ErrorType fromValue(String value) {
+        for (ErrorType errorType : values()) {
+            if (errorType.name().equals(value)) {
+                return errorType;
+            }
+        }
+        throw new IllegalArgumentException("invalid string value passed: " + value);
+    }
+
 }

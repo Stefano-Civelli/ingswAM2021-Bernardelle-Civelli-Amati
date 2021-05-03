@@ -50,8 +50,8 @@ public class Cli implements ViewInterface {
 
     if (ConfigParameters.TESTING) {
       ip = "localhost";
-      port = 7659;
-      out.println("DEBUG server: ip -> localhost, port -> 7659");
+      port = 6754;
+      out.println("DEBUG server: ip -> localhost, port -> 6754");
     } else {
       out.println("IP address of server?");
       ip = in.nextLine();
@@ -152,9 +152,8 @@ public class Cli implements ViewInterface {
   }
 
   @Override
-  public void displayFailedLogin(Message msg) {
-    String error = msg.getPayload();
-    out.println(error);
+  public void displayFailedLogin() {
+    out.print("Username already taken, Please... ");
   }
 
   @Override
@@ -173,7 +172,8 @@ public class Cli implements ViewInterface {
   public void displayOtherUserJoined(Message msg) {
     if(msg.getPayload().equals("0"))
       out.println("All player joined, let's play");
-    out.println("Waiting for " + msg.getPayload() + " more player(s) ... ");
+    if(Integer.parseInt(msg.getPayload()) > 0)
+      out.println("Waiting for " + msg.getPayload() + " more player(s) ... ");
   }
 
   public void displayYouJoined(){
@@ -181,23 +181,39 @@ public class Cli implements ViewInterface {
   }
 
   public void displayWaiting(){
-    final int[] secondsRemaining = {this.countDown};
+    //int secondsRemaining = this.countDown;
     System.out.println("There's a player creating a lobby, retry to login in a few seconds");
-    Timer myTimer = new Timer();
-    TimerTask countDownTimer = new TimerTask() {
-      @Override
-      public void run() {
-        while (secondsRemaining[0] > 0) {
-          System.out.println("Waiting time: " + secondsRemaining[0] + " second(s) ...");
-          secondsRemaining[0] -= 1;
-        }
-      }
-    };
-
-    myTimer.schedule(countDownTimer, 0, 1*1000);
-
-    if(secondsRemaining[0] == 0)
-      out.println("Countdown terminated, retry to login");
+//    Timer myTimer = new Timer();
+//    TimerTask countDownTimer = new TimerTask() {
+//      @Override
+//      public void run() {
+//        while (secondsRemaining > 0) {
+//          System.out.println("Waiting time: " + secondsRemaining + " second(s) ...");
+//          secondsRemaining --;
+//        }
+//      }
+//    };
+//
+//    myTimer.schedule(countDownTimer, 0, 1*1000);
+//
+//    if(secondsRemaining == 0)
+      //out.println("Countdown terminated, retry to login");
       displayLogin();
+  }
+
+  @Override
+  public void displayServerDown() {
+    out.println("Disconnected");
+  }
+
+  @Override
+  public void displayGameAlreadyStarted() {
+    out.println("ERROR: Game has already started");
+  }
+
+  @Override
+  public void displayReconnection() {
+    out.println("You have been successfully RECONNECTED !");
+    // TODO display dello stato aggiornato del gioco
   }
 }
