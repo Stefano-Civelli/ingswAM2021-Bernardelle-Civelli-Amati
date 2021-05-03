@@ -9,7 +9,7 @@ public abstract class Action {
     protected String username = null;
 
     @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
-    private ActionType type;
+    ActionType type;
 
     public final void setUsername(String username) {
         if(this.username == null)
