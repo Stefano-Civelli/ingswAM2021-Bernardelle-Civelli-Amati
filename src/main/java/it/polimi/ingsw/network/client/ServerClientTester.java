@@ -17,8 +17,8 @@ import java.util.TimerTask;
 
 public class ServerClientTester {
 
-  private PrintWriter out;
-  private BufferedReader in;
+  public PrintWriter out;
+  public BufferedReader in;
   Socket server;
 
   public static void main(String[] args) {
@@ -28,7 +28,7 @@ public class ServerClientTester {
     String ip;
 
     ip = "localhost";
-    port = 7659;
+    port = 6754;
     System.out.println("DEBUG server: ip -> localhost, port -> 7659");
 
     client.server = new Socket();
@@ -41,10 +41,11 @@ public class ServerClientTester {
       try {
          client.out = new PrintWriter(client.server.getOutputStream());
          client.in = new BufferedReader(new InputStreamReader(client.server.getInputStream()));
+         Scanner sys = new Scanner(System.in);
          client.startSocketReader();
+         client.setup(sys);
 
         while (true) {
-          Scanner sys = new Scanner(System.in);
           client.sendToServer(sys.nextLine());
         }
 
@@ -58,6 +59,26 @@ public class ServerClientTester {
     } catch (IOException e) {
       System.out.println("An error has been encountered while opening connection");
     }
+  }
+
+  private void setup(Scanner sys) {
+    System.out.println("AutoLogin? [y/n]");
+    boolean yes = sys.nextLine().equals("y");
+    if(!yes)
+      return;
+    System.out.println("insert username");
+    String username = sys.nextLine();
+    System.out.println("are you the first player? [y/n]");
+    boolean first = sys.nextLine().equals("y");
+
+    out.println("{ \"username\": " + username + ", \"messageType\": \"LOGIN\", \"payload\": null }");
+    out.flush();
+    if(first){
+      out.println("{ \"username\": "  + username + ", \"messageType\": \"NUMBER_OF_PLAYERS\", \"payload\": \"2\" }");
+      out.flush();
+    }
+
+
   }
 
   private void startPinging() {
