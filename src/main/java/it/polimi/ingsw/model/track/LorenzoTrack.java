@@ -97,7 +97,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
 
 
   @Override
-  public void notifyForUpdate(Message msg) {
+  public void notifyModelChange(Message msg) {
     //for(ModelObserver x : wrebfjkwrhqbfqr)
       //x.update(msg);
   }

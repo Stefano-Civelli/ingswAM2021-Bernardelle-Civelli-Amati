@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
+import it.polimi.ingsw.utility.GSON;
 
 import java.io.*;
 
@@ -23,8 +24,6 @@ public class ServerClientHandler implements Runnable {
    private String username;
    private boolean connected; // Default: true
    private boolean logged; // set to true when the players logs in
-   private boolean serverSideDisconnection;
-   private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
 
    ServerClientHandler(Socket client, Server server) {
       this.clientSocket = client;
@@ -58,7 +57,10 @@ public class ServerClientHandler implements Runnable {
             try {
                Message message = messageParser(in.readLine());
                messageReceived(message);
-            }catch(JsonSyntaxException e){ sendMessage(new Message(MessageType.ERROR, ErrorType.MALFORMED_MESSAGE));}
+            }catch(JsonSyntaxException e){
+               e.printStackTrace();
+               sendMessage(new Message(MessageType.ERROR, ErrorType.MALFORMED_MESSAGE));
+            }
          }
 
       }catch(IOException e){ //client crashes or timeout runs out
@@ -99,16 +101,14 @@ public class ServerClientHandler implements Runnable {
             server.handleClientDisconnection(this);
             break;
 
-         case ACTION: //is an action
-            if(!logged)
-               return; //does nothing if the sender is not who he claims to be
+         case ACTION:
+            if(!server.isGameRunning())
+               return;
 
-            //prima di darlo al turn manager trasformo in azione
             Action action = message.getAction();
             action.setUsername(username);
-            Message answerMessage = server.getTurnManager().handleAction(action);
-            //turn manager sends back an answere message to be forwarded to the client
-            confirmationMessage(answerMessage);
+            Message errorOrEndTurn = server.getTurnManager().handleAction(action);
+            actionAnswereMessage(errorOrEndTurn);
             break;
 
             default: return;
@@ -117,7 +117,7 @@ public class ServerClientHandler implements Runnable {
       }
    }
 
-   private void confirmationMessage(Message answerMessage){
+   private void actionAnswereMessage(Message answerMessage){
       MessageType messageType = answerMessage.getMessageType();
       answerMessage.setUsername(this.username);
 
@@ -134,29 +134,22 @@ public class ServerClientHandler implements Runnable {
    protected void sendMessage(Message message) {
       if(!connected)
          return;
-      String jsonMessage = gsonBuilder.toJson(message);
+      String jsonMessage = GSON.getGsonBuilder().toJson(message);
       jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
       out.println(jsonMessage);
       out.flush();
 
    }
 
+
    private Message messageParser(String jsonMessage) throws JsonSyntaxException {
-      Message parsedMessage = gsonBuilder.fromJson(jsonMessage, Message.class);
+
+      Message parsedMessage = GSON.getGsonBuilder().fromJson(jsonMessage, Message.class);
       if(parsedMessage == null)
          throw new JsonSyntaxException("Empty message");
+
       return parsedMessage;
    }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -186,7 +179,7 @@ public class ServerClientHandler implements Runnable {
       {
          while(connected){
             Message messageToSend = new Message(MessageType.PING);
-            String jsonMessage = gsonBuilder.toJson(messageToSend);
+            String jsonMessage = GSON.getGsonBuilder().toJson(messageToSend);
             jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
             out.println(jsonMessage);
             out.flush();

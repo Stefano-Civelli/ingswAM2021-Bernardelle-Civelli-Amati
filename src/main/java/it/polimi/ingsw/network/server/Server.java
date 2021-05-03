@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.ModelObserver;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  * This class accepts connection to a client and assign the client handling
  * to the ServerClientHandler class via Thread.
  */
-public class Server implements ModelObserver {
+public class Server {
 
    public static final int MIN_PORT_NUMBER = 1024;
    public static final int MAX_PORT_NUMBER = 65535;
@@ -80,7 +81,7 @@ public class Server implements ModelObserver {
    }
 
    //manages other players connection
-   public synchronized void lobbySetup(Message message){ //TODO gestire lobby piena
+   public synchronized void lobbySetup(Message message){
       String username = message.getUsername();
 
       if(playersNumber == 0){ //executed only for the first player to connect
@@ -144,10 +145,9 @@ public class Server implements ModelObserver {
          }
       }
 
-
    }
 
-   private void succesfulLogin(String username, ServerClientHandler clientHandler) { //TODO serve sincronizzare anche questo?
+   private void succesfulLogin(String username, ServerClientHandler clientHandler) {
       clientHandler.setUsername(username);
       clientHandler.setLogged(true);
       usernameToClientHandler.put(username, clientHandler);
@@ -171,35 +171,40 @@ public class Server implements ModelObserver {
    private void start() {
       Game game = null;
       List<String> playersInOrder = null;
+
+      Controller controller = new Controller(this);
+
       try {
          if(playersNumber == 1)
-            game = new SinglePlayer();
+            game = new SinglePlayer(controller);
          if(playersNumber > 1)
-            game = new Game();
+            game = new Game(controller);
       }catch(IOException | JsonSyntaxException e){ //TODO controllare se viene lanciata la JsonSyntaxException
          //TODO bisogna chiudere la partita (disconnetto tutti i client 1 per volta dicendo Errore nei file di configurazione del gioco)
          sendToClient(new Message(MessageType.GENERIC_MESSAGE));
       }
 
+
+
       try {
          turnManager = new TurnManager(game, loggedPlayers());
          playersInOrder = turnManager.startGame();
       }catch (IOException e) {
-         //TODO sistemare il costruttore di playerboard
+         System.out.println("playerboard constructor probably has a problem");
          e.printStackTrace();
       }
       sendToClient(new Message(MessageType.GAME_STARTED, playersInOrder));
       gameRunning = true;
    }
 
-   @Override
-   public void singleUpdate(Message message){
+
+   public void serverSingleUpdate(Message message){
       message.setUsername(turnManager.getCurrentPlayer());
       sendToClient(message);
    }
 
-   @Override
-   public void broadcastUpdate(Message message){
+
+   public void serverBroadcastUpdate(Message message){
       message.setUsername(turnManager.getCurrentPlayer());
       sendBroadcast(message);
    }

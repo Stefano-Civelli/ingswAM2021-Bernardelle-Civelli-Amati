@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.modelexceptions.*;
+
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -109,9 +111,6 @@ public class DevelopCard {
       } catch (NegativeQuantityException | NotEnoughResourcesException e) {
          e.printStackTrace();
       }
-
-
-
 
       try {
          cardSlots.addDevelopCard(cardSlotNumber,this);
