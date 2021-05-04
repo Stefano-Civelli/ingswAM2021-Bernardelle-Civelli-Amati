@@ -1,14 +1,19 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Chest {
+public class Chest implements ModelObservable{
   private final Map<ResourceType, Integer> resources;
   private final Map<ResourceType, Integer> tempResourcesMap;
+  private Controller controller = null;
 
   public Chest(){
     resources = new HashMap<>();
@@ -31,6 +36,7 @@ public class Chest {
       throw new NegativeQuantityException("you are adding a negative quantity of a resource, that's not allowed");
 
     tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
+    notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<ResourceType, Integer> (resource, tempResourcesMap.get(resource))));
   }
 
   /**
@@ -51,10 +57,14 @@ public class Chest {
       if (resources.get(resource) - quantity < 0)
         throw new NotEnoughResourcesException("you are trying to remove more resources than you have");
 
-      if(resources.get(resource) == quantity)
+      if(resources.get(resource) == quantity) {
         resources.remove(resource);
-      else
+        notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<ResourceType,Integer>(resource, 0)));
+      }
+      else {
         resources.replace(resource, resources.get(resource) - quantity);
+        notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<ResourceType, Integer>(resource, resources.get(resource))));
+      }
     }
     else
       throw new NotEnoughResourcesException("you have 0 of the specified resource");
@@ -90,5 +100,15 @@ public class Chest {
         resources.put(entry.getKey(), resources.containsKey(entry.getKey()) ? resources.get(entry.getKey()) + entry.getValue() : entry.getValue());
     }
     this.tempResourcesMap.clear();
+  }
+
+  @Override
+  public void notifyModelChange(Message msg) {
+    if (controller != null)
+      controller.broadcastUpdate(msg);
+  }
+
+  public void setController(Controller controller) {
+    this.controller = controller;
   }
 }
