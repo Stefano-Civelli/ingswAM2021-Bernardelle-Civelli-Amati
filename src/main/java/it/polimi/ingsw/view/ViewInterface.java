@@ -1,7 +1,10 @@
 package it.polimi.ingsw.view;
 
 
+import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.network.messages.Message;
+
+import java.util.List;
 
 public interface ViewInterface {
   public void displaySetup();
@@ -18,4 +21,5 @@ public interface ViewInterface {
   public void displayServerDown();
   public void displayGameAlreadyStarted();
   public void displayReconnection();
+  public void waitForInput();
 }
