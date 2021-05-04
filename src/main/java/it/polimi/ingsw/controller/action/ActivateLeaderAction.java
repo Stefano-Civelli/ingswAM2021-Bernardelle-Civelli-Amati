@@ -11,6 +11,20 @@ public class ActivateLeaderAction extends Action {
     @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private int leaderCardIndex;
 
+    public ActivateLeaderAction() {
+        super(ActionType.ACTIVATE_LEADER);
+    }
+
+    public ActivateLeaderAction(int leaderCardIndex) {
+        super(ActionType.ACTIVATE_LEADER);
+        this.leaderCardIndex = leaderCardIndex;
+    }
+
+    public ActivateLeaderAction(String username, int leaderCardIndex) {
+        super(ActionType.ACTIVATE_LEADER, username);
+        this.leaderCardIndex = leaderCardIndex;
+    }
+
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, NotEnoughResourcesException, InvalidLeaderCardException {

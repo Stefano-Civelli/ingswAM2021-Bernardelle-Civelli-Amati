@@ -14,6 +14,24 @@ public class BaseProductionAction extends Action {
             resource2,
             product;
 
+    public BaseProductionAction() {
+        super(ActionType.BASE_PRODUCE);
+    }
+
+    public BaseProductionAction(ResourceType resource1, ResourceType resource2, ResourceType product) {
+        super(ActionType.BASE_PRODUCE);
+        this.resource1 = resource1;
+        this.resource2 = resource2;
+        this.product = product;
+    }
+
+    public BaseProductionAction(String username, ResourceType resource1, ResourceType resource2, ResourceType product) {
+        super(ActionType.BASE_PRODUCE, username);
+        this.resource1 = resource1;
+        this.resource2 = resource2;
+        this.product = product;
+    }
+
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, AlreadyProducedException, NegativeQuantityException,

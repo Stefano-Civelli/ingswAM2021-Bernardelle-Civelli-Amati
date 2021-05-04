@@ -13,9 +13,19 @@ public class BuyDevelopCardAction extends Action {
             column,
             cardSlotIndex;
 
-    public BuyDevelopCardAction() {}
+    public BuyDevelopCardAction() {
+        super(ActionType.BUY_CARD);
+    }
 
     public BuyDevelopCardAction(int row, int column, int cardSlotIndex) {
+        super(ActionType.BUY_CARD);
+        this.row = row;
+        this.column = column;
+        this.cardSlotIndex = cardSlotIndex;
+    }
+
+    public BuyDevelopCardAction(String username, int row, int column, int cardSlotIndex) {
+        super(ActionType.BUY_CARD, username);
         this.row = row;
         this.column = column;
         this.cardSlotIndex = cardSlotIndex;

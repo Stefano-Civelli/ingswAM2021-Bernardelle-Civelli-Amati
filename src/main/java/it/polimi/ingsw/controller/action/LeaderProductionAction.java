@@ -15,6 +15,22 @@ public class LeaderProductionAction extends Action {
     @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private ResourceType product;
 
+    public LeaderProductionAction() {
+        super(ActionType.LEADER_PRODUCE);
+    }
+
+    public LeaderProductionAction(int leaderCardIndex, ResourceType product) {
+        super(ActionType.LEADER_PRODUCE);
+        this.leaderCardIndex = leaderCardIndex;
+        this.product = product;
+    }
+
+    public LeaderProductionAction(String username, int leaderCardIndex, ResourceType product) {
+        super(ActionType.LEADER_PRODUCE, username);
+        this.leaderCardIndex = leaderCardIndex;
+        this.product = product;
+    }
+
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, NeedAResourceToAddException, AlreadyProducedException,

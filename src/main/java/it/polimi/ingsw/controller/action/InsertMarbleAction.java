@@ -11,6 +11,20 @@ public class InsertMarbleAction extends Action {
     @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private int marbleIndex;
 
+    public InsertMarbleAction() {
+        super(ActionType.INSERT_MARBLE);
+    }
+
+    public InsertMarbleAction(int marbleIndex) {
+        super(ActionType.INSERT_MARBLE);
+        this.marbleIndex = marbleIndex;
+    }
+
+    public InsertMarbleAction(String username, int marbleIndex) {
+        super(ActionType.INSERT_MARBLE, username);
+        this.marbleIndex = marbleIndex;
+    }
+
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, MarbleNotExistException {

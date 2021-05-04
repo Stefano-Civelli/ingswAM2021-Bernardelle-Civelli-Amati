@@ -11,6 +11,20 @@ public class DiscardLeaderAction extends Action {
     @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private int leaderCardIndex;
 
+    public DiscardLeaderAction() {
+        super(ActionType.DISCARD_LEADER);
+    }
+
+    public DiscardLeaderAction(int leaderCardIndex) {
+        super(ActionType.DISCARD_LEADER);
+        this.leaderCardIndex = leaderCardIndex;
+    }
+
+    public DiscardLeaderAction(String username, int leaderCardIndex) {
+        super(ActionType.DISCARD_LEADER, username);
+        this.leaderCardIndex = leaderCardIndex;
+    }
+
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, InvalidLeaderCardException, LeaderIsActiveException {

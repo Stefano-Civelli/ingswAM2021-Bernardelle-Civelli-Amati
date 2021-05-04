@@ -14,6 +14,22 @@ public class ShopMarketAction extends Action {
     @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private int index;
 
+    public ShopMarketAction() {
+        super(ActionType.SHOP_MARKET);
+    }
+
+    public ShopMarketAction(boolean inRow, int index) {
+        super(ActionType.SHOP_MARKET);
+        this.inRow = inRow;
+        this.index = index;
+    }
+
+    public ShopMarketAction(String username, boolean inRow, int index) {
+        super(ActionType.SHOP_MARKET, username);
+        this.inRow = inRow;
+        this.index = index;
+    }
+
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, RowOrColumnNotExistsException {

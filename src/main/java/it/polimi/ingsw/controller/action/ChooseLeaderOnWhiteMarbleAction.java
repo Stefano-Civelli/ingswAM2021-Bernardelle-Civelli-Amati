@@ -11,6 +11,20 @@ public class ChooseLeaderOnWhiteMarbleAction extends Action {
     @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private int leaderIndex;
 
+    public ChooseLeaderOnWhiteMarbleAction() {
+        super(ActionType.CHOOSE_WHITE_LEADER);
+    }
+
+    public ChooseLeaderOnWhiteMarbleAction(int leaderIndex) {
+        super(ActionType.CHOOSE_WHITE_LEADER);
+        this.leaderIndex = leaderIndex;
+    }
+
+    public ChooseLeaderOnWhiteMarbleAction(String username, int leaderIndex) {
+        super(ActionType.CHOOSE_WHITE_LEADER, username);
+        this.leaderIndex = leaderIndex;
+    }
+
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, InvalidLeaderCardException {

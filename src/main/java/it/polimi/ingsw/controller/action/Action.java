@@ -8,10 +8,20 @@ import it.polimi.ingsw.model.modelexceptions.*;
 public abstract class Action {
 
     // TODO fare test e java doc action
-    // TODO costruttori action per costruirle nel client
+    // TODO fare get di username e rendere username privato
 
-    protected ActionType type;
+    @SuppressWarnings({"unused", "FieldCanBeLocal"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
+    private final ActionType type;
     protected String username = null;
+
+    public Action(ActionType type) {
+        this.type = type;
+    }
+
+    public Action(ActionType type, String username) {
+        this(type);
+        this.username = username;
+    }
 
     public final void setUsername(String username) {
         if(this.username == null)

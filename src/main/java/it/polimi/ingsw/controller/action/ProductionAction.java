@@ -11,6 +11,20 @@ public class ProductionAction extends Action {
     @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private int cardIndex;
 
+    public ProductionAction() {
+        super(ActionType.PRODUCE);
+    }
+
+    public ProductionAction(int cardIndex) {
+        super(ActionType.PRODUCE);
+        this.cardIndex = cardIndex;
+    }
+
+    public ProductionAction(String username, int cardIndex) {
+        super(ActionType.PRODUCE, username);
+        this.cardIndex = cardIndex;
+    }
+
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, NotActivatableException, AlreadyProducedException {

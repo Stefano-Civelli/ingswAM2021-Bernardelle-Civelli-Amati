@@ -7,12 +7,27 @@ import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ChooseResourcesAction extends Action {
 
     @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because the field value is assigned using reflection
     private Map<ResourceType, Integer> resources;
+
+    public ChooseResourcesAction() {
+        super(ActionType.CHOOSE_WHITE_LEADER);
+    }
+
+    public ChooseResourcesAction(Map<ResourceType, Integer> resources) {
+        super(ActionType.CHOOSE_WHITE_LEADER);
+        this.resources = new HashMap<>(resources);
+    }
+
+    public ChooseResourcesAction(String username, Map<ResourceType, Integer> resources) {
+        super(ActionType.CHOOSE_WHITE_LEADER, username);
+        this.resources = resources;
+    }
 
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,

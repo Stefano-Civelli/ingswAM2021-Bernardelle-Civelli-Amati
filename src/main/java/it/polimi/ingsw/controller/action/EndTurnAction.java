@@ -8,6 +8,14 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class EndTurnAction extends Action {
 
+    public EndTurnAction() {
+        super(ActionType.END_TURN);
+    }
+
+    public EndTurnAction(String username) {
+        super(ActionType.END_TURN, username);
+    }
+
     @Override
     public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException {
