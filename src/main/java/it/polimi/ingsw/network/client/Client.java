@@ -2,6 +2,8 @@ package it.polimi.ingsw.network.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -29,6 +31,7 @@ public class Client {
   //private Map<String, SimpleModel> simpleModelArray;
 
   private Timer pingTimer = null;
+
 
   public static void main(String[] args) {
     boolean cli = true;
@@ -114,8 +117,15 @@ public class Client {
       case YOU_JOINED:
         view.displayYouJoined();
         view.displayOtherUserJoined(msg);
+        break;
+      case GAME_STARTED:
+        view.waitForInput();
+        //TODO gestire le risorse in base alla posizione del player nell'array
+        break;
     }
   }
+
+
 
   private void handleError(ErrorType errorType) {
     switch (errorType){
@@ -146,8 +156,13 @@ public class Client {
   public void sendToServer(Message msg) {
     if(msg.getMessageType() != MessageType.LOGIN)
       msg.setUsername(this.username);
+
     //message.setUsername(this.username); non abbiamo lo user in ogni messaggio, dovremmo?
-    serverConnector.sendToServer(parserToJson(msg));
+    String message = parserToJson(msg);
+    JsonObject jsonObject = (JsonObject) JsonParser.parseString(message);
+    if(jsonObject.getAsJsonObject().get("messageType").getAsString().equals(MessageType.ACTION.name()))
+      message = message.replaceAll("\\\\\"", "");
+    serverConnector.sendToServer(message);
   }
 
   public void close() {
