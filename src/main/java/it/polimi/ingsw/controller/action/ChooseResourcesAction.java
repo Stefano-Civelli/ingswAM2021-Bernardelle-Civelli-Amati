@@ -14,7 +14,8 @@ public class ChooseResourcesAction extends Action {
 
     private Map<ResourceType, Integer> resources;
 
-    public ChooseResourcesAction() {
+    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+    private ChooseResourcesAction() {
         super(ActionType.CHOOSE_WHITE_LEADER);
     }
 

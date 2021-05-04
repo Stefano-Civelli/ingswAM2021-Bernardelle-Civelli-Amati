@@ -12,7 +12,8 @@ public class LeaderProductionAction extends Action {
     private int leaderCardIndex;
     private ResourceType product;
 
-    public LeaderProductionAction() {
+    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+    private LeaderProductionAction() {
         super(ActionType.LEADER_PRODUCE);
     }
 

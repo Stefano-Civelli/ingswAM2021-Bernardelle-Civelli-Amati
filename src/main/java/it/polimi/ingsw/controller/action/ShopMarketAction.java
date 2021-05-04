@@ -11,7 +11,8 @@ public class ShopMarketAction extends Action {
     private boolean inRow; // if true -> row, else -> column
     private int index;
 
-    public ShopMarketAction() {
+    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+    private ShopMarketAction() {
         super(ActionType.SHOP_MARKET);
     }
 

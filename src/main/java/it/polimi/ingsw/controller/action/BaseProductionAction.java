@@ -13,7 +13,8 @@ public class BaseProductionAction extends Action {
             resource2,
             product;
 
-    public BaseProductionAction() {
+    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+    private BaseProductionAction() {
         super(ActionType.BASE_PRODUCE);
     }
 

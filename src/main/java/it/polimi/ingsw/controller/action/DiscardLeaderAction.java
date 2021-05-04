@@ -10,7 +10,8 @@ public class DiscardLeaderAction extends Action {
 
     private int leaderCardIndex;
 
-    public DiscardLeaderAction() {
+    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+    private DiscardLeaderAction() {
         super(ActionType.DISCARD_LEADER);
     }
 

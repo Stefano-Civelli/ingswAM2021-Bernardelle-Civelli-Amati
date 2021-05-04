@@ -8,7 +8,8 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class EndTurnAction extends Action {
 
-    public EndTurnAction() {
+    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+    private EndTurnAction() {
         super(ActionType.END_TURN);
     }
 

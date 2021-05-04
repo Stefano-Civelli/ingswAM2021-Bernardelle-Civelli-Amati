@@ -12,7 +12,8 @@ public class BuyDevelopCardAction extends Action {
             column,
             cardSlotIndex;
 
-    public BuyDevelopCardAction() {
+    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+    private BuyDevelopCardAction() {
         super(ActionType.BUY_CARD);
     }
 

@@ -10,7 +10,8 @@ public class InsertMarbleAction extends Action {
 
     private int marbleIndex;
 
-    public InsertMarbleAction() {
+    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+    private InsertMarbleAction() {
         super(ActionType.INSERT_MARBLE);
     }
 

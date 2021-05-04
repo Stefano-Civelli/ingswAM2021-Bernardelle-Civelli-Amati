@@ -10,7 +10,8 @@ public class ProductionAction extends Action {
 
     private int cardIndex;
 
-    public ProductionAction() {
+    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+    private ProductionAction() {
         super(ActionType.PRODUCE);
     }
 

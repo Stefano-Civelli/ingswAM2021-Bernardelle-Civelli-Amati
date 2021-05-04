@@ -10,7 +10,8 @@ public class ChooseLeaderOnWhiteMarbleAction extends Action {
 
     private int leaderIndex;
 
-    public ChooseLeaderOnWhiteMarbleAction() {
+    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+    private ChooseLeaderOnWhiteMarbleAction() {
         super(ActionType.CHOOSE_WHITE_LEADER);
     }
 
