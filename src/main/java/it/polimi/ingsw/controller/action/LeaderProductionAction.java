@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
+import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
+import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.ResourceType;
@@ -14,12 +16,19 @@ public class LeaderProductionAction extends Action {
     private ResourceType product;
 
     @Override
-    public PhaseType performAction(IGameState gameState) throws InvalidActionException,
+    public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, NeedAResourceToAddException, AlreadyProducedException,
             NotEnoughResourcesException, AbuseOfFaithException {
-        if(!super.checkValid(gameState))
+        if(!super.isCurrentPlayer(gameState))
+            throw new WrongPlayerException();
+        if(!this.isActionValid(gameState))
             throw new InvalidActionException();
         gameState.getGame().getPlayerBoard(super.username).leaderProduce(this.leaderCardIndex, this.product);
         return PhaseType.PRODUCING;
     }
+
+    private boolean isActionValid(IGameState gameState) {
+        return gameState.getCurrentPhase().isValid(ActionType.LEADER_PRODUCE);
+    }
+
 }

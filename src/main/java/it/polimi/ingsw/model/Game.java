@@ -17,13 +17,9 @@ public class Game {
 
    private final LeaderCardDeck leaderCardDeck;
    private final Market market;
-   private final DevelopCardDeck developCardDeck;
+   protected final DevelopCardDeck developCardDeck;
    private final List<PlayerBoard> playerBoardList;
    Controller controller;
-
-   //mettere i due file nella classe che chiama il costruttore game, oppure mettere direttamente nel main e propaghiamo che é meglio
-   //private final File cardConfigFile = new File("src/DevelopCardConfig.json");
-   //private final File leaderCardConfigFile = new File("src/LeaderCardConfig.json");
 
    public Game(Controller controller) throws IOException {
       this.leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
@@ -35,7 +31,7 @@ public class Game {
 
    //need also to check that the max number of players in this lobby isn't exceeded -> that's not necessary
    public void addPlayer(String username) throws IOException {
-      List<LeaderCard> fourInitialLeaderCardsForPlayer = leaderCardDeck.drawFourCards();
+      List<LeaderCard> fourInitialLeaderCardsForPlayer = this.leaderCardDeck.drawFourCards();
 
       PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, market, developCardDeck);
 

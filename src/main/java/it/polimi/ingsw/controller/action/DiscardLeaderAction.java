@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
+import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
+import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
@@ -10,9 +12,11 @@ public class DiscardLeaderAction extends Action {
     private int leaderCardIndex;
 
     @Override
-    public PhaseType performAction(IGameState gameState) throws InvalidActionException,
+    public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
             InvalidUsernameException, InvalidLeaderCardException, LeaderIsActiveException {
-        if(!super.checkValid(gameState))
+        if(!super.isCurrentPlayer(gameState))
+            throw new WrongPlayerException();
+        if(!this.isActionValid(gameState))
             throw new InvalidActionException();
         if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
             gameState.getGame().getPlayerBoard(super.username).enterFinalTurnPhase();
@@ -27,6 +31,10 @@ public class DiscardLeaderAction extends Action {
         if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
             return PhaseType.FINAL;
         return PhaseType.INITIAL;
+    }
+
+    private boolean isActionValid(IGameState gameState) {
+        return gameState.getCurrentPhase().isValid(ActionType.DISCARD_LEADER);
     }
 
 }
