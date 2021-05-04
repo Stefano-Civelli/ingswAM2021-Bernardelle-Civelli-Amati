@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
+import it.polimi.ingsw.controller.controllerexception.NotAllowedActionException;
 import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 public class ChooseResourcesAction extends Action {
 
-    private Map<ResourceType, Integer> resources;
+    private Map<ResourceType, Integer> resources = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
     private ChooseResourcesAction() {
@@ -30,13 +31,16 @@ public class ChooseResourcesAction extends Action {
     }
 
     @Override
-    public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
+    public PhaseType performAction(IGameState gameState)
+            throws InvalidActionException, NotAllowedActionException, WrongPlayerException,
             InvalidUsernameException, NegativeQuantityException, WrongResourceNumberException,
             AbuseOfFaithException, NotEnoughSpaceException {
+        if(!this.isActionValid())
+            throw new InvalidActionException("This Action is not correctly initialized.");
         if(!super.isCurrentPlayer(gameState))
             throw new WrongPlayerException();
-        if(!this.isActionValid(gameState))
-            throw new InvalidActionException();
+        if(!this.isActionAllowed(gameState))
+            throw new NotAllowedActionException();
         if(this.resources.values().stream().anyMatch(i -> i < 0))
             throw new NegativeQuantityException();
         if(gameState.getGame().initialResources(super.getUsername())
@@ -50,8 +54,12 @@ public class ChooseResourcesAction extends Action {
         return PhaseType.SETUP_DISCARDLEADER;
     }
 
-    private boolean isActionValid(IGameState gameState) {
+    private boolean isActionAllowed(IGameState gameState) {
         return gameState.getCurrentPhase().isValid(ActionType.CHOSE_RESOURCES);
+    }
+
+    private boolean isActionValid() {
+        return super.getUsername() != null && this.resources != null;
     }
 
 }

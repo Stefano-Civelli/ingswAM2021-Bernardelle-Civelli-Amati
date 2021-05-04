@@ -23,19 +23,20 @@ public abstract class Action {
         this.username = username;
     }
 
-    public final void setUsername(String username) {
+    public final String setUsername(String username) {
         if(this.username == null)
             this.username = username;
+        return this.username;
     }
 
     protected final String getUsername() {
         return this.username;
     }
 
-    public abstract PhaseType performAction(IGameState gameState) throws ControllerException, ModelException;
-
-    protected boolean isCurrentPlayer(IGameState gameState) {
+    protected final boolean isCurrentPlayer(IGameState gameState) {
         return !(this.username == null) && gameState.getCurrentPlayer().equals(this.username);
     }
+
+    public abstract PhaseType performAction(IGameState gameState) throws ControllerException, ModelException;
 
 }

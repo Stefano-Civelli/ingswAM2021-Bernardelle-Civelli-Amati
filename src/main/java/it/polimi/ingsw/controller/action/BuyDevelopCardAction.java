@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
+import it.polimi.ingsw.controller.controllerexception.NotAllowedActionException;
 import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
@@ -8,9 +9,9 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class BuyDevelopCardAction extends Action {
 
-    private int row,
-            column,
-            cardSlotIndex;
+    private Integer row = null,
+            column = null,
+            cardSlotIndex = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
     private BuyDevelopCardAction() {
@@ -32,19 +33,26 @@ public class BuyDevelopCardAction extends Action {
     }
 
     @Override
-    public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
+    public PhaseType performAction(IGameState gameState)
+            throws InvalidActionException, NotAllowedActionException, WrongPlayerException,
             InvalidUsernameException, NotBuyableException, InvalidCardPlacementException,
             InvalidDevelopCardException {
+        if(!this.isActionValid())
+            throw new InvalidActionException("This Action is not correctly initialized.");
         if(!super.isCurrentPlayer(gameState))
             throw new WrongPlayerException();
-        if(!this.isActionValid(gameState))
-            throw new InvalidActionException();
+        if(!this.isActionAllowed(gameState))
+            throw new NotAllowedActionException();
         gameState.getGame().getPlayerBoard(super.getUsername()).addDevelopCard(row, column, cardSlotIndex);
         return PhaseType.FINAL;
     }
 
-    private boolean isActionValid(IGameState gameState) {
+    private boolean isActionAllowed(IGameState gameState) {
         return gameState.getCurrentPhase().isValid(ActionType.BUY_CARD);
+    }
+
+    private boolean isActionValid() {
+        return super.getUsername() != null && this.row != null && this.column != null && this.cardSlotIndex != null;
     }
 
 }

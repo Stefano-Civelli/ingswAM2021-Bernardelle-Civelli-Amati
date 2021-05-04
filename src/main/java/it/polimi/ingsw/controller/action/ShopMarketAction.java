@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
+import it.polimi.ingsw.controller.controllerexception.NotAllowedActionException;
 import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
@@ -8,8 +9,8 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class ShopMarketAction extends Action {
 
-    private boolean inRow; // if true -> row, else -> column
-    private int index;
+    private Boolean inRow = null; // if true -> row, else -> column
+    private Integer index = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
     private ShopMarketAction() {
@@ -29,12 +30,15 @@ public class ShopMarketAction extends Action {
     }
 
     @Override
-    public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
+    public PhaseType performAction(IGameState gameState)
+            throws InvalidActionException, NotAllowedActionException, WrongPlayerException,
             InvalidUsernameException, RowOrColumnNotExistsException {
+        if(!this.isActionValid())
+            throw new InvalidActionException("This Action is not correctly initialized.");
         if(!super.isCurrentPlayer(gameState))
             throw new WrongPlayerException();
-        if(!this.isActionValid(gameState))
-            throw new InvalidActionException();
+        if(!this.isActionAllowed(gameState))
+            throw new NotAllowedActionException();
         if(inRow)
             gameState.getGame().getPlayerBoard(super.getUsername()).shopMarketRow(index);
         else
@@ -42,8 +46,12 @@ public class ShopMarketAction extends Action {
         return PhaseType.SHOPPING;
     }
 
-    private boolean isActionValid(IGameState gameState) {
+    private boolean isActionAllowed(IGameState gameState) {
         return gameState.getCurrentPhase().isValid(ActionType.SHOP_MARKET);
+    }
+
+    private boolean isActionValid() {
+        return super.getUsername() != null && this.inRow != null && this.index != null;
     }
 
 }

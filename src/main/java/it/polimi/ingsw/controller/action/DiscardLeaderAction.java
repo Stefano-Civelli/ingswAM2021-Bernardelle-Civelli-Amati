@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.action;
 
 import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
+import it.polimi.ingsw.controller.controllerexception.NotAllowedActionException;
 import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
@@ -8,7 +9,7 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class DiscardLeaderAction extends Action {
 
-    private int leaderCardIndex;
+    private Integer leaderCardIndex = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
     private DiscardLeaderAction() {
@@ -26,12 +27,15 @@ public class DiscardLeaderAction extends Action {
     }
 
     @Override
-    public PhaseType performAction(IGameState gameState) throws InvalidActionException, WrongPlayerException,
+    public PhaseType performAction(IGameState gameState)
+            throws InvalidActionException, NotAllowedActionException, WrongPlayerException,
             InvalidUsernameException, InvalidLeaderCardException, LeaderIsActiveException {
+        if(!this.isActionValid())
+            throw new InvalidActionException("This Action is not correctly initialized.");
         if(!super.isCurrentPlayer(gameState))
             throw new WrongPlayerException();
-        if(!this.isActionValid(gameState))
-            throw new InvalidActionException();
+        if(!this.isActionAllowed(gameState))
+            throw new NotAllowedActionException();
         if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
             gameState.getGame().getPlayerBoard(super.getUsername()).enterFinalTurnPhase();
         if(gameState.getCurrentPhase() == PhaseType.SETUP_DISCARDLEADER) {
@@ -47,8 +51,12 @@ public class DiscardLeaderAction extends Action {
         return PhaseType.INITIAL;
     }
 
-    private boolean isActionValid(IGameState gameState) {
+    private boolean isActionAllowed(IGameState gameState) {
         return gameState.getCurrentPhase().isValid(ActionType.DISCARD_LEADER);
+    }
+
+    private boolean isActionValid() {
+        return super.getUsername() != null && this.leaderCardIndex != null;
     }
 
 }
