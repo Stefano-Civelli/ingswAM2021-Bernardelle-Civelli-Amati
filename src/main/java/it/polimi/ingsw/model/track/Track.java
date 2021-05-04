@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.track;
 
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
+
 public class Track extends LorenzoTrack implements VaticanReportObserver {
   private final int[] popeCards = new int[]{-1, -1, -1};
 
@@ -8,6 +11,24 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
    * instances of this class are made with a json file
    */
   public Track() {
+  }
+
+  public class VaticanReport {
+    private int zone;
+    private boolean active;
+
+    public VaticanReport (int zone, boolean active){
+      this.zone = zone;
+      this.active = active;
+    }
+
+    public int getZone() {
+      return zone;
+    }
+
+    public boolean isActive() {
+      return active;
+    }
   }
 
   /**
@@ -38,12 +59,14 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
       if(playerPosition < 24) {
 
         playerPosition += 1;
+        notifyModelChange(new Message(MessageType.TRACK_UPDATED, Integer.toString(playerPosition)));
         if(track[playerPosition].getRed()) {
           int active = track[playerPosition].getActive()-1;
           //if the popeCard value related to that red Square is -1 then i'm the first that has reached it
           if(popeCards[active] == -1) {
             //set the popeCard of this activeZone to his actual value
             switchPopeCardsActivation(active);
+            notifyModelChange(new Message(MessageType.VATICAN_REPORT, new VaticanReport(active, true)));/*inner class con int per la zona e bool per sapere se girarla o meno*/
 
             //notify the observers that have to see if they can "flip the popeCard related to that activeZone"
             notifyForVaticanReport(active);
@@ -67,8 +90,10 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
     if (popeCards[active] == -1) {
       if (track[playerPosition].getActive() == active + 1) {
         switchPopeCardsActivation(active);
+        notifyModelChange(new Message(MessageType.VATICAN_REPORT, new VaticanReport(active, true)));/*inner class con int per la zona e bool per sapere se girarla o meno*/
       } else
         popeCards[active] = 0;
+        notifyModelChange(new Message(MessageType.VATICAN_REPORT, new VaticanReport(active, false)));
     }
   }
 

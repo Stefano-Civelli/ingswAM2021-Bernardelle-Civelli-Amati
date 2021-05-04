@@ -27,9 +27,12 @@ public enum MessageType {
   END_TURN,
 
   MARKET_UPDATED,
+  VATICAN_REPORT,
   TRACK_UPDATED,
+  WAREHOUSE_UPDATE,
   DEVELOP_CARD_DECK_UPDATED,
   CARD_SLOT_UPDATE,
+  CHEST_UPDATE,
   WINNING_PLAYER,
 
   DECK_SETUP,
@@ -39,6 +42,9 @@ public enum MessageType {
   ERROR,
   QUIT,
   NEXT_TURN_STATE;
+
+
+
 
   public static MessageType fromValue(String value) {
     for (MessageType messageType : values()) {

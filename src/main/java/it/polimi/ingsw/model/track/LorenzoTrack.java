@@ -1,20 +1,24 @@
 package it.polimi.ingsw.model.track;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.EndGameObservable;
 import it.polimi.ingsw.model.ModelObservable;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.MoveForwardObserver;
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 
 import java.util.HashSet;
 import java.util.Set;
 
- //dovrei implementare MoveForewardObserver ma é un casino
+
 public class LorenzoTrack implements VaticanReportObservable, EndGameObservable, ModelObservable, MoveForwardObserver {
   Square[] track;
   int playerPosition;
   final Set<VaticanReportObserver> vaticanReportObserverList = new HashSet<>();
   final Set<EndGameObserver> endGameObserverList = new HashSet<>();
+  private Controller controller = null;
 
    /**
     * constructor of the class
@@ -42,6 +46,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
       if (playerPosition < 24) {
 
         playerPosition += 1;
+        notifyModelChange(new Message(MessageType.TRACK_UPDATED, Integer.toString(playerPosition)));
         if (track[playerPosition].getRed()) {
           int active = track[playerPosition].getActive()-1;
           notifyForVaticanReport(active);
@@ -98,18 +103,11 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
 
   @Override
   public void notifyModelChange(Message msg) {
-    //for(ModelObserver x : wrebfjkwrhqbfqr)
-      //x.update(msg);
+    if (controller != null)
+    controller.broadcastUpdate(msg);
   }
 
-//  private Message TrackMoveUpdate(int playerPosition){
-//    return new
-//  }
-
-
-//   @Override
-//   public void addToMoveForwardObserverList(MoveForwardObserver observerToAdd) {
-//     moveForwardObserverList.add(observerToAdd);
-//     //moveForwardObserverList.add(observerToAdd); //non penso sia necessaria
-//   }
+  public void setController(Controller controller) {
+    this.controller = controller;
+  }
 }

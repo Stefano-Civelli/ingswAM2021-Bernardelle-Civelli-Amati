@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.modelexceptions.*;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.ArrayList;
@@ -9,10 +13,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Warehouse {
+public class Warehouse implements ModelObservable{
 
     private final int NUMBER_OF_NORMAL_LEVELS = 3;
     private final int MAX_SPECIAL_LEVELS = 2;
+    private Controller controller = null;
 
     private final Pair<ResourceType, Integer>[] levels;
     private final List<Pair<ResourceType, Integer>> leaderLevels;
@@ -21,6 +26,32 @@ public class Warehouse {
     public Warehouse() {
         this.levels = new Pair[this.NUMBER_OF_NORMAL_LEVELS];
         this.leaderLevels = new ArrayList<>(this.MAX_SPECIAL_LEVELS);
+    }
+
+
+
+    public class WarehouseUpdate{
+        private ResourceType resourceType;
+        private int quantity;
+        private int level;
+
+        public WarehouseUpdate(ResourceType resourceType, int quantity, int level) {
+            this.resourceType = resourceType;
+            this.quantity = quantity;
+            this.level = level;
+        }
+
+        public ResourceType getResourceType() {
+            return resourceType;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public int getLevel() {
+            return level;
+        }
     }
 
     /**
@@ -94,6 +125,7 @@ public class Warehouse {
         for(int i = 0; i < this.numberOfLeaderCardsLevels(); i++) {
             if(this.leaderLevels.get(i).getKey() == resource && this.leaderLevels.get(i).getValue() + 1 <= 2) {
                 this.leaderLevels.set(i, new Pair<>(resource, this.leaderLevels.get(i).getValue() + 1));
+                notifyModelChange(new Message(MessageType.WAREHOUSE_UPDATE, new WarehouseUpdate(resource, this.leaderLevels.get(i).getValue(),  i+3))); //3 is the first leader that as been activated
                 return;
             }
         }
@@ -103,6 +135,7 @@ public class Warehouse {
         if(level != -1) { //There is already a level with this type of resource
             if (this.levels[level].getValue() + 1 <= this.numberOfNormalLevels() - level) {
                 this.levels[level] = new Pair<>(resource, this.levels[level].getValue() + 1);
+                notifyModelChange(new Message(MessageType.WAREHOUSE_UPDATE, new WarehouseUpdate(resource, this.levels[level].getValue(),  level)));
                 return;
             } else { //Try to swap levels
                 for(int i = level - 1; i >= 0; i--) {
@@ -112,6 +145,7 @@ public class Warehouse {
                         swap = this.levels[i];
                         this.levels[i] = new Pair<>(resource, this.levels[level].getValue() + 1);
                         this.levels[level] = swap;
+                        notifyModelChange(new Message(MessageType.WAREHOUSE_UPDATE, new WarehouseUpdate(resource, this.levels[i].getValue(), i)));
                         return;
                     }
                 }
@@ -120,6 +154,7 @@ public class Warehouse {
             for(int i = this.numberOfNormalLevels() - 1; i >= 0; i--)
                 if(this.levels[i] == null) {
                     this.levels[i] = new Pair<>(resource, 1);
+                    notifyModelChange(new Message(MessageType.WAREHOUSE_UPDATE, new WarehouseUpdate(resource, this.levels[i].getValue(),  i)));
                     return;
                 }
         }
@@ -152,6 +187,7 @@ public class Warehouse {
                 this.levels[level] = new Pair<>(resourceType, this.levels[level].getValue() - quantity);
                 quantity = 0;
             }
+            notifyModelChange(new Message(MessageType.WAREHOUSE_UPDATE, new WarehouseUpdate(resourceType, this.levels[level].getValue(), level)));
         }
 
         //Remove in leader card levels
@@ -166,6 +202,8 @@ public class Warehouse {
                             this.leaderLevels.get(i).getValue() - quantity));
                     quantity = 0;
                 }
+
+                notifyModelChange(new Message(MessageType.WAREHOUSE_UPDATE, new WarehouseUpdate(resourceType, this.leaderLevels.get(i).getValue(), i+3)));
             }
         }
 
@@ -203,4 +241,14 @@ public class Warehouse {
                         .reduce(Integer::sum).orElse(0);
     }
 
+
+    @Override
+    public void notifyModelChange(Message msg) {
+        if (controller != null)
+            controller.broadcastUpdate(msg);
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
 }
