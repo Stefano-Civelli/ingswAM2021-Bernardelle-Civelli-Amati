@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.controllerexception.ControllerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
-import it.polimi.ingsw.model.singleplayer.ActionToken;
 
 public abstract class Action {
 
