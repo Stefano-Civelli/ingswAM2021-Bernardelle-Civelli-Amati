@@ -70,6 +70,7 @@ public class GSON{
    public static Action buildAction(String payload){
       RuntimeTypeAdapterFactory<Action> actionAdapter = RuntimeTypeAdapterFactory.of(Action.class, "type");
       actionAdapter
+              .registerSubtype(EndTurnAction.class, "END_TURN")
               .registerSubtype(InsertMarbleAction.class, "INSERT_MARBLE")
               .registerSubtype(ActivateLeaderAction.class, "ACTIVATE_LEADER")
               .registerSubtype(BaseProductionAction.class, "BASE_PRODUCE")

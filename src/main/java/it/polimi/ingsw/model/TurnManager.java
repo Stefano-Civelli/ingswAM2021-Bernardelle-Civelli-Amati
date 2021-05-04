@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.controllerexception.ControllerException;
+import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
 import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
+import it.polimi.ingsw.controller.controllerexception.NotAllowedActionException;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -53,10 +54,14 @@ public class TurnManager implements IGameState {
     public synchronized Message handleAction(Action action) {
         try {
             this.currentPhase = action.performAction(this);
+        } catch (InvalidActionException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_ACTION);
         } catch (WrongPlayerException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.WRONG_PLAYER);
-        } catch (InvalidActionException e) {
-            return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_ACTION);
+        } catch (NotAllowedActionException e) {
+            return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.WRONG_ACTION);
         } catch (ControllerException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.UNKNOWN_CONTROLLER_ERROR);
         } catch (InvalidUsernameException e) {
@@ -92,9 +97,11 @@ public class TurnManager implements IGameState {
         } catch (NotActivatableException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.NOT_ACTIVATABLE_PRODUCTION);
         } catch (ModelException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
             return new Message(this.currentPlayer, MessageType.ERROR,ErrorType.UNKNOWN_MODEL_ERROR);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.UNKNOWN_ERROR);
         }

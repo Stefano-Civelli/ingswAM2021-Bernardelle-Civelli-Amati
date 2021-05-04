@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.DevelopCardColor;
 
 public enum ErrorType {
     INVALID_ACTION,
+    WRONG_ACTION,
     WRONG_PLAYER, // not their turn
     INVALID_USERNAME,
     NOT_ENOUGH_RESOURCES,

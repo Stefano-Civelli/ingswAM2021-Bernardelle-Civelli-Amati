@@ -93,6 +93,8 @@ public class DevelopCard {
     */
    public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber)
            throws NotBuyableException, InvalidCardPlacementException {
+      // FIXME assicurarsi che non venga lanciata una indexOutOfBound se il cardslot non esiste.
+      //       in caso sostituire con un'eccezione vera: una nuova oppure InvalidCardPlacementException
       CardSlots cardSlots = playerBoard.getCardSlots();
       DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
       HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
