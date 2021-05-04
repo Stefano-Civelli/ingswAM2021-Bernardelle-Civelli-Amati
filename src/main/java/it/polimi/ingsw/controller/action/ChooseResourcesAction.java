@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class ChooseResourcesAction extends Action {
 
-    @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because the field value is assigned using reflection
     private Map<ResourceType, Integer> resources;
 
     public ChooseResourcesAction() {

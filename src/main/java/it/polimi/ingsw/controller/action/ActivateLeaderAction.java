@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class ActivateLeaderAction extends Action {
 
-    @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private int leaderCardIndex;
 
     public ActivateLeaderAction() {

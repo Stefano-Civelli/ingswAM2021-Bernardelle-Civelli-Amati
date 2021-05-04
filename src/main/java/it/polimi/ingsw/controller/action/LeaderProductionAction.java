@@ -9,10 +9,7 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class LeaderProductionAction extends Action {
 
-    @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private int leaderCardIndex;
-
-    @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private ResourceType product;
 
     public LeaderProductionAction() {

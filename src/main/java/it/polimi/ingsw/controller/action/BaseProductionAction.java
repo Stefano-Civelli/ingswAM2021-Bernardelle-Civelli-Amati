@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class BaseProductionAction extends Action {
 
-    @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection
     private ResourceType resource1,
             resource2,
             product;
