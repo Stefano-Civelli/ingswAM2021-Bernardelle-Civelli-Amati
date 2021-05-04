@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.messages;
 
-import it.polimi.ingsw.model.DevelopCardColor;
-
 public enum ErrorType {
     INVALID_ACTION,
     WRONG_ACTION,
