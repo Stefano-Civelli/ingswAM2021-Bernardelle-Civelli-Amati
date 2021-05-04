@@ -38,6 +38,14 @@ public class Game {
       List<LeaderCard> fourInitialLeaderCardsForPlayer = leaderCardDeck.drawFourCards();
 
       PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, market, developCardDeck);
+
+      // add all observers to the list in observable classes
+      for(PlayerBoard playerBoardSetObserver : playerBoardList) {
+         playerBoardSetObserver.getTrack().addToVaticanReportObserverList(playerBoard.getTrack());
+         playerBoard.addToMoveForwardObserverList(playerBoardSetObserver.getTrack());
+         playerBoardSetObserver.addToMoveForwardObserverList(playerBoard.getTrack());
+      }
+
       playerBoard.setController(controller);
       playerBoardList.add(playerBoard);
    }
