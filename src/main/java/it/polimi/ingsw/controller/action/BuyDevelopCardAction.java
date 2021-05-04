@@ -32,6 +32,19 @@ public class BuyDevelopCardAction extends Action {
         this.cardSlotIndex = cardSlotIndex;
     }
 
+    /**
+     * Buy the specified develop card for the specified player.
+     *
+     * @param gameState the current state of this game
+     * @return the next phase of this player's turn
+     * @throws InvalidActionException this Action is not correctly initialized
+     * @throws NotAllowedActionException this Action can't be performed in this phase of turn or game
+     * @throws WrongPlayerException the player for which this action must be performed isn't the current player
+     * @throws InvalidUsernameException the player for which this action must be performed doesn't exist in this game
+     * @throws NotBuyableException the player can't buy the specified develop card
+     * @throws InvalidCardPlacementException the specified develop card can't be placed in the specified slot
+     * @throws InvalidDevelopCardException the specified develop card doesn't exist
+     */ // FIXME se lo slot non esiste? IndexOutOfBound????
     @Override
     public PhaseType performAction(IGameState gameState)
             throws InvalidActionException, NotAllowedActionException, WrongPlayerException,

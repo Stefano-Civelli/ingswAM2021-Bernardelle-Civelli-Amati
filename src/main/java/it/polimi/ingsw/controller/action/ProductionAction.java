@@ -26,6 +26,18 @@ public class ProductionAction extends Action {
         this.cardIndex = cardIndex;
     }
 
+    /**
+     * Perform the production of the specified develop card of the player.
+     *
+     * @param gameState the current state of this game
+     * @return the next phase of this player's turn
+     * @throws InvalidActionException this Action is not correctly initialized
+     * @throws NotAllowedActionException this Action can't be performed in this phase of turn or game
+     * @throws WrongPlayerException the player for which this action must be performed isn't the current player
+     * @throws InvalidUsernameException the player for which this action must be performed doesn't exist in this game
+     * @throws NotActivatableException the specified develop card can't be activated now
+     * @throws AlreadyProducedException the production of this develop card has already been performed in this turn
+     */ // FIXME se lo develop card non esiste? IndexOutOfBound????
     @Override
     public PhaseType performAction(IGameState gameState)
             throws InvalidActionException, NotAllowedActionException, WrongPlayerException,

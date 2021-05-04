@@ -178,18 +178,19 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     * @throws AbuseOfFaithException if one of the 3 resources is faith, he can't throw faith and he can't gain faith
     */
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product)
-           throws AbuseOfFaithException, NegativeQuantityException, NotEnoughResourcesException,
+           throws AbuseOfFaithException, NotEnoughResourcesException,
            AlreadyProducedException, NeedAResourceToAddException {
       if(alreadyProduced[0])
          throw new AlreadyProducedException();
       if(warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) > 0 && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) > 0) {
+         try {
             int remainingToRemove = warehouse.removeResources(resource1,1);
             chest.removeResources(resource1, remainingToRemove);
 
             remainingToRemove = warehouse.removeResources(resource2, 1);
             chest.removeResources(resource2, remainingToRemove);
 
-         try {
+            // FIXME E se product è faith?? Ormai le risorse sono sate tolte, bisogna controllare prima! Stessa cosa se è null.
             chest.addResources(product, 1);
          } catch (NegativeQuantityException e) {
             //non si verifica mai perché la sto chiamando io e gli sto passando 1
@@ -205,6 +206,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    }
 
    public void developProduce(int slotIndex) throws NotActivatableException, AlreadyProducedException {
+      // FIXME se la develop card non esiste? IndexOutOfBound????
       if(this.alreadyProduced[slotIndex + 1])
          throw new AlreadyProducedException();
       this.cardSlots.returnTopCard(slotIndex).produce(this);

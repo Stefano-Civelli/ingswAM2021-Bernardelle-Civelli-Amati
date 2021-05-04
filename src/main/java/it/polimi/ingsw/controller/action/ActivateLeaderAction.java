@@ -26,6 +26,18 @@ public class ActivateLeaderAction extends Action {
         this.leaderCardIndex = leaderCardIndex;
     }
 
+    /**
+     * Activate the specified leader card of the specified player.
+     *
+     * @param gameState the current state of this game
+     * @return the next phase of this player's turn
+     * @throws InvalidActionException this Action is not correctly initialized
+     * @throws NotAllowedActionException this Action can't be performed in this phase of turn or game
+     * @throws WrongPlayerException the player for which this action must be performed isn't the current player
+     * @throws InvalidUsernameException the player for which this action must be performed doesn't exist in this game
+     * @throws NotEnoughResourcesException the player doesn't have the requirements to activate this leader card
+     * @throws InvalidLeaderCardException the specified leader card doesn't exist
+     */
     @Override
     public PhaseType performAction(IGameState gameState)
             throws InvalidActionException, NotAllowedActionException, WrongPlayerException,

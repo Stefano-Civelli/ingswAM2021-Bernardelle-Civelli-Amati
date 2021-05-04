@@ -30,6 +30,20 @@ public class ChooseResourcesAction extends Action {
         this.resources = resources;
     }
 
+    /**
+     * Assign the specified initial resources to the player.
+     *
+     * @param gameState the current state of this game
+     * @return the next phase of this player's turn
+     * @throws InvalidActionException this Action is not correctly initialized
+     * @throws NotAllowedActionException this Action can't be performed in this phase of turn or game
+     * @throws WrongPlayerException the player for which this action must be performed isn't the current player
+     * @throws InvalidUsernameException the player for which this action must be performed doesn't exist in this game
+     * @throws NegativeQuantityException at least one quantity of the specified resources is negative
+     * @throws WrongResourceNumberException the number of the specified resources and the number of resources that belong to the player are different
+     * @throws AbuseOfFaithException one of the specified resources is faith
+     * @throws NotEnoughSpaceException the player has not enough space to contain these resources
+     */
     @Override
     public PhaseType performAction(IGameState gameState)
             throws InvalidActionException, NotAllowedActionException, WrongPlayerException,

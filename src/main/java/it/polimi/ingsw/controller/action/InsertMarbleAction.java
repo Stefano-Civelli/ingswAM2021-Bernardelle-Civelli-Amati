@@ -26,6 +26,17 @@ public class InsertMarbleAction extends Action {
         this.marbleIndex = marbleIndex;
     }
 
+    /**
+     * Insert the specified marble of the player.
+     *
+     * @param gameState the current state of this game
+     * @return the next phase of this player's turn
+     * @throws InvalidActionException this Action is not correctly initialized
+     * @throws NotAllowedActionException this Action can't be performed in this phase of turn or game
+     * @throws WrongPlayerException the player for which this action must be performed isn't the current player
+     * @throws InvalidUsernameException the player for which this action must be performed doesn't exist in this game
+     * @throws MarbleNotExistException the specified marble doesn't exist
+     */
     @Override
     public PhaseType performAction(IGameState gameState)
             throws InvalidActionException, NotAllowedActionException, WrongPlayerException,

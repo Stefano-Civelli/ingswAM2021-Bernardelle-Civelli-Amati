@@ -33,18 +33,36 @@ public class BaseProductionAction extends Action {
         this.product = product;
     }
 
+    /**
+     * Perform the player board's base production of the specified player.
+     *
+     * @param gameState the current state of this game
+     * @return the next phase of this player's turn
+     * @throws InvalidActionException this Action is not correctly initialized
+     * @throws NotAllowedActionException this Action can't be performed in this phase of turn or game
+     * @throws WrongPlayerException the player for which this action must be performed isn't the current player
+     * @throws InvalidUsernameException the player for which this action must be performed doesn't exist in this game
+     * @throws AlreadyProducedException the base production has already been performed in this turn
+     * @throws NotEnoughResourcesException the player doesn't have the specified resources to consume
+     * @throws AbuseOfFaithException faith can't be consumed or produced in a base production
+     */
     @Override
     public PhaseType performAction(IGameState gameState)
             throws InvalidActionException, NotAllowedActionException, WrongPlayerException,
-            InvalidUsernameException, AlreadyProducedException, NegativeQuantityException,
-            NotEnoughResourcesException, AbuseOfFaithException, NeedAResourceToAddException {
+            InvalidUsernameException, AlreadyProducedException, NotEnoughResourcesException, AbuseOfFaithException {
         if(!this.isActionValid())
             throw new InvalidActionException("This Action is not correctly initialized.");
         if(!super.isCurrentPlayer(gameState))
             throw new WrongPlayerException();
         if(!this.isActionAllowed(gameState))
             throw new NotAllowedActionException();
-        gameState.getGame().getPlayerBoard(super.getUsername()).baseProduction(this.resource1, this.resource2, this.product);
+        try {
+            gameState.getGame().getPlayerBoard(super.getUsername()).baseProduction(this.resource1, this.resource2, this.product);
+        } catch (NeedAResourceToAddException e) {
+            // This code should never be executed
+            // I have already checked that all the fields are not null
+            e.printStackTrace();
+        }
         return PhaseType.PRODUCING;
     }
 

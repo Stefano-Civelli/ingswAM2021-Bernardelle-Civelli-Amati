@@ -30,10 +30,23 @@ public class LeaderProductionAction extends Action {
         this.product = product;
     }
 
+    /**
+     * Perform the production of the specified leader card of the player.
+     *
+     * @param gameState the current state of this game
+     * @return the next phase of this player's turn
+     * @throws InvalidActionException this Action is not correctly initialized
+     * @throws NotAllowedActionException this Action can't be performed in this phase of turn or game
+     * @throws WrongPlayerException the player for which this action must be performed isn't the current player
+     * @throws InvalidUsernameException the player for which this action must be performed doesn't exist in this game
+     * @throws AlreadyProducedException the production of this leader card has already been performed in this turn
+     * @throws NotEnoughResourcesException the player doesn't have the specified resources to consume
+     * @throws AbuseOfFaithException the produced resource is faith
+     */
     @Override
     public PhaseType performAction(IGameState gameState)
             throws InvalidActionException, NotAllowedActionException, WrongPlayerException,
-            InvalidUsernameException, NeedAResourceToAddException, AlreadyProducedException,
+            InvalidUsernameException, AlreadyProducedException,
             NotEnoughResourcesException, AbuseOfFaithException {
         if(!this.isActionValid())
             throw new InvalidActionException("This Action is not correctly initialized.");
@@ -41,7 +54,13 @@ public class LeaderProductionAction extends Action {
             throw new WrongPlayerException();
         if(!this.isActionAllowed(gameState))
             throw new NotAllowedActionException();
-        gameState.getGame().getPlayerBoard(super.getUsername()).leaderProduce(this.leaderCardIndex, this.product);
+        try {
+            gameState.getGame().getPlayerBoard(super.getUsername()).leaderProduce(this.leaderCardIndex, this.product);
+        } catch (NeedAResourceToAddException e) {
+            // This code should never be executed
+            // I have already checked that all the fields are not null
+            e.printStackTrace();
+        }
         return PhaseType.PRODUCING;
     }
 
