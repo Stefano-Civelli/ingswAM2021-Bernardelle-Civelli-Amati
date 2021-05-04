@@ -32,7 +32,7 @@ public class ProductionAction extends Action {
             throw new WrongPlayerException();
         if(!this.isActionValid(gameState))
             throw new InvalidActionException();
-        gameState.getGame().getPlayerBoard(super.username).developProduce(this.cardIndex);
+        gameState.getGame().getPlayerBoard(super.getUsername()).developProduce(this.cardIndex);
         return PhaseType.PRODUCING;
     }
 

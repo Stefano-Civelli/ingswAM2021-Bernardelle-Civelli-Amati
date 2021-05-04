@@ -39,7 +39,7 @@ public class BuyDevelopCardAction extends Action {
             throw new WrongPlayerException();
         if(!this.isActionValid(gameState))
             throw new InvalidActionException();
-        gameState.getGame().getPlayerBoard(super.username).addDevelopCard(row, column, cardSlotIndex);
+        gameState.getGame().getPlayerBoard(super.getUsername()).addDevelopCard(row, column, cardSlotIndex);
         return PhaseType.FINAL;
     }
 

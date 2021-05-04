@@ -24,7 +24,7 @@ public class EndTurnAction extends Action {
             throw new WrongPlayerException();
         if(!this.isActionValid(gameState))
             throw new InvalidActionException();
-        gameState.getGame().getPlayerBoard(super.username).enterFinalTurnPhase();
+        gameState.getGame().getPlayerBoard(super.getUsername()).enterFinalTurnPhase();
         return gameState.getCurrentPhase() == PhaseType.SETUP_DISCARDLEADER ? PhaseType.END_SETUP : PhaseType.END;
     }
 

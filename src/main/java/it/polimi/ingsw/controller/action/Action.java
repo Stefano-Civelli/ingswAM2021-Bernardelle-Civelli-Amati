@@ -12,7 +12,7 @@ public abstract class Action {
 
     @SuppressWarnings({"unused", "FieldCanBeLocal"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
     private final ActionType type;
-    protected String username = null;
+    private String username = null;
 
     public Action(ActionType type) {
         this.type = type;
@@ -26,6 +26,10 @@ public abstract class Action {
     public final void setUsername(String username) {
         if(this.username == null)
             this.username = username;
+    }
+
+    protected final String getUsername() {
+        return this.username;
     }
 
     public abstract PhaseType performAction(IGameState gameState) throws ControllerException, ModelException;

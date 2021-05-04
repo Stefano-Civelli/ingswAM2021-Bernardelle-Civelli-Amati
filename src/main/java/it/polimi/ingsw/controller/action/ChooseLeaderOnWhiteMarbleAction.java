@@ -33,9 +33,9 @@ public class ChooseLeaderOnWhiteMarbleAction extends Action {
         if(!this.isActionValid(gameState))
             throw new InvalidActionException();
         try {
-            gameState.getGame().getPlayerBoard(super.username).addWhiteToWarehouse(this.leaderIndex);
+            gameState.getGame().getPlayerBoard(super.getUsername()).addWhiteToWarehouse(this.leaderIndex);
         } catch (NotEnoughSpaceException ignored) {}
-        return gameState.getGame().getPlayerBoard(super.username).areMarblesFinished()
+        return gameState.getGame().getPlayerBoard(super.getUsername()).areMarblesFinished()
                 ? PhaseType.FINAL : PhaseType.SHOPPING;
     }
 

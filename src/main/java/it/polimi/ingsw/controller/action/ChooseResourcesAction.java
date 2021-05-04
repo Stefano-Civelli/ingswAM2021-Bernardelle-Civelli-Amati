@@ -39,14 +39,14 @@ public class ChooseResourcesAction extends Action {
             throw new InvalidActionException();
         if(this.resources.values().stream().anyMatch(i -> i < 0))
             throw new NegativeQuantityException();
-        if(gameState.getGame().initialResources(super.username)
+        if(gameState.getGame().initialResources(super.getUsername())
                 != this.resources.values().stream().reduce(0, Integer::sum))
             throw new WrongResourceNumberException(
-                    gameState.getGame().initialResources(super.username),
+                    gameState.getGame().initialResources(super.getUsername()),
                     this.resources.values().stream().reduce(0, Integer::sum));
         for(ResourceType resource: this.resources.keySet())
             for(int i = 0; i < this.resources.get(resource); i++)
-                gameState.getGame().getPlayerBoard(super.username).getWarehouse().addResource(resource);
+                gameState.getGame().getPlayerBoard(super.getUsername()).getWarehouse().addResource(resource);
         return PhaseType.SETUP_DISCARDLEADER;
     }
 

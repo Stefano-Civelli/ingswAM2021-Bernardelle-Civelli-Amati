@@ -33,11 +33,11 @@ public class InsertMarbleAction extends Action {
         if(!this.isActionValid(gameState))
             throw new InvalidActionException();
         try {
-            gameState.getGame().getPlayerBoard(super.username).addMarbleToWarehouse(this.marbleIndex);
+            gameState.getGame().getPlayerBoard(super.getUsername()).addMarbleToWarehouse(this.marbleIndex);
         } catch (MoreWhiteLeaderCardsException e) {
             return PhaseType.SHOPPING_LEADER;
         } catch (NotEnoughSpaceException ignored) {}
-        return gameState.getGame().getPlayerBoard(super.username).areMarblesFinished()
+        return gameState.getGame().getPlayerBoard(super.getUsername()).areMarblesFinished()
                 ? PhaseType.FINAL : PhaseType.SHOPPING;
     }
 

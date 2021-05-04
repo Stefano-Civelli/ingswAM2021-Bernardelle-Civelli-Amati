@@ -33,9 +33,9 @@ public class ActivateLeaderAction extends Action {
         if(!this.isActionValid(gameState))
             throw new InvalidActionException();
         if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
-            gameState.getGame().getPlayerBoard(super.username).enterFinalTurnPhase();
-        gameState.getGame().getPlayerBoard(super.username).getLeaderCards().get(this.leaderCardIndex)
-                .setActive(gameState.getGame().getPlayerBoard(super.username));
+            gameState.getGame().getPlayerBoard(super.getUsername()).enterFinalTurnPhase();
+        gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().get(this.leaderCardIndex)
+                .setActive(gameState.getGame().getPlayerBoard(super.getUsername()));
         return gameState.getCurrentPhase() == PhaseType.PRODUCING ? PhaseType.FINAL : PhaseType.INITIAL;
     }
 
