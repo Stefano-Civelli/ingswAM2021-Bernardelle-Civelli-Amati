@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.controller.action.BuyDevelopCardAction;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -7,11 +9,7 @@ import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.view.ViewInterface;
 
 import java.io.PrintWriter;
-import java.sql.Time;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Cli implements ViewInterface {
@@ -111,27 +109,11 @@ public class Cli implements ViewInterface {
     client.setUsername(username);
     client.sendToServer(loginMessage);
   }
-//    if (debug)
-//      numOfPlayers = 2;
-//        username = new Date().toString();
-//        DateFormat dateFormat = new SimpleDateFormat(Configuration.formatDate);
-//        try {
-//          date = dateFormat.parse(Configuration.minDate);
-//        } catch (ParseException e) {
-//          e.printStackTrace();
-//        }
-//      } else {
 
-
-
-//        date = utils.readDate("birthdate");
-//
     @Override
     public void displayPlayersNumberChoice() {
       out.println("How many people do you want to play with?");
-      numOfPlayers = validateIntInput(1, 4); //1 for singlePlayer game -> check when opened in the server
-
-      //meglio metterla quando ricevo il messaggio di avvenuta ricezione e username non already presente
+      numOfPlayers = validateIntInput(1, 4);
       Message loginMessage = new Message(client.getUsername(), MessageType.NUMBER_OF_PLAYERS, Integer.toString(numOfPlayers));
       client.sendToServer(loginMessage);
     }
@@ -215,5 +197,45 @@ public class Cli implements ViewInterface {
   public void displayReconnection() {
     out.println("You have been successfully RECONNECTED !");
     // TODO display dello stato aggiornato del gioco
+  }
+
+
+  public void waitForInput() {
+    Scanner in = new Scanner(System.in);
+    Runnable threadInputTerminal = () -> {
+      while(true){
+        String line = in.nextLine();
+        handleInput(line);
+      }};
+    new Thread(threadInputTerminal).start();
+  }
+
+  public void handleInput(String line){
+    int id;
+    switch (line){
+      case "B":
+        //TODO fare display del market e del magazzino/chest
+        Action buyCardAction = (displayBuyMenu());
+        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, buyCardAction));
+        break;
+      case "M":
+        break;
+      case "P":
+        break;
+      case "A": //activate leader card
+        break;
+      case "D": //discard leader card
+        break;
+    }
+  }
+
+  private Action displayBuyMenu() {
+    System.out.println("Chose row and column of the card you want to buy separated by new line");
+    int row = Integer.parseInt(in.nextLine());
+    int column = Integer.parseInt(in.nextLine());
+    //TODO display dei card slots con eventualmente sopra le carte
+    System.out.println("Chose the card slot in which to place it");
+    int cardSlot = Integer.parseInt(in.nextLine());
+    return new BuyDevelopCardAction(row, column, cardSlot);
   }
 }

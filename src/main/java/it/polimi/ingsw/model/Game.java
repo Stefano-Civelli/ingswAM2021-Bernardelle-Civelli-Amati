@@ -33,9 +33,17 @@ public class Game {
    public void addPlayer(String username) throws IOException {
       List<LeaderCard> fourInitialLeaderCardsForPlayer = this.leaderCardDeck.drawFourCards();
 
-      PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, this.market, this.developCardDeck);
-      playerBoard.setController(this.controller);
-      this.playerBoardList.add(playerBoard);
+      PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, market, developCardDeck);
+
+      // add all observers to the list in observable classes
+      for(PlayerBoard playerBoardSetObserver : playerBoardList) {
+         playerBoardSetObserver.getTrack().addToVaticanReportObserverList(playerBoard.getTrack());
+         playerBoard.addToMoveForwardObserverList(playerBoardSetObserver.getTrack());
+         playerBoardSetObserver.addToMoveForwardObserverList(playerBoard.getTrack());
+      }
+
+      playerBoard.setController(controller);
+      playerBoardList.add(playerBoard);
    }
 
    public String startGame() {
