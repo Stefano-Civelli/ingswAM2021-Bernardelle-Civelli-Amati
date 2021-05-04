@@ -44,7 +44,7 @@ public abstract class Action {
     }
 
     /**
-     * Check if the player for which this action must be performed si the current player.
+     * Check if the player for which this action must be performed is the current player.
      *
      * @param gameState the current state of this game
      * @return true if this player is the current player, false if it's not
