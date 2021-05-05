@@ -47,8 +47,12 @@ public class LeaderCard {
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
 
-      //TODO se lo metto qua devo togliere il controllo isActive da addStorageSpace
-      //this.addStorageSpace(playerBoard);
+      // TODO sarebbe meglio lanciarla questa eccezione
+      try {
+         this.addStorageSpace(playerBoard);
+      } catch (MaxLeaderCardLevelsException e) {
+         e.printStackTrace();
+      }
 
       if(!playerBoard.getLeaderCards().contains(this))
          throw new InvalidLeaderCardException("this is not one of your cards");
@@ -132,7 +136,6 @@ public class LeaderCard {
     * @throws MaxLeaderCardLevelsException if the maximum number of additional storages is surpassed
     */
    public void addStorageSpace(InterfacePlayerBoard playerBoard) throws MaxLeaderCardLevelsException {
-      if(this.isActive())
          cardBehaviour.createStorage(playerBoard);
    }
 

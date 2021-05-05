@@ -15,7 +15,7 @@ import it.polimi.ingsw.utility.Pair;
 import java.io.IOException;
 import java.util.*;
 
-public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable {
+public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable, ModelObservable {
 
    private final String username;
    private final CardSlots cardSlots;
@@ -30,6 +30,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
    private int tempIndexWhiteToAdd;
    private final Set<MoveForwardObserver> moveForwardObserverList = new HashSet<>();
    private final boolean[] alreadyProduced;
+   private Controller controller;
 
    public PlayerBoard(String username, List<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck) throws IOException {
       this.username = username;
@@ -216,6 +217,11 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
       this.leaderCards.get(leaderIndex).getProduct(product, this);
    }
 
+   public void setActiveLeadercard(LeaderCard leadercard) throws InvalidLeaderCardException, NotEnoughResourcesException {
+      leadercard.setActive(this);
+      notifyModelChange(new Message(MessageType.ACTIVATED_LEADERCARD_UPDATE, leadercard.getLeaderId()));
+   }
+
    public void enterFinalTurnPhase() {
       this.chest.endOfTurnMapsMerge();
       Arrays.fill(this.alreadyProduced, false);
@@ -287,5 +293,12 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
       this.chest.setController(controller);
       this.warehouse.setController(controller);
       this.cardSlots.setController(controller);
+      this.controller = controller;
   }
+
+   @Override
+   public void notifyModelChange(Message msg) {
+      if(controller != null)
+         controller.broadcastUpdate(msg);
+   }
 }

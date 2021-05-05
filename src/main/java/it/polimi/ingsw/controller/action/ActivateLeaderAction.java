@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.controllerexception.NotAllowedActionException;
 import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
+import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.modelexceptions.*;
 
 public class ActivateLeaderAction extends Action {
@@ -50,8 +51,10 @@ public class ActivateLeaderAction extends Action {
             throw new NotAllowedActionException();
         if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
             gameState.getGame().getPlayerBoard(super.getUsername()).enterFinalTurnPhase();
-        gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().get(this.leaderCardIndex)
-                .setActive(gameState.getGame().getPlayerBoard(super.getUsername()));
+
+        LeaderCard leaderCard = gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().get(this.leaderCardIndex);
+        gameState.getGame().getPlayerBoard(super.getUsername()).setActiveLeadercard(leaderCard);
+
         return gameState.getCurrentPhase() == PhaseType.PRODUCING ? PhaseType.FINAL : PhaseType.INITIAL;
     }
 
