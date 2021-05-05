@@ -9,11 +9,12 @@ import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.controller.action.*;
 
 import java.io.*;
+import java.lang.reflect.Modifier;
 
 
 public class GSON{
 
-   private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
+   private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().excludeFieldsWithModifiers(Modifier.TRANSIENT).create();
 
    public static Gson getGsonBuilder() {
       return gsonBuilder;

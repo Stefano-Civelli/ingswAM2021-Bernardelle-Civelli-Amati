@@ -1,19 +1,28 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.EndGameObserver;
+import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class DevelopCardDeck implements EndGameObservable {
+public class DevelopCardDeck implements EndGameObservable, ModelObservable {
 
    @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because the field value is assigned using reflection
    private List<DevelopCard> developCardList;
-   private List<DevelopCard>[][] cardsCube;
+
+   private transient List<DevelopCard>[][] cardsCube;
+   private transient Controller controller = null;
 
    //observers are added to the Observer list only for single player game.
    //So this Class should have an empty observer list if the game is multiplayer
@@ -39,6 +48,10 @@ public class DevelopCardDeck implements EndGameObservable {
                  .collect(Collectors.toList());
          cardsCube[cardFlag.getLevel()-1][cardFlag.getColor().getColumn()] = tempDevelopCardList;
       }
+
+
+      String jsonCardsCube = GSON.getGsonBuilder().toJson(this.cardsCube);
+      notifyModelChange(new Message(MessageType.DECK_SETUP, jsonCardsCube));
    }
 
    /**
@@ -99,6 +112,7 @@ public class DevelopCardDeck implements EndGameObservable {
          }
          cardsCube[k][column].remove(cardsCube[k][column].size() - 1);
          numberOfCardsToRemove--;
+         notifyModelChange(new Message(MessageType.DEVELOP_CARD_DECK_UPDATED, new Pair<>(k, column)));
       }
    }
 
@@ -136,11 +150,13 @@ public class DevelopCardDeck implements EndGameObservable {
          e.printStackTrace();
       }
       cardsCube[row][column].remove(cardsCube[row][column].size() - 1);
+      notifyModelChange(new Message(MessageType.DEVELOP_CARD_DECK_UPDATED, new Pair<>(row, column)));
 
       //checks if the column where i removed a card is completly empty call the notifyForEndGame method
       for (List<DevelopCard>[] lists : cardsCube)
          if (!lists[column].isEmpty())
             return;
+
       notifyForEndGame();
    }
 
@@ -161,4 +177,13 @@ public class DevelopCardDeck implements EndGameObservable {
          x.update();
    }
 
+   @Override
+   public void notifyModelChange(Message msg) {
+      if (controller != null)
+         controller.broadcastUpdate(msg);
+   }
+
+   public void setController(Controller controller) {
+      this.controller = controller;
+   }
 }

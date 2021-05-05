@@ -15,7 +15,7 @@ import it.polimi.ingsw.utility.Pair;
 import java.io.IOException;
 import java.util.*;
 
-public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable, ModelObservable {
+public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable {
 
    private final String username;
    private final CardSlots cardSlots;
@@ -30,7 +30,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    private int tempIndexWhiteToAdd;
    private final Set<MoveForwardObserver> moveForwardObserverList = new HashSet<>();
    private final boolean[] alreadyProduced;
-   private Controller controller;
 
    public PlayerBoard(String username, List<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck) throws IOException {
       this.username = username;
@@ -100,8 +99,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     */
    public void addDevelopCard(int row, int column, int cardSlot) throws InvalidDevelopCardException, NotBuyableException, InvalidCardPlacementException {
       developCardDeck.getCard(row, column).buy(this, cardSlot);
-      // TODO assicurarsi che non venga eseguita la prox riga se viene throwata eccezzione
-      notifyModelChange(new Message(MessageType.DEVELOP_CARD_DECK_UPDATED, new CardPosition(row, column)));
    }
 
    /**
@@ -283,37 +280,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    @Override
    public void addToMoveForwardObserverList(MoveForwardObserver observerToAdd) {
       moveForwardObserverList.add(observerToAdd);
-   }
-
-
-   public void setController(Controller controller) {
-      this.controller = controller;
-      // fare qui chiamata agli altri set controller delle classi observable
-   }
-
-   @Override
-   public void notifyModelChange(Message msg) {
-      if(controller != null)
-         controller.broadcastUpdate(msg);
-   }
-
-
-   public static class CardPosition {
-      private final int row;
-      private final int column;
-
-      public CardPosition(int row, int column){
-         this.row = row;
-         this.column = column;
-      }
-
-      public int getRow() {
-         return row;
-      }
-
-      public int getColumn() {
-         return column;
-      }
    }
 
 }

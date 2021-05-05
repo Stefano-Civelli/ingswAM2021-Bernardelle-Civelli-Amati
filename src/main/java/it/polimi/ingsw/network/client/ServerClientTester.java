@@ -139,7 +139,4 @@ public class ServerClientTester {
     System.out.println(jsonMessage);
     return jsonMessage;
   }
-
 }
-
-
