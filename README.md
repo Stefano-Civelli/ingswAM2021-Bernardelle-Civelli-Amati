@@ -15,18 +15,17 @@
 
 
 ## Messages Table
-Note: A primitive type as payload content (ex. int) simply means that it should be parsed to that type
 | Source     | Message Type  | payload content    |  description
 | :----:     |    :----:   |          :----:  |     :----  |
 | Server     | LOGIN_SUCCESFUL       | null    | login procedure is succesfull
 | Server     | RECONNECTED        | null     | client  successfully reconnects to the server
 | Server     | ERROR        | [an error type](#Errors-Table)  | sent to client when an error occurs
 | Server     |  NUMBER_OF_PLAYERS       | null     | tell the client that server is in a state where he expects a number of player
-| Server     | GAME_STARTED |      | 
-| Server     | WAIT_FOR_LOBBY_CREATION |      | 
-| Server     | LOBBY_CREATED |      | 
-| Server     | YOU_JOINED |      | 
-| Server     | OTHER_USER_JOINED |      | 
+| Server     | GAME_STARTED | ordered list of the players | indicates to all the client that game has started
+| Server     | WAIT_FOR_LOBBY_CREATION |      | indicates to the client to wait till the lobby has been created and then try again to login
+|x Server     | LOBBY_CREATED |      | tells the 1st client that lobby has been created succesfully
+|x Server     | YOU_JOINED | number of remaining required players | confirms to the client that he joined succesfully
+| Server     | OTHER_USER_JOINED |   number of remaining required players    | tells every client that a new player joined
 | Server     | SERVER_DOWN |      | 
 | Server     | DISCONNECTED_SERVER_SIDE |      | 
 | Server     | RECONNECTED |      | 
