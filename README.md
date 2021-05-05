@@ -55,15 +55,25 @@
 
   
 ### Errors Table
+#### Generic Errors
 | Error Type | description |
 | :----: | :---- |
+| UNKNOWN_ERROR | 
 | MALFORMED_MESSAGE | 
 | INVALID_LOGIN_USERNAME | username is empty or null 
 | INVALID_NUMBER_OF_PLAYERS | the selected number of players is invalid
 | GAME_ALREADY_STARTED | a player tries to LOGIN when the game is already started 
+#### Conroller Errors
+| Error Type | description |
+| :----: | :---- |
+| UNKNOWN_CONTROLLER_ERROR |
 | INVALID_ACTION | action not correctly initialized 
 | WRONG_ACTION | action can't be performed now 
 | WRONG_PLAYER | not their turn 
+#### Model Errors
+| Error Type | description |
+| :----: | :---- |
+| UNKNOWN_MODEL_ERROR | 
 | INVALID_USERNAME | username doesn't exist in game 
 | WRONG_RESOURCES_NUMBER | In choosing initial resources 
 | INVALID_LEADERCARD | leader card doesn't exist 
@@ -80,6 +90,3 @@
 | ABUSE_OF_FAITH | 
 | NOT_BUYABLE | card isn't buyable for the player 
 | NOT_ENOUGH_SPACE | 
-| UNKNOWN_CONTROLLER_ERROR | 
-| UNKNOWN_MODEL_ERROR | 
-| UNKNOWN_ERROR | 
