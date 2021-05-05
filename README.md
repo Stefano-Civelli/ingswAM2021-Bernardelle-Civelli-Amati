@@ -22,14 +22,6 @@ Note: A primitive type as payload content (ex. int) simply means that it should 
 | Server     | RECONNECTED        | null     | client  successfully reconnects to the server
 | Server     | ERROR        | [an error type](#Errors-Table)  | sent to client when an error occurs
 | Server     |  NUMBER_OF_PLAYERS       | null     | tell the client that server is in a state where he expects a number of player
-| Server/Client| PING        | null     | simple ping message to keep the socketTimeout from expiring
-| Client     | NUMBER_OF_PLAYERS        |  the chosen number of players    | 
-| Client     | LOGIN        |      | 
-| Client     | ACTION        |      | 
-| Client     | LOGIN        |      | 
-| Client     | INIT_TURN |      | 
-| Client     | END_TURN |      | 
-| Client     | QUIT |      | 
 | Server     | GAME_STARTED |      | 
 | Server     | WAIT_FOR_LOBBY_CREATION |      | 
 | Server     | LOBBY_CREATED |      | 
@@ -53,7 +45,14 @@ Note: A primitive type as payload content (ex. int) simply means that it should 
 | Server     | DECK_SETUP |      | 
 | Server     | MARKET_SETUP |      | 
 | Server     | LEADERCARD_SETUP |      | 
-
+| Server/Client| PING        | null     | simple ping message to keep the socketTimeout from expiring
+| Client     | NUMBER_OF_PLAYERS        |  the chosen number of players    | 
+| Client     | LOGIN        |      | 
+| Client     | ACTION        |      | 
+| Client     | LOGIN        |      | 
+| Client     | INIT_TURN |      | 
+| Client     | END_TURN |      | 
+| Client     | QUIT |      | 
 
   
 ### Errors Table
