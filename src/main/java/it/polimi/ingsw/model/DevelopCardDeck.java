@@ -1,15 +1,11 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.EndGameObserver;
-import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;
-import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.*;
@@ -17,6 +13,9 @@ import java.util.stream.Collectors;
 
 
 public class DevelopCardDeck implements EndGameObservable, ModelObservable {
+
+   private final int NUMBER_OF_DECK_ROWS = 3;
+   private final int NUMBER_OF_DECK_COLUMS = 4;
 
    @SuppressWarnings({"UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection"}) // Because the field value is assigned using reflection
    private List<DevelopCard> developCardList;
@@ -39,7 +38,7 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
     */
    @SuppressWarnings("unchecked")
    public void setupClass(){
-      cardsCube = new ArrayList[3][4];
+      cardsCube = new ArrayList[NUMBER_OF_DECK_ROWS][NUMBER_OF_DECK_COLUMS];
       List<CardFlag> cardFlagList = developCardList.stream().map(DevelopCard::getCardFlag).distinct().collect(Collectors.toList());
       for (CardFlag cardFlag : cardFlagList) {
          List<DevelopCard> tempDevelopCardList = developCardList.stream()
@@ -49,10 +48,14 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
          cardsCube[cardFlag.getLevel()-1][cardFlag.getColor().getColumn()] = tempDevelopCardList;
       }
 
-
-      String jsonCardsCube = GSON.getGsonBuilder().toJson(this.cardsCube);
-      notifyModelChange(new Message(MessageType.DECK_SETUP, jsonCardsCube));
    }
+
+   public void finalizeDeckSetup(Controller controller){
+      this.controller = controller;
+      shuffleDeck(); // if you want to write tests that use the parsed Deck you need to move this call elsewhere
+      notifyModelChange(new Message(MessageType.DECK_SETUP, serializableIdDeck()));
+   }
+
 
    /**
     * Shuffles the Deck
@@ -160,6 +163,16 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
       notifyForEndGame();
    }
 
+   private List<Integer>[][] serializableIdDeck(){
+      List[][] idCube = new ArrayList[NUMBER_OF_DECK_ROWS][NUMBER_OF_DECK_COLUMS];
+      for (int i=0; i<NUMBER_OF_DECK_ROWS; i++) {
+         for (int j=0; j<NUMBER_OF_DECK_COLUMS; j++) {
+            idCube[i][j] = cardsCube[i][j].stream().map(DevelopCard::getCardId).collect(Collectors.toList());
+         }
+      }
+      return idCube;
+   }
+
    @Override
    public void addToEndGameObserverList(EndGameObserver observerToAdd) {
       if (!endGameObserverList.contains(observerToAdd))
@@ -183,7 +196,4 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
          controller.broadcastUpdate(msg);
    }
 
-   public void setController(Controller controller) {
-      this.controller = controller;
-   }
 }

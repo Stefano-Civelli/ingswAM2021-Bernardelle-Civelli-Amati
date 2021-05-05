@@ -21,14 +21,15 @@ public class Game {
    Controller controller;
 
    public Game(Controller controller) throws IOException {
+
       this.leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
       this.developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
+      this.developCardDeck.finalizeDeckSetup(controller);
       this.market = new Market();
       this.playerBoardList = new ArrayList<>();
       this.controller = controller;
-
       this.market.setController(controller);
-      this.developCardDeck.setController(controller);
+
    }
 
    //need also to check that the max number of players in this lobby isn't exceeded -> that's not necessary
