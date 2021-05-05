@@ -31,7 +31,7 @@ public class ServerClientTester {
 
     ip = "localhost";
     port = 6754;
-    System.out.println("DEBUG server: ip -> localhost, port -> 7659");
+    System.out.println("DEBUG server: ip -> localhost, port -> " + port);
 
     client.server = new Socket();
     try {

@@ -10,7 +10,6 @@ import java.util.List;
 public class LeaderCardDeck {
 
   private List<LeaderCard> leaderCardList;
-  private transient Controller controller = null;
 
   public LeaderCardDeck(){
   }
@@ -36,7 +35,4 @@ public class LeaderCardDeck {
     return fourCards;
   }
 
-  public void setController(Controller controller) {
-    this.controller = controller;
-  }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.BuyDevelopCardAction;
+import it.polimi.ingsw.controller.action.ShopMarketAction;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -153,7 +154,7 @@ public class Cli implements ViewInterface {
   @Override
   public void displayOtherUserJoined(Message msg) {
     if(msg.getPayload().equals("0"))
-      out.println("All player joined, let's play");
+      out.println("All player joined");
     if(Integer.parseInt(msg.getPayload()) > 0)
       out.println("Waiting for " + msg.getPayload() + " more player(s) ... ");
   }
@@ -199,8 +200,24 @@ public class Cli implements ViewInterface {
     // TODO display dello stato aggiornato del gioco
   }
 
+  @Override
+  public void displayGameStarted() {
 
-  public void waitForInput() {
+    List<String> otherUsernames = client.usernameList();
+    otherUsernames.remove(client.getUsername());
+    System.out.println("Game has Started. Your opponents are: ");
+    for(String s: otherUsernames)
+      System.out.println("-" + s);
+    waitForInput();
+  }
+
+  @Override
+  public void displayRecievedLeadercards() {
+    client.getSimplePlayerState();
+  }
+
+
+  private void waitForInput() {
     Scanner in = new Scanner(System.in);
     Runnable threadInputTerminal = () -> {
       while(true){
@@ -215,10 +232,12 @@ public class Cli implements ViewInterface {
     switch (line){
       case "B":
         //TODO fare display del market e del magazzino/chest
-        Action buyCardAction = (displayBuyMenu());
+        Action buyCardAction = createBuyCardAction();
         client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, buyCardAction));
         break;
       case "M":
+        Action marketAction = createMarketAction();
+        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, marketAction));
         break;
       case "P":
         break;
@@ -229,7 +248,16 @@ public class Cli implements ViewInterface {
     }
   }
 
-  private Action displayBuyMenu() {
+  private Action createMarketAction() {
+    System.out.println("Do you want to push a Row or a Column ? ");
+    String choice = stringInputValidation(in,"r","c");
+    boolean row = choice.equals("r");
+    System.out.println("what number ?");
+    int index = Integer.parseInt(in.nextLine());
+    return new ShopMarketAction(row, index);
+  }
+
+  private Action createBuyCardAction() {
     System.out.println("Chose row and column of the card you want to buy separated by new line");
     int row = Integer.parseInt(in.nextLine());
     int column = Integer.parseInt(in.nextLine());
@@ -237,5 +265,17 @@ public class Cli implements ViewInterface {
     System.out.println("Chose the card slot in which to place it");
     int cardSlot = Integer.parseInt(in.nextLine());
     return new BuyDevelopCardAction(row, column, cardSlot);
+  }
+
+
+  private static String stringInputValidation(Scanner in, String a, String b) {
+    String input;
+    input = in.nextLine();
+
+    while(!input.equals(a) && !input.equals(b)){
+      System.out.print("input must be between " + a + " or " + b + ". try again: ");
+        input = in.nextLine();
+    }
+    return input;
   }
 }

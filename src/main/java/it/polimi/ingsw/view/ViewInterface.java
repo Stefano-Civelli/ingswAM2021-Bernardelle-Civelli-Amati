@@ -21,5 +21,6 @@ public interface ViewInterface {
   public void displayServerDown();
   public void displayGameAlreadyStarted();
   public void displayReconnection();
-  public void waitForInput();
+  public void displayGameStarted();
+  public void displayRecievedLeadercards();
 }

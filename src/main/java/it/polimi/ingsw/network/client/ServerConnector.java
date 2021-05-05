@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.GSON;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +17,6 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ServerConnector {
-  private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
   private Client client;
   private Socket server;
   private PrintWriter out;
@@ -59,7 +59,7 @@ public class ServerConnector {
     if(jsonObject.getAsJsonObject().get("messageType").getAsString().equals(MessageType.ERROR.name()))
       in = in.replaceAll("\\\\\"", "");
 
-    message = gsonBuilder.fromJson(in, Message.class);
+    message = GSON.getGsonBuilder().fromJson(in, Message.class);
     return message;
   }
 

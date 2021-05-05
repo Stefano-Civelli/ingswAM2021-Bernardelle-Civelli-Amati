@@ -78,7 +78,6 @@ public class ServerClientHandler implements Runnable {
       if((username != null && !username.equals(message.getUsername())) || message.getMessageType() == null)
          return;
 
-
       switch (message.getMessageType()) {
          //potrei fare istanceOf
 

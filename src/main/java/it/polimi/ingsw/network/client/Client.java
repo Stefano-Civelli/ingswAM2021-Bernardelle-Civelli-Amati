@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.network.messages.ErrorType;
@@ -9,18 +7,20 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.utility.ConfigParameters;
+import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.view.SimpleGameState;
+import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class Client {
   public static final int MIN_PORT = Server.MIN_PORT_NUMBER;
   public static final int MAX_PORT = Server.MAX_PORT_NUMBER;
-  private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().create();
+
 
   private Socket server;
   private ViewInterface view;
@@ -28,7 +28,8 @@ public class Client {
   private String serverIP;
   private int serverPort;
   private ServerConnector serverConnector;
-  //private Map<String, SimpleModel> simpleModelArray;
+  private SimpleGameState simpleGameState;
+  private Map<String, SimplePlayerState> simplePlayerStateMap;
 
   private Timer pingTimer = null;
 
@@ -52,6 +53,11 @@ public class Client {
       view.displaySetup();
     }
     //else gui
+  }
+
+  public Client() {
+    this.simpleGameState = new SimpleGameState();
+    this.simplePlayerStateMap = new HashMap<>();
   }
 
   public void setView(ViewInterface view) {
@@ -119,12 +125,21 @@ public class Client {
         view.displayOtherUserJoined(msg);
         break;
       case GAME_STARTED:
-        view.waitForInput();
+        handleGameStarted(msg);
+        view.displayGameStarted();
         //TODO gestire le risorse in base alla posizione del player nell'array
         break;
+      case LEADERCARD_SETUP:
+        //le setto nel SimpleModel
+        view.displayRecievedLeadercards();
     }
   }
 
+  private void handleGameStarted(Message message) {
+    ArrayList<String> players = GSON.getGsonBuilder().fromJson(message.getPayload(), ArrayList.class);
+    for(String s : players)
+      this.simplePlayerStateMap.put(s, new SimplePlayerState()); //the array is ordered to give the right amount of resouces to each player
+  }
 
 
   private void handleError(ErrorType errorType) {
@@ -172,10 +187,22 @@ public class Client {
   }
 
   private String parserToJson(Message msg){
-    return  gsonBuilder.toJson(msg);
+    return GSON.getGsonBuilder().toJson(msg);
   }
 
   public String getUsername() { return this.username; }
 
   public void setUsername(String username) { this.username = username; }
+
+  public SimplePlayerState getSimplePlayerState() {
+    return this.simplePlayerStateMap.get(username);
+  }
+
+  public SimplePlayerState getSimplePlayerState(String username) {
+    return this.simplePlayerStateMap.get(username);
+  }
+
+  public List<String> usernameList(){
+    return new ArrayList<>(this.simplePlayerStateMap.keySet());
+  }
 }
