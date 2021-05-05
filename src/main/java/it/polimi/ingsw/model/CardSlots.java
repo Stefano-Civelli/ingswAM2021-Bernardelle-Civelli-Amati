@@ -1,17 +1,22 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardSlots implements EndGameObservable {
+public class CardSlots implements EndGameObservable, ModelObservable {
   private final List<List<DevelopCard>> developCards;
   private final int numberOfCardSlots = 3;
   private int totalCards;
   private final List<EndGameObserver> endGameObserverList;
 
+  private transient Controller controller = null;
 
   public CardSlots(){
     totalCards = 0;
@@ -62,11 +67,13 @@ public class CardSlots implements EndGameObservable {
       if(levelCardToAdd == 1 && developCards.get(slot).isEmpty()) {
         developCards.get(slot).add(developCard);
         addedACardInACardSlot();
+        notifyModelChange(new Message(MessageType.CARD_SLOT_UPDATE, new Pair<>(developCard.getCardId(), slot)));
         return;
       }
       if(!developCards.get(slot).isEmpty() && levelCardToAdd == developCards.get(slot).get(developCards.get(slot).size()-1).getCardFlag().getLevel()+1) {
         developCards.get(slot).add(developCard);
         addedACardInACardSlot();
+        notifyModelChange(new Message(MessageType.CARD_SLOT_UPDATE, new Pair<>(developCard.getCardId(), slot)));
       }
       else
         throw new InvalidCardPlacementException();
@@ -77,14 +84,14 @@ public class CardSlots implements EndGameObservable {
    * @param playerBoard of the player who wants to know which card can active
    * @return a list of activatable cards
    */
-  public ArrayList<DevelopCard> activatableCards(InterfacePlayerBoard playerBoard){
-    ArrayList<DevelopCard> activatablecards = new ArrayList<>();
+  public ArrayList<DevelopCard> activatableCards(InterfacePlayerBoard playerBoard) {
+    ArrayList<DevelopCard> activatableCards = new ArrayList<>();
 
     for(List<DevelopCard> x : developCards)
       if (!x.isEmpty() && x.get(x.size()-1).isActivatable(playerBoard))
-        activatablecards.add(x.get(x.size()-1));
+        activatableCards.add(x.get(x.size()-1));
 
-    return activatablecards;
+    return activatableCards;
   }
 
   /**
@@ -129,4 +136,13 @@ public class CardSlots implements EndGameObservable {
       x.update();
   }
 
+  @Override
+  public void notifyModelChange(Message msg) {
+    if (controller != null)
+      controller.broadcastUpdate(msg);
+  }
+
+  public void setController(Controller controller) {
+    this.controller = controller;
+  }
 }

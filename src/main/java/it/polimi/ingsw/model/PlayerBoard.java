@@ -282,4 +282,10 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
       moveForwardObserverList.add(observerToAdd);
    }
 
+  public void setController(Controller controller) {
+      this.track.setController(controller);
+      this.chest.setController(controller);
+      this.warehouse.setController(controller);
+      this.cardSlots.setController(controller);
+  }
 }

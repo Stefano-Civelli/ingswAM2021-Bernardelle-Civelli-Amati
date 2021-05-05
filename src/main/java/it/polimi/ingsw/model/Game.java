@@ -27,6 +27,9 @@ public class Game {
       this.market = new Market();
       this.playerBoardList = new ArrayList<>();
       this.controller = controller;
+
+      this.market.setController(controller);
+      this.developCardDeck.setController(controller);
    }
 
    //need also to check that the max number of players in this lobby isn't exceeded -> that's not necessary
@@ -42,6 +45,7 @@ public class Game {
          playerBoardSetObserver.addToMoveForwardObserverList(playerBoard.getTrack());
       }
 
+      playerBoard.setController(controller);
       playerBoardList.add(playerBoard);
    }
 

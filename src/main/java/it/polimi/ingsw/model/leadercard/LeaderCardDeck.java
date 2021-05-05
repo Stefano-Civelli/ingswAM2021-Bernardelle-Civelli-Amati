@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.leadercard;
 
 
+import it.polimi.ingsw.controller.Controller;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.List;
 public class LeaderCardDeck {
 
   private List<LeaderCard> leaderCardList;
+  private transient Controller controller = null;
 
   public LeaderCardDeck(){
   }
@@ -33,4 +36,7 @@ public class LeaderCardDeck {
     return fourCards;
   }
 
+  public void setController(Controller controller) {
+    this.controller = controller;
+  }
 }

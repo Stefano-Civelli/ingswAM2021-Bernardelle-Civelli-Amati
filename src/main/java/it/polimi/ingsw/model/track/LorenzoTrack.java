@@ -112,11 +112,11 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
 
   @Override
   public void notifyModelChange(Message msg) {
-//    if (controller != null)
-//    controller.broadcastUpdate(msg);
+    if (controller != null)
+    controller.broadcastUpdate(msg);
   }
 
-  //public void setController(Controller controller) {
-    //this.controller = controller;
-  //}
+  public void setController(Controller controller) {
+    this.controller = controller;
+  }
 }

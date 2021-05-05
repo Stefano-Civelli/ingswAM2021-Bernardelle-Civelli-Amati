@@ -19,8 +19,7 @@ public class Warehouse implements ModelObservable{
     private final int NUMBER_OF_NORMAL_LEVELS = 3;
     private final int MAX_SPECIAL_LEVELS = 2;
 
-    @Expose(deserialize = false)
-    private Controller controller = null;
+    private transient Controller controller = null;
 
     private final Pair<ResourceType, Integer>[] levels;
     private final List<Pair<ResourceType, Integer>> leaderLevels;
