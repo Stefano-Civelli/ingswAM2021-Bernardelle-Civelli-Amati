@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.network.messages.Message;
@@ -17,6 +18,8 @@ public class Warehouse implements ModelObservable{
 
     private final int NUMBER_OF_NORMAL_LEVELS = 3;
     private final int MAX_SPECIAL_LEVELS = 2;
+
+    @Expose(deserialize = false)
     private Controller controller = null;
 
     private final Pair<ResourceType, Integer>[] levels;
@@ -183,11 +186,13 @@ public class Warehouse implements ModelObservable{
             if( this.levels[level].getValue() <= quantity) {
                 quantity -= this.levels[level].getValue();
                 this.levels[level] = null;
+                notifyModelChange(new Message(MessageType.WAREHOUSE_UPDATE, new WarehouseUpdate(resourceType, 0, level)));
             } else {
                 this.levels[level] = new Pair<>(resourceType, this.levels[level].getValue() - quantity);
                 quantity = 0;
+                notifyModelChange(new Message(MessageType.WAREHOUSE_UPDATE, new WarehouseUpdate(resourceType, this.levels[level].getValue(), level)));
             }
-            notifyModelChange(new Message(MessageType.WAREHOUSE_UPDATE, new WarehouseUpdate(resourceType, this.levels[level].getValue(), level)));
+
         }
 
         //Remove in leader card levels

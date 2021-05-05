@@ -42,7 +42,6 @@ public class Game {
          playerBoardSetObserver.addToMoveForwardObserverList(playerBoard.getTrack());
       }
 
-      playerBoard.setController(controller);
       playerBoardList.add(playerBoard);
    }
 

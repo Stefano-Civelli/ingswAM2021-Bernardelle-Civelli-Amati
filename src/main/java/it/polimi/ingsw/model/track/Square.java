@@ -16,6 +16,12 @@ public class Square {
   public Square() {
   }
 
+  public Square(int victoryPoints, boolean red, int active){
+    this.victoryPoints = victoryPoints;
+    this.red = red;
+    this.active = active;
+  }
+
   /**
    * getter of red
    * @return if the current square is red or isn't

@@ -1,19 +1,26 @@
 package it.polimi.ingsw.model.market;
 
+import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Market {
+public class Market implements ModelObservable{
 
     private final int N_ROW = 3,
             N_COLUMN = 4;
 
     private MarketMarble slide;
     private final MarketMarble[][] marbles;
+    private Controller controller = null;
 
 
     public Market() {
@@ -34,8 +41,11 @@ public class Market {
                 for(int j = 0; j < this.marbles[i].length; j++)
                     this.marbles[i][j] = marblesIterator.next();
             this.slide = marblesIterator.next();
+
+            notifyModelChange(new Message(MessageType.MARKET_SETUP, new Pair<>(cloneMarket() ,this.slide)));
         } catch (AbuseOfFaithException ignored) {}
     }
+
 
     public int getNumberOfRow() {
         return this.N_ROW;
@@ -80,6 +90,7 @@ public class Market {
             swap1 = swap2;
         }
         this.slide = swap1;
+        notifyModelChange(new Message(MessageType.MARKET_UPDATED, new Pair<Boolean, Integer>(true, row)));
         return marbles;
     }
 
@@ -102,6 +113,7 @@ public class Market {
             swap1 = swap2;
         }
         this.slide = swap1;
+        notifyModelChange(new Message(MessageType.MARKET_UPDATED, new Pair<Boolean, Integer>(false, column)));
         return marbles;
     }
 
@@ -114,4 +126,18 @@ public class Market {
         return this.marbles.clone();
     }
 
+    @Override
+    public void notifyModelChange(Message msg) {
+        if (controller != null)
+            controller.broadcastUpdate(msg);
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
+    //TODO fare la clone
+    private MarketMarble[][] cloneMarket(){
+        return this.marbles;
+    }
 }

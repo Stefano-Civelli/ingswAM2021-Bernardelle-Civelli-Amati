@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.track;
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.EndGameObservable;
@@ -18,7 +19,8 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
   int playerPosition;
   final Set<VaticanReportObserver> vaticanReportObserverList = new HashSet<>();
   final Set<EndGameObserver> endGameObserverList = new HashSet<>();
-  private Controller controller = null;
+
+  private transient Controller controller = null;
 
    /**
     * constructor of the class
@@ -32,7 +34,14 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
    * @return a track's clone
    */
   public Square[] getTrack() {
-    return track.clone();
+    Square[] clonedTrack = new Square[25];
+    int i = 0;
+    for (Square x : track){
+      clonedTrack[i] = new Square(x.getVictoryPoints(), x.getRed(), x.getActive());
+      i++;
+    }
+
+    return clonedTrack;
   }
 
   /**
@@ -103,11 +112,11 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
 
   @Override
   public void notifyModelChange(Message msg) {
-    if (controller != null)
-    controller.broadcastUpdate(msg);
+//    if (controller != null)
+//    controller.broadcastUpdate(msg);
   }
 
-  public void setController(Controller controller) {
-    this.controller = controller;
-  }
+  //public void setController(Controller controller) {
+    //this.controller = controller;
+  //}
 }

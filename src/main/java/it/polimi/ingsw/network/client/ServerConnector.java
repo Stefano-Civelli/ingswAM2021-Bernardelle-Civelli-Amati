@@ -28,22 +28,24 @@ public class ServerConnector {
   }
 
   public void handleServerConnection() {
-    try {
-      out = new PrintWriter(server.getOutputStream());
-      in = new BufferedReader(new InputStreamReader(server.getInputStream()));
-
-      client.displayLogin();
-
-      while (true) {
-        Message msg = messageParserFromJson(in.readLine());
-        client.handleMessage(msg);
-      }
-    } catch(IOException | NoSuchElementException e){
-      notifyServerLost();
       try {
-        server.close();
-      } catch (IOException ex) {}
-    }
+        out = new PrintWriter(server.getOutputStream());
+        in = new BufferedReader(new InputStreamReader(server.getInputStream()));
+
+        client.displayLogin();
+
+        while (true) {
+          Message msg = messageParserFromJson(in.readLine());
+          client.handleMessage(msg);
+        }
+      } catch (IOException | NoSuchElementException e) {
+        notifyServerLost();
+        try {
+          server.close();
+        } catch (IOException ex) {
+        }
+      }
+
   }
 
   private void notifyServerLost() {

@@ -9,8 +9,7 @@ import java.util.Map;
 
 public class LeaderCard {
 
-   @Expose(deserialize = false)
-   private final int numberOfRequiredResources = 5;
+   private transient final int numberOfRequiredResources = 5;
    private int leaderId;
    private boolean active;
    private ResourceType requiredResources; //is null if no resources are required
