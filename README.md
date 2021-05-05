@@ -54,7 +54,7 @@
 | Client     | QUIT |      | 
 
   
-### Errors Table
+### Errors Tables
 #### Generic Errors
 | Error Type | description |
 | :----: | :---- |
