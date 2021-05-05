@@ -1,8 +1,20 @@
-# ingswAM2021-Bernardelle-Civelli-Amati
-
+# MAESTRI DEL RINASCIMENTO - Progetto IngSW - 2021
 
 ## COMMUNICATION PROTOCOL
 
+## Message Structure
+- username (String) 
+  - Client -> Server :  username of the message sender
+  - Server -> Client :  
+    - Model messages: username of the player that changed his model state
+    - non-Model messages: username of the receiver (BroadCast on null)
+- messageType (enum)
+- payload (String)
+  - if messageType == ACTION -> then payload is a JSON representation of an action class;
+  - if messageType == MODEL_UPDATE -> then payload is a JSON representation of the objects (created as inner class) that contains the changes made to the model.
+
+
+## Messages Table
 | Source      | Message Type  | payload content    |  description
 | :----:        |    :----:   |          :----:  |     :----  |
 | Server     | LOGIN_SUCCESFUL       | null    | sent to client when login procedure is succesfull
@@ -10,8 +22,7 @@
 | Server     | ERROR        | [an error type](#ERRORs-Description)     | sent to client when an error occurs
 
 
-### ERRORs Description
-
+### Errors Table
 | Error Type | description |
 | :----: | :---- |
 | MALFORMED_MESSAGE | 
