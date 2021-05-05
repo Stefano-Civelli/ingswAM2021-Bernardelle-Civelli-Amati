@@ -4,6 +4,7 @@ public enum ErrorType {
     MALFORMED_MESSAGE,
     GAME_ALREADY_STARTED, // player tryes to LOGIN when the game is already started
     INVALID_LOGIN_USERNAME, // username is empty or null
+    INVALID_NUMBER_OF_PLAYERS,
     INVALID_ACTION, // action not correctly initialized
     WRONG_ACTION, // action can't be performed now
     WRONG_PLAYER, // not their turn

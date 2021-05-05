@@ -132,6 +132,12 @@ public class Client {
       case LEADERCARD_SETUP:
         //le setto nel SimpleModel
         view.displayRecievedLeadercards();
+      case DECK_SETUP:
+        simpleGameState.constructDeck(msg.getPayload());
+        break;
+      case MARKET_SETUP:
+        simpleGameState.constructMarket();
+        break;
     }
   }
 

@@ -89,7 +89,7 @@ public class Server {
             return; // pensare se mandare messaggio di errore
          int tempPlayerNum = Integer.parseInt(message.getPayload());
          if (tempPlayerNum < SINGLE_PLAYER_NUMBER || tempPlayerNum > MAX_MULTIPLAYER_NUMBER) {
-            sendToClient(new Message(username, MessageType.INVALID_NUMBER_OF_PLAYERS, "You need to select a valid number of players, It must be between " + SINGLE_PLAYER_NUMBER + " and " + MAX_MULTIPLAYER_NUMBER));
+            sendToClient(new Message(username, MessageType.ERROR, ErrorType.INVALID_NUMBER_OF_PLAYERS));
             return;
          }
          playersNumber = tempPlayerNum;
@@ -173,7 +173,8 @@ public class Server {
       List<String> playersInOrder = null;
 
       Controller controller = new Controller(this);
-
+      // problema: al game server turnmanager per fare gli update e a TurnManager serve game
+      // altro problema: mando gli update del modello prima del messaggio startGame
       try {
          if(playersNumber == 1)
             game = new SinglePlayer(controller);
@@ -184,10 +185,8 @@ public class Server {
          sendToClient(new Message(MessageType.GENERIC_MESSAGE));
       }
 
-
-
       try {
-         turnManager = new TurnManager(game, loggedPlayers());
+         this.turnManager = new TurnManager(game, loggedPlayers());
          playersInOrder = turnManager.startGame();
       }catch (IOException e) {
          System.out.println("playerboard constructor probably has a problem");
