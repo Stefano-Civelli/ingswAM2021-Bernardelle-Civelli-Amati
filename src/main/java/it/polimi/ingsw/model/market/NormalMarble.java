@@ -5,9 +5,15 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class NormalMarble extends MarketMarble{
 
-    private final ResourceType resource;
+    private ResourceType resource = null;
+
+    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+    private NormalMarble() {
+        super(MarbleType.NORMAL);
+    }
 
     public NormalMarble(ResourceType resource) throws AbuseOfFaithException {
+        super(MarbleType.NORMAL);
         if(resource == null)
             throw new NullPointerException();
         if(resource == ResourceType.FAITH)

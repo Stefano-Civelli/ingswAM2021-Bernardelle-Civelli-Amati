@@ -6,6 +6,15 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public abstract class MarketMarble {
 
+    @SuppressWarnings({"unused", "FieldCanBeLocal"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
+    private final MarbleType type;
+
+    protected MarketMarble(MarbleType type) {
+        if(type == null)
+            throw new NullPointerException();
+        this.type = type;
+    }
+
     /**
      * Adds the resources owed to the player due to this marble possibly converting it with the player's leader cards
      *

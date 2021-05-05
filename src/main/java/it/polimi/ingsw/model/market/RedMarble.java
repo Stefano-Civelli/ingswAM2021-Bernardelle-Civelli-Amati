@@ -4,7 +4,9 @@ import it.polimi.ingsw.model.*;
 
 public class RedMarble extends MarketMarble{
 
-    public RedMarble() {}
+    public RedMarble() {
+        super(MarbleType.RED);
+    }
 
     /**
      * Adds the resources owed to the player due to this marble

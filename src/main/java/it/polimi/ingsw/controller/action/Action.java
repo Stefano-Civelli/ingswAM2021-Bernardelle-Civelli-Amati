@@ -14,6 +14,8 @@ public abstract class Action {
     private String username = null;
 
     protected Action(ActionType type) {
+        if(type == null)
+            throw new NullPointerException();
         this.type = type;
     }
 

@@ -7,8 +7,8 @@
 | Source      | Message Type  | payload content    |  description
 | :----:        |    :----:   |          :----:  |     :----:  |
 | Server     | LOGIN_SUCCESFUL       | null    | sent to client when login procedure is succesfull
-| Server     | RECONNECTED        | null     | sento to client when he succesfully reconnects to the server
-| Server     | ERROR        | [an error](#errors-Description)     | sent to client when an error occurs
+| Server     | RECONNECTED        | null     | sent to client when he successfully reconnects to the server
+| Server     | ERROR        | [an error type](#ERRORs-Description)     | sent to client when an error occurs
 
 
 
