@@ -170,6 +170,11 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
             idCube[i][j] = cardsCube[i][j].stream().map(DevelopCard::getCardId).collect(Collectors.toList());
          }
       }
+
+      for (List<Integer>[] x : idCube)
+         for (List<Integer> y : x)
+            System.out.println(y);
+
       return idCube;
    }
 

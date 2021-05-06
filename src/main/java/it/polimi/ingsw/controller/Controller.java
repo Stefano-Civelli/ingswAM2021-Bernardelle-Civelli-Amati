@@ -23,4 +23,5 @@ public class Controller implements ModelObserver {
    public void broadcastUpdate(Message msg) {
       server.serverBroadcastUpdate(msg);
    }
+
 }

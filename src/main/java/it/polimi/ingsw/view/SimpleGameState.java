@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.utility.GSON;
 
 import java.util.List;
@@ -12,10 +13,12 @@ public class SimpleGameState {
 
    public void constructDeck(String jsonDeck) {
       developCardDeck = GSON.getGsonBuilder().fromJson(jsonDeck, List[][].class);
-      System.out.println(developCardDeck);
-   }
+      for (List<Integer>[] x : developCardDeck)
+         for (List<Integer> y : x)
+            System.out.println(y);
+      }
 
-   public void constructMarket() {
+      public void constructMarket () {
 
-   }
+      }
 }

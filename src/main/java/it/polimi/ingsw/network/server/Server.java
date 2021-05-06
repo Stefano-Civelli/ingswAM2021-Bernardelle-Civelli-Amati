@@ -171,14 +171,14 @@ public class Server {
    private void start() {
       Game game = null;
       List<String> playersInOrder = null;
-
+      boolean singlePlayer = (playersNumber == 1);
       Controller controller = new Controller(this);
       // problema: al game server turnmanager per fare gli update e a TurnManager serve game
       // altro problema: mando gli update del modello prima del messaggio startGame
       try {
-         if(playersNumber == 1)
+         if(singlePlayer)
             game = new SinglePlayer(controller);
-         if(playersNumber > 1)
+         else
             game = new Game(controller);
       }catch(IOException | JsonSyntaxException e){ //TODO controllare se viene lanciata la JsonSyntaxException
          //TODO bisogna chiudere la partita (disconnetto tutti i client 1 per volta dicendo Errore nei file di configurazione del gioco)
@@ -204,7 +204,9 @@ public class Server {
 
 
    public void serverBroadcastUpdate(Message message){
-      message.setUsername(turnManager.getCurrentPlayer());
+      boolean setupMessage = message.getMessageType().equals(MessageType.DECK_SETUP) || message.getMessageType().equals(MessageType.MARKET_SETUP);
+      if(!setupMessage)
+         message.setUsername(turnManager.getCurrentPlayer());
       sendBroadcast(message);
    }
 
