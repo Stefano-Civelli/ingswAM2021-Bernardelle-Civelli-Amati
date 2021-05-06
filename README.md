@@ -33,37 +33,46 @@
 | Server     | NEXT_TURN_STATE |      | 
 | Server     | GENERIC_MESSAGE |      | 
 | Server     | MARKET_UPDATED |      | 
-| Server     | VATICAN_REPORT |      | 
-| Server     | TRACK_UPDATED |      | 
-| Server     | WAREHOUSE_UPDATE |      | 
-| Server     | DEVELOP_CARD_DECK_UPDATED |      | 
-| Server     | CARD_SLOT_UPDATE |      | 
-| Server     | CHEST_UPDATE |      | 
-| Server     | ACTIVATED_LEADERCARD_UPDATE |      | 
+| Server     | VATICAN_REPORT |     | 
+| Server     | TRACK_UPDATED |   player position   | tells every client that the current player has moved his faith marker 
+| Server     | WAREHOUSE_UPDATE |   inner class containing a resource, the level to place it and the quantity   | tells every client that the current player has added (removed) a resource in (from) the warehouse
+| Server     | DEVELOP_CARD_DECK_UPDATED |   pair containing indexes of row and column   | tells every client that a card has been removed 
+| Server     | CARD_SLOT_UPDATE |   pair containing DevelopCard ID and the slot to place it   | tells every client that the current player has added a DevelopCard in one of his slots
+| Server     | CHEST_UPDATE |   pair containing a resource and his quantity in the chest   | tells every client that the current player has added (removed) a resource in (from) the chest 
+| Server     | ACTIVATED_LEADERCARD_UPDATE |   leader card ID   | tells every client that the current player has activated a leader card 
 | Server     | WINNING_PLAYER |      | 
-| Server     | DECK_SETUP |      | 
+| Server     | DECK_SETUP |   matrix of lists containing the id of the DevelopCards   | tells all clients what is the beginning state of the deck
 | Server     | MARKET_SETUP |      | 
 | Server     | LEADERCARD_SETUP |      | 
 | Server/Client| PING        | null     | simple ping message to keep the socketTimeout from expiring
 | Client     | NUMBER_OF_PLAYERS        |  the chosen number of players    | 
 | Client     | LOGIN        |      | 
 | Client     | ACTION        |      | 
-| Client     | LOGIN        |      | 
 | Client     | INIT_TURN |      | 
 | Client     | END_TURN |      | 
 | Client     | QUIT |      | 
 
   
-### Errors Table
+### Errors Tables
+#### Generic Errors
 | Error Type | description |
 | :----: | :---- |
+| UNKNOWN_ERROR | 
 | MALFORMED_MESSAGE | 
 | INVALID_LOGIN_USERNAME | username is empty or null 
 | INVALID_NUMBER_OF_PLAYERS | the selected number of players is invalid
 | GAME_ALREADY_STARTED | a player tries to LOGIN when the game is already started 
+#### Conroller Errors
+| Error Type | description |
+| :----: | :---- |
+| UNKNOWN_CONTROLLER_ERROR |
 | INVALID_ACTION | action not correctly initialized 
 | WRONG_ACTION | action can't be performed now 
 | WRONG_PLAYER | not their turn 
+#### Model Errors
+| Error Type | description |
+| :----: | :---- |
+| UNKNOWN_MODEL_ERROR | 
 | INVALID_USERNAME | username doesn't exist in game 
 | WRONG_RESOURCES_NUMBER | In choosing initial resources 
 | INVALID_LEADERCARD | leader card doesn't exist 
@@ -80,6 +89,3 @@
 | ABUSE_OF_FAITH | 
 | NOT_BUYABLE | card isn't buyable for the player 
 | NOT_ENOUGH_SPACE | 
-| UNKNOWN_CONTROLLER_ERROR | 
-| UNKNOWN_MODEL_ERROR | 
-| UNKNOWN_ERROR | 
