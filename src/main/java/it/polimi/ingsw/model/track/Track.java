@@ -13,9 +13,9 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
   public Track() {
   }
 
-  public class VaticanReport {
-    private int zone;
-    private boolean active;
+  public static class VaticanReport {
+    private final int zone;
+    private final boolean active;
 
     public VaticanReport (int zone, boolean active){
       this.zone = zone;
