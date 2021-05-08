@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class WhiteMarble extends MarketMarble{
 
     public WhiteMarble() {
-        super(MarbleType.WHITE);
+        super(MarbleColor.WHITE);
     }
 
     /**
