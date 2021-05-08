@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.leadercard.DiscountBehaviour;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.*;
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +15,7 @@ import java.util.*;
 
 
 class DevelopCardTest {
-   File cardConfigFile = new File("src/DevelopCardConfig.json");
+   File cardConfigFile = ConfigParameters.cardConfigFile;
 
    @Test
    void testIfLevel1AreBuyable() throws IOException, NotEnoughSpaceException,

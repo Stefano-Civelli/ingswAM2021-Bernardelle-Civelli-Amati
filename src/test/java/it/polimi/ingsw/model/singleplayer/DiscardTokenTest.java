@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.DevelopCardColor;
 import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ class DiscardTokenTest {
 
     @Test
     void useTokenTest() throws IOException, InvalidDevelopCardException, InvalidCardException {
-        DevelopCardDeck deck = GSON.cardParser(new File("src/DevelopCardConfig.json"));
+        DevelopCardDeck deck = GSON.cardParser(ConfigParameters.cardConfigFile);
         DevelopCard card = deck.getCard(0, DevelopCardColor.BLUE.getColumn()),
                 cardU = deck.getCard(1, DevelopCardColor.BLUE.getColumn());
         DevelopCard cardG0 = deck.getCard(0, DevelopCardColor.GREEN.getColumn()),

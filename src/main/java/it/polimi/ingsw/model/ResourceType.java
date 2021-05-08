@@ -5,23 +5,18 @@ import it.polimi.ingsw.view.cli.Color;
 
 public enum ResourceType {
 
-  STONE ( Color.ANSI_GREY.escape() + "⚫", MarbleColor.GREY),
-  GOLD (Color.ANSI_YELLOW.escape() + "⚫", MarbleColor.YELLOW),
-  SERVANT (Color.ANSI_PURPLE.escape() + "⚫", MarbleColor.PURPLE),
-  FAITH (Color.ANSI_RED.escape() + "⚫", MarbleColor.RED),
-  SHIELD (Color.ANSI_BLUE.escape() + "⚫", MarbleColor.BLUE);
+  STONE (MarbleColor.GREY),
+  GOLD (MarbleColor.YELLOW),
+  SERVANT (MarbleColor.PURPLE),
+  FAITH (MarbleColor.RED),
+  SHIELD (MarbleColor.BLUE);
 
-  private String escape;
   private MarbleColor color;
 
-  ResourceType(String escape, MarbleColor m) {
-    this.escape = escape;
+  ResourceType(MarbleColor m) {
     this.color = m;
   }
 
-  public String escape() {
-    return escape;
-  }
 
   public MarbleColor getColor(){
     return color;
@@ -43,7 +38,7 @@ public enum ResourceType {
   }
 
   @Override
-  public String toString(){
-    return this.escape;
+  public String toString () {
+    return getColor().escape();
   }
 }

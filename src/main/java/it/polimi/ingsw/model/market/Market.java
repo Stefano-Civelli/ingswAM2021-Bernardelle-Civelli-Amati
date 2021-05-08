@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.*;
@@ -43,7 +42,7 @@ public class Market implements ModelObservable{
 
             this.controller = controller;
 
-            notifyModelChange(new Message(MessageType.MARKET_SETUP, new Pair<>(serializableMarket() ,this.slide.getType())));
+            notifyModelChange(new Message(MessageType.MARKET_SETUP, new Pair<>(serializableMarket() ,this.slide.getColor())));
         } catch (AbuseOfFaithException ignored) {}
     }
 
@@ -141,7 +140,7 @@ public class Market implements ModelObservable{
         MarbleColor[][] marbleColors = new MarbleColor[N_ROW][N_COLUMN];
         for(int i = 0; i < this.marbles.length; i++)
             for(int j = 0; j < this.marbles[i].length; j++)
-                marbleColors[i][j] = marbles[i][j].getType();
+                marbleColors[i][j] = marbles[i][j].getColor();
         return marbleColors;
     }
 }

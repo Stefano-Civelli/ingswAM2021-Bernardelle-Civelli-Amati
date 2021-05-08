@@ -257,7 +257,9 @@ public class Cli implements ViewInterface {
   }
 
   private Action createMarketAction() {
-    System.out.println("Do you want to push a Row or a Column ? ");
+    //drawer.marketDisplay();
+    System.out.println("Do you want to push a " + Color.ANSI_RED.escape() + "R" + Color.RESET.escape() + "ow or a "
+            + Color.ANSI_RED.escape() + "C" + Color.RESET.escape() + "olumn ? ");
     String choice = stringInputValidation(in,"r","c");
     boolean row = choice.equals("r");
     System.out.println("what number ?");
@@ -278,7 +280,7 @@ public class Cli implements ViewInterface {
 
   private static String stringInputValidation(Scanner in, String a, String b) {
     String input;
-    input = in.nextLine();
+    input = in.nextLine().toLowerCase();
 
     while(!input.equals(a) && !input.equals(b)){
       System.out.print("input must be between " + a + " or " + b + ". try again: ");
