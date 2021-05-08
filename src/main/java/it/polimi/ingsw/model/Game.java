@@ -25,11 +25,9 @@ public class Game {
       this.leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
       this.developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
       this.developCardDeck.finalizeDeckSetup(controller);
-      this.market = new Market();
+      this.market = new Market(controller);
       this.playerBoardList = new ArrayList<>();
       this.controller = controller;
-      this.market.setController(controller);
-
    }
 
    //need also to check that the max number of players in this lobby isn't exceeded -> that's not necessary

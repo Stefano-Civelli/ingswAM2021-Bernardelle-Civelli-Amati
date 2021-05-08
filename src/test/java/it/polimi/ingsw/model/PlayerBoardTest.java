@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerBoardTest {
 
   File cardConfigFile = new File("src/DevelopCardConfig.json");
-  Market market = new Market();
+  Market market = new Market(null);
 
   PlayerBoard initializer() throws IOException {
     String usr = "talla";
