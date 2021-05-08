@@ -61,11 +61,11 @@ public class Chest implements ModelObservable{
 
       if(resources.get(resource) == quantity) {
         resources.remove(resource);
-        notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<ResourceType,Integer>(resource, 0)));
+        notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<>(resource, 0)));
       }
       else {
         resources.replace(resource, resources.get(resource) - quantity);
-        notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<ResourceType, Integer>(resource, resources.get(resource))));
+        notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<>(resource, resources.get(resource))));
       }
     }
     else

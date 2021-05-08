@@ -278,11 +278,11 @@ public class Server {
       return turnManager;
    }
 
-   private synchronized boolean isFirst() {
+   private boolean isFirst() {
       return loggedPlayers().isEmpty();
    }
 
-   public void deleteClient(ServerClientHandler client) {
+   public synchronized void deleteClient(ServerClientHandler client) {
       clients.remove(client); //se si disconentte prima di essersi loggato lo elimino e me lo dimentico
       usernameToClientHandler.remove(client.getUsername());
    }
