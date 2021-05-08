@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.market;
 
-import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
@@ -23,7 +22,7 @@ public class Market implements ModelObservable{
     private Controller controller = null;
 
 
-    public Market() {
+    public Market(Controller controller) {
         this.marbles = new MarketMarble[this.N_ROW][this.N_COLUMN];
         try {
             List<MarketMarble> marbles = new ArrayList<>(List.of(
@@ -42,7 +41,9 @@ public class Market implements ModelObservable{
                     this.marbles[i][j] = marblesIterator.next();
             this.slide = marblesIterator.next();
 
-            notifyModelChange(new Message(MessageType.MARKET_SETUP, new Pair<>(cloneMarket() ,this.slide)));
+            this.controller = controller;
+
+            notifyModelChange(new Message(MessageType.MARKET_SETUP, new Pair<>(serializableMarket() ,this.slide.getType())));
         } catch (AbuseOfFaithException ignored) {}
     }
 
@@ -136,8 +137,11 @@ public class Market implements ModelObservable{
         this.controller = controller;
     }
 
-    //TODO fare la clone
-    private MarketMarble[][] cloneMarket(){
-        return this.marbles;
+    private MarbleColor[][] serializableMarket(){
+        MarbleColor[][] marbleColors = new MarbleColor[N_ROW][N_COLUMN];
+        for(int i = 0; i < this.marbles.length; i++)
+            for(int j = 0; j < this.marbles[i].length; j++)
+                marbleColors[i][j] = marbles[i][j].getType();
+        return marbleColors;
     }
 }

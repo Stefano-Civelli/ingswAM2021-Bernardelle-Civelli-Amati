@@ -38,6 +38,4 @@ public enum DevelopCardColor {
    public String toString() {
       return color;
    }
-
-
 }

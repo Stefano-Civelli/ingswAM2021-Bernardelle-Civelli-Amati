@@ -7,13 +7,13 @@ public class NormalMarble extends MarketMarble{
 
     private ResourceType resource = null;
 
-    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
-    private NormalMarble() {
-        super(MarbleType.NORMAL);
-    }
+//    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
+//    private NormalMarble() {
+//        super(MarbleColor.NORMAL);
+//    }
 
     public NormalMarble(ResourceType resource) throws AbuseOfFaithException {
-        super(MarbleType.NORMAL);
+        super((resource == null) ? null : resource.getColor());
         if(resource == null)
             throw new NullPointerException();
         if(resource == ResourceType.FAITH)

@@ -12,6 +12,7 @@ public class DevelopCard {
    private final CardFlag cardFlag;
    private final HashMap<ResourceType, Integer> cost;
    private final HashMap<ResourceType, Integer> requirement;
+
    private final HashMap<ResourceType, Integer> product;
    private final int victoryPoints;
 

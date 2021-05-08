@@ -117,7 +117,7 @@ class CardSlotsTest {
     DevelopCardDeck developCardDeck;
     developCardDeck = GSON.cardParser(cardConfigFile);
 
-    InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), new Market(), developCardDeck);
+    InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), new Market(null), developCardDeck);
     playerBoard.getChest().addResources(ResourceType.GOLD,10);
     playerBoard.getChest().addResources(ResourceType.SERVANT,10);
     playerBoard.getChest().addResources(ResourceType.STONE,10);

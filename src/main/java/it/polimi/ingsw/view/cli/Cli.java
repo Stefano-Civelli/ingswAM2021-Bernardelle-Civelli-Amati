@@ -24,14 +24,16 @@ public class Cli implements ViewInterface {
   private int numOfPlayers = 0;
   private int playersJoinedTheLobby = 0;
   private int countDown = ConfigParameters.countDown;
+  private CliDrawer drawer;
 
   /**
    * Constructor
    *
    * @param client where the CLI runs
    */
-  public Cli(Client client) {
+  public Cli(Client client, CliDrawer drawer) {
     this.client = client;
+    this.drawer = drawer;
   }
 
   private void showTitle() {
@@ -214,6 +216,12 @@ public class Cli implements ViewInterface {
   @Override
   public void displayRecievedLeadercards() {
     client.getSimplePlayerState();
+  }
+
+  @Override
+  public void displayMarketSetup() {
+    System.out.println("That's the market: ");
+    drawer.marketDisplay();
   }
 
 

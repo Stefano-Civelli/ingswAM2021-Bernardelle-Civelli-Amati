@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.ArrayList;
@@ -35,5 +36,26 @@ public class SimplePlayerState {
       this.cardSlot3 = new ArrayList<>();
    }
 
+   public Pair<ResourceType, Integer>[] getWarehouseLevels() {
+      return warehouseLevels;
+   }
 
+   public void warehouseUpdate(Warehouse.WarehouseUpdate update){
+      ResourceType resource = update.getResourceType();
+
+      //controllo se la risorsa é presente
+      for(int i=0; i<warehouseLevels.length; i++) {
+         Pair<ResourceType, Integer> level = warehouseLevels[i];
+
+         if (level.getKey().equals(resource)) {
+            if (level.equals(update.getLevel()))
+               level = new Pair<>(resource, update.getQuantity());
+
+         }
+      }
+
+
+
+
+   }
 }

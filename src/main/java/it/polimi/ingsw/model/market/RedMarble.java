@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.*;
 public class RedMarble extends MarketMarble{
 
     public RedMarble() {
-        super(MarbleType.RED);
+        super(MarbleColor.RED);
     }
 
     /**

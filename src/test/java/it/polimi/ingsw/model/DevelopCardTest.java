@@ -22,7 +22,7 @@ class DevelopCardTest {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
-              "Mario", new ArrayList<>(), new Market(), developCardDeck);
+              "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -42,7 +42,7 @@ class DevelopCardTest {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
-              "Mario", new ArrayList<>(), new Market(), developCardDeck);
+              "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -91,7 +91,7 @@ class DevelopCardTest {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
-              "Mario", new ArrayList<>(), new Market(), developCardDeck);
+              "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -110,7 +110,7 @@ class DevelopCardTest {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
-              "Mario", new ArrayList<>(), new Market(), developCardDeck);
+              "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -135,7 +135,7 @@ class DevelopCardTest {
            AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), new Market(), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -155,7 +155,7 @@ class DevelopCardTest {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
-              "Mario", new ArrayList<>(), new Market(), developCardDeck);
+              "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);
@@ -175,7 +175,7 @@ class DevelopCardTest {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser(cardConfigFile);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
-              "Mario", new ArrayList<>(), new Market(), developCardDeck);
+              "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
       playerBoard.getWarehouse().addResource(ResourceType.SERVANT);

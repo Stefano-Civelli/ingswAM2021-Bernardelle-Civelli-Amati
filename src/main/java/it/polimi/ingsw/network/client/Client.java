@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.view.cli.CliDrawer;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -48,7 +49,7 @@ public class Client {
 
     if (cli) {
       Client client = new Client();
-      Cli view = new Cli(client);
+      Cli view = new Cli(client, new CliDrawer(client.simpleGameState, client.simplePlayerStateMap));
       client.setView(view);
       view.displaySetup();
     }
@@ -136,7 +137,8 @@ public class Client {
         simpleGameState.constructDeck(msg.getPayload());
         break;
       case MARKET_SETUP:
-        simpleGameState.constructMarket();
+        simpleGameState.constructMarket(msg.getPayload());
+        view.displayMarketSetup();
         break;
     }
   }
