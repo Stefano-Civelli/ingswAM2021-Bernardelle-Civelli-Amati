@@ -1,7 +1,11 @@
 package it.polimi.ingsw.view;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
+import it.polimi.ingsw.model.market.MarbleColor;
+import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.ArrayList;
@@ -15,6 +19,7 @@ public class SimplePlayerState {
    private final int MAX_SPECIAL_LEVELS = 2;
 
    private int trackPosition;
+   private boolean[] vaticanFlipped;
    private final List<Integer> leaderCards; //identified by ID
    private final Map<ResourceType, Integer> chest;
    private final Map<ResourceType, Integer> tempChest;
@@ -41,13 +46,19 @@ public class SimplePlayerState {
       this.cardSlot1 = new ArrayList<>();
       this.cardSlot2 = new ArrayList<>();
       this.cardSlot3 = new ArrayList<>();
+
+      this.vaticanFlipped = new boolean[3];
+      for(int i=0; i<3; i++)
+         vaticanFlipped[i] = false;
    }
 
    public Pair<ResourceType, Integer>[] getWarehouseLevels() {
       return warehouseLevels;
    }
 
-   public void warehouseUpdate(Warehouse.WarehouseUpdate update) {
+   public void warehouseUpdate(String payload) {
+      Warehouse.WarehouseUpdate update = GSON.getGsonBuilder().fromJson(payload, Warehouse.WarehouseUpdate.class);
+
       ResourceType resource = update.getResourceType();
 
       //normalLevels
@@ -82,8 +93,62 @@ public class SimplePlayerState {
          }
    }
 
+   public void trackUpdate(String payload) {
+      int newPosition = GSON.getGsonBuilder().fromJson(payload, Integer.class);
+      this.trackPosition = newPosition;
+   }
+
+   public void vaticanReportUpdate(String payload) {
+      JsonObject jsonObject = (JsonObject) JsonParser.parseString(payload);
+      int zone = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), Integer.class);
+      boolean flip = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value").getAsString(), Boolean.class);
+
+      if(flip)
+         vaticanFlipped[zone] = flip;
+   }
+
+   private void chestUpdate(String payload) {
+      JsonObject jsonObject = (JsonObject) JsonParser.parseString(payload);
+      ResourceType resource = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), ResourceType.class);
+      int quantity = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value"), Integer.class);
+
+      for(Map.Entry<ResourceType, Integer> entry : chest.entrySet())
+         if(resource.equals(entry.getKey()))
+            chest.put(resource, quantity);
+   }
+
+   private void tempChestUpdate(String payload) {
+      JsonObject jsonObject = (JsonObject) JsonParser.parseString(payload);
+      ResourceType resource = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), ResourceType.class);
+      int quantity = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value"), Integer.class);
+
+      for(Map.Entry<ResourceType, Integer> entry : tempChest.entrySet())
+         if(resource.equals(entry.getKey()))
+            tempChest.put(resource, quantity);
+   }
+
+   private void cardSlotUpdate(String payload) {
+      JsonObject jsonObject = (JsonObject) JsonParser.parseString(payload);
+      int devCardID = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), Integer.class);
+      int slot = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value").getAsString(), Integer.class);
+
+      if(slot == 0)
+         cardSlot1.add(devCardID);
+      if(slot == 1)
+         cardSlot2.add(devCardID);
+      if(slot == 2)
+         cardSlot3.add(devCardID);
+   }
+
    //TODO clonare
    public Map<ResourceType, Integer> getChest() {
       return chest;
+   }
+
+   public void mergeTempChest() {
+      for(Map.Entry<ResourceType, Integer> entry : tempChest.entrySet()){
+         chest.put(entry.getKey(), chest.containsKey(entry.getKey()) ? chest.get(entry.getKey()) + entry.getValue() : entry.getValue());
+      }
+      this.tempChest.clear();
    }
 }
