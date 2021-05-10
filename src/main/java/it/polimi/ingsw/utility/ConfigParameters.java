@@ -1,5 +1,7 @@
 package it.polimi.ingsw.utility;
 
+import it.polimi.ingsw.view.cli.Color;
+
 import java.io.File;
 
 public final class ConfigParameters {
@@ -12,6 +14,9 @@ public final class ConfigParameters {
   public static final File trackConfigFile = new File("src/main/resources/configfiles/SquareConfig.json");
   public static final File lorenzoTrackConfigFile = ConfigParameters.trackConfigFile; // it may be different
   public static final int countDown = 10;
+  public static String marbleCharacter = "\u25CF";
+  public static String arrowCharacter = (Color.RESET.escape() + "\u25B6");
+
 
   private ConfigParameters() {
     // private constructor to prevent instances of this class (a class can't be final and abstract in Java).

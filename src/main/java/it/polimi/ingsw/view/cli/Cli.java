@@ -210,6 +210,9 @@ public class Cli implements ViewInterface {
     System.out.println("Game has Started. Your opponents are: ");
     for(String s: otherUsernames)
       System.out.println("-" + s);
+
+    clearScreen();
+    drawer.displayDefaultCanvas(client.getUsername());
     waitForInput();
   }
 
@@ -257,7 +260,7 @@ public class Cli implements ViewInterface {
   }
 
   private Action createMarketAction() {
-    //drawer.marketDisplay();
+    drawer.marketDisplay();
     System.out.println("Do you want to push a " + Color.ANSI_RED.escape() + "R" + Color.RESET.escape() + "ow or a "
             + Color.ANSI_RED.escape() + "C" + Color.RESET.escape() + "olumn ? ");
     String choice = stringInputValidation(in,"r","c");
@@ -287,5 +290,10 @@ public class Cli implements ViewInterface {
         input = in.nextLine();
     }
     return input;
+  }
+
+  private void clearScreen(){
+    drawer.displayPlainCanvas();
+    drawer.displayPlainCanvas();
   }
 }
