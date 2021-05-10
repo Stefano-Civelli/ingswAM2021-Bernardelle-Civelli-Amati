@@ -67,7 +67,6 @@ public class Cli implements ViewInterface {
     }
     client.setServerIP(ip);
     client.setServerPort(port);
-    client.connectToServer();
   }
 
   private static boolean isValidIp(String input) {
@@ -222,7 +221,7 @@ public class Cli implements ViewInterface {
   }
 
   @Override
-  public void displayMarketSetup() {
+  public void displayMarket() {
     System.out.println("That's the market: ");
     drawer.marketDisplay();
   }

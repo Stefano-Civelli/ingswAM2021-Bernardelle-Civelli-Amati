@@ -52,6 +52,8 @@ public class Client {
       Cli view = new Cli(client, new CliDrawer(client.simpleGameState, client.simplePlayerStateMap));
       client.setView(view);
       view.displaySetup();
+      client.connectToServer(); //TODO questa posso farla eseguire al thread. poi tolgo l'altro thread che non serve più
+      //TODO chiamo la waitforinput che ha il whiletrue
     }
     //else gui
   }
@@ -138,8 +140,24 @@ public class Client {
         break;
       case MARKET_SETUP:
         simpleGameState.constructMarket(msg.getPayload());
-        view.displayMarketSetup();
+        view.displayMarket();
         break;
+      case MARKET_UPDATED:
+        simpleGameState.updateMarket(msg.getPayload());
+        view.displayMarket();
+        break;
+      case DEVELOP_CARD_DECK_UPDATED:
+        simpleGameState.updateDeck(msg.getPayload());
+        break;
+      case WAREHOUSE_UPDATE:
+        break;
+      case ACTIVATED_LEADERCARD_UPDATE:
+        break;
+      case TRACK_UPDATED:
+        break;
+      case VATICAN_REPORT:
+        break;
+
     }
   }
 

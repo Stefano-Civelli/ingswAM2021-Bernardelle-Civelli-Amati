@@ -41,7 +41,8 @@ public enum MessageType {
 
   ERROR,
   QUIT,
-  NEXT_TURN_STATE;
+  NEXT_TURN_STATE,
+  CHAT;
 
 
 
