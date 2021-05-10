@@ -14,6 +14,8 @@ public class CliDrawer {
 
   private final int PLAYERBOARD_LENGTH = 120;
   private final int PLAYERBOARD_HEIGHT = 16;
+  private final int TRACK_HEIGHT = 1;
+  private final int TRACK_LENGTH = 25;
   private final int MARKET_LENGTH = 11;
   private final int MARKET_HEIGHT = 5;
   private final int MAX_DISPLAYABLE_LENGTH = 200;
@@ -46,6 +48,7 @@ public class CliDrawer {
     buildWarehouse(username);
     buildChest(username);
     buildAndSetMarket();
+    buildTrack();
     displayCanvas();
   }
 
@@ -104,16 +107,19 @@ public class CliDrawer {
   }
 
   private void setUsernameOnCanvas(String username) {
-    int row=1, col=3;
-    for(char c : username.toCharArray()) {
+    int row=0, col=3;
+    for(char c : username.toUpperCase().toCharArray()) {
       canvas[row][col] = Character.toString(c);
       col += 1;
     }
 
-    for(char c : "'s playerboard".toCharArray()) {
+    for(char c : "'S PLAYERBOARD".toCharArray()) {
       canvas[row][col] = Character.toString(c);
       col += 1;
     }
+
+    canvas[0][2] = " ";
+    canvas[0][col] = " ";
   }
 
   private void buildWarehouse(String username) {
@@ -274,7 +280,33 @@ public class CliDrawer {
     placeHereOnCanvas(3,PLAYERBOARD_LENGTH+7, marketAndSlide);
   }
 
+  private void buildLeadersHand(String username) {
 
+  }
+
+  private void buildTrack() {
+    placeHereOnCanvas(2, 3, skeletonTrack());
+  }
+
+  private String[][] skeletonTrack() {
+    String[][] track = new String[TRACK_HEIGHT][TRACK_LENGTH];
+    int i;
+
+    track[0][0] = "[";
+    for (i=1; i<TRACK_LENGTH*3-2; i++) {
+      if(i%3==0)
+        track[0][i] = "[";
+      if(i%3==1)
+        track[0][i] = " ";
+      if(i%3==2)
+      track[0][i] = "]";
+    }
+    track[0][i] = " ";
+    i++;
+    track[0][i] = ("]");
+
+    return track;
+  }
 
 
 
