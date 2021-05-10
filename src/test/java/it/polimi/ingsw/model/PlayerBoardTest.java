@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.market.RedMarble;
 import it.polimi.ingsw.model.modelexceptions.*;
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerBoardTest {
 
-  File cardConfigFile = new File("src/DevelopCardConfig.json");
+  File cardConfigFile = ConfigParameters.cardConfigFile;
   Market market = new Market(null);
 
   PlayerBoard initializer() throws IOException {

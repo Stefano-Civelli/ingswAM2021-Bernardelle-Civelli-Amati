@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.*;
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 import java.io.File;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DevelopCardDeckTest {
 
-   File cardConfigFile = new File("src/DevelopCardConfig.json");
+   File cardConfigFile = ConfigParameters.cardConfigFile;
 
    @Test
    void buyableCardsTest() throws AbuseOfFaithException, IOException, NegativeQuantityException {

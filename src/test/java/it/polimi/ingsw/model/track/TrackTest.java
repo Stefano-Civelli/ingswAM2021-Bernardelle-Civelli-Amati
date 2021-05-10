@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.track;
 
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TrackTest {
 
-   File trackConfigFile = new File("src/SquareConfig.json");
+   File trackConfigFile = ConfigParameters.trackConfigFile;
    Track track;
    Track track2;
    Track track3;

@@ -18,20 +18,21 @@ public class SimpleGameState {
 
    public void constructDeck(String jsonDeck) {
       this.developCardDeck = GSON.getGsonBuilder().fromJson(jsonDeck, List[][].class);
-//      for (List<Integer>[] x : developCardDeck)
-//         for (List<Integer> y : x)
-//            System.out.println(y);
-      }
+   }
 
-      public void constructMarket (String jsonMarket) {
-         JsonObject jsonObject = (JsonObject) JsonParser.parseString(jsonMarket);
-         this.market = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), MarbleColor[][].class);
-         System.out.println("talla");
-         this.slide = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value").getAsString(), MarbleColor.class);
+   public void constructMarket (String jsonMarket) {
+      JsonObject jsonObject = (JsonObject) JsonParser.parseString(jsonMarket);
+      this.market = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), MarbleColor[][].class);
+      this.slide = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value").getAsString(), MarbleColor.class);
 
-      }
+   }
 
+   //TODO clone
    public MarbleColor[][] getMarket() {
       return market;
+   }
+
+   public MarbleColor getSlide() {
+      return slide;
    }
 }

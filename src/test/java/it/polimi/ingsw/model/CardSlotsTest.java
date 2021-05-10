@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.*;
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CardSlotsTest {
 
-  File cardConfigFile = new File("src/DevelopCardConfig.json");
+  File cardConfigFile = ConfigParameters.cardConfigFile;
 
   @Test
   void emptyCalculateDevelopCardScore() {

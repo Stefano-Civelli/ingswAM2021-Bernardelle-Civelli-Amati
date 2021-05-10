@@ -7,12 +7,12 @@ import it.polimi.ingsw.model.modelexceptions.*;
 public abstract class MarketMarble {
 
     @SuppressWarnings({"unused", "FieldCanBeLocal"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
-    private final MarbleColor type;
+    private final MarbleColor color;
 
-    protected MarketMarble(MarbleColor type) {
-        if(type == null)
+    protected MarketMarble(MarbleColor color) {
+        if(color == null)
             throw new NullPointerException();
-        this.type = type;
+        this.color = color;
     }
 
     /**
@@ -48,7 +48,7 @@ public abstract class MarketMarble {
         }
     }
 
-    public MarbleColor getType() {
-        return type;
+    public MarbleColor getColor() {
+        return color;
     }
 }

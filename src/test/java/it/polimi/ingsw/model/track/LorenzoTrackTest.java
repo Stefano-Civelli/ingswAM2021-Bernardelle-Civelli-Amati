@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.track;
 
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 import java.io.File;
@@ -7,8 +8,8 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LorenzoTrackTest {
-  File trackConfigFile = new File("src/SquareConfig.json");
-  File lorenzoTrackConfigFile = new File("src/SquareConfig.json");
+  File trackConfigFile = ConfigParameters.trackConfigFile;
+  File lorenzoTrackConfigFile = ConfigParameters.lorenzoTrackConfigFile;
   Track track;
   LorenzoTrack lorenzoTrack;
 
