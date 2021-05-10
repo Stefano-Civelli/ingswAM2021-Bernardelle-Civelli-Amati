@@ -6,8 +6,8 @@ import static it.polimi.ingsw.controller.action.ActionType.*;
 
 public enum PhaseType {
 
-   SETUP_CHOOSERESOURCES(List.of(CHOSE_RESOURCES)),
-   SETUP_DISCARDLEADER(List.of(DISCARD_LEADER)),
+   SETUP_CHOOSERESOURCES(List.of(CHOSE_RESOURCES), true),
+   SETUP_DISCARDLEADER(List.of(DISCARD_LEADER), true),
    END_SETUP(List.of()),
    INITIAL(List.of(PRODUCE, BASE_PRODUCE, LEADER_PRODUCE, SHOP_MARKET, BUY_CARD, DISCARD_LEADER, ACTIVATE_LEADER)),
    SHOPPING(List.of(INSERT_MARBLE)),
@@ -17,9 +17,16 @@ public enum PhaseType {
    END(List.of());
 
    private final List<ActionType> availableActionsList;
+   private final boolean setup;
 
    PhaseType(List<ActionType> l){
-      availableActionsList = l;
+      this.availableActionsList = l;
+      this.setup = false;
+   }
+
+   PhaseType(List<ActionType> l, boolean setup) {
+      this.availableActionsList = l;
+      this.setup = setup;
    }
 
    /**
@@ -39,6 +46,10 @@ public enum PhaseType {
 
    public boolean isValid(ActionType actionType) {
       return this.availableActionsList.contains(actionType);
+   }
+
+   public boolean isSetup() {
+      return setup;
    }
 
 }

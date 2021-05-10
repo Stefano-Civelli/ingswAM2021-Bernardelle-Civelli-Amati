@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 
 import java.io.IOException;
 import java.util.*;
@@ -17,7 +18,7 @@ public class Game {
    private final LeaderCardDeck leaderCardDeck;
    private final Market market;
    protected final DevelopCardDeck developCardDeck;
-   private final List<PlayerBoard> playerBoardList;
+   private final List<Pair<PlayerBoard, Boolean>> playerBoards;
    Controller controller;
 
    public Game(Controller controller) throws IOException {
@@ -26,7 +27,7 @@ public class Game {
       this.developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
       this.developCardDeck.finalizeDeckSetup(controller);
       this.market = new Market(controller);
-      this.playerBoardList = new ArrayList<>();
+      this.playerBoards = new ArrayList<>();
       this.controller = controller;
    }
 
@@ -37,34 +38,35 @@ public class Game {
       PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, market, developCardDeck);
 
       // add all observers to the list in observable classes
-      for(PlayerBoard playerBoardSetObserver : playerBoardList) {
+      for(PlayerBoard playerBoardSetObserver : playerBoards.stream().map(Pair::getKey).collect(Collectors.toList())) {
          playerBoardSetObserver.getTrack().addToVaticanReportObserverList(playerBoard.getTrack());
          playerBoard.addToMoveForwardObserverList(playerBoardSetObserver.getTrack());
          playerBoardSetObserver.addToMoveForwardObserverList(playerBoard.getTrack());
       }
 
       playerBoard.setController(controller);
-      playerBoardList.add(playerBoard);
+      playerBoards.add(new Pair<>(playerBoard, true));
    }
 
    public String startGame() {
-      Collections.shuffle(this.playerBoardList);
-      this.playerBoardList
+      Collections.shuffle(this.playerBoards);
+      this.playerBoards.stream().map(Pair::getKey).collect(Collectors.toList())
               .forEach(playerBoard -> playerBoard.getTrack().moveForward(initialFaith(playerBoard.getUsername())));
-      return this.playerBoardList.get(0).getUsername();
+      return this.playerBoards.get(0).getKey().getUsername();
    }
 
-   public String nextPlayer(String currentPlayer) throws InvalidUsernameException {
-      for(int i = 0; i < this.playerBoardList.size(); i++)
-         if(this.playerBoardList.get(i).getUsername().equals(currentPlayer))
-            return i + 1 < this.playerBoardList.size()
-                    ? this.playerBoardList.get(i + 1).getUsername()
-                    : this.playerBoardList.get(0).getUsername();
+   public String nextConnectedPlayer(String currentPlayer) throws InvalidUsernameException {
+      for(int i = 0; i < this.playerBoards.size(); i++)
+         if(this.playerBoards.get(i).getKey().getUsername().equals(currentPlayer))
+            for(int j = 1; j <= this.playerBoards.size(); j++ ) {
+               if (this.playerBoards.get((i + j) % this.playerBoards.size()).getValue())
+                  return this.playerBoards.get((i + j) % this.playerBoards.size()).getKey().getUsername();
+            }
       throw new InvalidUsernameException();
    }
 
    public int initialResources(String username) {
-      int index = this.playerBoardList.stream().map(PlayerBoard::getUsername)
+      int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername)
               .collect(Collectors.toList()).indexOf(username);
       switch(index) {
          case 2 : case 3:
@@ -76,7 +78,7 @@ public class Game {
    }
 
    public int initialFaith(String username) {
-      int index = this.playerBoardList.stream().map(PlayerBoard::getUsername)
+      int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername)
               .collect(Collectors.toList()).indexOf(username);
       switch(index) {
          case 3 : case 4:
@@ -87,7 +89,7 @@ public class Game {
 
    public PlayerBoard getPlayerBoard(String username) throws InvalidUsernameException {
       try {
-         return playerBoardList.stream().filter(playerBoard -> playerBoard.getUsername().equals(username))
+         return playerBoards.stream().map(Pair::getKey).filter(playerBoard -> playerBoard.getUsername().equals(username))
                  .collect(Collectors.toList()).get(0);
       } catch (IndexOutOfBoundsException e) {
          throw new InvalidUsernameException();
@@ -95,7 +97,19 @@ public class Game {
    }
 
    public List<String> getOrderedPlayers() {
-      return this.playerBoardList.stream().map(PlayerBoard::getUsername).collect(Collectors.toList());
+      return this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername).collect(Collectors.toList());
+   }
+
+   public void disconnectPlayer(String username) throws InvalidUsernameException {
+      int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername).collect(Collectors.toList()).indexOf(username);
+      if(index < 0)
+         throw new InvalidUsernameException();
+      this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), false));
+   }
+
+   public boolean isPlayerConnected(String username) throws InvalidUsernameException {
+      return this.playerBoards.stream().filter(i -> i.getKey().getUsername().equals(username))
+              .map(Pair::getValue).findFirst().orElseThrow(InvalidUsernameException::new);
    }
 
 }

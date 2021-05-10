@@ -41,7 +41,10 @@ public enum MessageType {
 
   ERROR,
   QUIT,
-  NEXT_TURN_STATE;
+
+  NEXT_TURN_STATE,
+  PLAYER_CONNECTION, // a player connected
+  PLAYER_DISCONNECTION; // a player disconnected
 
 
 

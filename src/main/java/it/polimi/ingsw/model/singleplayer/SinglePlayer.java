@@ -30,11 +30,11 @@ public class SinglePlayer extends Game {
 
    // TODO test, non sono sicuro che il metodo super funzioni correttamente con un solo player
    @Override
-   public String nextPlayer(String currentPlayer) throws InvalidUsernameException {
+   public String nextConnectedPlayer(String currentPlayer) throws InvalidUsernameException {
       ActionToken token = this.actionTokenStack.remove();
       token.useToken(this.actionTokenStack, this.lorenzoTrack, super.developCardDeck);
       this.actionTokenStack.addLast(token);
-      return super.nextPlayer(currentPlayer);
+      return super.nextConnectedPlayer(currentPlayer);
    }
 
 }

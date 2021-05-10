@@ -132,6 +132,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     */
    public void addMarbleToWarehouse(int marbleIndex)
            throws MoreWhiteLeaderCardsException, NotEnoughSpaceException, MarbleNotExistException {
+         // TODO usare boolean invece che un'eccezione quando ci sono due leader che convertono una biglia bianca
          if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
             throw new MarbleNotExistException("The index of the marble u gave me doesn't match the length of my array");
             try {
@@ -162,7 +163,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
          tempMarketMarble.remove(tempIndexWhiteToAdd);
          notifyForMoveForward();
          throw new NotEnoughSpaceException("you can't add this resource");
-         //anziché lanciare l'eccezione creiamo un messaggio di tipo NotEnoughSpaceException e nel payload scriviamo -> you can't add this resource, l'user lato client servirá per distinguere chi non muove
       } catch (WrongLeaderCardException e) {
          e.printStackTrace();
       }
@@ -225,6 +225,11 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    public void enterFinalTurnPhase() {
       this.chest.endOfTurnMapsMerge();
       Arrays.fill(this.alreadyProduced, false);
+      this.emptyTempMarbles();
+   }
+
+   private void emptyTempMarbles() {
+      // TODO aggiungere tutte le biglie possibili in ordine e scartare le altre
    }
 
    public String getUsername() {
