@@ -113,7 +113,7 @@ public class Market implements ModelObservable{
             swap1 = swap2;
         }
         this.slide = swap1;
-        notifyModelChange(new Message(MessageType.MARKET_UPDATED, new Pair<Boolean, Integer>(false, column)));
+        notifyModelChange(new Message(MessageType.MARKET_UPDATED, new Pair<>(false, column)));
         return marbles;
     }
 

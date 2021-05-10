@@ -24,6 +24,8 @@ public class ServerClientHandler implements Runnable {
    private String username;
    private boolean connected; // Default: true
    private boolean logged; // set to true when the players logs in
+   //there is no need to set it to false when player disconnects because
+   // when he reconnects that will be with another socket
 
    ServerClientHandler(Socket client, Server server) {
       this.clientSocket = client;
@@ -130,6 +132,11 @@ public class ServerClientHandler implements Runnable {
       }
    }
 
+   /**
+    * Sends the message trough the socket
+    *
+    * @param message message to be sent
+    */
    protected void sendMessage(Message message) {
       if(!connected)
          return;
@@ -148,29 +155,6 @@ public class ServerClientHandler implements Runnable {
          throw new JsonSyntaxException("Empty message");
 
       return parsedMessage;
-   }
-
-
-
-   // ------------------------------------------- GETTERS AND SETTERS --------------------------------------------------
-   public boolean isConnected() {
-      return connected;
-   }
-
-   public boolean isLogged() {
-      return logged;
-   }
-
-   public void setLogged(boolean logged) {
-      this.logged = logged;
-   }
-
-   public String getUsername() {
-      return username;
-   }
-
-   public void setUsername(String username) {
-      this.username = username;
    }
 
    private void startPinging(){
@@ -192,15 +176,40 @@ public class ServerClientHandler implements Runnable {
       new Thread(pinger).start();
    }
 
-   public void setConnected(boolean connected) {
-      this.connected = connected;
-   }
-
+   /**
+    * closes this client's socket
+    */
    public void closeSocket(){
       try {
          clientSocket.close();
       } catch (IOException e) {
          e.printStackTrace();
       }
+   }
+
+   // ------------------------------------------- GETTERS AND SETTERS --------------------------------------------------
+
+   public boolean isConnected() {
+      return connected;
+   }
+
+   public boolean isLogged() {
+      return logged;
+   }
+
+   public void setLogged(boolean logged) {
+      this.logged = logged;
+   }
+
+   public String getUsername() {
+      return username;
+   }
+
+   public void setUsername(String username) {
+      this.username = username;
+   }
+
+   public void setConnected(boolean connected) {
+      this.connected = connected;
    }
 }

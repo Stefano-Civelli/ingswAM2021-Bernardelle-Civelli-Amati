@@ -20,8 +20,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * This class accepts connection to a client and assign the client handling
- * to the ServerClientHandler class via Thread.
+ * This class accepts connection to a client and assign the client handling to the ServerClientHandler class via Thread.
+ * Server class also contains reference to all the clientHandlers in order to manage at an high level of abstraction
+ * the message sending process and the client disconnections.
  */
 public class Server {
 
@@ -80,9 +81,19 @@ public class Server {
       }
    }
 
-   //manages other players connection
+   /**
+    * manages client interaction in the lobby creation phase
+    * if the message sender is the first player send him a message
+    * if he isn't the first player this methods tells all the other clients that a new player connected
+    * if all the players required are logged this method will start the match
+    *
+    * @param message should be {@code MessageType.NUMBER_OF_PLAYERS || MessageType.LOGIN}
+    */
    public synchronized void lobbySetup(Message message){
+      MessageType messageType = message.getMessageType();
       String username = message.getUsername();
+      if(messageType != MessageType.NUMBER_OF_PLAYERS && messageType != MessageType.LOGIN)
+         return;
 
       if(playersNumber == 0){ //executed only for the first player to connect
          if(message.getPayload() == null)
@@ -95,8 +106,7 @@ public class Server {
          playersNumber = tempPlayerNum;
          sendToClient(new Message(username, MessageType.LOBBY_CREATED));
       }
-      else
-      {
+      else if (messageType != MessageType.NUMBER_OF_PLAYERS) {
          List<String> tmpConnectdPlyrs = loggedPlayers();
          tmpConnectdPlyrs.remove(username); // to tell everybody except the player that connected
          for(String user: tmpConnectdPlyrs)
@@ -110,6 +120,14 @@ public class Server {
       }
    }
 
+   /**
+    * handles the login message registering the player to the server.
+    * Sends a message to the client with feedback on the login procedure (E.g. login successful or login error).
+    * Also handles reconnection if the login message is sent by a player that has disconnected during the game
+    *
+    * @param message login message sent by the client that wants to login
+    * @param clientHandler that wants to login
+    */
    public synchronized void handleLogin(Message message, ServerClientHandler clientHandler){
       String username = message.getUsername();
       boolean isReconnecting = isTaken(username) && gameRunning &&
@@ -156,9 +174,9 @@ public class Server {
 
    private void handleClientReconnection(Message message,ServerClientHandler newClientHandler) {
       ServerClientHandler oldClientHandler = usernameToClientHandler.get(message.getUsername());
-      clients.remove(oldClientHandler);
-      usernameToClientHandler.remove(oldClientHandler.getUsername());
+      deleteClient(oldClientHandler);
       addClient(newClientHandler);
+      newClientHandler.setUsername(message.getUsername());
       usernameToClientHandler.put(newClientHandler.getUsername(), newClientHandler);
       newClientHandler.sendMessage(new Message(MessageType.RECONNECTED));
       // TODO mandargli lo stato
@@ -197,12 +215,21 @@ public class Server {
    }
 
 
+   /**
+    * sends update message only to the current player
+    *
+    * @param message the update message (username can be null)
+    */
    public void serverSingleUpdate(Message message){
       message.setUsername(turnManager.getCurrentPlayer());
       sendToClient(message);
    }
 
-
+   /**
+    * sends broadcast update message
+    *
+    * @param message the update message (username can be null)
+    */
    public void serverBroadcastUpdate(Message message){
       boolean setupMessage = message.getMessageType().equals(MessageType.DECK_SETUP) || message.getMessageType().equals(MessageType.MARKET_SETUP);
       if(!setupMessage)
@@ -211,7 +238,7 @@ public class Server {
    }
 
    /**
-    * Adds a client to the connectedClients list
+    * Adds a clientHandler to the clients list
     *
     * @param client the {@link ServerClientHandler} to be added
     */
@@ -219,6 +246,12 @@ public class Server {
       clients.add(client);
    }
 
+   /**
+    * returns true if the the specified username is already taken by another client
+    *
+    * @param username the username whose availability is to be checked
+    * @return true if the username is already taken
+    */
    public boolean isTaken(String username){
       for(ServerClientHandler s : clients)
          if(username.equals(s.getUsername()))
@@ -228,8 +261,10 @@ public class Server {
    }
 
    /**
-    * sends the message to client set as username in the message. if username is null send broadcast
-    * @param message message to send
+    * Sends the specified message.
+    * If username is null sends broadcast, otherwise sends only to the client associated with the username
+    *
+    * @param message the message to be sent
     */
    public void sendToClient(Message message) { //quando entro qua i messaggi a cui serve l'username lo hanno, gli altri no
 
@@ -245,13 +280,15 @@ public class Server {
    }
 
    /**
-    * always send broadcast message
+    * Sends the specified message to every connected client
+    *
     * @param message message to send
     */
    public void sendBroadcast(Message message) {
       for(ServerClientHandler s : clients)
          s.sendMessage(message);
    }
+
 
    private static int integerInputValidation(Scanner in, int minPortNumber, int maxPortNumber) {
       boolean error = false;
@@ -274,42 +311,66 @@ public class Server {
       return input;
    }
 
-   public TurnManager getTurnManager() {
-      return turnManager;
-   }
 
    private boolean isFirst() {
       return loggedPlayers().isEmpty();
    }
 
+
+   /**
+    * Removes the specified client from the clients list and the clients Map
+    *
+    * @param client the clientHandler to be removed
+    */
    public synchronized void deleteClient(ServerClientHandler client) {
-      clients.remove(client); //se si disconentte prima di essersi loggato lo elimino e me lo dimentico
+      clients.remove(client);
       usernameToClientHandler.remove(client.getUsername());
    }
 
-   public synchronized List<String> loggedPlayers(){ //if a player disconnects he can be still a logged player
+   /**
+    * Returns a list of the logged players in the match
+    * NOTE: if a player disconnects he is considered still logged if he actually logged in successfully
+    *
+    * @return the logged players list
+    */
+   public synchronized List<String> loggedPlayers(){
       return clients.stream()
               .filter(ServerClientHandler::isLogged)
               .map(ServerClientHandler::getUsername)
               .collect(Collectors.toList());
    }
 
+   //TODO probabilmente va usata
    public synchronized List<ServerClientHandler> connectedPlayers(){
       return clients.stream()
               .filter(ServerClientHandler::isConnected)
               .collect(Collectors.toList());
    }
 
+   public TurnManager getTurnManager() {
+      return turnManager;
+   }
+
+   /**
+    * returns true if the game is running
+    * @return true if the game is running
+    */
    public boolean isGameRunning() {
       return gameRunning;
    }
 
-   protected void handleClientDisconnection(ServerClientHandler disconnectedClient) { // TODO metterlo nel server
+   /**
+    * If the game is not running this method deletes the client
+    * Sends to Client a disconnected message if the disconnection is caused by the server
+    *
+    * @param disconnectedClient the clientHandler that disconnected or that needs to be disconnected
+    */
+   protected void handleClientDisconnection(ServerClientHandler disconnectedClient) {
       if(!gameRunning) //if the game isn't started delete the player from the list and forget about him
          deleteClient(disconnectedClient);
 
       if(disconnectedClient.isLogged())
-         sendBroadcast(new Message(disconnectedClient.getUsername(), MessageType.DISCONNECTED));
+         sendBroadcast(new Message(disconnectedClient.getUsername(), MessageType.DISCONNECTED)); //non serve
       //TODO devo dire al controller che il player si è disconnesso per fargli saltare il turno (cioè basta che quando tocca lui il controller dice subito agli altri che lui passa il turno)
 
       disconnectedClient.closeSocket();

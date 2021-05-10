@@ -4,6 +4,10 @@ import it.polimi.ingsw.controller.action.ActionType;
 import java.util.List;
 import static it.polimi.ingsw.controller.action.ActionType.*;
 
+/**
+ * class that represents possible turn phases.
+ * Each phase has a list of the valid action during that phase
+ */
 public enum PhaseType {
 
    SETUP_CHOOSERESOURCES(List.of(CHOSE_RESOURCES)),
@@ -37,6 +41,11 @@ public enum PhaseType {
       throw new IllegalArgumentException("invalid string value passed: " + value);
    }
 
+   /**
+    * returns true if the specified action is valid in this phase
+    * @param actionType the action whose validity is to be checked
+    * @return true if the action is valid
+    */
    public boolean isValid(ActionType actionType) {
       return this.availableActionsList.contains(actionType);
    }
