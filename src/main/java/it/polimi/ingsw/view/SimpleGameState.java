@@ -24,7 +24,6 @@ public class SimpleGameState {
       JsonObject jsonObject = (JsonObject) JsonParser.parseString(jsonMarket);
       this.market = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), MarbleColor[][].class);
       this.slide = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value").getAsString(), MarbleColor.class);
-
    }
 
    //TODO clone
