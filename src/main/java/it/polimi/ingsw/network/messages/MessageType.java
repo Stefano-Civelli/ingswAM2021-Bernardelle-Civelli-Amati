@@ -55,6 +55,12 @@ public enum MessageType {
     this.isSetup = isSetup;
   }
 
+  /**
+   * static factory method that constructs enum by string
+   *
+   * @param value string to create the enum
+   * @return a new enumeration
+   */
   public static MessageType fromValue(String value) {
     for (MessageType messageType : values()) {
       if (messageType.name().equals(value)) {
@@ -65,6 +71,6 @@ public enum MessageType {
   }
 
   public boolean isSetup() {
-    return isSetup;
+    return this.isSetup;
   }
 }
