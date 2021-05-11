@@ -2,25 +2,27 @@ package it.polimi.ingsw.view;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SimplePlayerState {
+public class SimplePlayerState implements SimpleStateObservable{
 
    private final int NUMBER_OF_NORMAL_LEVELS = 3;
    private final int MAX_SPECIAL_LEVELS = 2;
 
    private int trackPosition;
    private boolean[] vaticanFlipped;
-   private final List<Integer> leaderCards; //identified by ID
+   private  List<Integer> leaderCards; //identified by ID
    private final Map<ResourceType, Integer> chest;
    private final Map<ResourceType, Integer> tempChest;
    private final Pair<ResourceType, Integer>[] warehouseLevels;
@@ -31,7 +33,6 @@ public class SimplePlayerState {
 
    public SimplePlayerState() {
       this.trackPosition = 0;
-      this.leaderCards = new ArrayList<>();
       this.chest = new HashMap<>();
       this.tempChest = new HashMap<>();
       this.warehouseLevels = new Pair[this.NUMBER_OF_NORMAL_LEVELS];
@@ -50,6 +51,10 @@ public class SimplePlayerState {
       this.vaticanFlipped = new boolean[3];
       for(int i=0; i<3; i++)
          vaticanFlipped[i] = false;
+   }
+
+   public void setupLeaderCard(String payload){
+      this.leaderCards = GSON.getGsonBuilder().fromJson(payload, List.class);
    }
 
    public Pair<ResourceType, Integer>[] getWarehouseLevels() {
@@ -99,18 +104,19 @@ public class SimplePlayerState {
    }
 
    public void vaticanReportUpdate(String payload) {
-      JsonObject jsonObject = (JsonObject) JsonParser.parseString(payload);
-      int zone = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), Integer.class);
-      boolean flip = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value").getAsString(), Boolean.class);
+      Type token = new TypeToken<Pair<Integer, Boolean>>(){}.getType();
+      Pair<Integer, Boolean> pair = GSON.getGsonBuilder().fromJson(payload, token);
+      int zone = pair.getKey();
+      boolean flip = pair.getValue();
 
-      if(flip)
-         vaticanFlipped[zone] = flip;
+      vaticanFlipped[zone] = flip;
    }
 
    private void chestUpdate(String payload) {
-      JsonObject jsonObject = (JsonObject) JsonParser.parseString(payload);
-      ResourceType resource = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), ResourceType.class);
-      int quantity = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value"), Integer.class);
+      Type token = new TypeToken<Pair<ResourceType, Integer>>(){}.getType();
+      Pair<ResourceType, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
+      ResourceType resource = pair.getKey();
+      int quantity = pair.getValue();
 
       for(Map.Entry<ResourceType, Integer> entry : chest.entrySet())
          if(resource.equals(entry.getKey()))
@@ -118,9 +124,10 @@ public class SimplePlayerState {
    }
 
    private void tempChestUpdate(String payload) {
-      JsonObject jsonObject = (JsonObject) JsonParser.parseString(payload);
-      ResourceType resource = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), ResourceType.class);
-      int quantity = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value"), Integer.class);
+      Type token = new TypeToken<Pair<ResourceType, Integer>>(){}.getType();
+      Pair<ResourceType, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
+      ResourceType resource = pair.getKey();
+      int quantity = pair.getValue();
 
       for(Map.Entry<ResourceType, Integer> entry : tempChest.entrySet())
          if(resource.equals(entry.getKey()))
@@ -128,9 +135,10 @@ public class SimplePlayerState {
    }
 
    private void cardSlotUpdate(String payload) {
-      JsonObject jsonObject = (JsonObject) JsonParser.parseString(payload);
-      int devCardID = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), Integer.class);
-      int slot = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value").getAsString(), Integer.class);
+      Type token = new TypeToken<Pair<Integer, Integer>>(){}.getType();
+      Pair<Integer, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
+      int devCardID = pair.getKey();
+      int slot = pair.getValue();
 
       if(slot == 0)
          cardSlot1.add(devCardID);
@@ -150,5 +158,16 @@ public class SimplePlayerState {
          chest.put(entry.getKey(), chest.containsKey(entry.getKey()) ? chest.get(entry.getKey()) + entry.getValue() : entry.getValue());
       }
       this.tempChest.clear();
+   }
+
+   public void activatedLeaderUpdate(String payload){
+
+   }
+
+
+   @Override
+   public void notifyStateChange() {
+      //observerList.stream().forEach(x -> x.fai la display della canvas del player che ha cambiato stato (cioè this playerstate));
+
    }
 }

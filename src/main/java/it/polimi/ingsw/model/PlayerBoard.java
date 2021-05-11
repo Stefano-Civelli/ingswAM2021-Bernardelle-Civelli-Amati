@@ -15,7 +15,7 @@ import it.polimi.ingsw.utility.Pair;
 import java.io.IOException;
 import java.util.*;
 
-public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable, ModelObservable {
+public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable {
 
    private final String username;
    private final CardSlots cardSlots;
@@ -219,7 +219,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
 
    public void setActiveLeadercard(LeaderCard leadercard) throws InvalidLeaderCardException, NotEnoughResourcesException {
       leadercard.setActive(this);
-      notifyModelChange(new Message(MessageType.ACTIVATED_LEADERCARD_UPDATE, leadercard.getLeaderId()));
    }
 
    public void enterFinalTurnPhase() {
@@ -296,9 +295,5 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       this.controller = controller;
   }
 
-   @Override
-   public void notifyModelChange(Message msg) {
-      if(controller != null)
-         controller.broadcastUpdate(msg);
-   }
+
 }

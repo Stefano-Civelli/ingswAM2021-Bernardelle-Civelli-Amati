@@ -1,12 +1,10 @@
 package it.polimi.ingsw.model.leadercard;
 
-import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.utility.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,7 +71,7 @@ public class LeaderCard implements ModelObservable{
 
       active = true;
 
-      notifyModelChange(new Message(MessageType.ACTIVATED_LEADERCARD_UPDATE, Integer.toString(this.leaderId)));
+      notifyModelChange(new Message(MessageType.ACTIVATED_LEADERCARD_UPDATE, this.leaderId));
    }
 
    /**

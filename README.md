@@ -30,7 +30,7 @@
 | Server     | DISCONNECTED_SERVER_SIDE |      | 
 | Server     | RECONNECTED |      | 
 | Server     | DISCONNECTED |      | 
-| Server     | NEXT_TURN_STATE |      | 
+| Server     | NEXT_TURN_STATE |      | deprecated
 | Server     | GENERIC_MESSAGE |      | 
 | Server     | MARKET_UPDATED |      | 
 | Server     | VATICAN_REPORT |     | 

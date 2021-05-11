@@ -6,11 +6,12 @@ import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
+import it.polimi.ingsw.view.SimpleStateObserver;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CliDrawer {
+public class CliDrawer implements SimpleStateObserver {
 
   private final int PLAYERBOARD_LENGTH = 120;
   private final int PLAYERBOARD_HEIGHT = 16;
@@ -289,7 +290,7 @@ public class CliDrawer {
   }
 
   private String[][] skeletonTrack() {
-    String[][] track = new String[TRACK_HEIGHT][TRACK_LENGTH];
+    String[][] track = new String[TRACK_HEIGHT][TRACK_LENGTH*3];
     int i;
 
     track[0][0] = "[";

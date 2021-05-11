@@ -9,15 +9,18 @@ import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class SimpleGameState {
+public class SimpleGameState implements SimpleStateObservable{
 
    private List<Integer>[][] developCardDeck; //identified by ID
    private MarbleColor[][] market;
    private MarbleColor slide;
 
+   public SimpleGameState() {
+   }
 
    public void constructDeck(String payload) {
       this.developCardDeck = GSON.getGsonBuilder().fromJson(payload, List[][].class);
@@ -84,5 +87,17 @@ public class SimpleGameState {
 
    public MarbleColor getSlide() {
       return slide;
+   }
+
+
+
+
+   @Override
+   public void notifyStateChange() {
+//      if(current)
+//         cliDrawer/Cli.update(getCurrent())
+//      else
+//         riassuntivo
+
    }
 }

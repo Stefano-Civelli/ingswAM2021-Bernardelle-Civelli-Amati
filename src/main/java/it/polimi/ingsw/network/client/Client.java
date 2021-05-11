@@ -132,30 +132,42 @@ public class Client {
         view.displayGameStarted();
         //TODO gestire le risorse in base alla posizione del player nell'array
         break;
+      case NEXT_TURN_STATE:
+        //view.displayEndTurn();
+        break;
       case LEADERCARD_SETUP:
-        //le setto nel SimpleModel
+        getSimplePlayerState(msg.getUsername()).setupLeaderCard(msg.getPayload());
+
         view.displayRecievedLeadercards();
       case DECK_SETUP:
         simpleGameState.constructDeck(msg.getPayload());
         break;
       case MARKET_SETUP:
         simpleGameState.constructMarket(msg.getPayload());
-        view.displayMarket();
+        //view.displayMarket();
         break;
       case MARKET_UPDATED:
         simpleGameState.updateMarket(msg.getPayload());
-        view.displayMarket();
+       //view.displayMarket();
         break;
       case DEVELOP_CARD_DECK_UPDATED:
         simpleGameState.updateDeck(msg.getPayload());
         break;
       case WAREHOUSE_UPDATE:
+        getSimplePlayerState(msg.getUsername()).warehouseUpdate(msg.getPayload());
         break;
       case ACTIVATED_LEADERCARD_UPDATE:
+        getSimplePlayerState(msg.getUsername()).activatedLeaderUpdate(msg.getPayload());
         break;
       case TRACK_UPDATED:
+        getSimplePlayerState(msg.getUsername()).trackUpdate(msg.getPayload());
         break;
       case VATICAN_REPORT:
+        getSimplePlayerState(msg.getUsername()).vaticanReportUpdate(msg.getPayload());
+        break;
+      case CHEST_UPDATE:
+        break;
+      case CARD_SLOT_UPDATE:
         break;
 
     }

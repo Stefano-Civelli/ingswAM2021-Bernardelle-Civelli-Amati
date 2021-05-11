@@ -1,15 +1,23 @@
 package it.polimi.ingsw.view.cli;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.BuyDevelopCardAction;
 import it.polimi.ingsw.controller.action.ShopMarketAction;
+import it.polimi.ingsw.model.DevelopCard;
+import it.polimi.ingsw.model.DevelopCardDeck;
+import it.polimi.ingsw.model.leadercard.LeaderCard;
+import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
+import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
+import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.view.ViewInterface;
 
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -265,8 +273,12 @@ public class Cli implements ViewInterface {
     String choice = stringInputValidation(in,"r","c");
     boolean row = choice.equals("r");
     System.out.println("what number ?");
-    int index = Integer.parseInt(in.nextLine());
-    return new ShopMarketAction(row, index);
+    int index;
+    if(row)
+      index = validateIntInput(1,3);
+    else
+      index = validateIntInput(1,4);
+    return new ShopMarketAction(row, index - 1);
   }
 
   private Action createBuyCardAction() {
@@ -294,5 +306,21 @@ public class Cli implements ViewInterface {
   private void clearScreen(){
     drawer.displayPlainCanvas();
     drawer.displayPlainCanvas();
+  }
+
+  public static DevelopCard getDevelopCardFromId(int cardId) throws IOException, InvalidCardException {
+    FileInputStream inputStream = new FileInputStream(ConfigParameters.cardConfigFile);
+    InputStreamReader reader = new InputStreamReader(inputStream);
+    DevelopCardDeck developCardDeck = GSON.getGsonBuilder().fromJson(reader, DevelopCardDeck.class);
+    reader.close();
+    return developCardDeck.getCardFromId(cardId);
+  }
+
+  public static LeaderCard getLeaderCardFromId(int cardId) throws IOException, InvalidCardException {
+    FileInputStream inputStream = new FileInputStream(ConfigParameters.cardConfigFile);
+    InputStreamReader reader = new InputStreamReader(inputStream);
+    LeaderCardDeck leaderCardDeck = GSON.getGsonBuilder().fromJson(reader, LeaderCardDeck.class);
+    reader.close();
+    return leaderCardDeck.getCardFromId(cardId);
   }
 }

@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 
@@ -12,7 +14,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Game {
+public class Game implements ModelObservable{
 
    private final LeaderCardDeck leaderCardDeck;
    private final Market market;
@@ -45,6 +47,7 @@ public class Game {
 
       playerBoard.setController(controller);
       playerBoardList.add(playerBoard);
+      notifyModelChange(new Message(username, MessageType.LEADERCARD_SETUP, idLeaderList(fourInitialLeaderCardsForPlayer)));
    }
 
    public String startGame() {
@@ -98,4 +101,14 @@ public class Game {
       return this.playerBoardList.stream().map(PlayerBoard::getUsername).collect(Collectors.toList());
    }
 
+   private List<Integer> idLeaderList(List<LeaderCard> leaderList){
+      return leaderList.stream().map(LeaderCard::getLeaderId).collect(Collectors.toList());
+   }
+
+   @Override
+   public void notifyModelChange(Message msg) {
+      if (controller != null)
+         controller.singleUpdate(msg);
+      // !! E' UN SINGLE UPDATE !!
+   }
 }
