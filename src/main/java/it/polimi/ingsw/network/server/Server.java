@@ -221,7 +221,6 @@ public class Server {
     * @param message the update message (username can be null)
     */
    public void serverSingleUpdate(Message message){
-      message.setUsername(turnManager.getCurrentPlayer());
       sendToClient(message);
    }
 
