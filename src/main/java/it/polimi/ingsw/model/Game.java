@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
@@ -49,6 +48,7 @@ public class Game implements ModelObservable{
 
       playerBoard.setController(controller);
       playerBoards.add(new Pair<>(playerBoard, true));
+      notifyModelChange(new Message(username, MessageType.LEADERCARD_SETUP, idLeaderList(fourInitialLeaderCardsForPlayer)));
    }
 
    public String startGame() {
@@ -124,9 +124,20 @@ public class Game implements ModelObservable{
               .map(Pair::getValue).findFirst().orElseThrow(InvalidUsernameException::new);
    }
 
-   @Override
-   public void notifyModelChange(Message msg) {
-      this.controller.broadcastUpdate(msg);
+   private List<Integer> idLeaderList(List<LeaderCard> leaderList){
+      return leaderList.stream().map(LeaderCard::getLeaderId).collect(Collectors.toList());
    }
 
+//   @Override
+//   public void notifyModelChange(Message msg) {
+//      if(this.controller != null)
+//         this.controller.broadcastUpdate(msg);
+//   }
+
+   @Override
+   public void notifyModelChange(Message msg) {
+      if (controller != null)
+         controller.singleUpdate(msg);
+      // !! E' UN SINGLE UPDATE !!
+   }
 }

@@ -1,15 +1,18 @@
 package it.polimi.ingsw.model.leadercard;
 
-import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.*;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class LeaderCard {
+public class LeaderCard implements ModelObservable{
 
    private transient final int numberOfRequiredResources = 5;
+   private transient Controller controller = null;
    private int leaderId;
    private boolean active;
    private ResourceType requiredResources; //is null if no resources are required
@@ -67,6 +70,8 @@ public class LeaderCard {
             throw new NotEnoughResourcesException("you can't activate this card, you need more resources");
 
       active = true;
+
+      notifyModelChange(new Message(MessageType.ACTIVATED_LEADERCARD_UPDATE, this.leaderId));
    }
 
    /**
@@ -139,4 +144,9 @@ public class LeaderCard {
          cardBehaviour.createStorage(playerBoard);
    }
 
+   @Override
+   public void notifyModelChange(Message msg) {
+      if (controller != null)
+         controller.broadcastUpdate(msg);
+   }
 }

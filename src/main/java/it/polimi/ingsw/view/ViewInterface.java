@@ -23,5 +23,5 @@ public interface ViewInterface {
   public void displayReconnection();
   public void displayGameStarted();
   public void displayRecievedLeadercards();
-  public void displayMarketSetup();
+  public void displayMarket();
 }

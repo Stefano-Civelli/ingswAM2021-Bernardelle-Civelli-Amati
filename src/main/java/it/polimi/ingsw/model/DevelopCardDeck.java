@@ -179,6 +179,13 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
       return idCube;
    }
 
+   public DevelopCard getCardFromId(int id) throws InvalidCardException {
+      for(DevelopCard d : developCardList)
+         if(d.getCardId() == id)
+            return d;
+      throw new InvalidCardException("there isn't a card with this id in the deck");
+   }
+
    @Override
    public void addToEndGameObserverList(EndGameObserver observerToAdd) {
       if (!endGameObserverList.contains(observerToAdd))

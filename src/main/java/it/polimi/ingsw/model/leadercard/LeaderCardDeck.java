@@ -2,6 +2,8 @@ package it.polimi.ingsw.model.leadercard;
 
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.model.DevelopCard;
+import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,4 +37,10 @@ public class LeaderCardDeck {
     return fourCards;
   }
 
+   public LeaderCard getCardFromId(int id) throws InvalidCardException {
+     for(LeaderCard d : leaderCardList)
+       if(d.getLeaderId() == id)
+         return d;
+     throw new InvalidCardException("there isn't a card with this id in the deck");
+   }
 }
