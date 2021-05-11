@@ -23,16 +23,16 @@ public enum PhaseType {
    END(List.of());
 
    private final List<ActionType> availableActionsList;
-   private final boolean setup;
+   private final boolean isSetup;
 
    PhaseType(List<ActionType> l){
       this.availableActionsList = l;
-      this.setup = false;
+      this.isSetup = false;
    }
 
-   PhaseType(List<ActionType> l, boolean setup) {
+   PhaseType(List<ActionType> l, boolean isSetup) {
       this.availableActionsList = l;
-      this.setup = setup;
+      this.isSetup = isSetup;
    }
 
    /**
@@ -60,7 +60,7 @@ public enum PhaseType {
    }
 
    public boolean isSetup() {
-      return setup;
+      return isSetup;
    }
 
    public List<ActionType> getAvailableActions() {
