@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.utility.GSON;
@@ -38,7 +39,6 @@ public class SimpleGameState implements SimpleStateObservable{
 
 
    public void constructMarket (String payload) {
-
       Type token = new TypeToken<Pair<MarbleColor[][], MarbleColor>>(){}.getType();
       Pair<MarbleColor[][], MarbleColor> pair = GSON.getGsonBuilder().fromJson(payload, token);
       this.market = pair.getKey();
@@ -79,7 +79,6 @@ public class SimpleGameState implements SimpleStateObservable{
    }
 
 
-
    //TODO clone
    public MarbleColor[][] getMarket() {
       return market;
@@ -88,7 +87,6 @@ public class SimpleGameState implements SimpleStateObservable{
    public MarbleColor getSlide() {
       return slide;
    }
-
 
 
 

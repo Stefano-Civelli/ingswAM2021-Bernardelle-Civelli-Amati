@@ -24,4 +24,5 @@ public interface ViewInterface {
   public void displayGameStarted();
   public void displayRecievedLeadercards();
   public void displayMarket();
+  public void displayPlayerTurn(String player);
 }
