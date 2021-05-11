@@ -21,7 +21,8 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
    private List<DevelopCard> developCardList;
 
    private transient List<DevelopCard>[][] cardsCube;
-   private transient Controller controller = null;
+
+   private transient ModelObserver controller = null;
 
    //observers are added to the Observer list only for single player game.
    //So this Class should have an empty observer list if the game is multiplayer
@@ -50,7 +51,7 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
 
    }
 
-   public void finalizeDeckSetup(Controller controller){
+   public void finalizeDeckSetup(ModelObserver controller){
       this.controller = controller;
       shuffleDeck(); // if you want to write tests that use the parsed Deck you need to move this call elsewhere
       notifyModelChange(new Message(MessageType.DECK_SETUP, serializableIdDeck()));

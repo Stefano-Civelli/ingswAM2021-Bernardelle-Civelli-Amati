@@ -16,7 +16,7 @@ public class CardSlots implements EndGameObservable, ModelObservable {
   private int totalCards;
   private final List<EndGameObserver> endGameObserverList;
 
-  private transient Controller controller = null;
+  private transient ModelObserver controller = null;
 
   public CardSlots(){
     totalCards = 0;
@@ -142,7 +142,7 @@ public class CardSlots implements EndGameObservable, ModelObservable {
       controller.broadcastUpdate(msg);
   }
 
-  public void setController(Controller controller) {
+  public void setController(ModelObserver controller) {
     this.controller = controller;
   }
 }

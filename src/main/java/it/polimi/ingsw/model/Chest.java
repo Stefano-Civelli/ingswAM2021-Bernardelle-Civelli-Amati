@@ -15,7 +15,7 @@ public class Chest implements ModelObservable{
   private final Map<ResourceType, Integer> resources;
   private final Map<ResourceType, Integer> tempResourcesMap;
 
-  private transient Controller controller = null;
+  private transient ModelObserver controller = null;
 
   public Chest(){
     resources = new HashMap<>();
@@ -110,7 +110,7 @@ public class Chest implements ModelObservable{
       controller.broadcastUpdate(msg);
   }
 
-  public void setController(Controller controller) {
+  public void setController(ModelObserver controller) {
     this.controller = controller;
   }
 }

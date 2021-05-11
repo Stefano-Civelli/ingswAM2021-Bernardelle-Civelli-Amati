@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
@@ -13,15 +15,16 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Game {
+public class Game implements ModelObservable{
 
    private final LeaderCardDeck leaderCardDeck;
    private final Market market;
    protected final DevelopCardDeck developCardDeck;
    private final List<Pair<PlayerBoard, Boolean>> playerBoards;
-   Controller controller;
 
-   public Game(Controller controller) throws IOException {
+   private transient ModelObserver controller;
+
+   public Game(ModelObserver controller) throws IOException {
 
       this.leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
       this.developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
@@ -105,11 +108,25 @@ public class Game {
       if(index < 0)
          throw new InvalidUsernameException();
       this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), false));
+      this.notifyModelChange(new Message(username, MessageType.PLAYER_DISCONNECTION));
+   }
+
+   public void connectPlayer(String username) throws InvalidUsernameException {
+      int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername).collect(Collectors.toList()).indexOf(username);
+      if(index < 0)
+         throw new InvalidUsernameException();
+      this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), true));
+      this.notifyModelChange(new Message(username, MessageType.PLAYER_CONNECTION));
    }
 
    public boolean isPlayerConnected(String username) throws InvalidUsernameException {
       return this.playerBoards.stream().filter(i -> i.getKey().getUsername().equals(username))
               .map(Pair::getValue).findFirst().orElseThrow(InvalidUsernameException::new);
+   }
+
+   @Override
+   public void notifyModelChange(Message msg) {
+      this.controller.broadcastUpdate(msg);
    }
 
 }
