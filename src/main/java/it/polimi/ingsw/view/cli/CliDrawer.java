@@ -48,19 +48,22 @@ public class CliDrawer implements SimpleStateObserver {
     setUsernameOnCanvas(username);
     buildWarehouse(username);
     buildChest(username);
-    buildAndSetMarket();
+    placeHereOnCanvas(2,PLAYERBOARD_LENGTH+7, buildAndSetMarket());
     buildTrack();
     displayCanvas();
   }
 
   //TODO finire con margin e slide
   public void marketDisplay() {
-    MarbleColor[][] market = gameState.getMarket();
-    for(int i=0; i<market.length; i++) {
-      for (int j = 0; j < market[i].length; j++)
-        System.out.print(market[i][j] + " " + Color.RESET.escape());
-      System.out.println();
-    }
+//    MarbleColor[][] market = gameState.getMarket();
+//    for(int i=0; i<market.length; i++) {
+//      for (int j = 0; j < market[i].length; j++)
+//        System.out.print(market[i][j] + " " + Color.RESET.escape());
+//      System.out.println();
+//    }
+    clearCanvas();
+    placeHereOnCanvas(0,0, buildAndSetMarket());
+    displayCanvas();
   }
 
 
@@ -73,6 +76,12 @@ public class CliDrawer implements SimpleStateObserver {
         System.out.print(canvas[i][j]);
       System.out.println();
     }
+  }
+
+  private void clearCanvas() {
+    for (int i=0; i<canvas.length; i++)
+      for (int j=0; j<canvas[i].length; j++)
+        canvas[i][j] = " ";
   }
 
   private String[][] buildMargins(int row_dim, int col_dim){
@@ -226,10 +235,14 @@ public class CliDrawer implements SimpleStateObserver {
     }
   }
 
-  private void buildAndSetMarket() {
+  private String[][] buildAndSetMarket() {
     MarbleColor[][] marketColor = gameState.getMarket();
     String[][] market = buildMargins(MARKET_HEIGHT, MARKET_LENGTH);
-    String[][] marketAndSlide = new String[MARKET_HEIGHT+2][MARKET_LENGTH];
+    String[][] marketAndSlide = new String[MARKET_HEIGHT+4][MARKET_LENGTH+2];
+
+    for(int i=0; i<marketAndSlide.length; i++)
+      for(int j=0; j<marketAndSlide[i].length; j++)
+        marketAndSlide[i][j] = " ";
 
     int a=0, b;
     for(int i=1; a<marketColor.length; i++) {
@@ -244,41 +257,41 @@ public class CliDrawer implements SimpleStateObserver {
     }
 
     for(int c=0; c<marketAndSlide[0].length; c++) {
-      marketAndSlide[MARKET_HEIGHT][c] = " ";
-      marketAndSlide[MARKET_HEIGHT+1][c] = "\u203E";
+      marketAndSlide[MARKET_HEIGHT+2][c] = " ";
+      marketAndSlide[MARKET_HEIGHT+3][c] = "\u203E";
     }
 
-    marketAndSlide[MARKET_HEIGHT][MARKET_LENGTH-1] = gameState.getSlide().toString();
+    marketAndSlide[MARKET_HEIGHT+2][MARKET_LENGTH-1] = gameState.getSlide().toString();
 
     for(int i=0; i<market.length; i++)
       for(int j=0; j<market[i].length; j++)
-        marketAndSlide[i][j] = market[i][j];
+        marketAndSlide[i+2][j] = market[i][j];
 
     int col=0;
     for(char c : "slide".toCharArray()) {
-      marketAndSlide[MARKET_HEIGHT][col] = Character.toString(c);
+      marketAndSlide[MARKET_HEIGHT+2][col] = Character.toString(c);
       col ++;
     }
     col = col + 2;
-    marketAndSlide[MARKET_HEIGHT][col] = ConfigParameters.arrowCharacter;
+    marketAndSlide[MARKET_HEIGHT+2][col] = ConfigParameters.arrowCharacter;
 
-    col=PLAYERBOARD_LENGTH+7;
+    col=0;
     for(char c : "MARKET".toCharArray()) {
-      canvas[1][col] = Character.toString(c);
+      marketAndSlide[0][col] = Character.toString(c);
       col ++;
     }
 
-    col = PLAYERBOARD_LENGTH+9;
-    int row = 4;
+    col = 2;
+    int row = 3;
     for(int i=0; i<4; i++) {
-      canvas[2][col] = Integer.toString(i+1);
+      marketAndSlide[1][col] = Integer.toString(i+1);
       if(i<3)
-        canvas[row][PLAYERBOARD_LENGTH+7+MARKET_LENGTH+1] = Integer.toString(i+1);
+        marketAndSlide[row][MARKET_LENGTH+1] = Integer.toString(i+1);
       col += 2;
       row++;
     }
 
-    placeHereOnCanvas(3,PLAYERBOARD_LENGTH+7, marketAndSlide);
+    return marketAndSlide;
   }
 
   private void buildLeadersHand(String username) {
@@ -286,7 +299,24 @@ public class CliDrawer implements SimpleStateObserver {
   }
 
   private void buildTrack() {
-    placeHereOnCanvas(2, 3, skeletonTrack());
+    String[][] trackAndVatican = new String[TRACK_HEIGHT+2][TRACK_LENGTH*3];
+    String[][] track = skeletonTrack();
+
+    for(int i=0; i<trackAndVatican.length; i++)
+      for(int j=0; j<trackAndVatican[i].length; j++)
+        trackAndVatican[i][j] = " ";
+
+    for (int i=0; i<TRACK_LENGTH*3; i++)
+      trackAndVatican[0][i] = track[0][i];
+
+    trackAndVatican[1][6*3] = "│";
+    trackAndVatican[2][6*3] = "└";
+    trackAndVatican[2][6*3+1] = "─";
+    trackAndVatican[1][6*3+2] = "│";
+    trackAndVatican[2][6*3+2] = "┘";
+
+
+    placeHereOnCanvas(2, 3, trackAndVatican);
   }
 
   private String[][] skeletonTrack() {
