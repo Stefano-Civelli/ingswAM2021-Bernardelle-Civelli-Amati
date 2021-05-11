@@ -227,7 +227,15 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
    }
 
    private void emptyTempMarbles() {
-      // TODO aggiungere tutte le biglie possibili in ordine e scartare le altre
+      for(MarketMarble marble : this.tempMarketMarble) {
+         try {
+            marble.addResource(this);
+         } catch (MoreWhiteLeaderCardsException | NotEnoughSpaceException e) {
+            // FIXME magari con la bianca provare ad aggiungerla prima di scartarla e mandare avanti tutti
+            notifyForMoveForward();
+         }
+         this.tempMarketMarble.remove(marble);
+      }
    }
 
    public String getUsername() {
