@@ -60,7 +60,7 @@ public class Client {
 
   public Client() {
     this.simpleGameState = new SimpleGameState();
-    this.simplePlayerStateMap = new HashMap<>();
+    this.simplePlayerStateMap = new LinkedHashMap<>();
   }
 
   public void setView(ViewInterface view) {
@@ -242,5 +242,17 @@ public class Client {
 
   public List<String> usernameList(){
     return new ArrayList<>(this.simplePlayerStateMap.keySet());
+  }
+
+
+  //TODO migliorarla
+  public int getPlayerTurnPosition(){
+    int i = 0;
+    for(Map.Entry<String, SimplePlayerState> entry : simplePlayerStateMap.entrySet()){
+      if(entry.getKey().equals(username))
+        return i;
+      i++;
+    }
+    return -1;
   }
 }

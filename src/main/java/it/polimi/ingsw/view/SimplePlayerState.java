@@ -160,10 +160,21 @@ public class SimplePlayerState implements SimpleStateObservable{
       this.tempChest.clear();
    }
 
-   public void activatedLeaderUpdate(String payload){
-
+   /**
+    * delete a leadercard from the SimplePlayerState
+    *
+    * @param indexOfLeaderToDiscard
+    */
+   public void discardLeader(int indexOfLeaderToDiscard){
+      leaderCards.remove(indexOfLeaderToDiscard - 1);
    }
 
+   public void activatedLeaderUpdate(String payload){
+   }
+
+   public List<Integer> getLeaderCards() {
+      return leaderCards;
+   }
 
    @Override
    public void notifyStateChange() {

@@ -368,9 +368,10 @@ public class Server {
       if(!gameRunning) //if the game isn't started delete the player from the list and forget about him
          deleteClient(disconnectedClient);
 
-      if(disconnectedClient.isLogged())
+      if(disconnectedClient.isLogged()) {
          sendBroadcast(new Message(disconnectedClient.getUsername(), MessageType.DISCONNECTED)); //non serve
-      //TODO devo dire al controller che il player si è disconnesso per fargli saltare il turno (cioè basta che quando tocca lui il controller dice subito agli altri che lui passa il turno)
+         //turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
+      }
 
       disconnectedClient.closeSocket();
 
