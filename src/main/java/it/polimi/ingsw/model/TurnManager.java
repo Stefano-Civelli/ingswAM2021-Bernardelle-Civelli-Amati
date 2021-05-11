@@ -45,7 +45,7 @@ public class TurnManager implements IGameState {
             this.game.addPlayer(username);
     }
 
-    public List<String> startGame() {
+    public synchronized List<String> startGame() {
         this.currentPlayer = this.game.startGame();
         this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
         return this.game.getOrderedPlayers();
@@ -53,7 +53,14 @@ public class TurnManager implements IGameState {
 
     public synchronized Message handleAction(Action action) {
         try {
-            this.currentPhase = action.performAction(this);
+            PhaseType tmpPhase = action.performAction(this);
+            if(tmpPhase == null)
+                return null;
+                // notify players that a player connected or disconnected
+//                return new Message(action.getUsername(),
+//                        this.game.isPlayerConnected(action.getUsername())
+//                                ? MessageType.PLAYER_CONNECTION : MessageType.PLAYER_DISCONNECTION);
+            this.currentPhase = tmpPhase;
         } catch (InvalidActionException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -109,7 +116,7 @@ public class TurnManager implements IGameState {
         // If the player turn is ended change the current player
         if(this.currentPhase == PhaseType.END_SETUP) {
             try {
-                this.currentPlayer = this.game.nextPlayer(this.currentPlayer);
+                this.currentPlayer = this.game.nextConnectedPlayer(this.currentPlayer);
             } catch (InvalidUsernameException e) {
                 // This code should never be executed
                 e.printStackTrace();
@@ -118,7 +125,7 @@ public class TurnManager implements IGameState {
         }
         if(this.currentPhase == PhaseType.END) {
             try {
-                this.currentPlayer = this.game.nextPlayer(this.currentPlayer);
+                this.currentPlayer = this.game.nextConnectedPlayer(this.currentPlayer);
             }catch (InvalidUsernameException e) {
                 // This code should never be executed
                 e.printStackTrace();

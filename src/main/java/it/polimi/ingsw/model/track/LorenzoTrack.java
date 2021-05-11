@@ -20,7 +20,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
   final Set<VaticanReportObserver> vaticanReportObserverList = new HashSet<>();
   final Set<EndGameObserver> endGameObserverList = new HashSet<>();
 
-  private transient Controller controller = null;
+  private transient ModelObserver controller = null;
 
    /**
     * constructor of the class
@@ -116,7 +116,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
     controller.broadcastUpdate(msg);
   }
 
-  public void setController(Controller controller) {
+  public void setController(ModelObserver controller) {
     this.controller = controller;
   }
 }

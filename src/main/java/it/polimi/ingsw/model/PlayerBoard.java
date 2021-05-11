@@ -26,11 +26,11 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
    private final Track track;
    private final DevelopCardDeck developCardDeck;
    private List<MarketMarble> tempMarketMarble;
-   private Map<ResourceType, Integer> tempResources;
    private int tempIndexWhiteToAdd;
    private final Set<MoveForwardObserver> moveForwardObserverList = new HashSet<>();
    private final boolean[] alreadyProduced;
-   private Controller controller;
+
+   private transient ModelObserver controller;
 
    public PlayerBoard(String username, List<LeaderCard> leaderCards, Market market, DevelopCardDeck developCardDeck) throws IOException {
       this.username = username;
@@ -42,7 +42,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
       this.market = market;
       this.developCardDeck = developCardDeck;
       this.tempMarketMarble = new ArrayList<>();
-      this.tempResources = new HashMap<>();
       this.alreadyProduced = new boolean[this.cardSlots.getNumberOfCardSlots() + 2];
       Arrays.fill(this.alreadyProduced, false);
    }
@@ -132,6 +131,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
     */
    public void addMarbleToWarehouse(int marbleIndex)
            throws MoreWhiteLeaderCardsException, NotEnoughSpaceException, MarbleNotExistException {
+         // TODO usare boolean invece che un'eccezione quando ci sono due leader che convertono una biglia bianca
          if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
             throw new MarbleNotExistException("The index of the marble u gave me doesn't match the length of my array");
             try {
@@ -162,7 +162,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
          tempMarketMarble.remove(tempIndexWhiteToAdd);
          notifyForMoveForward();
          throw new NotEnoughSpaceException("you can't add this resource");
-         //anziché lanciare l'eccezione creiamo un messaggio di tipo NotEnoughSpaceException e nel payload scriviamo -> you can't add this resource, l'user lato client servirá per distinguere chi non muove
       } catch (WrongLeaderCardException e) {
          e.printStackTrace();
       }
@@ -224,6 +223,11 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
    public void enterFinalTurnPhase() {
       this.chest.endOfTurnMapsMerge();
       Arrays.fill(this.alreadyProduced, false);
+      this.emptyTempMarbles();
+   }
+
+   private void emptyTempMarbles() {
+      // TODO aggiungere tutte le biglie possibili in ordine e scartare le altre
    }
 
    public String getUsername() {
@@ -287,7 +291,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
       moveForwardObserverList.add(observerToAdd);
    }
 
-  public void setController(Controller controller) {
+  public void setController(ModelObserver controller) {
       this.track.setController(controller);
       this.chest.setController(controller);
       this.warehouse.setController(controller);

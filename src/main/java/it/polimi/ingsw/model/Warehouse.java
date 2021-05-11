@@ -19,7 +19,7 @@ public class Warehouse implements ModelObservable{
     private final int NUMBER_OF_NORMAL_LEVELS = 3;
     private final int MAX_SPECIAL_LEVELS = 2;
 
-    private transient Controller controller = null;
+    private transient ModelObserver controller = null;
 
     private final Pair<ResourceType, Integer>[] levels;
     private final List<Pair<ResourceType, Integer>> leaderLevels;
@@ -252,7 +252,7 @@ public class Warehouse implements ModelObservable{
             controller.broadcastUpdate(msg);
     }
 
-    public void setController(Controller controller) {
+    public void setController(ModelObserver controller) {
         this.controller = controller;
     }
 }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
@@ -9,6 +8,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 
 import java.io.IOException;
 import java.util.*;
@@ -19,16 +19,17 @@ public class Game implements ModelObservable{
    private final LeaderCardDeck leaderCardDeck;
    private final Market market;
    protected final DevelopCardDeck developCardDeck;
-   private final List<PlayerBoard> playerBoardList;
-   Controller controller;
+   private final List<Pair<PlayerBoard, Boolean>> playerBoards;
 
-   public Game(Controller controller) throws IOException {
+   private final transient ModelObserver controller;
+
+   public Game(ModelObserver controller) throws IOException {
 
       this.leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
       this.developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
       this.developCardDeck.finalizeDeckSetup(controller);
       this.market = new Market(controller);
-      this.playerBoardList = new ArrayList<>();
+      this.playerBoards = new ArrayList<>();
       this.controller = controller;
    }
 
@@ -39,35 +40,36 @@ public class Game implements ModelObservable{
       PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, market, developCardDeck);
 
       // add all observers to the list in observable classes
-      for(PlayerBoard playerBoardSetObserver : playerBoardList) {
+      for(PlayerBoard playerBoardSetObserver : playerBoards.stream().map(Pair::getKey).collect(Collectors.toList())) {
          playerBoardSetObserver.getTrack().addToVaticanReportObserverList(playerBoard.getTrack());
          playerBoard.addToMoveForwardObserverList(playerBoardSetObserver.getTrack());
          playerBoardSetObserver.addToMoveForwardObserverList(playerBoard.getTrack());
       }
 
       playerBoard.setController(controller);
-      playerBoardList.add(playerBoard);
+      playerBoards.add(new Pair<>(playerBoard, true));
       notifyModelChange(new Message(username, MessageType.LEADERCARD_SETUP, idLeaderList(fourInitialLeaderCardsForPlayer)));
    }
 
    public String startGame() {
-      Collections.shuffle(this.playerBoardList);
-      this.playerBoardList
+      Collections.shuffle(this.playerBoards);
+      this.playerBoards.stream().map(Pair::getKey).collect(Collectors.toList())
               .forEach(playerBoard -> playerBoard.getTrack().moveForward(initialFaith(playerBoard.getUsername())));
-      return this.playerBoardList.get(0).getUsername();
+      return this.playerBoards.get(0).getKey().getUsername();
    }
 
-   public String nextPlayer(String currentPlayer) throws InvalidUsernameException {
-      for(int i = 0; i < this.playerBoardList.size(); i++)
-         if(this.playerBoardList.get(i).getUsername().equals(currentPlayer))
-            return i + 1 < this.playerBoardList.size()
-                    ? this.playerBoardList.get(i + 1).getUsername()
-                    : this.playerBoardList.get(0).getUsername();
+   public String nextConnectedPlayer(String currentPlayer) throws InvalidUsernameException {
+      for(int i = 0; i < this.playerBoards.size(); i++)
+         if(this.playerBoards.get(i).getKey().getUsername().equals(currentPlayer))
+            for(int j = 1; j <= this.playerBoards.size(); j++ ) {
+               if (this.playerBoards.get((i + j) % this.playerBoards.size()).getValue())
+                  return this.playerBoards.get((i + j) % this.playerBoards.size()).getKey().getUsername();
+            }
       throw new InvalidUsernameException();
    }
 
    public int initialResources(String username) {
-      int index = this.playerBoardList.stream().map(PlayerBoard::getUsername)
+      int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername)
               .collect(Collectors.toList()).indexOf(username);
       switch(index) {
          case 2 : case 3:
@@ -79,7 +81,7 @@ public class Game implements ModelObservable{
    }
 
    public int initialFaith(String username) {
-      int index = this.playerBoardList.stream().map(PlayerBoard::getUsername)
+      int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername)
               .collect(Collectors.toList()).indexOf(username);
       switch(index) {
          case 3 : case 4:
@@ -90,7 +92,7 @@ public class Game implements ModelObservable{
 
    public PlayerBoard getPlayerBoard(String username) throws InvalidUsernameException {
       try {
-         return playerBoardList.stream().filter(playerBoard -> playerBoard.getUsername().equals(username))
+         return playerBoards.stream().map(Pair::getKey).filter(playerBoard -> playerBoard.getUsername().equals(username))
                  .collect(Collectors.toList()).get(0);
       } catch (IndexOutOfBoundsException e) {
          throw new InvalidUsernameException();
@@ -98,7 +100,28 @@ public class Game implements ModelObservable{
    }
 
    public List<String> getOrderedPlayers() {
-      return this.playerBoardList.stream().map(PlayerBoard::getUsername).collect(Collectors.toList());
+      return this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername).collect(Collectors.toList());
+   }
+
+   public void disconnectPlayer(String username) throws InvalidUsernameException {
+      int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername).collect(Collectors.toList()).indexOf(username);
+      if(index < 0)
+         throw new InvalidUsernameException();
+      this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), false));
+//      this.notifyModelChange(new Message(username, MessageType.PLAYER_DISCONNECTION));
+   }
+
+   public void connectPlayer(String username) throws InvalidUsernameException {
+      int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername).collect(Collectors.toList()).indexOf(username);
+      if(index < 0)
+         throw new InvalidUsernameException();
+      this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), true));
+//      this.notifyModelChange(new Message(username, MessageType.PLAYER_CONNECTION));
+   }
+
+   public boolean isPlayerConnected(String username) throws InvalidUsernameException {
+      return this.playerBoards.stream().filter(i -> i.getKey().getUsername().equals(username))
+              .map(Pair::getValue).findFirst().orElseThrow(InvalidUsernameException::new);
    }
 
    private List<Integer> idLeaderList(List<LeaderCard> leaderList){
@@ -109,6 +132,6 @@ public class Game implements ModelObservable{
    public void notifyModelChange(Message msg) {
       if (controller != null)
          controller.singleUpdate(msg);
-      // !! E' UN SINGLE UPDATE !!
    }
+
 }

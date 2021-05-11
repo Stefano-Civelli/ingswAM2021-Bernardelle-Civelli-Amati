@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller.action;
 
 public enum ActionType {
 
+   PLAYER_DISCONNECTION,
+   PLAYER_RECONNECTION,
    CHOSE_RESOURCES,
    PRODUCE,
    BASE_PRODUCE,

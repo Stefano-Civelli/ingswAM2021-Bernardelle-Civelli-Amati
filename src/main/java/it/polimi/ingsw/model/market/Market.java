@@ -18,10 +18,11 @@ public class Market implements ModelObservable{
 
     private MarketMarble slide;
     private final MarketMarble[][] marbles;
-    private Controller controller = null;
+
+    private transient ModelObserver controller = null;
 
 
-    public Market(Controller controller) {
+    public Market(ModelObserver controller) {
         this.marbles = new MarketMarble[this.N_ROW][this.N_COLUMN];
         try {
             List<MarketMarble> marbles = new ArrayList<>(List.of(
