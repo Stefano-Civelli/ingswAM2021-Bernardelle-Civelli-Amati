@@ -56,10 +56,6 @@ public class TurnManager implements IGameState {
             PhaseType tmpPhase = action.performAction(this);
             if(tmpPhase == null)
                 return null;
-                // notify players that a player connected or disconnected
-//                return new Message(action.getUsername(),
-//                        this.game.isPlayerConnected(action.getUsername())
-//                                ? MessageType.PLAYER_CONNECTION : MessageType.PLAYER_DISCONNECTION);
             this.currentPhase = tmpPhase;
         } catch (InvalidActionException e) {
             System.out.println(e.getMessage());
@@ -121,7 +117,11 @@ public class TurnManager implements IGameState {
                 // This code should never be executed
                 e.printStackTrace();
             }
-            this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
+
+            if(this.game.isFirst(this.currentPlayer))
+                this.currentPhase = PhaseType.INITIAL;
+            else
+                this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
         }
         if(this.currentPhase == PhaseType.END) {
             try {
