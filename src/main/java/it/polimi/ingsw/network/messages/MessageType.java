@@ -35,9 +35,9 @@ public enum MessageType {
   ACTIVATED_LEADERCARD_UPDATE,
   WINNING_PLAYER,
 
-  DECK_SETUP,
-  MARKET_SETUP,
-  LEADERCARD_SETUP,
+  DECK_SETUP(true),
+  MARKET_SETUP(true),
+  LEADERCARD_SETUP(true),
 
   ERROR,
   QUIT,
@@ -47,8 +47,15 @@ public enum MessageType {
   PLAYER_CONNECTION, // a player connected
   PLAYER_DISCONNECTION; // a player disconnected
 
+  private final boolean isSetUp;
 
+  MessageType() {
+    this.isSetUp = false;
+  }
 
+  MessageType(boolean isSetUp) {
+    this.isSetUp = isSetUp;
+  }
 
   public static MessageType fromValue(String value) {
     for (MessageType messageType : values()) {
@@ -59,4 +66,7 @@ public enum MessageType {
     throw new IllegalArgumentException("invalid string value passed: " + value);
   }
 
+  public boolean isSetUp() {
+    return isSetUp;
+  }
 }
