@@ -108,7 +108,6 @@ public class Game implements ModelObservable{
       if(index < 0)
          throw new InvalidUsernameException();
       this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), false));
-//      this.notifyModelChange(new Message(username, MessageType.PLAYER_DISCONNECTION));
    }
 
    public void connectPlayer(String username) throws InvalidUsernameException {
@@ -116,7 +115,6 @@ public class Game implements ModelObservable{
       if(index < 0)
          throw new InvalidUsernameException();
       this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), true));
-//      this.notifyModelChange(new Message(username, MessageType.PLAYER_CONNECTION));
    }
 
    public boolean isPlayerConnected(String username) throws InvalidUsernameException {

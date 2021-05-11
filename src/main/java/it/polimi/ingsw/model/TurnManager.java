@@ -45,12 +45,23 @@ public class TurnManager implements IGameState {
             this.game.addPlayer(username);
     }
 
+    /**
+     * Start game
+     *
+     * @return a list of all the player in order
+     */
     public synchronized List<String> startGame() {
         this.currentPlayer = this.game.startGame();
         this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
         return this.game.getOrderedPlayers();
     }
 
+    /**
+     * Perform an action and change current turn state
+     *
+     * @param action the action to perform
+     * @return a message containing the next turn state or an error
+     */
     public synchronized Message handleAction(Action action) {
         try {
             PhaseType tmpPhase = action.performAction(this);

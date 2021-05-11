@@ -7,7 +7,7 @@ import java.util.List;
 import static it.polimi.ingsw.controller.action.ActionType.*;
 
 /**
- * class that represents possible turn phases.
+ * Enum that represents possible turn phases.
  * Each phase has a list of the valid action during that phase
  */
 public enum PhaseType {
@@ -84,7 +84,8 @@ public enum PhaseType {
    }
 
    /**
-    * returns true if the specified action is valid in this phase
+    * Returns true if the specified action is valid in this phase
+    *
     * @param actionType the action whose validity is to be checked
     * @return true if the action is valid
     */
@@ -92,14 +93,28 @@ public enum PhaseType {
       return this.availableActionsList.contains(actionType);
    }
 
+   /**
+    * Check if the Phase is a initial setup phase (in the first turn of the player)
+    *
+    * @return true if it's a setup phase
+    */
    public boolean isSetup() {
       return this.isSetup;
    }
 
+   /**
+    * Check if the Phase is a temporary phase existing only during some model updates (but never before or after it)
+    *
+    * @return true if it's temporary
+    */
    public boolean isTmp() {
       return this.isTmp;
    }
 
+   /**
+    *
+    * @return an unmodifiable list of all the valid actions during this phase
+    */
    public List<ActionType> getAvailableActions() {
       return Collections.unmodifiableList(this.availableActionsList);
    }
