@@ -2,9 +2,7 @@ package it.polimi.ingsw.view.cli;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.controller.action.BuyDevelopCardAction;
-import it.polimi.ingsw.controller.action.ShopMarketAction;
+import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
@@ -234,6 +232,12 @@ public class Cli implements ViewInterface {
     drawer.marketDisplay();
   }
 
+  //TODO
+  @Override
+  public void displayPlayerTurn(String player) {
+
+  }
+
 
   private void waitForInput() {
     Scanner in = new Scanner(System.in);
@@ -260,10 +264,42 @@ public class Cli implements ViewInterface {
       case "P":
         break;
       case "A": //activate leader card
+
         break;
       case "D": //discard leader card
+        createDiscardLeaderAction();
+        break;
+      case "C":
+        int clientPosition = client.getPlayerTurnPosition();
+        if (clientPosition != 1) {
+          System.out.println("Now you have to choose " + clientPosition / 2 + " resource(s)");
+          createChooseResourcesAction(clientPosition/2);
+        }
         break;
     }
+  }
+
+  private void createChooseResourcesAction(int i) {
+    while(i>0) {
+      //drawer.displayResourcesChoice();
+      System.out.println("Which resource do you want to pick? (index)");
+      int resource = validateIntInput(1, 4);
+      //client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, ));
+      i--;
+    }
+  }
+
+  private void createDiscardLeaderAction() {
+    System.out.println("That's your 4 leader cards: ");
+    //drawer.displayLeaderHand();
+    System.out.println("You can have only 2 of them.\nWhich do you want to discard?");
+    int firstDiscard = validateIntInput(1, 4);
+    client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, new DiscardLeaderAction(client.getUsername(), firstDiscard)));
+    client.getSimplePlayerState().discardLeader(firstDiscard);
+    //drawer.displayLeaderHand();
+    int secondDiscard = validateIntInput(1, 3);
+    client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, new DiscardLeaderAction(client.getUsername(), secondDiscard)));
+    client.getSimplePlayerState().discardLeader(secondDiscard);
   }
 
   private Action createMarketAction() {
@@ -322,5 +358,12 @@ public class Cli implements ViewInterface {
     LeaderCardDeck leaderCardDeck = GSON.getGsonBuilder().fromJson(reader, LeaderCardDeck.class);
     reader.close();
     return leaderCardDeck.getCardFromId(cardId);
+  }
+
+  public void initialPhase() {
+    System.out.println("Welcome to Master Of Reinesance");
+    System.out.println("You have to discard 2 leader cards");
+    handleInput("D");
+    handleInput("C");
   }
 }
