@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.action.ActionType;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import static it.polimi.ingsw.controller.action.ActionType.*;
 
@@ -101,7 +101,7 @@ public enum PhaseType {
    }
 
    public List<ActionType> getAvailableActions() {
-      return new ArrayList<>(this.availableActionsList);
+      return Collections.unmodifiableList(this.availableActionsList);
    }
 
 }
