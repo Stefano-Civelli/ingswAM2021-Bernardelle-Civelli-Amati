@@ -13,6 +13,8 @@ import java.util.Map;
 
 public class ChooseResourcesAction extends Action {
 
+    // TODO controllare che funziona se arriva vuota per il primo player
+
     private Map<ResourceType, Integer> resources = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization

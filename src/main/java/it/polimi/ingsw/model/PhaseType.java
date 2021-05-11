@@ -14,25 +14,58 @@ public enum PhaseType {
 
    SETUP_CHOOSERESOURCES(List.of(CHOSE_RESOURCES), true),
    SETUP_DISCARDLEADER(List.of(DISCARD_LEADER), true),
-   END_SETUP(List.of()),
+   END_SETUP(true,true),
    INITIAL(List.of(PRODUCE, BASE_PRODUCE, LEADER_PRODUCE, SHOP_MARKET, BUY_CARD, DISCARD_LEADER, ACTIVATE_LEADER)),
    SHOPPING(List.of(INSERT_MARBLE)),
    SHOPPING_LEADER(List.of(CHOOSE_WHITE_LEADER)),
    PRODUCING(List.of(PRODUCE, BASE_PRODUCE, LEADER_PRODUCE, DISCARD_LEADER, ACTIVATE_LEADER, END_TURN)),
    FINAL(List.of(DISCARD_LEADER, ACTIVATE_LEADER, END_TURN)),
-   END(List.of());
+   END(true);
 
+   private final boolean isTmp;
    private final List<ActionType> availableActionsList;
-   private final boolean setup;
+   private final boolean isSetup;
 
-   PhaseType(List<ActionType> l){
-      this.availableActionsList = l;
-      this.setup = false;
+   PhaseType() {
+      this.isTmp = false;
+      this.availableActionsList = List.of();
+      this.isSetup = false;
    }
 
-   PhaseType(List<ActionType> l, boolean setup) {
+   PhaseType(boolean isTmp) {
+      this.isTmp = isTmp;
+      this.availableActionsList = List.of();
+      this.isSetup = false;
+   }
+
+   PhaseType(boolean isTmp, boolean isSetup) {
+      this.isTmp = isTmp;
+      this.availableActionsList = List.of();
+      this.isSetup = isSetup;
+   }
+
+   PhaseType(List<ActionType> l){
+      this.isTmp = false;
       this.availableActionsList = l;
-      this.setup = setup;
+      this.isSetup = false;
+   }
+
+   PhaseType(boolean isTmp, List<ActionType> l){
+      this.isTmp = isTmp;
+      this.availableActionsList = l;
+      this.isSetup = false;
+   }
+
+   PhaseType(List<ActionType> l, boolean isSetup) {
+      this.isTmp = false;
+      this.availableActionsList = l;
+      this.isSetup = isSetup;
+   }
+
+   PhaseType(boolean isTmp, List<ActionType> l, boolean isSetup) {
+      this.isTmp = isTmp;
+      this.availableActionsList = l;
+      this.isSetup = isSetup;
    }
 
    /**
@@ -60,7 +93,11 @@ public enum PhaseType {
    }
 
    public boolean isSetup() {
-      return setup;
+      return this.isSetup;
+   }
+
+   public boolean isTmp() {
+      return this.isTmp;
    }
 
    public List<ActionType> getAvailableActions() {

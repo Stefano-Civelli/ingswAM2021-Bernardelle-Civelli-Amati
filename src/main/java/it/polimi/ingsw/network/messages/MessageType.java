@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.messages;
 
-import it.polimi.ingsw.model.DevelopCardColor;
-
 //fare attenzione perché per la CLI posso printare con lo stesso tipo (ad esempio LOGIN_FAILED) cose diverse (grazie al payload), pensare se puó essere fatto anche con GUI
 public enum MessageType {
 
@@ -35,9 +33,9 @@ public enum MessageType {
   ACTIVATED_LEADERCARD_UPDATE,
   WINNING_PLAYER,
 
-  DECK_SETUP,
-  MARKET_SETUP,
-  LEADERCARD_SETUP,
+  DECK_SETUP(true),
+  MARKET_SETUP(true),
+  LEADERCARD_SETUP(true),
 
   ERROR,
   QUIT,
@@ -47,9 +45,22 @@ public enum MessageType {
   PLAYER_CONNECTION, // a player connected
   PLAYER_DISCONNECTION; // a player disconnected
 
+  private final boolean isSetup;
 
+  MessageType() {
+    this.isSetup = false;
+  }
 
+  MessageType(boolean isSetup) {
+    this.isSetup = isSetup;
+  }
 
+  /**
+   * static factory method that constructs enum by string
+   *
+   * @param value string to create the enum
+   * @return a new enumeration
+   */
   public static MessageType fromValue(String value) {
     for (MessageType messageType : values()) {
       if (messageType.name().equals(value)) {
@@ -59,4 +70,7 @@ public enum MessageType {
     throw new IllegalArgumentException("invalid string value passed: " + value);
   }
 
+  public boolean isSetup() {
+    return this.isSetup;
+  }
 }

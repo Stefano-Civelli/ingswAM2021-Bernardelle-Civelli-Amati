@@ -124,6 +124,10 @@ public class Game implements ModelObservable{
               .map(Pair::getValue).findFirst().orElseThrow(InvalidUsernameException::new);
    }
 
+   public boolean isFirst(String username) {
+      return this.playerBoards.get(0).getKey().getUsername().equals(username);
+   }
+
    private List<Integer> idLeaderList(List<LeaderCard> leaderList){
       return leaderList.stream().map(LeaderCard::getLeaderId).collect(Collectors.toList());
    }
