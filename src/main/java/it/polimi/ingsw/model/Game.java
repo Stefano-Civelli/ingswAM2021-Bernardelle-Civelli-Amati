@@ -110,11 +110,12 @@ public class Game implements ModelObservable{
       this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), false));
    }
 
-   public void connectPlayer(String username) throws InvalidUsernameException {
+   public void reconnectPlayer(String username) throws InvalidUsernameException {
       int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername).collect(Collectors.toList()).indexOf(username);
       if(index < 0)
          throw new InvalidUsernameException();
       this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), true));
+      // TODO fare tutti gli update per mandare al player il modello
    }
 
    public boolean isPlayerConnected(String username) throws InvalidUsernameException {
