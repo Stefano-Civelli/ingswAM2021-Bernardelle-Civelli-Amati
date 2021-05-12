@@ -257,11 +257,11 @@ public class Cli implements ViewInterface {
         Action buyCardAction = createBuyCardAction();
         client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, buyCardAction));
         break;
-      case "M":
+      case "S":
         Action marketAction = createMarketAction();
         client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, marketAction));
         break;
-      case "P":
+      case "P": //produce
         break;
       case "A": //activate leader card
 

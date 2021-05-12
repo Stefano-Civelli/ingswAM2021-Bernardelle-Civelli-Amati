@@ -266,7 +266,7 @@ public class Client {
 
   //TODO migliorarla
   public int getPlayerTurnPosition(){
-    int i = 0;
+    int i = 1;
     for(Map.Entry<String, SimplePlayerState> entry : simplePlayerStateMap.entrySet()){
       if(entry.getKey().equals(username))
         return i;

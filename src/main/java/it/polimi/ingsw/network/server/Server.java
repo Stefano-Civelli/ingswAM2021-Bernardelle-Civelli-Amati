@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.action.PlayerDisconnectionAction;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.ModelObserver;
@@ -370,7 +371,7 @@ public class Server {
 
       if(disconnectedClient.isLogged()) {
          sendBroadcast(new Message(disconnectedClient.getUsername(), MessageType.DISCONNECTED)); //non serve
-         //turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
+         turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
       }
 
       disconnectedClient.closeSocket();
