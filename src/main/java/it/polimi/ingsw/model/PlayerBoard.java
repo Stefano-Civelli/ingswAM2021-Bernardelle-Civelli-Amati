@@ -1,13 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.model.track.Track;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
