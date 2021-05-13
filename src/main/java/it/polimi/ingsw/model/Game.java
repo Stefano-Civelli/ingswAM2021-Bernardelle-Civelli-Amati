@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Game implements ModelObservable{
+public class Game implements ModelObservable {
 
    private final LeaderCardDeck leaderCardDeck;
    private final Market market;

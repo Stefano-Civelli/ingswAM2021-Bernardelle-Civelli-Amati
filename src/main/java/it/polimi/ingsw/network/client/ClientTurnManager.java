@@ -4,8 +4,6 @@ import it.polimi.ingsw.controller.action.ActionType;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.view.cli.Color;
 
-import java.util.List;
-
 public class ClientTurnManager {
   private Client client;
   private PhaseType currentPhase;
@@ -19,7 +17,7 @@ public class ClientTurnManager {
       else
         System.out.println("You can: ");
       switch (p) {
-        case CHOSE_RESOURCES:
+        case SETUP_CHOOSE_RESOURCES:
           if(client.getPlayerTurnPosition()!=1)
             System.out.print("choose " + client.getPlayerTurnPosition()/2 + " resource(s) to add");
           break;
