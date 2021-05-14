@@ -387,6 +387,36 @@ public class Cli implements ViewInterface {
     return new BuyDevelopCardAction(row, column, cardSlot);
   }
 
+  private Action createProduceAction(){
+    System.out.println("Choose a develop card you want to activate production on.");
+    int index = validateIntInput(0, 3);
+    if(index == 0 && client.getSimplePlayerState().isBaseProductionActivatable()) {
+      ResourceType consumed1, consumed2;
+      int produced;
+      Map<ResourceType, Integer> throwableResources = client.getSimplePlayerState().throwableResources();
+
+      System.out.println("This are the resources u can exchange:");
+      drawer.drawTotalResourcesChoice(client.getUsername());
+      System.out.println("Choose the first resource");
+      //validazione
+      consumed1 = validateInputForResources(throwableResources);
+      throwableResources.put(consumed1, throwableResources.get(consumed1) == 1 ?
+              throwableResources.remove(consumed1) : throwableResources.get(consumed1)-1);
+      System.out.println("Choose the second resource");
+      //validazione
+      consumed2 = validateInputForResources(throwableResources);
+
+      System.out.println("choose the resource to produce");
+      drawer.displayResourcesChoice();
+      produced = validateIntInput(0, 4);
+      return new BaseProductionAction(consumed1, consumed2, parsIntToResource(produced));
+    }
+    else if(index>0)
+      return new ProductionAction(index);
+    else
+      System.out.println("you don't have enough exchangeable resources to activate base production");
+    return null;
+  }
 
   private static String stringInputValidation(Scanner in, String a, String b) {
     String input;
@@ -404,19 +434,25 @@ public class Cli implements ViewInterface {
     drawer.displayPlainCanvas();
   }
 
-  public static DevelopCard getDevelopCardFromId(int cardId) throws IOException, InvalidCardException {
-    FileInputStream inputStream = new FileInputStream(ConfigParameters.cardConfigFile);
-    InputStreamReader reader = new InputStreamReader(inputStream);
-    DevelopCardDeck developCardDeck = GSON.getGsonBuilder().fromJson(reader, DevelopCardDeck.class);
-    reader.close();
+  public static DevelopCard getDevelopCardFromId(int cardId) throws InvalidCardException {
+    DevelopCardDeck developCardDeck = null;
+    try {
+      FileInputStream inputStream = new FileInputStream(ConfigParameters.cardConfigFile);
+      InputStreamReader reader = new InputStreamReader(inputStream);
+      developCardDeck = GSON.getGsonBuilder().fromJson(reader, DevelopCardDeck.class);
+      reader.close();
+    }catch (IOException e){}
     return developCardDeck.getCardFromId(cardId);
   }
 
-  public static LeaderCard getLeaderCardFromId(int cardId) throws IOException, InvalidCardException {
-    FileInputStream inputStream = new FileInputStream(ConfigParameters.cardConfigFile);
-    InputStreamReader reader = new InputStreamReader(inputStream);
-    LeaderCardDeck leaderCardDeck = GSON.getGsonBuilder().fromJson(reader, LeaderCardDeck.class);
-    reader.close();
+  public static LeaderCard getLeaderCardFromId(int cardId) throws InvalidCardException {
+    LeaderCardDeck leaderCardDeck = null;
+    try {
+      FileInputStream inputStream = new FileInputStream(ConfigParameters.cardConfigFile);
+      InputStreamReader reader = new InputStreamReader(inputStream);
+      leaderCardDeck = GSON.getGsonBuilder().fromJson(reader, LeaderCardDeck.class);
+      reader.close();
+    }catch (IOException e){}
     return leaderCardDeck.getCardFromId(cardId);
   }
 

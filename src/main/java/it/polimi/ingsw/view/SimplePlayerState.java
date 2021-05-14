@@ -176,6 +176,7 @@ public class SimplePlayerState implements SimpleStateObservable{
    public void activatedLeaderUpdate(String payload){
    }
 
+
    public List<Integer> getLeaderCards() {
       return leaderCards;
    }
