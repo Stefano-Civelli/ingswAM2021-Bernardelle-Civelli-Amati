@@ -188,7 +188,7 @@ public class Server {
    }
 
    private void start() {
-      Game game = null;
+      Game game = null; //TODO sarebbe merglio avere solo controller qua
       List<String> playersInOrder = null;
       boolean singlePlayer = (playersNumber == 1);
       Controller controller = new Controller(this);

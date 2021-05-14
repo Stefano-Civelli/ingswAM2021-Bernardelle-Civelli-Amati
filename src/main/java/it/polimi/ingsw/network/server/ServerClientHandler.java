@@ -137,14 +137,13 @@ public class ServerClientHandler implements Runnable {
     *
     * @param message message to be sent
     */
-   protected void sendMessage(Message message) {
+   protected synchronized void sendMessage(Message message) {
       if(!connected)
          return;
       String jsonMessage = GSON.getGsonBuilder().toJson(message);
       jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
       out.println(jsonMessage);
       out.flush();
-
    }
 
 
@@ -162,10 +161,11 @@ public class ServerClientHandler implements Runnable {
       {
          while(connected){
             Message messageToSend = new Message(MessageType.PING);
-            String jsonMessage = GSON.getGsonBuilder().toJson(messageToSend);
-            jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
-            out.println(jsonMessage);
-            out.flush();
+//            String jsonMessage = GSON.getGsonBuilder().toJson(messageToSend);
+//            jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
+            sendMessage(messageToSend);
+//            out.println(jsonMessage);
+//            out.flush();
             try {
                Thread.sleep(ConfigParameters.CLIENT_TIMEOUT);
             } catch (InterruptedException e) {
