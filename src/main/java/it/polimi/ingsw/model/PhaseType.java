@@ -22,6 +22,7 @@ public enum PhaseType {
    FINAL(List.of(DISCARD_LEADER, ACTIVATE_LEADER, END_TURN)),
    END(true);
 
+
    private final boolean isTmp;
    private final List<ActionType> availableActionsList;
    private final boolean isSetup;
