@@ -103,9 +103,9 @@ public class Game implements ModelObservable {
       int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername)
               .collect(Collectors.toList()).indexOf(username);
       switch(index) {
-         case 2 : case 3:
+         case 1 : case 2:
             return 1;
-         case 4:
+         case 3:
             return 2;
       }
       return 0;

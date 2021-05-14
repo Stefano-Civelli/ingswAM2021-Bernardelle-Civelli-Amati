@@ -37,9 +37,6 @@ public class SimplePlayerState implements SimpleStateObservable{
       this.tempChest = new HashMap<>();
       this.warehouseLevels = new Pair[this.NUMBER_OF_NORMAL_LEVELS];
 
-      for (int i=0; i<NUMBER_OF_NORMAL_LEVELS; i++)
-         this.warehouseLevels[i] = new Pair<>(null, null);
-
       this.leaderLevels = new ArrayList<>(this.MAX_SPECIAL_LEVELS);
       for (int i=0; i<MAX_SPECIAL_LEVELS; i++)
          this.leaderLevels.add(new Pair<>(null, null));
@@ -72,22 +69,29 @@ public class SimplePlayerState implements SimpleStateObservable{
          for (int i = 0; i < warehouseLevels.length; i++) {
             Pair<ResourceType, Integer> level = warehouseLevels[i];
 
-            if (level.getKey().equals(resource)) {
-               if (level.equals(update.getLevel())) {
-                  level = new Pair<>(resource, update.getQuantity());
-                  return;
-               } else {
-                  Pair<ResourceType, Integer> temp = new Pair<>(warehouseLevels[update.getLevel()].getKey(), warehouseLevels[update.getLevel()].getValue());
-                  warehouseLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
-                  level = new Pair<>(temp.getKey(), temp.getValue());
-                  return;
+            if (level != null) {
+               if (level.getKey().equals(resource)) {
+                  if (level.equals(update.getLevel())) {
+                     level = new Pair<>(resource, update.getQuantity());
+                     return;
+                  } else {
+                     if(warehouseLevels[update.getLevel()] == null) {
+                        warehouseLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
+                        level = null;
+                        return;
+                     }
+                     Pair<ResourceType, Integer> temp = new Pair<>(warehouseLevels[update.getLevel()].getKey(), warehouseLevels[update.getLevel()].getValue());
+                     warehouseLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
+                     level = new Pair<>(temp.getKey(), temp.getValue());
+                     return;
+                  }
                }
             }
          }
          //se non presente creo
          warehouseLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
       }
-      else //leader cards
+      else //TODO modificare come fatto sopra
          for (int i = 0; i < leaderLevels.size(); i++) {
             Pair<ResourceType, Integer> level = leaderLevels.get(i);
 
@@ -180,5 +184,39 @@ public class SimplePlayerState implements SimpleStateObservable{
    public void notifyStateChange() {
       //observerList.stream().forEach(x -> x.fai la display della canvas del player che ha cambiato stato (cioè this playerstate));
 
+   }
+
+   public boolean isBaseProductionActivatable() {
+      boolean isvalid = false;
+      int quantity = 0;
+      for(Map.Entry<ResourceType, Integer> entry : chest.entrySet())
+         quantity = entry.getValue();
+      for(Pair<ResourceType, Integer> p : warehouseLevels) {
+         if(p.getValue()!=null)
+         quantity = p.getValue();
+      }
+      for(Pair<ResourceType, Integer> p : leaderLevels) {
+         if(p.getValue()!=null)
+            quantity = p.getValue();
+      }
+      if(quantity>1)
+         isvalid = true;
+      return isvalid;
+   }
+
+   public Map<ResourceType, Integer> throwableResources() {
+      Map<ResourceType, Integer> resources = new HashMap<>();
+      for(Map.Entry<ResourceType, Integer> entry : chest.entrySet())
+         resources.put(entry.getKey(), entry.getValue());
+      for(Pair<ResourceType, Integer> p : warehouseLevels) {
+         if(p.getValue()!=null)
+            resources.put(p.getKey(), resources.containsKey(p.getKey()) ? resources.get(p.getKey()) + p.getValue() : p.getValue());
+      }
+      for(Pair<ResourceType, Integer> p : leaderLevels) {
+         if(p.getValue()!=null)
+            resources.put(p.getKey(), resources.containsKey(p.getKey()) ? resources.get(p.getKey()) + p.getValue() : p.getValue());
+      }
+
+      return resources;
    }
 }
