@@ -11,24 +11,24 @@ import it.polimi.ingsw.model.modelexceptions.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChooseResourcesAction extends Action {
+public class ChooseInitialResourcesAction extends Action {
 
     // TODO controllare che funziona se arriva vuota per il primo player
 
     private Map<ResourceType, Integer> resources = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
-    private ChooseResourcesAction() {
-        super(ActionType.CHOOSE_WHITE_LEADER);
+    private ChooseInitialResourcesAction() {
+        super(ActionType.SETUP_CHOOSE_RESOURCES);
     }
 
-    public ChooseResourcesAction(Map<ResourceType, Integer> resources) {
-        super(ActionType.CHOOSE_WHITE_LEADER);
+    public ChooseInitialResourcesAction(Map<ResourceType, Integer> resources) {
+        super(ActionType.SETUP_CHOOSE_RESOURCES);
         this.resources = new HashMap<>(resources);
     }
 
-    public ChooseResourcesAction(String username, Map<ResourceType, Integer> resources) {
-        super(ActionType.CHOOSE_WHITE_LEADER, username);
+    public ChooseInitialResourcesAction(String username, Map<ResourceType, Integer> resources) {
+        super(ActionType.SETUP_CHOOSE_RESOURCES, username);
         this.resources = resources;
     }
 
@@ -67,11 +67,11 @@ public class ChooseResourcesAction extends Action {
         for(ResourceType resource: this.resources.keySet())
             for(int i = 0; i < this.resources.get(resource); i++)
                 gameState.getGame().getPlayerBoard(super.getUsername()).getWarehouse().addResource(resource);
-        return PhaseType.SETUP_DISCARDLEADER;
+        return PhaseType.SETUP_DISCARDING_LEADERS;
     }
 
     private boolean isActionAllowed(IGameState gameState) {
-        return gameState.getCurrentPhase().isValid(ActionType.CHOSE_RESOURCES);
+        return gameState.getCurrentPhase().isValid(ActionType.SETUP_CHOOSE_RESOURCES);
     }
 
     private boolean isActionValid() {

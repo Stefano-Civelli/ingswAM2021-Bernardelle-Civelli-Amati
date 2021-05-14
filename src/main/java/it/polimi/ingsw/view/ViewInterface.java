@@ -25,4 +25,5 @@ public interface ViewInterface {
   public void displayRecievedLeadercards();
   public void displayMarket();
   public void displayPlayerTurn(String player);
+  public void displayYourTurn(String username);
 }

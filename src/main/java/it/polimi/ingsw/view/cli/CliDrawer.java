@@ -1,14 +1,15 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.MarbleColor;
+import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.SimpleStateObserver;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class CliDrawer implements SimpleStateObserver {
@@ -25,6 +26,7 @@ public class CliDrawer implements SimpleStateObserver {
   private final String[][] canvas;
 
   private SimpleGameState gameState;
+  //TODO usare quella nel clientr di cui ho il rifwerimento
   private Map<String, SimplePlayerState> playerState;
 
   public CliDrawer(SimpleGameState gameState, Map<String, SimplePlayerState> playerState) {
@@ -53,19 +55,82 @@ public class CliDrawer implements SimpleStateObserver {
     displayCanvas();
   }
 
-  //TODO finire con margin e slide
   public void marketDisplay() {
-//    MarbleColor[][] market = gameState.getMarket();
-//    for(int i=0; i<market.length; i++) {
-//      for (int j = 0; j < market[i].length; j++)
-//        System.out.print(market[i][j] + " " + Color.RESET.escape());
-//      System.out.println();
-//    }
     clearCanvas();
-    placeHereOnCanvas(0,0, buildAndSetMarket());
-    displayCanvas();
+    String[][] market = buildAndSetMarket();
+    for(int i=0; i<market.length; i++)
+      for(int j=0; j<market[i].length; j++)
+        System.out.println(market[i][j]);
   }
 
+  //TODO
+  public void displayLeaderHand(String username) {
+    //for (Integer l : playerState.get(username).getLeaderCards()) {
+        //System.out.print(l.intValue() + " ");
+    System.out.print(playerState.get(username).getLeaderCards());
+
+    System.out.println();
+    System.out.println("1 2 3 4");
+      //buildLeaderHand();
+    //}
+  }
+
+  public void displayResourcesChoice() {
+    String[][] marbles = new String[2][8];
+
+    for(int i=0; i<marbles.length; i++)
+      for(int j=0; j<marbles[i].length; j++)
+        marbles[i][j] = " ";
+
+    marbles[0][0] = MarbleColor.BLUE.toString();
+    marbles[0][2] = MarbleColor.PURPLE.toString();
+    marbles[0][4] = MarbleColor.YELLOW.toString();
+    marbles[0][6] = MarbleColor.GREY.toString();
+
+    int a=1;
+    for(int c=0; c<marbles[0].length; c++)
+      if(c%2==0) {
+        marbles[1][c] = Integer.toString(a);
+        a++;
+      }
+
+    for(int i=0; i<marbles.length; i++) {
+      for (int j = 0; j < marbles[i].length; j++)
+        System.out.print(marbles[i][j]);
+    System.out.println();
+    }
+  }
+
+  public void drawTotalResourcesChoice(String username) {
+    String[][] resources = new String[8][2];
+    int row=0, col=0;
+    for(int i=0; i<resources.length; i++)
+      for(int j=0; j<resources[i].length; j++)
+        resources[i][j] = " ";
+
+    for(Map.Entry<ResourceType, Integer> entry : playerState.get(username).throwableResources().entrySet()) {
+      resources[row][col] = entry.getKey().toString();
+      switch (entry.getKey()) {
+        case GOLD:
+          resources[row+1][col] = "Y";
+          break;
+        case SERVANT:
+          resources[row+1][col] = "P";
+          break;
+        case STONE:
+          resources[row+1][col] = "G";
+          break;
+        case SHIELD:
+          resources[row+1][col] = "B";
+          break;
+      }
+      col += 2;
+    }
+
+    for(int i=0; i<resources.length; i++)
+      for(int j=0; j<resources[i].length; j++)
+        System.out.println(resources[i][j]);
+  }
 
 
 
@@ -316,7 +381,7 @@ public class CliDrawer implements SimpleStateObserver {
     trackAndVatican[2][6*3+2] = "┘";
 
 
-    placeHereOnCanvas(2, 3, trackAndVatican);
+    placeHereOnCanvas(2, 40, trackAndVatican);
   }
 
   private String[][] skeletonTrack() {

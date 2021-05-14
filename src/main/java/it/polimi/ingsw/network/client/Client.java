@@ -10,7 +10,6 @@ import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
-import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.ViewInterface;
@@ -18,7 +17,6 @@ import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.CliDrawer;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.*;
 
@@ -56,6 +54,8 @@ public class Client {
       Client client = new Client();
       Cli view = new Cli(client, new CliDrawer(client.simpleGameState, client.simplePlayerStateMap));
       client.setView(view);
+      client.turnManager = new ClientTurnManager(client, view);
+      view.setClientTurnManager(client.turnManager);
       view.displaySetup();
       client.connectToServer(); //TODO questa posso farla eseguire al thread. poi tolgo l'altro thread che non serve più
       //TODO chiamo la waitforinput che ha il whiletrue
@@ -66,7 +66,6 @@ public class Client {
   public Client() {
     this.simpleGameState = new SimpleGameState();
     this.simplePlayerStateMap = new LinkedHashMap<>();
-    this.turnManager = new ClientTurnManager();
   }
 
   public void setView(ViewInterface view) {
@@ -136,16 +135,20 @@ public class Client {
       case GAME_STARTED:
         handleGameStarted(msg);
         view.displayGameStarted();
-        //TODO gestire le risorse in base alla posizione del player nell'array
+        if(username.equals(turnManager.getCurrentPlayer()))
+          turnManager.handleNextPossiblePhases();
+        else
+          view.displayPlayerTurn(msg.getUsername());
         break;
       case NEXT_TURN_STATE:
+        System.out.println(msg.getPayload());
         handleTurnState(msg.getPayload());
         //view.displayEndTurn();
         break;
       case LEADERCARD_SETUP:
         SimplePlayerState playerState = new SimplePlayerState();
+        //System.out.println(msg.getPayload());
         this.simplePlayerStateMap.put(msg.getUsername(), playerState);
-        System.out.println(msg.getPayload());
         playerState.setupLeaderCard(msg.getPayload());
         view.displayRecievedLeadercards();
         break;
@@ -185,19 +188,32 @@ public class Client {
 
   private void handleGameStarted(Message message) {
     ArrayList<String> players = GSON.getGsonBuilder().fromJson(message.getPayload(), ArrayList.class);
-    for(String s : players)
-      if(s != this.username)
-      this.simplePlayerStateMap.put(s, new SimplePlayerState()); //the array is ordered to give the right amount of resouces to each player
+    SimplePlayerState currentPlayerState = getSimplePlayerState();
+
+    this.simplePlayerStateMap = new LinkedHashMap<>();
+
+    for(String s : players) {
+      if (s.equals(this.username))
+        this.simplePlayerStateMap.put(s, currentPlayerState);
+      else
+        this.simplePlayerStateMap.put(s, new SimplePlayerState()); //the array is ordered to give the right amount of resouces to each player
+    }
+
+    turnManager.setCurrentPlayer((String) this.simplePlayerStateMap.keySet().toArray()[0]);
   }
 
   private void handleTurnState(String payload) {
     TurnManager.TurnState newState = GSON.getGsonBuilder().fromJson(payload, TurnManager.TurnState.class);
-    turnManager.newCurrentPlayer(newState.getPlayer());
     turnManager.newPhase(newState.getPhase());
-    if(!username.equals(newState.getPlayer()) && !newState.getPlayer().equals(turnManager.getCurrentPlayer()))
+    if(!username.equals(newState.getPlayer()) && !newState.getPlayer().equals(turnManager.getCurrentPlayer())) {
       view.displayPlayerTurn(newState.getPlayer());
-    else
+      turnManager.newCurrentPlayer(newState.getPlayer());
+    }
+    else if(username.equals(newState.getPlayer())) {
+      view.displayYourTurn(username);
+      turnManager.newCurrentPlayer(newState.getPlayer());
       turnManager.handleNextPossiblePhases();
+    }
   }
 
   private void handleError(ErrorType errorType) {

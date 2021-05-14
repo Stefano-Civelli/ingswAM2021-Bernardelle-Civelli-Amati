@@ -98,7 +98,7 @@ public class Chest implements ModelObservable{
    * makes newly added resources available for removal
    */
   public void endOfTurnMapsMerge(){
-    for(Map.Entry<ResourceType, Integer> entry : tempResourcesMap.entrySet()){
+    for(Map.Entry<ResourceType, Integer> entry : tempResourcesMap.entrySet()) {
         resources.put(entry.getKey(), resources.containsKey(entry.getKey()) ? resources.get(entry.getKey()) + entry.getValue() : entry.getValue());
     }
     this.tempResourcesMap.clear();

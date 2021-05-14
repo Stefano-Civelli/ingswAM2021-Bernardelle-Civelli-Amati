@@ -79,7 +79,10 @@ public class GSON{
               .registerSubtype(DiscardLeaderAction.class, "DISCARD_LEADER")
               .registerSubtype(LeaderProductionAction.class, "LEADER_PRODUCE")
               .registerSubtype(ProductionAction.class, "PRODUCE")
-              .registerSubtype(ShopMarketAction.class, "SHOP_MARKET");
+              .registerSubtype(ShopMarketAction.class, "SHOP_MARKET")
+              .registerSubtype(ChooseInitialResourcesAction.class, "SETUP_CHOOSE_RESOURCES")
+              .registerSubtype(ChooseLeaderOnWhiteMarbleAction.class, "CHOOSE_WHITE_LEADER")
+              .registerSubtype(DiscardInitialLeaderAction.class, "SETUP_DISCARD_LEADERS");
       //man mano che si aggiungono sottoclassi di Action registarle anche qui
 
       GsonBuilder builder = new GsonBuilder()

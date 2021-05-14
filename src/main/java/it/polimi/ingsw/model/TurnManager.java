@@ -39,7 +39,7 @@ public class TurnManager implements IGameState {
     private PhaseType currentPhase = null;
     private final Game game;
 
-    public TurnManager(Game game, List<String> usernames) throws IOException {
+    public TurnManager(Game game, List<String> usernames) throws IOException, MaximumNumberOfPlayersException {
         this.game = game;
         for(String username : usernames)
             this.game.addPlayer(username);
@@ -52,7 +52,7 @@ public class TurnManager implements IGameState {
      */
     public synchronized List<String> startGame() {
         this.currentPlayer = this.game.startGame();
-        this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
+        this.currentPhase = PhaseType.SETUP_CHOOSING_RESOURCES;
         return this.game.getOrderedPlayers();
     }
 
@@ -132,7 +132,7 @@ public class TurnManager implements IGameState {
             if(this.game.isFirst(this.currentPlayer))
                 this.currentPhase = PhaseType.INITIAL;
             else
-                this.currentPhase = PhaseType.SETUP_CHOOSERESOURCES;
+                this.currentPhase = PhaseType.SETUP_CHOOSING_RESOURCES;
         }
         if(this.currentPhase == PhaseType.END) {
             try {

@@ -39,7 +39,7 @@ public class EndTurnAction extends Action {
         if(!this.isActionAllowed(gameState))
             throw new NotAllowedActionException();
         gameState.getGame().getPlayerBoard(super.getUsername()).enterFinalTurnPhase();
-        return gameState.getCurrentPhase() == PhaseType.SETUP_DISCARDLEADER ? PhaseType.END_SETUP : PhaseType.END;
+        return gameState.getCurrentPhase() == PhaseType.SETUP_DISCARDING_LEADERS ? PhaseType.END_SETUP : PhaseType.END;
     }
 
     private boolean isActionAllowed(IGameState gameState) {

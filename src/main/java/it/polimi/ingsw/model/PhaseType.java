@@ -12,8 +12,8 @@ import static it.polimi.ingsw.controller.action.ActionType.*;
  */
 public enum PhaseType {
 
-   SETUP_CHOOSERESOURCES(List.of(CHOSE_RESOURCES), true),
-   SETUP_DISCARDLEADER(List.of(DISCARD_LEADER), true),
+   SETUP_CHOOSING_RESOURCES(List.of(SETUP_CHOOSE_RESOURCES), true),
+   SETUP_DISCARDING_LEADERS(List.of(SETUP_DISCARD_LEADERS), true),
    END_SETUP(true,true),
    INITIAL(List.of(PRODUCE, BASE_PRODUCE, LEADER_PRODUCE, SHOP_MARKET, BUY_CARD, DISCARD_LEADER, ACTIVATE_LEADER)),
    SHOPPING(List.of(INSERT_MARBLE)),
@@ -21,6 +21,7 @@ public enum PhaseType {
    PRODUCING(List.of(PRODUCE, BASE_PRODUCE, LEADER_PRODUCE, DISCARD_LEADER, ACTIVATE_LEADER, END_TURN)),
    FINAL(List.of(DISCARD_LEADER, ACTIVATE_LEADER, END_TURN)),
    END(true);
+
 
    private final boolean isTmp;
    private final List<ActionType> availableActionsList;

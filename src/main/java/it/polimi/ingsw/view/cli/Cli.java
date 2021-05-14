@@ -5,10 +5,13 @@ import com.google.gson.JsonParser;
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.DevelopCardDeck;
+
+import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.client.ClientTurnManager;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
@@ -31,6 +34,7 @@ public class Cli implements ViewInterface {
   private int playersJoinedTheLobby = 0;
   private int countDown = ConfigParameters.countDown;
   private CliDrawer drawer;
+  private ClientTurnManager clientTurnManager;
 
   /**
    * Constructor
@@ -75,36 +79,8 @@ public class Cli implements ViewInterface {
     client.setServerPort(port);
   }
 
-  private static boolean isValidIp(String input) {
-    Pattern p = Pattern.compile("^"
-            + "(((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}" // Domain name
-            + "|"
-            + "localhost" // localhost
-            + "|"
-            + "((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?))$"); // Ip
-
-    return p.matcher(input).matches();
-  }
-
-  private int validateIntInput(int minValue, int maxValue) {
-    int output;
-    try {
-      output = in.nextInt();
-    } catch (InputMismatchException e) {
-      output = minValue - 1;
-      in.nextLine();
-    }
-    while (output > maxValue || output < minValue) {
-      System.out.println("Value must be between " + minValue + " and " + maxValue + ". Please, try again:");
-      try {
-        output = in.nextInt();
-      } catch (InputMismatchException e) {
-        output = minValue - 1;
-        in.nextLine();
-      }
-    }
-    in.nextLine();
-    return output;
+  public void setClientTurnManager(ClientTurnManager clientTurnManager) {
+    this.clientTurnManager = clientTurnManager;
   }
 
   @Override
@@ -191,6 +167,10 @@ public class Cli implements ViewInterface {
       displayLogin();
   }
 
+  public void displayMarbleChoice() {
+    drawer.displayResourcesChoice();
+  }
+
   @Override
   public void displayServerDown() {
     out.println("Disconnected");
@@ -216,8 +196,8 @@ public class Cli implements ViewInterface {
     for(String s: otherUsernames)
       System.out.println("-" + s);
 
-    clearScreen();
-    drawer.displayDefaultCanvas(client.getUsername());
+    //clearScreen();
+    //drawer.displayDefaultCanvas(client.getUsername());
     waitForInput();
   }
 
@@ -235,23 +215,50 @@ public class Cli implements ViewInterface {
   //TODO
   @Override
   public void displayPlayerTurn(String player) {
-
+    System.out.println("It's " + clientTurnManager.getCurrentPlayer() + "'s turn.");
   }
 
+  @Override
+  public void displayYourTurn(String username) {
+    System.out.println("It's your turn.");
+  }
 
   private void waitForInput() {
+
     Scanner in = new Scanner(System.in);
     Runnable threadInputTerminal = () -> {
-      while(true){
+      while (true) {
         String line = in.nextLine();
-        handleInput(line);
-      }};
+        if(clientTurnManager.getCurrentPhase().isSetup() && client.getUsername().equals(clientTurnManager.getCurrentPlayer())) {
+          switch (clientTurnManager.getCurrentPhase()) {
+            case SETUP_DISCARDING_LEADERS:
+              createInitialDiscardLeaderAction(line);
+              break;
+            case SETUP_CHOOSING_RESOURCES:
+              createChooseResourcesAction(line);
+              break;
+          }
+        }
+        else {
+          if (!client.getUsername().equals(clientTurnManager.getCurrentPlayer()))
+            System.out.println("It's " + clientTurnManager.getCurrentPlayer() + "'s turn. Wait yours ...");
+          else {
+            if (clientTurnManager.validateInput(line))
+              handleInput(line);
+            else {
+              System.out.println("Command you gave me is not allowed in this phase of the game or doesn't exists");
+              clientTurnManager.handleNextPossiblePhases();
+            }
+          }
+        }
+      }
+    };
     new Thread(threadInputTerminal).start();
   }
 
-  public void handleInput(String line){
-    int id;
-    switch (line){
+  private void handleInput(String line){
+    drawer.displayDefaultCanvas(client.getUsername());
+    switch (line) {
       case "B":
         //TODO fare display del market e del magazzino/chest
         Action buyCardAction = createBuyCardAction();
@@ -261,45 +268,98 @@ public class Cli implements ViewInterface {
         Action marketAction = createMarketAction();
         client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, marketAction));
         break;
-      case "P": //produce
+      case "P":
+        Action produceAction = createProduceAction();
+        while(produceAction == null)
+          produceAction = createProduceAction();
+        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, produceAction));
         break;
       case "A": //activate leader card
-
+        Action activateLeaderAction = createActivateLeaderAction();
+        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, activateLeaderAction));
         break;
       case "D": //discard leader card
-        createDiscardLeaderAction();
+        Action discardLeaderAction = createDiscardLeaderAction();
+        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, discardLeaderAction));
         break;
-      case "C":
-        int clientPosition = client.getPlayerTurnPosition();
-        if (clientPosition != 1) {
-          System.out.println("Now you have to choose " + clientPosition / 2 + " resource(s)");
-          createChooseResourcesAction(clientPosition/2);
-        }
-        break;
+      default:
+        System.out.println("Command you gave me is not allowed in this phase of the game");
+        clientTurnManager.handleNextPossiblePhases();
     }
   }
 
-  private void createChooseResourcesAction(int i) {
+  private Action createActivateLeaderAction() {
+    int activateLeaderIndex;
+    System.out.println("That's your leader card hand: ");
+    drawer.displayLeaderHand(client.getUsername());
+    System.out.println("Which do you want to activate?");
+    activateLeaderIndex = validateIntInput(1, client.getSimplePlayerState().getLeaderCards().size());
+    return new DiscardLeaderAction(activateLeaderIndex);
+  }
+
+  private Action createDiscardLeaderAction() {
+    int discardLeaderIndex;
+    System.out.println("That's your leader card hand: ");
+    drawer.displayLeaderHand(client.getUsername());
+    System.out.println("Which do you want to discard?");
+    discardLeaderIndex = validateIntInput(1, client.getSimplePlayerState().getLeaderCards().size());
+    return new DiscardLeaderAction(discardLeaderIndex);
+  }
+
+  private void createChooseResourcesAction(String line) {
+    int i = client.getPlayerTurnPosition()/2;
+    Map<ResourceType, Integer> resources = new HashMap<>();
+
     while(i>0) {
-      //drawer.displayResourcesChoice();
-      System.out.println("Which resource do you want to pick? (index)");
-      int resource = validateIntInput(1, 4);
-      //client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, ));
+      int resource = validateIntInput(Integer.parseInt(line), 1, 4);
+      if(resources.containsKey(parsIntToResource(resource)))
+        resources.compute(parsIntToResource(resource), (k,v) -> (v==null) ? 1 : v + 1);
+      else
+        resources.put(parsIntToResource(resource), 1);
       i--;
     }
+    client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(resources)));
   }
 
-  private void createDiscardLeaderAction() {
-    System.out.println("That's your 4 leader cards: ");
-    //drawer.displayLeaderHand();
-    System.out.println("You can have only 2 of them.\nWhich do you want to discard?");
-    int firstDiscard = validateIntInput(1, 4);
-    client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, new DiscardLeaderAction(client.getUsername(), firstDiscard)));
+  private ResourceType parsIntToResource(int value){
+    switch(value){
+      case 1:
+        return ResourceType.SHIELD;
+      case 2:
+        return ResourceType.SERVANT;
+      case 3:
+        return ResourceType.GOLD;
+      case 4:
+        return ResourceType.STONE;
+      default: return null;
+    }
+  }
+
+  private ResourceType parsStringToResource(String value){
+    switch(value){
+      case "B":
+        return ResourceType.SHIELD;
+      case "P":
+        return ResourceType.SERVANT;
+      case "Y":
+        return ResourceType.GOLD;
+      case "G":
+        return ResourceType.STONE;
+      default: return null;
+    }
+  }
+
+  private void createInitialDiscardLeaderAction(String line) {
+    int firstDiscard = validateIntInput(Integer.parseInt(line), 1, client.getSimplePlayerState().getLeaderCards().size());
     client.getSimplePlayerState().discardLeader(firstDiscard);
-    //drawer.displayLeaderHand();
-    int secondDiscard = validateIntInput(1, 3);
-    client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, new DiscardLeaderAction(client.getUsername(), secondDiscard)));
+    drawer.displayLeaderHand(client.getUsername());
+    int secondDiscard = validateIntInput(1, client.getSimplePlayerState().getLeaderCards().size());
+    client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, new DiscardInitialLeaderAction(client.getUsername(), firstDiscard-1, secondDiscard-1)));
     client.getSimplePlayerState().discardLeader(secondDiscard);
+  }
+
+  public void displayLeaderHand() {
+    drawer.displayLeaderHand(client.getUsername());
   }
 
   private Action createMarketAction() {
@@ -360,10 +420,66 @@ public class Cli implements ViewInterface {
     return leaderCardDeck.getCardFromId(cardId);
   }
 
-  public void initialPhase() {
-    System.out.println("Welcome to Master Of Reinesance");
-    System.out.println("You have to discard 2 leader cards");
-    handleInput("D");
-    handleInput("C");
+  private static boolean isValidIp(String input) {
+    Pattern p = Pattern.compile("^"
+            + "(((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}" // Domain name
+            + "|"
+            + "localhost" // localhost
+            + "|"
+            + "((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?))$"); // Ip
+
+    return p.matcher(input).matches();
   }
+
+  private int validateIntInput(int minValue, int maxValue) {
+    int output;
+    try {
+      output = in.nextInt();
+    } catch (InputMismatchException e) {
+      output = minValue - 1;
+      in.nextLine();
+    }
+    while (output > maxValue || output < minValue) {
+      System.out.println("Value must be between " + minValue + " and " + maxValue + ". Please, try again:");
+      try {
+        output = in.nextInt();
+      } catch (InputMismatchException e) {
+        output = minValue - 1;
+        in.nextLine();
+      }
+    }
+    //in.nextLine();
+    return output;
+  }
+
+  private ResourceType validateInputForResources(Map<ResourceType, Integer> validResources) {
+    String input;
+
+    input = in.nextLine();
+    ResourceType resource = parsStringToResource(input.toUpperCase());
+    while(resource == null || !validResources.containsKey(resource)) {
+      System.out.println("Input you gave me is not valid, choose the resource to throw from the following");
+      drawer.drawTotalResourcesChoice(client.getUsername());
+      input = in.nextLine();
+      resource = parsStringToResource(input.toUpperCase());
+    }
+
+    return resource;
+  }
+
+  private int validateIntInput(int line, int minValue, int maxValue) {
+    int output = line;
+    while (output > maxValue || output < minValue) {
+      System.out.println("Value must be between " + minValue + " and " + maxValue + ". Please, try again:");
+      try {
+        output = in.nextInt();
+      } catch (InputMismatchException e) {
+        output = minValue - 1;
+        in.nextLine();
+      }
+    }
+    //in.nextLine();
+    return output;
+  }
+
 }

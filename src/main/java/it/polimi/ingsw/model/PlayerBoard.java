@@ -1,13 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.model.track.Track;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
@@ -66,12 +63,16 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
 
    /**
     * remove 1 of the leader cards from leaderCards array in the beginning of the game
-    * @param leaderPosition, index of the leaderCard to remove (starts at 0)
+    * @param leaderPosition1, index of the first leader card to remove (starts at 0)
+    * @param leaderPosition2, index of the second leader card to remove (starts at 0), considering the first already removed
+    * @throws InvalidLeaderCardException if one or both the leader cards don't exist
     */
-   public void discardLeaderAtBegin(int leaderPosition) throws InvalidLeaderCardException {
-      if(leaderCards.size() < 3)
-         throw new InvalidLeaderCardException("U can not call this method at this point of the game");
-      leaderCards.remove(leaderPosition);
+   public void discardLeaderAtBegin(int leaderPosition1, int leaderPosition2) throws InvalidLeaderCardException {
+      if(leaderPosition1 < 0 || leaderPosition1 >= this.leaderCards.size()
+              || leaderPosition2 < 0 || leaderPosition2 >= this.leaderCards.size() - 1)
+         throw new InvalidLeaderCardException();
+      leaderCards.remove(leaderPosition1);
+      leaderCards.remove(leaderPosition2);
    }
 
    /**

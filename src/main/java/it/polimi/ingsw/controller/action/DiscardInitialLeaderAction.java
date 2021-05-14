@@ -5,25 +5,30 @@ import it.polimi.ingsw.controller.controllerexception.NotAllowedActionException;
 import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
-import it.polimi.ingsw.model.modelexceptions.*;
+import it.polimi.ingsw.model.modelexceptions.InvalidLeaderCardException;
+import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
+import it.polimi.ingsw.model.modelexceptions.LeaderIsActiveException;
 
-public class DiscardLeaderAction extends Action {
+public class DiscardInitialLeaderAction extends Action {
 
-    private Integer leaderCardIndex = null;
+    private Integer leaderCardIndex1 = null;
+    private Integer leaderCardIndex2 = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
-    private DiscardLeaderAction() {
-        super(ActionType.DISCARD_LEADER);
+    private DiscardInitialLeaderAction() {
+        super(ActionType.SETUP_DISCARD_LEADERS);
     }
 
-    public DiscardLeaderAction(int leaderCardIndex) {
-        super(ActionType.DISCARD_LEADER);
-        this.leaderCardIndex = leaderCardIndex;
+    public DiscardInitialLeaderAction(int leaderCardIndex1, int leaderCardIndex2) {
+        super(ActionType.SETUP_DISCARD_LEADERS);
+        this.leaderCardIndex1 = leaderCardIndex1;
+        this.leaderCardIndex2 = leaderCardIndex2;
     }
 
-    public DiscardLeaderAction(String username, int leaderCardIndex) {
-        super(ActionType.DISCARD_LEADER, username);
-        this.leaderCardIndex = leaderCardIndex;
+    public DiscardInitialLeaderAction(String username, int leaderCardIndex1, int leaderCardIndex2) {
+        super(ActionType.SETUP_DISCARD_LEADERS, username);
+        this.leaderCardIndex1 = leaderCardIndex1;
+        this.leaderCardIndex2 = leaderCardIndex2;
     }
 
     /**
@@ -48,19 +53,16 @@ public class DiscardLeaderAction extends Action {
             throw new WrongPlayerException();
         if(!this.isActionAllowed(gameState))
             throw new NotAllowedActionException();
-        gameState.getGame().getPlayerBoard(super.getUsername()).enterFinalTurnPhase();
-        gameState.getGame().getPlayerBoard(super.getUsername()).discardLeader(this.leaderCardIndex);
-        if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
-            return PhaseType.FINAL;
-        return PhaseType.INITIAL;
+        gameState.getGame().getPlayerBoard(super.getUsername()).discardLeaderAtBegin(this.leaderCardIndex1, this.leaderCardIndex2);
+        return PhaseType.END_SETUP;
     }
 
     private boolean isActionAllowed(IGameState gameState) {
-        return gameState.getCurrentPhase().isValid(ActionType.DISCARD_LEADER);
+        return gameState.getCurrentPhase().isValid(ActionType.SETUP_DISCARD_LEADERS);
     }
 
     private boolean isActionValid() {
-        return super.getUsername() != null && this.leaderCardIndex != null;
+        return super.getUsername() != null && this.leaderCardIndex1 != null && this.leaderCardIndex2 != null;
     }
 
 }
