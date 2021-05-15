@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.cli;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.DevelopCardDeck;
@@ -91,7 +89,7 @@ public class Cli implements ViewInterface {
     username = in.nextLine();
     Message loginMessage = new Message(username, MessageType.LOGIN);
     client.setUsername(username);
-    client.sendToServer(loginMessage);
+    client.sendMessage(loginMessage);
   }
 
     @Override
@@ -99,7 +97,7 @@ public class Cli implements ViewInterface {
       out.println("How many people do you want to play with?");
       numOfPlayers = validateIntInput(1, 4);
       Message loginMessage = new Message(client.getUsername(), MessageType.NUMBER_OF_PLAYERS, Integer.toString(numOfPlayers));
-      client.sendToServer(loginMessage);
+      client.sendMessage(loginMessage);
     }
 
   @Override
@@ -258,29 +256,29 @@ public class Cli implements ViewInterface {
 
   private void handleInput(String line){
     drawer.displayDefaultCanvas(client.getUsername());
-    switch (line) {
-      case "B":
+    switch (line.toUpperCase().charAt(0)) {
+      case 'B':
         //TODO fare display del market e del magazzino/chest
         Action buyCardAction = createBuyCardAction();
-        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, buyCardAction));
+        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, buyCardAction));
         break;
-      case "S":
+      case 'S':
         Action marketAction = createMarketAction();
-        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, marketAction));
+        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, marketAction));
         break;
-      case "P":
+      case 'P':
         Action produceAction = createProduceAction();
         while(produceAction == null)
           produceAction = createProduceAction();
-        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, produceAction));
+        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, produceAction));
         break;
-      case "A": //activate leader card
+      case 'A': //activate leader card
         Action activateLeaderAction = createActivateLeaderAction();
-        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, activateLeaderAction));
+        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, activateLeaderAction));
         break;
-      case "D": //discard leader card
+      case 'D': //discard leader card
         Action discardLeaderAction = createDiscardLeaderAction();
-        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, discardLeaderAction));
+        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, discardLeaderAction));
         break;
       default:
         System.out.println("Command you gave me is not allowed in this phase of the game");
@@ -318,7 +316,7 @@ public class Cli implements ViewInterface {
         resources.put(parsIntToResource(resource), 1);
       i--;
     }
-    client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(resources)));
+    client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(resources)));
   }
 
   private ResourceType parsIntToResource(int value){
@@ -354,7 +352,7 @@ public class Cli implements ViewInterface {
     client.getSimplePlayerState().discardLeader(firstDiscard);
     drawer.displayLeaderHand(client.getUsername());
     int secondDiscard = validateIntInput(1, client.getSimplePlayerState().getLeaderCards().size());
-    client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, new DiscardInitialLeaderAction(client.getUsername(), firstDiscard-1, secondDiscard-1)));
+    client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new DiscardInitialLeaderAction(client.getUsername(), firstDiscard-1, secondDiscard-1)));
     client.getSimplePlayerState().discardLeader(secondDiscard);
   }
 

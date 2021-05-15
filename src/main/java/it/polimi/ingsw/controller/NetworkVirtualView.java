@@ -4,12 +4,12 @@ import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.server.Server;
 
-public class Controller implements ModelObserver {
+public class NetworkVirtualView implements ModelObserver {
 
    public Server server;
 
 
-   public Controller(Server server) {
+   public NetworkVirtualView(Server server) {
       this.server = server;
    }
 

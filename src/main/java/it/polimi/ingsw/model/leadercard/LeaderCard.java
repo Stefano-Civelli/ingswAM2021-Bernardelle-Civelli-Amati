@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.leadercard;
 
-import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.network.messages.Message;
@@ -12,7 +12,7 @@ import java.util.Map;
 public class LeaderCard implements ModelObservable{
 
    private transient final int numberOfRequiredResources = 5;
-   private transient Controller controller = null;
+   private transient NetworkVirtualView networkVirtualView = null;
    private int leaderId;
    private boolean active;
    private ResourceType requiredResources; //is null if no resources are required
@@ -146,7 +146,7 @@ public class LeaderCard implements ModelObservable{
 
    @Override
    public void notifyModelChange(Message msg) {
-      if (controller != null)
-         controller.broadcastUpdate(msg);
+      if (networkVirtualView != null)
+         networkVirtualView.broadcastUpdate(msg);
    }
 }

@@ -1,11 +1,8 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.annotations.Expose;
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.ArrayList;

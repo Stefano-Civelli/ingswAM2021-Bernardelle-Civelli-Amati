@@ -1,12 +1,9 @@
 package it.polimi.ingsw.model.track;
-import com.google.gson.annotations.Expose;
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.EndGameObservable;
 import it.polimi.ingsw.model.ModelObservable;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.MoveForwardObserver;
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 

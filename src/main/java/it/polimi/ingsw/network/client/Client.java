@@ -1,14 +1,10 @@
 package it.polimi.ingsw.network.client;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
@@ -30,12 +26,11 @@ public class Client {
   private String username = null;
   private String serverIP;
   private int serverPort;
-  private ServerConnector serverConnector;
+  private MessageHandler serverConnector;
   private SimpleGameState simpleGameState;
   private LinkedHashMap<String, SimplePlayerState> simplePlayerStateMap;
   private ClientTurnManager  turnManager;
 
-  private Timer pingTimer = null;
 
 
   public static void main(String[] args) {
@@ -49,6 +44,8 @@ public class Client {
         case "gui":
           break;
       }
+
+    //devo fargli scegliere se giocare in locale o network
 
     if (cli) {
       Client client = new Client();
@@ -88,7 +85,6 @@ public class Client {
     try {
       server = new Socket(getServerIP(), getServerPort());
       serverConnector = new ServerConnector(server, this);
-      startPinging();
       serverConnector.handleServerConnection();
     } catch (IOException e) {
       view.displaySetupFailure();
@@ -229,28 +225,11 @@ public class Client {
     }
   }
 
-  private void startPinging() {
-    pingTimer = new Timer();
 
-    pingTimer.schedule(new TimerTask() {
-      @Override
-      public void run() {
-        sendToServer(new Message(MessageType.PING));
-      }
-    }, 1000, ConfigParameters.CLIENT_TIMEOUT);
-  }
-
-
-  public void sendToServer(Message msg) {
+  public void sendMessage(Message msg) { //deve cambiare nome perchè va usata anche per il locale
     if(msg.getMessageType() != MessageType.LOGIN)
       msg.setUsername(this.username);
-
-    //message.setUsername(this.username); non abbiamo lo user in ogni messaggio, dovremmo?
-    String message = parserToJson(msg);
-    JsonObject jsonObject = (JsonObject) JsonParser.parseString(message);
-    if(jsonObject.getAsJsonObject().get("messageType").getAsString().equals(MessageType.ACTION.name()))
-      message = message.replaceAll("\\\\\"", "");
-    serverConnector.sendToServer(message);
+    serverConnector.sendToServer(msg);
   }
 
   public void close() {
@@ -259,9 +238,6 @@ public class Client {
     System.exit(0);
   }
 
-  private String parserToJson(Message msg){
-    return GSON.getGsonBuilder().toJson(msg);
-  }
 
   public String getUsername() { return this.username; }
 

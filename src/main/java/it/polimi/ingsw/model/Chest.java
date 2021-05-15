@@ -1,6 +1,4 @@
 package it.polimi.ingsw.model;
-import com.google.gson.annotations.Expose;
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
@@ -38,7 +36,7 @@ public class Chest implements ModelObservable{
       throw new NegativeQuantityException("you are adding a negative quantity of a resource, that's not allowed");
 
     tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
-    notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<ResourceType, Integer> (resource, tempResourcesMap.get(resource))));
+    notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<> (resource, tempResourcesMap.get(resource))));
   }
 
   /**

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;

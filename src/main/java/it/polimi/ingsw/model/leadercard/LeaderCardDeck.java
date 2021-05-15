@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.leadercard;
 
 
-import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 
 import java.util.ArrayList;

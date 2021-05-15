@@ -1,9 +1,6 @@
 package it.polimi.ingsw.view;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.utility.GSON;

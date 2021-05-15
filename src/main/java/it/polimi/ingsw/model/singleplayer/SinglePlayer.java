@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model.singleplayer;
 
-import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.model.DevelopCardColor;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
 import it.polimi.ingsw.model.track.LorenzoTrack;
@@ -20,11 +21,11 @@ public class SinglePlayer extends Game {
    /**
     * Create a new single player game
     *
-    * @param controller the observer of the model
+    * @param networkVirtualView the observer of the model
     * @throws IOException if there are some problems loading the configuration files
     */
-   public SinglePlayer(Controller controller) throws IOException {
-      super(controller);
+   public SinglePlayer(ModelObserver networkVirtualView) throws IOException {
+      super(networkVirtualView);
       this.lorenzoTrack = GSON.lorenzoTrackParser(ConfigParameters.lorenzoTrackConfigFile);
 
       this.actionTokenStack = new LinkedList<>(Arrays.asList(

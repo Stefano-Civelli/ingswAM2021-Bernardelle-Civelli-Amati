@@ -63,7 +63,7 @@ public class ServerClientHandler implements Runnable {
                e.printStackTrace();
                sendMessage(new Message(MessageType.ERROR, ErrorType.MALFORMED_MESSAGE));
             }
-         }
+         }//while
 
       }catch(IOException e){ //client crashes or timeout runs out
          if(e instanceof SocketTimeoutException)
@@ -115,7 +115,7 @@ public class ServerClientHandler implements Runnable {
             default: return;
 
 
-      }
+      }//switch
    }
 
    private void actionAnswereMessage(Message answerMessage){

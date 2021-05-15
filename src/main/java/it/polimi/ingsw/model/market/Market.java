@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.market;
 
-import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
@@ -133,8 +133,8 @@ public class Market implements ModelObservable{
             controller.broadcastUpdate(msg);
     }
 
-    public void setController(Controller controller) {
-        this.controller = controller;
+    public void setController(NetworkVirtualView networkVirtualView) {
+        this.controller = networkVirtualView;
     }
 
     private MarbleColor[][] serializableMarket(){

@@ -3,15 +3,12 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.controller.action.ActionType;
 import it.polimi.ingsw.controller.action.ChooseInitialResourcesAction;
 import it.polimi.ingsw.model.PhaseType;
-import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ClientTurnManager {
   private Client client;
@@ -39,7 +36,7 @@ public class ClientTurnManager {
             System.out.println("Which resource do you want to pick? (index)");
           }
           else {
-            client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(new HashMap<>())));
+            client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(new HashMap<>())));
           }
           break;
         case PRODUCE:
