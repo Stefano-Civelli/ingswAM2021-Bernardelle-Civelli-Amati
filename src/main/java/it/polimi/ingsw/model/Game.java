@@ -48,7 +48,9 @@ public class Game implements ModelObservable {
     * @throws MaximumNumberOfPlayersException there are already four players in this game
     */
    public void addPlayer(String username) throws IOException, MaximumNumberOfPlayersException {
-      // TODO need also to check that the max number of players in this lobby isn't exceeded -> that's not necessary
+      if(this.playerBoards.size() >= 4)
+         throw new MaximumNumberOfPlayersException();
+
       List<LeaderCard> fourInitialLeaderCardsForPlayer = this.leaderCardDeck.drawFourCards();
 
       PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, market, developCardDeck);
@@ -121,7 +123,7 @@ public class Game implements ModelObservable {
       int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername)
               .collect(Collectors.toList()).indexOf(username);
       switch(index) {
-         case 3 : case 4:
+         case 2 : case 3:
             return 1;
       }
       return 0;
