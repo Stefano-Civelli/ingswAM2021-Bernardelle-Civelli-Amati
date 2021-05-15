@@ -31,8 +31,8 @@ public class LeaderCardDeck {
   public List<LeaderCard> drawFourCards(){
     List<LeaderCard> fourCards = new ArrayList<>();
     for(int i=0; i<4; i++){
-      fourCards.add(leaderCardList.get(i));
-      leaderCardList.remove(i);
+      fourCards.add(leaderCardList.get(0));
+      leaderCardList.remove(0);
     }
     return fourCards;
   }
