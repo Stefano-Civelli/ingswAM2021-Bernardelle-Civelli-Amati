@@ -420,10 +420,11 @@ public class Cli implements ViewInterface {
 
   private static String stringInputValidation(Scanner in, String a, String b) {
     String input;
+    in.nextLine();
     input = in.nextLine().toLowerCase();
 
     while(!input.equals(a) && !input.equals(b)){
-      System.out.print("input must be between " + a + " or " + b + ". try again: ");
+      System.out.print("input must be " + a + " or " + b + ". try again: ");
         input = in.nextLine();
     }
     return input;

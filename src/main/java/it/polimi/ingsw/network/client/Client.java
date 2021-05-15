@@ -11,6 +11,8 @@ import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.CliDrawer;
+import it.polimi.ingsw.view.gui.GUI;
+import javafx.application.Application;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -42,6 +44,7 @@ public class Client {
           cli = true;
           break;
         case "gui":
+          cli = false;
           break;
       }
 
@@ -57,7 +60,8 @@ public class Client {
       client.connectToServer(); //TODO questa posso farla eseguire al thread. poi tolgo l'altro thread che non serve più
       //TODO chiamo la waitforinput che ha il whiletrue
     }
-    //else gui
+    else
+      Application.launch(GUI.class);
   }
 
   public Client() {
@@ -200,17 +204,19 @@ public class Client {
 
   private void handleTurnState(String payload) {
     TurnManager.TurnState newState = GSON.getGsonBuilder().fromJson(payload, TurnManager.TurnState.class);
-    turnManager.newPhase(newState.getPhase());
-    if(!username.equals(newState.getPlayer()) && !newState.getPlayer().equals(turnManager.getCurrentPlayer())) {
-      view.displayPlayerTurn(newState.getPlayer());
-      turnManager.newCurrentPlayer(newState.getPlayer());
+
+    if(turnManager.setStateIsChanged(newState)){
+      if (turnManager.getCurrentPlayer().equals(username))
+        view.displayYourTurn(turnManager.getCurrentPlayer());
+      else
+        view.displayPlayerTurn(turnManager.getCurrentPlayer());
     }
-    else if(username.equals(newState.getPlayer())) {
-      view.displayYourTurn(username);
-      turnManager.newCurrentPlayer(newState.getPlayer());
+
+    if(username.equals(turnManager.getCurrentPlayer()))
       turnManager.currentPhasePrint();
+
     }
-  }
+
 
   private void handleError(ErrorType errorType) {
     switch (errorType){

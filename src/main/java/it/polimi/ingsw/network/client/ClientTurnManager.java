@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.controller.action.ActionType;
 import it.polimi.ingsw.controller.action.ChooseInitialResourcesAction;
 import it.polimi.ingsw.model.PhaseType;
+import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.view.cli.Cli;
@@ -21,14 +22,6 @@ public class ClientTurnManager {
     this.client = client;
     this.cli = cli;
   }
-
-//  public String getPhaseString(){
-//    String toPrint = null;
-//    switch(currentPhase){
-//      case INITIAL:
-//        toPrint = "What action do you want to perform ? \n 1)Produce \n 2)ShopMarket \n ....";
-//    }
-//  }
 
   public void currentPhasePrint(){
     switch(currentPhase){
@@ -142,5 +135,18 @@ public class ClientTurnManager {
 
   public void setCurrentPlayer(String currentPlayer) {
     this.currentPlayer = currentPlayer;
+  }
+
+
+  public boolean setStateIsChanged(TurnManager.TurnState newState) {
+
+    this.currentPhase = newState.getPhase(); //set new phase
+
+    if(!currentPlayer.equals(newState.getPlayer())) {
+      this.currentPlayer = newState.getPlayer();
+      return true;
+    }
+    return false;
+
   }
 }

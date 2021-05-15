@@ -58,9 +58,11 @@ public class CliDrawer implements SimpleStateObserver {
   public void marketDisplay() {
     clearCanvas();
     String[][] market = buildAndSetMarket();
-    for(int i=0; i<market.length; i++)
-      for(int j=0; j<market[i].length; j++)
-        System.out.println(market[i][j]);
+    for(int i=0; i<market.length; i++) {
+      for (int j = 0; j < market[i].length; j++)
+        System.out.print(market[i][j]);
+      System.out.println();
+    }
   }
 
   //TODO

@@ -37,7 +37,7 @@ public class SimplePlayerState implements SimpleStateObservable{
       this.tempChest = new HashMap<>();
       this.warehouseLevels = new Pair[this.NUMBER_OF_NORMAL_LEVELS];
       for(int i=0; i<3; i++)
-         warehouseLevels[i] = new Pair(ResourceType.SHIELD,1);
+         warehouseLevels[i] = new Pair(null, null);
 
       this.leaderLevels = new ArrayList<>(this.MAX_SPECIAL_LEVELS);
       for (int i=0; i<MAX_SPECIAL_LEVELS; i++)
@@ -69,22 +69,16 @@ public class SimplePlayerState implements SimpleStateObservable{
       if(update.getLevel()<3) {
          //controllo se la risorsa é presente
          for (int i = 0; i < warehouseLevels.length; i++) {
-            Pair<ResourceType, Integer> level = warehouseLevels[i];
 
-            if (level != null) {
-               if (level.getKey().equals(resource)) {
-                  if (level.equals(update.getLevel())) {
-                     level = new Pair<>(resource, update.getQuantity());
+            if (warehouseLevels[i].getKey() != null) {
+               if (warehouseLevels[i].getKey().equals(resource)) {
+                  if (i == update.getLevel()) {
+                     warehouseLevels[i] = new Pair<>(resource, update.getQuantity());
                      return;
                   } else {
-                     if(warehouseLevels[update.getLevel()] == null) {
-                        warehouseLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
-                        level = null;
-                        return;
-                     }
                      Pair<ResourceType, Integer> temp = new Pair<>(warehouseLevels[update.getLevel()].getKey(), warehouseLevels[update.getLevel()].getValue());
                      warehouseLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
-                     level = new Pair<>(temp.getKey(), temp.getValue());
+                     warehouseLevels[i] = new Pair<>(temp.getKey(), temp.getValue());
                      return;
                   }
                }
