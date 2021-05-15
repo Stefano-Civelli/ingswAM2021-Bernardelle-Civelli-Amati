@@ -164,17 +164,18 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
       notifyForEndGame();
    }
 
-   private List<Integer>[][] serializableIdDeck(){
-      List[][] idCube = new ArrayList[NUMBER_OF_DECK_ROWS][NUMBER_OF_DECK_COLUMS];
+   @SuppressWarnings("unchecked")
+   private List<Integer>[][] serializableIdDeck() {
+      List<Integer>[][] idCube = new ArrayList[NUMBER_OF_DECK_ROWS][NUMBER_OF_DECK_COLUMS];
       for (int i=0; i<NUMBER_OF_DECK_ROWS; i++) {
          for (int j=0; j<NUMBER_OF_DECK_COLUMS; j++) {
             idCube[i][j] = cardsCube[i][j].stream().map(DevelopCard::getCardId).collect(Collectors.toList());
          }
       }
 
-      for (List<Integer>[] x : idCube)
-         for (List<Integer> y : x)
-            System.out.println(y);
+//      for (List<Integer>[] x : idCube)
+//         for (List<Integer> y : x)
+//            System.out.println(y);
 
       return idCube;
    }
