@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.action.PlayerDisconnectionAction;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.ModelObserver;
+import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
@@ -207,7 +208,8 @@ public class Server {
       try {
          this.turnManager = new TurnManager(game, loggedPlayers());
          playersInOrder = turnManager.startGame();
-      }catch (IOException e) {
+      }catch (IOException | MaximumNumberOfPlayersException e) {
+         // FIXME gestire la MaximumNumberOfPlayersException
          System.out.println("playerboard constructor probably has a problem");
          e.printStackTrace();
       }
