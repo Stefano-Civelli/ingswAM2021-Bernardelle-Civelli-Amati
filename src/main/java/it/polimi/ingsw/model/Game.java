@@ -3,10 +3,9 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
+import it.polimi.ingsw.model.modelObservables.LeaderSetupObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
@@ -15,7 +14,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Game implements ModelObservable {
+public class Game implements LeaderSetupObservable {
 
    private final LeaderCardDeck leaderCardDeck;
    private final Market market;
@@ -62,7 +61,7 @@ public class Game implements ModelObservable {
 
       playerBoard.setController(controller);
       playerBoards.add(new Pair<>(playerBoard, true));
-      notifyModelChange(new Message(username, MessageType.LEADERCARD_SETUP, idLeaderList(fourInitialLeaderCardsForPlayer)));
+      notifyLeaderSetup(username, GSON.getGsonBuilder().toJson( idLeaderList(fourInitialLeaderCardsForPlayer)));
    }
 
    /**
@@ -205,10 +204,10 @@ public class Game implements ModelObservable {
       return leaderList.stream().map(LeaderCard::getLeaderId).collect(Collectors.toList());
    }
 
-   @Override
-   public void notifyModelChange(Message msg) {
-      if (controller != null)
-         controller.singleUpdate(msg);
-   }
 
+   @Override
+   public void notifyLeaderSetup(String username, String msg) {
+      if (controller != null)
+         controller.leaderSetupUpdate(username, msg);
+   }
 }

@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model.track;
 import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.EndGameObservable;
-import it.polimi.ingsw.model.ModelObservable;
+import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.MoveForwardObserver;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.GSON;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +18,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
   final Set<VaticanReportObserver> vaticanReportObserverList = new HashSet<>();
   final Set<EndGameObserver> endGameObserverList = new HashSet<>();
 
-  private transient ModelObserver controller = null;
+  transient ModelObserver controller = null;
 
    /**
     * constructor of the class
@@ -52,7 +53,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
       if (playerPosition < 24) {
 
         playerPosition += 1;
-        notifyModelChange(new Message(MessageType.TRACK_UPDATED, Integer.toString(playerPosition)));
+        notifyModelChange(GSON.getGsonBuilder().toJson(Integer.toString(playerPosition)));
         if (track[playerPosition].getRed()) {
           int active = track[playerPosition].getActive()-1;
           notifyForVaticanReport(active);
@@ -108,9 +109,9 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
 
 
   @Override
-  public void notifyModelChange(Message msg) {
+  public void notifyModelChange(String msg) {
     if (controller != null)
-    controller.broadcastUpdate(msg);
+    controller.trackUpdate(msg);
   }
 
   public void setController(ModelObserver controller) {

@@ -12,16 +12,59 @@ public class LocalVirtualView implements ModelObserver {
       this.client = client;
    }
 
+
    @Override
-   public void singleUpdate(Message msg) {
-      client.handleMessage(msg);
+   public void chestUpdate(String stateUpdate) {
+
    }
 
    @Override
-   public void broadcastUpdate(Message msg) {
-      client.handleMessage(msg);
-      //devo mandare qualcosa a lorenzo? altrimenti fa esattamente lo stesso di singleUpdate
+   public void warehouseUpdate(String stateUpdate) {
+
    }
 
+   @Override
+   public void leaderUpdate(String stateUpdate) {
 
+   }
+
+   @Override
+   public void leaderSetupUpdate(String username, String stateUpdate) {
+
+   }
+
+   @Override
+   public void marketUpdate(String stateUpdate) {
+
+   }
+
+   @Override
+   public void marketSetupUpdate(String stateUpdate) {
+
+   }
+
+   @Override
+   public void cardSlotUpdate(String stateUpdate) {
+
+   }
+
+   @Override
+   public void trackUpdate(String stateUpdate) {
+
+   }
+
+   @Override
+   public void vaticanUpdate(String stateUpdate) {
+
+   }
+
+   @Override
+   public void devDeckUpdate(String stateUpdate) {
+
+   }
+
+   @Override
+   public void devDeckSetup(String stateUpdate) {
+
+   }
 }

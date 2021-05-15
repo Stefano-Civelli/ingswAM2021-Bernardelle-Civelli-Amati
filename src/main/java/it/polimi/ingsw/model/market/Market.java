@@ -2,16 +2,19 @@ package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.modelObservables.MarketSetupObservable;
+import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Market implements ModelObservable{
+public class Market implements ModelObservable, MarketSetupObservable {
 
     private final int N_ROW = 3,
             N_COLUMN = 4;
@@ -43,7 +46,7 @@ public class Market implements ModelObservable{
 
             this.controller = controller;
 
-            notifyModelChange(new Message(MessageType.MARKET_SETUP, new Pair<>(serializableMarket() ,this.slide.getColor())));
+            notifyMarketSetup(GSON.getGsonBuilder().toJson( new Pair<>(serializableMarket() ,this.slide.getColor())));
         } catch (AbuseOfFaithException ignored) {}
     }
 
@@ -91,7 +94,7 @@ public class Market implements ModelObservable{
             swap1 = swap2;
         }
         this.slide = swap1;
-        notifyModelChange(new Message(MessageType.MARKET_UPDATED, new Pair<>(true, row)));
+        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(true, row)));
         return marbles;
     }
 
@@ -114,7 +117,7 @@ public class Market implements ModelObservable{
             swap1 = swap2;
         }
         this.slide = swap1;
-        notifyModelChange(new Message(MessageType.MARKET_UPDATED, new Pair<>(false, column)));
+        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(false, column)));
         return marbles;
     }
 
@@ -128,9 +131,15 @@ public class Market implements ModelObservable{
     }
 
     @Override
-    public void notifyModelChange(Message msg) {
+    public void notifyModelChange(String msg) {
         if (controller != null)
-            controller.broadcastUpdate(msg);
+            controller.marketUpdate(msg);
+    }
+
+    @Override
+    public void notifyMarketSetup(String msg) {
+        if (controller != null)
+            controller.marketSetupUpdate(msg);
     }
 
     public void setController(NetworkVirtualView networkVirtualView) {

@@ -36,6 +36,8 @@ public class SimplePlayerState implements SimpleStateObservable{
       this.chest = new HashMap<>();
       this.tempChest = new HashMap<>();
       this.warehouseLevels = new Pair[this.NUMBER_OF_NORMAL_LEVELS];
+      for(int i=0; i<3; i++)
+         warehouseLevels[i] = new Pair(ResourceType.SHIELD,1);
 
       this.leaderLevels = new ArrayList<>(this.MAX_SPECIAL_LEVELS);
       for (int i=0; i<MAX_SPECIAL_LEVELS; i++)

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model.track;
 
+import it.polimi.ingsw.model.modelObservables.VaticanUpdateObservable;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.GSON;
 
-public class Track extends LorenzoTrack implements VaticanReportObserver {
+public class Track extends LorenzoTrack implements VaticanReportObserver, VaticanUpdateObservable {
   private final int[] popeCards = new int[]{-1, -1, -1};
 
   /**
@@ -59,14 +61,14 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
       if(playerPosition < 24) {
 
         playerPosition += 1;
-        notifyModelChange(new Message(MessageType.TRACK_UPDATED, Integer.toString(playerPosition)));
+        notifyModelChange(GSON.getGsonBuilder().toJson(Integer.toString(playerPosition)));
         if(track[playerPosition].getRed()) {
           int active = track[playerPosition].getActive()-1;
           //if the popeCard value related to that red Square is -1 then i'm the first that has reached it
           if(popeCards[active] == -1) {
             //set the popeCard of this activeZone to his actual value
             switchPopeCardsActivation(active);
-            notifyModelChange(new Message(MessageType.VATICAN_REPORT, new VaticanReport(active, true)));/*inner class con int per la zona e bool per sapere se girarla o meno*/
+            notifyVaticanChange(GSON.getGsonBuilder().toJson( new VaticanReport(active, true)));/*inner class con int per la zona e bool per sapere se girarla o meno*/
 
             //notify the observers that have to see if they can "flip the popeCard related to that activeZone"
             notifyForVaticanReport(active);
@@ -90,10 +92,10 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
     if (popeCards[active] == -1) {
       if (track[playerPosition].getActive() == active + 1) {
         switchPopeCardsActivation(active);
-        notifyModelChange(new Message(MessageType.VATICAN_REPORT, new VaticanReport(active, true)));/*inner class con int per la zona e bool per sapere se girarla o meno*/
+        notifyVaticanChange(GSON.getGsonBuilder().toJson( new VaticanReport(active, true)));/*inner class con int per la zona e bool per sapere se girarla o meno*/
       } else
         popeCards[active] = 0;
-        notifyModelChange(new Message(MessageType.VATICAN_REPORT, new VaticanReport(active, false)));
+       notifyVaticanChange(GSON.getGsonBuilder().toJson( new VaticanReport(active, false)));
     }
   }
 
@@ -118,6 +120,13 @@ public class Track extends LorenzoTrack implements VaticanReportObserver {
   public Integer getCurrentPosition(){
     return playerPosition;
   }
+
+  @Override
+  public void notifyVaticanChange(String msg) {
+    if (super.controller != null)
+      super.controller.vaticanUpdate(msg);
+  }
+
 
   @Override
   public void update(int active) {

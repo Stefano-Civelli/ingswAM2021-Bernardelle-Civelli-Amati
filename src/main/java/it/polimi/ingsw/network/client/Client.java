@@ -132,7 +132,7 @@ public class Client {
         handleGameStarted(msg);
         view.displayGameStarted();
         if(username.equals(turnManager.getCurrentPlayer()))
-          turnManager.handleNextPossiblePhases();
+          turnManager.currentPhasePrint();
         else
           view.displayPlayerTurn(msg.getUsername());
         break;
@@ -208,7 +208,7 @@ public class Client {
     else if(username.equals(newState.getPlayer())) {
       view.displayYourTurn(username);
       turnManager.newCurrentPlayer(newState.getPlayer());
-      turnManager.handleNextPossiblePhases();
+      turnManager.currentPhasePrint();
     }
   }
 

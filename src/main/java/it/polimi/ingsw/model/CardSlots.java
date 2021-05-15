@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.EndGameObserver;
+import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.ArrayList;
@@ -66,13 +66,13 @@ public class CardSlots implements EndGameObservable, ModelObservable {
       if(levelCardToAdd == 1 && developCards.get(slot).isEmpty()) {
         developCards.get(slot).add(developCard);
         addedACardInACardSlot();
-        notifyModelChange(new Message(MessageType.CARD_SLOT_UPDATE, new Pair<>(developCard.getCardId(), slot)));
+        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(developCard.getCardId(), slot)));
         return;
       }
       if(!developCards.get(slot).isEmpty() && levelCardToAdd == developCards.get(slot).get(developCards.get(slot).size()-1).getCardFlag().getLevel()+1) {
         developCards.get(slot).add(developCard);
         addedACardInACardSlot();
-        notifyModelChange(new Message(MessageType.CARD_SLOT_UPDATE, new Pair<>(developCard.getCardId(), slot)));
+        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(developCard.getCardId(), slot)));
       }
       else
         throw new InvalidCardPlacementException();
@@ -136,9 +136,9 @@ public class CardSlots implements EndGameObservable, ModelObservable {
   }
 
   @Override
-  public void notifyModelChange(Message msg) {
+  public void notifyModelChange(String msg) {
     if (controller != null)
-      controller.broadcastUpdate(msg);
+      controller.cardSlotUpdate(msg);
   }
 
   public void setController(ModelObserver controller) {

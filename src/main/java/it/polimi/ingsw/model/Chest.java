@@ -1,15 +1,15 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Chest implements ModelObservable{
+public class Chest implements ModelObservable {
   private final Map<ResourceType, Integer> resources;
   private final Map<ResourceType, Integer> tempResourcesMap;
 
@@ -36,7 +36,7 @@ public class Chest implements ModelObservable{
       throw new NegativeQuantityException("you are adding a negative quantity of a resource, that's not allowed");
 
     tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
-    notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<> (resource, tempResourcesMap.get(resource))));
+    notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<> (resource, tempResourcesMap.get(resource))));
   }
 
   /**
@@ -59,11 +59,11 @@ public class Chest implements ModelObservable{
 
       if(resources.get(resource) == quantity) {
         resources.remove(resource);
-        notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<>(resource, 0)));
+        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(resource, 0)));
       }
       else {
         resources.replace(resource, resources.get(resource) - quantity);
-        notifyModelChange(new Message(MessageType.CHEST_UPDATE, new Pair<>(resource, resources.get(resource))));
+        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(resource, resources.get(resource))));
       }
     }
     else
@@ -103,9 +103,9 @@ public class Chest implements ModelObservable{
   }
 
   @Override
-  public void notifyModelChange(Message msg) {
+  public void notifyModelChange(String msg) {
     if (controller != null)
-      controller.broadcastUpdate(msg);
+      controller.chestUpdate(msg);
   }
 
   public void setController(ModelObserver controller) {

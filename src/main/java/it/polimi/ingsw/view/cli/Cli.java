@@ -245,13 +245,15 @@ public class Cli implements ViewInterface {
               handleInput(line);
             else {
               System.out.println("Command you gave me is not allowed in this phase of the game or doesn't exists");
-              clientTurnManager.handleNextPossiblePhases();
+              clientTurnManager.currentPhasePrint();
             }
           }
         }
       }
     };
-    new Thread(threadInputTerminal).start();
+    Thread thread = new Thread(threadInputTerminal);
+    thread.setName("inputReader");
+    thread.start();
   }
 
   private void handleInput(String line){
@@ -282,7 +284,7 @@ public class Cli implements ViewInterface {
         break;
       default:
         System.out.println("Command you gave me is not allowed in this phase of the game");
-        clientTurnManager.handleNextPossiblePhases();
+        clientTurnManager.currentPhasePrint();
     }
   }
 

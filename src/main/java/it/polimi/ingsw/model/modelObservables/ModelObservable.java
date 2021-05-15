@@ -1,7 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.modelObservables;
 
 import it.polimi.ingsw.network.messages.Message;
 
 public interface ModelObservable {
-  void notifyModelChange(Message msg);
+  void notifyModelChange(String msg);
 }
