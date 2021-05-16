@@ -375,7 +375,8 @@ public class Server {
 
       if(disconnectedClient.isLogged()) {
          sendBroadcast(new Message(disconnectedClient.getUsername(), MessageType.DISCONNECTED)); //non serve
-         turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
+         Message errorOrEndTurn = turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
+         disconnectedClient.actionAnswereMessage(errorOrEndTurn);
       }
 
       disconnectedClient.closeSocket();

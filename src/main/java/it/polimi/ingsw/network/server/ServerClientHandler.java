@@ -118,7 +118,7 @@ public class ServerClientHandler implements Runnable {
       }//switch
    }
 
-   private void actionAnswereMessage(Message answerMessage){
+   public void actionAnswereMessage(Message answerMessage){
       MessageType messageType = answerMessage.getMessageType();
       answerMessage.setUsername(this.username);
 
