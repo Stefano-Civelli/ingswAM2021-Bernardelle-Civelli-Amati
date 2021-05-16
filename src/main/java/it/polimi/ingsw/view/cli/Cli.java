@@ -250,7 +250,7 @@ public class Cli implements ViewInterface {
             case SHOPPING_LEADER:
               break;
             default:
-              if (clientTurnManager.validateInput(line))
+              if (clientTurnManager.isValidInCurrenPhase(line)) //to see if the input is valid in this turnPhase
                 handleInput(line);
               else {
                 System.out.println("Command you gave me is not allowed in this phase of the game or doesn't exists");
@@ -271,31 +271,35 @@ public class Cli implements ViewInterface {
   }
 
   private void handleInput(String line){
-    switch (line.toUpperCase().charAt(0)) {
-      case 'B':
+    switch (line) {
+      case "B": case "b":
         //TODO fare display del market e del magazzino/chest
+        drawer.drawDevelopCardDeck();
         Action buyCardAction = createBuyCardAction();
         client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, buyCardAction));
         break;
-      case 'S':
+      case "S": case "s":
         Action marketAction = createMarketAction();
         client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, marketAction));
         break;
-      case 'P':
+      case "P": case "p":
         Action produceAction = createProduceAction();
         while(produceAction == null)
           produceAction = createProduceAction();
         client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, produceAction));
         break;
-      case 'A': //activate leader card
+      case "L": case "l"://leaderProduce
+
+        break;
+      case "A": case "a"://activate leader card
         Action activateLeaderAction = createActivateLeaderAction();
         client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, activateLeaderAction));
         break;
-      case 'D': //discard leader card
+      case "D": case "d"://discard leader card
         Action discardLeaderAction = createDiscardLeaderAction();
         client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, discardLeaderAction));
         break;
-      case 'E': //end turn
+      case "E": case "e"://end turn
         client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new EndTurnAction(client.getUsername())));
         break;
       default:

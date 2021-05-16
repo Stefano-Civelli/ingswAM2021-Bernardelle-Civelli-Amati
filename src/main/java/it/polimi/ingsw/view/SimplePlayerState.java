@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
+import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
@@ -112,10 +113,9 @@ public class SimplePlayerState implements SimpleStateObservable{
    }
 
    public void vaticanReportUpdate(String payload) {
-      Type token = new TypeToken<Pair<Integer, Boolean>>(){}.getType();
-      Pair<Integer, Boolean> pair = GSON.getGsonBuilder().fromJson(payload, token);
-      int zone = pair.getKey();
-      boolean flip = pair.getValue();
+      Track.VaticanReport update = GSON.getGsonBuilder().fromJson(payload, Track.VaticanReport.class);
+      int zone = update.getZone();
+      boolean flip = update.isActive();
 
       vaticanFlipped[zone] = flip;
    }

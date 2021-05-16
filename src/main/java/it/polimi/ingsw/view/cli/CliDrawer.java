@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.SimpleStateObserver;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class CliDrawer implements SimpleStateObserver {
@@ -134,7 +135,9 @@ public class CliDrawer implements SimpleStateObserver {
         System.out.println(resources[i][j]);
   }
 
-
+ public void drawDevelopCardDeck(){
+    System.out.println(Arrays.deepToString(gameState.visibleCards()));
+ }
 
   //private methods
   private void displayCanvas() {

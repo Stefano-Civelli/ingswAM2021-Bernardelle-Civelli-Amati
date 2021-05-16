@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view;
 
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.DevelopCard;
+import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.utility.GSON;
@@ -13,6 +15,9 @@ import java.util.List;
 
 public class SimpleGameState implements SimpleStateObservable{
 
+   private final int NUMBER_OF_DECK_ROWS = 3;
+   private final int NUMBER_OF_DECK_COLUMS = 4;
+
    private List<Integer>[][] developCardDeck; //identified by ID
    private MarbleColor[][] market;
    private MarbleColor slide;
@@ -21,7 +26,9 @@ public class SimpleGameState implements SimpleStateObservable{
    }
 
    public void constructDeck(String payload) {
-      this.developCardDeck = GSON.getGsonBuilder().fromJson(payload, List[][].class);
+      Type token = new TypeToken<List<Integer>[][]>(){}.getType();
+      this.developCardDeck = GSON.getGsonBuilder().fromJson(payload, token);
+      //this.developCardDeck = GSON.getGsonBuilder().fromJson(payload, List[][].class);
    }
 
 
@@ -85,6 +92,20 @@ public class SimpleGameState implements SimpleStateObservable{
       return slide;
    }
 
+   /**
+    * returns the visible cards (the ones on top of the card square)
+    *
+    * @return a matrix of DevelopCard
+    */
+   public Integer[][] visibleCards() {
+      Integer[][] temp = new Integer[NUMBER_OF_DECK_ROWS][NUMBER_OF_DECK_COLUMS];
+      for (int i = 0; i < developCardDeck.length; i++) {
+         for (int j = 0; j < developCardDeck[i].length; j++) {
+            temp[i][j] = developCardDeck[i][j].get(developCardDeck[i][j].size() - 1);
+         }
+      }
+      return temp;
+   }
 
 
    @Override

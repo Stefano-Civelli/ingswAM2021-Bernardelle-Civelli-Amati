@@ -60,8 +60,9 @@ public class Client {
       client.connectToServer(); //TODO questa posso farla eseguire al thread. poi tolgo l'altro thread che non serve più
       //TODO chiamo la waitforinput che ha il whiletrue
     }
-    else
+    else {
       Application.launch(GUI.class);
+    }
   }
 
   public Client() {
@@ -108,6 +109,7 @@ public class Client {
         view.displayServerDown();
         break;
       case ERROR:
+        //quando ricevo un errore la cosa migliore è passarlo all'handler che poi lo printa facendo uno switch che printa diverso per ogni tipo di errore
         System.out.println("ERROR: " + msg.getPayload());
         handleError(ErrorType.fromValue(msg.getPayload()));
         break;
@@ -226,8 +228,7 @@ public class Client {
       System.out.println(turnManager.getCurrentPhase());
       turnManager.currentPhasePrint();
     }
-
-    }
+  }
 
 
   private void handleError(ErrorType errorType) {
@@ -239,6 +240,28 @@ public class Client {
       case INVALID_LOGIN_USERNAME:
         view.displayFailedLogin();
         view.displayLogin();
+        break;
+      case NOT_BUYABLE:
+        System.out.println("sorry mate, sei troppo povero per comprarla. Riprova quando avrai comprato azioni Tesla");
+        turnManager.currentPhasePrint();
+        break;
+      case INVALID_LEADERCARD:
+        turnManager.currentPhasePrint();
+        break;
+      case INVALID_DEVELOP_CARD:
+        break;
+      case CANNOT_DISCARD_ACTIVE_LEADER:
+        System.out.println("sorry mate, you can't discard an active leader card ");
+        turnManager.currentPhasePrint();
+        break;
+      case ALREADY_PRODUCED: //è così di proposito
+      case NOT_ACTIVATABLE_PRODUCTION:
+        System.out.println("sorry mate, you can't activate this production ");
+        turnManager.currentPhasePrint();
+        break;
+      case NOT_ENOUGH_RESOURCES:
+        System.out.println("sorry mate, you don't have enough resources to perform this action ");
+        turnManager.currentPhasePrint();
         break;
       default:
     }

@@ -83,33 +83,35 @@ public class ClientTurnManager {
     }
   }
 
-  public boolean validateInput(String input) {
-    //input.toUpperCase().charAt(0);  ci sta metterlo
+  public boolean isValidInCurrenPhase(String input) {
     ActionType action = null;
     switch (input) {
-      case "P":
+      case "P": case "p":
         action = ActionType.PRODUCE;
         break;
-      case "S":
+      case "S": case "s":
         action = ActionType.SHOP_MARKET;
         break;
-      case "B":
+      case "B": case "b":
         action = ActionType.BUY_CARD;
         break;
-      case "A":
+      case "A": case "a":
         action = ActionType.ACTIVATE_LEADER;
         break;
-      case "L":
+      case "L": case "l":
         action = ActionType.LEADER_PRODUCE;
         break;
-      case "E":
+      case "E": case "e":
         action = ActionType.END_TURN;
         break;
-      case "I":
+      case "I": case "i":
         action = ActionType.INSERT_MARBLE;
         break;
-      case "C":
+      case "C": case "c":
         action = ActionType.CHOOSE_WHITE_LEADER;
+        break;
+      case "D": case "d":
+        action = ActionType.DISCARD_LEADER;
         break;
       default: return false;
     }
