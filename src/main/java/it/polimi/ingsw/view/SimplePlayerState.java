@@ -1,11 +1,8 @@
 package it.polimi.ingsw.view;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
-import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
@@ -27,13 +24,15 @@ public class SimplePlayerState implements SimpleStateObservable{
    private final Map<ResourceType, Integer> tempChest;
    private final Pair<ResourceType, Integer>[] warehouseLevels;
    private final List<Pair<ResourceType, Integer>> leaderLevels;
-   private final List<Integer> cardSlot1;
-   private final List<Integer> cardSlot2;
-   private final List<Integer> cardSlot3;
+   private final List<Integer>[] cardSlots;
+
 
    public SimplePlayerState() {
       this.trackPosition = 0;
-      this.chest = new HashMap<>();
+      this.chest = new HashMap<>(); //potrei mettere ste 3 righe in una chestsetup
+      for (ResourceType resType : ResourceType.values())
+         chest.put(resType, 0); //questa inizializzazione forse non serve. dipende da come funziona la funzione di print
+
       this.tempChest = new HashMap<>();
       this.warehouseLevels = new Pair[this.NUMBER_OF_NORMAL_LEVELS];
       for(int i=0; i<3; i++)
@@ -43,23 +42,32 @@ public class SimplePlayerState implements SimpleStateObservable{
       for (int i=0; i<MAX_SPECIAL_LEVELS; i++)
          this.leaderLevels.add(new Pair<>(null, null));
 
-      this.cardSlot1 = new ArrayList<>();
-      this.cardSlot2 = new ArrayList<>();
-      this.cardSlot3 = new ArrayList<>();
+      this.cardSlots = new List[3];
+      for(int i=0; i<3; i++)
+         cardSlots[i] = new ArrayList<>();
 
       this.vaticanFlipped = new boolean[3];
       for(int i=0; i<3; i++)
          vaticanFlipped[i] = false;
    }
 
+   //-----------SETUP-------------------------------------------
    public void setupLeaderCard(String payload){
       this.leaderCards = GSON.getGsonBuilder().fromJson(payload, List.class);
    }
 
-   public Pair<ResourceType, Integer>[] getWarehouseLevels() {
-      return warehouseLevels;
+   /**
+    * delete a leadercard from the SimplePlayerState
+    *
+    * @param indexOfLeaderToDiscard
+    */
+   public void discardLeader(int indexOfLeaderToDiscard){
+      leaderCards.remove(indexOfLeaderToDiscard - 1);
    }
+   //-----------------------------------------------------------
 
+
+   //----------UPDATE-------------------------------------------
    public void warehouseUpdate(String payload) {
       Warehouse.WarehouseUpdate update = GSON.getGsonBuilder().fromJson(payload, Warehouse.WarehouseUpdate.class);
 
@@ -112,75 +120,60 @@ public class SimplePlayerState implements SimpleStateObservable{
       vaticanFlipped[zone] = flip;
    }
 
-   private void chestUpdate(String payload) {
+   public void chestUpdate(String payload) { //serve?
       Type token = new TypeToken<Pair<ResourceType, Integer>>(){}.getType();
       Pair<ResourceType, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
       ResourceType resource = pair.getKey();
       int quantity = pair.getValue();
 
-      for(Map.Entry<ResourceType, Integer> entry : chest.entrySet())
-         if(resource.equals(entry.getKey()))
-            chest.put(resource, quantity);
+      this.chest.put(resource, quantity);
    }
 
-   private void tempChestUpdate(String payload) {
+   public void tempChestUpdate(String payload) {
       Type token = new TypeToken<Pair<ResourceType, Integer>>(){}.getType();
       Pair<ResourceType, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
       ResourceType resource = pair.getKey();
       int quantity = pair.getValue();
 
-      for(Map.Entry<ResourceType, Integer> entry : tempChest.entrySet())
-         if(resource.equals(entry.getKey()))
-            tempChest.put(resource, quantity);
+      this.tempChest.put(resource, quantity);
    }
 
-   private void cardSlotUpdate(String payload) {
+   public void cardSlotUpdate(String payload) {
       Type token = new TypeToken<Pair<Integer, Integer>>(){}.getType();
       Pair<Integer, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
       int devCardID = pair.getKey();
       int slot = pair.getValue();
 
-      if(slot == 0)
-         cardSlot1.add(devCardID);
-      if(slot == 1)
-         cardSlot2.add(devCardID);
-      if(slot == 2)
-         cardSlot3.add(devCardID);
+      cardSlots[slot].add(devCardID);
+
    }
 
-   //TODO clonare
+   public void activatedLeaderUpdate(String payload){
+      leaderCards.add(Integer.parseInt(payload));
+   }
+   //----------------------------------------------------------
+
+
+   //----------GETTERS-----------------------------------------
+   public List<Integer> getLeaderCards() {
+      return new ArrayList<>(leaderCards);
+   }
+
    public Map<ResourceType, Integer> getChest() {
-      return chest;
+      return new HashMap<>(chest);
    }
 
+   public Pair<ResourceType, Integer>[] getWarehouseLevels() {
+      return warehouseLevels;
+   }
+   //----------------------------------------------------------
+
+   //----------UTILITY-----------------------------------------
    public void mergeTempChest() {
       for(Map.Entry<ResourceType, Integer> entry : tempChest.entrySet()){
          chest.put(entry.getKey(), chest.containsKey(entry.getKey()) ? chest.get(entry.getKey()) + entry.getValue() : entry.getValue());
       }
       this.tempChest.clear();
-   }
-
-   /**
-    * delete a leadercard from the SimplePlayerState
-    *
-    * @param indexOfLeaderToDiscard
-    */
-   public void discardLeader(int indexOfLeaderToDiscard){
-      leaderCards.remove(indexOfLeaderToDiscard - 1);
-   }
-
-   public void activatedLeaderUpdate(String payload){
-   }
-
-
-   public List<Integer> getLeaderCards() {
-      return leaderCards;
-   }
-
-   @Override
-   public void notifyStateChange() {
-      //observerList.stream().forEach(x -> x.fai la display della canvas del player che ha cambiato stato (cioè this playerstate));
-
    }
 
    public boolean isBaseProductionActivatable() {
@@ -190,7 +183,7 @@ public class SimplePlayerState implements SimpleStateObservable{
          quantity = entry.getValue();
       for(Pair<ResourceType, Integer> p : warehouseLevels) {
          if(p.getValue()!=null)
-         quantity = p.getValue();
+            quantity = p.getValue();
       }
       for(Pair<ResourceType, Integer> p : leaderLevels) {
          if(p.getValue()!=null)
@@ -216,4 +209,13 @@ public class SimplePlayerState implements SimpleStateObservable{
 
       return resources;
    }
+   //----------------------------------------------------------
+
+   @Override
+   public void notifyStateChange() {
+      //observerList.stream().forEach(x -> x.fai la display della canvas del player che ha cambiato stato (cioè this playerstate));
+
+   }
+
+
 }

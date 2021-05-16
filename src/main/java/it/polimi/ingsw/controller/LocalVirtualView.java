@@ -67,4 +67,9 @@ public class LocalVirtualView implements ModelObserver {
    public void devDeckSetup(String stateUpdate) {
 
    }
+
+   @Override
+   public void tempChestUpdate(String stateUpdate) {
+
+   }
 }

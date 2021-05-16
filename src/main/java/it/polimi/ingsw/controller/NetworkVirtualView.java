@@ -70,4 +70,9 @@ public class NetworkVirtualView implements ModelObserver {
    public void devDeckSetup(String stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.DECK_SETUP, stateUpdate));
    }
+
+   @Override
+   public void tempChestUpdate(String stateUpdate) {
+      server.serverBroadcastUpdate(new Message(MessageType.TEMP_CHEST_UPDATE, stateUpdate));
+   }
 }

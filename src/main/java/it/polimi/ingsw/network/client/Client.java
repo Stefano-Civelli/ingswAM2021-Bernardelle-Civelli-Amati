@@ -108,6 +108,7 @@ public class Client {
         view.displayServerDown();
         break;
       case ERROR:
+        System.out.println("ERROR: " + msg.getPayload());
         handleError(ErrorType.fromValue(msg.getPayload()));
         break;
       case LOGIN_SUCCESSFUL:
@@ -145,7 +146,7 @@ public class Client {
         handleTurnState(msg.getPayload());
         //view.displayEndTurn();
         break;
-      case LEADERCARD_SETUP:
+      case LEADERCARD_SETUP: //received only by the interested player
         SimplePlayerState playerState = new SimplePlayerState();
         //System.out.println(msg.getPayload());
         this.simplePlayerStateMap.put(msg.getUsername(), playerState);
@@ -170,7 +171,9 @@ public class Client {
         getSimplePlayerState(msg.getUsername()).warehouseUpdate(msg.getPayload());
         break;
       case ACTIVATED_LEADERCARD_UPDATE:
-        getSimplePlayerState(msg.getUsername()).activatedLeaderUpdate(msg.getPayload());
+        if(!this.username.equals(msg.getUsername()))
+          getSimplePlayerState(msg.getUsername()).activatedLeaderUpdate(msg.getPayload());
+        //else ....
         break;
       case TRACK_UPDATED:
         getSimplePlayerState(msg.getUsername()).trackUpdate(msg.getPayload());
@@ -179,8 +182,13 @@ public class Client {
         getSimplePlayerState(msg.getUsername()).vaticanReportUpdate(msg.getPayload());
         break;
       case CHEST_UPDATE:
+        getSimplePlayerState(msg.getUsername()).chestUpdate(msg.getPayload());
+        break;
+      case TEMP_CHEST_UPDATE:
+        getSimplePlayerState(msg.getUsername()).tempChestUpdate(msg.getPayload());
         break;
       case CARD_SLOT_UPDATE:
+        getSimplePlayerState(msg.getUsername()).cardSlotUpdate(msg.getPayload());
         break;
 
     }
@@ -205,15 +213,19 @@ public class Client {
   private void handleTurnState(String payload) {
     TurnManager.TurnState newState = GSON.getGsonBuilder().fromJson(payload, TurnManager.TurnState.class);
 
-    if(turnManager.setStateIsChanged(newState)){
-      if (turnManager.getCurrentPlayer().equals(username))
+    if(turnManager.setStateIsPlayerChanged(newState)){
+      if (turnManager.getCurrentPlayer().equals(username)) {
         view.displayYourTurn(turnManager.getCurrentPlayer());
+        view.displayDefaultCanvas(turnManager.getCurrentPlayer());
+      }
       else
         view.displayPlayerTurn(turnManager.getCurrentPlayer());
     }
 
-    if(username.equals(turnManager.getCurrentPlayer()))
+    if(username.equals(turnManager.getCurrentPlayer())){
+      System.out.println(turnManager.getCurrentPhase());
       turnManager.currentPhasePrint();
+    }
 
     }
 
@@ -228,6 +240,7 @@ public class Client {
         view.displayFailedLogin();
         view.displayLogin();
         break;
+      default:
     }
   }
 

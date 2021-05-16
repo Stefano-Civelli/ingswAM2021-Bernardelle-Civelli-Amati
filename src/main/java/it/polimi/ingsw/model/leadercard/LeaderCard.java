@@ -71,7 +71,7 @@ public class LeaderCard implements ModelObservable {
 
       active = true;
 
-      notifyModelChange(GSON.getGsonBuilder().toJson( this.leaderId));
+      notifyModelChange(GSON.getGsonBuilder().toJson(this.leaderId));
    }
 
    /**

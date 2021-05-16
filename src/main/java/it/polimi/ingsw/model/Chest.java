@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.modelObservables.ModelObservable;
+import it.polimi.ingsw.model.modelObservables.TempChestObservable;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
@@ -9,7 +10,7 @@ import it.polimi.ingsw.utility.Pair;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Chest implements ModelObservable {
+public class Chest implements ModelObservable, TempChestObservable {
   private final Map<ResourceType, Integer> resources;
   private final Map<ResourceType, Integer> tempResourcesMap;
 
@@ -36,7 +37,7 @@ public class Chest implements ModelObservable {
       throw new NegativeQuantityException("you are adding a negative quantity of a resource, that's not allowed");
 
     tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
-    notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<> (resource, tempResourcesMap.get(resource))));
+    notifyTempChestChange(GSON.getGsonBuilder().toJson( new Pair<> (resource, tempResourcesMap.get(resource))));
   }
 
   /**
@@ -110,5 +111,11 @@ public class Chest implements ModelObservable {
 
   public void setController(ModelObserver controller) {
     this.controller = controller;
+  }
+
+  @Override
+  public void notifyTempChestChange(String msg) {
+    if (controller != null)
+      controller.tempChestUpdate(msg);
   }
 }

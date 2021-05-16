@@ -43,7 +43,7 @@ public class ClientTurnManager {
         break;
       case SHOPPING:
         System.out.print("You need to insert one of the following marbles you got from market");
-        //cli.displayMarbleChoice();
+        cli.displayMarbleChoice();
         //display delle marble con indice, rimuovere da temp, indice preso e mandato come action INSERT MARBLE
         break;
       case SHOPPING_LEADER:
@@ -84,6 +84,7 @@ public class ClientTurnManager {
   }
 
   public boolean validateInput(String input) {
+    //input.toUpperCase().charAt(0);  ci sta metterlo
     ActionType action = null;
     switch (input) {
       case "P":
@@ -138,11 +139,19 @@ public class ClientTurnManager {
   }
 
 
-  public boolean setStateIsChanged(TurnManager.TurnState newState) {
+  /**
+   * set new phase and new currentPlayer
+   *
+   * @param newState the new Turn State
+   * @return true if the currentPlayer is changed
+   */
+  public boolean setStateIsPlayerChanged(TurnManager.TurnState newState) {
 
     this.currentPhase = newState.getPhase(); //set new phase
 
     if(!currentPlayer.equals(newState.getPlayer())) {
+      client.getSimplePlayerState(this.currentPlayer).mergeTempChest(); //merge chest of the "old" currentPlayer if that current changes
+      //devo fare merge per forza qua perchè devo mergiare su ogni client e non solo sul mio
       this.currentPlayer = newState.getPlayer();
       return true;
     }

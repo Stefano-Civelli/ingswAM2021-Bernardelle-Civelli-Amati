@@ -14,5 +14,5 @@ public interface ModelObserver {
   void vaticanUpdate(String stateUpdate);
   void devDeckUpdate(String stateUpdate);
   void devDeckSetup(String stateUpdate);
-
+  void tempChestUpdate(String stateUpdate);
 }

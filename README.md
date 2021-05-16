@@ -19,7 +19,7 @@
 | :----:     |    :----:   |          :----:  |     :----  |
 | Server     | LOGIN_SUCCESFUL       | null    | login procedure is succesfull
 | Server     | RECONNECTED        | null     | client  successfully reconnects to the server
-| Server     | ERROR        | [an error type](#Errors-Table)  | sent to client when an error occurs
+| Server     | ERROR        | [an error type](#Errors-Tables)  | sent to client when an error occurs
 | Server     |  NUMBER_OF_PLAYERS       | null     | tell the client that server is in a state where he expects a number of player
 | Server     | GAME_STARTED | ordered list of the players | indicates to all the client that game has started
 | Server     | WAIT_FOR_LOBBY_CREATION |      | indicates to the client to wait till the lobby has been created and then try again to login
@@ -47,12 +47,19 @@
 | Server/Client| PING        | null     | simple ping message to keep the socketTimeout from expiring
 | Client     | NUMBER_OF_PLAYERS        |  the chosen number of players    | 
 | Client     | LOGIN        |      | 
-| Client     | ACTION        |      | 
+| Client     | ACTION        | [an Action](#Action-Table)     | 
 | Client     | INIT_TURN |      | 
 | Client     | END_TURN |      | 
-| Client     | QUIT |      | 
+| Client     | QUIT |      |
 
-  
+
+###Action Table
+| non lo so | description |
+| :----: | :---- |
+| ........ | .....................
+| ......... | |
+| .............. | |
+
 ### Errors Tables
 #### Generic Errors
 | Error Type | description |
