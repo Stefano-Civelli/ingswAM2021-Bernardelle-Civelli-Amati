@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.MarbleColor;
@@ -135,9 +136,69 @@ public class CliDrawer implements SimpleStateObserver {
         System.out.println(resources[i][j]);
   }
 
- public void drawDevelopCardDeck(){
-    System.out.println(Arrays.deepToString(gameState.visibleCards()));
- }
+  public void drawDevelopCardDeck(){
+    String[][] deck = skeletonCards();
+    fillDeck(deck);
+
+    for (int i=0; i<deck.length; i++) {
+      for (int j = 0; j < deck[0].length; j++)
+        System.out.print(deck[i][j]);
+      System.out.println();
+    }
+    System.out.println(Color.RESET.escape());
+  }
+
+  private void fillDeck(String[][] deck) {
+    Integer[][] cards = gameState.visibleCards();
+
+    for (int i = 0, a = 1; i < cards.length; i++, a+=5) {
+      for (int j = 0, b = 1; j < cards[0].length; j++, b+=11) {
+        if (cards[i][j] != null) {
+          try {
+            DevelopCard d = Cli.getDevelopCardFromId(cards[i][j]);
+            int victory = d.getVictoryPoints();
+            int c=b;
+            Map<ResourceType, Integer> cost = d.getCost();
+            Map<ResourceType, Integer> requirements = d.getRequirement();
+            Map<ResourceType, Integer> products = d.getProduct();
+
+            for(Map.Entry<ResourceType, Integer> entry : cost.entrySet()) {
+              deck[a][c] = entry.getKey().getColor().getColor() + entry.getValue().toString();
+              c+=2;
+            }
+
+            c=b;
+            for(Map.Entry<ResourceType, Integer> entry : requirements.entrySet()) {
+              deck[a+1][c] = entry.getKey().getColor().getColor() + entry.getValue().toString();
+              c+=2;
+            }
+
+            deck[a+1][c-1] = ConfigParameters.arrowCharacter;
+
+            for(Map.Entry<ResourceType, Integer> entry : products.entrySet()) {
+              deck[a+1][c] = entry.getKey().getColor().getColor() + entry.getValue().toString();
+              c+=2;
+            }
+
+            if(victory > 9) {
+              deck[a+3][b+4] = " ";
+              deck[a+3][b+5] = "\u25C6";
+              deck[a+3][b+6] = Integer.toString(victory/10);
+              deck[a+3][b+7] = Integer.toString(victory%10);
+              deck[a+3][b+8] = " ";
+            }
+            else {
+              deck[a+3][b+5] = " ";
+              deck[a+3][b+6] = "\u25C6";
+              deck[a+3][b+7] = Integer.toString(victory);
+              deck[a+3][b+8] = " ";
+            }
+          } catch (InvalidCardException e) {}
+        }
+      }
+    }
+  }
+
 
   //private methods
   private void displayCanvas() {
@@ -204,9 +265,9 @@ public class CliDrawer implements SimpleStateObserver {
 
   private void buildWarehouse(String username) {
     Pair<ResourceType, Integer>[] warehouse = playerState.get(username).getWarehouseLevels();
-    for(int i=0; i<warehouse.length; i++) {
+    for(int i=0, j=warehouse.length-1; i<warehouse.length; i++, j--) {
       skeletonWarehouse(i);
-      fillWarehouse(i, warehouse[i].getKey(), (warehouse[i].getKey() == null) ? 0 : warehouse[i].getValue());
+      fillWarehouse(i, warehouse[j].getKey(), (warehouse[j].getKey() == null) ? 0 : warehouse[j].getValue());
     }
   }
 
@@ -275,6 +336,48 @@ public class CliDrawer implements SimpleStateObserver {
     }
 
     return chest;
+  }
+
+  private String[][] skeletonCards() {
+    String[][] deck = new String[15][44];
+    int r=5, c=11;
+
+    for (int i=0; i<deck.length; i++)
+      for (int j=0; j<deck[0].length; j++) {
+        if(j<11)
+          deck[i][j] = Color.ANSI_GREEN.escape() + buildMargins(r, c)[i % 5][j % 11];
+        else if(j<22)
+          deck[i][j] = Color.ANSI_BLUE.escape() + buildMargins(r, c)[i % 5][j % 11];
+        else if(j<33)
+          deck[i][j] = Color.ANSI_YELLOW.escape() + buildMargins(r, c)[i % 5][j % 11];
+        else
+          deck[i][j] = Color.ANSI_PURPLE.escape() + buildMargins(r, c)[i % 5][j % 11];
+      }
+
+    for (int i=0; i<deck.length; i+=5)
+      for (int j=1; j<deck[0].length; j+=11) {
+        deck[i][j] = " ";
+        switch (i) {
+          case 0:
+            deck[i][j+1] = "I";
+            deck[i][j+2] = "I";
+            deck[i][j+3] = "I";
+            deck[i][j+4] = " ";
+            break;
+          case 5:
+            deck[i][j+1] = "I";
+            deck[i][j+2] = "I";
+            deck[i][j+3] = " ";
+            break;
+          case 10:
+            deck[i][j+1] = "I";
+            deck[i][j+2] = " ";
+            break;
+        }
+      }
+
+
+    return deck;
   }
 
   private void fillWarehouse(int level, ResourceType resource, int quantity) {
@@ -408,15 +511,6 @@ public class CliDrawer implements SimpleStateObserver {
 
     return track;
   }
-
-
-
-
-
-
-
-
-
 
 
 

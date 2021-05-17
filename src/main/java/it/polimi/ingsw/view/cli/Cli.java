@@ -544,5 +544,4 @@ public class Cli implements ViewInterface {
     //in.nextLine();
     return output;
   }
-
 }
