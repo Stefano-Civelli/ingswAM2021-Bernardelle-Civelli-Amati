@@ -1,20 +1,18 @@
 package it.polimi.ingsw.network.client;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.CliDrawer;
+import it.polimi.ingsw.view.gui.GUI;
+import javafx.application.Application;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -30,12 +28,11 @@ public class Client {
   private String username = null;
   private String serverIP;
   private int serverPort;
-  private ServerConnector serverConnector;
+  private MessageHandler serverConnector;
   private SimpleGameState simpleGameState;
   private LinkedHashMap<String, SimplePlayerState> simplePlayerStateMap;
   private ClientTurnManager  turnManager;
 
-  private Timer pingTimer = null;
 
 
   public static void main(String[] args) {
@@ -47,8 +44,11 @@ public class Client {
           cli = true;
           break;
         case "gui":
+          cli = false;
           break;
       }
+
+    //devo fargli scegliere se giocare in locale o network
 
     if (cli) {
       Client client = new Client();
@@ -60,7 +60,9 @@ public class Client {
       client.connectToServer(); //TODO questa posso farla eseguire al thread. poi tolgo l'altro thread che non serve più
       //TODO chiamo la waitforinput che ha il whiletrue
     }
-    //else gui
+    else {
+      Application.launch(GUI.class);
+    }
   }
 
   public Client() {
@@ -88,7 +90,6 @@ public class Client {
     try {
       server = new Socket(getServerIP(), getServerPort());
       serverConnector = new ServerConnector(server, this);
-      startPinging();
       serverConnector.handleServerConnection();
     } catch (IOException e) {
       view.displaySetupFailure();
@@ -108,6 +109,8 @@ public class Client {
         view.displayServerDown();
         break;
       case ERROR:
+        //quando ricevo un errore la cosa migliore è passarlo all'handler che poi lo printa facendo uno switch che printa diverso per ogni tipo di errore
+        System.out.println("ERROR: " + msg.getPayload());
         handleError(ErrorType.fromValue(msg.getPayload()));
         break;
       case LOGIN_SUCCESSFUL:
@@ -136,7 +139,7 @@ public class Client {
         handleGameStarted(msg);
         view.displayGameStarted();
         if(username.equals(turnManager.getCurrentPlayer()))
-          turnManager.handleNextPossiblePhases();
+          turnManager.currentPhasePrint();
         else
           view.displayPlayerTurn(msg.getUsername());
         break;
@@ -145,7 +148,7 @@ public class Client {
         handleTurnState(msg.getPayload());
         //view.displayEndTurn();
         break;
-      case LEADERCARD_SETUP:
+      case LEADERCARD_SETUP: //received only by the interested player
         SimplePlayerState playerState = new SimplePlayerState();
         //System.out.println(msg.getPayload());
         this.simplePlayerStateMap.put(msg.getUsername(), playerState);
@@ -170,7 +173,9 @@ public class Client {
         getSimplePlayerState(msg.getUsername()).warehouseUpdate(msg.getPayload());
         break;
       case ACTIVATED_LEADERCARD_UPDATE:
-        getSimplePlayerState(msg.getUsername()).activatedLeaderUpdate(msg.getPayload());
+        if(!this.username.equals(msg.getUsername()))
+          getSimplePlayerState(msg.getUsername()).activatedLeaderUpdate(msg.getPayload());
+        //else ....
         break;
       case TRACK_UPDATED:
         getSimplePlayerState(msg.getUsername()).trackUpdate(msg.getPayload());
@@ -179,8 +184,13 @@ public class Client {
         getSimplePlayerState(msg.getUsername()).vaticanReportUpdate(msg.getPayload());
         break;
       case CHEST_UPDATE:
+        getSimplePlayerState(msg.getUsername()).chestUpdate(msg.getPayload());
+        break;
+      case TEMP_CHEST_UPDATE:
+        getSimplePlayerState(msg.getUsername()).tempChestUpdate(msg.getPayload());
         break;
       case CARD_SLOT_UPDATE:
+        getSimplePlayerState(msg.getUsername()).cardSlotUpdate(msg.getPayload());
         break;
 
     }
@@ -204,17 +214,22 @@ public class Client {
 
   private void handleTurnState(String payload) {
     TurnManager.TurnState newState = GSON.getGsonBuilder().fromJson(payload, TurnManager.TurnState.class);
-    turnManager.newPhase(newState.getPhase());
-    if(!username.equals(newState.getPlayer()) && !newState.getPlayer().equals(turnManager.getCurrentPlayer())) {
-      view.displayPlayerTurn(newState.getPlayer());
-      turnManager.newCurrentPlayer(newState.getPlayer());
+
+    if(turnManager.setStateIsPlayerChanged(newState)){
+      if (turnManager.getCurrentPlayer().equals(username)) {
+        view.displayYourTurn(turnManager.getCurrentPlayer());
+        view.displayDefaultCanvas(turnManager.getCurrentPlayer());
+      }
+      else
+        view.displayPlayerTurn(turnManager.getCurrentPlayer());
     }
-    else if(username.equals(newState.getPlayer())) {
-      view.displayYourTurn(username);
-      turnManager.newCurrentPlayer(newState.getPlayer());
-      turnManager.handleNextPossiblePhases();
+
+    if(username.equals(turnManager.getCurrentPlayer())){
+      System.out.println(turnManager.getCurrentPhase());
+      turnManager.currentPhasePrint();
     }
   }
+
 
   private void handleError(ErrorType errorType) {
     switch (errorType){
@@ -226,31 +241,37 @@ public class Client {
         view.displayFailedLogin();
         view.displayLogin();
         break;
+      case NOT_BUYABLE:
+        System.out.println("sorry mate, sei troppo povero per comprarla. Riprova quando avrai comprato azioni Tesla");
+        turnManager.currentPhasePrint();
+        break;
+      case INVALID_LEADERCARD:
+        turnManager.currentPhasePrint();
+        break;
+      case INVALID_DEVELOP_CARD:
+        break;
+      case CANNOT_DISCARD_ACTIVE_LEADER:
+        System.out.println("sorry mate, you can't discard an active leader card ");
+        turnManager.currentPhasePrint();
+        break;
+      case ALREADY_PRODUCED: //è così di proposito
+      case NOT_ACTIVATABLE_PRODUCTION:
+        System.out.println("sorry mate, you can't activate this production ");
+        turnManager.currentPhasePrint();
+        break;
+      case NOT_ENOUGH_RESOURCES:
+        System.out.println("sorry mate, you don't have enough resources to perform this action ");
+        turnManager.currentPhasePrint();
+        break;
+      default:
     }
   }
 
-  private void startPinging() {
-    pingTimer = new Timer();
 
-    pingTimer.schedule(new TimerTask() {
-      @Override
-      public void run() {
-        sendToServer(new Message(MessageType.PING));
-      }
-    }, 1000, ConfigParameters.CLIENT_TIMEOUT);
-  }
-
-
-  public void sendToServer(Message msg) {
+  public void sendMessage(Message msg) { //deve cambiare nome perchè va usata anche per il locale
     if(msg.getMessageType() != MessageType.LOGIN)
       msg.setUsername(this.username);
-
-    //message.setUsername(this.username); non abbiamo lo user in ogni messaggio, dovremmo?
-    String message = parserToJson(msg);
-    JsonObject jsonObject = (JsonObject) JsonParser.parseString(message);
-    if(jsonObject.getAsJsonObject().get("messageType").getAsString().equals(MessageType.ACTION.name()))
-      message = message.replaceAll("\\\\\"", "");
-    serverConnector.sendToServer(message);
+    serverConnector.sendToServer(msg);
   }
 
   public void close() {
@@ -259,9 +280,6 @@ public class Client {
     System.exit(0);
   }
 
-  private String parserToJson(Message msg){
-    return GSON.getGsonBuilder().toJson(msg);
-  }
 
   public String getUsername() { return this.username; }
 

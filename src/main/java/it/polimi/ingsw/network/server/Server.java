@@ -1,11 +1,11 @@
 package it.polimi.ingsw.network.server;
 
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.controller.action.PlayerDisconnectionAction;
+import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.network.messages.ErrorType;
@@ -189,17 +189,17 @@ public class Server {
    }
 
    private void start() {
-      Game game = null;
+      Game game = null; //TODO sarebbe merglio avere solo controller qua
       List<String> playersInOrder = null;
       boolean singlePlayer = (playersNumber == 1);
-      Controller controller = new Controller(this);
+      ModelObserver networkVirtualView = new NetworkVirtualView(this);
       // problema: al game server turnmanager per fare gli update e a TurnManager serve game
       // altro problema: mando gli update del modello prima del messaggio startGame
       try {
          if(singlePlayer)
-            game = new SinglePlayer(controller);
+            game = new SinglePlayer(networkVirtualView);
          else
-            game = new Game(controller);
+            game = new Game(networkVirtualView);
       }catch(IOException | JsonSyntaxException e){ //TODO controllare se viene lanciata la JsonSyntaxException
          //TODO bisogna chiudere la partita (disconnetto tutti i client 1 per volta dicendo Errore nei file di configurazione del gioco)
          sendToClient(new Message(MessageType.GENERIC_MESSAGE));
@@ -208,9 +208,11 @@ public class Server {
       try {
          this.turnManager = new TurnManager(game, loggedPlayers());
          playersInOrder = turnManager.startGame();
-      }catch (IOException | MaximumNumberOfPlayersException e) {
-         // FIXME gestire la MaximumNumberOfPlayersException
+      }catch (IOException e) {
          System.out.println("playerboard constructor probably has a problem");
+         e.printStackTrace();
+      } catch (MaximumNumberOfPlayersException e) {
+         System.out.println("added more than 1 player in singleplayer"); //TODO dovrei fare altro quando ho un errore così grave ?
          e.printStackTrace();
       }
       sendToClient(new Message(MessageType.GAME_STARTED, playersInOrder));
@@ -373,7 +375,8 @@ public class Server {
 
       if(disconnectedClient.isLogged()) {
          sendBroadcast(new Message(disconnectedClient.getUsername(), MessageType.DISCONNECTED)); //non serve
-         turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
+         Message errorOrEndTurn = turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
+         disconnectedClient.actionAnswereMessage(errorOrEndTurn);
       }
 
       disconnectedClient.closeSocket();

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.cli;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.DevelopCardDeck;
@@ -91,7 +89,7 @@ public class Cli implements ViewInterface {
     username = in.nextLine();
     Message loginMessage = new Message(username, MessageType.LOGIN);
     client.setUsername(username);
-    client.sendToServer(loginMessage);
+    client.sendMessage(loginMessage);
   }
 
     @Override
@@ -99,7 +97,7 @@ public class Cli implements ViewInterface {
       out.println("How many people do you want to play with?");
       numOfPlayers = validateIntInput(1, 4);
       Message loginMessage = new Message(client.getUsername(), MessageType.NUMBER_OF_PLAYERS, Integer.toString(numOfPlayers));
-      client.sendToServer(loginMessage);
+      client.sendMessage(loginMessage);
     }
 
   @Override
@@ -223,13 +221,21 @@ public class Cli implements ViewInterface {
     System.out.println("It's your turn.");
   }
 
+  @Override
+  public void displayDefaultCanvas(String username) {
+    drawer.displayDefaultCanvas(client.getUsername());
+  }
+
   private void waitForInput() {
 
     Scanner in = new Scanner(System.in);
     Runnable threadInputTerminal = () -> {
       while (true) {
         String line = in.nextLine();
-        if(clientTurnManager.getCurrentPhase().isSetup() && client.getUsername().equals(clientTurnManager.getCurrentPlayer())) {
+
+        if (!client.getUsername().equals(clientTurnManager.getCurrentPlayer()))
+          System.out.println("It's " + clientTurnManager.getCurrentPlayer() + "'s turn. Wait yours ...");
+        else {
           switch (clientTurnManager.getCurrentPhase()) {
             case SETUP_DISCARDING_LEADERS:
               createInitialDiscardLeaderAction(line);
@@ -237,54 +243,68 @@ public class Cli implements ViewInterface {
             case SETUP_CHOOSING_RESOURCES:
               createChooseResourcesAction(line);
               break;
-          }
+            case SHOPPING:
+              Action insertMarbleAction = createInsertMarbleAction(line);
+              client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, insertMarbleAction));
+              break;
+            case SHOPPING_LEADER:
+              break;
+            default:
+              if (clientTurnManager.isValidInCurrenPhase(line)) //to see if the input is valid in this turnPhase
+                handleInput(line);
+              else {
+                System.out.println("Command you gave me is not allowed in this phase of the game or doesn't exists");
+                clientTurnManager.currentPhasePrint();
+              }
+          }//switch
         }
-        else {
-          if (!client.getUsername().equals(clientTurnManager.getCurrentPlayer()))
-            System.out.println("It's " + clientTurnManager.getCurrentPlayer() + "'s turn. Wait yours ...");
-          else {
-            if (clientTurnManager.validateInput(line))
-              handleInput(line);
-            else {
-              System.out.println("Command you gave me is not allowed in this phase of the game or doesn't exists");
-              clientTurnManager.handleNextPossiblePhases();
-            }
-          }
-        }
-      }
+      }//while
     };
-    new Thread(threadInputTerminal).start();
+    Thread thread = new Thread(threadInputTerminal);
+    thread.setName("inputReader");
+    thread.start();
+  }
+
+  private Action createInsertMarbleAction(String line) {
+    int marbleIndex = validateIntInput(line, 1, 4);
+    return new InsertMarbleAction(marbleIndex-1);
   }
 
   private void handleInput(String line){
-    drawer.displayDefaultCanvas(client.getUsername());
     switch (line) {
-      case "B":
+      case "B": case "b":
         //TODO fare display del market e del magazzino/chest
+        drawer.drawDevelopCardDeck();
         Action buyCardAction = createBuyCardAction();
-        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, buyCardAction));
+        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, buyCardAction));
         break;
-      case "S":
+      case "S": case "s":
         Action marketAction = createMarketAction();
-        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, marketAction));
+        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, marketAction));
         break;
-      case "P":
+      case "P": case "p":
         Action produceAction = createProduceAction();
         while(produceAction == null)
           produceAction = createProduceAction();
-        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, produceAction));
+        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, produceAction));
         break;
-      case "A": //activate leader card
+      case "L": case "l"://leaderProduce
+
+        break;
+      case "A": case "a"://activate leader card
         Action activateLeaderAction = createActivateLeaderAction();
-        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, activateLeaderAction));
+        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, activateLeaderAction));
         break;
-      case "D": //discard leader card
+      case "D": case "d"://discard leader card
         Action discardLeaderAction = createDiscardLeaderAction();
-        client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, discardLeaderAction));
+        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, discardLeaderAction));
+        break;
+      case "E": case "e"://end turn
+        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new EndTurnAction(client.getUsername())));
         break;
       default:
         System.out.println("Command you gave me is not allowed in this phase of the game");
-        clientTurnManager.handleNextPossiblePhases();
+        clientTurnManager.currentPhasePrint();
     }
   }
 
@@ -311,14 +331,14 @@ public class Cli implements ViewInterface {
     Map<ResourceType, Integer> resources = new HashMap<>();
 
     while(i>0) {
-      int resource = validateIntInput(Integer.parseInt(line), 1, 4);
+      int resource = validateIntInput(line, 1, 4);
       if(resources.containsKey(parsIntToResource(resource)))
         resources.compute(parsIntToResource(resource), (k,v) -> (v==null) ? 1 : v + 1);
       else
         resources.put(parsIntToResource(resource), 1);
       i--;
     }
-    client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(resources)));
+    client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(resources)));
   }
 
   private ResourceType parsIntToResource(int value){
@@ -350,11 +370,11 @@ public class Cli implements ViewInterface {
   }
 
   private void createInitialDiscardLeaderAction(String line) {
-    int firstDiscard = validateIntInput(Integer.parseInt(line), 1, client.getSimplePlayerState().getLeaderCards().size());
+    int firstDiscard = validateIntInput(line, 1, client.getSimplePlayerState().getLeaderCards().size());
     client.getSimplePlayerState().discardLeader(firstDiscard);
     drawer.displayLeaderHand(client.getUsername());
     int secondDiscard = validateIntInput(1, client.getSimplePlayerState().getLeaderCards().size());
-    client.sendToServer(new Message(client.getUsername(), MessageType.ACTION, new DiscardInitialLeaderAction(client.getUsername(), firstDiscard-1, secondDiscard-1)));
+    client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new DiscardInitialLeaderAction(client.getUsername(), firstDiscard-1, secondDiscard-1)));
     client.getSimplePlayerState().discardLeader(secondDiscard);
   }
 
@@ -379,12 +399,12 @@ public class Cli implements ViewInterface {
 
   private Action createBuyCardAction() {
     System.out.println("Chose row and column of the card you want to buy separated by new line");
-    int row = Integer.parseInt(in.nextLine());
-    int column = Integer.parseInt(in.nextLine());
+    int row = validateIntInput(1,3);
+    int column = validateIntInput(1,4);
     //TODO display dei card slots con eventualmente sopra le carte
     System.out.println("Chose the card slot in which to place it");
-    int cardSlot = Integer.parseInt(in.nextLine());
-    return new BuyDevelopCardAction(row, column, cardSlot);
+    int cardSlot = validateIntInput(1,3);
+    return new BuyDevelopCardAction(row-1, column-1, cardSlot-1);
   }
 
   private Action createProduceAction(){
@@ -420,10 +440,11 @@ public class Cli implements ViewInterface {
 
   private static String stringInputValidation(Scanner in, String a, String b) {
     String input;
+    in.nextLine();
     input = in.nextLine().toLowerCase();
 
     while(!input.equals(a) && !input.equals(b)){
-      System.out.print("input must be between " + a + " or " + b + ". try again: ");
+      System.out.print("input must be " + a + " or " + b + ". try again: ");
         input = in.nextLine();
     }
     return input;
@@ -503,8 +524,14 @@ public class Cli implements ViewInterface {
     return resource;
   }
 
-  private int validateIntInput(int line, int minValue, int maxValue) {
-    int output = line;
+  private int validateIntInput(String line, int minValue, int maxValue) {
+    int output;
+    try {
+      output = Integer.parseInt(line);
+    } catch (NumberFormatException e) {
+      output = minValue - 1;
+      in.nextLine();
+    }
     while (output > maxValue || output < minValue) {
       System.out.println("Value must be between " + minValue + " and " + maxValue + ". Please, try again:");
       try {

@@ -1,18 +1,20 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.EndGameObserver;
+import it.polimi.ingsw.model.modelObservables.DeckSetupObservable;
+import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class DevelopCardDeck implements EndGameObservable, ModelObservable {
+public class DevelopCardDeck implements EndGameObservable, ModelObservable, DeckSetupObservable {
 
    private final int NUMBER_OF_DECK_ROWS = 3;
    private final int NUMBER_OF_DECK_COLUMS = 4;
@@ -54,7 +56,7 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
    public void finalizeDeckSetup(ModelObserver controller){
       this.controller = controller;
       shuffleDeck(); // if you want to write tests that use the parsed Deck you need to move this call elsewhere
-      notifyModelChange(new Message(MessageType.DECK_SETUP, serializableIdDeck()));
+      notifyDeckSetup(GSON.getGsonBuilder().toJson( serializableIdDeck()));
    }
 
 
@@ -116,7 +118,7 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
          }
          cardsCube[k][column].remove(cardsCube[k][column].size() - 1);
          numberOfCardsToRemove--;
-         notifyModelChange(new Message(MessageType.DEVELOP_CARD_DECK_UPDATED, new Pair<>(k, column)));
+         notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(k, column)));
       }
    }
 
@@ -154,7 +156,7 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
          e.printStackTrace();
       }
       cardsCube[row][column].remove(cardsCube[row][column].size() - 1);
-      notifyModelChange(new Message(MessageType.DEVELOP_CARD_DECK_UPDATED, new Pair<>(row, column)));
+      notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(row, column)));
 
       //checks if the column where i removed a card is completly empty call the notifyForEndGame method
       for (List<DevelopCard>[] lists : cardsCube)
@@ -205,9 +207,14 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable {
    }
 
    @Override
-   public void notifyModelChange(Message msg) {
+   public void notifyModelChange(String msg) {
       if (controller != null)
-         controller.broadcastUpdate(msg);
+         controller.devDeckUpdate(msg);
    }
 
+   @Override
+   public void notifyDeckSetup(String msg) {
+      if (controller != null)
+         controller.devDeckSetup(msg);
+   }
 }

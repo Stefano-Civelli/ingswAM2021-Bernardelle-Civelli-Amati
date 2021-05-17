@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.SimpleStateObserver;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class CliDrawer implements SimpleStateObserver {
@@ -58,9 +59,11 @@ public class CliDrawer implements SimpleStateObserver {
   public void marketDisplay() {
     clearCanvas();
     String[][] market = buildAndSetMarket();
-    for(int i=0; i<market.length; i++)
-      for(int j=0; j<market[i].length; j++)
-        System.out.println(market[i][j]);
+    for(int i=0; i<market.length; i++) {
+      for (int j = 0; j < market[i].length; j++)
+        System.out.print(market[i][j]);
+      System.out.println();
+    }
   }
 
   //TODO
@@ -132,7 +135,9 @@ public class CliDrawer implements SimpleStateObserver {
         System.out.println(resources[i][j]);
   }
 
-
+ public void drawDevelopCardDeck(){
+    System.out.println(Arrays.deepToString(gameState.visibleCards()));
+ }
 
   //private methods
   private void displayCanvas() {
