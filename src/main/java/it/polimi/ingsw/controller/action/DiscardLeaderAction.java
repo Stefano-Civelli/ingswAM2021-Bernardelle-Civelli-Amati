@@ -50,9 +50,9 @@ public class DiscardLeaderAction extends Action {
             throw new NotAllowedActionException();
         gameState.getGame().getPlayerBoard(super.getUsername()).enterFinalTurnPhase();
         gameState.getGame().getPlayerBoard(super.getUsername()).discardLeader(this.leaderCardIndex);
-        if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
-            return PhaseType.FINAL;
-        return PhaseType.INITIAL;
+        if(gameState.getCurrentPhase() == PhaseType.INITIAL)
+            return PhaseType.INITIAL;
+        return PhaseType.FINAL;
     }
 
     private boolean isActionAllowed(IGameState gameState) {
