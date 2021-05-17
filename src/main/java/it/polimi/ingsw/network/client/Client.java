@@ -179,6 +179,8 @@ public class Client {
         //else ....
         break;
       case TRACK_UPDATED:
+        System.out.println(msg.getUsername() + " " + msg.getPayload());
+        //System.out.println("this client: " + username);
         getSimplePlayerState(msg.getUsername()).trackUpdate(msg.getPayload());
         break;
       case VATICAN_REPORT:
@@ -205,7 +207,7 @@ public class Client {
   private void handleGameStarted(Message message) {
     ArrayList<String> players = GSON.getGsonBuilder().fromJson(message.getPayload(), ArrayList.class);
     SimplePlayerState currentPlayerState = getSimplePlayerState();
-
+    //System.out.println("array mandato dal server: " + players);
     this.simplePlayerStateMap = new LinkedHashMap<>();
 
     for(String s : players) {
@@ -214,7 +216,7 @@ public class Client {
       else
         this.simplePlayerStateMap.put(s, new SimplePlayerState()); //the array is ordered to give the right amount of resouces to each player
     }
-
+    //System.out.println("mappa: " + simplePlayerStateMap);
     turnManager.setCurrentPlayer((String) this.simplePlayerStateMap.keySet().toArray()[0]);
   }
 

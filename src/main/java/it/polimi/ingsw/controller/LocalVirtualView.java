@@ -49,7 +49,7 @@ public class LocalVirtualView implements ModelObserver {
    }
 
    @Override
-   public void trackUpdate(String stateUpdate) {
+   public void trackUpdate(String username, String stateUpdate) {
 
    }
 

@@ -83,6 +83,7 @@ class GameTest {
         String player = game.startGame();
         List<String> players = game.getOrderedPlayers();
         assertTrue(game.isFirst(player));
+        game.initialMoveForward();
         assertEquals(player, players.get(0));
         assertEquals(0, game.getPlayerBoard(players.get(0)).getTrack().getCurrentPosition());
         assertEquals(0, game.getPlayerBoard(players.get(1)).getTrack().getCurrentPosition());

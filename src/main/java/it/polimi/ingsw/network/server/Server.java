@@ -216,6 +216,7 @@ public class Server {
          e.printStackTrace();
       }
       sendToClient(new Message(MessageType.GAME_STARTED, playersInOrder));
+      game.initialMoveForward();
       gameRunning = true;
    }
 
@@ -236,7 +237,7 @@ public class Server {
     */
    public void serverBroadcastUpdate(Message message){
       boolean setupMessage = message.getMessageType().equals(MessageType.DECK_SETUP) || message.getMessageType().equals(MessageType.MARKET_SETUP);
-      if(!setupMessage)
+      if(!setupMessage && message.getUsername() == null)
          message.setUsername(turnManager.getCurrentPlayer());
       sendBroadcast(message);
    }

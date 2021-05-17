@@ -53,8 +53,8 @@ public class NetworkVirtualView implements ModelObserver {
    }
 
    @Override
-   public void trackUpdate(String stateUpdate) {
-      server.serverBroadcastUpdate(new Message(MessageType.TRACK_UPDATED, stateUpdate));
+   public void trackUpdate(String username, String stateUpdate) {
+      server.serverBroadcastUpdate(new Message(username, MessageType.TRACK_UPDATED, stateUpdate));
    }
 
    @Override

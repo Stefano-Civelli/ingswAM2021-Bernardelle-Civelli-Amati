@@ -9,7 +9,7 @@ public interface ModelObserver {
   void marketUpdate(String stateUpdate);
   void marketSetupUpdate(String stateUpdate);
   void cardSlotUpdate(String stateUpdate);
-  void trackUpdate(String stateUpdate);
+  void trackUpdate(String username, String stateUpdate);
   void vaticanUpdate(String stateUpdate);
   void devDeckUpdate(String stateUpdate);
   void devDeckSetup(String stateUpdate);

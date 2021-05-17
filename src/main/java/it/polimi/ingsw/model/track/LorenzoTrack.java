@@ -17,7 +17,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
   int playerPosition;
   final Set<VaticanReportObserver> vaticanReportObserverList = new HashSet<>();
   final Set<EndGameObserver> endGameObserverList = new HashSet<>();
-
+  String username;
   transient ModelObserver controller = null;
 
    /**
@@ -111,7 +111,11 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
   @Override
   public void notifyModelChange(String msg) {
     if (controller != null)
-    controller.trackUpdate(msg);
+    controller.trackUpdate(username, msg);
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
   }
 
   public void setController(ModelObserver controller) {

@@ -111,6 +111,7 @@ public class SimplePlayerState implements SimpleStateObservable{
    public void trackUpdate(String payload) {
       int newPosition = GSON.getGsonBuilder().fromJson(payload, Integer.class);
       this.trackPosition = newPosition;
+      //System.out.println(newPosition);
    }
 
    public void vaticanReportUpdate(String payload) {
@@ -146,7 +147,6 @@ public class SimplePlayerState implements SimpleStateObservable{
       int slot = pair.getValue();
 
       cardSlots[slot].add(devCardID);
-
    }
 
    public void activatedLeaderUpdate(String payload){
@@ -168,7 +168,20 @@ public class SimplePlayerState implements SimpleStateObservable{
    public Pair<ResourceType, Integer>[] getWarehouseLevels() {
       return warehouseLevels;
    }
+
+   public int getTrackPosition() {
+      return trackPosition;
+   }
+
+   public List<Integer>[] getCardSlots() {
+      List<Integer>[] tempCardSlots = new List[3];
+      for(int i=0; i<3; i++)
+         tempCardSlots[i] = new ArrayList<>(cardSlots[i]);
+      return tempCardSlots;
+   }
+
    //----------------------------------------------------------
+
 
    //----------UTILITY-----------------------------------------
    public void mergeTempChest() {

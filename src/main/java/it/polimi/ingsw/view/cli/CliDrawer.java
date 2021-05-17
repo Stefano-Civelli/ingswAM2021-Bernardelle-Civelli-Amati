@@ -56,7 +56,7 @@ public class CliDrawer implements SimpleStateObserver {
     buildWarehouse(username);
     buildChest(username);
     placeHereOnCanvas(2,PLAYERBOARD_LENGTH+7, buildAndSetMarket());
-    buildTrack();
+    buildTrack(username);
     displayCanvas();
   }
 
@@ -470,7 +470,7 @@ public class CliDrawer implements SimpleStateObserver {
 
   }
 
-  private void buildTrack() {
+  private void buildTrack(String username) {
     String[][] trackAndVatican = new String[TRACK_HEIGHT+2][TRACK_LENGTH*3];
     String[][] track = skeletonTrack();
 
@@ -487,6 +487,7 @@ public class CliDrawer implements SimpleStateObserver {
     trackAndVatican[1][6*3+2] = "│";
     trackAndVatican[2][6*3+2] = "┘";
 
+    canvas[2][2] = Integer.toString(playerState.get(username).getTrackPosition());
 
     placeHereOnCanvas(2, 40, trackAndVatican);
   }
