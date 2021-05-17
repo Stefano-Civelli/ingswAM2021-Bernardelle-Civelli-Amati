@@ -39,6 +39,6 @@ public enum ResourceType {
 
   @Override
   public String toString () {
-    return getColor().escape();
+    return getColor().toString();
   }
 }

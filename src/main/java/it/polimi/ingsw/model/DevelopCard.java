@@ -152,6 +152,19 @@ public class DevelopCard {
       }
    }
 
+
+   public HashMap<ResourceType, Integer> getCost() {
+      return new HashMap<>(cost);
+   }
+
+   public HashMap<ResourceType, Integer> getRequirement() {
+      return new HashMap<>(requirement);
+   }
+
+   public HashMap<ResourceType, Integer> getProduct() {
+      return new HashMap<>(product);
+   }
+
    public CardFlag getCardFlag(){
       return cardFlag;
    }
