@@ -21,8 +21,10 @@ public class SimpleGameState implements SimpleStateObservable{
    private List<Integer>[][] developCardDeck; //identified by ID
    private MarbleColor[][] market;
    private MarbleColor slide;
+   private List<MarbleColor> tempMarble;
 
    public SimpleGameState() {
+      tempMarble = new ArrayList<>();
    }
 
    public void constructDeck(String payload) {
@@ -30,17 +32,6 @@ public class SimpleGameState implements SimpleStateObservable{
       this.developCardDeck = GSON.getGsonBuilder().fromJson(payload, token);
       //this.developCardDeck = GSON.getGsonBuilder().fromJson(payload, List[][].class);
    }
-
-
-   public void updateDeck(String payload){
-      Type token = new TypeToken<Pair<Integer, Integer>>(){}.getType();
-      Pair<Integer, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
-      int row = pair.getKey();
-      int column = pair.getValue();
-
-      developCardDeck[row][column].remove(developCardDeck[row][column].size()-1);
-   }
-
 
    public void constructMarket (String payload) {
       Type token = new TypeToken<Pair<MarbleColor[][], MarbleColor>>(){}.getType();
@@ -53,13 +44,25 @@ public class SimpleGameState implements SimpleStateObservable{
 //      this.slide = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value").getAsString(), MarbleColor.class);
    }
 
+   //----------UPDATE-------------------------------------------
+   public void updateDeck(String payload){
+      Type token = new TypeToken<Pair<Integer, Integer>>(){}.getType();
+      Pair<Integer, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
+      int row = pair.getKey();
+      int column = pair.getValue();
+
+      developCardDeck[row][column].remove(developCardDeck[row][column].size()-1);
+   }
+
    public void updateMarket(String payload) {
       Type token = new TypeToken<Pair<Boolean, Integer>>(){}.getType();
       Pair<Boolean, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
       boolean isRow = pair.getKey();
       int index = pair.getValue();
-      MarbleColor swap1, swap2;
 
+      setTempMarble(isRow, index);
+
+      MarbleColor swap1, swap2;
       if(isRow) {
          swap1 = this.market[index][this.market[index].length - 1];
          this.market[index][this.market[index].length - 1] = this.slide;
@@ -82,7 +85,22 @@ public class SimpleGameState implements SimpleStateObservable{
 
    }
 
+   private void setTempMarble(boolean row, int index){
+      if(row)
+         for(int i=0; i<market[0].length; i++)
+            this.tempMarble.add(market[index][i]);
+      else
+         for(int i=0; i<market.length; i++)
+            this.tempMarble.add(market[i][index]);
+   }
 
+   public void removeTempMarble(int marbleindex){
+      this.tempMarble.remove(marbleindex - 1);
+   }
+   //----------------------------------------------------------
+
+
+   //----------GETTERS-----------------------------------------
    //TODO clone
    public MarbleColor[][] getMarket() {
       return market;
@@ -91,6 +109,12 @@ public class SimpleGameState implements SimpleStateObservable{
    public MarbleColor getSlide() {
       return slide;
    }
+
+   public List<MarbleColor> getTempMarble() {
+      return new ArrayList<>(tempMarble);
+   }
+
+   //----------------------------------------------------------
 
    /**
     * returns the visible cards (the ones on top of the card square)
@@ -101,7 +125,10 @@ public class SimpleGameState implements SimpleStateObservable{
       Integer[][] temp = new Integer[NUMBER_OF_DECK_ROWS][NUMBER_OF_DECK_COLUMS];
       for (int i = 0; i < developCardDeck.length; i++) {
          for (int j = 0; j < developCardDeck[i].length; j++) {
-            temp[i][j] = developCardDeck[i][j].get(developCardDeck[i][j].size() - 1);
+            if(!developCardDeck[i][j].isEmpty())
+               temp[i][j] = developCardDeck[i][j].get(developCardDeck[i][j].size() - 1);
+            else
+               temp[i][j] = null;
          }
       }
       return temp;

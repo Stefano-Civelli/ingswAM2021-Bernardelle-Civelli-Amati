@@ -94,7 +94,7 @@ public class Market implements ModelObservable, MarketSetupObservable {
             swap1 = swap2;
         }
         this.slide = swap1;
-        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(true, row)));
+        notifyModelChange(GSON.getGsonBuilder().toJson(new Pair<>(true, row)));
         return marbles;
     }
 

@@ -27,7 +27,7 @@ public class ClientTurnManager {
     switch(currentPhase){
       case SETUP_CHOOSING_RESOURCES:
         if(client.getPlayerTurnPosition()!=1) {
-          System.out.println("You need to choose " + client.getPlayerTurnPosition() / 2 + " resource(s) to add from the following");
+          System.out.println("\nYou need to choose " + client.getPlayerTurnPosition() / 2 + " resource(s) to add from the following");
           cli.displayMarbleChoice();
           System.out.println("Which resource do you want to pick? (index)");
         }
@@ -36,18 +36,18 @@ public class ClientTurnManager {
         }
         break;
       case SETUP_DISCARDING_LEADERS:
-        System.out.println("You have to discard 2 leader cards.");
+        System.out.println("\nYou have to discard 2 leader cards.");
         System.out.println("That's your 4 leader cards: ");
         cli.displayLeaderHand();
         System.out.println("You can have only 2 of them.\nWhich do you want to discard?");
         break;
       case SHOPPING:
-        System.out.print("You need to insert one of the following marbles you got from market");
-        cli.displayMarbleChoice();
+        System.out.println("\nYou need to insert one of the following marbles you got from market: ");
+        cli.displayMarbleShopping();
         //display delle marble con indice, rimuovere da temp, indice preso e mandato come action INSERT MARBLE
         break;
       case SHOPPING_LEADER:
-        System.out.print("You need to use one of the 2 following leader to convert your white marble");
+        System.out.print("\nYou need to use one of the 2 following leader to convert your white marble");
         //display delle leader con indice
         //indice preso e mandato come action CHOOSE_WHITE_LEADER
         break;
@@ -57,7 +57,7 @@ public class ClientTurnManager {
 
 
   public void handleOtherPossiblePhases() {
-    System.out.println("You can: ");
+    System.out.println("\nYou can: ");
 
     for(ActionType p : currentPhase.getAvailableActions()) {
       switch (p) {

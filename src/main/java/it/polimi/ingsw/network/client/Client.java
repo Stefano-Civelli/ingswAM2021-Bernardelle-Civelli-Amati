@@ -17,6 +17,7 @@ import javafx.application.Application;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Client {
   public static final int MIN_PORT = Server.MIN_PORT_NUMBER;
@@ -192,6 +193,11 @@ public class Client {
       case CARD_SLOT_UPDATE:
         getSimplePlayerState(msg.getUsername()).cardSlotUpdate(msg.getPayload());
         break;
+      case DISCARDED_LEADERCARD:
+        getSimplePlayerState(msg.getUsername()).discardLeader(Integer.parseInt(msg.getPayload()));
+        //TODO controllare se ha senso
+        break;
+      default:
 
     }
   }
@@ -216,7 +222,7 @@ public class Client {
     TurnManager.TurnState newState = GSON.getGsonBuilder().fromJson(payload, TurnManager.TurnState.class);
 
     if(turnManager.setStateIsPlayerChanged(newState)){
-      if (turnManager.getCurrentPlayer().equals(username)) {
+      if (username.equals(turnManager.getCurrentPlayer())) {
         view.displayYourTurn(turnManager.getCurrentPlayer());
         view.displayDefaultCanvas(turnManager.getCurrentPlayer());
       }
@@ -285,18 +291,37 @@ public class Client {
 
   public void setUsername(String username) { this.username = username; }
 
+  /**
+   * @return this client's simpleplayerstate
+   */
   public SimplePlayerState getSimplePlayerState() {
     return this.simplePlayerStateMap.get(username);
   }
 
+  /**
+   * returns the simpleplayerstate belonging to the specified player
+   *
+   * @param username the username of the players whose simpleplayerstate is to be returned
+   * @return the specified player's simpleplayerstate
+   */
   public SimplePlayerState getSimplePlayerState(String username) {
     return this.simplePlayerStateMap.get(username);
+  }
+
+  public List<SimplePlayerState> otherSimplePlayerStates(){
+    return simplePlayerStateMap.entrySet().stream()
+            .filter(x -> !x.getKey().equals(this.username))
+            .map(x -> x.getValue())
+            .collect(Collectors.toList());
   }
 
   public List<String> usernameList(){
     return new ArrayList<>(this.simplePlayerStateMap.keySet());
   }
 
+  public SimpleGameState getSimpleGameState() {
+    return simpleGameState;
+  }
 
   //TODO migliorarla
   public int getPlayerTurnPosition(){

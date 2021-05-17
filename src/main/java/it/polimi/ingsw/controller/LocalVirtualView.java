@@ -72,4 +72,9 @@ public class LocalVirtualView implements ModelObserver {
    public void tempChestUpdate(String stateUpdate) {
 
    }
+
+   @Override
+   public void discardedLeaderUpdate(String stateUpdate) {
+
+   }
 }

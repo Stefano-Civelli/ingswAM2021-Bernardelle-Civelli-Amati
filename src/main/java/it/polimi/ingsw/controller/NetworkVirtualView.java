@@ -5,6 +5,8 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
 
+import java.security.MessageDigestSpi;
+
 public class NetworkVirtualView implements ModelObserver {
 
    public Server server;
@@ -74,5 +76,10 @@ public class NetworkVirtualView implements ModelObserver {
    @Override
    public void tempChestUpdate(String stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.TEMP_CHEST_UPDATE, stateUpdate));
+   }
+
+   @Override
+   public void discardedLeaderUpdate(String stateUpdate) {
+      server.serverBroadcastUpdate(new Message(MessageType.DISCARDED_LEADERCARD, stateUpdate));
    }
 }

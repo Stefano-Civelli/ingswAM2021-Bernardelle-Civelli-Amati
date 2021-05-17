@@ -23,6 +23,9 @@ public class CliDrawer implements SimpleStateObserver {
   private final int MARKET_HEIGHT = 5;
   private final int MAX_DISPLAYABLE_LENGTH = 200;
   private final int MAX_DISPLAYABLE_HEIGHT = 20;
+  private static int MAX_COLUMN_TILES = 20;
+  private static int MAX_ROW_TILES = 5;
+
   private final Color marginColor = Color.RESET;
   private final String[][] canvas;
 
@@ -408,27 +411,6 @@ public class CliDrawer implements SimpleStateObserver {
 
     return track;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  private static int MAX_COLUMN_TILES = 20;
-  private static int MAX_ROW_TILES = 5;
-
-
-
-
 
   public void printCard(int devCardId) {
 
