@@ -60,8 +60,6 @@ public class SimpleGameState implements SimpleStateObservable{
       boolean isRow = pair.getKey();
       int index = pair.getValue();
 
-      setTempMarble(isRow, index);
-
       MarbleColor swap1, swap2;
       if(isRow) {
          swap1 = this.market[index][this.market[index].length - 1];
@@ -85,13 +83,13 @@ public class SimpleGameState implements SimpleStateObservable{
 
    }
 
-   private void setTempMarble(boolean row, int index){
+   public void setTempMarble(boolean row, int index){
       if(row)
          for(int i=0; i<market[0].length; i++)
-            this.tempMarble.add(market[index][i]);
+            this.tempMarble.add(market[index-1][i]);
       else
          for(int i=0; i<market.length; i++)
-            this.tempMarble.add(market[i][index]);
+            this.tempMarble.add(market[i][index-1]);
    }
 
    public void removeTempMarble(int marbleindex){

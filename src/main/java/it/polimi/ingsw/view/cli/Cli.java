@@ -404,6 +404,7 @@ public class Cli implements ViewInterface {
       index = validateIntInput(1,3);
     else
       index = validateIntInput(1,4);
+    client.getSimpleGameState().setTempMarble(row, index);
     return new ShopMarketAction(row, index - 1);
   }
 

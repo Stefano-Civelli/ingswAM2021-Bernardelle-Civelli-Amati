@@ -154,7 +154,7 @@ public class CliDrawer implements SimpleStateObserver {
   private void fillDeck(String[][] deck) {
     Integer[][] cards = gameState.visibleCards();
 
-    for (int i = 0, a = 1; i < cards.length; i++, a+=5) {
+    for (int i = 0, a = 1; i < cards.length; i++, a+=4) {
       for (int j = 0, b = 1; j < cards[0].length; j++, b+=11) {
         if (cards[i][j] != null) {
           try {
@@ -184,17 +184,17 @@ public class CliDrawer implements SimpleStateObserver {
             }
 
             if(victory > 9) {
-              deck[a+3][b+4] = " ";
-              deck[a+3][b+5] = "\u25C6";
-              deck[a+3][b+6] = Integer.toString(victory/10);
-              deck[a+3][b+7] = Integer.toString(victory%10);
-              deck[a+3][b+8] = " ";
+              deck[a+2][b+4] = " ";
+              deck[a+2][b+5] = "\u25C6";
+              deck[a+2][b+6] = Integer.toString(victory/10);
+              deck[a+2][b+7] = Integer.toString(victory%10);
+              deck[a+2][b+8] = " ";
             }
             else {
-              deck[a+3][b+5] = " ";
-              deck[a+3][b+6] = "\u25C6";
-              deck[a+3][b+7] = Integer.toString(victory);
-              deck[a+3][b+8] = " ";
+              deck[a+2][b+5] = " ";
+              deck[a+2][b+6] = "\u25C6";
+              deck[a+2][b+7] = Integer.toString(victory);
+              deck[a+2][b+8] = " ";
             }
           } catch (InvalidCardException e) {}
         }
@@ -342,44 +342,40 @@ public class CliDrawer implements SimpleStateObserver {
   }
 
   private String[][] skeletonCards() {
-    String[][] deck = new String[15][44];
-    int r=5, c=11;
+    String[][] deck = new String[12][44];
+    int r=4, c=11;
 
     for (int i=0; i<deck.length; i++)
       for (int j=0; j<deck[0].length; j++) {
-        if(j<11)
-          deck[i][j] = Color.ANSI_GREEN.escape() + buildMargins(r, c)[i % 5][j % 11];
-        else if(j<22)
-          deck[i][j] = Color.ANSI_BLUE.escape() + buildMargins(r, c)[i % 5][j % 11];
-        else if(j<33)
-          deck[i][j] = Color.ANSI_YELLOW.escape() + buildMargins(r, c)[i % 5][j % 11];
+        if(j<c)
+          deck[i][j] = Color.ANSI_GREEN.escape() + buildMargins(r, c)[i % r][j % c];
+        else if(j<c*2)
+          deck[i][j] = Color.ANSI_BLUE.escape() + buildMargins(r, c)[i % r][j % c];
+        else if(j<c*3)
+          deck[i][j] = Color.ANSI_YELLOW.escape() + buildMargins(r, c)[i % r][j % c];
         else
-          deck[i][j] = Color.ANSI_PURPLE.escape() + buildMargins(r, c)[i % 5][j % 11];
+          deck[i][j] = Color.ANSI_PURPLE.escape() + buildMargins(r, c)[i % r][j % c];
       }
 
-    for (int i=0; i<deck.length; i+=5)
-      for (int j=1; j<deck[0].length; j+=11) {
+    for (int i=0; i<deck.length; i+=r)
+      for (int j=1; j<deck[0].length; j+=c) {
         deck[i][j] = " ";
-        switch (i) {
-          case 0:
-            deck[i][j+1] = "I";
-            deck[i][j+2] = "I";
-            deck[i][j+3] = "I";
-            deck[i][j+4] = " ";
-            break;
-          case 5:
-            deck[i][j+1] = "I";
-            deck[i][j+2] = "I";
-            deck[i][j+3] = " ";
-            break;
-          case 10:
-            deck[i][j+1] = "I";
-            deck[i][j+2] = " ";
-            break;
+        if(i == r*2) {
+          deck[i][j+1] = "I";
+          deck[i][j+2] = "I";
+          deck[i][j+3] = "I";
+          deck[i][j+4] = " ";
         }
-      }
-
-
+        if(i == r) {
+          deck[i][j+1] = "I";
+          deck[i][j+2] = "I";
+          deck[i][j+3] = " ";
+        }
+        if(i == 0) {
+          deck[i][j+1] = "I";
+          deck[i][j+2] = " ";
+        }
+      }//for
     return deck;
   }
 
