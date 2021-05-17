@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
+import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.ConfigParameters;
@@ -12,7 +13,7 @@ import it.polimi.ingsw.utility.Pair;
 import java.io.IOException;
 import java.util.*;
 
-public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable {
+public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable, ModelObservable {
 
    private final String username;
    private final CardSlots cardSlots;
@@ -77,7 +78,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
 
    /**
     * remove 1 of the leader cards from leaderCards array during the game
-    * once the card is removed the faith marker is moved forward by 1
+    * once the card is removed the faith marker on other players is moved forward by 1
     * @param leaderPosition, index of the leaderCard to remove (starts at 0)
     * @throws InvalidLeaderCardException if the leaderCard is activated or the index is outOfBound
     */
@@ -88,6 +89,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
          throw new LeaderIsActiveException();
       leaderCards.remove(leaderPosition);
       track.moveForward(1);
+      notifyModelChange(GSON.getGsonBuilder().toJson(leaderPosition));
    }
 
    /**
@@ -309,4 +311,9 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable 
   }
 
 
+   @Override
+   public void notifyModelChange(String msg) {
+      if (controller != null)
+         controller.discardedLeaderUpdate(msg);
+   }
 }

@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
+import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManager;
@@ -169,6 +170,13 @@ public class Cli implements ViewInterface {
     drawer.displayResourcesChoice();
   }
 
+  public void displayMarbleShopping(){
+    for(MarbleColor m : client.getSimpleGameState().getTempMarble())
+      System.out.print(m.toString() + " ");
+    System.out.println();
+    System.out.print("index of the marble to insert: ");
+  }
+
   @Override
   public void displayServerDown() {
     out.println("Disconnected");
@@ -266,7 +274,9 @@ public class Cli implements ViewInterface {
   }
 
   private Action createInsertMarbleAction(String line) {
-    int marbleIndex = validateIntInput(line, 1, 4);
+    int maxValue = client.getSimpleGameState().getTempMarble().size();
+    int marbleIndex = validateIntInput(line, 1, maxValue);
+    client.getSimpleGameState().removeTempMarble(marbleIndex);
     return new InsertMarbleAction(marbleIndex-1);
   }
 
@@ -371,11 +381,11 @@ public class Cli implements ViewInterface {
 
   private void createInitialDiscardLeaderAction(String line) {
     int firstDiscard = validateIntInput(line, 1, client.getSimplePlayerState().getLeaderCards().size());
-    client.getSimplePlayerState().discardLeader(firstDiscard);
+    client.getSimplePlayerState().discardLeader(firstDiscard - 1);
     drawer.displayLeaderHand(client.getUsername());
     int secondDiscard = validateIntInput(1, client.getSimplePlayerState().getLeaderCards().size());
     client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new DiscardInitialLeaderAction(client.getUsername(), firstDiscard-1, secondDiscard-1)));
-    client.getSimplePlayerState().discardLeader(secondDiscard);
+    client.getSimplePlayerState().discardLeader(secondDiscard - 1);
   }
 
   public void displayLeaderHand() {

@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
+import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
@@ -63,7 +64,7 @@ public class SimplePlayerState implements SimpleStateObservable{
     * @param indexOfLeaderToDiscard
     */
    public void discardLeader(int indexOfLeaderToDiscard){
-      leaderCards.remove(indexOfLeaderToDiscard - 1);
+      leaderCards.remove(indexOfLeaderToDiscard);
    }
    //-----------------------------------------------------------
 
@@ -151,6 +152,7 @@ public class SimplePlayerState implements SimpleStateObservable{
    public void activatedLeaderUpdate(String payload){
       leaderCards.add(Integer.parseInt(payload));
    }
+
    //----------------------------------------------------------
 
 

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.network.messages.Message;
 
 public interface ModelObserver {
   void chestUpdate(String stateUpdate);
@@ -15,4 +14,5 @@ public interface ModelObserver {
   void devDeckUpdate(String stateUpdate);
   void devDeckSetup(String stateUpdate);
   void tempChestUpdate(String stateUpdate);
+  void discardedLeaderUpdate(String stateUpdate);
 }
