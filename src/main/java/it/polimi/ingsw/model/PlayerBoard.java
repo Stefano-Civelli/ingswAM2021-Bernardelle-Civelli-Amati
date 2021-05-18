@@ -210,6 +210,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
 
             // FIXME E se product è faith?? Ormai le risorse sono sate tolte, bisogna controllare prima! Stessa cosa se è null.
             chest.addResources(product, 1);
+
+            alreadyProduced[0] = true;
          } catch (NegativeQuantityException e) {
             //non si verifica mai perché la sto chiamando io e gli sto passando 1
             e.printStackTrace();
@@ -240,6 +242,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       if(this.alreadyProduced[slotIndex + 1])
          throw new AlreadyProducedException();
       this.cardSlots.returnTopCard(slotIndex).produce(this);
+      this.alreadyProduced[slotIndex + 1] = true;
    }
 
    /**
@@ -257,6 +260,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       if(this.alreadyProduced[cardSlots.getNumberOfCardSlots() + leaderIndex + 1])
          throw new AlreadyProducedException();
       this.leaderCards.get(leaderIndex).getProduct(product, this);
+      this.alreadyProduced[cardSlots.getNumberOfCardSlots() + leaderIndex + 1] = true;
    }
 
    /**
