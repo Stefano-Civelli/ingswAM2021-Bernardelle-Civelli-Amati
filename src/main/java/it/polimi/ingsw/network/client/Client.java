@@ -111,7 +111,7 @@ public class Client {
         break;
       case ERROR:
         //quando ricevo un errore la cosa migliore è passarlo all'handler che poi lo printa facendo uno switch che printa diverso per ogni tipo di errore
-        System.out.println("ERROR: " + msg.getPayload());
+        //System.out.println("ERROR: " + msg.getPayload());
         handleError(ErrorType.fromValue(msg.getPayload()));
         break;
       case LOGIN_SUCCESSFUL:
@@ -145,7 +145,7 @@ public class Client {
           view.displayPlayerTurn(msg.getUsername());
         break;
       case NEXT_TURN_STATE:
-        System.out.println(msg.getPayload());
+        //System.out.println(msg.getPayload());
         handleTurnState(msg.getPayload());
         //view.displayEndTurn();
         break;
@@ -184,6 +184,7 @@ public class Client {
         getSimplePlayerState(msg.getUsername()).trackUpdate(msg.getPayload());
         break;
       case VATICAN_REPORT:
+        //System.out.println(msg.getPayload());
         getSimplePlayerState(msg.getUsername()).vaticanReportUpdate(msg.getPayload());
         break;
       case CHEST_UPDATE:
@@ -233,7 +234,7 @@ public class Client {
     }
 
     if(username.equals(turnManager.getCurrentPlayer())){
-      System.out.println(turnManager.getCurrentPhase());
+      //System.out.println(turnManager.getCurrentPhase());
       turnManager.currentPhasePrint();
     }
   }

@@ -93,9 +93,10 @@ public class Track extends LorenzoTrack implements VaticanReportObserver, Vatica
       if (track[playerPosition].getActive() == active + 1) {
         switchPopeCardsActivation(active);
         notifyVaticanChange(GSON.getGsonBuilder().toJson( new VaticanReport(active, true)));/*inner class con int per la zona e bool per sapere se girarla o meno*/
-      } else
+      } else {
         popeCards[active] = 0;
-       notifyVaticanChange(GSON.getGsonBuilder().toJson( new VaticanReport(active, false)));
+        notifyVaticanChange(GSON.getGsonBuilder().toJson(new VaticanReport(active, false)));
+      }
     }
   }
 

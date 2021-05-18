@@ -120,6 +120,7 @@ public class SimplePlayerState implements SimpleStateObservable{
       boolean flip = update.isActive();
 
       vaticanFlipped[zone] = flip;
+      //System.out.println("simplePlayer: " + vaticanFlipped[zone]);
    }
 
    public void chestUpdate(String payload) { //serve?
@@ -178,6 +179,11 @@ public class SimplePlayerState implements SimpleStateObservable{
       for(int i=0; i<3; i++)
          tempCardSlots[i] = new ArrayList<>(cardSlots[i]);
       return tempCardSlots;
+   }
+
+   public boolean[] getVaticanFlipped() {
+      //System.out.println("getter" + vaticanFlipped[0]);
+      return vaticanFlipped;
    }
 
    //----------------------------------------------------------
