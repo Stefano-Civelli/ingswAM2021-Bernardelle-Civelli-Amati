@@ -47,6 +47,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
 
    /**
     * Calculate player's score
+    *
     * @return total points the player scored
     */
    public int returnScore(){
@@ -64,7 +65,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    }
 
    /**
-    * remove 1 of the leader cards from leaderCards array in the beginning of the game
+    * Remove 1 of the leader cards from leaderCards array in the beginning of the game
+    *
     * @param leaderPosition1, index of the first leader card to remove (starts at 0)
     * @param leaderPosition2, index of the second leader card to remove (starts at 0), considering the first already removed
     * @throws InvalidLeaderCardException if one or both the leader cards don't exist
@@ -78,8 +80,9 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    }
 
    /**
-    * remove 1 of the leader cards from leaderCards array during the game
+    * Remove 1 of the leader cards from leaderCards array during the game
     * once the card is removed the faith marker on other players is moved forward by 1
+    *
     * @param leaderPosition, index of the leaderCard to remove (starts at 0)
     * @throws InvalidLeaderCardException if the leaderCard is activated or the index is outOfBound
     */
@@ -94,20 +97,25 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    }
 
    /**
-    * pick a card from the DevelopCardDeck and place it in the CardSlot
+    * Pick a card from the DevelopCardDeck and place it in the CardSlot
+    *
     * @param row, row of the Deck that identifies the Develop to add (starts at 0)
     * @param column, column of the Deck that identifies the Develop to add (starts at 0)
     * @param cardSlot, slot of CardSlots where the card is placed (starts at 0)
     * @throws InvalidCardPlacementException if the card can't be placed in the slot passed as parameter
+    * @throws NotBuyableException if the player can't buy this card
     * @throws InvalidDevelopCardException if the index of row or column doesn't exists
     */
-   public void addDevelopCard(int row, int column, int cardSlot) throws InvalidDevelopCardException, NotBuyableException, InvalidCardPlacementException {
+   public void addDevelopCard(int row, int column, int cardSlot)
+           throws InvalidDevelopCardException, NotBuyableException, InvalidCardPlacementException {
       developCardDeck.getCard(row, column).buy(this, cardSlot);
    }
 
    /**
     * Saves the market marbles taken from the market in tempMarketMarble
+    *
     * @param column indicates which column get from market (starts at 0)
+    * @throws RowOrColumnNotExistsException if the specified index of the market doesn't exist
     */
    public List<MarketMarble> shopMarketColumn(int column) throws RowOrColumnNotExistsException {
       tempMarketMarble = new ArrayList<>(market.pushInColumn(column));
@@ -116,7 +124,9 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
 
    /**
     * Saves the market marbles taken from the market in tempMarketMarble
+    *
     * @param row indicates which row get from market (starts at 0)
+    * @throws RowOrColumnNotExistsException if the specified index of the market doesn't exist
     */
    public List<MarketMarble> shopMarketRow(int row) throws RowOrColumnNotExistsException {
       tempMarketMarble = new ArrayList<>(market.pushInRow(row));
@@ -128,10 +138,12 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    }
 
    /**
-    * add one of the tempMarketMarble resources to warehouse
+    * Add one of the tempMarketMarble resources to warehouse or track
+    *
     * @param marbleIndex, the index of the marble to remove from tempMarketMarble (starts at 0)
     * @throws MoreWhiteLeaderCardsException if the player has more than 1 leaderCard activated that modifies the white marble
     * @throws NotEnoughSpaceException if the resource can't be added
+    * @throws MarbleNotExistException if the specified marble doesn't exist
     */
    public void addMarbleToWarehouse(int marbleIndex)
            throws MoreWhiteLeaderCardsException, NotEnoughSpaceException, MarbleNotExistException {
@@ -152,7 +164,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    }
 
    /**
-    * add a white marble to warehouse using the leaderCard passed as parameter
+    * Add a white marble to warehouse using the leaderCard passed as parameter
+    *
     * @param leaderPosition index of the leader to use to modify the color of the white marble
     * @throws InvalidLeaderCardException if the index is outOfBound
     * @throws NotEnoughSpaceException if, after have modified the white marble into a resource, there isn't place in the warehouse to place it
@@ -172,11 +185,15 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    }
 
    /**
-    * allows the player to throw 2 resources in exchange for 1 resource he wants
-    * @param resource1, first resource the player wants to throw
-    * @param resource2, second resource the player wants to throw
-    * @param product, resource that the player wants to gain
+    * Allows the player to throw 2 resources in exchange for 1 resource he wants
+    *
+    * @param resource1 first resource the player wants to throw
+    * @param resource2 second resource the player wants to throw
+    * @param product resource that the player wants to gain
     * @throws AbuseOfFaithException if one of the 3 resources is faith, he can't throw faith and he can't gain faith
+    * @throws NotEnoughResourcesException if the player has not the specified required resources
+    * @throws AlreadyProducedException if this production has already been activated during this turn
+    * @throws NeedAResourceToAddException if the specified product parameter is null
     */
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product)
            throws AbuseOfFaithException, NotEnoughResourcesException,
@@ -202,10 +219,22 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       }
    }
 
+   /**
+    * Check if the all the marbles taken form market are finished and consumed (added to warehouse or track)
+    *
+    * @return true if the marbles are finished, false otherwise
+    */
    public boolean areMarblesFinished() {
       return this.tempMarketMarble.isEmpty();
    }
 
+   /**
+    * Activate production on a develop card
+    *
+    * @param slotIndex index of cards slot where the card is
+    * @throws NotActivatableException if the player can't activate this card
+    * @throws AlreadyProducedException if this production has already been activated during this turn
+    */
    public void developProduce(int slotIndex) throws NotActivatableException, AlreadyProducedException {
       // FIXME se la develop card non esiste? IndexOutOfBound????
       if(this.alreadyProduced[slotIndex + 1])
@@ -213,6 +242,16 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       this.cardSlots.returnTopCard(slotIndex).produce(this);
    }
 
+   /**
+    * Activate production on a leader card
+    *
+    * @param leaderIndex index of the leader on which the production must be activated
+    * @param product resource that the player wants to gain
+    * @throws AbuseOfFaithException if one of the 3 resources is faith, he can't throw faith and he can't gain faith
+    * @throws NotEnoughResourcesException if the player has not the specified required resources
+    * @throws AlreadyProducedException if this production has already been activated during this turn
+    * @throws NeedAResourceToAddException if the specified product parameter is null
+    */
    public void leaderProduce(int leaderIndex, ResourceType product) throws NotEnoughResourcesException,
            AbuseOfFaithException, NeedAResourceToAddException, AlreadyProducedException {
       if(this.alreadyProduced[cardSlots.getNumberOfCardSlots() + leaderIndex + 1])
@@ -220,10 +259,23 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       this.leaderCards.get(leaderIndex).getProduct(product, this);
    }
 
+   /**
+    * Activate a leader card
+    *
+    * @param leadercard the leader card to activate
+    * @throws InvalidLeaderCardException if the player doesn't own this card
+    * @throws NotEnoughResourcesException if the player doesn't have the resources (CardFlags or ResourceType) to activate the card
+    */
    public void setActiveLeadercard(LeaderCard leadercard) throws InvalidLeaderCardException, NotEnoughResourcesException {
+      // FIXME meglio prendere un indice??
       leadercard.setActive(this);
    }
 
+   /**
+    * Merge the chest's temporary resources into normal chest,
+    * Forgot all the production already activated
+    * Consume any possible remaining marble
+    */
    public void enterFinalTurnPhase() {
       this.chest.endOfTurnMapsMerge();
       Arrays.fill(this.alreadyProduced, false);
@@ -251,7 +303,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    }
 
    public void setTrackObserverOn (PlayerBoard playerBoard) {
-
+   // FIXME penso debba fare qualcosa
    }
 
    @Override
@@ -311,10 +363,10 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       this.controller = controller;
   }
 
-
    @Override
    public void notifyModelChange(String msg) {
       if (controller != null)
          controller.discardedLeaderUpdate(msg);
    }
+
 }
