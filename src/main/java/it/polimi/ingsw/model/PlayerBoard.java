@@ -266,13 +266,13 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    /**
     * Activate a leader card
     *
-    * @param leadercard the leader card to activate
+    * @param leaderCardIndex index of the leader card to activate
     * @throws InvalidLeaderCardException if the player doesn't own this card
     * @throws NotEnoughResourcesException if the player doesn't have the resources (CardFlags or ResourceType) to activate the card
     */
-   public void setActiveLeadercard(LeaderCard leadercard) throws InvalidLeaderCardException, NotEnoughResourcesException {
+   public void setActiveLeadercard(int leaderCardIndex) throws InvalidLeaderCardException, NotEnoughResourcesException {
       // FIXME meglio prendere un indice??
-      leadercard.setActive(this);
+      this.leaderCards.get(leaderCardIndex).setActive(this);
    }
 
    /**

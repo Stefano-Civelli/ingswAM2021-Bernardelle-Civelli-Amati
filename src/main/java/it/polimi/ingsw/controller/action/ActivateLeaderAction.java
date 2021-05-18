@@ -52,8 +52,7 @@ public class ActivateLeaderAction extends Action {
         if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
             gameState.getGame().getPlayerBoard(super.getUsername()).enterFinalTurnPhase();
 
-        LeaderCard leaderCard = gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().get(this.leaderCardIndex);
-        gameState.getGame().getPlayerBoard(super.getUsername()).setActiveLeadercard(leaderCard);
+        gameState.getGame().getPlayerBoard(super.getUsername()).setActiveLeadercard(this.leaderCardIndex);
 
         return gameState.getCurrentPhase() == PhaseType.PRODUCING ? PhaseType.FINAL : PhaseType.INITIAL;
     }
