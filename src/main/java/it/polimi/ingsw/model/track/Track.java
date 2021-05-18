@@ -124,7 +124,7 @@ public class Track extends LorenzoTrack implements VaticanReportObserver, Vatica
   @Override
   public void notifyVaticanChange(String msg) {
     if (super.controller != null)
-      super.controller.vaticanUpdate(msg);
+      super.controller.vaticanUpdate(username, msg);
   }
 
 

@@ -54,7 +54,7 @@ public class LocalVirtualView implements ModelObserver {
    }
 
    @Override
-   public void vaticanUpdate(String stateUpdate) {
+   public void vaticanUpdate(String username, String stateUpdate) {
 
    }
 

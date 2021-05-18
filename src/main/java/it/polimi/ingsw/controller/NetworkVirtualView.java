@@ -58,8 +58,8 @@ public class NetworkVirtualView implements ModelObserver {
    }
 
    @Override
-   public void vaticanUpdate(String stateUpdate) {
-      server.serverBroadcastUpdate(new Message(MessageType.VATICAN_REPORT, stateUpdate));
+   public void vaticanUpdate(String username, String stateUpdate) {
+      server.serverBroadcastUpdate(new Message(username, MessageType.VATICAN_REPORT, stateUpdate));
    }
 
 
