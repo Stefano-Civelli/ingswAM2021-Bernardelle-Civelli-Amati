@@ -224,6 +224,7 @@ public class SimplePlayerState implements SimpleStateObservable{
 
       return resources;
    }
+
    //----------------------------------------------------------
 
    @Override

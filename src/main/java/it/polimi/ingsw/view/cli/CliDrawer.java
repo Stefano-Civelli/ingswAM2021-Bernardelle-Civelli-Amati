@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.DevelopCard;
+import it.polimi.ingsw.model.DevelopCardColor;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.MarbleColor;
@@ -12,6 +13,7 @@ import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.SimpleStateObserver;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class CliDrawer implements SimpleStateObserver {
@@ -57,6 +59,7 @@ public class CliDrawer implements SimpleStateObserver {
     buildChest(username);
     placeHereOnCanvas(2,PLAYERBOARD_LENGTH+7, buildAndSetMarket());
     buildTrack(username);
+    buildCardSlot(username);
     displayCanvas();
   }
 
@@ -149,57 +152,6 @@ public class CliDrawer implements SimpleStateObserver {
       System.out.println();
     }
     System.out.println(Color.RESET.escape());
-  }
-
-  private void fillDeck(String[][] deck) {
-    Integer[][] cards = gameState.visibleCards();
-
-    for (int i = 0, a = 1; i < cards.length; i++, a+=4) {
-      for (int j = 0, b = 1; j < cards[0].length; j++, b+=11) {
-        if (cards[i][j] != null) {
-          try {
-            DevelopCard d = Cli.getDevelopCardFromId(cards[i][j]);
-            int victory = d.getVictoryPoints();
-            int c=b;
-            Map<ResourceType, Integer> cost = d.getCost();
-            Map<ResourceType, Integer> requirements = d.getRequirement();
-            Map<ResourceType, Integer> products = d.getProduct();
-
-            for(Map.Entry<ResourceType, Integer> entry : cost.entrySet()) {
-              deck[a][c] = entry.getKey().getColor().getColor() + entry.getValue().toString();
-              c+=2;
-            }
-
-            c=b;
-            for(Map.Entry<ResourceType, Integer> entry : requirements.entrySet()) {
-              deck[a+1][c] = entry.getKey().getColor().getColor() + entry.getValue().toString();
-              c+=2;
-            }
-
-            deck[a+1][c-1] = ConfigParameters.arrowCharacter;
-
-            for(Map.Entry<ResourceType, Integer> entry : products.entrySet()) {
-              deck[a+1][c] = entry.getKey().getColor().getColor() + entry.getValue().toString();
-              c+=2;
-            }
-
-            if(victory > 9) {
-              deck[a+2][b+4] = " ";
-              deck[a+2][b+5] = "\u25C6";
-              deck[a+2][b+6] = Integer.toString(victory/10);
-              deck[a+2][b+7] = Integer.toString(victory%10);
-              deck[a+2][b+8] = " ";
-            }
-            else {
-              deck[a+2][b+5] = " ";
-              deck[a+2][b+6] = "\u25C6";
-              deck[a+2][b+7] = Integer.toString(victory);
-              deck[a+2][b+8] = " ";
-            }
-          } catch (InvalidCardException e) {}
-        }
-      }
-    }
   }
 
 
@@ -407,6 +359,57 @@ public class CliDrawer implements SimpleStateObserver {
     }
   }
 
+  private void fillDeck(String[][] deck) {
+    Integer[][] cards = gameState.visibleCards();
+
+    for (int i = 0, a = 1; i < cards.length; i++, a+=4) {
+      for (int j = 0, b = 1; j < cards[0].length; j++, b+=11) {
+        if (cards[i][j] != null) {
+          try {
+            DevelopCard d = Cli.getDevelopCardFromId(cards[i][j]);
+            int victory = d.getVictoryPoints();
+            int c=b;
+            Map<ResourceType, Integer> cost = d.getCost();
+            Map<ResourceType, Integer> requirements = d.getRequirement();
+            Map<ResourceType, Integer> products = d.getProduct();
+
+            for(Map.Entry<ResourceType, Integer> entry : cost.entrySet()) {
+              deck[a][c] = entry.getKey().getColor().getColor() + entry.getValue().toString();
+              c+=2;
+            }
+
+            c=b;
+            for(Map.Entry<ResourceType, Integer> entry : requirements.entrySet()) {
+              deck[a+1][c] = entry.getKey().getColor().getColor() + entry.getValue().toString();
+              c+=2;
+            }
+
+            deck[a+1][c-1] = ConfigParameters.arrowCharacter;
+
+            for(Map.Entry<ResourceType, Integer> entry : products.entrySet()) {
+              deck[a+1][c] = entry.getKey().getColor().getColor() + entry.getValue().toString();
+              c+=2;
+            }
+
+            if(victory > 9) {
+              deck[a+2][b+4] = " ";
+              deck[a+2][b+5] = "\u25C6";
+              deck[a+2][b+6] = Integer.toString(victory/10);
+              deck[a+2][b+7] = Integer.toString(victory%10);
+              deck[a+2][b+8] = " ";
+            }
+            else {
+              deck[a+2][b+5] = " ";
+              deck[a+2][b+6] = "\u25C6";
+              deck[a+2][b+7] = Integer.toString(victory);
+              deck[a+2][b+8] = " ";
+            }
+          } catch (InvalidCardException e) {}
+        }
+      }
+    }
+  }
+
   private String[][] buildAndSetMarket() {
     MarbleColor[][] marketColor = gameState.getMarket();
     String[][] market = buildMargins(MARKET_HEIGHT, MARKET_LENGTH);
@@ -471,6 +474,8 @@ public class CliDrawer implements SimpleStateObserver {
   }
 
   private void buildTrack(String username) {
+    canvas[2][2] = Integer.toString(playerState.get(username).getTrackPosition());
+
     String[][] trackAndVatican = new String[TRACK_HEIGHT+2][TRACK_LENGTH*3];
     String[][] track = skeletonTrack();
 
@@ -487,7 +492,6 @@ public class CliDrawer implements SimpleStateObserver {
     trackAndVatican[1][6*3+2] = "│";
     trackAndVatican[2][6*3+2] = "┘";
 
-    canvas[2][2] = Integer.toString(playerState.get(username).getTrackPosition());
 
     placeHereOnCanvas(2, 40, trackAndVatican);
   }
@@ -512,55 +516,130 @@ public class CliDrawer implements SimpleStateObserver {
     return track;
   }
 
-  public void printCard(int devCardId) {
+  private void buildCardSlot(String username) {
+    String[][] cardSlots = new String[9][39];
 
-    String[][] innerOfCard = cardMargin();
+    for (int i=0; i<cardSlots.length; i++)
+      for (int j=0; j<cardSlots[0].length; j++)
+        cardSlots[i][j] = " ";
 
-    //DevelopCard dev = deck.getCard(1); //1 is the id
-    //dev.getRequirements
-//    for(ResourceType r : dev.getRequirements.getKey()) {
-//      innerOfCard[3][5]
-//    }
-//    innerOfCard[3][4] = ;
-    innerOfCard[2][4] = "⚫";
-    innerOfCard[2][5] = "v";
-    innerOfCard[2][6] = "p";
-
-    innerOfCard[3][5] = "→";
-    innerOfCard[3][6] = "⚫";
-    printCard(innerOfCard);
+    skeletonCardSlots(cardSlots);
+    fillCardSlots(cardSlots, username);
+    placeHereOnCanvas(5, 20, cardSlots);
   }
 
-  private String[][] cardMargin() {
-    int c, r;
-    String[][] margin = new String[MAX_ROW_TILES][MAX_COLUMN_TILES];
+  private void skeletonCardSlots(String[][] cardSlots) {
+    int col=0;
+    String[][] margins = buildMargins(8, 13);
 
-    margin[0][0] = "╔";
-    for (c = 1; c < MAX_COLUMN_TILES - 1; c++)
-      margin[0][c] = "═";
-    margin[0][c] = "╗";
-
-    for (r = 1; r < MAX_ROW_TILES - 1; r++) {
-      margin[r][0] = "║";
-      for (c = 1; c < MAX_COLUMN_TILES - 1; c++)
-        margin[r][c] = " ";
-      margin[r][c] = "║";
+    for(char c : "CARD SLOTS".toCharArray()) {
+      cardSlots[0][col] = Character.toString(c);
+      col++;
     }
 
-    margin[r][0] = "╚";
-    for (c = 1; c < MAX_COLUMN_TILES - 1; c++)
-      margin[r][c] = "═";
-    margin[r][c] = "╝";
-
-    return margin;
+    for(int i=1; i<=margins.length; i++)
+      for(int j=0; j<margins[0].length; j++) {
+        cardSlots[i][j] = margins[i-1][j];
+        cardSlots[i][j+13] = margins[i-1][j];
+        cardSlots[i][j+26] = margins[i-1][j];
+      }
   }
 
-  private void printCard(String[][] card) {
-    for (int r = 0; r < MAX_ROW_TILES; r++) {
-      for (int c = 0; c < MAX_COLUMN_TILES; c++)
+  private void fillCardSlots(String[][] cardSlots, String username) {
+    List<Integer>[] slots = playerState.get(username).getCardSlots();
+    int a=cardSlots.length-5, b=1;
 
-        //System.out.print(marginColor.escape() + card[r][c] + resetColor.escape());
-      System.out.println();
+    for(int i=0; i<slots.length; i++) {
+      for (int j=0; j<slots[i].size(); j++) {
+        try {
+          DevelopCard d = Cli.getDevelopCardFromId(slots[i].get(j));
+          DevelopCardColor color = d.getCardFlag().getColor();
+          int level = d.getCardFlag().getLevel();
+          String[][] card = buildMargins(4, 11);
+          int victory = d.getVictoryPoints();
+          Map<ResourceType, Integer> cost = d.getCost();
+          Map<ResourceType, Integer> requirements = d.getRequirement();
+          Map<ResourceType, Integer> products = d.getProduct();
+
+
+          for (int k=0, c=a; k < card.length; k++, c++)
+            for (int w=0, e=b; w < card[i].length; w++, e++) {
+              switch (color) {
+                case BLUE:
+                  cardSlots[c][e] = Color.ANSI_BLUE.escape() + card[k][w] + Color.RESET.escape();
+                  break;
+                case GREEN:
+                  cardSlots[c][e] = Color.ANSI_GREEN.escape() + card[k][w] + Color.RESET.escape();
+                  break;
+                case PURPLE:
+                  cardSlots[c][e] = Color.ANSI_PURPLE.escape() + card[k][w] + Color.RESET.escape();
+                  break;
+                case YELLOW:
+                  cardSlots[c][e] = Color.ANSI_YELLOW.escape() + card[k][w] + Color.RESET.escape();
+                  break;
+              }
+            }
+
+          switch (level) {
+            case 1:
+              cardSlots[a][b+1] = " ";
+              cardSlots[a][b+2] = "I";
+              cardSlots[a][b+3] = " ";
+              break;
+            case 2:
+              cardSlots[a][b+1] = " ";
+              cardSlots[a][b+2] = "I";
+              cardSlots[a][b+3] = "I";
+              cardSlots[a][b+4] = " ";
+              break;
+            case 3:
+              cardSlots[a][b+1] = " ";
+              cardSlots[a][b+2] = "I";
+              cardSlots[a][b+3] = "I";
+              cardSlots[a][b+4] = "I";
+              cardSlots[a][b+5] = " ";
+              break;
+          }
+
+          int c=a+1, e=b+1;
+          for(Map.Entry<ResourceType, Integer> entry : cost.entrySet()) {
+            cardSlots[c][e] = entry.getKey().getColor().getColor() + entry.getValue().toString() + Color.RESET.escape();
+            e+=2;
+          }
+
+          e=b+1;
+          for(Map.Entry<ResourceType, Integer> entry : requirements.entrySet()) {
+            cardSlots[c+1][e] = entry.getKey().getColor().getColor() + entry.getValue().toString() + Color.RESET.escape();
+            e+=2;
+          }
+
+          cardSlots[c+1][e-1] = ConfigParameters.arrowCharacter;
+
+          for(Map.Entry<ResourceType, Integer> entry : products.entrySet()) {
+            cardSlots[c+1][e] = entry.getKey().getColor().getColor() + entry.getValue().toString() + Color.RESET.escape();
+            e+=2;
+          }
+
+          if(victory > 9) {
+            cardSlots[c+2][b+5] = " ";
+            cardSlots[c+2][b+6] = "\u25C6";
+            cardSlots[c+2][b+7] = Integer.toString(victory/10);
+            cardSlots[c+2][b+8] = Integer.toString(victory%10);
+            cardSlots[c+2][b+9] = " ";
+          }
+          else {
+            cardSlots[c+2][b+6] = " ";
+            cardSlots[c+2][b+7] = "\u25C6";
+            cardSlots[c+2][b+8] = Integer.toString(victory);
+            cardSlots[c+2][b+9] = " ";
+          }
+
+          a--;
+        } catch (InvalidCardException e) {
+        }
+      }
+      b=b+13;
+      a=cardSlots.length-5;
     }
   }
 }

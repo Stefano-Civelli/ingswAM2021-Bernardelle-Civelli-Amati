@@ -294,8 +294,6 @@ public class Cli implements ViewInterface {
         break;
       case "P": case "p":
         Action produceAction = createProduceAction();
-        while(produceAction == null)
-          produceAction = createProduceAction();
         client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, produceAction));
         break;
       case "L": case "l"://leaderProduce
@@ -442,11 +440,11 @@ public class Cli implements ViewInterface {
       produced = validateIntInput(0, 4);
       return new BaseProductionAction(consumed1, consumed2, parsIntToResource(produced));
     }
-    else if(index>0)
-      return new ProductionAction(index);
     else
-      System.out.println("you don't have enough exchangeable resources to activate base production");
-    return null;
+      return new ProductionAction(index-1);
+//    else
+//      System.out.println("you don't have enough exchangeable resources to activate base production");
+//    return null;
   }
 
   private static String stringInputValidation(Scanner in, String a, String b) {
