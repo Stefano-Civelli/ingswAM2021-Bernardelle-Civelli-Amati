@@ -191,7 +191,7 @@ public class SimplePlayerState implements SimpleStateObservable{
       this.tempChest.clear();
    }
 
-   public boolean isBaseProductionActivatable() {
+   public boolean isBaseProductionActivatable() { //secondo me non serve
       boolean isvalid = false;
       int quantity = 0;
       for(Map.Entry<ResourceType, Integer> entry : chest.entrySet())

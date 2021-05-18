@@ -262,13 +262,20 @@ public class Client {
         System.out.println("sorry mate, you can't discard an active leader card ");
         turnManager.currentPhasePrint();
         break;
-      case ALREADY_PRODUCED: //è così di proposito
       case NOT_ACTIVATABLE_PRODUCTION:
         System.out.println("sorry mate, you can't activate this production ");
         turnManager.currentPhasePrint();
         break;
+      case ALREADY_PRODUCED:
+        System.out.println("sorry mate, you already have already used this production in this turn");
+        turnManager.currentPhasePrint();
+        break;
       case NOT_ENOUGH_RESOURCES:
         System.out.println("sorry mate, you don't have enough resources to perform this action ");
+        turnManager.currentPhasePrint();
+        break;
+      case INVALID_CARD_PLACEMENT:
+        System.out.println("sorry mate, you can't place your Develop card here ");
         turnManager.currentPhasePrint();
         break;
       default:

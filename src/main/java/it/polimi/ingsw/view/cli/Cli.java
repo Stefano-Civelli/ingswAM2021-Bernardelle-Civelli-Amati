@@ -417,9 +417,9 @@ public class Cli implements ViewInterface {
   }
 
   private Action createProduceAction(){
-    System.out.println("Choose a develop card you want to activate production on.");
+    System.out.println("Choose a Slot card you want to activate production on. (0 for base Production)");
     int index = validateIntInput(0, 3);
-    if(index == 0 && client.getSimplePlayerState().isBaseProductionActivatable()) {
+    if(index == 0 /*&& client.getSimplePlayerState().isBaseProductionActivatable()*/) {
       ResourceType consumed1, consumed2;
       int produced;
       Map<ResourceType, Integer> throwableResources = client.getSimplePlayerState().throwableResources();
