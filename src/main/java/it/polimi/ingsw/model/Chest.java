@@ -84,7 +84,7 @@ public class Chest implements ModelObservable, TempChestObservable {
    * get the number of resources of the specified type contained in the chest
    * NOTE: to make this method include newly added resources you need to call {@link #endOfTurnMapsMerge()}
    *
-   * @param resource the Resource type
+   * @param resource the Resource type of which you want to know how many there are in the chest
    * @return the number of resources of the specified type
    */
   public int getNumberOf(ResourceType resource){

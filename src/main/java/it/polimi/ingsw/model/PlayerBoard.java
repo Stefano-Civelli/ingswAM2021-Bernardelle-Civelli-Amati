@@ -219,6 +219,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
             throw new NeedAResourceToAddException();
          }
       }
+      else
+         throw new NotEnoughResourcesException();
    }
 
    /**
@@ -238,9 +240,10 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     * @throws AlreadyProducedException if this production has already been activated during this turn
     */
    public void developProduce(int slotIndex) throws NotActivatableException, AlreadyProducedException {
-      // FIXME se la develop card non esiste? IndexOutOfBound????
       if(this.alreadyProduced[slotIndex + 1])
          throw new AlreadyProducedException();
+      if(this.cardSlots.returnTopCard(slotIndex).getCardFlag().getLevel() == 0)
+         throw new NotActivatableException();
       this.cardSlots.returnTopCard(slotIndex).produce(this);
       this.alreadyProduced[slotIndex + 1] = true;
    }
