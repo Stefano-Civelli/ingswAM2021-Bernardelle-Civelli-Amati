@@ -49,7 +49,7 @@ public class Game implements LeaderSetupObservable {
     */
    public void addPlayer(String username) throws IOException, MaximumNumberOfPlayersException {
       if(this.playerBoards.size() >= 4)
-         throw new MaximumNumberOfPlayersException();
+         throw new MaximumNumberOfPlayersException(4);
 
       List<LeaderCard> fourInitialLeaderCardsForPlayer = this.leaderCardDeck.drawFourCards();
 
@@ -208,7 +208,7 @@ public class Game implements LeaderSetupObservable {
               .get(0).getKey().getUsername().equals(username);
    }
 
-   private List<Integer> idLeaderList(List<LeaderCard> leaderList){
+   private List<Integer> idLeaderList(List<LeaderCard> leaderList) {
       return leaderList.stream().map(LeaderCard::getLeaderId).collect(Collectors.toList());
    }
 

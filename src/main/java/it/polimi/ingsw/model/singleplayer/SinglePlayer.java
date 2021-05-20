@@ -49,7 +49,7 @@ public class SinglePlayer extends Game {
       if(super.getOrderedPlayers().size() == 0)
          super.addPlayer(username);
       else
-         throw new MaximumNumberOfPlayersException();
+         throw new MaximumNumberOfPlayersException(1);
    }
 
    /**
