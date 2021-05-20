@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelObservables.LeaderSetupObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
+import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
@@ -161,11 +162,13 @@ public class Game implements LeaderSetupObservable {
     * @param username the username of the player
     * @throws InvalidUsernameException if the specified player doesn't exist
     */
-   public void disconnectPlayer(String username) throws InvalidUsernameException {
+   public void disconnectPlayer(String username) throws InvalidUsernameException, NoConnectedPlayerException {
       int index = this.playerBoards.stream().map(Pair::getKey).map(PlayerBoard::getUsername).collect(Collectors.toList()).indexOf(username);
       if(index < 0)
          throw new InvalidUsernameException();
       this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), false));
+      if(this.playerBoards.stream().noneMatch(Pair::getValue))
+         throw new NoConnectedPlayerException();
    }
 
    /**

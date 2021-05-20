@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
+import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
@@ -374,14 +375,30 @@ public class Server {
       if(!gameRunning) //if the game isn't started delete the player from the list and forget about him
          deleteClient(disconnectedClient);
 
-      if(disconnectedClient.isLogged()) {
-         sendBroadcast(new Message(disconnectedClient.getUsername(), MessageType.DISCONNECTED)); //non serve
-         Message errorOrEndTurn = turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
-         disconnectedClient.actionAnswereMessage(errorOrEndTurn);
+      try {
+         if (disconnectedClient.isLogged()) {
+            sendBroadcast(new Message(disconnectedClient.getUsername(), MessageType.DISCONNECTED));
+            Message errorOrEndTurn = turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
+            disconnectedClient.actionAnswereMessage(errorOrEndTurn);
+         }
+      } catch (NoConnectedPlayerException e) {
+         System.out.println("NO CONNECTED PLAYERS");
+         this.resetServer();
       }
-
-      disconnectedClient.closeSocket();
-
-      disconnectedClient.setConnected(false); //needed to handle reconnection
+      finally {
+         disconnectedClient.closeSocket();
+         disconnectedClient.setConnected(false); //needed to handle reconnection
+      }
    }
+
+   public void resetServer() {
+      this.clients.forEach(ServerClientHandler::closeSocket);
+      this.usernameToClientHandler.clear();
+      this.clients.clear();
+      this.gameRunning = false;
+      this.playersNumber = 0;
+      this.turnManager = null;
+      System.out.println("GAME FINISHED.");
+   }
+
 }

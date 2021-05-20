@@ -4,10 +4,7 @@ import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.ResourceType;
-import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
-import it.polimi.ingsw.model.modelexceptions.InvalidLeaderCardException;
-import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
-import it.polimi.ingsw.model.modelexceptions.NotEnoughSpaceException;
+import it.polimi.ingsw.model.modelexceptions.*;
 
 import java.util.List;
 import java.util.Random;
@@ -34,7 +31,8 @@ public class PlayerDisconnectionAction extends Action {
      * @throws InvalidUsernameException the player for which this action must be performed doesn't exist in this game
      */
     @Override
-    public PhaseType performAction(IGameState gameState) throws InvalidActionException, InvalidUsernameException {
+    public PhaseType performAction(IGameState gameState)
+            throws InvalidActionException, InvalidUsernameException, NoConnectedPlayerException {
         if(!this.isActionValid())
             throw new InvalidActionException("This Action is not correctly initialized.");
         if(gameState.getCurrentPhase().isSetup())

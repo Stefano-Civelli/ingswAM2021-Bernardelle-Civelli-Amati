@@ -62,7 +62,7 @@ public class TurnManager implements IGameState {
      * @param action the action to perform
      * @return a message containing the next turn state or an error
      */
-    public synchronized Message handleAction(Action action) {
+    public synchronized Message handleAction(Action action) throws NoConnectedPlayerException {
         try {
             PhaseType tmpPhase = action.performAction(this);
             if(tmpPhase == null)
@@ -78,6 +78,8 @@ public class TurnManager implements IGameState {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.WRONG_ACTION);
         } catch (ControllerException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.UNKNOWN_CONTROLLER_ERROR);
+        } catch(NoConnectedPlayerException e) {
+            throw e;
         } catch (InvalidUsernameException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_USERNAME);
         } catch (NotEnoughResourcesException e) {

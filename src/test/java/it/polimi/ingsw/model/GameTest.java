@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
+import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -92,7 +93,8 @@ class GameTest {
     }
 
     @Test
-    void playerConnectionTest() throws IOException, MaximumNumberOfPlayersException, InvalidUsernameException {
+    void playerConnectionTest()
+            throws IOException, MaximumNumberOfPlayersException, InvalidUsernameException, NoConnectedPlayerException {
         Game game = new Game(null);
         game.addPlayer("test1");
         game.addPlayer("test2");
@@ -180,7 +182,8 @@ class GameTest {
     }
 
     @Test
-    void nextPlayerConnectionTest() throws IOException, MaximumNumberOfPlayersException, InvalidUsernameException {
+    void nextPlayerConnectionTest()
+            throws IOException, MaximumNumberOfPlayersException, InvalidUsernameException, NoConnectedPlayerException {
         Game game = new Game(null);
         game.addPlayer("test1");
         game.addPlayer("test2");

@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import com.google.gson.*;
 import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -81,7 +82,6 @@ public class ServerClientHandler implements Runnable {
          return;
 
       switch (message.getMessageType()) {
-         //potrei fare istanceOf
 
          case LOGIN:
             if(logged)
@@ -105,15 +105,18 @@ public class ServerClientHandler implements Runnable {
          case ACTION:
             if(!server.isGameRunning())
                return;
-
             Action action = message.getAction();
             action.setUsername(username);
-            Message errorOrEndTurn = server.getTurnManager().handleAction(action);
-            actionAnswereMessage(errorOrEndTurn);
+            try {
+               Message errorOrEndTurn = server.getTurnManager().handleAction(action);
+               actionAnswereMessage(errorOrEndTurn);
+            } catch (NoConnectedPlayerException e) {
+               //This code should never be executed
+               e.printStackTrace();
+            }
             break;
 
-            default: return;
-
+         default:
 
       }//switch
    }

@@ -8,7 +8,8 @@ import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
 public class DiscardLeaderAction extends Action {
-// TODO
+// TODO uml
+
     private Integer leaderCardIndex = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
