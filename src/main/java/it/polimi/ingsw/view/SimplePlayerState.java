@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
+import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
@@ -53,6 +54,11 @@ public class SimplePlayerState implements SimpleStateObservable{
          vaticanFlipped[i] = false;
 
       this.activeLeaderCards = new ArrayList<>();
+
+      this.notActiveLederCards = new ArrayList<>();
+      for(int i=0; i<2; i++)
+         notActiveLederCards.add(0);
+      //adds 2 placeholder card with a special ID that doesn't match any real card
    }
 
    //-----------SETUP-------------------------------------------
@@ -147,8 +153,7 @@ public class SimplePlayerState implements SimpleStateObservable{
 
    public void activatedLeaderUpdate(String payload){
       this.activeLeaderCards.add(Integer.parseInt(payload));
-      if(this.notActiveLederCards != null)
-         this.notActiveLederCards.remove(Integer.parseInt(payload)); //potrebbe non andare a causa dell'indice
+      this.notActiveLederCards.remove(Integer.parseInt(payload)); //potrebbe non andare a causa dell'indice
    }
 
 
@@ -158,7 +163,6 @@ public class SimplePlayerState implements SimpleStateObservable{
     * @param indexOfLeaderToDiscard
     */
    public void discardLeader(int indexOfLeaderToDiscard){
-      if(this.notActiveLederCards != null)
          notActiveLederCards.remove(indexOfLeaderToDiscard);
    }
    //----------------------------------------------------------
