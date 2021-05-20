@@ -61,6 +61,7 @@ public class TurnManager implements IGameState {
      *
      * @param action the action to perform
      * @return a message containing the next turn state or an error
+     * @throws NoConnectedPlayerException if the last player disconnected
      */
     public synchronized Message handleAction(Action action) throws NoConnectedPlayerException {
         try {

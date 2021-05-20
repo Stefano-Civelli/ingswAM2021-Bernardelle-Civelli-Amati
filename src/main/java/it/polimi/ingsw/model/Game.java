@@ -198,14 +198,14 @@ public class Game implements LeaderSetupObservable {
    }
 
    /**
-    * Check if the specified player is the first
+    * Check if the specified player is the first (among of connected players)
     *
     * @param username the username of the player
     * @return true if player is the first, false otherwise
     */
    public boolean isFirst(String username) {
-      // FIXME meglio controllare se è il primo CONNESSO?
-      return this.playerBoards.get(0).getKey().getUsername().equals(username);
+      return this.playerBoards.stream().filter(Pair::getValue).collect(Collectors.toList())
+              .get(0).getKey().getUsername().equals(username);
    }
 
    private List<Integer> idLeaderList(List<LeaderCard> leaderList){
