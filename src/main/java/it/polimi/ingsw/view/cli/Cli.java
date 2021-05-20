@@ -508,11 +508,8 @@ public class Cli implements ViewInterface {
   public static LeaderCard getLeaderCardFromId(int cardId) throws InvalidCardException {
     LeaderCardDeck leaderCardDeck = null;
     try {
-      FileInputStream inputStream = new FileInputStream(ConfigParameters.cardConfigFile);
-      InputStreamReader reader = new InputStreamReader(inputStream);
-      leaderCardDeck = GSON.getGsonBuilder().fromJson(reader, LeaderCardDeck.class);
-      reader.close();
-    }catch (IOException e){}
+      leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
+    } catch (IOException e) { e.printStackTrace(); }
     return leaderCardDeck.getCardFromId(cardId);
   }
 

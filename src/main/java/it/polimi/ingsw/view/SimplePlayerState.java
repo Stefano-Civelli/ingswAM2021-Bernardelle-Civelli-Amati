@@ -55,7 +55,8 @@ public class SimplePlayerState implements SimpleStateObservable{
 
    //-----------SETUP-------------------------------------------
    public void setupLeaderCard(String payload){
-      this.leaderCards = GSON.getGsonBuilder().fromJson(payload, List.class);
+      Type token = new TypeToken<List<Integer>>(){}.getType();
+      this.leaderCards = GSON.getGsonBuilder().fromJson(payload, token);
    }
 
    /**
@@ -153,13 +154,12 @@ public class SimplePlayerState implements SimpleStateObservable{
    public void activatedLeaderUpdate(String payload){
       leaderCards.add(Integer.parseInt(payload));
    }
-
    //----------------------------------------------------------
 
 
    //----------GETTERS-----------------------------------------
    public List<Integer> getLeaderCards() {
-      return new ArrayList<>(leaderCards);
+      return new ArrayList<>(this.leaderCards);
    }
 
    public Map<ResourceType, Integer> getChest() {

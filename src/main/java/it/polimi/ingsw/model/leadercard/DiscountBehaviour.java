@@ -22,4 +22,8 @@ public class DiscountBehaviour extends CardBehaviour{
    }
    }
 
+   @Override
+   public ResourceType getResourceToDiscount() {
+      return resourceToDiscount;
+   }
 }

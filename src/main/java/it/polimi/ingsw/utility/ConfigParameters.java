@@ -16,6 +16,7 @@ public final class ConfigParameters {
   public static final int countDown = 10;
   public static String marbleCharacter = "\u25CF";
   public static String arrowCharacter = (Color.RESET.escape() + "\u25B6");
+  public static String squareCharacter = "\u25A0";
 
 
   private ConfigParameters() {

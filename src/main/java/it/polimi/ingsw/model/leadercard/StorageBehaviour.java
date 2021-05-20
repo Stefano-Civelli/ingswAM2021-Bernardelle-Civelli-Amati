@@ -19,4 +19,9 @@ public class StorageBehaviour extends CardBehaviour{
          playerboard.getWarehouse().addLeaderCardLevel(storageType);
       } catch (AbuseOfFaithException e) {e.printStackTrace();}
    }
+
+   @Override
+   public ResourceType getResToStore() {
+      return storageType;
+   }
 }

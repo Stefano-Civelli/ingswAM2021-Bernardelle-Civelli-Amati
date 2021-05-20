@@ -38,4 +38,8 @@ public class LeaderProduceBehaviour extends CardBehaviour{
       } catch (NegativeQuantityException e) {e.printStackTrace();}
    }
 
+   @Override
+   public ResourceType getProductionRequirement() {
+      return resourceToRemove;
+   }
 }

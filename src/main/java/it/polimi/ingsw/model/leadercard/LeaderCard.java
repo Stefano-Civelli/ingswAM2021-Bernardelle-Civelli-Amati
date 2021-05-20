@@ -31,7 +31,7 @@ public class LeaderCard implements ModelObservable {
    public LeaderCard(ResourceType requiredResources, Map<CardFlag, Integer> requiredCardFlags, int victoryPoints, CardBehaviour cardBehaviour) {
       this.active = false;
       this.requiredResources = requiredResources;
-      this.requiredCardFlags = requiredCardFlags != null? new HashMap<>(requiredCardFlags) : new HashMap<>();
+      this.requiredCardFlags = (requiredCardFlags != null) ? new HashMap<>(requiredCardFlags) : new HashMap<>();
       this.victoryPoints = victoryPoints;
       this.cardBehaviour = cardBehaviour;
    }
@@ -112,7 +112,7 @@ public class LeaderCard implements ModelObservable {
     *
     * @return the ResourceType in which to convert the white marble or {@code null} if the card is not active or doesn't have this ability
     */
-   public ResourceType resourceOnWhite(){
+   public ResourceType resourceOnWhite() {
       if(this.isActive())
          return cardBehaviour.getOnWhite();
       else
@@ -149,4 +149,31 @@ public class LeaderCard implements ModelObservable {
       if (networkVirtualView != null)
          networkVirtualView.leaderUpdate(msg);
    }
+
+
+   //---------- getter for the type -------------------
+   public ResourceType getResToDiscount() {
+     return cardBehaviour.getResourceToDiscount();
+   }
+
+  public ResourceType getProductionRequirement() {
+    return cardBehaviour.getProductionRequirement();
+  }
+
+  public ResourceType getWhite() {
+    return cardBehaviour.getOnWhite();
+  }
+
+  public ResourceType getResToStore() {
+    return cardBehaviour.getResToStore();
+  }
+
+  public ResourceType getRequiredResources() {
+    return requiredResources;
+  }
+
+  public Map<CardFlag, Integer> getRequiredCardFlags() {
+    return new HashMap<>(requiredCardFlags);
+  }
+  //---------- getter for the type -------------------
 }

@@ -22,4 +22,15 @@ public abstract class CardBehaviour {
 
    public void discount(HashMap<ResourceType, Integer> resources){}
 
+   public ResourceType getResourceToDiscount() {
+      return null;
+   }
+
+   public ResourceType getProductionRequirement() {
+      return null;
+   }
+
+   public ResourceType getResToStore() {
+      return null;
+   }
 }

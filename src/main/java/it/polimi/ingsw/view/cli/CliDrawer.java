@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.model.CardFlag;
 import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.DevelopCardColor;
 import it.polimi.ingsw.model.ResourceType;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.SimpleStateObserver;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +28,7 @@ public class CliDrawer implements SimpleStateObserver {
   private final int MARKET_LENGTH = 11;
   private final int MARKET_HEIGHT = 5;
   private final int MAX_DISPLAYABLE_LENGTH = 200;
-  private final int MAX_DISPLAYABLE_HEIGHT = 16;
+  private final int MAX_DISPLAYABLE_HEIGHT = 22;
 //  private static int MAX_COLUMN_TILES = 20;
 //  private static int MAX_ROW_TILES = 5;
 
@@ -60,6 +62,7 @@ public class CliDrawer implements SimpleStateObserver {
     buildChest(username);
     placeHereOnCanvas(0,PLAYERBOARD_LENGTH+4, buildAndSetMarket());
     placeHereOnCanvas(1, PLAYERBOARD_LENGTH+4+MARKET_LENGTH+6, buildDevDeck());
+    placeHereOnCanvas(PLAYERBOARD_HEIGHT, 0, buildLeaderHand(username));
     buildTrack(username);
     buildCardSlot(username);
     displayCanvas();
@@ -75,16 +78,30 @@ public class CliDrawer implements SimpleStateObserver {
     }
   }
 
-  //TODO
   public void displayLeaderHand(String username) {
-    //for (Integer l : playerState.get(username).getLeaderCards()) {
-        //System.out.print(l.intValue() + " ");
-    System.out.print(playerState.get(username).getLeaderCards());
+    String[][] leaders = new String[5][playerState.get(username).getLeaderCards().size()*11];
+    String[][] hand = buildLeaderHand(username);
 
-    System.out.println();
-    System.out.println("1 2 3 4");
-      //buildLeaderHand();
-    //}
+
+    for (int i=0; i<hand.length; i++)
+      for (int j = 0; j < hand[0].length; j++)
+        leaders[i][j] = hand[i][j];
+
+    int c=0;
+    for (int i=0, a=1; i<leaders[0].length; i++) {
+      leaders[4][i] = " ";
+      if (i == (5 * a) + c) {
+        c++;
+        leaders[4][i] = Integer.toString(c);
+        a += 2;
+      }
+    }
+
+    for(int i=0; i< leaders.length; i++) {
+      for (int j = 0; j < leaders[0].length; j++)
+        System.out.print(leaders[i][j]);
+      System.out.println();
+    }
   }
 
   public void displayResourcesChoice() {
@@ -301,7 +318,18 @@ public class CliDrawer implements SimpleStateObserver {
     return marketAndSlide;
   }
 
-  private void buildLeadersHand(String username) {
+  private String[][] buildLeaderHand(String username) {
+    String[][] leaders = new String[4][playerState.get(username).getLeaderCards().size()*11];
+    String[][] margin = buildMargins(4, 11);
+
+    for(int i=0; i< leaders.length; i++)
+      for(int j=0; j< leaders[0].length; j++)
+        leaders[i][j] = margin[i][j%11];
+
+
+    fillLeaderHand(leaders, username);
+
+    return leaders;
   }
 
   private void buildTrack(String username) {
@@ -726,5 +754,105 @@ public class CliDrawer implements SimpleStateObserver {
       a=cardSlots.length-6;
     }
   }
+
+  private void fillLeaderHand(String[][] leaders, String username) {
+    //ArrayList<Integer> leaderCardsID = playerState.get(username).getInHandLeaders();
+    List<Integer> leaderCardsID = playerState.get(username).getLeaderCards();
+
+    for (int j = 0, b = 1; j < leaderCardsID.size(); j++, b += 11) {
+      if (leaderCardsID.get(j) != null) {
+        try {
+          LeaderCard l = Cli.getLeaderCardFromId(leaderCardsID.get(j));
+          Map<CardFlag, Integer> requiredCardFlags = l.getRequiredCardFlags();
+          ResourceType requiredResources = l.getRequiredResources();
+          int victory = l.getVictoryPoints();
+          int c = b;
+
+          //setto i vp e il costo all'interno della leader
+          if (victory > 9) {
+            leaders[leaders.length - 1][b + 4] = " ";
+            leaders[leaders.length - 1][b + 5] = "\u25C6";
+            leaders[leaders.length - 1][b + 6] = Integer.toString(victory / 10);
+            leaders[leaders.length - 1][b + 7] = Integer.toString(victory % 10);
+            leaders[leaders.length - 1][b + 8] = " ";
+          } else {
+            leaders[leaders.length - 1][b + 5] = " ";
+            leaders[leaders.length - 1][b + 6] = "\u25C6";
+            leaders[leaders.length - 1][b + 7] = Integer.toString(victory);
+            leaders[leaders.length - 1][b + 8] = " ";
+          }
+
+          if (requiredResources != null)
+            leaders[1][c] = requiredResources.getColor().getColor() + "5" + Color.RESET.escape();
+          else {
+            for (Map.Entry<CardFlag, Integer> entry : requiredCardFlags.entrySet()) {
+              int quantity = entry.getValue();
+              int column = entry.getKey().getColor().getColumn();
+
+              if (entry.getKey().getLevel() == 0) {
+                while (quantity > 0) {
+                  leaders[1][c] = colorCardFlagChoice(column) + ConfigParameters.squareCharacter + Color.RESET.escape();
+                  quantity--;
+                  c+=2;
+                }
+              } else {
+                leaders[1][c] = colorCardFlagChoice(column) + ConfigParameters.squareCharacter;
+                leaders[1][c+1] = "l";
+                leaders[1][c+2] = "v";
+                leaders[1][c+3] = "2" + Color.RESET.escape();
+              }
+            }
+          }
+
+          c=b;
+          //setto cosa fa la leader
+          ResourceType resource = l.getResToDiscount();
+          ResourceType resourceToRemove = l.getProductionRequirement();
+          ResourceType onWhite = l.getWhite();
+          ResourceType storageType = l.getResToStore();
+
+          if(onWhite != null) {
+            leaders[2][c+4] = "=";
+            leaders[2][c+2] = ConfigParameters.marbleCharacter;
+            leaders[2][c+6] = onWhite.toString();
+          }
+
+          if(resourceToRemove != null) {
+            leaders[2][c+3] = ConfigParameters.arrowCharacter;
+            leaders[2][c+1] = resourceToRemove.getColor().getColor() + "1" + Color.RESET.escape();
+            leaders[2][c+5] = "?";
+            leaders[2][c+7] = Color.ANSI_RED.escape() + "1" + Color.RESET.escape();
+          }
+
+          if(storageType != null) {
+            leaders[2][c+4] = "|";
+            leaders[2][c+2] = "[";
+            leaders[2][c+6] = "]";
+            leaders[2][c] = storageType.toString();
+          }
+
+          if(resource != null) {
+            leaders[2][c+4] = "1";
+            leaders[2][c+3] = "-";
+            leaders[2][c+5] = resource.toString();
+          }
+          } catch (InvalidCardException e) {}
+        }
+      }
+    }
   //------------------------- FILL --------------------------------
+
+  private String colorCardFlagChoice(int column) {
+    switch (column) {
+      case 0:
+        return Color.ANSI_GREEN.escape();
+      case 1:
+        return Color.ANSI_BLUE.escape();
+      case 2:
+        return Color.ANSI_YELLOW.escape();
+      case 3:
+        return Color.ANSI_PURPLE.escape();
+    }
+    return null;
+  }
 }
