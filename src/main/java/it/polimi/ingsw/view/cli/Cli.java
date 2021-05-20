@@ -321,8 +321,8 @@ public class Cli implements ViewInterface {
     System.out.println("That's your leader card hand: ");
     drawer.displayLeaderHand(client.getUsername());
     System.out.println("Which do you want to activate?");
-    activateLeaderIndex = validateIntInput(1, client.getSimplePlayerState().getLeaderCards().size());
-    return new DiscardLeaderAction(activateLeaderIndex);
+    activateLeaderIndex = validateIntInput(1, client.getSimplePlayerState().getNotActiveLeaderCards().size());
+    return new ActivateLeaderAction(activateLeaderIndex-1);
   }
 
   private Action createDiscardLeaderAction() {
@@ -330,8 +330,8 @@ public class Cli implements ViewInterface {
     System.out.println("That's your leader card hand: ");
     drawer.displayLeaderHand(client.getUsername());
     System.out.println("Which do you want to discard?");
-    discardLeaderIndex = validateIntInput(1, client.getSimplePlayerState().getLeaderCards().size());
-    return new DiscardLeaderAction(discardLeaderIndex);
+    discardLeaderIndex = validateIntInput(1, client.getSimplePlayerState().getNotActiveLeaderCards().size());
+    return new DiscardLeaderAction(discardLeaderIndex-1);
   }
 
   private void createChooseResourcesAction(String line) {
@@ -378,10 +378,10 @@ public class Cli implements ViewInterface {
   }
 
   private void createInitialDiscardLeaderAction(String line) {
-    int firstDiscard = validateIntInput(line, 1, client.getSimplePlayerState().getLeaderCards().size());
+    int firstDiscard = validateIntInput(line, 1, client.getSimplePlayerState().getNotActiveLeaderCards().size());
     client.getSimplePlayerState().discardLeader(firstDiscard - 1);
     drawer.displayLeaderHand(client.getUsername());
-    int secondDiscard = validateIntInput(1, client.getSimplePlayerState().getLeaderCards().size());
+    int secondDiscard = validateIntInput(1, client.getSimplePlayerState().getNotActiveLeaderCards().size());
     client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new DiscardInitialLeaderAction(client.getUsername(), firstDiscard-1, secondDiscard-1)));
     client.getSimplePlayerState().discardLeader(secondDiscard - 1);
   }

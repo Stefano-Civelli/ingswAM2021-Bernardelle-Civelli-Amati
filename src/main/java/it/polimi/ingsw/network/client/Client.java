@@ -174,7 +174,7 @@ public class Client {
         getSimplePlayerState(msg.getUsername()).warehouseUpdate(msg.getPayload());
         break;
       case ACTIVATED_LEADERCARD_UPDATE:
-        if(!this.username.equals(msg.getUsername()))
+        //if(!this.username.equals(msg.getUsername()))
           getSimplePlayerState(msg.getUsername()).activatedLeaderUpdate(msg.getPayload());
         //else ....
         break;

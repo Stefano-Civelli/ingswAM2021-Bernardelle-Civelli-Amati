@@ -15,4 +15,5 @@ public interface ModelObserver {
   void devDeckSetup(String stateUpdate);
   void tempChestUpdate(String stateUpdate);
   void discardedLeaderUpdate(String stateUpdate);
+  //TODO per riconnessione servono update con username e Stringa che chiamano singleUpdate
 }

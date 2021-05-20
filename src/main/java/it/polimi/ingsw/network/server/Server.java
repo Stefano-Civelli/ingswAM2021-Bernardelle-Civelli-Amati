@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.server;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.controller.action.PlayerDisconnectionAction;
+import it.polimi.ingsw.controller.action.PlayerReconnectionAction;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.model.Game;
@@ -182,7 +183,7 @@ public class Server {
       newClientHandler.setUsername(message.getUsername());
       usernameToClientHandler.put(newClientHandler.getUsername(), newClientHandler);
       newClientHandler.sendMessage(new Message(MessageType.RECONNECTED));
-      // TODO mandargli lo stato
+      //turnManager.handleAction(new PlayerReconnectionAction(newClientHandler.getUsername())); //FIXME Serve farlo ??
    }
 
    private int NumberOfRemainingLobbySlots() {
@@ -204,6 +205,7 @@ public class Server {
       }catch(IOException | JsonSyntaxException e){ //TODO controllare se viene lanciata la JsonSyntaxException
          //TODO bisogna chiudere la partita (disconnetto tutti i client 1 per volta dicendo Errore nei file di configurazione del gioco)
          sendToClient(new Message(MessageType.GENERIC_MESSAGE));
+         return; //TODO è un po alla cazzo per non far sottoilineare initialMoveForward
       }
 
       try {

@@ -3,7 +3,6 @@ package it.polimi.ingsw.view;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
-import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
@@ -21,7 +20,8 @@ public class SimplePlayerState implements SimpleStateObservable{
 
    private int trackPosition;
    private boolean[] vaticanFlipped;
-   private  List<Integer> leaderCards; //identified by ID
+   private  List<Integer> notActiveLederCards; //identified by ID
+   private  List<Integer> activeLeaderCards;   //identified by ID
    private final Map<ResourceType, Integer> chest;
    private final Map<ResourceType, Integer> tempChest;
    private final Pair<ResourceType, Integer>[] warehouseLevels;
@@ -51,21 +51,15 @@ public class SimplePlayerState implements SimpleStateObservable{
       this.vaticanFlipped = new boolean[3];
       for(int i=0; i<3; i++)
          vaticanFlipped[i] = false;
+
+      this.activeLeaderCards = new ArrayList<>();
    }
 
    //-----------SETUP-------------------------------------------
    public void setupLeaderCard(String payload){
       Type token = new TypeToken<List<Integer>>(){}.getType();
-      this.leaderCards = GSON.getGsonBuilder().fromJson(payload, token);
-   }
+      this.notActiveLederCards = GSON.getGsonBuilder().fromJson(payload, token);
 
-   /**
-    * delete a leadercard from the SimplePlayerState
-    *
-    * @param indexOfLeaderToDiscard
-    */
-   public void discardLeader(int indexOfLeaderToDiscard){
-      leaderCards.remove(indexOfLeaderToDiscard);
    }
    //-----------------------------------------------------------
 
@@ -152,14 +146,33 @@ public class SimplePlayerState implements SimpleStateObservable{
    }
 
    public void activatedLeaderUpdate(String payload){
-      leaderCards.add(Integer.parseInt(payload));
+      this.activeLeaderCards.add(Integer.parseInt(payload));
+      if(this.notActiveLederCards != null)
+         this.notActiveLederCards.remove(Integer.parseInt(payload)); //potrebbe non andare a causa dell'indice
+   }
+
+
+   /**
+    * delete a leadercard from the SimplePlayerState
+    *
+    * @param indexOfLeaderToDiscard
+    */
+   public void discardLeader(int indexOfLeaderToDiscard){
+      if(this.notActiveLederCards != null)
+         notActiveLederCards.remove(indexOfLeaderToDiscard);
    }
    //----------------------------------------------------------
 
 
    //----------GETTERS-----------------------------------------
-   public List<Integer> getLeaderCards() {
-      return new ArrayList<>(this.leaderCards);
+
+   /**
+    * return non-active leader cards present in this simplemodel
+    * NOTE: can return null
+    * @return non-active leader cards present in this simplemodel
+    */
+   public List<Integer> getNotActiveLeaderCards() {
+      return new ArrayList<>(notActiveLederCards);
    }
 
    public Map<ResourceType, Integer> getChest() {
@@ -184,6 +197,15 @@ public class SimplePlayerState implements SimpleStateObservable{
    public boolean[] getVaticanFlipped() {
       //System.out.println("getter" + vaticanFlipped[0]);
       return vaticanFlipped;
+   }
+
+   /**
+    * return active leader cards present in this simplemodel
+    *
+    * @return active leader cards present in this simplemodel
+    */
+   public List<Integer> getActiveLeaders(){
+      return new ArrayList<>(this.activeLeaderCards);
    }
 
    //----------------------------------------------------------
@@ -230,7 +252,6 @@ public class SimplePlayerState implements SimpleStateObservable{
 
       return resources;
    }
-
    //----------------------------------------------------------
 
    @Override

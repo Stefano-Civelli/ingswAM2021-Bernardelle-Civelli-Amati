@@ -78,8 +78,8 @@ public class Game implements LeaderSetupObservable {
    }
 
    public void initialMoveForward(){
-      this.playerBoards.stream().map(Pair::getKey).collect(Collectors.toList())
-              .forEach(playerBoard -> playerBoard.getTrack().moveForward(initialFaith(playerBoard.getUsername())));
+         this.playerBoards.stream().map(Pair::getKey).collect(Collectors.toList())
+                 .forEach(playerBoard -> playerBoard.getTrack().moveForward(initialFaith(playerBoard.getUsername())));
    }
 
    /**

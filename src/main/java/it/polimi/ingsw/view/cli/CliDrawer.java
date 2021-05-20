@@ -79,7 +79,7 @@ public class CliDrawer implements SimpleStateObserver {
   }
 
   public void displayLeaderHand(String username) {
-    String[][] leaders = new String[5][playerState.get(username).getLeaderCards().size()*11];
+    String[][] leaders = new String[5][playerState.get(username).getNotActiveLeaderCards().size()*11];
     String[][] hand = buildLeaderHand(username);
 
 
@@ -319,7 +319,7 @@ public class CliDrawer implements SimpleStateObserver {
   }
 
   private String[][] buildLeaderHand(String username) {
-    String[][] leaders = new String[4][playerState.get(username).getLeaderCards().size()*11];
+    String[][] leaders = new String[4][playerState.get(username).getNotActiveLeaderCards().size()*11];
     String[][] margin = buildMargins(4, 11);
 
     for(int i=0; i< leaders.length; i++)
@@ -757,7 +757,7 @@ public class CliDrawer implements SimpleStateObserver {
 
   private void fillLeaderHand(String[][] leaders, String username) {
     //ArrayList<Integer> leaderCardsID = playerState.get(username).getInHandLeaders();
-    List<Integer> leaderCardsID = playerState.get(username).getLeaderCards();
+    List<Integer> leaderCardsID = playerState.get(username).getNotActiveLeaderCards();
 
     for (int j = 0, b = 1; j < leaderCardsID.size(); j++, b += 11) {
       if (leaderCardsID.get(j) != null) {
