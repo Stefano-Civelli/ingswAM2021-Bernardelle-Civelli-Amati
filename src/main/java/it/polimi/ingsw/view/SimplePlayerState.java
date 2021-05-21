@@ -3,16 +3,12 @@ package it.polimi.ingsw.view;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
-import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SimplePlayerState implements SimpleStateObservable{
 
@@ -25,8 +21,7 @@ public class SimplePlayerState implements SimpleStateObservable{
    private  List<Integer> activeLeaderCards;   //identified by ID
    private final Map<ResourceType, Integer> chest;
    private final Map<ResourceType, Integer> tempChest;
-   private final Pair<ResourceType, Integer>[] warehouseLevels;
-   private final List<Pair<ResourceType, Integer>> leaderLevels;
+   private final Pair<ResourceType, Integer>[] storageLevels;
    private final List<Integer>[] cardSlots;
 
 
@@ -37,13 +32,13 @@ public class SimplePlayerState implements SimpleStateObservable{
          chest.put(resType, 0); //questa inizializzazione forse non serve. dipende da come funziona la funzione di print
 
       this.tempChest = new HashMap<>();
-      this.warehouseLevels = new Pair[this.NUMBER_OF_NORMAL_LEVELS];
-      for(int i=0; i<3; i++)
-         warehouseLevels[i] = new Pair(null, null);
+      this.storageLevels = new Pair[5];
+      for(int i=0; i<5; i++)
+         storageLevels[i] = new Pair(null, null);
 
-      this.leaderLevels = new ArrayList<>(this.MAX_SPECIAL_LEVELS);
-      for (int i=0; i<MAX_SPECIAL_LEVELS; i++)
-         this.leaderLevels.add(new Pair<>(null, null));
+//      this.leaderLevels = new ArrayList<>(this.MAX_SPECIAL_LEVELS);
+//      for (int i=0; i<MAX_SPECIAL_LEVELS; i++)
+//         this.leaderLevels.add(new Pair<>(null, null));
 
       this.cardSlots = new List[3];
       for(int i=0; i<3; i++)
@@ -79,36 +74,26 @@ public class SimplePlayerState implements SimpleStateObservable{
       //normalLevels
       if(update.getLevel()<3) {
          //controllo se la risorsa é presente
-         for (int i = 0; i < warehouseLevels.length; i++) {
+         for (int i = 0; i < storageLevels.length; i++) {
 
-            if (warehouseLevels[i].getKey() != null) {
-               if (warehouseLevels[i].getKey().equals(resource)) {
+            if (storageLevels[i].getKey() != null) {
+               if (storageLevels[i].getKey().equals(resource)) {
                   if (i == update.getLevel()) {
-                     warehouseLevels[i] = new Pair<>(resource, update.getQuantity());
+                     storageLevels[i] = new Pair<>(resource, update.getQuantity());
                      return;
                   } else {
-                     Pair<ResourceType, Integer> temp = new Pair<>(warehouseLevels[update.getLevel()].getKey(), warehouseLevels[update.getLevel()].getValue());
-                     warehouseLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
-                     warehouseLevels[i] = new Pair<>(temp.getKey(), temp.getValue());
+                     Pair<ResourceType, Integer> temp = new Pair<>(storageLevels[update.getLevel()].getKey(), storageLevels[update.getLevel()].getValue());
+                     storageLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
+                     storageLevels[i] = new Pair<>(temp.getKey(), temp.getValue());
                      return;
                   }
                }
             }
          }
-         //se non presente creo
-         warehouseLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
       }
-      else //TODO modificare come fatto sopra
-         for (int i = 0; i < leaderLevels.size(); i++) {
-            Pair<ResourceType, Integer> level = leaderLevels.get(i);
+         //se non presente creo
+         storageLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
 
-            if(level.getKey() != null) {
-               if (level.getKey().equals(resource)) {
-                  level = new Pair<>(resource, update.getQuantity());
-                  return;
-               }
-            }
-         }
    }
 
    public void trackUpdate(String payload) {
@@ -186,11 +171,18 @@ public class SimplePlayerState implements SimpleStateObservable{
    }
 
    public Pair<ResourceType, Integer>[] getWarehouseLevels() {
+      Pair<ResourceType, Integer>[] warehouseLevels = new Pair[3];
+      for(int i=0; i<3; i++)
+         warehouseLevels[i] = new Pair<>(storageLevels[i]);
       return warehouseLevels;
    }
 
    public List<Pair<ResourceType, Integer>> getLeaderLevels() {
-      return leaderLevels;
+      List<Pair<ResourceType, Integer>> tempList = new ArrayList<>();
+      for(int i=3; i<5; i++)
+         if(storageLevels[i].getKey() != null)
+            tempList.add(storageLevels[i]);
+      return tempList;
    }
 
    public int getTrackPosition() {
@@ -229,39 +221,39 @@ public class SimplePlayerState implements SimpleStateObservable{
       this.tempChest.clear();
    }
 
-   public boolean isBaseProductionActivatable() { //secondo me non serve
-      boolean isvalid = false;
-      int quantity = 0;
-      for(Map.Entry<ResourceType, Integer> entry : chest.entrySet())
-         quantity = entry.getValue();
-      for(Pair<ResourceType, Integer> p : warehouseLevels) {
-         if(p.getValue()!=null)
-            quantity = p.getValue();
-      }
-      for(Pair<ResourceType, Integer> p : leaderLevels) {
-         if(p.getValue()!=null)
-            quantity = p.getValue();
-      }
-      if(quantity>1)
-         isvalid = true;
-      return isvalid;
-   }
+//   public boolean isBaseProductionActivatable() { //secondo me non serve
+//      boolean isvalid = false;
+//      int quantity = 0;
+//      for(Map.Entry<ResourceType, Integer> entry : chest.entrySet())
+//         quantity = entry.getValue();
+//      for(Pair<ResourceType, Integer> p : warehouseLevels) {
+//         if(p.getValue()!=null)
+//            quantity = p.getValue();
+//      }
+//      for(Pair<ResourceType, Integer> p : leaderLevels) {
+//         if(p.getValue()!=null)
+//            quantity = p.getValue();
+//      }
+//      if(quantity>1)
+//         isvalid = true;
+//      return isvalid;
+//   }
 
-   public Map<ResourceType, Integer> throwableResources() {
-      Map<ResourceType, Integer> resources = new HashMap<>();
-      for(Map.Entry<ResourceType, Integer> entry : chest.entrySet())
-         resources.put(entry.getKey(), entry.getValue());
-      for(Pair<ResourceType, Integer> p : warehouseLevels) {
-         if(p.getValue()!=null)
-            resources.put(p.getKey(), resources.containsKey(p.getKey()) ? resources.get(p.getKey()) + p.getValue() : p.getValue());
-      }
-      for(Pair<ResourceType, Integer> p : leaderLevels) {
-         if(p.getValue()!=null)
-            resources.put(p.getKey(), resources.containsKey(p.getKey()) ? resources.get(p.getKey()) + p.getValue() : p.getValue());
-      }
-
-      return resources;
-   }
+//   public Map<ResourceType, Integer> throwableResources() {
+//      Map<ResourceType, Integer> resources = new HashMap<>();
+//      for(Map.Entry<ResourceType, Integer> entry : chest.entrySet())
+//         resources.put(entry.getKey(), entry.getValue());
+//      for(Pair<ResourceType, Integer> p : warehouseLevels) {
+//         if(p.getValue()!=null)
+//            resources.put(p.getKey(), resources.containsKey(p.getKey()) ? resources.get(p.getKey()) + p.getValue() : p.getValue());
+//      }
+//      for(Pair<ResourceType, Integer> p : leaderLevels) {
+//         if(p.getValue()!=null)
+//            resources.put(p.getKey(), resources.containsKey(p.getKey()) ? resources.get(p.getKey()) + p.getValue() : p.getValue());
+//      }
+//
+//      return resources;
+//   }
    //----------------------------------------------------------
 
    @Override

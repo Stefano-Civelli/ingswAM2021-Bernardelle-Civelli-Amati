@@ -517,20 +517,20 @@ public class Cli implements ViewInterface {
     return output;
   }
 
-  private ResourceType validateInputForResources(Map<ResourceType, Integer> validResources) {
-    String input;
-
-    input = in.nextLine();
-    ResourceType resource = parsStringToResource(input.toUpperCase());
-    while(resource == null || !validResources.containsKey(resource)) {
-      System.out.println("Input you gave me is not valid, choose the resource to throw from the following");
-      drawer.drawTotalResourcesChoice(client.getUsername());
-      input = in.nextLine();
-      resource = parsStringToResource(input.toUpperCase());
-    }
-
-    return resource;
-  }
+//  private ResourceType validateInputForResources(Map<ResourceType, Integer> validResources) {
+//    String input;
+//
+//    input = in.nextLine();
+//    ResourceType resource = parsStringToResource(input.toUpperCase());
+//    while(resource == null || !validResources.containsKey(resource)) {
+//      System.out.println("Input you gave me is not valid, choose the resource to throw from the following");
+//      drawer.drawTotalResourcesChoice(client.getUsername());
+//      input = in.nextLine();
+//      resource = parsStringToResource(input.toUpperCase());
+//    }
+//
+//    return resource;
+//  }
 
   private int validateIntInput(String line, int minValue, int maxValue) {
     int output;

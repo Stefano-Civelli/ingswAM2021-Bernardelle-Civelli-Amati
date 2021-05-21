@@ -175,10 +175,6 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable, Deck
          }
       }
 
-//      for (List<Integer>[] x : idCube)
-//         for (List<Integer> y : x)
-//            System.out.println(y);
-
       return idCube;
    }
 

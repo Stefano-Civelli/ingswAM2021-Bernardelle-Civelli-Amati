@@ -13,9 +13,6 @@ import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.SimpleStateObserver;
 
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -135,36 +132,36 @@ public class CliDrawer implements SimpleStateObserver {
     }
   }
 
-  public void drawTotalResourcesChoice(String username) {
-    String[][] resources = new String[8][2];
-    int row=0, col=0;
-    for(int i=0; i<resources.length; i++)
-      for(int j=0; j<resources[i].length; j++)
-        resources[i][j] = " ";
-
-    for(Map.Entry<ResourceType, Integer> entry : playerState.get(username).throwableResources().entrySet()) {
-      resources[row][col] = entry.getKey().toString();
-      switch (entry.getKey()) {
-        case GOLD:
-          resources[row+1][col] = "Y";
-          break;
-        case SERVANT:
-          resources[row+1][col] = "P";
-          break;
-        case STONE:
-          resources[row+1][col] = "G";
-          break;
-        case SHIELD:
-          resources[row+1][col] = "B";
-          break;
-      }
-      col += 2;
-    }
-
-    for(int i=0; i<resources.length; i++)
-      for(int j=0; j<resources[i].length; j++)
-        System.out.println(resources[i][j]);
-  }
+//  public void drawTotalResourcesChoice(String username) {
+//    String[][] resources = new String[8][2];
+//    int row=0, col=0;
+//    for(int i=0; i<resources.length; i++)
+//      for(int j=0; j<resources[i].length; j++)
+//        resources[i][j] = " ";
+//
+//    for(Map.Entry<ResourceType, Integer> entry : playerState.get(username).throwableResources().entrySet()) {
+//      resources[row][col] = entry.getKey().toString();
+//      switch (entry.getKey()) {
+//        case GOLD:
+//          resources[row+1][col] = "Y";
+//          break;
+//        case SERVANT:
+//          resources[row+1][col] = "P";
+//          break;
+//        case STONE:
+//          resources[row+1][col] = "G";
+//          break;
+//        case SHIELD:
+//          resources[row+1][col] = "B";
+//          break;
+//      }
+//      col += 2;
+//    }
+//
+//    for(int i=0; i<resources.length; i++)
+//      for(int j=0; j<resources[i].length; j++)
+//        System.out.println(resources[i][j]);
+//  }
 
   public void drawDevelopCardDeck(){
     String[][] deck = skeletonCards();
