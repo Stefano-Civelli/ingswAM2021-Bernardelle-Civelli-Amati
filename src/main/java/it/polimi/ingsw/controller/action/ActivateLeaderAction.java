@@ -54,7 +54,7 @@ public class ActivateLeaderAction extends Action {
 
         gameState.getGame().getPlayerBoard(super.getUsername()).setActiveLeadercard(this.leaderCardIndex);
 
-        return gameState.getCurrentPhase() == PhaseType.PRODUCING ? PhaseType.FINAL : PhaseType.INITIAL;
+        return gameState.getCurrentPhase() == PhaseType.INITIAL ? PhaseType.INITIAL : PhaseType.FINAL;
     }
 
     private boolean isActionAllowed(IGameState gameState) {

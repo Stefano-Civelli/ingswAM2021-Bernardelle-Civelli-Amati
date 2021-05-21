@@ -66,6 +66,7 @@ public class CliDrawer implements SimpleStateObserver {
     placeHereOnCanvas(1, PLAYERBOARD_LENGTH+4+MARKET_LENGTH+6, buildDevDeck());
     placeHereOnCanvas(PLAYERBOARD_HEIGHT, 0, buildLeaderHand(username));
     placeHereOnCanvas(5, 75, buildActivatedLeader(username));
+    placeHereOnCanvas(7,20, buildBaseProduction());
     buildTrack(username);
     buildCardSlot(username);
     displayCanvas();
@@ -476,6 +477,33 @@ public class CliDrawer implements SimpleStateObserver {
         activated[i][j] = cards[i-2][j-2];
 
     return activated;
+  }
+
+  private String[][] buildBaseProduction() {
+    String[][] base = new String[4][7];
+    int col=0;
+
+    for (int i = 0; i< base.length; i++)
+      for (int j = 0; j < base[0].length; j++)
+        base[i][j] = " ";
+
+    for(char c : "BASE".toCharArray()) {
+      base[0][col] = Character.toString(c);
+      col ++;
+    }
+
+    col=0;
+    for(char c : "PROD.".toCharArray()) {
+      base[1][col] = Character.toString(c);
+      col ++;
+    }
+
+    base[3][0] = "?";
+    base[3][2] = "?";
+    base[3][4] = ConfigParameters.arrowCharacter;
+    base[3][6] = "?";
+
+    return base;
   }
   //------------------------- BUILD --------------------------------
 
