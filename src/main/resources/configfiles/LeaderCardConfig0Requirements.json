@@ -1,0 +1,180 @@
+{
+  "leaderCardList" : [
+    {
+      "leaderId": "1",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "2",
+      "cardBehaviour": {
+          "type": "DiscountBehaviour",
+          "resourceToDiscount": "SERVANT"
+      }
+    },
+    {
+      "leaderId": "2",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "2",
+      "cardBehaviour": {
+        "type": "DiscountBehaviour",
+        "resourceToDiscount": "SHIELD"
+      }
+    },
+    {
+      "leaderId": "3",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "2",
+      "cardBehaviour": {
+        "type": "DiscountBehaviour",
+        "resourceToDiscount": "STONE"
+      }
+    },
+    {
+      "leaderId": "4",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "2",
+      "cardBehaviour": {
+        "type": "DiscountBehaviour",
+        "resourceToDiscount": "GOLD"
+      }
+    },
+    {
+      "leaderId": "5",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "3",
+      "cardBehaviour": {
+        "type": "StorageBehaviour",
+        "storageType": "STONE"
+      }
+    },
+    {
+      "leaderId": "6",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "3",
+      "cardBehaviour": {
+        "type": "StorageBehaviour",
+        "storageType": "SERVANT"
+      }
+    },
+    {
+      "leaderId": "7",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "3",
+      "cardBehaviour": {
+        "type": "StorageBehaviour",
+        "storageType": "SHIELD"
+      }
+    },
+    {
+      "leaderId": "8",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "3",
+      "cardBehaviour": {
+        "type": "StorageBehaviour",
+        "storageType": "GOLD"
+      }
+    },
+    {
+      "leaderId": "9",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "5",
+      "cardBehaviour": {
+        "type": "MarbleModifierBehaviour",
+        "onWhite": "SERVANT"
+      }
+    },
+    {
+      "leaderId": "10",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "5",
+      "cardBehaviour": {
+        "type": "MarbleModifierBehaviour",
+        "onWhite": "SHIELD"
+      }
+    },
+    {
+      "leaderId": "11",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "5",
+      "cardBehaviour": {
+        "type": "MarbleModifierBehaviour",
+        "onWhite": "STONE"
+      }
+    },
+    {
+      "leaderId": "12",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "5",
+      "cardBehaviour": {
+        "type": "MarbleModifierBehaviour",
+        "onWhite": "GOLD"
+      }
+    },
+    {
+      "leaderId": "13",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "4",
+      "cardBehaviour": {
+        "type": "LeaderProduceBehaviour",
+        "resourceToRemove": "SHIELD"
+      }
+    },
+    {
+      "leaderId": "14",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "4",
+      "cardBehaviour": {
+        "type": "LeaderProduceBehaviour",
+        "resourceToRemove": "SERVANT"
+      }
+    },
+    {
+      "leaderId": "15",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "4",
+      "cardBehaviour": {
+        "type": "LeaderProduceBehaviour",
+        "resourceToRemove": "STONE"
+      }
+    },
+    {
+      "leaderId": "16",
+      "active": "false",
+      "requiredResources": "NONE",
+      "requiredCardFlags": [],
+      "victoryPoints": "4",
+      "cardBehaviour": {
+        "type": "LeaderProduceBehaviour",
+        "resourceToRemove": "GOLD"
+      }
+    }
+  ]
+}

@@ -98,13 +98,18 @@ public class SimplePlayerState implements SimpleStateObservable{
          //se non presente creo
          warehouseLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
       }
-      else //TODO modificare come fatto sopra
+      else //FIXME non funziona
          for (int i = 0; i < leaderLevels.size(); i++) {
             Pair<ResourceType, Integer> level = leaderLevels.get(i);
 
-            if (level.getKey().equals(resource)) {
-               level = new Pair<>(resource, update.getQuantity());
-               return;
+
+            //nelle activate leader creare il livello
+            if(level.getKey() != null) {
+
+               if (level.getKey().equals(resource)) {
+                  level = new Pair<>(resource, update.getQuantity());
+                  return;
+               }
             }
          }
    }
