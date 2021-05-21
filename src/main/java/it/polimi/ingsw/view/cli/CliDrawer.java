@@ -51,6 +51,7 @@ public class CliDrawer implements SimpleStateObserver {
 
   //public interface
   public void displayPlainCanvas(){
+    clearCanvas();
     placeHereOnCanvas(0,0, canvas);
     displayCanvas();
   }
@@ -472,8 +473,8 @@ public class CliDrawer implements SimpleStateObserver {
 
     String[][] cards = fillActivatedLeaders(username);
 
-    for(int i=2; i<cards.length; i++)
-      for(int j=2; j<cards[0].length; j++)
+    for(int i=2; i<activated.length; i++)
+      for(int j=2; j<activated[0].length; j++)
         activated[i][j] = cards[i-2][j-2];
 
     return activated;
@@ -928,14 +929,18 @@ public class CliDrawer implements SimpleStateObserver {
     String[][] margins = buildMargins(4, 11);
     List<Integer> leaderCardsID = playerState.get(username).getActiveLeaders();
 
+    for (int i = 0; i < cards.length; i++)
+      for (int k = 0; k < cards[0].length; k++)
+        cards[i][k] = " ";
+
     if (!leaderCardsID.isEmpty()) {
-      for (int i = 0; i < margins.length; i++)
-        for (int j = 0; j < margins[0].length; j++) {
-          cards[i][j] = margins[i][j];
-          cards[i + 4][j] = margins[i][j];
-        }
 
       for (int j = 0, a = 1, b = 1; j < leaderCardsID.size(); j++, a += 4) {
+
+        for (int i = 0; i < margins.length; i++)
+          for (int k = 0; k < margins[0].length; k++)
+            cards[i+a-1][k] = margins[i][k];
+
         if (leaderCardsID.get(j) != null) {
           try {
             LeaderCard l = Cli.getLeaderCardFromId(leaderCardsID.get(j));
@@ -946,16 +951,16 @@ public class CliDrawer implements SimpleStateObserver {
 
             //setto i vp e il costo all'interno della leader
             if (victory > 9) {
-              cards[a + 3][b + 4] = " ";
-              cards[a + 3][b + 5] = "\u25C6";
-              cards[a + 3][b + 6] = Integer.toString(victory / 10);
-              cards[a + 3][b + 7] = Integer.toString(victory % 10);
-              cards[a + 3][b + 8] = " ";
+              cards[a + 2][b + 4] = " ";
+              cards[a + 2][b + 5] = "\u25C6";
+              cards[a + 2][b + 6] = Integer.toString(victory / 10);
+              cards[a + 2][b + 7] = Integer.toString(victory % 10);
+              cards[a + 2][b + 8] = " ";
             } else {
-              cards[a + 3][b + 5] = " ";
-              cards[a + 3][b + 6] = "\u25C6";
-              cards[a + 3][b + 7] = Integer.toString(victory);
-              cards[a + 3][b + 8] = " ";
+              cards[a + 2][b + 5] = " ";
+              cards[a + 2][b + 6] = "\u25C6";
+              cards[a + 2][b + 7] = Integer.toString(victory);
+              cards[a + 2][b + 8] = " ";
             }
 
             if (requiredResources != null)
@@ -1019,6 +1024,12 @@ public class CliDrawer implements SimpleStateObserver {
               cards[a + 1][c + 3] = "-";
               cards[a + 1][c + 5] = resource.toString();
             }
+
+//            cards[a+2][10] = "╝";
+//            cards[a-1][10] = "╗";
+//            cards[a-1][9] = "═";
+//            cards[a][10] = "║";
+//            cards[a+1][10] = "║";
           } catch (InvalidCardException e) {
           }
         }
@@ -1028,6 +1039,7 @@ public class CliDrawer implements SimpleStateObserver {
       for (int i = 0; i < cards.length; i++)
         for (int j = 0; j < cards[0].length; j++)
           cards[i][j] = " ";
+
     return cards;
   }
   //------------------------- FILL --------------------------------

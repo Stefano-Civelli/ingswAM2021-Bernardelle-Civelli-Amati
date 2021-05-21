@@ -9,10 +9,9 @@ import it.polimi.ingsw.utility.GSON;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LeaderCard implements ModelObservable {
+public class LeaderCard {
 
    private transient final int numberOfRequiredResources = 5;
-   private transient NetworkVirtualView networkVirtualView = null;
    private int leaderId;
    private boolean active;
    private ResourceType requiredResources; //is null if no resources are required
@@ -43,9 +42,9 @@ public class LeaderCard implements ModelObservable {
     * @throws NotEnoughResourcesException if the player doesn't have the resources (CardFlags or ResourceType) to activate the card
     * @throws InvalidLeaderCardException if the player doesn't own this card
     */
-   public void setActive(InterfacePlayerBoard playerBoard) throws NotEnoughResourcesException, InvalidLeaderCardException {
+   public int setActive(InterfacePlayerBoard playerBoard) throws NotEnoughResourcesException, InvalidLeaderCardException {
       if(active)
-         return;
+         return 0;
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
@@ -70,8 +69,7 @@ public class LeaderCard implements ModelObservable {
             throw new NotEnoughResourcesException("you can't activate this card, you need more resources");
 
       active = true;
-
-      notifyModelChange(GSON.getGsonBuilder().toJson(this.leaderId));
+      return leaderId;
    }
 
    /**
@@ -144,12 +142,6 @@ public class LeaderCard implements ModelObservable {
          cardBehaviour.createStorage(playerBoard);
    }
 
-   @Override
-   public void notifyModelChange(String msg) {
-      if (networkVirtualView != null)
-         networkVirtualView.leaderUpdate(msg);
-   }
-
 
    //---------- getter for the type -------------------
    public ResourceType getResToDiscount() {
@@ -176,4 +168,5 @@ public class LeaderCard implements ModelObservable {
     return new HashMap<>(requiredCardFlags);
   }
   //---------- getter for the type -------------------
+
 }

@@ -226,6 +226,7 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayYourTurn(String username) {
+    clearScreen();
     System.out.println("It's your turn.");
   }
 
@@ -425,19 +426,19 @@ public class Cli implements ViewInterface {
       ResourceType output1, output2, output3;
       do {
         in.nextLine();
-        System.out.println("Choose the first resource to consume (first 2 letters of the resource name)");
+        System.out.println("Choose the first resource to consume (first character of the resource name)");
         input = in.nextLine();
         output1 = parsStringToResource(input);
       }while(output1 == null);
 
       do {
-        System.out.println("Choose the second resource to consume (first 2 letters of the resource name)");
+        System.out.println("Choose the second resource to consume (first character of the resource name)");
         input = in.nextLine();
         output2 = parsStringToResource(input);
       }while(output2 == null);
 
       do {
-        System.out.println("choose the resource to produce (first 2 letters of the resource name)");
+        System.out.println("choose the resource to produce (first character of the resource name)");
         input = in.nextLine();
         output3 = parsStringToResource(input);
       }while(output3 == null);

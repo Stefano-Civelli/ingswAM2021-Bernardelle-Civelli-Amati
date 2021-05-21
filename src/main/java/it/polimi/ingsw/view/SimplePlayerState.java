@@ -98,14 +98,11 @@ public class SimplePlayerState implements SimpleStateObservable{
          //se non presente creo
          warehouseLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
       }
-      else //FIXME non funziona
+      else //TODO modificare come fatto sopra
          for (int i = 0; i < leaderLevels.size(); i++) {
             Pair<ResourceType, Integer> level = leaderLevels.get(i);
 
-
-            //nelle activate leader creare il livello
             if(level.getKey() != null) {
-
                if (level.getKey().equals(resource)) {
                   level = new Pair<>(resource, update.getQuantity());
                   return;
@@ -156,9 +153,9 @@ public class SimplePlayerState implements SimpleStateObservable{
       cardSlots[slot].add(devCardID);
    }
 
-   public void activatedLeaderUpdate(String payload){
+   public void activatedLeaderUpdate(String payload) {
       this.activeLeaderCards.add(Integer.parseInt(payload));
-      this.notActiveLederCards.remove(Integer.parseInt(payload)); //potrebbe non andare a causa dell'indice
+      this.notActiveLederCards.remove(Integer.valueOf(payload)); //potrebbe non andare a causa dell'indice
    }
 
 
@@ -167,7 +164,7 @@ public class SimplePlayerState implements SimpleStateObservable{
     *
     * @param indexOfLeaderToDiscard
     */
-   public void discardLeader(int indexOfLeaderToDiscard){
+   public void discardLeader(int indexOfLeaderToDiscard) {
          notActiveLederCards.remove(indexOfLeaderToDiscard);
    }
    //----------------------------------------------------------

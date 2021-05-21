@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
+import it.polimi.ingsw.model.modelObservables.ActivatedLeaderObservable;
 import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.model.track.Track;
@@ -13,7 +14,7 @@ import it.polimi.ingsw.utility.Pair;
 import java.io.IOException;
 import java.util.*;
 
-public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable, ModelObservable {
+public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable, ModelObservable, ActivatedLeaderObservable {
 
    private final String username;
    private final CardSlots cardSlots;
@@ -275,7 +276,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     */
    public void setActiveLeadercard(int leaderCardIndex) throws InvalidLeaderCardException, NotEnoughResourcesException {
       // FIXME meglio prendere un indice??
-      this.leaderCards.get(leaderCardIndex).setActive(this);
+      Integer id = this.leaderCards.get(leaderCardIndex).setActive(this);
+      notifyActivatedLeader(GSON.getGsonBuilder().toJson(id));
    }
 
    /**
@@ -376,4 +378,9 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
          controller.discardedLeaderUpdate(msg);
    }
 
+   @Override
+   public void notifyActivatedLeader(String msg) {
+      if (controller != null)
+         controller.leaderUpdate(msg);
+   }
 }

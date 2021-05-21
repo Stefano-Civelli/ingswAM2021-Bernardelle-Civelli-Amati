@@ -180,7 +180,7 @@ public class Client {
         //else ....
         break;
       case TRACK_UPDATED:
-        System.out.println(msg.getUsername() + " " + msg.getPayload());
+        //System.out.println(msg.getUsername() + " " + msg.getPayload());
         //System.out.println("this client: " + username);
         getSimplePlayerState(msg.getUsername()).trackUpdate(msg.getPayload());
         break;
@@ -224,7 +224,7 @@ public class Client {
   private void handleTurnState(String payload) {
     TurnManager.TurnState newState = GSON.getGsonBuilder().fromJson(payload, TurnManager.TurnState.class);
     //TODO probabilmente non serve più il fatto che setState ritorna un booleano
-    if(turnManager.setStateIsPlayerChanged(newState) || newState.getPhase() == PhaseType.INITIAL){
+    if(turnManager.setStateIsPlayerChanged(newState)){
       if (username.equals(turnManager.getCurrentPlayer())) {
         view.displayYourTurn(turnManager.getCurrentPlayer());
         view.displayDefaultCanvas(turnManager.getCurrentPlayer());
