@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
@@ -223,8 +224,8 @@ public class Client {
 
   private void handleTurnState(String payload) {
     TurnManager.TurnState newState = GSON.getGsonBuilder().fromJson(payload, TurnManager.TurnState.class);
-
-    if(turnManager.setStateIsPlayerChanged(newState)){
+    //TODO probabilmente non serve più il fatto che setState ritorna un booleano
+    if(turnManager.setStateIsPlayerChanged(newState) || newState.getPhase() == PhaseType.INITIAL){
       if (username.equals(turnManager.getCurrentPlayer())) {
         view.displayYourTurn(turnManager.getCurrentPlayer());
         view.displayDefaultCanvas(turnManager.getCurrentPlayer());

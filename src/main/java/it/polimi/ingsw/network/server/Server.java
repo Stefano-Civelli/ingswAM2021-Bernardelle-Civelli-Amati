@@ -96,10 +96,8 @@ public class Server {
    public synchronized void lobbySetup(Message message){
       MessageType messageType = message.getMessageType();
       String username = message.getUsername();
-      if(messageType != MessageType.NUMBER_OF_PLAYERS && messageType != MessageType.LOGIN)
-         return;
 
-      if(playersNumber == 0){ //executed only for the first player to connect
+      if(playersNumber == 0 && messageType == MessageType.NUMBER_OF_PLAYERS){ //executed only for the first player to connect
          if(message.getPayload() == null)
             return; // pensare se mandare messaggio di errore
          int tempPlayerNum = Integer.parseInt(message.getPayload());
@@ -110,18 +108,17 @@ public class Server {
          playersNumber = tempPlayerNum;
          sendToClient(new Message(username, MessageType.LOBBY_CREATED));
       }
-      else if (messageType != MessageType.NUMBER_OF_PLAYERS) {
+      else if (messageType == MessageType.LOGIN) {
          List<String> tmpConnectdPlyrs = loggedPlayers();
          tmpConnectdPlyrs.remove(username); // to tell everybody except the player that connected
          for(String user: tmpConnectdPlyrs)
             sendToClient(new Message(user, MessageType.OTHER_USER_JOINED, Integer.toString(NumberOfRemainingLobbySlots())));
 
          sendToClient(new Message(username, MessageType.YOU_JOINED, Integer.toString(NumberOfRemainingLobbySlots()))); //sent to the player that joined
-
-         if (loggedPlayers().size() == playersNumber) {
-            start();
-         }
       }
+
+      if (loggedPlayers().size() == playersNumber)
+         start();
    }
 
    /**
@@ -183,7 +180,11 @@ public class Server {
       newClientHandler.setUsername(message.getUsername());
       usernameToClientHandler.put(newClientHandler.getUsername(), newClientHandler);
       newClientHandler.sendMessage(new Message(MessageType.RECONNECTED));
-      //turnManager.handleAction(new PlayerReconnectionAction(newClientHandler.getUsername())); //FIXME Serve farlo ??
+      try {
+         turnManager.handleAction(new PlayerReconnectionAction(newClientHandler.getUsername()));
+      } catch (NoConnectedPlayerException e) {
+         e.printStackTrace();
+      }
    }
 
    private int NumberOfRemainingLobbySlots() {
@@ -221,6 +222,9 @@ public class Server {
       sendToClient(new Message(MessageType.GAME_STARTED, playersInOrder));
       game.initialMoveForward();
       gameRunning = true;
+
+      //TO remove
+      //game.giveResources();
    }
 
 
