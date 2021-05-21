@@ -202,7 +202,6 @@ public class Client {
         //TODO controllare se ha senso
         break;
       default:
-
     }
   }
 

@@ -337,9 +337,10 @@ public class Cli implements ViewInterface {
   private void createChooseResourcesAction(String line) {
     int i = client.getPlayerTurnPosition()/2;
     Map<ResourceType, Integer> resources = new HashMap<>();
-
+    int resource = validateIntInput(line, 1, 4);
     while(i>0) {
-      int resource = validateIntInput(line, 1, 4);
+      if(client.getPlayerTurnPosition()==4 && i==1)
+        resource = validateIntInput(1, 4);
       if(resources.containsKey(parsIntToResource(resource)))
         resources.compute(parsIntToResource(resource), (k,v) -> (v==null) ? 1 : v + 1);
       else
@@ -446,36 +447,6 @@ public class Cli implements ViewInterface {
       return new ProductionAction(index-1);
   }
 
-//  private Action createProduceAction(){
-//    System.out.println("Choose a Slot card you want to activate production on. (0 for base Production)");
-//    int index = validateIntInput(0, 3);
-//    if(index == 0 /*&& client.getSimplePlayerState().isBaseProductionActivatable()*/) {
-//      ResourceType consumed1, consumed2;
-//      int produced;
-//      Map<ResourceType, Integer> throwableResources = client.getSimplePlayerState().throwableResources();
-//
-//      System.out.println("This are the resources u can exchange:");
-//      //drawer.drawTotalResourcesChoice(client.getUsername());
-//      System.out.println("Choose the first resource");
-//      //validazione
-//      consumed1 = validateInputForResources(throwableResources);
-//      throwableResources.put(consumed1, throwableResources.get(consumed1) == 1 ?
-//              throwableResources.remove(consumed1) : throwableResources.get(consumed1)-1);
-//      System.out.println("Choose the second resource");
-//      //validazione
-//      consumed2 = validateInputForResources(throwableResources);
-//
-//      System.out.println("choose the resource to produce");
-//      drawer.displayResourcesChoice();
-//      produced = validateIntInput(0, 4);
-//      return new BaseProductionAction(consumed1, consumed2, parsIntToResource(produced));
-//    }
-//    else
-//      return new ProductionAction(index-1);
-////    else
-////      System.out.println("you don't have enough exchangeable resources to activate base production");
-////    return null;
-//  }
 
   private static String stringInputValidation(Scanner in, String a, String b) {
     String input;

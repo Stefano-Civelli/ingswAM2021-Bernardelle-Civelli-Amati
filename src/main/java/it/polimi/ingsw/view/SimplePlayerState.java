@@ -187,6 +187,10 @@ public class SimplePlayerState implements SimpleStateObservable{
       return warehouseLevels;
    }
 
+   public List<Pair<ResourceType, Integer>> getLeaderLevels() {
+      return leaderLevels;
+   }
+
    public int getTrackPosition() {
       return trackPosition;
    }

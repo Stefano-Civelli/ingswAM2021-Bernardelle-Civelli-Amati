@@ -28,7 +28,7 @@ public class CliDrawer implements SimpleStateObserver {
   private final int MARKET_LENGTH = 11;
   private final int MARKET_HEIGHT = 5;
   private final int MAX_DISPLAYABLE_LENGTH = 200;
-  private final int MAX_DISPLAYABLE_HEIGHT = 22;
+  private final int MAX_DISPLAYABLE_HEIGHT = 20;
 //  private static int MAX_COLUMN_TILES = 20;
 //  private static int MAX_ROW_TILES = 5;
 
@@ -55,7 +55,9 @@ public class CliDrawer implements SimpleStateObserver {
     displayCanvas();
   }
 
+  //TODO gestire il caso delle leader girate quando printeró le altre playerboard
   public void displayDefaultCanvas(String username) {
+    clearCanvas();
     placeHereOnCanvas(0,0, buildMargins(PLAYERBOARD_HEIGHT, PLAYERBOARD_LENGTH));
     setUsernameOnCanvas(username);
     buildWarehouse(username);
@@ -63,6 +65,7 @@ public class CliDrawer implements SimpleStateObserver {
     placeHereOnCanvas(0,PLAYERBOARD_LENGTH+4, buildAndSetMarket());
     placeHereOnCanvas(1, PLAYERBOARD_LENGTH+4+MARKET_LENGTH+6, buildDevDeck());
     placeHereOnCanvas(PLAYERBOARD_HEIGHT, 0, buildLeaderHand(username));
+    placeHereOnCanvas(5, 75, buildActivatedLeader(username));
     buildTrack(username);
     buildCardSlot(username);
     displayCanvas();
@@ -335,7 +338,6 @@ public class CliDrawer implements SimpleStateObserver {
   private void buildTrack(String username) {
     int position = playerState.get(username).getTrackPosition();
     boolean[] popeCards = playerState.get(username).getVaticanFlipped();
-    //System.out.println("drawer" +popeCards[0]);
     int c;
 
     String[][] trackAndVatican = new String[TRACK_HEIGHT+2][TRACK_LENGTH*3];
@@ -428,7 +430,7 @@ public class CliDrawer implements SimpleStateObserver {
 
     skeletonCardSlots(cardSlots);
     fillCardSlots(cardSlots, username);
-    placeHereOnCanvas(5, 20, cardSlots);
+    placeHereOnCanvas(5, 30, cardSlots);
   }
 
   private String[][] buildDevDeck() {
@@ -441,6 +443,39 @@ public class CliDrawer implements SimpleStateObserver {
       col++;
     }
     return deck;
+  }
+
+  private String[][] buildActivatedLeader(String username) {
+    String[][] activated = new String[10][13];
+    int col=0;
+
+    for (int i=0; i<activated.length; i++)
+      for (int j=0; j<activated[0].length; j++)
+        activated[i][j] = " ";
+
+    for(char c : "ACTIVATED".toCharArray()) {
+      activated[0][col] = Character.toString(c);
+      col ++;
+    }
+
+    col=0;
+    for(char c : "LEADERS".toCharArray()) {
+      activated[1][col] = Character.toString(c);
+      col ++;
+    }
+
+    activated[2][0] = "1";
+    activated[2][1] = ".";
+    activated[6][0] = "2";
+    activated[6][1] = ".";
+
+    String[][] cards = fillActivatedLeaders(username);
+
+    for(int i=2; i<cards.length; i++)
+      for(int j=2; j<cards[0].length; j++)
+        activated[i][j] = cards[i-2][j-2];
+
+    return activated;
   }
   //------------------------- BUILD --------------------------------
 
@@ -467,7 +502,7 @@ public class CliDrawer implements SimpleStateObserver {
   }
 
   private String[][] skeletonChest() {
-    int rows = 4, columns = 9;
+    int rows = 4, columns = 11;
     int col = 3;
     for(char c : "CHEST".toCharArray()) {
       canvas[10][col] = Character.toString(c);
@@ -483,7 +518,7 @@ public class CliDrawer implements SimpleStateObserver {
     for (int r = 1; r < rows-1; r++) {
       chest[r][0] = "║";
       for (int c = 1; c < columns-1; c++) {
-        if(c == 2 || c == 5)
+        if(c == 3 || c == 7)
           chest[r][c] = "0";
         else
           chest[r][c] = " ";
@@ -588,20 +623,40 @@ public class CliDrawer implements SimpleStateObserver {
   private void fillChest(ResourceType resource, int quantity) {
     switch (resource){
       case GOLD:
-        canvas[12][5] = Integer.toString(quantity);
-        canvas[12][6] = resource.toString();
+        canvas[12][7] = resource.toString();
+        if(quantity<10)
+          canvas[12][6] = Integer.toString(quantity);
+        else {
+          canvas[12][6] = Integer.toString(quantity%10);
+          canvas[12][5] = Integer.toString(quantity/10);
+        }
         break;
       case STONE:
-        canvas[12][8] = Integer.toString(quantity);
-        canvas[12][9] = resource.toString();
+        canvas[12][11] = resource.toString();
+        if(quantity<10)
+          canvas[12][10] = Integer.toString(quantity);
+        else {
+          canvas[12][10] = Integer.toString(quantity%10);
+          canvas[12][9] = Integer.toString(quantity/10);
+        }
         break;
       case SHIELD:
-        canvas[13][5] = Integer.toString(quantity);
-        canvas[13][6] = resource.toString();
+        canvas[13][7] = resource.toString();
+        if(quantity<10)
+          canvas[13][6] = Integer.toString(quantity);
+        else {
+          canvas[13][6] = Integer.toString(quantity%10);
+          canvas[13][5] = Integer.toString(quantity/10);
+        }
         break;
       case SERVANT:
-        canvas[13][8] = Integer.toString(quantity);
-        canvas[13][9] = resource.toString();
+        canvas[13][11] = resource.toString();
+        if(quantity<10)
+          canvas[13][10] = Integer.toString(quantity);
+        else {
+          canvas[13][10] = Integer.toString(quantity % 10);
+          canvas[13][9] = Integer.toString(quantity / 10);
+        }
         break;
     }
   }
@@ -756,7 +811,6 @@ public class CliDrawer implements SimpleStateObserver {
   }
 
   private void fillLeaderHand(String[][] leaders, String username) {
-    //ArrayList<Integer> leaderCardsID = playerState.get(username).getInHandLeaders();
     List<Integer> leaderCardsID = playerState.get(username).getNotActiveLeaderCards();
 
     for (int j = 0, b = 1; j < leaderCardsID.size(); j++, b += 11) {
@@ -840,6 +894,114 @@ public class CliDrawer implements SimpleStateObserver {
         }
       }
     }
+
+  private String[][] fillActivatedLeaders(String username) {
+    String[][] cards = new String[8][11];
+    String[][] margins = buildMargins(4, 11);
+    List<Integer> leaderCardsID = playerState.get(username).getActiveLeaders();
+
+    if (!leaderCardsID.isEmpty()) {
+      for (int i = 0; i < margins.length; i++)
+        for (int j = 0; j < margins[0].length; j++) {
+          cards[i][j] = margins[i][j];
+          cards[i + 4][j] = margins[i][j];
+        }
+
+      for (int j = 0, a = 1, b = 1; j < leaderCardsID.size(); j++, a += 4) {
+        if (leaderCardsID.get(j) != null) {
+          try {
+            LeaderCard l = Cli.getLeaderCardFromId(leaderCardsID.get(j));
+            Map<CardFlag, Integer> requiredCardFlags = l.getRequiredCardFlags();
+            ResourceType requiredResources = l.getRequiredResources();
+            int victory = l.getVictoryPoints();
+            int c = b;
+
+            //setto i vp e il costo all'interno della leader
+            if (victory > 9) {
+              cards[a + 3][b + 4] = " ";
+              cards[a + 3][b + 5] = "\u25C6";
+              cards[a + 3][b + 6] = Integer.toString(victory / 10);
+              cards[a + 3][b + 7] = Integer.toString(victory % 10);
+              cards[a + 3][b + 8] = " ";
+            } else {
+              cards[a + 3][b + 5] = " ";
+              cards[a + 3][b + 6] = "\u25C6";
+              cards[a + 3][b + 7] = Integer.toString(victory);
+              cards[a + 3][b + 8] = " ";
+            }
+
+            if (requiredResources != null)
+              cards[a][b] = requiredResources.getColor().getColor() + "5" + Color.RESET.escape();
+            else {
+              for (Map.Entry<CardFlag, Integer> entry : requiredCardFlags.entrySet()) {
+                int quantity = entry.getValue();
+                int column = entry.getKey().getColor().getColumn();
+
+                if (entry.getKey().getLevel() == 0) {
+                  while (quantity > 0) {
+                    cards[a][c] = colorCardFlagChoice(column) + ConfigParameters.squareCharacter + Color.RESET.escape();
+                    quantity--;
+                    c += 2;
+                  }
+                } else {
+                  cards[a][c] = colorCardFlagChoice(column) + ConfigParameters.squareCharacter;
+                  cards[a][c + 1] = "l";
+                  cards[a][c + 2] = "v";
+                  cards[a][c + 3] = "2" + Color.RESET.escape();
+                }
+              }
+            }
+
+            c = b;
+            //setto cosa fa la leader
+            ResourceType resource = l.getResToDiscount();
+            ResourceType resourceToRemove = l.getProductionRequirement();
+            ResourceType onWhite = l.getWhite();
+            ResourceType storageType = l.getResToStore();
+
+            if (onWhite != null) {
+              cards[a + 1][c + 4] = "=";
+              cards[a + 1][c + 2] = ConfigParameters.marbleCharacter;
+              cards[a + 1][c + 6] = onWhite.toString();
+            }
+
+            if (resourceToRemove != null) {
+              cards[a + 1][c + 3] = ConfigParameters.arrowCharacter;
+              cards[a + 1][c + 1] = resourceToRemove.getColor().getColor() + "1" + Color.RESET.escape();
+              cards[a + 1][c + 5] = "?";
+              cards[a + 1][c + 7] = Color.ANSI_RED.escape() + "1" + Color.RESET.escape();
+            }
+
+            if (storageType != null) {
+              cards[a + 1][c + 4] = "|";
+              cards[a + 1][c + 2] = "[";
+              cards[a + 1][c + 6] = "]";
+              cards[a + 1][c] = storageType.toString();
+              for(Pair<ResourceType, Integer> p : playerState.get(username).getLeaderLevels())
+                if(p.getKey().equals(storageType)) {
+                  if(p.getValue() == 1)
+                    cards[a + 1][c + 3] = storageType.toString();
+                  if(p.getValue() == 2)
+                    cards[a + 1][c + 5] = storageType.toString();
+                }
+            }
+
+            if (resource != null) {
+              cards[a + 1][c + 4] = "1";
+              cards[a + 1][c + 3] = "-";
+              cards[a + 1][c + 5] = resource.toString();
+            }
+          } catch (InvalidCardException e) {
+          }
+        }
+      }
+    }
+    else
+      for (int i = 0; i < cards.length; i++)
+        for (int j = 0; j < cards[0].length; j++)
+          cards[i][j] = " ";
+    return cards;
+  }
   //------------------------- FILL --------------------------------
 
   private String colorCardFlagChoice(int column) {
