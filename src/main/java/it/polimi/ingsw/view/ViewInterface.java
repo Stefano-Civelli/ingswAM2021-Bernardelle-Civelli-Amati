@@ -7,6 +7,9 @@ import it.polimi.ingsw.network.messages.Message;
 import java.util.List;
 
 public interface ViewInterface {
+  public void displayMarbleShopping();
+  public void displayLeaderHand();
+  public void displayMarbleChoice();
   public void displaySetup();
   public void displayLogin();
   public void displaySetupFailure();

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
@@ -13,6 +12,7 @@ import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.CliDrawer;
 import it.polimi.ingsw.view.gui.GUI;
+import it.polimi.ingsw.view.gui.ViewObserver;
 import javafx.application.Application;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.net.Socket;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Client {
+public class Client implements ViewObserver {
   public static final int MIN_PORT = Server.MIN_PORT_NUMBER;
   public static final int MAX_PORT = Server.MAX_PORT_NUMBER;
 
@@ -34,7 +34,6 @@ public class Client {
   private SimpleGameState simpleGameState;
   private LinkedHashMap<String, SimplePlayerState> simplePlayerStateMap;
   private ClientTurnManager  turnManager;
-
 
 
   public static void main(String[] args) {
@@ -51,7 +50,6 @@ public class Client {
       }
 
     //devo fargli scegliere se giocare in locale o network
-
     if (cli) {
       Client client = new Client();
       Cli view = new Cli(client, new CliDrawer(client.simpleGameState, client.simplePlayerStateMap));
@@ -64,6 +62,7 @@ public class Client {
     }
     else {
       Application.launch(GUI.class);
+
     }
   }
 
@@ -74,6 +73,10 @@ public class Client {
 
   public void setView(ViewInterface view) {
     this.view = view;
+  }
+
+  public void setTurnManager(ClientTurnManager turnManager) {
+    this.turnManager = turnManager;
   }
 
   public void setServerIP(String ip) { serverIP = ip; }
@@ -284,7 +287,7 @@ public class Client {
   }
 
 
-  public void sendMessage(Message msg) { //deve cambiare nome perchè va usata anche per il locale
+  public void sendMessage(Message msg) { // FIXME deve cambiare nome perchè va usata anche per il locale
     if(msg.getMessageType() != MessageType.LOGIN)
       msg.setUsername(this.username);
     serverConnector.sendToServer(msg);

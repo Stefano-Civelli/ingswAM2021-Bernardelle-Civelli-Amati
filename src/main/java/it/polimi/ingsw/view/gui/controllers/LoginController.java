@@ -1,10 +1,12 @@
 package it.polimi.ingsw.view.gui.controllers;
 
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-public class LoginController {
+public class LoginController extends ViewObservable {
 
     @FXML
     private TextField serverIP_textField;
@@ -36,7 +38,9 @@ public class LoginController {
             this.login_button.setDisable(true);
             this.error_label.setVisible(false);
             this.error_label.setText("ERROR");
-            // TODO LOGIN
+            // TODO gestire errori
+            notifySetSocket(this.serverIP_textField.getText(), Integer.parseInt(this.serverPort_textField.getText()));
+            notifySceneObserver(new Message(MessageType.LOGIN));
         } else {
             this.error_label.setVisible(true);
             this.error_label.setText("ERROR: all fields are required");
