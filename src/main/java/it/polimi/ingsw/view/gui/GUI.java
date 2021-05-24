@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class GUI extends Application /*implements ViewInterface*/ {
    public void start(Stage stage) throws IOException {
       System.out.println(getClass().getClassLoader().getResource("fxml/login.fxml"));
       Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/login.fxml"));
+      stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/logo.png")));
       stage.setTitle("Login");
       stage.setScene(new Scene(root));
       stage.setResizable(false);

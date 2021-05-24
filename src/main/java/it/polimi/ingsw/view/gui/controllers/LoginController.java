@@ -7,17 +7,17 @@ import javafx.scene.control.*;
 public class LoginController {
 
     @FXML
-    public TextField serverIP_textField;
+    private TextField serverIP_textField;
     @FXML
-    public TextField username_textField;
+    private TextField username_textField;
     @FXML
-    public TextField serverPort_textField;
+    private TextField serverPort_textField;
     @FXML
-    public CheckBox defaultServerPort_checkBox;
+    private CheckBox defaultServerPort_checkBox;
     @FXML
-    public Button login_button;
+    private Button login_button;
     @FXML
-    public Label error_label;
+    private Label error_label;
 
     public void defaultServerPort(ActionEvent actionEvent) {
         if(this.defaultServerPort_checkBox.isSelected()) {
@@ -34,9 +34,12 @@ public class LoginController {
                 && !this.username_textField.getText().equals("")
                 && !this.serverIP_textField.getText().equals("")) {
             this.login_button.setDisable(true);
+            this.error_label.setVisible(false);
+            this.error_label.setText("ERROR");
             // TODO LOGIN
         } else {
             this.error_label.setVisible(true);
+            this.error_label.setText("ERROR: all fields are required");
         }
     }
 }
