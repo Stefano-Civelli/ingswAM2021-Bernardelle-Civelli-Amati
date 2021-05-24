@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.singleplayer;
 
-import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.model.DevelopCardColor;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.ModelObserver;
