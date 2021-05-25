@@ -4,8 +4,11 @@ import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManager;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.ViewInterface;
+import it.polimi.ingsw.view.gui.controllers.GUIController;
 import it.polimi.ingsw.view.gui.controllers.LoginController;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,10 +19,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class GUI extends Application implements ViewInterface {
+public class GUI implements ViewInterface {
 
    private Client client;
-   private Stage stage;
+   private ClientTurnManager turnManager;
 
 //   @Override
 //   public void start(Stage stage) throws Exception {
@@ -44,27 +47,18 @@ public class GUI extends Application implements ViewInterface {
 //      stage.show();
 //   }
 
-   @Override
-   public void start(Stage stage) throws IOException {
-      this.stage = stage;
-      this.client = new Client();
-      client.setView(this);
-      this.client.setTurnManager(new ClientTurnManager(client, this));
-      FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getClassLoader().getResource("fxml/login.fxml"));
-      Parent root = loader.load();
-      LoginController controller = loader.getController();
-      controller.addObserver(this.client);
-      this.stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/logo.png")));
-      this.stage.setTitle("Login");
-      this.stage.setScene(new Scene(root));
-      this.stage.setResizable(false);
-      this.stage.show();
+
+//   private void drawCards(GraphicsContext gc) {
+//      gc.drawImage(GUIConfig.card1, 10, 20, 231, 349); // x  y  width  height
+//   }
+
+   public GUI(Client client) {
+      this.client = client;
    }
 
-
-   private void drawCards(GraphicsContext gc) {
-      gc.drawImage(GUIConfig.card1, 10, 20, 231, 349); // x  y  width  height
+   @Override
+   public void setClientTurnManager(ClientTurnManager turnManager) {
+      this.turnManager = turnManager;
    }
 
    @Override
@@ -89,7 +83,9 @@ public class GUI extends Application implements ViewInterface {
 
    @Override
    public void displayLogin() {
-      new Stage().show();
+      Platform.runLater(() -> {
+            SceneController.changeScene("fxml/prova.fxml");
+      });
    }
 
    @Override
@@ -181,4 +177,5 @@ public class GUI extends Application implements ViewInterface {
    public void displayDefaultCanvas(String username) {
 
    }
+
 }

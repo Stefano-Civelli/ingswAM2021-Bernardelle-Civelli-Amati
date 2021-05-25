@@ -15,7 +15,7 @@ public abstract class ViewObservable {
      *
      * @param observer the observer to be added.
      */
-    public void addObserver(ViewObserver observer) {
+    public static void addObserver(ViewObserver observer) {
         viewObservers.add(observer);
     }
 

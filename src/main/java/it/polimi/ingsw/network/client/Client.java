@@ -11,7 +11,7 @@ import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.CliDrawer;
-import it.polimi.ingsw.view.gui.GUI;
+import it.polimi.ingsw.view.gui.GUIStarter;
 import it.polimi.ingsw.view.gui.ViewObserver;
 import javafx.application.Application;
 
@@ -61,8 +61,12 @@ public class Client implements ViewObserver {
       //TODO chiamo la waitforinput che ha il whiletrue
     }
     else {
-      Application.launch(GUI.class);
-
+//      Client client = new Client();
+      Application.launch(GUIStarter.class);
+//      GUI view = new GUI(client);
+//      client.setView(view);
+//      client.turnManager = new ClientTurnManager(client, view);
+//      view.setClientTurnManager(client.turnManager);
     }
   }
 

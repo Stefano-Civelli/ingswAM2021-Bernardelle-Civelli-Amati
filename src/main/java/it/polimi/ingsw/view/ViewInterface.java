@@ -2,11 +2,13 @@ package it.polimi.ingsw.view;
 
 
 import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.network.client.ClientTurnManager;
 import it.polimi.ingsw.network.messages.Message;
 
 import java.util.List;
 
 public interface ViewInterface {
+  public void setClientTurnManager(ClientTurnManager turnManager);
   public void displayMarbleShopping();
   public void displayLeaderHand();
   public void displayMarbleChoice();

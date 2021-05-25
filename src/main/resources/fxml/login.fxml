@@ -20,13 +20,14 @@
          </image>
       </ImageView>
       <Label layoutX="150.0" layoutY="200.0" text="Server IP:" />
-      <Label layoutX="150.0" layoutY="298.0" text="Username:" />
-      <TextField fx:id="serverIP_textField" layoutX="226.0" layoutY="196.0" />
-      <TextField fx:id="username_textField" layoutX="226.0" layoutY="294.0" />
-      <TextField fx:id="serverPort_textField" layoutX="226.0" layoutY="229.0" />
+      <TextField fx:id="serverIP_textField" editable="false" layoutX="226.0" layoutY="196.0" />
+      <CheckBox fx:id="localHostServerIP_checkBox" layoutX="404.0" layoutY="200.0" mnemonicParsing="false" onAction="#localhostServerIP" text="LocalHost" />
       <Label layoutX="150.0" layoutY="233.0" text="Server port:" />
+      <TextField fx:id="serverPort_textField" editable="false" layoutX="226.0" layoutY="229.0" />
       <CheckBox fx:id="defaultServerPort_checkBox" layoutX="404.0" layoutY="233.0" mnemonicParsing="false" onAction="#defaultServerPort" text="Default" />
-      <Button fx:id="login_button" layoutX="492.0" layoutY="341.0" mnemonicParsing="false" onAction="#login" text="Login" />
+      <Label layoutX="150.0" layoutY="298.0" text="Username:" />
+      <TextField fx:id="username_textField" layoutX="226.0" layoutY="294.0" />
       <Label fx:id="error_label" layoutX="150.0" layoutY="345.0" text="ERROR" textFill="RED" visible="false" />
+      <Button fx:id="login_button" layoutX="492.0" layoutY="341.0" mnemonicParsing="false" onAction="#login" text="Login" />
    </children>
 </Pane>
