@@ -67,9 +67,10 @@ public class ConnectController extends ViewObservable implements GUIController {
         }
     }
 
-    public void loginError() {
+    public void loginError(String error) {
         this.error_label.setVisible(true);
-        this.error_label.setText("ERROR: login failed");
+        this.error_label.setText("ERROR: " + error);
+        this.connect_button.setDisable(false);
     }
 
 }

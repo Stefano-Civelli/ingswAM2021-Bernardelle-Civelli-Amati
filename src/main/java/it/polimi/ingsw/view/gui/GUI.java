@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManager;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.ViewInterface;
+import it.polimi.ingsw.view.gui.controllers.ConnectController;
 import javafx.application.Platform;
 
 public class GUI implements ViewInterface {
@@ -77,7 +78,10 @@ public class GUI implements ViewInterface {
 
    @Override
    public void displaySetupFailure() {
-
+      Platform.runLater(() -> {
+         ConnectController controller = (ConnectController) SceneController.getController();
+         controller.loginError("This server doesn't exist");
+      });
    }
 
    @Override
