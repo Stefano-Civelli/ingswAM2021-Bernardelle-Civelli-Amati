@@ -82,4 +82,5 @@ public class NetworkVirtualView implements ModelObserver {
    public void discardedLeaderUpdate(String stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.DISCARDED_LEADERCARD, stateUpdate));
    }
+
 }

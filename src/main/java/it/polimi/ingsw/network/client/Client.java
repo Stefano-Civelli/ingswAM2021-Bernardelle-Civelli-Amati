@@ -110,7 +110,6 @@ public class Client implements ViewObserver {
   }
 
   public void handleMessage(Message msg){
-
     switch (msg.getMessageType()){
       case PING:
         break;

@@ -10,17 +10,13 @@ public abstract class ViewObservable {
 
     private static final List<ViewObserver> viewObservers = new ArrayList<>();
 
-    /**
-     * Adds an observer.
-     *
-     * @param observer the observer to be added.
-     */
     public static void addObserver(ViewObserver observer) {
         viewObservers.add(observer);
     }
 
     protected static void notifySceneObserver(Message message) {
         for(ViewObserver observer : viewObservers) {
+            observer.setUsername(message.getUsername());
             observer.sendMessage(message);
         }
     }
@@ -32,4 +28,5 @@ public abstract class ViewObservable {
             observer.connectToServer();
         }
     }
+
 }

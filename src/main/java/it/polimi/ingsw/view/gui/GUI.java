@@ -4,20 +4,7 @@ import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManager;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.ViewInterface;
-import it.polimi.ingsw.view.gui.controllers.GUIController;
-import it.polimi.ingsw.view.gui.controllers.LoginController;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
 
 public class GUI implements ViewInterface {
 
@@ -84,7 +71,7 @@ public class GUI implements ViewInterface {
    @Override
    public void displayLogin() {
       Platform.runLater(() -> {
-            SceneController.changeScene("fxml/prova.fxml");
+         SceneController.changeScene("fxml/login.fxml");
       });
    }
 
@@ -125,7 +112,9 @@ public class GUI implements ViewInterface {
 
    @Override
    public void displayPlayersNumberChoice() {
-
+      Platform.runLater(() -> {
+         SceneController.changeScene("fxml/numberOfPlayer.fxml");
+      });
    }
 
    @Override

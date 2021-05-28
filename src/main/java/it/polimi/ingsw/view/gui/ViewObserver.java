@@ -7,4 +7,5 @@ public interface ViewObserver {
     void setServerPort(int port);
     void sendMessage(Message message);
     void connectToServer();
+    void setUsername(String username);
 }
