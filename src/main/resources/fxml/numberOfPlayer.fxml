@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.controllers.numberOfPlayersController">
    <children>
       <ImageView fitHeight="237.0" fitWidth="304.0" layoutX="249.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -21,19 +22,24 @@
          </font>
       </Label>
       <Label layoutX="29.0" layoutY="168.0" prefHeight="17.0" prefWidth="372.0" text="How do you want to play?" />
-      <RadioButton fx:id="singlePlayer_radioButton" layoutX="65.0" layoutY="192.0" mnemonicParsing="false" text="singleplayer">
+      <RadioButton fx:id="singlePlayer_radioButton" layoutX="61.0" layoutY="192.0" mnemonicParsing="false" onAction="#modeRadioButtons" text="singleplayer">
          <toggleGroup>
             <ToggleGroup fx:id="gameMode_Group" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="multiPlayer_radioButton" layoutX="67.0" layoutY="221.0" mnemonicParsing="false" text="multiplayer" toggleGroup="$gameMode_Group" />
-      <Label layoutX="130.0" layoutY="255.0" text="How many people do you want to play with?" />
-      <RadioButton fx:id="twoPlayers_radioButton" layoutX="152.0" layoutY="281.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="63.0" text="two">
-         <toggleGroup>
-            <ToggleGroup fx:id="numberOfPlayers_Group" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="threePlayers_radioButton" layoutX="152.0" layoutY="308.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="63.0" text="three" toggleGroup="$numberOfPlayers_Group" />
-      <RadioButton fx:id="fourPlayers_radioButton" layoutX="152.0" layoutY="337.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="63.0" text="four" toggleGroup="$numberOfPlayers_Group" />
+      <RadioButton fx:id="multiPlayer_radioButton" layoutX="61.0" layoutY="221.0" mnemonicParsing="false" onAction="#modeRadioButtons" text="multiplayer" toggleGroup="$gameMode_Group" />
+      <Pane fx:id="multiplayer_pane" layoutX="101.0" layoutY="238.0" prefHeight="132.0" prefWidth="325.0">
+         <children>
+            <Label layoutX="24.0" layoutY="6.0" prefHeight="17.0" prefWidth="241.0" text="How many people do you want to play with?" />
+            <RadioButton fx:id="twoPlayers_radioButton" layoutX="63.0" layoutY="36.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="63.0" text="two">
+               <toggleGroup>
+                  <ToggleGroup fx:id="numberOfPlayers_Group" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="threePlayers_radioButton" layoutX="63.0" layoutY="66.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="63.0" text="three" toggleGroup="$numberOfPlayers_Group" />
+            <RadioButton fx:id="fourPlayers_radioButton" layoutX="63.0" layoutY="93.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="63.0" text="four" toggleGroup="$numberOfPlayers_Group" />
+         </children>
+      </Pane>
+      <Button fx:id="createGame_button" layoutX="469.0" layoutY="345.0" mnemonicParsing="false" text="Create game" />
    </children>
 </Pane>
