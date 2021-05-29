@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli;
+package it.polimi.ingsw.view.cli.drawer;
 
 import it.polimi.ingsw.model.CardFlag;
 import it.polimi.ingsw.model.DevelopCard;
@@ -12,6 +12,8 @@ import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.SimpleStateObserver;
+import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.List;
 import java.util.Map;
@@ -248,6 +250,7 @@ public class CliDrawer implements SimpleStateObserver {
     }
   }
 
+  //        OKKKKKK
   private void buildChest(String username) {
     ResourceType[] resources = new ResourceType[]{ResourceType.GOLD, ResourceType.SERVANT, ResourceType.SHIELD, ResourceType.STONE};
     Map<ResourceType, Integer> chest = playerState.get(username).getChest();
@@ -527,6 +530,7 @@ public class CliDrawer implements SimpleStateObserver {
     canvas[row][col] = ("]");
   }
 
+  //        OKKKKKK
   private String[][] skeletonChest() {
     int rows = 4, columns = 11;
     int col = 3;
@@ -646,6 +650,7 @@ public class CliDrawer implements SimpleStateObserver {
       canvas[row][col] = resource.toString();
   }
 
+  //        OKKKKKK
   private void fillChest(ResourceType resource, int quantity) {
     switch (resource){
       case GOLD:
@@ -930,112 +935,108 @@ public class CliDrawer implements SimpleStateObserver {
       for (int k = 0; k < cards[0].length; k++)
         cards[i][k] = " ";
 
-    if (!leaderCardsID.isEmpty()) {
 
-      for (int j = 0, a = 1, b = 1; j < leaderCardsID.size(); j++, a += 4) {
+    for (int j = 0, a = 1, b = 1; j < leaderCardsID.size(); j++, a += 4) {
 
-        for (int i = 0; i < margins.length; i++)
-          for (int k = 0; k < margins[0].length; k++)
-            cards[i+a-1][k] = margins[i][k];
+      for (int i = 0; i < margins.length; i++)
+        for (int k = 0; k < margins[0].length; k++)
+          cards[i+a-1][k] = margins[i][k];  //buggava se ne mettevo 2 di fila
 
-        if (leaderCardsID.get(j) != null) {
-          try {
-            LeaderCard l = Cli.getLeaderCardFromId(leaderCardsID.get(j));
-            Map<CardFlag, Integer> requiredCardFlags = l.getRequiredCardFlags();
-            ResourceType requiredResources = l.getRequiredResources();
-            int victory = l.getVictoryPoints();
-            int c = b;
+      //if (leaderCardsID.get(j) != null) {
+        try {
+          LeaderCard l = Cli.getLeaderCardFromId(leaderCardsID.get(j));
+          Map<CardFlag, Integer> requiredCardFlags = l.getRequiredCardFlags();
+          ResourceType requiredResources = l.getRequiredResources();
+          int victory = l.getVictoryPoints();
+          int c = b;
 
-            //setto i vp e il costo all'interno della leader
-            if (victory > 9) {
-              cards[a + 2][b + 4] = " ";
-              cards[a + 2][b + 5] = "\u25C6";
-              cards[a + 2][b + 6] = Integer.toString(victory / 10);
-              cards[a + 2][b + 7] = Integer.toString(victory % 10);
-              cards[a + 2][b + 8] = " ";
-            } else {
-              cards[a + 2][b + 5] = " ";
-              cards[a + 2][b + 6] = "\u25C6";
-              cards[a + 2][b + 7] = Integer.toString(victory);
-              cards[a + 2][b + 8] = " ";
-            }
+          //setto i vp e il costo all'interno della leader
+          if (victory > 9) {
+            cards[a + 2][b + 4] = " ";
+            cards[a + 2][b + 5] = "\u25C6";
+            cards[a + 2][b + 6] = Integer.toString(victory / 10);
+            cards[a + 2][b + 7] = Integer.toString(victory % 10);
+            cards[a + 2][b + 8] = " ";
+          } else {
+            cards[a + 2][b + 5] = " ";
+            cards[a + 2][b + 6] = "\u25C6";
+            cards[a + 2][b + 7] = Integer.toString(victory);
+            cards[a + 2][b + 8] = " ";
+          }
 
-            if (requiredResources != null)
-              cards[a][b] = requiredResources.getColor().getColor() + "5" + Color.RESET.escape();
-            else {
-              for (Map.Entry<CardFlag, Integer> entry : requiredCardFlags.entrySet()) {
-                int quantity = entry.getValue();
-                int column = entry.getKey().getColor().getColumn();
+          if (requiredResources != null)
+            cards[a][b] = requiredResources.getColor().getColor() + "5" + Color.RESET.escape();
+          else {
+            for (Map.Entry<CardFlag, Integer> entry : requiredCardFlags.entrySet()) {
+              int quantity = entry.getValue();
+              int column = entry.getKey().getColor().getColumn();
 
-                if (entry.getKey().getLevel() == 0) {
-                  while (quantity > 0) {
-                    cards[a][c] = colorCardFlagChoice(column) + ConfigParameters.squareCharacter + Color.RESET.escape();
-                    quantity--;
-                    c += 2;
-                  }
-                } else {
-                  cards[a][c] = colorCardFlagChoice(column) + ConfigParameters.squareCharacter;
-                  cards[a][c + 1] = "l";
-                  cards[a][c + 2] = "v";
-                  cards[a][c + 3] = "2" + Color.RESET.escape();
+              if (entry.getKey().getLevel() == 0) {
+                while (quantity > 0) {
+                  cards[a][c] = colorCardFlagChoice(column) + ConfigParameters.squareCharacter + Color.RESET.escape();
+                  quantity--;
+                  c += 2;
                 }
+              } else {
+                cards[a][c] = colorCardFlagChoice(column) + ConfigParameters.squareCharacter;
+                cards[a][c + 1] = "l";
+                cards[a][c + 2] = "v";
+                cards[a][c + 3] = "2" + Color.RESET.escape();
               }
             }
+          }
 
-            c = b;
-            //setto cosa fa la leader
-            ResourceType resource = l.getResToDiscount();
-            ResourceType resourceToRemove = l.getProductionRequirement();
-            ResourceType onWhite = l.getWhite();
-            ResourceType storageType = l.getResToStore();
+          c = b;
+          //setto cosa fa la leader
+          ResourceType resource = l.getResToDiscount();
+          ResourceType resourceToRemove = l.getProductionRequirement();
+          ResourceType onWhite = l.getWhite();
+          ResourceType storageType = l.getResToStore();
 
-            if (onWhite != null) {
-              cards[a + 1][c + 4] = "=";
-              cards[a + 1][c + 2] = ConfigParameters.marbleCharacter;
-              cards[a + 1][c + 6] = onWhite.toString();
-            }
+          if (onWhite != null) {
+            cards[a + 1][c + 4] = "=";
+            cards[a + 1][c + 2] = ConfigParameters.marbleCharacter;
+            cards[a + 1][c + 6] = onWhite.toString();
+          }
 
-            if (resourceToRemove != null) {
-              cards[a + 1][c + 3] = ConfigParameters.arrowCharacter;
-              cards[a + 1][c + 1] = resourceToRemove.getColor().getColor() + "1" + Color.RESET.escape();
-              cards[a + 1][c + 5] = "?";
-              cards[a + 1][c + 7] = Color.ANSI_RED.escape() + "1" + Color.RESET.escape();
-            }
+          if (resourceToRemove != null) {
+            cards[a + 1][c + 3] = ConfigParameters.arrowCharacter;
+            cards[a + 1][c + 1] = resourceToRemove.getColor().getColor() + "1" + Color.RESET.escape();
+            cards[a + 1][c + 5] = "?";
+            cards[a + 1][c + 7] = Color.ANSI_RED.escape() + "1" + Color.RESET.escape();
+          }
 
-            if (storageType != null) {
-              cards[a + 1][c + 4] = "|";
-              cards[a + 1][c + 2] = "[";
-              cards[a + 1][c + 6] = "]";
-              cards[a + 1][c] = storageType.toString();
-              for(Pair<ResourceType, Integer> p : playerState.get(username).getLeaderLevels())
-                if(p.getKey().equals(storageType)) {
-                  if(p.getValue() == 1)
-                    cards[a + 1][c + 3] = storageType.toString();
-                  if(p.getValue() == 2)
-                    cards[a + 1][c + 5] = storageType.toString();
+          if (storageType != null) {
+            cards[a + 1][c + 4] = "|";
+            cards[a + 1][c + 2] = "[";
+            cards[a + 1][c + 6] = "]";
+            cards[a + 1][c] = storageType.toString();
+            for(Pair<ResourceType, Integer> p : playerState.get(username).getLeaderLevels())
+              if(p.getKey().equals(storageType)) {
+                if(p.getValue() == 1)
+                  cards[a + 1][c + 3] = storageType.toString();
+                if(p.getValue() == 2) {
+                  cards[a + 1][c + 5] = storageType.toString();
+                  cards[a + 1][c + 3] = storageType.toString();
                 }
-            }
+              }
+          }
 
-            if (resource != null) {
-              cards[a + 1][c + 4] = "1";
-              cards[a + 1][c + 3] = "-";
-              cards[a + 1][c + 5] = resource.toString();
-            }
+          if (resource != null) {
+            cards[a + 1][c + 4] = "1";
+            cards[a + 1][c + 3] = "-";
+            cards[a + 1][c + 5] = resource.toString();
+          }
 
 //            cards[a+2][10] = "╝";
 //            cards[a-1][10] = "╗";
 //            cards[a-1][9] = "═";
 //            cards[a][10] = "║";
 //            cards[a+1][10] = "║";
-          } catch (InvalidCardException e) {
-          }
+        } catch (InvalidCardException e) {
         }
-      }
+      //}
     }
-    else
-      for (int i = 0; i < cards.length; i++)
-        for (int j = 0; j < cards[0].length; j++)
-          cards[i][j] = " ";
 
     return cards;
   }

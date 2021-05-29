@@ -10,7 +10,7 @@ import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.cli.Cli;
-import it.polimi.ingsw.view.cli.CliDrawer;
+import it.polimi.ingsw.view.cli.drawer.CliDrawer;
 import it.polimi.ingsw.view.gui.GUIStarter;
 import it.polimi.ingsw.view.gui.ViewObserver;
 import javafx.application.Application;
@@ -30,7 +30,7 @@ public class Client implements ViewObserver {
   private String username = null;
   private String serverIP;
   private int serverPort;
-  private MessageHandler serverConnector;
+  private MessageHandler messageConnector;
   private SimpleGameState simpleGameState;
   private LinkedHashMap<String, SimplePlayerState> simplePlayerStateMap;
   private ClientTurnManager  turnManager;
@@ -98,8 +98,8 @@ public class Client implements ViewObserver {
     Socket server = new Socket();
     try {
       server = new Socket(getServerIP(), getServerPort());
-      serverConnector = new ServerConnector(server, this);
-      serverConnector.handleServerConnection();
+      messageConnector = new ServerConnector(server, this);
+      messageConnector.handleServerConnection();
     } catch (IOException e) {
       view.displaySetupFailure();
     }
@@ -152,13 +152,10 @@ public class Client implements ViewObserver {
           view.displayPlayerTurn(msg.getUsername());
         break;
       case NEXT_TURN_STATE:
-        //System.out.println(msg.getPayload());
         handleTurnState(msg.getPayload());
-        //view.displayEndTurn();
         break;
       case LEADERCARD_SETUP: //received only by the interested player
         SimplePlayerState playerState = new SimplePlayerState();
-        //System.out.println(msg.getPayload());
         this.simplePlayerStateMap.put(msg.getUsername(), playerState);
         playerState.setupLeaderCard(msg.getPayload());
         view.displayRecievedLeadercards();
@@ -181,17 +178,13 @@ public class Client implements ViewObserver {
         getSimplePlayerState(msg.getUsername()).warehouseUpdate(msg.getPayload());
         break;
       case ACTIVATED_LEADERCARD_UPDATE:
-        //if(!this.username.equals(msg.getUsername()))
           getSimplePlayerState(msg.getUsername()).activatedLeaderUpdate(msg.getPayload());
-        //else ....
         break;
       case TRACK_UPDATED:
-        //System.out.println(msg.getUsername() + " " + msg.getPayload());
-        //System.out.println("this client: " + username);
+
         getSimplePlayerState(msg.getUsername()).trackUpdate(msg.getPayload());
         break;
       case VATICAN_REPORT:
-        //System.out.println(msg.getPayload());
         getSimplePlayerState(msg.getUsername()).vaticanReportUpdate(msg.getPayload());
         break;
       case CHEST_UPDATE:
@@ -207,6 +200,9 @@ public class Client implements ViewObserver {
         getSimplePlayerState(msg.getUsername()).discardLeader(Integer.parseInt(msg.getPayload()));
         //TODO controllare se ha senso
         break;
+      case GAME_ENDED:
+        view.displayGameEnded(msg.getPayload());
+        messageConnector.stop();
       default:
     }
   }
@@ -240,7 +236,6 @@ public class Client implements ViewObserver {
     }
 
     if(username.equals(turnManager.getCurrentPlayer())){
-      //System.out.println(turnManager.getCurrentPhase());
       turnManager.currentPhasePrint();
     }
   }
@@ -293,12 +288,12 @@ public class Client implements ViewObserver {
   public void sendMessage(Message msg) { // FIXME deve cambiare nome perchè va usata anche per il locale
     if(msg.getMessageType() != MessageType.LOGIN)
       msg.setUsername(this.username);
-    serverConnector.sendToServer(msg);
+    messageConnector.sendToServer(msg);
   }
 
   public void close() {
     System.out.println("You will be disconnected... Bye shdroonzo");
-    serverConnector.stop();
+    messageConnector.stop();
     System.exit(0);
   }
 
@@ -328,6 +323,13 @@ public class Client implements ViewObserver {
     return simplePlayerStateMap.entrySet().stream()
             .filter(x -> !x.getKey().equals(this.username))
             .map(x -> x.getValue())
+            .collect(Collectors.toList());
+  }
+
+  public List<String> otherPlayersUsername(){
+    return simplePlayerStateMap.entrySet().stream()
+            .filter(x -> !x.getKey().equals(this.username))
+            .map(x -> x.getKey())
             .collect(Collectors.toList());
   }
 

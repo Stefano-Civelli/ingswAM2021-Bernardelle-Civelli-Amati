@@ -42,6 +42,8 @@ public enum MessageType {
   QUIT,
   NEXT_TURN_STATE,
   CHAT,
+  CHEAT,
+  GAME_ENDED,
 
   PLAYER_CONNECTION, // a player connected
   PLAYER_DISCONNECTION; // a player disconnected

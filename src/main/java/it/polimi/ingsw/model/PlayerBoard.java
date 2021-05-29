@@ -84,17 +84,17 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     * Remove 1 of the leader cards from leaderCards array during the game
     * once the card is removed the faith marker on other players is moved forward by 1
     *
-    * @param leaderPosition, index of the leaderCard to remove (starts at 0)
+    * @param leaderId, Id of the leaderCard to remove (starts at 0)
     * @throws InvalidLeaderCardException if the leaderCard is activated or the index is outOfBound
     */
-   public void discardLeader(int leaderPosition) throws InvalidLeaderCardException, LeaderIsActiveException {
-      if( leaderPosition < 0 || leaderPosition > 2)
+   public void discardLeader(int leaderId) throws InvalidLeaderCardException, LeaderIsActiveException {
+      if(leaderCards.size()>2 || leaderCards.size()<0)
          throw new InvalidLeaderCardException("You can't remove this card in this moment");
-      if(leaderCards.get(leaderPosition).isActive())
+      if(leaderCards.get(getIndexFromId(leaderId)).isActive())
          throw new LeaderIsActiveException();
-      leaderCards.remove(leaderPosition);
+      leaderCards.remove(getIndexFromId(leaderId));
       track.moveForward(1);
-      notifyModelChange(GSON.getGsonBuilder().toJson(leaderPosition));
+      notifyModelChange(GSON.getGsonBuilder().toJson(leaderId));
    }
 
    /**
@@ -270,14 +270,22 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    /**
     * Activate a leader card
     *
-    * @param leaderCardIndex index of the leader card to activate
+    * @param leaderCardId, Id of the leader card to activate
     * @throws InvalidLeaderCardException if the player doesn't own this card
     * @throws NotEnoughResourcesException if the player doesn't have the resources (CardFlags or ResourceType) to activate the card
     */
-   public void setActiveLeadercard(int leaderCardIndex) throws InvalidLeaderCardException, NotEnoughResourcesException {
+   public void setActiveLeadercard(int leaderCardId) throws InvalidLeaderCardException, NotEnoughResourcesException {
       // FIXME meglio prendere un indice??
-      Integer id = this.leaderCards.get(leaderCardIndex).setActive(this);
-      notifyActivatedLeader(GSON.getGsonBuilder().toJson(id));
+      this.leaderCards.get(getIndexFromId(leaderCardId)).setActive(this);
+      notifyActivatedLeader(GSON.getGsonBuilder().toJson(leaderCardId));
+   }
+
+   private int getIndexFromId(int leaderCardId) {
+      int index = -1;
+      for(int i=0; i<leaderCards.size(); i++)
+         if(leaderCards.get(i).getLeaderId() == leaderCardId)
+            index = i;
+      return index;
    }
 
    /**
@@ -309,6 +317,12 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
 
    public Set<MoveForwardObserver> getMoveForwardObserverList() {
       return new HashSet<>(moveForwardObserverList);
+   }
+
+   public void setEndGameObserver(EndGameObserver obs) {
+      this.track.addToEndGameObserverList(obs);
+      this.cardSlots.addToEndGameObserverList(obs);
+      this.developCardDeck.addToEndGameObserverList(obs);
    }
 
    public void setTrackObserverOn (PlayerBoard playerBoard) {

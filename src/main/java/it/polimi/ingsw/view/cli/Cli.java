@@ -16,6 +16,7 @@ import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.view.ViewInterface;
+import it.polimi.ingsw.view.cli.drawer.CliDrawer;
 
 import java.io.*;
 import java.util.*;
@@ -179,7 +180,7 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayServerDown() {
-    out.println("Disconnected");
+    out.println("Server has crashed, you will be diconnected.");
   }
 
   @Override
@@ -235,12 +236,47 @@ public class Cli implements ViewInterface {
     drawer.displayDefaultCanvas(client.getUsername());
   }
 
+  @Override
+  public void displayGameEnded(String payload) {
+    System.out.println("game has ended");
+  }
+
   private void waitForInput() {
 
     Scanner in = new Scanner(System.in);
     Runnable threadInputTerminal = () -> {
       while (true) {
         String line = in.nextLine();
+
+        //this cases can be performed every moment of the game
+        switch(line) {
+          case "cheat":
+            if (ConfigParameters.TESTING) {
+              client.sendMessage(new Message(client.getUsername(), MessageType.CHEAT));
+            }
+            break;
+          case "quit":
+            client.sendMessage(new Message(client.getUsername(), MessageType.QUIT));
+            break;
+          case "print":
+            System.out.println("That's your opponents: ");
+            for (String s : client.otherPlayersUsername())
+              System.out.println(" -" + s);
+
+            String user;
+            do {
+              System.out.println("Which playerBoard do you want to look at?");
+              user = in.nextLine();
+            } while (!client.otherPlayersUsername().contains(user) && !user.equals("all"));
+
+            if (user.equals("all")) {
+              for (String s : client.otherPlayersUsername())
+                drawer.displayDefaultCanvas(s);
+            }
+            else
+              drawer.displayDefaultCanvas(user);
+            break;
+        }
 
         if (!client.getUsername().equals(clientTurnManager.getCurrentPlayer()))
           System.out.println("It's " + clientTurnManager.getCurrentPlayer() + "'s turn. Wait yours ...");
@@ -257,6 +293,8 @@ public class Cli implements ViewInterface {
               client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, insertMarbleAction));
               break;
             case SHOPPING_LEADER:
+              int index = validateIntInput(line, 1, 2);
+              client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new ChooseLeaderOnWhiteMarbleAction(index)));
               break;
             default:
               if (clientTurnManager.isValidInCurrenPhase(line)) //to see if the input is valid in this turnPhase
@@ -323,7 +361,8 @@ public class Cli implements ViewInterface {
     drawer.displayLeaderHand(client.getUsername());
     System.out.println("Which do you want to activate?");
     activateLeaderIndex = validateIntInput(1, client.getSimplePlayerState().getNotActiveLeaderCards().size());
-    return new ActivateLeaderAction(activateLeaderIndex-1);
+    int id = client.getSimplePlayerState().getNotActiveLeaderCards().get(activateLeaderIndex-1);
+    return new ActivateLeaderAction(id);
   }
 
   private Action createDiscardLeaderAction() {
@@ -332,7 +371,8 @@ public class Cli implements ViewInterface {
     drawer.displayLeaderHand(client.getUsername());
     System.out.println("Which do you want to discard?");
     discardLeaderIndex = validateIntInput(1, client.getSimplePlayerState().getNotActiveLeaderCards().size());
-    return new DiscardLeaderAction(discardLeaderIndex-1);
+    int id = client.getSimplePlayerState().getNotActiveLeaderCards().get(discardLeaderIndex-1);
+    return new DiscardLeaderAction(id);
   }
 
   private void createChooseResourcesAction(String line) {
@@ -351,7 +391,7 @@ public class Cli implements ViewInterface {
     client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(resources)));
   }
 
-  private ResourceType parsIntToResource(int value){
+  private ResourceType parsIntToResource(int value) {
     switch(value){
       case 1:
         return ResourceType.SHIELD;
@@ -365,7 +405,7 @@ public class Cli implements ViewInterface {
     }
   }
 
-  private ResourceType parsStringToResource(String value){
+  private ResourceType parsStringToResource(String value) {
     switch(value){
       case "B": case "b":
         return ResourceType.SHIELD;

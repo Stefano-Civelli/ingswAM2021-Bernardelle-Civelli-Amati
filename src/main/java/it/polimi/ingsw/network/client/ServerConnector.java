@@ -41,17 +41,16 @@ public class ServerConnector implements MessageHandler{
         }
       } catch (IOException | NoSuchElementException e) {
         notifyServerLost();
-        try {
-          server.close();
-        } catch (IOException ex) {
-        }
+        stop();
       }
 
   }
 
   public void stop(){
+    sendToServer(new Message(client.getUsername(), MessageType.QUIT));
     try {
       server.close();
+      System.exit(0);
     } catch (IOException e) {
     }
   }

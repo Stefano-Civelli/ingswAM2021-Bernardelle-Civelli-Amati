@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
 import it.polimi.ingsw.utility.GSON;

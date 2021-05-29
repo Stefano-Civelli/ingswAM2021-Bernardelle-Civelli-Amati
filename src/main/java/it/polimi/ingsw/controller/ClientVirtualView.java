@@ -4,11 +4,11 @@ import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 
-public class LocalVirtualView implements ModelObserver {
+public class ClientVirtualView implements ModelObserver {
 
    private Client client;
 
-   public LocalVirtualView(Client client) {
+   public ClientVirtualView(Client client) {
       this.client = client;
    }
 
@@ -75,6 +75,11 @@ public class LocalVirtualView implements ModelObserver {
 
    @Override
    public void discardedLeaderUpdate(String stateUpdate) {
+
+   }
+
+   @Override
+   public void endGameUpdate(String stateUpdate) {
 
    }
 }

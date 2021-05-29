@@ -178,6 +178,7 @@ public class SimplePlayerState implements SimpleStateObservable{
    }
 
    public List<Pair<ResourceType, Integer>> getLeaderLevels() {
+
       List<Pair<ResourceType, Integer>> tempList = new ArrayList<>();
       for(int i=3; i<5; i++)
          if(storageLevels[i].getKey() != null)
@@ -197,7 +198,6 @@ public class SimplePlayerState implements SimpleStateObservable{
    }
 
    public boolean[] getVaticanFlipped() {
-      //System.out.println("getter" + vaticanFlipped[0]);
       return vaticanFlipped;
    }
 

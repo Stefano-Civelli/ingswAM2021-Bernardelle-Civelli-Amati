@@ -167,4 +167,9 @@ public class GUI implements ViewInterface {
 
    }
 
+   @Override
+   public void displayGameEnded(String payload) {
+
+   }
+
 }

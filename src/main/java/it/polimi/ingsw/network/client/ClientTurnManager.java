@@ -44,12 +44,10 @@ public class ClientTurnManager {
       case SHOPPING:
         System.out.println("\nYou need to insert one of the following marbles you got from market: ");
         view.displayMarbleShopping();
-        //display delle marble con indice, rimuovere da temp, indice preso e mandato come action INSERT MARBLE
         break;
       case SHOPPING_LEADER:
         System.out.print("\nYou need to use one of the 2 following leader to convert your white marble");
-        //display delle leader con indice
-        //indice preso e mandato come action CHOOSE_WHITE_LEADER
+        System.out.println("Choose the leader index (1. or 2.)");
         break;
       default: handleOtherPossiblePhases();
     }
