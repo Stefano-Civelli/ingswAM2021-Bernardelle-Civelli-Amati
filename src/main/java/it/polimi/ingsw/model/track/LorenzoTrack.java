@@ -1,11 +1,9 @@
 package it.polimi.ingsw.model.track;
-import it.polimi.ingsw.controller.EndGameObserver;
+import it.polimi.ingsw.model.EndGameObserver;
 import it.polimi.ingsw.model.EndGameObservable;
 import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.MoveForwardObserver;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.GSON;
 
 import java.util.HashSet;

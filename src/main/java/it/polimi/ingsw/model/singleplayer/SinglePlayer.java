@@ -3,11 +3,13 @@ package it.polimi.ingsw.model.singleplayer;
 import it.polimi.ingsw.model.DevelopCardColor;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.ModelObserver;
+import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
 import it.polimi.ingsw.model.track.LorenzoTrack;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 
 import java.io.IOException;
 import java.util.*;
@@ -16,6 +18,7 @@ public class SinglePlayer extends Game {
 
    private final LinkedList<ActionToken> actionTokenStack; // don't change with List, it's required a LinkedList.
    private final LorenzoTrack lorenzoTrack;
+   private boolean lorenzoWon = false;
 
    /**
     * Create a new single player game
@@ -68,6 +71,12 @@ public class SinglePlayer extends Game {
       this.actionTokenStack.addLast(token);
       return player;
    }
+
+
+   private void handleEndGame() {
+
+   }
+
 
 }
 

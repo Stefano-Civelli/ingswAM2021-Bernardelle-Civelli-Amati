@@ -83,4 +83,9 @@ public class NetworkVirtualView implements ModelObserver {
       server.serverBroadcastUpdate(new Message(MessageType.DISCARDED_LEADERCARD, stateUpdate));
    }
 
+   @Override
+   public void endGameUpdate(String stateUpdate) {
+      server.sendBroadcast(new Message(MessageType.GAME_ENDED, stateUpdate));
+   }
+
 }
