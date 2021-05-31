@@ -2,17 +2,31 @@ package it.polimi.ingsw.view.cli.drawer;
 
 import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.DevelopCardColor;
+import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.utility.ConfigParameters;
+import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Color;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map;
 
 public class DevelopCardConstructor {
   private static final int DEV_HEIGHT = 4;
   private static final int DEV_LENGTH = 11;
+  private static DevelopCardDeck developCardDeck;
+
+  static {
+    try {
+      developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   public static String[][] constructLeaderFromId(int id) {
     String[][] develop = new String[DEV_HEIGHT][DEV_LENGTH];
@@ -24,7 +38,7 @@ public class DevelopCardConstructor {
         develop[i][j] = margin[i][j];
 
     try {
-      DevelopCard d = Cli.getDevelopCardFromId(id);
+      DevelopCard d = DevelopCardConstructor.getDevelopCardFromId(id);
       DevelopCardColor color = d.getCardFlag().getColor();
       int level = d.getCardFlag().getLevel();
       int victoryPoints = d.getVictoryPoints();
@@ -62,6 +76,10 @@ public class DevelopCardConstructor {
       }
     } catch (InvalidCardException e) {}
     return develop;
+  }
+
+  public static DevelopCard getDevelopCardFromId(int cardId) throws InvalidCardException {
+    return developCardDeck.getCardFromId(cardId);
   }
 
   private static void addColoredMargins(String[][] cardSkeleton, DevelopCardColor color) {

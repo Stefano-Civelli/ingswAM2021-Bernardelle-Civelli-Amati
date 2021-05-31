@@ -33,7 +33,7 @@ public class SinglePlayer extends Game {
       this.actionTokenStack = new LinkedList<>(Arrays.asList(
               new DiscardToken(DevelopCardColor.BLUE), new DiscardToken(DevelopCardColor.GREEN),
               new DiscardToken(DevelopCardColor.YELLOW), new DiscardToken(DevelopCardColor.PURPLE),
-              new ShuffleToken(), new StepForwardToken(), new StepForwardToken()
+              new ShuffleToken(super.controller), new StepForwardToken(), new StepForwardToken()
       ));
 
       Collections.shuffle(this.actionTokenStack);

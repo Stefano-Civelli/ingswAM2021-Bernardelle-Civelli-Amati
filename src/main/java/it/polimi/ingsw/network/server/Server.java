@@ -223,8 +223,6 @@ public class Server {
       game.initialMoveForward();
       gameRunning = true;
 
-      //TO remove
-      //game.giveResources();
    }
 
 

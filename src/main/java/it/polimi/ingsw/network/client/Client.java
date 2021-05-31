@@ -199,6 +199,12 @@ public class Client implements ViewObserver {
       case GAME_ENDED:
         view.displayGameEnded(msg.getPayload());
         messageConnector.stop();
+      case LORENZO_TRACK_UPDATE:
+        break; //TODO
+      case LORENZO_DECK_UPDATE:
+        break; //TODO
+      case LORENZO_SHUFFLE_UPDATE:
+        break; //TODO
       default:
     }
   }

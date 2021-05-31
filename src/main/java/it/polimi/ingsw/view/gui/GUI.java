@@ -249,4 +249,19 @@ public class GUI implements ViewInterface, ModelObserver {
    public void endGameUpdate(String stateUpdate) {
 
    }
+
+   @Override
+   public void lorenzoTrackUpdate(String stateUpdate) {
+
+   }
+
+   @Override
+   public void lorenzoShuffleUpdate() {
+
+   }
+
+   @Override
+   public void lorenzoDevDeckUpdate(String stateUpdate) {
+
+   }
 }

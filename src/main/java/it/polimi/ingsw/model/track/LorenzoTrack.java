@@ -109,7 +109,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
   @Override
   public void notifyModelChange(String msg) {
     if (controller != null)
-    controller.trackUpdate(username, msg);
+    controller.lorenzoTrackUpdate(msg);
   }
 
   public void setUsername(String username) {

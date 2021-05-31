@@ -3,16 +3,27 @@ package it.polimi.ingsw.view.cli.drawer;
 import it.polimi.ingsw.model.CardFlag;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
+import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.utility.ConfigParameters;
-import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.view.cli.Color;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class LeaderConstructor {
   private static final int LEADER_HEIGHT = 4;
   private static final int LEADER_LENGTH = 11;
+  private static LeaderCardDeck leaderCardDeck;
+
+  static {
+    try {
+      leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   public static String[][] constructLeaderFromId(int id) {
     String[][] leader = new String[LEADER_HEIGHT][LEADER_LENGTH];
@@ -23,7 +34,7 @@ public class LeaderConstructor {
         leader[i][j] = margin[i][j];
 
     try {
-      LeaderCard l = Cli.getLeaderCardFromId(id);
+      LeaderCard l = LeaderConstructor.getLeaderCardFromId(id);
       Map<CardFlag, Integer> requiredCardFlags = l.getRequiredCardFlags();
       ResourceType requiredResources = l.getRequiredResources();
       int victory = l.getVictoryPoints();
@@ -99,6 +110,10 @@ public class LeaderConstructor {
       }
     } catch (InvalidCardException e) {}
     return leader;
+  }
+
+  public static LeaderCard getLeaderCardFromId(int cardId) throws InvalidCardException {
+      return leaderCardDeck.getCardFromId(cardId);
   }
 
   private static String colorCardFlagChoice(int column) {

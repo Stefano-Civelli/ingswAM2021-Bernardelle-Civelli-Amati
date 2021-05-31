@@ -510,25 +510,6 @@ public class Cli implements ViewInterface {
     drawer.displayPlainCanvas();
   }
 
-  public static DevelopCard getDevelopCardFromId(int cardId) throws InvalidCardException {
-    DevelopCardDeck developCardDeck = null;
-    try {
-      FileInputStream inputStream = new FileInputStream(ConfigParameters.cardConfigFile);
-      InputStreamReader reader = new InputStreamReader(inputStream);
-      developCardDeck = GSON.getGsonBuilder().fromJson(reader, DevelopCardDeck.class);
-      reader.close();
-    }catch (IOException e){}
-    return developCardDeck.getCardFromId(cardId);
-  }
-
-  public static LeaderCard getLeaderCardFromId(int cardId) throws InvalidCardException {
-    LeaderCardDeck leaderCardDeck = null;
-    try {
-      leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
-    } catch (IOException e) { e.printStackTrace(); }
-    return leaderCardDeck.getCardFromId(cardId);
-  }
-
   private static boolean isValidIp(String input) {
     Pattern p = Pattern.compile("^"
             + "(((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}" // Domain name

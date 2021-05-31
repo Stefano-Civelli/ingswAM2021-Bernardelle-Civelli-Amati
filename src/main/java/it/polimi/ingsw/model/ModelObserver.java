@@ -16,5 +16,8 @@ public interface ModelObserver {
   void tempChestUpdate(String stateUpdate);
   void discardedLeaderUpdate(String stateUpdate);
   void endGameUpdate(String stateUpdate);
+  void lorenzoTrackUpdate(String stateUpdate);
+  void lorenzoShuffleUpdate();
+  void lorenzoDevDeckUpdate(String stateUpdate);
   //TODO per riconnessione servono update con username e Stringa che chiamano singleUpdate
 }

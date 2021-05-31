@@ -85,7 +85,22 @@ public class NetworkVirtualView implements ModelObserver {
 
    @Override
    public void endGameUpdate(String stateUpdate) {
-      server.sendBroadcast(new Message(MessageType.GAME_ENDED, stateUpdate));
+      server.serverBroadcastUpdate(new Message(MessageType.GAME_ENDED, stateUpdate));
+   }
+
+   @Override
+   public void lorenzoTrackUpdate(String stateUpdate) {
+      server.serverBroadcastUpdate(new Message(MessageType.LORENZO_TRACK_UPDATE, stateUpdate));
+   }
+
+   @Override
+   public void lorenzoShuffleUpdate() {
+      server.serverBroadcastUpdate(new Message(MessageType.LORENZO_SHUFFLE_UPDATE));
+   }
+
+   @Override
+   public void lorenzoDevDeckUpdate(String stateUpdate) {
+      server.serverBroadcastUpdate(new Message(MessageType.LORENZO_DECK_UPDATE, stateUpdate));
    }
 
 }

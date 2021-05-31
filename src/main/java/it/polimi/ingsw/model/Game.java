@@ -4,9 +4,7 @@ import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelObservables.LeaderSetupObservable;
-import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
-import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
-import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
+import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
@@ -23,8 +21,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
    private final List<Pair<PlayerBoard, Boolean>> playerBoards;
    private boolean endGame = false;
 
-
-   private final transient ModelObserver controller;
+   protected final transient ModelObserver controller;
 
    /**
     * Create a new multi player game
@@ -33,7 +30,6 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
     * @throws IOException if there are some problems loading the configuration files
     */
    public Game(ModelObserver controller) throws IOException {
-
       this.leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
       this.developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
       this.developCardDeck.finalizeDeckSetup(controller);

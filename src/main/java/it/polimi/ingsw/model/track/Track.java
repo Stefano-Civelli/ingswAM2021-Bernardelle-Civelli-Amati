@@ -139,4 +139,10 @@ public class Track extends LorenzoTrack implements VaticanReportObserver, Vatica
     if(vaticanReportObserverList.add(observerToAdd))
       observerToAdd.addToVaticanReportObserverList(this);
   }
+
+  @Override
+  public void notifyModelChange(String msg) {
+    if (controller != null)
+      controller.trackUpdate(username, msg);
+  }
 }

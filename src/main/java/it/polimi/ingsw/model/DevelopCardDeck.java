@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.modelObservables.DeckSetupObservable;
+import it.polimi.ingsw.model.modelObservables.LorenzoDevDeckObservable;
 import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;
@@ -11,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class DevelopCardDeck implements EndGameObservable, ModelObservable, DeckSetupObservable {
+public class DevelopCardDeck implements EndGameObservable, ModelObservable, DeckSetupObservable, LorenzoDevDeckObservable {
 
    private final int NUMBER_OF_DECK_ROWS = 3;
    private final int NUMBER_OF_DECK_COLUMS = 4;
@@ -210,5 +211,11 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable, Deck
    public void notifyDeckSetup(String msg) {
       if (controller != null)
          controller.devDeckSetup(msg);
+   }
+
+   @Override
+   public void notifyLorenzoDeckUpdate(String msg) {
+      if (controller != null)
+         controller.lorenzoDevDeckUpdate(msg);
    }
 }

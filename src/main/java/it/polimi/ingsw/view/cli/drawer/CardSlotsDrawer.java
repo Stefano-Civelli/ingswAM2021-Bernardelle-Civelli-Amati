@@ -68,7 +68,7 @@ public class CardSlotsDrawer implements Buildable, Fillable{
     for(int i=0; i<slots.length; i++) {
       for (int j = 0; j < slots[i].size(); j++) {
         try {
-          DevelopCard d = Cli.getDevelopCardFromId(slots[i].get(j));
+          DevelopCard d = DevelopCardConstructor.getDevelopCardFromId(slots[i].get(j));
           constructedCard = DevelopCardConstructor.constructLeaderFromId(d.getCardId());
 
           for(int k=0, c=a; k<constructedCard.length; k++, c++)
