@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.controller.ClientVirtualView;
-import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
@@ -353,4 +351,9 @@ public class Client implements ViewObserver {
     }
     return -1;
   }
+
+  public String getCurrentPlayer(){
+    return turnManager.getCurrentPlayer();
+  }
+
 }

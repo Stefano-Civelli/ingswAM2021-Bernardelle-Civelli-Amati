@@ -2,11 +2,17 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 
-public class ClientVirtualView implements ModelObserver {
+
+/**
+ * to instanciate instead of NetworkViretualView
+ */
+public class LocalVirtualView implements ModelObserver {
    private Client client;
 
-   public ClientVirtualView(Client client) {
+   public LocalVirtualView(Client client) {
       this.client = client;
    }
 
@@ -18,7 +24,9 @@ public class ClientVirtualView implements ModelObserver {
 
    @Override
    public void warehouseUpdate(String stateUpdate) {
-
+      String username = client.getCurrentPlayer();
+      client.handleMessage(new Message(username, MessageType.WAREHOUSE_UPDATE, stateUpdate));
+//      client.getSimplePlayerState().warehouseUpdate(stateUpdate);
    }
 
    @Override

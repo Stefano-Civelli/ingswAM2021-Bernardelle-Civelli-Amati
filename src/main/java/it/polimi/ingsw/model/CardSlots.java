@@ -41,7 +41,7 @@ public class CardSlots implements EndGameObservable, ModelObservable {
    * Returns the card which is positioned on top of a slot
    * NOTE: if the slot is empty returns a DevelopCard with level 0
    *
-   * @param slot, slot of which the caller wants to know the top card (int between 0 and numberOfCardSlots)
+   * @param slot, slot of which the caller wants to know the top card (int between 0 and {@code numberOfCardSlots})
    * @return the top card of a slot (the highest in level)
    */
   public DevelopCard returnTopCard(int slot) {
