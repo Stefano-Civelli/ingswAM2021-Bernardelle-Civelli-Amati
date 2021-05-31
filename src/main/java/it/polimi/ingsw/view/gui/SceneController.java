@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.view.gui.controllers.GUIController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,60 +11,58 @@ import java.io.IOException;
 
 public class SceneController {
 
-    private static Stage activeStage;
-    private static GUIController currentController;
+    private Stage activeStage;
+    private GUIController currentController;
 
-    protected static void setActiveStage(Stage activeStage) {
-        SceneController.activeStage = activeStage;
+    protected void setActiveStage(Stage activeStage) {
+        this.activeStage = activeStage;
     }
 
-    public static void changeScene(String fxml) {
-//        activeStage.hide();
-//        try {
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(SceneController.class.getClassLoader().getResource(fxml));
-//            Parent root = loader.load();
-//            Stage stage = new Stage();
-//            stage.setScene(new Scene(root));
-//            activeStage.hide();
-//            activeStage = stage;
-//            stage.show();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    public void setCurrentController(GUIController controller) {
+        this.currentController = controller;
+    }
 
+    public GUIController getCurrentController() {
+        return this.currentController;
+    }
+
+    public Stage getActiveStage() {
+        return this.activeStage;
+    }
+
+    public void changeScene(String fxml, Client client) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SceneController.class.getClassLoader().getResource(fxml));
             Parent root = loader.load();
-            currentController = loader.getController();
-            activeStage.setScene(new Scene(root));
+            this.currentController = loader.getController();
+            if(this.currentController != null) {
+                this.currentController.setClient(client);
+            }
+            this.activeStage.setScene(new Scene(root));
         } catch (IOException e) {
+            //TODO gestire
             e.printStackTrace();
         }
     }
 
-    public static void changeStage(String fxml) {
-        activeStage.hide();
+    public void changeStage(String fxml, Client client) {
+        this.activeStage.hide();
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SceneController.class.getClassLoader().getResource(fxml));
             Parent root = loader.load();
-            currentController = loader.getController();
+            this.currentController = loader.getController();
+            if(this.currentController != null)
+                this.currentController.setClient(client);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            activeStage = stage;
+            this.activeStage = stage;
             stage.show();
         } catch (IOException e) {
+            //TODO gestire
             e.printStackTrace();
         }
     }
 
-    public static GUIController getController() {
-        return currentController;
-    }
-
-    public static void setCurrentController(GUIController controller) {
-        currentController = controller;
-    }
 }

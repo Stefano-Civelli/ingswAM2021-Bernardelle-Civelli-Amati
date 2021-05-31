@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManager;
-import it.polimi.ingsw.view.gui.controllers.ViewObservable;
+import it.polimi.ingsw.view.gui.controllers.GUIController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,12 +23,13 @@ public class GUIStarter extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("fxml/connection.fxml"));
         Parent root = loader.load();
-        SceneController.setCurrentController(loader.getController());
-        ViewObservable.addObserver(client);
+        GUIController controller = loader.getController();
+        gui.getSceneController().setCurrentController(controller);
+        controller.setClient(client);
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/logo.png")));
         stage.setTitle("Login");
         stage.setScene(new Scene(root));
-        SceneController.setActiveStage(stage);
+        gui.getSceneController().setActiveStage(stage);
         stage.setResizable(false);
         stage.show();
     }

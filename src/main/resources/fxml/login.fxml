@@ -7,7 +7,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.controllers.LoginController">
    <children>
       <ImageView fitHeight="185.0" fitWidth="320.0" layoutX="45.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -17,6 +16,7 @@
       </ImageView>
       <Label layoutX="80.0" layoutY="242.0" text="Username:" />
       <TextField fx:id="username_textField" layoutX="145.0" layoutY="238.0" />
-      <Button fx:id="login_button" layoutX="504.0" layoutY="338.0" mnemonicParsing="false" text="Login" onAction="#login" />
+      <Button fx:id="login_button" layoutX="504.0" layoutY="338.0" mnemonicParsing="false" onAction="#login" text="Login" />
+      <Label fx:id="error_label" layoutX="145.0" layoutY="286.0" text="ERROR" textFill="RED" />
    </children>
 </Pane>
