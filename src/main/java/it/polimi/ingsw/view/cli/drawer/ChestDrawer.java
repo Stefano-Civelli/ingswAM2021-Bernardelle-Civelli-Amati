@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli.drawer;
 
 import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 
 import java.util.Map;
@@ -14,7 +15,7 @@ public class ChestDrawer implements Buildable, Fillable{
     String[][] chestSkeleton = new String[CHEST_HEIGHT+1][CHEST_LENGTH];
     int col = 0;
 
-    for(int c = 0; c < CHEST_LENGTH-1; c++)
+    for(int c = 0; c < CHEST_LENGTH; c++)
       chestSkeleton[0][c] = " ";
 
     for(char c : "CHEST".toCharArray()) {
@@ -47,21 +48,54 @@ public class ChestDrawer implements Buildable, Fillable{
   }
 
   @Override
-  public String[][] fill(String[][] fillMe, SimplePlayerState playerState) {
+  public void fill(String[][] fillMe, SimplePlayerState playerState) {
     Map<ResourceType, Integer> chest = playerState.getChest();
 
-    for(Map.Entry<ResourceType, Integer> entry : chest.entrySet())
-      for(int r = 0; r < fillMe.length; r++)
-        for(int c = 0; c < fillMe[r].length; c++)
-          if(fillMe[r][c].equals(entry.getKey().toString())) {
-            if(entry.getValue() <= 9)
-              fillMe[r][c-1] = Integer.toString(entry.getValue());
-            else {
-              fillMe[r][c-1] = Integer.toString(entry.getValue()%10);
-              fillMe[r][c-1] = Integer.toString(entry.getValue()/10);
-            }
-          }
+    for(Map.Entry<ResourceType, Integer> entry : chest.entrySet()) {
+      ResourceType resource = entry.getKey();
+      int quantity = entry.getValue();
 
-    return fillMe;
+      switch (resource) {
+        case GOLD:
+          fillMe[2][4] = resource.toString();
+          if (quantity < 10)
+            fillMe[2][3] = Integer.toString(quantity);
+          else {
+            fillMe[2][3] = Integer.toString(quantity % 10);
+            fillMe[2][2] = Integer.toString(quantity / 10);
+          }
+          break;
+        case STONE:
+          fillMe[2][8] = resource.toString();
+          if (quantity < 10)
+            fillMe[2][7] = Integer.toString(quantity);
+          else {
+            fillMe[2][7] = Integer.toString(quantity % 10);
+            fillMe[2][6] = Integer.toString(quantity / 10);
+          }
+          break;
+        case SHIELD:
+          fillMe[3][4] = resource.toString();
+          if (quantity < 10)
+            fillMe[3][3] = Integer.toString(quantity);
+          else {
+            fillMe[3][3] = Integer.toString(quantity % 10);
+            fillMe[3][2] = Integer.toString(quantity / 10);
+          }
+          break;
+        case SERVANT:
+          fillMe[3][8] = resource.toString();
+          if (quantity < 10)
+            fillMe[3][7] = Integer.toString(quantity);
+          else {
+            fillMe[3][7] = Integer.toString(quantity % 10);
+            fillMe[3][6] = Integer.toString(quantity / 10);
+          }
+          break;
+      }
+    }
   }
+
+  @Override
+  public void fill(String[][] fillMe, SimpleGameState gameState) {}
 }

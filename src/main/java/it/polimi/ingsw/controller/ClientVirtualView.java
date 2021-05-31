@@ -3,9 +3,17 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.view.SimpleGameState;
+import it.polimi.ingsw.view.SimplePlayerState;
+import it.polimi.ingsw.view.cli.drawer.SimpleModelObservable;
 
-public class ClientVirtualView implements ModelObserver {
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+public class ClientVirtualView implements ModelObserver, SimpleModelObservable {
    private Client client;
 
    public ClientVirtualView(Client client) {

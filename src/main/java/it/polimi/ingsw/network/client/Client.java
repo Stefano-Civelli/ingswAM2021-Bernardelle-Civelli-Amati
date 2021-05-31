@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.controller.ClientVirtualView;
+import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
@@ -10,7 +12,7 @@ import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.cli.Cli;
-import it.polimi.ingsw.view.cli.drawer.CliDrawer;
+import it.polimi.ingsw.view.cli.CliDrawer;
 import it.polimi.ingsw.view.gui.GUIStarter;
 import it.polimi.ingsw.view.gui.ViewObserver;
 import javafx.application.Application;
@@ -31,6 +33,7 @@ public class Client implements ViewObserver {
   private String serverIP;
   private int serverPort;
   private MessageHandler messageConnector;
+  //private ModelObserver updater;
   private SimpleGameState simpleGameState;
   private LinkedHashMap<String, SimplePlayerState> simplePlayerStateMap;
   private ClientTurnManager  turnManager;
@@ -52,32 +55,26 @@ public class Client implements ViewObserver {
     //devo fargli scegliere se giocare in locale o network
     if (cli) {
       Client client = new Client();
-      Cli view = new Cli(client, new CliDrawer(client.simpleGameState, client.simplePlayerStateMap));
+      client.simpleGameState = new SimpleGameState();
+      client.simplePlayerStateMap = new LinkedHashMap<>();
+      Cli view = new Cli(client, new CliDrawer(client));
       client.setView(view);
+      //client.setUpdater(new ClientVirtualView(client));
       client.turnManager = new ClientTurnManager(client, view);
       view.setClientTurnManager(client.turnManager);
       view.displaySetup();
-      client.connectToServer(); //TODO questa posso farla eseguire al thread. poi tolgo l'altro thread che non serve più
-      //TODO chiamo la waitforinput che ha il whiletrue
+      client.connectToServer();
     }
     else {
-//      Client client = new Client();
       Application.launch(GUIStarter.class);
-//      GUI view = new GUI(client);
-//      client.setView(view);
-//      client.turnManager = new ClientTurnManager(client, view);
-//      view.setClientTurnManager(client.turnManager);
     }
-  }
-
-  public Client() {
-    this.simpleGameState = new SimpleGameState();
-    this.simplePlayerStateMap = new LinkedHashMap<>();
   }
 
   public void setView(ViewInterface view) {
     this.view = view;
   }
+
+  //public void setUpdater(ModelObserver updater) { this.updater = updater;}
 
   public void setTurnManager(ClientTurnManager turnManager) {
     this.turnManager = turnManager;
@@ -165,11 +162,9 @@ public class Client implements ViewObserver {
         break;
       case MARKET_SETUP:
         simpleGameState.constructMarket(msg.getPayload());
-        //view.displayMarket();
         break;
       case MARKET_UPDATED:
         simpleGameState.updateMarket(msg.getPayload());
-       //view.displayMarket();
         break;
       case DEVELOP_CARD_DECK_UPDATED:
         simpleGameState.updateDeck(msg.getPayload());
@@ -188,6 +183,7 @@ public class Client implements ViewObserver {
         getSimplePlayerState(msg.getUsername()).vaticanReportUpdate(msg.getPayload());
         break;
       case CHEST_UPDATE:
+        //updater.chestUpdate(Message msg);
         getSimplePlayerState(msg.getUsername()).chestUpdate(msg.getPayload());
         break;
       case TEMP_CHEST_UPDATE:
@@ -301,6 +297,8 @@ public class Client implements ViewObserver {
   public String getUsername() { return this.username; }
 
   public void setUsername(String username) { this.username = username; }
+
+
 
   /**
    * @return this client's simpleplayerstate

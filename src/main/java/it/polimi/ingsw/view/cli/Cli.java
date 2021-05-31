@@ -16,7 +16,6 @@ import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.view.ViewInterface;
-import it.polimi.ingsw.view.cli.drawer.CliDrawer;
 
 import java.io.*;
 import java.util.*;
