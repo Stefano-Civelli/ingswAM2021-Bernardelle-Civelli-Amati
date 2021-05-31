@@ -59,4 +59,11 @@ public class SceneController {
         }
     }
 
+    public static GUIController getController() {
+        return currentController;
+    }
+
+    public static void setCurrentController(GUIController controller) {
+        currentController = controller;
+    }
 }

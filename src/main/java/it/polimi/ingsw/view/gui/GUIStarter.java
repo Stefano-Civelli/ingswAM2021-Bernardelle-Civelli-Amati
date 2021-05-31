@@ -23,6 +23,7 @@ public class GUIStarter extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("fxml/connection.fxml"));
         Parent root = loader.load();
+        SceneController.setCurrentController(loader.getController());
         ViewObservable.addObserver(client);
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/logo.png")));
         stage.setTitle("Login");
