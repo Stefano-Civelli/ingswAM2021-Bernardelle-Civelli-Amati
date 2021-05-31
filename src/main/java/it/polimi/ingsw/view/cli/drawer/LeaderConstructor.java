@@ -86,10 +86,10 @@ public class LeaderConstructor {
       }
 
       if(storageType != null) {
-        leader[2][c+4] = "|";
-        leader[2][c+2] = "[";
-        leader[2][c+6] = "]";
-        leader[2][c] = storageType.toString();
+        leader[2][c+5] = "|";
+        leader[2][c+3] = "[";
+        leader[2][c+7] = "]";
+        leader[2][c+1] = storageType.toString();
       }
 
       if(resource != null) {

@@ -33,4 +33,5 @@ public interface ViewInterface {
   public void displayYourTurn(String username);
   public void displayDefaultCanvas(String username);
   public void displayGameEnded(String payload);
+  public void displayPlainCanvas();
 }

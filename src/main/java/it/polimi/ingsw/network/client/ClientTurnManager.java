@@ -27,11 +27,14 @@ public class ClientTurnManager {
     switch(currentPhase){
       case SETUP_CHOOSING_RESOURCES:
         if(client.getPlayerTurnPosition()!=1) {
+          view.displayDefaultCanvas(client.getUsername());
           System.out.println("\nYou need to choose " + client.getPlayerTurnPosition() / 2 + " resource(s) to add from the following");
           view.displayMarbleChoice();
           System.out.println("Which resource do you want to pick? (index)");
         }
         else {
+          view.displayPlainCanvas();
+          view.displayDefaultCanvas(client.getUsername());
           client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(new HashMap<>())));
         }
         break;
@@ -55,6 +58,7 @@ public class ClientTurnManager {
 
 
   public void handleOtherPossiblePhases() {
+    view.displayDefaultCanvas(client.getUsername());
     System.out.println("\nYou can: ");
 
     for(ActionType p : currentPhase.getAvailableActions()) {
@@ -115,15 +119,6 @@ public class ClientTurnManager {
     }
 
     return currentPhase.isValid(action);
-  }
-
-
-  public void newPhase(PhaseType phase) {
-    this.currentPhase = phase;
-  }
-
-  public void newCurrentPlayer(String currentPlayer) {
-    this.currentPlayer = currentPlayer;
   }
 
   public String getCurrentPlayer() {

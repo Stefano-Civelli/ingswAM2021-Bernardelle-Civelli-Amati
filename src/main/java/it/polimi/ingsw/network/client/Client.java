@@ -206,7 +206,6 @@ public class Client implements ViewObserver {
   private void handleGameStarted(Message message) {
     ArrayList<String> players = GSON.getGsonBuilder().fromJson(message.getPayload(), ArrayList.class);
     SimplePlayerState currentPlayerState = getSimplePlayerState();
-    //System.out.println("array mandato dal server: " + players);
     this.simplePlayerStateMap = new LinkedHashMap<>();
 
     for(String s : players) {
@@ -215,7 +214,6 @@ public class Client implements ViewObserver {
       else
         this.simplePlayerStateMap.put(s, new SimplePlayerState()); //the array is ordered to give the right amount of resouces to each player
     }
-    //System.out.println("mappa: " + simplePlayerStateMap);
     turnManager.setCurrentPlayer((String) this.simplePlayerStateMap.keySet().toArray()[0]);
   }
 
@@ -225,7 +223,7 @@ public class Client implements ViewObserver {
     if(turnManager.setStateIsPlayerChanged(newState)){
       if (username.equals(turnManager.getCurrentPlayer())) {
         view.displayYourTurn(turnManager.getCurrentPlayer());
-        view.displayDefaultCanvas(turnManager.getCurrentPlayer());
+        //view.displayDefaultCanvas(turnManager.getCurrentPlayer());
       }
       else
         view.displayPlayerTurn(turnManager.getCurrentPlayer());

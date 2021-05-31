@@ -240,6 +240,11 @@ public class Cli implements ViewInterface {
     System.out.println("game has ended");
   }
 
+  @Override
+  public void displayPlainCanvas() {
+    clearScreen();
+  }
+
   private void waitForInput() {
 
     Scanner in = new Scanner(System.in);
