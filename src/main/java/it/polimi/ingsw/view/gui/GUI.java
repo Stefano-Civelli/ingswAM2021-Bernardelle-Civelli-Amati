@@ -266,4 +266,9 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void lorenzoDevDeckUpdate(String stateUpdate) {
 
    }
+
+   @Override
+   public void gameStartedSetup(Message msg){
+
+   }
 }

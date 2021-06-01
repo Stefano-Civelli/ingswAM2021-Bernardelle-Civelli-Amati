@@ -19,7 +19,9 @@ public class GUIStarter extends Application {
         Client client = new Client();
         GUI gui = new GUI(client);
         client.setView(gui);
-        client.setTurnManager(new ClientTurnManager(client, gui));
+        //IL TURNMANAGER NON DOVREBBE SERVIRE IN GUI
+        //client.setTurnManager(new ClientTurnManager(client, gui));
+
         //client.setUpdater(gui);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("fxml/connection.fxml"));

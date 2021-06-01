@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.cli.Color;
 
@@ -16,26 +17,29 @@ public class ClientTurnManager {
   private PhaseType currentPhase;
   private String currentPlayer;
   private ViewInterface view;
+  private ClientStateViewer stateViewer;
 
-  public ClientTurnManager(Client client, ViewInterface view) {
+  public ClientTurnManager(Client client, ViewInterface view, ClientStateViewer stateViewer) {
     this.currentPhase = PhaseType.SETUP_CHOOSING_RESOURCES;
     this.client = client;
     this.view = view;
+    this.stateViewer = stateViewer;
   }
 
   public void currentPhasePrint(){
     switch(currentPhase){
       case SETUP_CHOOSING_RESOURCES:
-        if(client.getPlayerTurnPosition()!=1) {
-          view.displayDefaultCanvas(client.getUsername());
-          System.out.println("\nYou need to choose " + client.getPlayerTurnPosition() / 2 + " resource(s) to add from the following");
+        if(stateViewer.getPlayerTurnPosition()!=1) {
+          view.displayDefaultCanvas(stateViewer.getUsername());
+          System.out.println("\nYou need to choose " + stateViewer.getPlayerTurnPosition() / 2 + " resource(s) to add from the following");
           view.displayMarbleChoice();
           System.out.println("Which resource do you want to pick? (index)");
         }
         else {
           view.displayPlainCanvas();
-          view.displayDefaultCanvas(client.getUsername());
-          client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(new HashMap<>())));
+          view.displayDefaultCanvas(stateViewer.getUsername());
+          //FIXME serve per forza mandare un messaggio vuoto? è un po' brutto
+          client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(new HashMap<>())));
         }
         break;
       case SETUP_DISCARDING_LEADERS:
@@ -58,7 +62,7 @@ public class ClientTurnManager {
 
 
   public void handleOtherPossiblePhases() {
-    view.displayDefaultCanvas(client.getUsername());
+    view.displayDefaultCanvas(stateViewer.getUsername());
     System.out.println("\nYou can: ");
 
     for(ActionType p : currentPhase.getAvailableActions()) {
@@ -145,7 +149,7 @@ public class ClientTurnManager {
     this.currentPhase = newState.getPhase(); //set new phase
 
     if(!currentPlayer.equals(newState.getPlayer())) {
-      client.getSimplePlayerState(this.currentPlayer).mergeTempChest(); //merge chest of the "old" currentPlayer if that current changes
+      stateViewer.getSimplePlayerState(this.currentPlayer).mergeTempChest(); //merge chest of the "old" currentPlayer if that current changes
       //devo fare merge per forza qua perchè devo mergiare su ogni client e non solo sul mio
       this.currentPlayer = newState.getPlayer();
       return true;
