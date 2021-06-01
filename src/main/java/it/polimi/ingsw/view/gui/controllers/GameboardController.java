@@ -30,9 +30,18 @@ public class GameboardController extends GUIController {
         try {
             Parent root = loader.load();
             this.player_anchorPane.getChildren().add(root);
-            this.player1_anchorPane.getChildren().add(root);
-            this.player2_anchorPane.getChildren().add(root);
-            this.player3_anchorPane.getChildren().add(root);
+            loader = new FXMLLoader();
+            loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/othersPlayerboard.fxml"));
+            Parent root1 = loader.load();
+            this.player1_anchorPane.getChildren().add(root1);
+            loader = new FXMLLoader();
+            loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/othersPlayerboard.fxml"));
+            Parent root2 = loader.load();
+            this.player2_anchorPane.getChildren().add(root2);
+            loader = new FXMLLoader();
+            loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/othersPlayerboard.fxml"));
+            Parent root3 = loader.load();
+            this.player3_anchorPane.getChildren().add(root3);
         } catch (IOException e) {
             e.printStackTrace(); //TODO gestire
         }
