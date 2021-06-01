@@ -1,12 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.EndGameObserver;
 import it.polimi.ingsw.model.modelObservables.DeckSetupObservable;
+import it.polimi.ingsw.model.modelObservables.LorenzoDevDeckObservable;
 import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
@@ -14,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class DevelopCardDeck implements EndGameObservable, ModelObservable, DeckSetupObservable {
+public class DevelopCardDeck implements EndGameObservable, ModelObservable, DeckSetupObservable, LorenzoDevDeckObservable {
 
    private final int NUMBER_OF_DECK_ROWS = 3;
    private final int NUMBER_OF_DECK_COLUMS = 4;
@@ -99,7 +97,7 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable, Deck
 
    /**
     * method needed for the single player mode
-    * it removes two cards of the lowes possible level from the top
+    * Removes two cards of the lowes possible level and of the specified color from the top
     * @param color indicates the color of the cards to remove
     */
    public void RemoveTwoCards(DevelopCardColor color) {
@@ -112,6 +110,7 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable, Deck
             k++;
             //if there are no cards to remove simply return
             if (k == cardsCube.length) {
+               notifyForEndGame();
                //dovrebbe fare update di un observer che guarda se il game è finito
                return;
             }
@@ -212,5 +211,11 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable, Deck
    public void notifyDeckSetup(String msg) {
       if (controller != null)
          controller.devDeckSetup(msg);
+   }
+
+   @Override
+   public void notifyLorenzoDeckUpdate(String msg) {
+      if (controller != null)
+         controller.lorenzoDevDeckUpdate(msg);
    }
 }

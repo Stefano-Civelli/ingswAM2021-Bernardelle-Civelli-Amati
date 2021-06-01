@@ -29,10 +29,10 @@ class PlayerBoardTest {
     String usr = "talla";
     DevelopCardDeck developCardDeck = GSON.cardParser(cardConfigFile);
     List<LeaderCard> leaderCards = new ArrayList<>();
-    leaderCards.add(new LeaderCard(null, null, 4, new MarbleModifierBehaviour(ResourceType.SERVANT)));
-    leaderCards.add(new LeaderCard(null, null, 6, new MarbleModifierBehaviour(ResourceType.SHIELD)));
-    leaderCards.add(new LeaderCard(null, null, 4, new StorageBehaviour(ResourceType.SERVANT)));
-    leaderCards.add(new LeaderCard(null, null, 4, new StorageBehaviour(ResourceType.GOLD)));
+    leaderCards.add(new LeaderCard(1,null, null, 4, new MarbleModifierBehaviour(ResourceType.SERVANT)));
+    leaderCards.add(new LeaderCard(2,null, null, 6, new MarbleModifierBehaviour(ResourceType.SHIELD)));
+    leaderCards.add(new LeaderCard(3,null, null, 4, new StorageBehaviour(ResourceType.SERVANT)));
+    leaderCards.add(new LeaderCard(4,null, null, 4, new StorageBehaviour(ResourceType.GOLD)));
 
     return new PlayerBoard(usr, leaderCards, market, developCardDeck);
   }
@@ -318,9 +318,8 @@ class PlayerBoardTest {
     playerBoard.discardLeaderAtBegin(2, 0);
 
     playerBoard.getLeaderCards().get(0).setActive(playerBoard);
-    assertThrows(LeaderIsActiveException.class, () -> playerBoard.discardLeader(0));
-    playerBoard.discardLeader(1);
+    assertThrows(LeaderIsActiveException.class, () -> playerBoard.discardLeader(playerBoard.getLeaderCards().get(0).getLeaderId()));
+    playerBoard.discardLeader(playerBoard.getLeaderCards().get(1).getLeaderId());
     assertEquals(1, playerBoard.getLeaderCards().size());
   }
-
 }

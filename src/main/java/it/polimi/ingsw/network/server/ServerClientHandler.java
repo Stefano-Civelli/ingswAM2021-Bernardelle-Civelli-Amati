@@ -2,6 +2,11 @@ package it.polimi.ingsw.network.server;
 
 import com.google.gson.*;
 import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.model.Chest;
+import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
+import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
+import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
@@ -42,7 +47,7 @@ public class ServerClientHandler implements Runnable {
       try {
          in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
          out = new PrintWriter(clientSocket.getOutputStream());
-         //startPinging();
+         startPinging();
          handleClientConnection(); // sta qua dentro finchè la connessione è aperta
       } catch (IOException e) {
          e.printStackTrace();
@@ -58,7 +63,10 @@ public class ServerClientHandler implements Runnable {
 
          while (true) {
             try {
-               Message message = messageParser(in.readLine());
+               String receivedString = in.readLine();
+               Message message = messageParser(receivedString);
+               if(ConfigParameters.TESTING)
+                  System.out.println(receivedString);
                messageReceived(message);
             }catch(JsonSyntaxException e){
                e.printStackTrace();
@@ -115,7 +123,18 @@ public class ServerClientHandler implements Runnable {
                e.printStackTrace();
             }
             break;
-
+         case CHEAT:
+            if(!ConfigParameters.TESTING)
+               return;
+            try {
+               Chest tempChest = server.getTurnManager().getGame().getPlayerBoard(server.getTurnManager().getCurrentPlayer()).getChest();
+               tempChest.addResources(ResourceType.SHIELD, 50);
+               tempChest.addResources(ResourceType.STONE, 50);
+               tempChest.addResources(ResourceType.SERVANT, 50);
+               tempChest.addResources(ResourceType.GOLD, 50);
+               server.getTurnManager().getGame().getPlayerBoard(server.getTurnManager().getCurrentPlayer()).getTrack().moveForward(19);
+            } catch (InvalidUsernameException | NegativeQuantityException | AbuseOfFaithException e) {e.printStackTrace();}
+            break;
          default:
 
       }//switch

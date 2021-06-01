@@ -119,7 +119,7 @@ public class ServerClientTester {
           } catch (IOException ex) { ex.printStackTrace();}
           e.printStackTrace();
         }
-        System.out.println(msg);
+        //System.out.println(msg);
       }
     };
     new Thread(socketReader).start();

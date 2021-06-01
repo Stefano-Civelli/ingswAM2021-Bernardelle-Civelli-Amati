@@ -20,6 +20,7 @@ public class GUIStarter extends Application {
         GUI gui = new GUI(client);
         client.setView(gui);
         client.setTurnManager(new ClientTurnManager(client, gui));
+        //client.setUpdater(gui);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("fxml/connection.fxml"));
         Parent root = loader.load();

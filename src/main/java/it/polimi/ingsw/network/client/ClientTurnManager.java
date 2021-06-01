@@ -27,11 +27,14 @@ public class ClientTurnManager {
     switch(currentPhase){
       case SETUP_CHOOSING_RESOURCES:
         if(client.getPlayerTurnPosition()!=1) {
+          view.displayDefaultCanvas(client.getUsername());
           System.out.println("\nYou need to choose " + client.getPlayerTurnPosition() / 2 + " resource(s) to add from the following");
           view.displayMarbleChoice();
           System.out.println("Which resource do you want to pick? (index)");
         }
         else {
+          view.displayPlainCanvas();
+          view.displayDefaultCanvas(client.getUsername());
           client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(new HashMap<>())));
         }
         break;
@@ -44,12 +47,10 @@ public class ClientTurnManager {
       case SHOPPING:
         System.out.println("\nYou need to insert one of the following marbles you got from market: ");
         view.displayMarbleShopping();
-        //display delle marble con indice, rimuovere da temp, indice preso e mandato come action INSERT MARBLE
         break;
       case SHOPPING_LEADER:
         System.out.print("\nYou need to use one of the 2 following leader to convert your white marble");
-        //display delle leader con indice
-        //indice preso e mandato come action CHOOSE_WHITE_LEADER
+        System.out.println("Choose the leader index (1. or 2.)");
         break;
       default: handleOtherPossiblePhases();
     }
@@ -57,6 +58,7 @@ public class ClientTurnManager {
 
 
   public void handleOtherPossiblePhases() {
+    view.displayDefaultCanvas(client.getUsername());
     System.out.println("\nYou can: ");
 
     for(ActionType p : currentPhase.getAvailableActions()) {
@@ -117,15 +119,6 @@ public class ClientTurnManager {
     }
 
     return currentPhase.isValid(action);
-  }
-
-
-  public void newPhase(PhaseType phase) {
-    this.currentPhase = phase;
-  }
-
-  public void newCurrentPlayer(String currentPlayer) {
-    this.currentPlayer = currentPlayer;
   }
 
   public String getCurrentPlayer() {

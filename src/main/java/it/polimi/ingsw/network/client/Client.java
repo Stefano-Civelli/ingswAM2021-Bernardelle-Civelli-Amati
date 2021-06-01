@@ -30,7 +30,8 @@ public class Client implements ViewObserver {
   private String username = null;
   private String serverIP;
   private int serverPort;
-  private MessageHandler serverConnector;
+  private MessageHandler messageConnector;
+  //private ModelObserver updater;
   private SimpleGameState simpleGameState;
   private LinkedHashMap<String, SimplePlayerState> simplePlayerStateMap;
   private ClientTurnManager  turnManager;
@@ -52,32 +53,26 @@ public class Client implements ViewObserver {
     //devo fargli scegliere se giocare in locale o network
     if (cli) {
       Client client = new Client();
-      Cli view = new Cli(client, new CliDrawer(client.simpleGameState, client.simplePlayerStateMap));
+      client.simpleGameState = new SimpleGameState();
+      client.simplePlayerStateMap = new LinkedHashMap<>();
+      Cli view = new Cli(client, new CliDrawer(client));
       client.setView(view);
+      //client.setUpdater(new ClientVirtualView(client));
       client.turnManager = new ClientTurnManager(client, view);
       view.setClientTurnManager(client.turnManager);
       view.displaySetup();
-      client.connectToServer(); //TODO questa posso farla eseguire al thread. poi tolgo l'altro thread che non serve più
-      //TODO chiamo la waitforinput che ha il whiletrue
+      client.connectToServer();
     }
     else {
-//      Client client = new Client();
       Application.launch(GUIStarter.class);
-//      GUI view = new GUI(client);
-//      client.setView(view);
-//      client.turnManager = new ClientTurnManager(client, view);
-//      view.setClientTurnManager(client.turnManager);
     }
-  }
-
-  public Client() {
-    this.simpleGameState = new SimpleGameState();
-    this.simplePlayerStateMap = new LinkedHashMap<>();
   }
 
   public void setView(ViewInterface view) {
     this.view = view;
   }
+
+  //public void setUpdater(ModelObserver updater) { this.updater = updater;}
 
   public void setTurnManager(ClientTurnManager turnManager) {
     this.turnManager = turnManager;
@@ -98,8 +93,8 @@ public class Client implements ViewObserver {
     Socket server = new Socket();
     try {
       server = new Socket(getServerIP(), getServerPort());
-      serverConnector = new ServerConnector(server, this);
-      serverConnector.handleServerConnection();
+      messageConnector = new ServerConnector(server, this);
+      messageConnector.handleServerConnection();
     } catch (IOException e) {
       view.displaySetupFailure();
     }
@@ -153,13 +148,10 @@ public class Client implements ViewObserver {
           view.displayPlayerTurn(msg.getUsername());
         break;
       case NEXT_TURN_STATE:
-        //System.out.println(msg.getPayload());
         handleTurnState(msg.getPayload());
-        //view.displayEndTurn();
         break;
       case LEADERCARD_SETUP: //received only by the interested player
         SimplePlayerState playerState = new SimplePlayerState();
-        //System.out.println(msg.getPayload());
         this.simplePlayerStateMap.put(msg.getUsername(), playerState);
         playerState.setupLeaderCard(msg.getPayload());
         view.displayRecievedLeadercards();
@@ -169,11 +161,9 @@ public class Client implements ViewObserver {
         break;
       case MARKET_SETUP:
         simpleGameState.constructMarket(msg.getPayload());
-        //view.displayMarket();
         break;
       case MARKET_UPDATED:
         simpleGameState.updateMarket(msg.getPayload());
-       //view.displayMarket();
         break;
       case DEVELOP_CARD_DECK_UPDATED:
         simpleGameState.updateDeck(msg.getPayload());
@@ -182,20 +172,17 @@ public class Client implements ViewObserver {
         getSimplePlayerState(msg.getUsername()).warehouseUpdate(msg.getPayload());
         break;
       case ACTIVATED_LEADERCARD_UPDATE:
-        //if(!this.username.equals(msg.getUsername()))
           getSimplePlayerState(msg.getUsername()).activatedLeaderUpdate(msg.getPayload());
-        //else ....
         break;
       case TRACK_UPDATED:
-        //System.out.println(msg.getUsername() + " " + msg.getPayload());
-        //System.out.println("this client: " + username);
+
         getSimplePlayerState(msg.getUsername()).trackUpdate(msg.getPayload());
         break;
       case VATICAN_REPORT:
-        //System.out.println(msg.getPayload());
         getSimplePlayerState(msg.getUsername()).vaticanReportUpdate(msg.getPayload());
         break;
       case CHEST_UPDATE:
+        //updater.chestUpdate(Message msg);
         getSimplePlayerState(msg.getUsername()).chestUpdate(msg.getPayload());
         break;
       case TEMP_CHEST_UPDATE:
@@ -208,6 +195,15 @@ public class Client implements ViewObserver {
         getSimplePlayerState(msg.getUsername()).discardLeader(Integer.parseInt(msg.getPayload()));
         //TODO controllare se ha senso
         break;
+      case GAME_ENDED:
+        view.displayGameEnded(msg.getPayload());
+        messageConnector.stop();
+      case LORENZO_TRACK_UPDATE:
+        break; //TODO
+      case LORENZO_DECK_UPDATE:
+        break; //TODO
+      case LORENZO_SHUFFLE_UPDATE:
+        break; //TODO
       default:
     }
   }
@@ -215,7 +211,6 @@ public class Client implements ViewObserver {
   private void handleGameStarted(Message message) {
     ArrayList<String> players = GSON.getGsonBuilder().fromJson(message.getPayload(), ArrayList.class);
     SimplePlayerState currentPlayerState = getSimplePlayerState();
-    //System.out.println("array mandato dal server: " + players);
     this.simplePlayerStateMap = new LinkedHashMap<>();
 
     for(String s : players) {
@@ -224,7 +219,6 @@ public class Client implements ViewObserver {
       else
         this.simplePlayerStateMap.put(s, new SimplePlayerState()); //the array is ordered to give the right amount of resouces to each player
     }
-    //System.out.println("mappa: " + simplePlayerStateMap);
     turnManager.setCurrentPlayer((String) this.simplePlayerStateMap.keySet().toArray()[0]);
   }
 
@@ -234,14 +228,13 @@ public class Client implements ViewObserver {
     if(turnManager.setStateIsPlayerChanged(newState)){
       if (username.equals(turnManager.getCurrentPlayer())) {
         view.displayYourTurn(turnManager.getCurrentPlayer());
-        view.displayDefaultCanvas(turnManager.getCurrentPlayer());
+        //view.displayDefaultCanvas(turnManager.getCurrentPlayer());
       }
       else
         view.displayPlayerTurn(turnManager.getCurrentPlayer());
     }
 
     if(username.equals(turnManager.getCurrentPlayer())){
-      //System.out.println(turnManager.getCurrentPhase());
       turnManager.currentPhasePrint();
     }
   }
@@ -294,12 +287,12 @@ public class Client implements ViewObserver {
   public void sendMessage(Message msg) { // FIXME deve cambiare nome perchè va usata anche per il locale
     if(msg.getMessageType() != MessageType.LOGIN)
       msg.setUsername(this.username);
-    serverConnector.sendToServer(msg);
+    messageConnector.sendToServer(msg);
   }
 
   public void close() {
     System.out.println("You will be disconnected... Bye shdroonzo");
-    serverConnector.stop();
+    messageConnector.stop();
     System.exit(0);
   }
 
@@ -307,6 +300,8 @@ public class Client implements ViewObserver {
   public String getUsername() { return this.username; }
 
   public void setUsername(String username) { this.username = username; }
+
+
 
   /**
    * @return this client's simpleplayerstate
@@ -332,6 +327,13 @@ public class Client implements ViewObserver {
             .collect(Collectors.toList());
   }
 
+  public List<String> otherPlayersUsername(){
+    return simplePlayerStateMap.entrySet().stream()
+            .filter(x -> !x.getKey().equals(this.username))
+            .map(x -> x.getKey())
+            .collect(Collectors.toList());
+  }
+
   public List<String> usernameList(){
     return new ArrayList<>(this.simplePlayerStateMap.keySet());
   }
@@ -350,4 +352,9 @@ public class Client implements ViewObserver {
     }
     return -1;
   }
+
+  public String getCurrentPlayer(){
+    return turnManager.getCurrentPlayer();
+  }
+
 }

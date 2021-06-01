@@ -27,13 +27,22 @@ public class LeaderCard {
     * @param victoryPoints card's points
     * @param cardBehaviour object containing the card's behaviour (abilities)
     */
-   public LeaderCard(ResourceType requiredResources, Map<CardFlag, Integer> requiredCardFlags, int victoryPoints, CardBehaviour cardBehaviour) {
-      this.active = false;
+   public LeaderCard(int ID, ResourceType requiredResources, Map<CardFlag, Integer> requiredCardFlags, int victoryPoints, CardBehaviour cardBehaviour) {
+     this.leaderId = ID;
+     this.active = false;
       this.requiredResources = requiredResources;
       this.requiredCardFlags = (requiredCardFlags != null) ? new HashMap<>(requiredCardFlags) : new HashMap<>();
       this.victoryPoints = victoryPoints;
       this.cardBehaviour = cardBehaviour;
    }
+
+  public LeaderCard(ResourceType requiredResources, Map<CardFlag, Integer> requiredCardFlags, int victoryPoints, CardBehaviour cardBehaviour) {
+    this.active = false;
+    this.requiredResources = requiredResources;
+    this.requiredCardFlags = (requiredCardFlags != null) ? new HashMap<>(requiredCardFlags) : new HashMap<>();
+    this.victoryPoints = victoryPoints;
+    this.cardBehaviour = cardBehaviour;
+  }
 
    /**
     * if it's allowed sets the LeaderCard state to active
@@ -42,9 +51,9 @@ public class LeaderCard {
     * @throws NotEnoughResourcesException if the player doesn't have the resources (CardFlags or ResourceType) to activate the card
     * @throws InvalidLeaderCardException if the player doesn't own this card
     */
-   public int setActive(InterfacePlayerBoard playerBoard) throws NotEnoughResourcesException, InvalidLeaderCardException {
+   public void setActive(InterfacePlayerBoard playerBoard) throws NotEnoughResourcesException, InvalidLeaderCardException {
       if(active)
-         return 0;
+         return;
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
@@ -69,7 +78,6 @@ public class LeaderCard {
             throw new NotEnoughResourcesException("you can't activate this card, you need more resources");
 
       active = true;
-      return leaderId;
    }
 
    /**

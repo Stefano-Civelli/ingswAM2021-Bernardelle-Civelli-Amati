@@ -4,9 +4,7 @@ import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelObservables.LeaderSetupObservable;
-import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
-import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
-import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
+import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
@@ -15,14 +13,15 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Game implements LeaderSetupObservable {
+public class Game implements LeaderSetupObservable, EndGameObserver {
 
    private final LeaderCardDeck leaderCardDeck;
    private final Market market;
    protected final DevelopCardDeck developCardDeck;
    private final List<Pair<PlayerBoard, Boolean>> playerBoards;
+   private boolean endGame = false;
 
-   private final transient ModelObserver controller;
+   protected final transient ModelObserver controller;
 
    /**
     * Create a new multi player game
@@ -31,7 +30,6 @@ public class Game implements LeaderSetupObservable {
     * @throws IOException if there are some problems loading the configuration files
     */
    public Game(ModelObserver controller) throws IOException {
-
       this.leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
       this.developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
       this.developCardDeck.finalizeDeckSetup(controller);
@@ -50,7 +48,6 @@ public class Game implements LeaderSetupObservable {
    public void addPlayer(String username) throws IOException, MaximumNumberOfPlayersException {
       if(this.playerBoards.size() >= 4)
          throw new MaximumNumberOfPlayersException(4);
-
       List<LeaderCard> fourInitialLeaderCardsForPlayer = this.leaderCardDeck.drawFourCards();
 
       PlayerBoard playerBoard = new PlayerBoard(username, fourInitialLeaderCardsForPlayer, market, developCardDeck);
@@ -63,6 +60,7 @@ public class Game implements LeaderSetupObservable {
       }
 
       playerBoard.setController(controller);
+      playerBoard.setEndGameObserver(this);
       playerBoards.add(new Pair<>(playerBoard, true));
       notifyLeaderSetup(username, GSON.getGsonBuilder().toJson( idLeaderList(fourInitialLeaderCardsForPlayer)));
    }
@@ -89,12 +87,19 @@ public class Game implements LeaderSetupObservable {
     * @throws InvalidUsernameException if the specified player doesn't exist
     */
    public String nextConnectedPlayer(String currentPlayer) throws InvalidUsernameException {
-      for(int i = 0; i < this.playerBoards.size(); i++)
-         if(this.playerBoards.get(i).getKey().getUsername().equals(currentPlayer))
-            for(int j = 1; j <= this.playerBoards.size(); j++ ) {
-               if (this.playerBoards.get((i + j) % this.playerBoards.size()).getValue())
-                  return this.playerBoards.get((i + j) % this.playerBoards.size()).getKey().getUsername();
-            }
+
+      if(endGame && currentPlayer.equals(playerBoards.get(playerBoards.size()-1).getKey().getUsername())) {
+         handleEndGame();
+         return  null; //TODO alex controllami
+      }
+      else {
+         for (int i = 0; i < this.playerBoards.size(); i++)
+            if (this.playerBoards.get(i).getKey().getUsername().equals(currentPlayer))
+               for (int j = 1; j <= this.playerBoards.size(); j++) {
+                  if (this.playerBoards.get((i + j) % this.playerBoards.size()).getValue())
+                     return this.playerBoards.get((i + j) % this.playerBoards.size()).getKey().getUsername();
+               }
+      }
       throw new InvalidUsernameException();
    }
 
@@ -212,10 +217,35 @@ public class Game implements LeaderSetupObservable {
       return leaderList.stream().map(LeaderCard::getLeaderId).collect(Collectors.toList());
    }
 
+   private void handleEndGame() {
+      String winner = null;
+      int score=0;
+      int bResources=0;
+      
+      for(Pair<PlayerBoard, Boolean> p : playerBoards) {
+         if (p.getKey().returnScore() > score)
+            bResources = p.getKey().getChest().totalNumberOfResources() + p.getKey().getWarehouse().totalResources();
+            winner = p.getKey().getUsername();
+         if (p.getKey().returnScore() == score) {
+            int aResources = p.getKey().getChest().totalNumberOfResources() + p.getKey().getWarehouse().totalResources();
+            if(aResources > bResources) {
+               winner = p.getKey().getUsername();
+               score = p.getKey().returnScore();
+               bResources = aResources;
+            }
+         }
+      }
+      controller.endGameUpdate(winner);
+   }
 
    @Override
    public void notifyLeaderSetup(String username, String msg) {
       if (controller != null)
          controller.leaderSetupUpdate(username, msg);
+   }
+
+   @Override
+   public void update() {
+      this.endGame = true;
    }
 }

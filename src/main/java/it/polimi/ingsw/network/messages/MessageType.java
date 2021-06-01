@@ -34,6 +34,10 @@ public enum MessageType {
   DISCARDED_LEADERCARD,
   WINNING_PLAYER,
 
+  LORENZO_TRACK_UPDATE,
+  LORENZO_SHUFFLE_UPDATE,
+  LORENZO_DECK_UPDATE,
+
   DECK_SETUP(true),
   MARKET_SETUP(true),
   LEADERCARD_SETUP(true),
@@ -42,6 +46,8 @@ public enum MessageType {
   QUIT,
   NEXT_TURN_STATE,
   CHAT,
+  CHEAT,
+  GAME_ENDED,
 
   PLAYER_CONNECTION, // a player connected
   PLAYER_DISCONNECTION; // a player disconnected
