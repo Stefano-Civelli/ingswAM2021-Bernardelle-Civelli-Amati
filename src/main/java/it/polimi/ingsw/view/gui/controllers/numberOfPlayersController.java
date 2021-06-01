@@ -1,12 +1,17 @@
 package it.polimi.ingsw.view.gui.controllers;
 
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
 
-public class numberOfPlayersController extends ViewObservable implements GUIController {
+public class numberOfPlayersController extends GUIController {
 
+    @FXML
+    public Button createGame_button;
     @FXML
     private Pane multiplayer_pane;
     @FXML
@@ -21,13 +26,30 @@ public class numberOfPlayersController extends ViewObservable implements GUICont
     private RadioButton fourPlayers_radioButton;
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         this.multiplayer_pane.setVisible(false);
     }
 
     @FXML
-    public void modeRadioButtons(ActionEvent actionEvent) {
+    private void modeRadioButtons(ActionEvent actionEvent) {
         this.multiplayer_pane.setVisible(this.multiPlayer_radioButton.isSelected());
+    }
+
+    @FXML
+    private void createGame(ActionEvent actionEvent) {
+        int playersNumber = 0;
+        if(this.singlePlayer_radioButton.isSelected())
+            playersNumber = 1;
+        else if(this.twoPlayers_radioButton.isSelected())
+            playersNumber = 2;
+        else if(this.threePlayers_radioButton.isSelected())
+            playersNumber = 3;
+        else if(this.fourPlayers_radioButton.isSelected())
+            playersNumber = 4;
+        int finalPlayersNumber = playersNumber;
+        new Thread(() ->
+                sendMessage(new Message(MessageType.NUMBER_OF_PLAYERS, finalPlayersNumber))
+        ).start();
     }
 
 }

@@ -133,6 +133,7 @@ public class Client implements ViewObserver {
         handleError(ErrorType.fromValue(msg.getPayload()));
         break;
       case LOGIN_SUCCESSFUL:
+        this.username = msg.getUsername();
         view.displayLoginSuccessful();
         break;
       case NUMBER_OF_PLAYERS:

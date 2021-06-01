@@ -1,12 +1,10 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-public class ConnectController extends ViewObservable implements GUIController {
+public class ConnectController extends GUIController {
 
     @FXML
     private TextField serverIP_textField;
@@ -22,7 +20,7 @@ public class ConnectController extends ViewObservable implements GUIController {
     private Button connect_button;
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         this.serverIP_textField.setText("127.0.0.1");
         this.serverIP_textField.setDisable(true);
         this.localHostServerIP_checkBox.setSelected(true);
@@ -31,7 +29,8 @@ public class ConnectController extends ViewObservable implements GUIController {
         this.defaultServerPort_checkBox.setSelected(true);
     }
 
-    public void localhostServerIP(ActionEvent actionEvent) {
+    @FXML
+    private void localhostServerIP(ActionEvent actionEvent) {
         if(this.localHostServerIP_checkBox.isSelected()) {
             this.serverIP_textField.setText("127.0.0.1");
             this.serverIP_textField.setDisable(true);
@@ -41,7 +40,8 @@ public class ConnectController extends ViewObservable implements GUIController {
         }
     }
 
-    public void defaultServerPort(ActionEvent actionEvent) {
+    @FXML
+    private void defaultServerPort(ActionEvent actionEvent) {
         if(this.defaultServerPort_checkBox.isSelected()) {
             this.serverPort_textField.setText("6754");
             this.serverPort_textField.setDisable(true);
@@ -51,7 +51,8 @@ public class ConnectController extends ViewObservable implements GUIController {
         }
     }
 
-    public void login(ActionEvent actionEvent) {
+    @FXML
+    private void login(ActionEvent actionEvent) {
         if(!this.serverPort_textField.getText().equals("")
                 && !this.serverIP_textField.getText().equals("")) {
             this.connect_button.setDisable(true);
@@ -59,7 +60,7 @@ public class ConnectController extends ViewObservable implements GUIController {
             this.error_label.setText("ERROR");
             // TODO gestire errori
             new Thread(() ->
-                    notifySetSocket(this.serverIP_textField.getText(), Integer.parseInt(this.serverPort_textField.getText()))
+                    setSocket(this.serverIP_textField.getText(), Integer.parseInt(this.serverPort_textField.getText()))
             ).start();
         } else {
             this.error_label.setVisible(true);

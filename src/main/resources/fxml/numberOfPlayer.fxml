@@ -40,6 +40,6 @@
             <RadioButton fx:id="fourPlayers_radioButton" layoutX="63.0" layoutY="93.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="63.0" text="four" toggleGroup="$numberOfPlayers_Group" />
          </children>
       </Pane>
-      <Button fx:id="createGame_button" layoutX="469.0" layoutY="345.0" mnemonicParsing="false" text="Create game" />
+      <Button fx:id="createGame_button" layoutX="469.0" layoutY="345.0" mnemonicParsing="false" text="Create game" onAction="#createGame" />
    </children>
 </Pane>
