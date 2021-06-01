@@ -16,6 +16,7 @@ public interface ClientModelUpdaterInterface {
   void devDeckUpdate(String stateUpdate);
   void devDeckSetup(String stateUpdate);
   void tempChestUpdate(String username, String stateUpdate);
+  void chestMergeUpdate(String username);
   void discardedLeaderUpdate(String username, String stateUpdate);
   void lorenzoTrackUpdate(String stateUpdate);
   void lorenzoShuffleUpdate();

@@ -19,5 +19,6 @@ public interface ModelObserver {
   void lorenzoTrackUpdate(String stateUpdate);
   void lorenzoShuffleUpdate();
   void lorenzoDevDeckUpdate(String stateUpdate);
+  void chestMergeUpdate();
   //TODO per riconnessione servono update con username e Stringa che chiamano singleUpdate
 }

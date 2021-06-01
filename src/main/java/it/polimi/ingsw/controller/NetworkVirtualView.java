@@ -103,4 +103,10 @@ public class NetworkVirtualView implements ModelObserver {
       server.serverBroadcastUpdate(new Message(MessageType.LORENZO_DECK_UPDATE, stateUpdate));
    }
 
+
+   @Override
+   public void chestMergeUpdate() {
+      server.serverBroadcastUpdate(new Message(MessageType.CHEST_MERGED));
+   }
+
 }

@@ -88,6 +88,11 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
+  public void chestMergeUpdate(String username) {
+    getSimplePlayerState(username).mergeTempChest(); //merge chest of the "old" currentPlayer if that current changes
+  }
+
+  @Override
   public void discardedLeaderUpdate(String username, String stateUpdate) {
     getSimplePlayerState(username).discardLeader(Integer.parseInt(stateUpdate));
   }

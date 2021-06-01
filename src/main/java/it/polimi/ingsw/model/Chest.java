@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.model.modelObservables.ChestMergeObservable;
 import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelObservables.TempChestObservable;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
@@ -10,7 +11,7 @@ import it.polimi.ingsw.utility.Pair;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Chest implements ModelObservable, TempChestObservable {
+public class Chest implements ModelObservable, TempChestObservable, ChestMergeObservable {
   private final Map<ResourceType, Integer> resources;
   private final Map<ResourceType, Integer> tempResourcesMap;
 
@@ -100,6 +101,7 @@ public class Chest implements ModelObservable, TempChestObservable {
     for(Map.Entry<ResourceType, Integer> entry : tempResourcesMap.entrySet()) {
         resources.put(entry.getKey(), resources.containsKey(entry.getKey()) ? resources.get(entry.getKey()) + entry.getValue() : entry.getValue());
     }
+    notifyChestMerge("");
     this.tempResourcesMap.clear();
   }
 
@@ -117,5 +119,11 @@ public class Chest implements ModelObservable, TempChestObservable {
   public void notifyTempChestChange(String msg) {
     if (controller != null)
       controller.tempChestUpdate(msg);
+  }
+
+  @Override
+  public void notifyChestMerge(String msg) {
+    if (controller != null)
+      controller.chestMergeUpdate();
   }
 }

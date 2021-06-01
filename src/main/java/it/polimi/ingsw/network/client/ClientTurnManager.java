@@ -149,8 +149,6 @@ public class ClientTurnManager {
     this.currentPhase = newState.getPhase(); //set new phase
 
     if(!currentPlayer.equals(newState.getPlayer())) {
-      stateViewer.getSimplePlayerState(this.currentPlayer).mergeTempChest(); //merge chest of the "old" currentPlayer if that current changes
-      //devo fare merge per forza qua perchè devo mergiare su ogni client e non solo sul mio
       this.currentPlayer = newState.getPlayer();
       return true;
     }

@@ -210,6 +210,9 @@ public class Client implements ViewObserver {
       case GAME_ENDED:
         view.displayGameEnded(msg.getPayload());
         messageConnector.stop();
+      case CHEST_MERGED:
+        state.chestMergeUpdate(username);
+        break;
       case LORENZO_TRACK_UPDATE:
         break; //TODO
       case LORENZO_DECK_UPDATE:

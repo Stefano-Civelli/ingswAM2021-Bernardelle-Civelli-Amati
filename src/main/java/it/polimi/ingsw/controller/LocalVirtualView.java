@@ -103,4 +103,9 @@ public class LocalVirtualView implements ModelObserver {
    public void lorenzoDevDeckUpdate(String msg) {
 
    }
+
+   @Override
+   public void chestMergeUpdate() {
+
+   }
 }

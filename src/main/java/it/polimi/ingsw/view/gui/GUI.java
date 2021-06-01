@@ -253,6 +253,11 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
+   public void chestMergeUpdate(String username) {
+
+   }
+
+   @Override
    public void discardedLeaderUpdate(String username, String stateUpdate) {
 
    }
