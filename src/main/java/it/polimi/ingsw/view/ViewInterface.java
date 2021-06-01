@@ -34,4 +34,5 @@ public interface ViewInterface {
   public void displayDefaultCanvas(String username);
   public void displayGameEnded(String payload);
   public void displayPlainCanvas();
+  public void startingSetupUpdate();
 }

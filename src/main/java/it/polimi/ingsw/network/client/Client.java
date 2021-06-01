@@ -33,7 +33,7 @@ public class Client implements ViewObserver {
 
 
   public static void main(String[] args) {
-    boolean isCli = false;
+    boolean isCli = true;
 
     if (args.length > 0)
       switch (args[0]){
@@ -96,7 +96,8 @@ public class Client implements ViewObserver {
 
   public void displayLogin(){
     view.displayLogin();
-    //state.setClientUsername(this.username);
+    state.setClientUsername(this.username);
+    //FIXME cazzo
   }
 
   public void sendMessage(Message msg) { // FIXME deve cambiare nome perchè va usata anche per il locale
@@ -212,6 +213,9 @@ public class Client implements ViewObserver {
         messageConnector.stop();
       case CHEST_MERGED:
         state.chestMergeUpdate(username);
+        break;
+      case STARTING_GAME_SETUP:
+        view.startingSetupUpdate();
         break;
       case LORENZO_TRACK_UPDATE:
         break; //TODO

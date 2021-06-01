@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.controller.LocalVirtualView;
 import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.controller.action.PlayerDisconnectionAction;
 import it.polimi.ingsw.controller.action.PlayerReconnectionAction;
@@ -192,17 +193,22 @@ public class Server {
    }
 
    private void start() {
+      sendToClient(new Message(MessageType.STARTING_GAME_SETUP));
       Game game = null; //TODO sarebbe merglio avere solo controller qua
       List<String> playersInOrder = null;
       boolean singlePlayer = (playersNumber == 1);
-      ModelObserver networkVirtualView = new NetworkVirtualView(this);
+      //if(local)
+      ModelObserver virtualView = new NetworkVirtualView(this);
+      //else TODO fare per il local
+         //ModelObserver virtualView = new LocalVirtualView(this, loggedPlayers().get(0));
+
       // problema: al game server turnmanager per fare gli update e a TurnManager serve game
       // altro problema: mando gli update del modello prima del messaggio startGame
       try {
          if(singlePlayer)
-            game = new SinglePlayer(networkVirtualView);
+            game = new SinglePlayer(virtualView);
          else
-            game = new Game(networkVirtualView);
+            game = new Game(virtualView);
       }catch(IOException | JsonSyntaxException e){ //TODO controllare se viene lanciata la JsonSyntaxException
          //TODO bisogna chiudere la partita (disconnetto tutti i client 1 per volta dicendo Errore nei file di configurazione del gioco)
          sendToClient(new Message(MessageType.GENERIC_MESSAGE));

@@ -4,16 +4,19 @@ import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.view.ClientModelUpdaterInterface;
 
 
 /**
  * to instanciate instead of NetworkViretualView
  */
 public class LocalVirtualView implements ModelObserver {
-   private Client client;
+   private ClientModelUpdaterInterface state;
+   private String username;
 
-   public LocalVirtualView(Client client) {
-      this.client = client;
+   public LocalVirtualView(ClientModelUpdaterInterface state, String username) {
+      this.state = state;
+      this.username = username;
    }
 
 
@@ -24,9 +27,9 @@ public class LocalVirtualView implements ModelObserver {
 
    @Override
    public void warehouseUpdate(String stateUpdate) {
-      String username = client.getCurrentPlayer();
-      client.handleMessage(new Message(username, MessageType.WAREHOUSE_UPDATE, stateUpdate));
-//      client.getSimplePlayerState().warehouseUpdate(stateUpdate);
+      //client.handleMessage(new Message(username, MessageType.WAREHOUSE_UPDATE, stateUpdate));
+      state.warehouseUpdate(username, stateUpdate);
+      //   client.getSimplePlayerState().warehouseUpdate(stateUpdate);
    }
 
    @Override

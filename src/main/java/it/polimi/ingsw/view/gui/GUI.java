@@ -186,6 +186,11 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayPlainCanvas() {}
 
+   @Override
+   public void startingSetupUpdate() {
+
+   }
+
 
    @Override
    public void setClientUsername(String username) {

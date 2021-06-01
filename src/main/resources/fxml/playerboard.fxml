@@ -23,44 +23,44 @@
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0" styleClass="plyerboardPane" stylesheets="@../css/playerboard.css">
                <children>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="11.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/punchboard/coin.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="2.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="13.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/punchboard/servant.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="63.0" layoutY="325.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="58.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/punchboard/shield.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="61.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="56.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/punchboard/stone.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="32.0" layoutY="330.0" prefHeight="20.0" prefWidth="25.0" style="-fx-background-color: white;" text="0">
+                  <Label layoutX="43.0" layoutY="334.0" prefHeight="20.0" prefWidth="25.0" text="0" textFill="WHITE">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="32.0" layoutY="366.0" prefHeight="20.0" prefWidth="25.0" style="-fx-background-color: white;" text="0">
+                  <Label layoutX="43.0" layoutY="370.0" prefHeight="20.0" prefWidth="25.0" text="0" textFill="WHITE">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="92.0" layoutY="366.0" prefHeight="20.0" prefWidth="25.0" style="-fx-background-color: white;" text="0">
+                  <Label layoutX="87.0" layoutY="371.0" prefHeight="20.0" prefWidth="25.0" text="0" textFill="WHITE">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="92.0" layoutY="330.0" prefHeight="20.0" prefWidth="25.0" style="-fx-background-color: white;" text="0">
+                  <Label layoutX="87.0" layoutY="335.0" prefHeight="20.0" prefWidth="25.0" text="0" textFill="WHITE">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
                   <ImageView fitHeight="86.0" fitWidth="63.0" layoutX="196.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true">
@@ -73,7 +73,7 @@
                         <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="86.0" fitWidth="63.0" layoutX="225.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="86.0" fitWidth="243.0" layoutX="225.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>

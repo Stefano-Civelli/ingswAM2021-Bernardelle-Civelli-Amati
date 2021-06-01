@@ -244,6 +244,9 @@ public class Cli implements ViewInterface {
     clearScreen();
   }
 
+  @Override
+  public void startingSetupUpdate() {}
+
   private void waitForInput() {
 
     Scanner in = new Scanner(System.in);
