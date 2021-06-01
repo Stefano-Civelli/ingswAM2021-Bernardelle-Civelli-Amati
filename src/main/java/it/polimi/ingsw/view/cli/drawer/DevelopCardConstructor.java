@@ -111,7 +111,7 @@ public class DevelopCardConstructor {
 
     cardSkeleton[0][col] = " ";
     col++;
-    for(int i=0; i<level-1; i++, col++)
+    for(int i=0; i<level; i++, col++)
       cardSkeleton[0][col] = "I";
     cardSkeleton[0][col] = " ";
   }

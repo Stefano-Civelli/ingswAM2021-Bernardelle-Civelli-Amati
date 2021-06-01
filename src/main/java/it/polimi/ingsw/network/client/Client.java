@@ -33,7 +33,7 @@ public class Client implements ViewObserver {
 
 
   public static void main(String[] args) {
-    boolean isCli = true;
+    boolean isCli = false;
 
     if (args.length > 0)
       switch (args[0]){
@@ -96,7 +96,7 @@ public class Client implements ViewObserver {
 
   public void displayLogin(){
     view.displayLogin();
-    state.setClientUsername(this.username);
+    //state.setClientUsername(this.username);
   }
 
   public void sendMessage(Message msg) { // FIXME deve cambiare nome perchè va usata anche per il locale
