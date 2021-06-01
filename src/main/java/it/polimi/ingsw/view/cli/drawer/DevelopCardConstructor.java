@@ -28,7 +28,7 @@ public class DevelopCardConstructor {
     }
   }
 
-  public static String[][] constructLeaderFromId(int id) {
+  public static String[][] constructDevelopFromId(int id) {
     String[][] develop = new String[DEV_HEIGHT][DEV_LENGTH];
     String[][] margin = MarginConstructor.buildMargins(4, 11);
     int r=1, c=1;

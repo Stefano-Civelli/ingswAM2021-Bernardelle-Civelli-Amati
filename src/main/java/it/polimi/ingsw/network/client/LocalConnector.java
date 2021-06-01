@@ -22,5 +22,4 @@ public class LocalConnector implements MessageHandler {
          // TODO ha senso in locale??
       }
    }
-
 }

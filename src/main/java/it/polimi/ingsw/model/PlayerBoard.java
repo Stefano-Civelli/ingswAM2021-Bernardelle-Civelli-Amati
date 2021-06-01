@@ -275,7 +275,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     * @throws NotEnoughResourcesException if the player doesn't have the resources (CardFlags or ResourceType) to activate the card
     */
    public void setActiveLeadercard(int leaderCardId) throws InvalidLeaderCardException, NotEnoughResourcesException {
-      // FIXME meglio prendere un indice??
       this.leaderCards.get(getIndexFromId(leaderCardId)).setActive(this);
       notifyActivatedLeader(GSON.getGsonBuilder().toJson(leaderCardId));
    }

@@ -151,6 +151,5 @@ public class ClientTurnManager {
       return true;
     }
     return false;
-
   }
 }

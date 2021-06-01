@@ -4,11 +4,12 @@ import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManager;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.view.ClientModelUpdaterInterface;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.gui.controllers.ConnectController;
 import javafx.application.Platform;
 
-public class GUI implements ViewInterface, ModelObserver {
+public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    private Client client;
    private ClientTurnManager turnManager;
@@ -180,23 +181,29 @@ public class GUI implements ViewInterface, ModelObserver {
    @Override
    public void displayPlainCanvas() {}
 
+
    @Override
-   public void chestUpdate(String stateUpdate) {
+   public void setClientUsername(String username) {
 
    }
 
    @Override
-   public void warehouseUpdate(String stateUpdate) {
+   public void chestUpdate(String username, String stateUpdate) {
 
    }
 
    @Override
-   public void leaderUpdate(String stateUpdate) {
+   public void warehouseUpdate(String username, String stateUpdate) {
 
    }
 
    @Override
-   public void leaderSetupUpdate(String username, String stateUpdate) {
+   public void leaderUpdate(String username, String stateUpdate) {
+
+   }
+
+   @Override
+   public void leaderSetup(String username, String stateUpdate) {
 
    }
 
@@ -206,12 +213,12 @@ public class GUI implements ViewInterface, ModelObserver {
    }
 
    @Override
-   public void marketSetupUpdate(String stateUpdate) {
+   public void marketSetup(String stateUpdate) {
 
    }
 
    @Override
-   public void cardSlotUpdate(String stateUpdate) {
+   public void cardSlotUpdate(String username, String stateUpdate) {
 
    }
 
@@ -236,17 +243,12 @@ public class GUI implements ViewInterface, ModelObserver {
    }
 
    @Override
-   public void tempChestUpdate(String stateUpdate) {
+   public void tempChestUpdate(String username, String stateUpdate) {
 
    }
 
    @Override
-   public void discardedLeaderUpdate(String stateUpdate) {
-
-   }
-
-   @Override
-   public void endGameUpdate(String stateUpdate) {
+   public void discardedLeaderUpdate(String username, String stateUpdate) {
 
    }
 

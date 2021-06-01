@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.view.ClientModelState;
+import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.SimpleStateObserver;
 import it.polimi.ingsw.view.cli.drawer.*;
 
@@ -22,7 +24,7 @@ public class CliDrawer implements SimpleStateObserver {
   private String[][] deck;
   private String[][] leaders;
   private String[][] activatedLeaders;
-  private final Client client;
+  private final ClientStateViewer state;
 
   private static CardSlotsDrawer slotsDrawer = new CardSlotsDrawer();
   private static ChestDrawer chestDrawer = new ChestDrawer();
@@ -33,8 +35,8 @@ public class CliDrawer implements SimpleStateObserver {
   private static LeaderHandDrawer leaderHandDrawer = new LeaderHandDrawer();
   private static ActivatedLeaderDrawer activatedLeaderDrawer = new ActivatedLeaderDrawer();
 
-  public CliDrawer(Client client) {
-    this.client = client;
+  public CliDrawer(ClientStateViewer state) {
+    this.state = state;
     this.canvas = new String[MAX_DISPLAYABLE_HEIGHT][MAX_DISPLAYABLE_LENGTH];
 
     for (int i=0; i<MAX_DISPLAYABLE_HEIGHT; i++)
@@ -63,14 +65,14 @@ public class CliDrawer implements SimpleStateObserver {
     leaders = leaderHandDrawer.build();
     activatedLeaders = activatedLeaderDrawer.build();
 
-    deckDrawer.fill(deck, client.getSimpleGameState());
-    marketDrawer.fill(market, client.getSimpleGameState());
-    chestDrawer.fill(chest, client.getSimplePlayerState(username));
-    trackDrawer.fill(track, client.getSimplePlayerState(username));
-    warehouseDrawer.fill(warehouse, client.getSimplePlayerState(username));
-    slotsDrawer.fill(slots, client.getSimplePlayerState(username));
-    leaderHandDrawer.fill(leaders, client.getSimplePlayerState(username));
-    activatedLeaderDrawer.fill(activatedLeaders, client.getSimplePlayerState(username));
+    deckDrawer.fill(deck, state.getSimpleGameState());
+    marketDrawer.fill(market, state.getSimpleGameState());
+    chestDrawer.fill(chest, state.getSimplePlayerState(username));
+    trackDrawer.fill(track, state.getSimplePlayerState(username));
+    warehouseDrawer.fill(warehouse, state.getSimplePlayerState(username));
+    slotsDrawer.fill(slots, state.getSimplePlayerState(username));
+    leaderHandDrawer.fill(leaders, state.getSimplePlayerState(username));
+    activatedLeaderDrawer.fill(activatedLeaders, state.getSimplePlayerState(username));
 
     placeHereOnCanvas(1,3, track);
     placeHereOnCanvas(0,PLAYERBOARD_LENGTH+4,market);
@@ -85,7 +87,7 @@ public class CliDrawer implements SimpleStateObserver {
 
   public void marketDisplay() {
     market = marketDrawer.build();
-    marketDrawer.fill(market, client.getSimpleGameState());
+    marketDrawer.fill(market, state.getSimpleGameState());
 
     for(int i=1; i<market.length; i++) {
       for (int j = 0; j < market[i].length; j++)
@@ -95,13 +97,13 @@ public class CliDrawer implements SimpleStateObserver {
   }
 
   public void displayLeaderHand(String username) {
-    String[][] leaderHand = new String[5][client.getSimplePlayerState(username).getNotActiveLeaderCards().size()*11];
+    String[][] leaderHand = new String[5][state.getSimplePlayerState(username).getNotActiveLeaderCards().size()*11];
     int a=0, b=0, d=5, index=1;
 
     for(int i=0; i<leaderHand[0].length; i++)
       leaderHand[4][i] = " ";
 
-    for(Integer id : client.getSimplePlayerState(username).getNotActiveLeaderCards()) {
+    for(Integer id : state.getSimplePlayerState(username).getNotActiveLeaderCards()) {
       String[][] leader = LeaderConstructor.constructLeaderFromId(id);
       for (int i = 0; i < leader.length; i++, a++)
         for (int j = 0, c = b; j < leader[0].length; j++, c++)
@@ -182,7 +184,7 @@ public class CliDrawer implements SimpleStateObserver {
   public void drawDevelopCardDeck(){
     String[][] deckWithIndexes = new String[13][46];
     deck = deckDrawer.build();
-    deckDrawer.fill(deck, client.getSimpleGameState());
+    deckDrawer.fill(deck, state.getSimpleGameState());
 
     for(int r=0; r<deckWithIndexes.length; r++)
       for(int c=0; c<deckWithIndexes[0].length; c++)

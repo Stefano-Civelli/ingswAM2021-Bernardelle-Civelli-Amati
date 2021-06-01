@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
-import it.polimi.ingsw.view.cli.Cli;
 
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class CardSlotsDrawer implements Buildable, Fillable{
       for (int j = 0; j < slots[i].size(); j++) {
         try {
           DevelopCard d = DevelopCardConstructor.getDevelopCardFromId(slots[i].get(j));
-          constructedCard = DevelopCardConstructor.constructLeaderFromId(d.getCardId());
+          constructedCard = DevelopCardConstructor.constructDevelopFromId(d.getCardId());
 
           for(int k=0, c=a; k<constructedCard.length; k++, c++)
             for(int w=0, e=b; w<constructedCard[0].length; w++, e++)

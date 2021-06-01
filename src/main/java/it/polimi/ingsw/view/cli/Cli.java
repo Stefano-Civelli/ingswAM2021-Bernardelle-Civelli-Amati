@@ -1,20 +1,15 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.action.*;
-import it.polimi.ingsw.model.DevelopCard;
-import it.polimi.ingsw.model.DevelopCardDeck;
 
 import it.polimi.ingsw.model.ResourceType;
-import it.polimi.ingsw.model.leadercard.LeaderCard;
-import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.MarbleColor;
-import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManager;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
-import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.ViewInterface;
 
 import java.io.*;
@@ -24,7 +19,11 @@ import java.util.regex.Pattern;
 public class Cli implements ViewInterface {
 
   /* ATTRIBUTES */
+  private final ClientStateViewer stateViewer;
+  private final CliDrawer drawer;
+  private ClientTurnManager clientTurnManager;
   private final Client client;
+
   private static final PrintWriter out = new PrintWriter(System.out, true);
   private static final Scanner in = new Scanner(System.in);
   //private boolean debug = ConfigParameters.DEBUG;
@@ -32,17 +31,17 @@ public class Cli implements ViewInterface {
   private int numOfPlayers = 0;
   private int playersJoinedTheLobby = 0;
   private int countDown = ConfigParameters.countDown;
-  private CliDrawer drawer;
-  private ClientTurnManager clientTurnManager;
+
 
   /**
    * Constructor
    *
-   * @param client where the CLI runs
+   * @param stateViewer where the CLI runs
    */
-  public Cli(Client client, CliDrawer drawer) {
-    this.client = client;
+  public Cli(ClientStateViewer stateViewer, CliDrawer drawer, Client client) {
+    this.stateViewer = stateViewer;
     this.drawer = drawer;
+    this.client = client;
   }
 
   private void showTitle() {
@@ -171,7 +170,7 @@ public class Cli implements ViewInterface {
   }
 
   public void displayMarbleShopping(){
-    for(MarbleColor m : client.getSimpleGameState().getTempMarble())
+    for(MarbleColor m : stateViewer.getSimpleGameState().getTempMarble())
       System.out.print(m.toString() + " ");
     System.out.println();
     System.out.print("index of the marble to insert: ");
@@ -196,8 +195,8 @@ public class Cli implements ViewInterface {
   @Override
   public void displayGameStarted() {
 
-    List<String> otherUsernames = client.usernameList();
-    otherUsernames.remove(client.getUsername());
+    List<String> otherUsernames = stateViewer.usernameList();
+    otherUsernames.remove(stateViewer.getUsername());
     System.out.println("Game has Started. Your opponents are: ");
     for(String s: otherUsernames)
       System.out.println("-" + s);
@@ -209,7 +208,7 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayRecievedLeadercards() {
-    client.getSimplePlayerState();
+    stateViewer.getSimplePlayerState();
   }
 
   @Override
@@ -232,7 +231,7 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayDefaultCanvas(String username) {
-    drawer.displayDefaultCanvas(client.getUsername());
+    drawer.displayDefaultCanvas(stateViewer.getUsername());
   }
 
   @Override
@@ -256,25 +255,25 @@ public class Cli implements ViewInterface {
         switch(line) {
           case "cheat":
             if (ConfigParameters.TESTING) {
-              client.sendMessage(new Message(client.getUsername(), MessageType.CHEAT));
+              client.sendMessage(new Message(stateViewer.getUsername(), MessageType.CHEAT));
             }
             break;
           case "quit":
-            client.sendMessage(new Message(client.getUsername(), MessageType.QUIT));
+            client.sendMessage(new Message(stateViewer.getUsername(), MessageType.QUIT));
             break;
           case "print":
             System.out.println("That's your opponents: ");
-            for (String s : client.otherPlayersUsername())
+            for (String s : stateViewer.otherPlayersUsername())
               System.out.println(" -" + s);
 
             String user;
             do {
               System.out.println("Which playerBoard do you want to look at?");
               user = in.nextLine();
-            } while (!client.otherPlayersUsername().contains(user) && !user.equals("all"));
+            } while (!stateViewer.otherPlayersUsername().contains(user) && !user.equals("all"));
 
             if (user.equals("all")) {
-              for (String s : client.otherPlayersUsername())
+              for (String s : stateViewer.otherPlayersUsername())
                 drawer.displayDefaultCanvas(s);
             }
             else
@@ -282,7 +281,7 @@ public class Cli implements ViewInterface {
             break;
         }
 
-        if (!client.getUsername().equals(clientTurnManager.getCurrentPlayer()))
+        if (!stateViewer.getUsername().equals(clientTurnManager.getCurrentPlayer()))
           System.out.println("It's " + clientTurnManager.getCurrentPlayer() + "'s turn. Wait yours ...");
         else {
           switch (clientTurnManager.getCurrentPhase()) {
@@ -294,11 +293,11 @@ public class Cli implements ViewInterface {
               break;
             case SHOPPING:
               Action insertMarbleAction = createInsertMarbleAction(line);
-              client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, insertMarbleAction));
+              client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, insertMarbleAction));
               break;
             case SHOPPING_LEADER:
               int index = validateIntInput(line, 1, 2);
-              client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new ChooseLeaderOnWhiteMarbleAction(index)));
+              client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new ChooseLeaderOnWhiteMarbleAction(index)));
               break;
             default:
               if (clientTurnManager.isValidInCurrenPhase(line)) //to see if the input is valid in this turnPhase
@@ -317,9 +316,9 @@ public class Cli implements ViewInterface {
   }
 
   private Action createInsertMarbleAction(String line) {
-    int maxValue = client.getSimpleGameState().getTempMarble().size();
+    int maxValue = stateViewer.getSimpleGameState().getTempMarble().size();
     int marbleIndex = validateIntInput(line, 1, maxValue);
-    client.getSimpleGameState().removeTempMarble(marbleIndex);
+    stateViewer.getSimpleGameState().removeTempMarble(marbleIndex);
     return new InsertMarbleAction(marbleIndex-1);
   }
 
@@ -329,29 +328,29 @@ public class Cli implements ViewInterface {
         //TODO fare display del market e del magazzino/chest
         drawer.drawDevelopCardDeck();
         Action buyCardAction = createBuyCardAction();
-        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, buyCardAction));
+        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, buyCardAction));
         break;
       case "S": case "s":
         Action marketAction = createMarketAction();
-        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, marketAction));
+        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, marketAction));
         break;
       case "P": case "p":
         Action produceAction = createProduceAction();
-        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, produceAction));
+        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, produceAction));
         break;
       case "L": case "l"://leaderProduce
 
         break;
       case "A": case "a"://activate leader card
         Action activateLeaderAction = createActivateLeaderAction();
-        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, activateLeaderAction));
+        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, activateLeaderAction));
         break;
       case "D": case "d"://discard leader card
         Action discardLeaderAction = createDiscardLeaderAction();
-        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, discardLeaderAction));
+        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, discardLeaderAction));
         break;
       case "E": case "e"://end turn
-        client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new EndTurnAction(client.getUsername())));
+        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new EndTurnAction(stateViewer.getUsername())));
         break;
       default:
         System.out.println("Command you gave me is not allowed in this phase of the game");
@@ -362,29 +361,29 @@ public class Cli implements ViewInterface {
   private Action createActivateLeaderAction() {
     int activateLeaderIndex;
     System.out.println("That's your leader card hand: ");
-    drawer.displayLeaderHand(client.getUsername());
+    drawer.displayLeaderHand(stateViewer.getUsername());
     System.out.println("Which do you want to activate?");
-    activateLeaderIndex = validateIntInput(1, client.getSimplePlayerState().getNotActiveLeaderCards().size());
-    int id = client.getSimplePlayerState().getNotActiveLeaderCards().get(activateLeaderIndex-1);
+    activateLeaderIndex = validateIntInput(1, stateViewer.getSimplePlayerState().getNotActiveLeaderCards().size());
+    int id = stateViewer.getSimplePlayerState().getNotActiveLeaderCards().get(activateLeaderIndex-1);
     return new ActivateLeaderAction(id);
   }
 
   private Action createDiscardLeaderAction() {
     int discardLeaderIndex;
     System.out.println("That's your leader card hand: ");
-    drawer.displayLeaderHand(client.getUsername());
+    drawer.displayLeaderHand(stateViewer.getUsername());
     System.out.println("Which do you want to discard?");
-    discardLeaderIndex = validateIntInput(1, client.getSimplePlayerState().getNotActiveLeaderCards().size());
-    int id = client.getSimplePlayerState().getNotActiveLeaderCards().get(discardLeaderIndex-1);
+    discardLeaderIndex = validateIntInput(1, stateViewer.getSimplePlayerState().getNotActiveLeaderCards().size());
+    int id = stateViewer.getSimplePlayerState().getNotActiveLeaderCards().get(discardLeaderIndex-1);
     return new DiscardLeaderAction(id);
   }
 
   private void createChooseResourcesAction(String line) {
-    int i = client.getPlayerTurnPosition()/2;
+    int i = stateViewer.getPlayerTurnPosition()/2;
     Map<ResourceType, Integer> resources = new HashMap<>();
     int resource = validateIntInput(line, 1, 4);
     while(i>0) {
-      if(client.getPlayerTurnPosition()==4 && i==1)
+      if(stateViewer.getPlayerTurnPosition()==4 && i==1)
         resource = validateIntInput(1, 4);
       if(resources.containsKey(parsIntToResource(resource)))
         resources.compute(parsIntToResource(resource), (k,v) -> (v==null) ? 1 : v + 1);
@@ -392,7 +391,7 @@ public class Cli implements ViewInterface {
         resources.put(parsIntToResource(resource), 1);
       i--;
     }
-    client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(resources)));
+    client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(resources)));
   }
 
   private ResourceType parsIntToResource(int value) {
@@ -424,16 +423,16 @@ public class Cli implements ViewInterface {
   }
 
   private void createInitialDiscardLeaderAction(String line) {
-    int firstDiscard = validateIntInput(line, 1, client.getSimplePlayerState().getNotActiveLeaderCards().size());
-    client.getSimplePlayerState().discardLeader(firstDiscard - 1);
-    drawer.displayLeaderHand(client.getUsername());
-    int secondDiscard = validateIntInput(1, client.getSimplePlayerState().getNotActiveLeaderCards().size());
-    client.sendMessage(new Message(client.getUsername(), MessageType.ACTION, new DiscardInitialLeaderAction(client.getUsername(), firstDiscard-1, secondDiscard-1)));
-    client.getSimplePlayerState().discardLeader(secondDiscard - 1);
+    int firstDiscard = validateIntInput(line, 1, stateViewer.getSimplePlayerState().getNotActiveLeaderCards().size());
+    stateViewer.getSimplePlayerState().discardLeader(firstDiscard - 1);
+    drawer.displayLeaderHand(stateViewer.getUsername());
+    int secondDiscard = validateIntInput(1, stateViewer.getSimplePlayerState().getNotActiveLeaderCards().size());
+    client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new DiscardInitialLeaderAction(stateViewer.getUsername(), firstDiscard-1, secondDiscard-1)));
+    stateViewer.getSimplePlayerState().discardLeader(secondDiscard - 1);
   }
 
   public void displayLeaderHand() {
-    drawer.displayLeaderHand(client.getUsername());
+    drawer.displayLeaderHand(stateViewer.getUsername());
   }
 
   private Action createMarketAction() {
@@ -448,7 +447,7 @@ public class Cli implements ViewInterface {
       index = validateIntInput(1,3);
     else
       index = validateIntInput(1,4);
-    client.getSimpleGameState().setTempMarble(row, index);
+    stateViewer.getSimpleGameState().setTempMarble(row, index);
     return new ShopMarketAction(row, index - 1);
   }
 

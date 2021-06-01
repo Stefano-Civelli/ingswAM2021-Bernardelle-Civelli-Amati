@@ -1,15 +1,8 @@
 package it.polimi.ingsw.view.cli.drawer;
 
-import it.polimi.ingsw.model.DevelopCard;
-import it.polimi.ingsw.model.ResourceType;
-import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
-import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Color;
-
-import java.util.Map;
 
 public class DeckDrawer implements Fillable, Buildable{
   private final int DECK_LENGTH = 44;
@@ -72,7 +65,7 @@ public class DeckDrawer implements Fillable, Buildable{
 
     for (int i = 0, a = 2; i < cards.length; i++, a+=4) {
       for (int j = 0, b = 1; j < cards[0].length; j++, b += 11) {
-        String[][] card = DevelopCardConstructor.constructLeaderFromId(cards[i][j]);
+        String[][] card = DevelopCardConstructor.constructDevelopFromId(cards[i][j]);
         for(int k=a, p=1; p<card.length; k++, p++)
           for(int s=1, w=b; s<card[0].length-1; w++, s++)
             fillMe[k][w] = card[p][s];
