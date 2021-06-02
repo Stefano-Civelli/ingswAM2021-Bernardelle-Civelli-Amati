@@ -10,7 +10,7 @@ public interface ViewInterface {
   public void displayMarbleShopping();
   public void displayLeaderHand();
   public void displayMarbleChoice();
-  public void displaySetup();
+  public void displayNetworkSetup();
   public void displayLogin();
   public void displaySetupFailure();
   public void displayDisconnected();

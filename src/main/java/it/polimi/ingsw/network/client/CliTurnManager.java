@@ -40,7 +40,7 @@ public class CliTurnManager implements ClientTurnManagerInterface{
           view.displayPlainCanvas();
           view.displayDefaultCanvas(stateViewer.getUsername());
           //FIXME serve per forza mandare un messaggio vuoto? è un po' brutto
-          client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(new HashMap<>())));
+          client.forwardAction(new ChooseInitialResourcesAction(new HashMap<>()));
         }
         break;
       case SETUP_DISCARDING_LEADERS:

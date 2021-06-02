@@ -11,5 +11,9 @@ public class Main {
          Client.main(empty);
       if(args[0].equals("s"))
          Server.main(empty);
+      if(args[0].equals("l")) {
+         empty = new String[]{"l"};
+         Client.main(empty);
+      }
    }
 }

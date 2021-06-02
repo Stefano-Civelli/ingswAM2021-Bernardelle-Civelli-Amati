@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
@@ -10,14 +11,13 @@ import it.polimi.ingsw.view.*;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.CliDrawer;
 import it.polimi.ingsw.view.gui.GUIStarter;
-import it.polimi.ingsw.view.gui.ViewObserver;
 import javafx.application.Application;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
 
-public class Client implements ViewObserver {
+public class Client {
   public static final int MIN_PORT = Server.MIN_PORT_NUMBER;
   public static final int MAX_PORT = Server.MAX_PORT_NUMBER;
 
@@ -25,15 +25,16 @@ public class Client implements ViewObserver {
 //  private Socket server;
   private ViewInterface view;
   private String username = null;
-  private String serverIP;
-  private int serverPort;
-  private MessageHandler messageConnector;
+  private VirtualModel virtualModel;
   private ClientModelUpdaterInterface state;
   private ClientTurnManagerInterface  turnManager;
 
 
   public static void main(String[] args) {
     boolean isCli = true;
+    boolean isLocal = false;
+    if(args.length > 0)
+      isLocal = true;
 
     if (args.length > 0)
       switch (args[0]){
@@ -55,14 +56,23 @@ public class Client implements ViewObserver {
       client.setTurnManager(new CliTurnManager(client, cli, state));
       cli.setClientTurnManager(client.turnManager);
       //////////////////////////////////////////////////////////////////////////////////////////
-      //TODO ripensare al login
-      cli.displaySetup();
-      client.connectToServer();
+      if(isLocal){
+
+      }
+      else
+      {
+        //TODO ripensare al login
+        cli.displayNetworkSetup();
+      }
+
+      //non viene eseguito codice messo qua
     }
     else {
       Application.launch(GUIStarter.class);
     }
+
   }
+
 
   public void setView(ViewInterface view) {
     this.view = view;
@@ -74,23 +84,16 @@ public class Client implements ViewObserver {
     this.turnManager = turnManager;
   }
 
-  public void setServerIP(String ip) { serverIP = ip; }
-
-  public void setServerPort(int port) { serverPort = port; }
-
-  private String getServerIP() { return serverIP; }
-
-  private int getServerPort() { return serverPort; }
-
   /**
    * Instantiates a connection with the server
    */
-  public void connectToServer() {
+  public void connectToServer(String serverIP, int serverPort) {
     Socket server;
     try {
-      server = new Socket(getServerIP(), getServerPort());
-      messageConnector = new ServerConnector(server, this);
-      messageConnector.handleServerConnection();
+      server = new Socket(serverIP, serverPort);
+      ServerConnector serverConnector = new ServerConnector(server, this);
+      this.virtualModel = new NetworkVirtualModel(serverConnector);
+      serverConnector.handleServerConnection();
     } catch (IOException e) {
       view.displaySetupFailure();
     }
@@ -102,15 +105,18 @@ public class Client implements ViewObserver {
     //FIXME cazzo
   }
 
-  public void sendMessage(Message msg) { // FIXME deve cambiare nome perchè va usata anche per il locale
-    if(msg.getMessageType() != MessageType.LOGIN)
-      msg.setUsername(this.username);
-    messageConnector.sendToServer(msg);
+  public void forwardAction(Action actionToForward) { // FIXME deve cambiare nome perchè va usata anche per il locale
+    virtualModel.handleAction(actionToForward);
+  }
+
+  public void forwardMessage(Message message){
+
+    virtualModel.handleMessage(message);
   }
 
   public void close() {
     System.out.println("You will be disconnected... Bye shdroonzo");
-    messageConnector.stop();
+    virtualModel.stop();
     System.exit(0);
   }
 
@@ -212,7 +218,7 @@ public class Client implements ViewObserver {
         break;
       case GAME_ENDED:
         view.displayGameEnded(msg.getPayload());
-        messageConnector.stop();
+        virtualModel.stop();
       case CHEST_MERGED:
         state.chestMergeUpdate(messageUser);
         break;

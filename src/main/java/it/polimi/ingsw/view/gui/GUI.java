@@ -47,7 +47,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displaySetup() {
+   public void displayNetworkSetup() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 

@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ServerConnector implements MessageHandler{
+public class ServerConnector{
   private Client client;
   private Socket server;
   private PrintWriter out;
@@ -56,9 +56,10 @@ public class ServerConnector implements MessageHandler{
   }
 
   public void sendToServer(Message msg) {
-    //message.setUsername(this.username); non abbiamo lo user in ogni messaggio, dovremmo?
-    String message = parserToJson(msg);
+    if(msg.getMessageType() != MessageType.LOGIN)
+      msg.setUsername(client.getUsername());
 
+    String message = parserToJson(msg);
     out.println(message);
     out.flush();
   }

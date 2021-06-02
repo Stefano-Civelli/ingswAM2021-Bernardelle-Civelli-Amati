@@ -53,7 +53,7 @@ public class Cli implements ViewInterface {
    * when the player joins the game that's the first thing that is displayed (with the CLI)
    */
   @Override
-  public void displaySetup() {
+  public void displayNetworkSetup() {
     int port;
     String ip;
     showTitle();
@@ -69,13 +69,10 @@ public class Cli implements ViewInterface {
         System.out.println("This is not a valid IPv4 address. Please, try again:");
         ip = in.nextLine();
       }
-      //ip = utils.readIp();
       System.out.println("Port number?");
-      //port = utils.validateIntInput(TheirClient.MIN_PORT, TheirClient.MAX_PORT);
       port = validateIntInput(Client.MIN_PORT, Client.MAX_PORT);
     }
-    client.setServerIP(ip);
-    client.setServerPort(port);
+    client.connectToServer(ip, port);
   }
 
   @Override
@@ -91,7 +88,7 @@ public class Cli implements ViewInterface {
     username = in.nextLine();
     Message loginMessage = new Message(username, MessageType.LOGIN);
     client.setUsername(username);
-    client.sendMessage(loginMessage);
+    client.forwardMessage(loginMessage);
   }
 
     @Override
@@ -99,13 +96,13 @@ public class Cli implements ViewInterface {
       out.println("How many people do you want to play with?");
       numOfPlayers = validateIntInput(1, 4);
       Message loginMessage = new Message(client.getUsername(), MessageType.NUMBER_OF_PLAYERS, Integer.toString(numOfPlayers));
-      client.sendMessage(loginMessage);
+      client.forwardMessage(loginMessage);
     }
 
   @Override
   public void displaySetupFailure() {
     out.println("Can not reach the server, please try again");
-    displaySetup();
+    displayNetworkSetup();
   }
 
   /**
@@ -264,13 +261,18 @@ public class Cli implements ViewInterface {
         switch(line) {
           case "cheat":
             if (ConfigParameters.TESTING) {
-              client.sendMessage(new Message(stateViewer.getUsername(), MessageType.CHEAT));
+              client.forwardMessage(new Message(stateViewer.getUsername(), MessageType.CHEAT));
               System.out.println("cheats activated");
               actionAlreadyPerformed = true;
+              try {
+                Thread.sleep(100);
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
             }
             break;
           case "quit":
-            client.sendMessage(new Message(stateViewer.getUsername(), MessageType.QUIT));
+            client.forwardMessage(new Message(stateViewer.getUsername(), MessageType.QUIT));
             actionAlreadyPerformed = true;
             break;
           case "print":
@@ -308,11 +310,11 @@ public class Cli implements ViewInterface {
                 break;
               case SHOPPING:
                 Action insertMarbleAction = createInsertMarbleAction(line);
-                client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, insertMarbleAction));
+                client.forwardAction(insertMarbleAction);
                 break;
               case SHOPPING_LEADER:
                 int index = validateIntInput(line, 1, 2);
-                client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new ChooseLeaderOnWhiteMarbleAction(index)));
+                client.forwardAction(new ChooseLeaderOnWhiteMarbleAction(index));
                 break;
               default:
                 if (cliTurnManager.isValidInCurrenPhase(line)) //to see if the input is valid in this turnPhase
@@ -346,29 +348,29 @@ public class Cli implements ViewInterface {
         //TODO fare display del market e del magazzino/chest
         drawer.drawDevelopCardDeck();
         Action buyCardAction = createBuyCardAction();
-        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, buyCardAction));
+        client.forwardAction(buyCardAction);
         break;
       case "S": case "s":
         Action marketAction = createMarketAction();
-        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, marketAction));
+        client.forwardAction(marketAction);
         break;
       case "P": case "p":
         Action produceAction = createProduceAction();
-        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, produceAction));
+        client.forwardAction(produceAction);
         break;
       case "L": case "l"://leaderProduce
 
         break;
       case "A": case "a"://activate leader card
         Action activateLeaderAction = createActivateLeaderAction();
-        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, activateLeaderAction));
+        client.forwardAction(activateLeaderAction);
         break;
       case "D": case "d"://discard leader card
         Action discardLeaderAction = createDiscardLeaderAction();
-        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, discardLeaderAction));
+        client.forwardAction(discardLeaderAction);
         break;
       case "E": case "e"://end turn
-        client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new EndTurnAction(stateViewer.getUsername())));
+        client.forwardAction(new EndTurnAction(stateViewer.getUsername()));
         break;
       default:
         System.out.println("Command you gave me is not allowed in this phase of the game");
@@ -409,7 +411,7 @@ public class Cli implements ViewInterface {
         resources.put(parsIntToResource(resource), 1);
       i--;
     }
-    client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new ChooseInitialResourcesAction(resources)));
+    client.forwardAction(new ChooseInitialResourcesAction(resources));
   }
 
   private ResourceType parsIntToResource(int value) {
@@ -445,7 +447,7 @@ public class Cli implements ViewInterface {
     stateViewer.getSimplePlayerState().discardLeader(firstDiscard - 1);
     drawer.displayLeaderHand(stateViewer.getUsername());
     int secondDiscard = validateIntInput(1, stateViewer.getSimplePlayerState().getNotActiveLeaderCards().size());
-    client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new DiscardInitialLeaderAction(stateViewer.getUsername(), firstDiscard-1, secondDiscard-1)));
+    client.forwardAction(new DiscardInitialLeaderAction(stateViewer.getUsername(), firstDiscard-1, secondDiscard-1));
     stateViewer.getSimplePlayerState().discardLeader(secondDiscard - 1);
   }
 
