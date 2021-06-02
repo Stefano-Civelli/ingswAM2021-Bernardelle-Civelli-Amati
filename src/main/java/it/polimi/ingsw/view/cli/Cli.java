@@ -71,6 +71,7 @@ public class Cli implements ViewInterface {
       }
       System.out.println("Port number?");
       port = validateIntInput(Client.MIN_PORT, Client.MAX_PORT);
+      in.nextLine();
     }
     client.connectToServer(ip, port);
   }
@@ -83,7 +84,6 @@ public class Cli implements ViewInterface {
   @Override
   public void displayLogin() {
     String username;
-
     out.println("Choose your username:");
     username = in.nextLine();
     client.setUsername(username);

@@ -35,7 +35,7 @@ public class Client {
 
   public static void main(String[] args) {
     boolean isCli = true;
-    boolean isLocal = true;
+    boolean isLocal = false;
 
     if(args.length > 0)
       isLocal = true;
@@ -68,7 +68,6 @@ public class Client {
       {
         cli.displayNetworkSetup();
         client.displayLogin();
-        client.forwardMessage(new Message(client.username, MessageType.LOGIN));
       }
     }
     else {
@@ -110,6 +109,7 @@ public class Client {
   public void displayLogin(){
     view.displayLogin();
     state.setClientUsername(this.username);
+    forwardMessage(new Message(username, MessageType.LOGIN));
   }
 
   public void forwardAction(Action actionToForward) {
@@ -131,6 +131,7 @@ public class Client {
 
   public void setUsername(String username) {
     this.username = username;
+
   }
 
   public String getCurrentPlayer(){
@@ -270,7 +271,7 @@ public class Client {
         break;
       case INVALID_LOGIN_USERNAME:
         view.displayFailedLogin();
-        view.displayLogin();
+        displayLogin();
         break;
       case NOT_BUYABLE:
         System.out.println("sorry mate, sei troppo povero per comprarla. Riprova quando avrai comprato azioni Tesla");
