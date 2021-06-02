@@ -10,7 +10,7 @@ import it.polimi.ingsw.utility.Pair;
 import java.lang.reflect.Type;
 import java.util.*;
 
-public class SimplePlayerState implements SimpleStateObservable{
+public class SimplePlayerState {
 
    private final int NUMBER_OF_NORMAL_LEVELS = 3;
    private final int MAX_SPECIAL_LEVELS = 2;
@@ -27,18 +27,14 @@ public class SimplePlayerState implements SimpleStateObservable{
 
    public SimplePlayerState() {
       this.trackPosition = 0;
-      this.chest = new HashMap<>(); //potrei mettere ste 3 righe in una chestsetup
+      this.chest = new HashMap<>();
       for (ResourceType resType : ResourceType.values())
-         chest.put(resType, 0); //questa inizializzazione forse non serve. dipende da come funziona la funzione di print
+         chest.put(resType, 0);
 
       this.tempChest = new HashMap<>();
       this.storageLevels = new Pair[5];
       for(int i=0; i<5; i++)
          storageLevels[i] = new Pair(null, null);
-
-//      this.leaderLevels = new ArrayList<>(this.MAX_SPECIAL_LEVELS);
-//      for (int i=0; i<MAX_SPECIAL_LEVELS; i++)
-//         this.leaderLevels.add(new Pair<>(null, null));
 
       this.cardSlots = new List[3];
       for(int i=0; i<3; i++)
@@ -65,7 +61,7 @@ public class SimplePlayerState implements SimpleStateObservable{
    //-----------------------------------------------------------
 
 
-   //----------UPDATE-------------------------------------------
+   //----------UPDATE----------
    public void warehouseUpdate(String payload) {
       Warehouse.WarehouseUpdate update = GSON.getGsonBuilder().fromJson(payload, Warehouse.WarehouseUpdate.class);
 
@@ -108,7 +104,6 @@ public class SimplePlayerState implements SimpleStateObservable{
       boolean flip = update.isActive();
 
       vaticanFlipped[zone] = flip;
-      //System.out.println("simplePlayer: " + vaticanFlipped[zone]);
    }
 
    public void chestUpdate(String payload) { //serve?
@@ -255,12 +250,4 @@ public class SimplePlayerState implements SimpleStateObservable{
 //      return resources;
 //   }
    //----------------------------------------------------------
-
-   @Override
-   public void notifyStateChange() {
-      //observerList.stream().forEach(x -> x.fai la display della canvas del player che ha cambiato stato (cioè this playerstate));
-
-   }
-
-
 }

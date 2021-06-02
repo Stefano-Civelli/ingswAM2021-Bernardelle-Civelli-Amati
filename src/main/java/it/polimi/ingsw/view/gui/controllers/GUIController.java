@@ -22,6 +22,7 @@ public abstract class GUIController {
 
     protected void setSocket(String ip, int port) {
             this.client.connectToServer(ip, port);
+            this.client.displayLogin();
     }
 
 }

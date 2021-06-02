@@ -86,9 +86,7 @@ public class Cli implements ViewInterface {
 
     out.println("Choose your username:");
     username = in.nextLine();
-    Message loginMessage = new Message(username, MessageType.LOGIN);
     client.setUsername(username);
-    client.forwardMessage(loginMessage);
   }
 
     @Override

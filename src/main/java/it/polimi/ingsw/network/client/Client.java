@@ -1,7 +1,12 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.controller.LocalVirtualView;
 import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.TurnManager;
+import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
+import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -21,18 +26,17 @@ public class Client {
   public static final int MIN_PORT = Server.MIN_PORT_NUMBER;
   public static final int MAX_PORT = Server.MAX_PORT_NUMBER;
 
-
-//  private Socket server;
   private ViewInterface view;
   private String username = null;
   private VirtualModel virtualModel;
   private ClientModelUpdaterInterface state;
-  private ClientTurnManagerInterface  turnManager;
+  private ClientTurnManagerInterface clientTurnManager;
 
 
   public static void main(String[] args) {
     boolean isCli = true;
-    boolean isLocal = false;
+    boolean isLocal = true;
+
     if(args.length > 0)
       isLocal = true;
 
@@ -53,35 +57,34 @@ public class Client {
       client.setState(state);
       ViewInterface cli = new Cli(state, new CliDrawer(state), client);
       client.setView(cli);
-      client.setTurnManager(new CliTurnManager(client, cli, state));
-      cli.setClientTurnManager(client.turnManager);
-      //////////////////////////////////////////////////////////////////////////////////////////
-      if(isLocal){
+      client.setClientTurnManager(new CliTurnManager(client, cli, state));
+      cli.setClientTurnManager(client.clientTurnManager);
 
+      if(isLocal) {
+        client.displayLogin();
+        client.localGameSetup();
       }
       else
       {
-        //TODO ripensare al login
         cli.displayNetworkSetup();
+        client.displayLogin();
+        client.forwardMessage(new Message(client.username, MessageType.LOGIN));
       }
-
-      //non viene eseguito codice messo qua
     }
     else {
+      //TODO fare come sopra per il game in locale con la GUI
       Application.launch(GUIStarter.class);
     }
-
   }
-
 
   public void setView(ViewInterface view) {
     this.view = view;
   }
 
-  public void setState(ClientModelUpdaterInterface state) { this.state = state;}
+  public void setState(ClientModelUpdaterInterface state) { this.state = state; }
 
-  public void setTurnManager(ClientTurnManagerInterface turnManager) {
-    this.turnManager = turnManager;
+  public void setClientTurnManager(ClientTurnManagerInterface clientTurnManager) {
+    this.clientTurnManager = clientTurnManager;
   }
 
   /**
@@ -93,7 +96,12 @@ public class Client {
       server = new Socket(serverIP, serverPort);
       ServerConnector serverConnector = new ServerConnector(server, this);
       this.virtualModel = new NetworkVirtualModel(serverConnector);
-      serverConnector.handleServerConnection();
+
+      Runnable threadServerConnection = () -> serverConnector.handleServerConnection();
+      Thread thread = new Thread(threadServerConnection);
+      thread.setName("StreamIn");
+      thread.start();
+
     } catch (IOException e) {
       view.displaySetupFailure();
     }
@@ -102,15 +110,14 @@ public class Client {
   public void displayLogin(){
     view.displayLogin();
     state.setClientUsername(this.username);
-    //FIXME cazzo
   }
 
-  public void forwardAction(Action actionToForward) { // FIXME deve cambiare nome perchè va usata anche per il locale
+  public void forwardAction(Action actionToForward) {
+    actionToForward.setUsername(username);
     virtualModel.handleAction(actionToForward);
   }
 
-  public void forwardMessage(Message message){
-
+  public void forwardMessage(Message message) {
     virtualModel.handleMessage(message);
   }
 
@@ -122,13 +129,15 @@ public class Client {
 
   public String getUsername() { return this.username; }
 
-  public void setUsername(String username) { this.username = username; }
-
-  public String getCurrentPlayer(){
-    return turnManager.getCurrentPlayer();
+  public void setUsername(String username) {
+    this.username = username;
   }
 
-  public void handleMessage(Message msg){
+  public String getCurrentPlayer(){
+    return clientTurnManager.getCurrentPlayer();
+  }
+
+  public void handleMessage(Message msg) {
     String messageUser = msg.getUsername();
     String payload = msg.getPayload();
 
@@ -166,10 +175,10 @@ public class Client {
         break;
       case GAME_STARTED:
         state.gameStartedSetup(msg);
-        turnManager.setCurrentPlayer(getFirstPlayer(payload));
+        clientTurnManager.setCurrentPlayer(getFirstPlayer(payload));
         view.displayGameStarted();
-        if(username.equals(turnManager.getCurrentPlayer()))
-          turnManager.currentPhasePrint();
+        if(username.equals(clientTurnManager.getCurrentPlayer()))
+          clientTurnManager.currentPhasePrint();
         else
           view.displayPlayerTurn(msg.getUsername());
         break;
@@ -238,17 +247,17 @@ public class Client {
   private void handleTurnState(String payload) {
     TurnManager.TurnState newState = GSON.getGsonBuilder().fromJson(payload, TurnManager.TurnState.class);
     //TODO probabilmente non serve più il fatto che setState ritorna un booleano
-    if(turnManager.setStateIsPlayerChanged(newState)){
-      if (username.equals(turnManager.getCurrentPlayer())) {
-        view.displayYourTurn(turnManager.getCurrentPlayer());
+    if(clientTurnManager.setStateIsPlayerChanged(newState)){
+      if (username.equals(clientTurnManager.getCurrentPlayer())) {
+        view.displayYourTurn(clientTurnManager.getCurrentPlayer());
         //view.displayDefaultCanvas(turnManager.getCurrentPlayer());
       }
       else
-        view.displayPlayerTurn(turnManager.getCurrentPlayer());
+        view.displayPlayerTurn(clientTurnManager.getCurrentPlayer());
     }
 
-    if(username.equals(turnManager.getCurrentPlayer())){
-      turnManager.currentPhasePrint();
+    if(username.equals(clientTurnManager.getCurrentPlayer())){
+      clientTurnManager.currentPhasePrint();
     }
   }
 
@@ -265,32 +274,32 @@ public class Client {
         break;
       case NOT_BUYABLE:
         System.out.println("sorry mate, sei troppo povero per comprarla. Riprova quando avrai comprato azioni Tesla");
-        turnManager.currentPhasePrint();
+        clientTurnManager.currentPhasePrint();
         break;
       case INVALID_LEADERCARD:
-        turnManager.currentPhasePrint();
+        clientTurnManager.currentPhasePrint();
         break;
       case INVALID_DEVELOP_CARD:
         break;
       case CANNOT_DISCARD_ACTIVE_LEADER:
         System.out.println("sorry mate, you can't discard an active leader card ");
-        turnManager.currentPhasePrint();
+        clientTurnManager.currentPhasePrint();
         break;
       case NOT_ACTIVATABLE_PRODUCTION:
         System.out.println("sorry mate, you can't activate this production ");
-        turnManager.currentPhasePrint();
+        clientTurnManager.currentPhasePrint();
         break;
       case ALREADY_PRODUCED:
         System.out.println("sorry mate, you already have already used this production in this turn");
-        turnManager.currentPhasePrint();
+        clientTurnManager.currentPhasePrint();
         break;
       case NOT_ENOUGH_RESOURCES:
         System.out.println("sorry mate, you don't have enough resources to perform this action ");
-        turnManager.currentPhasePrint();
+        clientTurnManager.currentPhasePrint();
         break;
       case INVALID_CARD_PLACEMENT:
         System.out.println("sorry mate, you can't place your Develop card here ");
-        turnManager.currentPhasePrint();
+        clientTurnManager.currentPhasePrint();
         break;
       default:
     }
@@ -299,5 +308,21 @@ public class Client {
   private String getFirstPlayer(String payload) {
     ArrayList<String> players = GSON.getGsonBuilder().fromJson(payload, ArrayList.class);
     return players.get(0);
+  }
+
+  private void localGameSetup() {
+    ModelObserver localVirtualView = new LocalVirtualView(state, username);
+    TurnManager gameTurnManager = null;
+    try {
+      Game game = new SinglePlayer(localVirtualView);
+      gameTurnManager = new TurnManager(game, Arrays.asList(username));
+      gameTurnManager.startGame();
+    } catch (IOException |MaximumNumberOfPlayersException e) {
+      System.out.println("A problem has occurred while creating the game.");
+      close();
+    }
+    virtualModel = new LocalVirtualModel(gameTurnManager, clientTurnManager);
+    clientTurnManager.setCurrentPlayer(username);
+    clientTurnManager.currentPhasePrint();
   }
 }

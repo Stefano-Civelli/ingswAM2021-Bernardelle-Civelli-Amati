@@ -1,13 +1,10 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.market.MarbleColor;
-import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.view.ClientModelState;
 import it.polimi.ingsw.view.ClientStateViewer;
-import it.polimi.ingsw.view.SimpleStateObserver;
 import it.polimi.ingsw.view.cli.drawer.*;
 
-public class CliDrawer implements SimpleStateObserver {
+public class CliDrawer{
 
   private final int PLAYERBOARD_LENGTH = 90;
   private final int PLAYERBOARD_HEIGHT = 16;

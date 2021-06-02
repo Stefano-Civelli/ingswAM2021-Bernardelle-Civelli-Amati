@@ -21,7 +21,7 @@ public class GUIStarter extends Application {
         GUI gui = new GUI(client);
         client.setView(gui);
         ClientTurnManagerInterface turnManager = new GuiTurnManager(client, gui);
-        client.setTurnManager(turnManager);
+        client.setClientTurnManager(turnManager);
         gui.setClientTurnManager(turnManager);
         client.setState(gui);
         FXMLLoader loader = new FXMLLoader();

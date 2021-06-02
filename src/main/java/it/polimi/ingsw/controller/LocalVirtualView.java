@@ -22,69 +22,67 @@ public class LocalVirtualView implements ModelObserver {
 
    @Override
    public void chestUpdate(String stateUpdate) {
-
+      state.chestUpdate(username, stateUpdate);
    }
 
    @Override
    public void warehouseUpdate(String stateUpdate) {
-      //client.handleMessage(new Message(username, MessageType.WAREHOUSE_UPDATE, stateUpdate));
       state.warehouseUpdate(username, stateUpdate);
-      //   client.getSimplePlayerState().warehouseUpdate(stateUpdate);
    }
 
    @Override
    public void leaderUpdate(String stateUpdate) {
-
+      state.leaderUpdate(username, stateUpdate);
    }
 
    @Override
    public void leaderSetupUpdate(String username, String stateUpdate) {
-
+      state.leaderSetup(username, stateUpdate);
    }
 
    @Override
    public void marketUpdate(String stateUpdate) {
-
+      state.marketUpdate(stateUpdate);
    }
 
    @Override
    public void marketSetupUpdate(String stateUpdate) {
-
+      state.marketSetup(stateUpdate);
    }
 
    @Override
    public void cardSlotUpdate(String stateUpdate) {
-
+      state.cardSlotUpdate(username, stateUpdate);
    }
 
    @Override
    public void trackUpdate(String username, String stateUpdate) {
-
+      state.trackUpdate(username, stateUpdate);
    }
 
    @Override
    public void vaticanUpdate(String username, String stateUpdate) {
-
+      state.vaticanUpdate(username, stateUpdate);
    }
 
    @Override
    public void devDeckUpdate(String stateUpdate) {
-
+      state.devDeckUpdate(stateUpdate);
    }
 
    @Override
    public void devDeckSetup(String stateUpdate) {
-
+      state.devDeckSetup(stateUpdate);
    }
 
    @Override
    public void tempChestUpdate(String stateUpdate) {
-
+      state.tempChestUpdate(username, stateUpdate);
    }
 
    @Override
    public void discardedLeaderUpdate(String stateUpdate) {
-
+      state.discardedLeaderUpdate(username, stateUpdate);
    }
 
    @Override
@@ -94,21 +92,21 @@ public class LocalVirtualView implements ModelObserver {
 
    @Override
    public void lorenzoTrackUpdate(String stateUpdate) {
-
+      state.lorenzoTrackUpdate(stateUpdate);
    }
 
    @Override
    public void lorenzoShuffleUpdate() {
-
+      state.lorenzoShuffleUpdate();
    }
 
    @Override
-   public void lorenzoDevDeckUpdate(String msg) {
-
+   public void lorenzoDevDeckUpdate(String stateUpdate) {
+      state.lorenzoDevDeckUpdate(stateUpdate);
    }
 
    @Override
    public void chestMergeUpdate() {
-
+      state.chestMergeUpdate(username);
    }
 }

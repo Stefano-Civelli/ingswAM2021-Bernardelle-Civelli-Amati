@@ -228,7 +228,6 @@ public class Server {
       sendToClient(new Message(MessageType.GAME_STARTED, playersInOrder));
       game.initialMoveForward();
       gameRunning = true;
-
    }
 
 

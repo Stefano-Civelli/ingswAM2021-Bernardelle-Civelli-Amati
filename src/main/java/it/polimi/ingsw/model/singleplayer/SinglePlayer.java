@@ -23,11 +23,11 @@ public class SinglePlayer extends Game {
    /**
     * Create a new single player game
     *
-    * @param networkVirtualView the observer of the model
+    * @param virtualView the observer of the model
     * @throws IOException if there are some problems loading the configuration files
     */
-   public SinglePlayer(ModelObserver networkVirtualView) throws IOException {
-      super(networkVirtualView);
+   public SinglePlayer(ModelObserver virtualView) throws IOException {
+      super(virtualView);
       this.lorenzoTrack = GSON.lorenzoTrackParser(ConfigParameters.lorenzoTrackConfigFile);
 
       this.actionTokenStack = new LinkedList<>(Arrays.asList(

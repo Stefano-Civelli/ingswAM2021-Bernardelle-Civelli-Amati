@@ -114,7 +114,6 @@ public class ServerClientHandler implements Runnable {
             if(!server.isGameRunning())
                return;
             Action action = message.getAction();
-            action.setUsername(username);
             try {
                Message errorOrEndTurn = server.getTurnManager().handleAction(action);
                actionAnswereMessage(errorOrEndTurn);

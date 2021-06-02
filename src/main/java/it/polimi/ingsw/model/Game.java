@@ -75,7 +75,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
       return this.playerBoards.get(0).getKey().getUsername();
    }
 
-   public void initialMoveForward(){
+   public void initialMoveForward() {
          this.playerBoards.stream().map(Pair::getKey).collect(Collectors.toList())
                  .forEach(playerBoard -> playerBoard.getTrack().moveForward(initialFaith(playerBoard.getUsername())));
    }

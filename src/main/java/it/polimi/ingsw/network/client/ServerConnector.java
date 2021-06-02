@@ -33,17 +33,15 @@ public class ServerConnector{
         out = new PrintWriter(server.getOutputStream());
         in = new BufferedReader(new InputStreamReader(server.getInputStream()));
         startPinging();
-        client.displayLogin();
-
         while (true) {
           Message msg = messageParserFromJson(in.readLine());
           client.handleMessage(msg);
         }
+
       } catch (IOException | NoSuchElementException e) {
         notifyServerLost();
         stop();
       }
-
   }
 
   public void stop(){

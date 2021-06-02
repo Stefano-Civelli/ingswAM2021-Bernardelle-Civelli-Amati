@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SimpleGameState implements SimpleStateObservable{
+public class SimpleGameState {
 
    private final int NUMBER_OF_DECK_ROWS = 3;
    private final int NUMBER_OF_DECK_COLUMS = 4;
@@ -22,6 +22,7 @@ public class SimpleGameState implements SimpleStateObservable{
    private MarbleColor[][] market;
    private MarbleColor slide;
    private List<MarbleColor> tempMarble;
+   private int lorenzoTrackPosition;
 
    public SimpleGameState() {
       tempMarble = new ArrayList<>();
@@ -38,13 +39,9 @@ public class SimpleGameState implements SimpleStateObservable{
       Pair<MarbleColor[][], MarbleColor> pair = GSON.getGsonBuilder().fromJson(payload, token);
       this.market = pair.getKey();
       this.slide = pair.getValue();
-
-//      JsonObject jsonObject = (JsonObject) JsonParser.parseString(jsonMarket);
-//      this.market = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("key"), MarbleColor[][].class);
-//      this.slide = GSON.getGsonBuilder().fromJson(jsonObject.getAsJsonObject().get("value").getAsString(), MarbleColor.class);
    }
 
-   //----------UPDATE-------------------------------------------
+   //----------UPDATE-----------
    public void updateDeck(String payload){
       Type token = new TypeToken<Pair<Integer, Integer>>(){}.getType();
       Pair<Integer, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
@@ -95,10 +92,10 @@ public class SimpleGameState implements SimpleStateObservable{
    public void removeTempMarble(int marbleindex){
       this.tempMarble.remove(marbleindex - 1);
    }
-   //----------------------------------------------------------
+   //----------UPDATE-----------
 
 
-   //----------GETTERS-----------------------------------------
+   //----------GETTERS----------
    //TODO clone
    public MarbleColor[][] getMarket() {
       return market;
@@ -111,8 +108,7 @@ public class SimpleGameState implements SimpleStateObservable{
    public List<MarbleColor> getTempMarble() {
       return new ArrayList<>(tempMarble);
    }
-
-   //----------------------------------------------------------
+   //----------GETTERS----------
 
    /**
     * returns the visible cards (the ones on top of the card square)
@@ -130,15 +126,5 @@ public class SimpleGameState implements SimpleStateObservable{
          }
       }
       return temp;
-   }
-
-
-   @Override
-   public void notifyStateChange() {
-//      if(current)
-//         cliDrawer/Cli.update(getCurrent())
-//      else
-//         riassuntivo
-
    }
 }
