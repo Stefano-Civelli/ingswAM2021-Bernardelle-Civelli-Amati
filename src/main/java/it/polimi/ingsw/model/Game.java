@@ -223,9 +223,12 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
       int bResources=0;
       
       for(Pair<PlayerBoard, Boolean> p : playerBoards) {
-         if (p.getKey().returnScore() > score)
+         System.out.println(p.getKey().getUsername() + " " + p.getKey().returnScore());
+         if (p.getKey().returnScore() > score) {
             bResources = p.getKey().getChest().totalNumberOfResources() + p.getKey().getWarehouse().totalResources();
             winner = p.getKey().getUsername();
+            score = p.getKey().returnScore();
+         }
          if (p.getKey().returnScore() == score) {
             int aResources = p.getKey().getChest().totalNumberOfResources() + p.getKey().getWarehouse().totalResources();
             if(aResources > bResources) {
@@ -235,6 +238,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
             }
          }
       }
+      System.out.println(winner);
       controller.endGameUpdate(winner);
    }
 

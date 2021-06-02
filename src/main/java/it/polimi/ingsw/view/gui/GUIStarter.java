@@ -1,7 +1,8 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.client.ClientTurnManager;
+import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
+import it.polimi.ingsw.network.client.GuiTurnManager;
 import it.polimi.ingsw.view.gui.controllers.GUIController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,9 +20,9 @@ public class GUIStarter extends Application {
         Client client = new Client();
         GUI gui = new GUI(client);
         client.setView(gui);
-        //IL TURNMANAGER NON DOVREBBE SERVIRE IN GUI -> secondo pie serve, fare interfaccia comune con quello che abbiamo giá per la CLI
-        //client.setTurnManager(new ClientTurnManager(client, gui));
-
+        ClientTurnManagerInterface turnManager = new GuiTurnManager(client, gui);
+        client.setTurnManager(turnManager);
+        gui.setClientTurnManager(turnManager);
         client.setState(gui);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("fxml/connection.fxml"));

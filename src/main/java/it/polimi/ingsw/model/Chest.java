@@ -105,14 +105,14 @@ public class Chest implements ModelObservable, TempChestObservable, ChestMergeOb
     this.tempResourcesMap.clear();
   }
 
+  public void setController(ModelObserver controller) {
+    this.controller = controller;
+  }
+
   @Override
   public void notifyModelChange(String msg) {
     if (controller != null)
       controller.chestUpdate(msg);
-  }
-
-  public void setController(ModelObserver controller) {
-    this.controller = controller;
   }
 
   @Override

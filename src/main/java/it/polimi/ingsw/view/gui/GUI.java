@@ -1,8 +1,9 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.client.ClientTurnManager;
+import it.polimi.ingsw.network.client.CliTurnManager;
+import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
+import it.polimi.ingsw.network.client.GuiTurnManager;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.ClientModelUpdaterInterface;
 import it.polimi.ingsw.view.ViewInterface;
@@ -13,7 +14,7 @@ import javafx.application.Platform;
 public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    private Client client;
-   private ClientTurnManager turnManager;
+   private GuiTurnManager turnManager;
    private SceneController sceneController;
 
    public GUI(Client client) {
@@ -26,8 +27,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void setClientTurnManager(ClientTurnManager turnManager) {
-      this.turnManager = turnManager;
+   public void setClientTurnManager(ClientTurnManagerInterface turnManager) {
+      this.turnManager = (GuiTurnManager) turnManager;
    }
 
    @Override

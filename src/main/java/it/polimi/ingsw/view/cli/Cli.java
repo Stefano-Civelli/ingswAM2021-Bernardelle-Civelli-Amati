@@ -5,7 +5,8 @@ import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.client.ClientTurnManager;
+import it.polimi.ingsw.network.client.CliTurnManager;
+import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
@@ -21,7 +22,7 @@ public class Cli implements ViewInterface {
   /* ATTRIBUTES */
   private final ClientStateViewer stateViewer;
   private final CliDrawer drawer;
-  private ClientTurnManager clientTurnManager;
+  private CliTurnManager cliTurnManager;
   private final Client client;
 
   private static final PrintWriter out = new PrintWriter(System.out, true);
@@ -77,8 +78,9 @@ public class Cli implements ViewInterface {
     client.setServerPort(port);
   }
 
-  public void setClientTurnManager(ClientTurnManager clientTurnManager) {
-    this.clientTurnManager = clientTurnManager;
+  @Override
+  public void setClientTurnManager(ClientTurnManagerInterface cliTurnManager) {
+    this.cliTurnManager = (CliTurnManager) cliTurnManager;
   }
 
   @Override
@@ -220,7 +222,7 @@ public class Cli implements ViewInterface {
   //TODO
   @Override
   public void displayPlayerTurn(String player) {
-    System.out.println("It's " + clientTurnManager.getCurrentPlayer() + "'s turn.");
+    System.out.println("It's " + cliTurnManager.getCurrentPlayer() + "'s turn.");
   }
 
   @Override
@@ -236,7 +238,9 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayGameEnded(String payload) {
-    System.out.println("game has ended");
+    System.out.println("Game has ended.");
+    System.out.println("The winner is... " + Color.ANSI_RED.escape() + payload.toUpperCase() + Color.RESET.escape());
+
   }
 
   @Override
@@ -251,18 +255,23 @@ public class Cli implements ViewInterface {
 
     Scanner in = new Scanner(System.in);
     Runnable threadInputTerminal = () -> {
+      boolean actionAlreadyPerformed;
       while (true) {
         String line = in.nextLine();
+        actionAlreadyPerformed = false;
 
         //this cases can be performed every moment of the game
         switch(line) {
           case "cheat":
             if (ConfigParameters.TESTING) {
               client.sendMessage(new Message(stateViewer.getUsername(), MessageType.CHEAT));
+              System.out.println("cheats activated");
+              actionAlreadyPerformed = true;
             }
             break;
           case "quit":
             client.sendMessage(new Message(stateViewer.getUsername(), MessageType.QUIT));
+            actionAlreadyPerformed = true;
             break;
           case "print":
             System.out.println("That's your opponents: ");
@@ -281,35 +290,41 @@ public class Cli implements ViewInterface {
             }
             else
               drawer.displayDefaultCanvas(user);
+            actionAlreadyPerformed = true;
             break;
         }
 
-        if (!stateViewer.getUsername().equals(clientTurnManager.getCurrentPlayer()))
-          System.out.println("It's " + clientTurnManager.getCurrentPlayer() + "'s turn. Wait yours ...");
+
+        if (!stateViewer.getUsername().equals(cliTurnManager.getCurrentPlayer()))
+          System.out.println("It's " + cliTurnManager.getCurrentPlayer() + "'s turn. Wait yours ...");
         else {
-          switch (clientTurnManager.getCurrentPhase()) {
-            case SETUP_DISCARDING_LEADERS:
-              createInitialDiscardLeaderAction(line);
-              break;
-            case SETUP_CHOOSING_RESOURCES:
-              createChooseResourcesAction(line);
-              break;
-            case SHOPPING:
-              Action insertMarbleAction = createInsertMarbleAction(line);
-              client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, insertMarbleAction));
-              break;
-            case SHOPPING_LEADER:
-              int index = validateIntInput(line, 1, 2);
-              client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new ChooseLeaderOnWhiteMarbleAction(index)));
-              break;
-            default:
-              if (clientTurnManager.isValidInCurrenPhase(line)) //to see if the input is valid in this turnPhase
-                handleInput(line);
-              else {
-                System.out.println("Command you gave me is not allowed in this phase of the game or doesn't exists");
-                clientTurnManager.currentPhasePrint();
-              }
-          }//switch
+          if(!actionAlreadyPerformed) {
+            switch (cliTurnManager.getCurrentPhase()) {
+              case SETUP_DISCARDING_LEADERS:
+                createInitialDiscardLeaderAction(line);
+                break;
+              case SETUP_CHOOSING_RESOURCES:
+                createChooseResourcesAction(line);
+                break;
+              case SHOPPING:
+                Action insertMarbleAction = createInsertMarbleAction(line);
+                client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, insertMarbleAction));
+                break;
+              case SHOPPING_LEADER:
+                int index = validateIntInput(line, 1, 2);
+                client.sendMessage(new Message(stateViewer.getUsername(), MessageType.ACTION, new ChooseLeaderOnWhiteMarbleAction(index)));
+                break;
+              default:
+                if (cliTurnManager.isValidInCurrenPhase(line)) //to see if the input is valid in this turnPhase
+                  handleInput(line);
+                else {
+                  System.out.println("Command you gave me is not allowed in this phase of the game or doesn't exists");
+                  cliTurnManager.currentPhasePrint();
+                }
+            }//switch
+          }
+          else
+            cliTurnManager.currentPhasePrint();
         }
       }//while
     };
@@ -357,7 +372,7 @@ public class Cli implements ViewInterface {
         break;
       default:
         System.out.println("Command you gave me is not allowed in this phase of the game");
-        clientTurnManager.currentPhasePrint();
+        cliTurnManager.currentPhasePrint();
     }
   }
 

@@ -117,7 +117,7 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable, Deck
          }
          cardsCube[k][column].remove(cardsCube[k][column].size() - 1);
          numberOfCardsToRemove--;
-         notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(k, column)));
+         notifyLorenzoDeckUpdate(GSON.getGsonBuilder().toJson( new Pair<>(k, column)));
       }
    }
 

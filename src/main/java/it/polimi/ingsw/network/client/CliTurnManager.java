@@ -12,20 +12,21 @@ import it.polimi.ingsw.view.cli.Color;
 
 import java.util.HashMap;
 
-public class ClientTurnManager {
+public class CliTurnManager implements ClientTurnManagerInterface{
   private Client client;
   private PhaseType currentPhase;
   private String currentPlayer;
   private ViewInterface view;
   private ClientStateViewer stateViewer;
 
-  public ClientTurnManager(Client client, ViewInterface view, ClientStateViewer stateViewer) {
+  public CliTurnManager(Client client, ViewInterface view, ClientStateViewer stateViewer) {
     this.currentPhase = PhaseType.SETUP_CHOOSING_RESOURCES;
     this.client = client;
     this.view = view;
     this.stateViewer = stateViewer;
   }
 
+  @Override
   public void currentPhasePrint(){
     switch(currentPhase){
       case SETUP_CHOOSING_RESOURCES:
@@ -125,6 +126,7 @@ public class ClientTurnManager {
     return currentPhase.isValid(action);
   }
 
+  @Override
   public String getCurrentPlayer() {
     return currentPlayer;
   }
@@ -133,6 +135,7 @@ public class ClientTurnManager {
     return currentPhase;
   }
 
+  @Override
   public void setCurrentPlayer(String currentPlayer) {
     this.currentPlayer = currentPlayer;
   }
@@ -144,6 +147,7 @@ public class ClientTurnManager {
    * @param newState the new Turn State
    * @return true if the currentPlayer is changed
    */
+  @Override
   public boolean setStateIsPlayerChanged(TurnManager.TurnState newState) {
 
     this.currentPhase = newState.getPhase(); //set new phase

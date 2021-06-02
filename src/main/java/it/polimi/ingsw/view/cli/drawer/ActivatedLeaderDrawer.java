@@ -41,9 +41,9 @@ public class ActivatedLeaderDrawer implements Buildable, Fillable{
 
     for(Integer id : leaderCardsID) {
       String[][] leader =  LeaderConstructor.constructLeaderFromId(id);
-      for(int i=0; i<leader.length; i++, a++)
+      for(int i=0, f=a; i<leader.length; i++, f++)
         for(int j=0, c=b; j<leader[0].length; j++, c++)
-          fillMe[a][c] = leader[i][j];
+          fillMe[f][c] = leader[i][j];
 
       a=a+4;
       b=2;

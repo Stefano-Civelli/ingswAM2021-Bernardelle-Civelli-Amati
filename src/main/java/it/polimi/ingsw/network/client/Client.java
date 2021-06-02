@@ -29,7 +29,7 @@ public class Client implements ViewObserver {
   private int serverPort;
   private MessageHandler messageConnector;
   private ClientModelUpdaterInterface state;
-  private ClientTurnManager  turnManager;
+  private ClientTurnManagerInterface  turnManager;
 
 
   public static void main(String[] args) {
@@ -52,8 +52,10 @@ public class Client implements ViewObserver {
       client.setState(state);
       ViewInterface cli = new Cli(state, new CliDrawer(state), client);
       client.setView(cli);
-      client.turnManager = new ClientTurnManager(client, cli, state);
+      client.setTurnManager(new CliTurnManager(client, cli, state));
       cli.setClientTurnManager(client.turnManager);
+      //////////////////////////////////////////////////////////////////////////////////////////
+      //TODO ripensare al login
       cli.displaySetup();
       client.connectToServer();
     }
@@ -68,7 +70,7 @@ public class Client implements ViewObserver {
 
   public void setState(ClientModelUpdaterInterface state) { this.state = state;}
 
-  public void setTurnManager(ClientTurnManager turnManager) {
+  public void setTurnManager(ClientTurnManagerInterface turnManager) {
     this.turnManager = turnManager;
   }
 
@@ -212,13 +214,13 @@ public class Client implements ViewObserver {
         view.displayGameEnded(msg.getPayload());
         messageConnector.stop();
       case CHEST_MERGED:
-        state.chestMergeUpdate(username);
+        state.chestMergeUpdate(messageUser);
         break;
       case STARTING_GAME_SETUP:
         view.startingSetupUpdate();
         break;
       case LORENZO_TRACK_UPDATE:
-        break; //TODO
+      break; //TODO
       case LORENZO_DECK_UPDATE:
         break; //TODO
       case LORENZO_SHUFFLE_UPDATE:
