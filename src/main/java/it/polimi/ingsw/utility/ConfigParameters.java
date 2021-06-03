@@ -8,7 +8,7 @@ public final class ConfigParameters {
 
   public static final int SERVER_TIMEOUT = 4 * 1000; // seconds
   public static final int CLIENT_TIMEOUT = 2 * 1000; // seconds
-  public static final boolean TESTING = false;
+  public static final boolean TESTING = true;
   public static final File cardConfigFile = new File("src/main/resources/configfiles/DevelopCardConfig.json");
   public static final File leaderCardConfigFile;
   public static final File trackConfigFile = new File("src/main/resources/configfiles/SquareConfig.json");

@@ -2,11 +2,12 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
 
+  <modelVersion>4.0.0</modelVersion>
   <groupId>it.polimi.ingsw</groupId>
   <artifactId>AM54</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
   <name>AM54</name>
   <!-- FIXME change it to the project's website -->
@@ -111,6 +112,38 @@
             <mainClass>org.example.App</mainClass>
           </configuration>
         </plugin>
+        <!-- Plugin to generate jar -->
+        <!-- added SHADE plug in -->
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.2.0</version>
+
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+              <configuration>
+                <shadedArtifactAttached>true</shadedArtifactAttached>
+                <shadedClassifierName>project-classifier</shadedClassifierName>
+                <outputFile>shade\${project.artifactId}.jar</outputFile>
+                <transformers>
+                  <transformer implementation= "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+
+                    <!-- Insert the starting main class here -->
+                    <mainClass>it.polimi.ingsw.Main</mainClass>
+
+                  </transformer>
+                </transformers>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- end of added shade plugin -->
       </plugins>
   </build>
 </project>

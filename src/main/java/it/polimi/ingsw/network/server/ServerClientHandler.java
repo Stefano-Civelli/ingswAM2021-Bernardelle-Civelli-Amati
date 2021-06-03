@@ -65,8 +65,8 @@ public class ServerClientHandler implements Runnable {
             try {
                String receivedString = in.readLine();
                Message message = messageParser(receivedString);
-               if(ConfigParameters.TESTING)
-                  System.out.println(receivedString);
+               if(message.getMessageType() != MessageType.PING)
+                  System.out.println("LOG: Recieved: " + receivedString);
                messageReceived(message);
             }catch(JsonSyntaxException e){
                e.printStackTrace();
@@ -163,6 +163,8 @@ public class ServerClientHandler implements Runnable {
       if(!connected)
          return;
       String jsonMessage = GSON.getGsonBuilder().toJson(message);
+      if(message.getMessageType() != MessageType.PING)
+         System.out.println("LOG: Sent: " + jsonMessage);
       jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
       out.println(jsonMessage);
       out.flush();
