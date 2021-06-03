@@ -15,8 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CardSlotsTest {
 
-  InputStream cardConfigStream = ConfigParameters.cardConfigStream;
-
   @Test
   void emptyCalculateDevelopCardScore() {
     int totalPoints = 0;
@@ -144,7 +142,7 @@ class CardSlotsTest {
   void returnTopCard() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
-    developCardDeck = GSON.cardParser(cardConfigStream);
+    developCardDeck = GSON.cardParser();
 
     cardSlots.addDevelopCard(0, developCardDeck.getCard(0,0));
     cardSlots.addDevelopCard(0, developCardDeck.getCard(1,0));

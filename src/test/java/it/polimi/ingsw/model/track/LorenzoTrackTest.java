@@ -10,16 +10,14 @@ import java.io.InputStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LorenzoTrackTest {
-  InputStream trackConfigStream = ConfigParameters.trackConfigStream;
-  InputStream lorenzoTrackConfigStream = ConfigParameters.lorenzoTrackConfigStream;
   Track track;
   LorenzoTrack lorenzoTrack;
 
   @Test
   void checkIfCurrentPositionIsActiveTEST() throws IOException {
 
-    track = GSON.trackParser(trackConfigStream);
-    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigStream);
+    track = GSON.trackParser();
+    lorenzoTrack = GSON.lorenzoTrackParser();
 
     lorenzoTrack.addToVaticanReportObserverList(track);
     track.moveForward(8);
@@ -31,8 +29,8 @@ class LorenzoTrackTest {
   @Test
   void checkIfCurrentPositionIsActiveTEST2() throws IOException {
 
-    track = GSON.trackParser(trackConfigStream);
-    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigStream);
+    track = GSON.trackParser();
+    lorenzoTrack = GSON.lorenzoTrackParser();
 
     lorenzoTrack.addToVaticanReportObserverList(track);
     track.moveForward(7);
@@ -45,8 +43,8 @@ class LorenzoTrackTest {
   @Test
   void checkIfCurrentPositionIsActiveTEST3() throws IOException {
 
-    track = GSON.trackParser(trackConfigStream);
-    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigStream);
+    track = GSON.trackParser();
+    lorenzoTrack = GSON.lorenzoTrackParser();
 
     lorenzoTrack.addToVaticanReportObserverList(track);
     track.moveForward(7);
@@ -60,8 +58,8 @@ class LorenzoTrackTest {
   @Test
   void checkIfCurrentPositionIsActiveTEST4() throws IOException {
 
-    track = GSON.trackParser(trackConfigStream);
-    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigStream);
+    track = GSON.trackParser();
+    lorenzoTrack = GSON.lorenzoTrackParser();
 
     lorenzoTrack.addToVaticanReportObserverList(track);
     track.moveForward(5);
@@ -72,8 +70,8 @@ class LorenzoTrackTest {
   @Test
   void checkIfCurrentPositionIsActiveTEST5() throws IOException {
 
-    track = GSON.trackParser(trackConfigStream);
-    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigStream);
+    track = GSON.trackParser();
+    lorenzoTrack = GSON.lorenzoTrackParser();
 
     lorenzoTrack.addToVaticanReportObserverList(track);
     track.moveForward(4);
@@ -92,8 +90,8 @@ class LorenzoTrackTest {
   @Test
   void moreMovesThanAllowed() throws IOException {
 
-    track = GSON.trackParser(trackConfigStream);
-    lorenzoTrack = GSON.lorenzoTrackParser(lorenzoTrackConfigStream);
+    track = GSON.trackParser();
+    lorenzoTrack = GSON.lorenzoTrackParser();
 
     lorenzoTrack.addToVaticanReportObserverList(track);
     track.moveForward(4);

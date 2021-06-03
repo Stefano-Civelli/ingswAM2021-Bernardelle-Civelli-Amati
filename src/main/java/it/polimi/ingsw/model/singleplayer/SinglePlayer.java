@@ -28,7 +28,7 @@ public class SinglePlayer extends Game {
     */
    public SinglePlayer(ModelObserver virtualView) throws IOException {
       super(virtualView);
-      this.lorenzoTrack = GSON.lorenzoTrackParser(ConfigParameters.lorenzoTrackConfigStream);
+      this.lorenzoTrack = GSON.lorenzoTrackParser();
 
       this.actionTokenStack = new LinkedList<>(Arrays.asList(
               new DiscardToken(DevelopCardColor.BLUE), new DiscardToken(DevelopCardColor.GREEN),

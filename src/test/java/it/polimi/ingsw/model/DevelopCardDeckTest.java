@@ -15,12 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DevelopCardDeckTest {
 
-   InputStream cardConfigStream = ConfigParameters.cardConfigStream;
-
    @Test
    void buyableCardsTest() throws AbuseOfFaithException, IOException, NegativeQuantityException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigStream);
+      developCardDeck = GSON.cardParser();
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(null), developCardDeck);
       playerBoard.getChest().addResources(ResourceType.GOLD,3);
       playerBoard.getChest().endOfTurnMapsMerge();
@@ -31,7 +29,7 @@ class DevelopCardDeckTest {
    @Test
    void removePresentCard() throws IOException, InvalidCardException, InvalidDevelopCardException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigStream);
+      developCardDeck = GSON.cardParser();
       DevelopCard previousCard = developCardDeck.getCard(0,0);
       developCardDeck.removeCard(developCardDeck.getCard(0,0));
       assertNotEquals(previousCard, developCardDeck.getCard(0,0));
@@ -40,7 +38,7 @@ class DevelopCardDeckTest {
    @Test
    void removeNullCard() throws IOException{
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigStream);
+      developCardDeck = GSON.cardParser();
       boolean pippo = false;
       boolean isSame = true;
       ArrayList<DevelopCard> previous = developCardDeck.visibleCards();
@@ -57,7 +55,7 @@ class DevelopCardDeckTest {
    @Test
    void removeInvalidCard() throws IOException, InvalidDevelopCardException, InvalidCardException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigStream);
+      developCardDeck = GSON.cardParser();
       boolean pippo = false;
       DevelopCard developCard = developCardDeck.getCard(0,0);
       try {
@@ -74,7 +72,7 @@ class DevelopCardDeckTest {
    @Test
    void getInvalidCard() throws IOException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigStream);
+      developCardDeck = GSON.cardParser();
       boolean pippo = false;
       try {
          developCardDeck.getCard(1,12);
@@ -88,7 +86,7 @@ class DevelopCardDeckTest {
    @Test
    void canBuyAllCards() throws IOException, AbuseOfFaithException, InvalidDevelopCardException, InvalidCardPlacementException, NegativeQuantityException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigStream);
+      developCardDeck = GSON.cardParser();
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(null), developCardDeck);
       playerBoard.getChest().addResources(ResourceType.GOLD,9);
       playerBoard.getChest().addResources(ResourceType.SERVANT,9);
