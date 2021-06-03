@@ -29,9 +29,9 @@ public class ShuffleToken implements ActionToken, ModelObservable {
      */
     @Override
     public void useToken(List<ActionToken> tokens, LorenzoTrack trackLorenzo, DevelopCardDeck deck) {
-        Collections.shuffle(tokens);
-        notifyModelChange("");
         trackLorenzo.moveForward(1);
+        notifyModelChange("");
+        Collections.shuffle(tokens);
     }
 
     @Override

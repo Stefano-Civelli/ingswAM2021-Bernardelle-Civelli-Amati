@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.client.CliTurnManager;
 import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.messages.Message;
 
-public interface ViewInterface {
+public interface ViewInterface extends LorenzoViewInterface {
   public void setClientTurnManager(ClientTurnManagerInterface turnManager);
   public void displayMarbleShopping();
   public void displayLeaderHand();

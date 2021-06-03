@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.track.LorenzoTrack;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
+import it.polimi.ingsw.view.LorenzoViewInterface;
 
 import java.io.IOException;
 import java.util.*;
@@ -65,18 +66,24 @@ public class SinglePlayer extends Game {
    public String nextConnectedPlayer(String currentPlayer) throws InvalidUsernameException {
       // TODO test, non sono sicuro che il metodo SUPER funzioni correttamente con un solo player
       // This statement is first due to throws the exception if the username is wrong
+
       String player = super.nextConnectedPlayer(currentPlayer);
+      if(endGame){
+         handleEndGame(currentPlayer);
+         return null;
+      }
       ActionToken token = this.actionTokenStack.remove();
       token.useToken(this.actionTokenStack, this.lorenzoTrack, super.developCardDeck);
       this.actionTokenStack.addLast(token);
+      if(endGame){
+         handleEndGame("");
+         return null;
+      }
       return player;
    }
 
-
-   private void handleEndGame() {
-
+   private void handleEndGame(String winner) {
+      //if()
    }
-
-
 }
 

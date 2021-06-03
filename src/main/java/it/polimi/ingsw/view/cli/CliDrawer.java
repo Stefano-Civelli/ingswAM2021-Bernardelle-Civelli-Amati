@@ -21,6 +21,7 @@ public class CliDrawer{
   private String[][] deck;
   private String[][] leaders;
   private String[][] activatedLeaders;
+  private String[][] lorenzo = lorenzoDrawer.build();
   private final ClientStateViewer state;
 
   private static CardSlotsDrawer slotsDrawer = new CardSlotsDrawer();
@@ -31,6 +32,7 @@ public class CliDrawer{
   private static WarehouseDrawer warehouseDrawer = new WarehouseDrawer();
   private static LeaderHandDrawer leaderHandDrawer = new LeaderHandDrawer();
   private static ActivatedLeaderDrawer activatedLeaderDrawer = new ActivatedLeaderDrawer();
+  private static LorenzoDrawer lorenzoDrawer = new LorenzoDrawer();
 
   public CliDrawer(ClientStateViewer state) {
     this.state = state;
@@ -144,6 +146,45 @@ public class CliDrawer{
       for (int j = 0; j < marbles[i].length; j++)
         System.out.print(marbles[i][j]);
     System.out.println();
+    }
+  }
+
+  public void displayLorenzoHasMoved() {
+    //fillare quella girata
+    lorenzoDrawer.fill(lorenzo, state.getSimpleGameState());
+
+
+
+    for(int i=0; i<lorenzo.length; i++) {
+      for (int j = 0; j < lorenzo[0].length; j++)
+        System.out.print(lorenzo[i][j]);
+      System.out.println();
+    }
+  }
+
+  public void displayLorenzoHasShuffled() {
+    lorenzoDrawer.fill(lorenzo, state.getSimpleGameState());
+    //fillare quella girata
+
+
+
+    for(int i=0; i<lorenzo.length; i++) {
+      for (int j = 0; j < lorenzo[0].length; j++)
+        System.out.print(lorenzo[i][j]);
+      System.out.println();
+    }
+  }
+
+  public void displayLorenzoHasDiscarded() {
+    lorenzoDrawer.fill(lorenzo, state.getSimpleGameState());
+    //fillare quella girata
+
+
+
+    for(int i=0; i<lorenzo.length; i++) {
+      for (int j = 0; j < lorenzo[0].length; j++)
+        System.out.print(lorenzo[i][j]);
+      System.out.println();
     }
   }
 

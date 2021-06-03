@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.view.ClientModelUpdaterInterface;
+import it.polimi.ingsw.view.LorenzoViewInterface;
 
 
 /**
@@ -13,10 +14,12 @@ import it.polimi.ingsw.view.ClientModelUpdaterInterface;
 public class LocalVirtualView implements ModelObserver {
    private ClientModelUpdaterInterface state;
    private String username;
+   private LorenzoViewInterface view;
 
-   public LocalVirtualView(ClientModelUpdaterInterface state, String username) {
+   public LocalVirtualView(ClientModelUpdaterInterface state, String username, LorenzoViewInterface view) {
       this.state = state;
       this.username = username;
+      this.view = view;
    }
 
 
@@ -93,16 +96,19 @@ public class LocalVirtualView implements ModelObserver {
    @Override
    public void lorenzoTrackUpdate(String stateUpdate) {
       state.lorenzoTrackUpdate(stateUpdate);
+      view.displayLorenzoMoved();
    }
 
    @Override
    public void lorenzoShuffleUpdate() {
       state.lorenzoShuffleUpdate();
+      view.displayLorenzoShuffled();
    }
 
    @Override
    public void lorenzoDevDeckUpdate(String stateUpdate) {
-      state.lorenzoDevDeckUpdate(stateUpdate);
+      state.devDeckUpdate(stateUpdate);
+      view.displayLorenzoDiscarded();
    }
 
    @Override

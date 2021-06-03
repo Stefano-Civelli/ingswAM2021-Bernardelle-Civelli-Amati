@@ -35,7 +35,7 @@ public class Client implements PhaseChangedObserver{
 
   public static void main(String[] args) {
     boolean isCli = true;
-    boolean isLocal = false;
+    boolean isLocal = true;
 
     if(args.length > 0)
       isLocal = true;
@@ -61,7 +61,7 @@ public class Client implements PhaseChangedObserver{
       cli.setClientTurnManager(client.clientTurnManager);
 
       if(isLocal) {
-        client.displayLogin();
+        client.view.displayLogin();
         client.view.displayGameStarted();
         client.localGameSetup();
 
@@ -69,7 +69,7 @@ public class Client implements PhaseChangedObserver{
       else
       {
         cli.displayNetworkSetup();
-        client.displayLogin();
+        client.view.displayLogin();
       }
     }
     else {
@@ -108,8 +108,7 @@ public class Client implements PhaseChangedObserver{
     }
   }
 
-  public void displayLogin(){
-    view.displayLogin();
+  public void sendLogin(){
     state.setClientUsername(this.username);
     forwardMessage(new Message(username, MessageType.LOGIN));
   }
@@ -239,10 +238,16 @@ public class Client implements PhaseChangedObserver{
         view.startingSetupUpdate();
         break;
       case LORENZO_TRACK_UPDATE:
+        state.lorenzoTrackUpdate(payload);
+        view.displayLorenzoMoved();
       break; //TODO
       case LORENZO_DECK_UPDATE:
+        state.lorenzoDevDeckUpdate(payload);
+        view.displayLorenzoDiscarded();
         break; //TODO
       case LORENZO_SHUFFLE_UPDATE:
+        state.lorenzoShuffleUpdate();
+        view.displayLorenzoShuffled();
         break; //TODO
       default:
     }
@@ -274,7 +279,7 @@ public class Client implements PhaseChangedObserver{
         break;
       case INVALID_LOGIN_USERNAME:
         view.displayFailedLogin();
-        displayLogin();
+        view.displayLogin();
         break;
       case NOT_BUYABLE:
         System.out.println("sorry mate, sei troppo povero per comprarla. Riprova quando avrai comprato azioni Tesla");
@@ -315,7 +320,7 @@ public class Client implements PhaseChangedObserver{
   }
 
   private void localGameSetup() {
-    ModelObserver localVirtualView = new LocalVirtualView(state, username);
+    ModelObserver localVirtualView = new LocalVirtualView(state, username, view);
     TurnManager gameTurnManager = null;
     try {
       Game game = new SinglePlayer(localVirtualView);
@@ -333,5 +338,9 @@ public class Client implements PhaseChangedObserver{
   @Override
   public void update(String nextPhase) {
     handleTurnState(nextPhase);
+  }
+
+  public ViewInterface getView() {
+    return this.view;
   }
 }

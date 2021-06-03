@@ -192,6 +192,21 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    }
 
+   @Override
+   public void displayLorenzoDiscarded() {
+
+   }
+
+   @Override
+   public void displayLorenzoMoved() {
+
+   }
+
+   @Override
+   public void displayLorenzoShuffled() {
+
+   }
+
 
    @Override
    public void setClientUsername(String username) {

@@ -22,7 +22,8 @@ public class SimpleGameState {
    private MarbleColor[][] market;
    private MarbleColor slide;
    private List<MarbleColor> tempMarble;
-   private int lorenzoTrackPosition;
+   private int lorenzoTrackPosition = 0;
+   private LorenzoState lorenzoState;
 
    public SimpleGameState() {
       tempMarble = new ArrayList<>();
@@ -92,6 +93,10 @@ public class SimpleGameState {
    public void removeTempMarble(int marbleindex){
       this.tempMarble.remove(marbleindex - 1);
    }
+
+   public void updateLorenzoPosition(int lorenzoTrackPosition) {
+      this.lorenzoTrackPosition += lorenzoTrackPosition;
+   }
    //----------UPDATE-----------
 
 
@@ -107,6 +112,14 @@ public class SimpleGameState {
 
    public List<MarbleColor> getTempMarble() {
       return new ArrayList<>(tempMarble);
+   }
+
+   public int getLorenzoTrackPosition() {
+      return lorenzoTrackPosition;
+   }
+
+   public LorenzoState getLorenzoState() {
+      return lorenzoState;
    }
    //----------GETTERS----------
 
@@ -126,5 +139,10 @@ public class SimpleGameState {
          }
       }
       return temp;
+   }
+
+   public void setLorenzoState(LorenzoState lorenzoState) {
+      this.lorenzoState = lorenzoState;
+      //notifyLorenzoStateChanged();
    }
 }

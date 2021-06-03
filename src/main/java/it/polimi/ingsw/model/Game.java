@@ -19,7 +19,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
    private final Market market;
    protected final DevelopCardDeck developCardDeck;
    private final List<Pair<PlayerBoard, Boolean>> playerBoards;
-   private boolean endGame = false;
+   protected boolean endGame = false;
 
    protected final transient ModelObserver controller;
 

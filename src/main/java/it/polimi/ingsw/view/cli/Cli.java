@@ -87,6 +87,7 @@ public class Cli implements ViewInterface {
     out.println("Choose your username:");
     username = in.nextLine();
     client.setUsername(username);
+    client.sendLogin();
   }
 
     @Override
@@ -159,7 +160,7 @@ public class Cli implements ViewInterface {
 //
 //    if(secondsRemaining == 0)
       //out.println("Countdown terminated, retry to login");
-      client.displayLogin();
+      displayLogin();
   }
 
   public void displayMarbleChoice() {
@@ -247,6 +248,24 @@ public class Cli implements ViewInterface {
 
   @Override
   public void startingSetupUpdate() {}
+
+  @Override
+  public void displayLorenzoDiscarded() {
+    clearScreen();
+    drawer.displayLorenzoHasDiscarded();
+  }
+
+  @Override
+  public void displayLorenzoMoved() {
+    clearScreen();
+    drawer.displayLorenzoHasMoved();
+  }
+
+  @Override
+  public void displayLorenzoShuffled() {
+    clearScreen();
+    drawer.displayLorenzoHasShuffled();
+  }
 
   private void waitForInput() {
 
