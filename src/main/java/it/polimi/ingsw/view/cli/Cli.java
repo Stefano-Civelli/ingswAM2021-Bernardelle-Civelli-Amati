@@ -159,7 +159,7 @@ public class Cli implements ViewInterface {
 //
 //    if(secondsRemaining == 0)
       //out.println("Countdown terminated, retry to login");
-      displayLogin();
+      client.displayLogin();
   }
 
   public void displayMarbleChoice() {
@@ -175,7 +175,9 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayServerDown() {
-    out.println("Server has crashed, you will be diconnected.");
+    for(int i=0; i<5; i++)
+      System.out.println();
+    out.println(Color.ANSI_RED.escape() + "Server has crashed, you will be diconnected." + Color.RESET.escape());
   }
 
   @Override

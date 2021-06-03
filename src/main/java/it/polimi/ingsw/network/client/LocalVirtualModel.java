@@ -7,14 +7,16 @@ import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.GSON;
 
-public class LocalVirtualModel implements VirtualModel{
+public class LocalVirtualModel implements VirtualModel, PhaseChangedObservable{
 
    private TurnManager turnManager;
    private ClientTurnManagerInterface clientTurnManager;
+   private Client client;
 
-   public LocalVirtualModel(TurnManager turnManager, ClientTurnManagerInterface clientTurnManager) {
+   public LocalVirtualModel(TurnManager turnManager, ClientTurnManagerInterface clientTurnManager, Client client) {
       this.turnManager = turnManager;
       this.clientTurnManager = clientTurnManager;
+      this.client = client;
    }
 
    @Override
@@ -24,8 +26,7 @@ public class LocalVirtualModel implements VirtualModel{
         nextPhaseMessage = this.turnManager.handleAction(action);
       } catch (NoConnectedPlayerException e) {e.printStackTrace();}
       System.out.println(nextPhaseMessage.getPayload());
-      TurnManager.TurnState nextPhase = GSON.getGsonBuilder().fromJson(nextPhaseMessage.getPayload(), TurnManager.TurnState.class);
-      clientTurnManager.setStateIsPlayerChanged(nextPhase);
+      notifyPhaseChanged(nextPhaseMessage.getPayload());
    }
 
    @Override
@@ -33,4 +34,9 @@ public class LocalVirtualModel implements VirtualModel{
 
    @Override
    public void stop() { /*does nothing*/ }
+
+   @Override
+   public void notifyPhaseChanged(String nextPhase) {
+      client.update(nextPhase);
+   }
 }

@@ -37,7 +37,6 @@ public class ServerConnector{
           Message msg = messageParserFromJson(in.readLine());
           client.handleMessage(msg);
         }
-
       } catch (IOException | NoSuchElementException e) {
         notifyServerLost();
         stop();

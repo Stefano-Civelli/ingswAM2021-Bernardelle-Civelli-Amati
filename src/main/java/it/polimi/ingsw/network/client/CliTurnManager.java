@@ -12,7 +12,7 @@ import it.polimi.ingsw.view.cli.Color;
 
 import java.util.HashMap;
 
-public class CliTurnManager implements ClientTurnManagerInterface{
+public class CliTurnManager implements ClientTurnManagerInterface {
   private Client client;
   private PhaseType currentPhase;
   private String currentPlayer;
