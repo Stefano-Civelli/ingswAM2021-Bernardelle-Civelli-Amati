@@ -6,12 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrackTest {
 
-   File trackConfigFile = ConfigParameters.trackConfigFile;
+   InputStream trackConfigStream = ConfigParameters.trackConfigStream;
    Track track;
    Track track2;
    Track track3;
@@ -20,14 +21,14 @@ class TrackTest {
    @Test //test the score of the track if the player has never moved his faith marker
    void calculateTrackScoreTEST() throws IOException {
 
-      track = GSON.trackParser(trackConfigFile);
+      track = GSON.trackParser(trackConfigStream);
       assertEquals(track.calculateTrackScore(), 1);
    }
 
    @Test //test if victory points implementation actually works
    void calculateTrackScoreTEST2() throws IOException {
 
-      track = GSON.trackParser(trackConfigFile);
+      track = GSON.trackParser(trackConfigStream);
 
       track.moveForward(4);
       assertEquals(track.calculateTrackScore(), 2);
@@ -40,8 +41,8 @@ class TrackTest {
    @Test
    void checkIfCurrentPositionIsActiveTEST() throws IOException {
 
-      track = GSON.trackParser(trackConfigFile);
-      track2 = GSON.trackParser(trackConfigFile);
+      track = GSON.trackParser(trackConfigStream);
+      track2 = GSON.trackParser(trackConfigStream);
 
       track.addToVaticanReportObserverList(track2);
       track.moveForward(8);
@@ -54,8 +55,8 @@ class TrackTest {
 
    @Test
    void checkIfCurrentPositionIsActiveTEST2() throws IOException {
-      track = GSON.trackParser(trackConfigFile);
-      track2 = GSON.trackParser(trackConfigFile);
+      track = GSON.trackParser(trackConfigStream);
+      track2 = GSON.trackParser(trackConfigStream);
 
       track.addToVaticanReportObserverList(track2);
       track.moveForward(7);
@@ -68,8 +69,8 @@ class TrackTest {
    @Test
    void checkIfCurrentPositionIsActiveTEST3() throws IOException {
 
-      track = GSON.trackParser(trackConfigFile);
-      track2 = GSON.trackParser(trackConfigFile);
+      track = GSON.trackParser(trackConfigStream);
+      track2 = GSON.trackParser(trackConfigStream);
 
       track.addToVaticanReportObserverList(track2);
       track.moveForward(5);
@@ -81,8 +82,8 @@ class TrackTest {
    @Test
    void checkIfCurrentPositionIsActiveTEST4() throws IOException {
 
-      track = GSON.trackParser(trackConfigFile);
-      track2 = GSON.trackParser(trackConfigFile);
+      track = GSON.trackParser(trackConfigStream);
+      track2 = GSON.trackParser(trackConfigStream);
 
       track.addToVaticanReportObserverList(track2);
       track.moveForward(4);
@@ -102,7 +103,7 @@ class TrackTest {
 
    @Test
    void negativeInputTest() throws IOException {
-      track = GSON.trackParser(trackConfigFile);
+      track = GSON.trackParser(trackConfigStream);
       track.moveForward(-1);
       assertEquals(track.calculateTrackScore(), 1);
    }
@@ -110,8 +111,8 @@ class TrackTest {
    @Test
    void negativeInputTest2() throws IOException {
 
-      track = GSON.trackParser(trackConfigFile);
-      track2 = GSON.trackParser(trackConfigFile);
+      track = GSON.trackParser(trackConfigStream);
+      track2 = GSON.trackParser(trackConfigStream);
 
       track.addToVaticanReportObserverList(track2);
       track.moveForward(8);
@@ -131,8 +132,8 @@ class TrackTest {
    @Test
    void moreMovesThanAllowed() throws IOException {
 
-      track = GSON.trackParser(trackConfigFile);
-      track2 = GSON.trackParser(trackConfigFile);
+      track = GSON.trackParser(trackConfigStream);
+      track2 = GSON.trackParser(trackConfigStream);
 
       track2.addToVaticanReportObserverList(track);
       track.moveForward(4);
@@ -145,13 +146,13 @@ class TrackTest {
    @Test
    void vaticanReportTestObserver() throws IOException {
 
-      track = GSON.trackParser(trackConfigFile);
-      track2 = GSON.trackParser(trackConfigFile);
+      track = GSON.trackParser(trackConfigStream);
+      track2 = GSON.trackParser(trackConfigStream);
       track2.addToVaticanReportObserverList(track);
-      track3 = GSON.trackParser(trackConfigFile);
+      track3 = GSON.trackParser(trackConfigStream);
       track3.addToVaticanReportObserverList(track);
       track3.addToVaticanReportObserverList(track2);
-      track4 = GSON.trackParser(trackConfigFile);
+      track4 = GSON.trackParser(trackConfigStream);
       track4.addToVaticanReportObserverList(track);
       track4.addToVaticanReportObserverList(track2);
       track4.addToVaticanReportObserverList(track3);

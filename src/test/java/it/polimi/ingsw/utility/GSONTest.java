@@ -95,10 +95,10 @@ class GSONTest {
 //      }
 //   }
 
-   @Test
-   void IOExceptionTest() {
-      final LeaderCardDeck leaderCardDeck;
-      File pippoFile = new File("pippo");
-      assertThrows(IOException.class, () -> GSON.leaderCardParser(pippoFile));
-   }
+//   @Test
+//   void IOExceptionTest() {
+//      final LeaderCardDeck leaderCardDeck;
+//      File pippoFile = new File("pippo");
+//      assertThrows(IOException.class, () -> GSON.leaderCardParser(pippoFile));
+//   }
 }

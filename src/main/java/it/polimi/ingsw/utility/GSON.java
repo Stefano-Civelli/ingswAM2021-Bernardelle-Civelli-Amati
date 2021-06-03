@@ -10,6 +10,7 @@ import it.polimi.ingsw.controller.action.*;
 
 import java.io.*;
 import java.lang.reflect.Modifier;
+import java.nio.charset.StandardCharsets;
 
 
 public class GSON{
@@ -20,26 +21,25 @@ public class GSON{
       return gsonBuilder;
    }
 
-   public static DevelopCardDeck cardParser(File file) throws IOException {
-      FileInputStream inputStream = new FileInputStream(file);
-      InputStreamReader reader = new InputStreamReader(inputStream);
+   public static DevelopCardDeck cardParser(InputStream inputStream) throws IOException {
+      //FileInputStream inputStream = new FileInputStream(file);
+      InputStreamReader reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/DevelopCardConfig.json"), StandardCharsets.UTF_8);
       DevelopCardDeck developCardDeck = gsonBuilder.fromJson(reader, DevelopCardDeck.class);
       reader.close();
       developCardDeck.setupClass();
       return developCardDeck;
    }
 
-   public static Track trackParser(File file) throws IOException {
-      FileInputStream inputStream = new FileInputStream(file);
-      InputStreamReader reader = new InputStreamReader(inputStream);
+   public static Track trackParser(InputStream inputStream) throws IOException {
+      //FileInputStream inputStream = new FileInputStream(file);
+      InputStreamReader reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/SquareConfig.json"), StandardCharsets.UTF_8);
       Track track = gsonBuilder.fromJson(reader, Track.class);
       reader.close();
       return track;
    }
 
-   public static LorenzoTrack lorenzoTrackParser(File file) throws IOException {
-      FileInputStream inputStream = new FileInputStream(file);
-      InputStreamReader reader = new InputStreamReader(inputStream);
+   public static LorenzoTrack lorenzoTrackParser(InputStream inputStream) throws IOException {
+      InputStreamReader reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/SquareConfig.json"), StandardCharsets.UTF_8);
       LorenzoTrack lorenzoTrack = gsonBuilder.fromJson(reader, LorenzoTrack.class);
       reader.close();
       return lorenzoTrack;
@@ -47,7 +47,7 @@ public class GSON{
 
    //"requiredResources": "NONE" creates a null ResourceType
    //"requiredCardFlags": [] creates an empty Map
-   public static LeaderCardDeck leaderCardParser(File file) throws IOException {
+   public static LeaderCardDeck leaderCardParser(InputStream inputStream) throws IOException {
       RuntimeTypeAdapterFactory<CardBehaviour> cardBehaviourAdapter = RuntimeTypeAdapterFactory.of(CardBehaviour.class, "type");
       cardBehaviourAdapter
               .registerSubtype(MarbleModifierBehaviour.class, "MarbleModifierBehaviour")
@@ -59,8 +59,14 @@ public class GSON{
               .enableComplexMapKeySerialization()
               .registerTypeAdapterFactory(cardBehaviourAdapter);
       Gson gson = builder.create();
-      FileInputStream inputStream = new FileInputStream(file);
-      InputStreamReader reader = new InputStreamReader(inputStream);
+      //FileInputStream inputStream = new FileInputStream(file);
+      InputStreamReader reader;
+      if(ConfigParameters.TESTING) {
+         reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/LeaderCardConfig0Requirements.json"), StandardCharsets.UTF_8);
+      }
+      else {
+         reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/LeaderCardConfig.json"), StandardCharsets.UTF_8);
+      }
       LeaderCardDeck leaderCardDeck = gson.fromJson(reader, LeaderCardDeck.class);
       reader.close();
       leaderCardDeck.shuffleLeaderList();

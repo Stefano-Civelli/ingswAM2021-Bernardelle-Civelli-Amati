@@ -18,7 +18,7 @@ class DiscardTokenTest {
 
     @Test
     void useTokenTest() throws IOException, InvalidDevelopCardException, InvalidCardException {
-        DevelopCardDeck deck = GSON.cardParser(ConfigParameters.cardConfigFile);
+        DevelopCardDeck deck = GSON.cardParser(ConfigParameters.cardConfigStream);
         DevelopCard card = deck.getCard(0, DevelopCardColor.BLUE.getColumn()),
                 cardU = deck.getCard(1, DevelopCardColor.BLUE.getColumn());
         DevelopCard cardG0 = deck.getCard(0, DevelopCardColor.GREEN.getColumn()),

@@ -22,7 +22,7 @@ public class DevelopCardConstructor {
 
   static {
     try {
-      developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
+      developCardDeck = GSON.cardParser(ConfigParameters.cardConfigStream);
     } catch (IOException e) {
       e.printStackTrace();
     }

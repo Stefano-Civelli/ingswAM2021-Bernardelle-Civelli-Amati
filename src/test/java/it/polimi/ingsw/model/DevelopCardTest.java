@@ -11,17 +11,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 
 class DevelopCardTest {
-   File cardConfigFile = ConfigParameters.cardConfigFile;
+   InputStream cardConfigStream = ConfigParameters.cardConfigStream;
 
    @Test
    void testIfLevel1AreBuyable() throws IOException, NotEnoughSpaceException,
            AbuseOfFaithException, NegativeQuantityException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigFile);
+      developCardDeck = GSON.cardParser(cardConfigStream);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
               "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
@@ -41,7 +42,7 @@ class DevelopCardTest {
    @Test
    void everyCardIsBuyable() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigFile);
+      developCardDeck = GSON.cardParser(cardConfigStream);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
               "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
@@ -62,7 +63,7 @@ class DevelopCardTest {
 //   @Test    COMMENTED BECAUSE I REMOVED THIS CONROL FROM THE isBuyable METHOD
 //   void notVisibleCardIsBuyable() throws NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException, IOException {
 //      DevelopCardDeck developCardDeck;
-//      developCardDeck = GSON.cardParser(cardConfigFile);
+//      developCardDeck = GSON.cardParser(cardConfigStream);
 //      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(), developCardDeck);
 //      playerBoard.getWarehouse().addResource(ResourceType.GOLD);
 //      playerBoard.getChest().addResources(ResourceType.GOLD,1);
@@ -82,7 +83,7 @@ class DevelopCardTest {
    @Test
    void nullValueIsBuyable() throws IOException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigFile);
+      developCardDeck = GSON.cardParser(cardConfigStream);
       assertThrows(NullPointerException.class, () -> developCardDeck.getCard(0,0).isBuyable(null));
    }
 
@@ -90,7 +91,7 @@ class DevelopCardTest {
    @Test
    void buyCardsFromSamePosition() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigFile);
+      developCardDeck = GSON.cardParser(cardConfigStream);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
               "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
@@ -109,7 +110,7 @@ class DevelopCardTest {
    @Test
    void invalidCardSlotPlacementInBuy() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigFile);
+      developCardDeck = GSON.cardParser(cardConfigStream);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
               "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
@@ -135,7 +136,7 @@ class DevelopCardTest {
    void isActivatebleTest() throws IOException, InvalidDevelopCardException,
            AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigFile);
+      developCardDeck = GSON.cardParser(cardConfigStream);
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.SHIELD);
@@ -154,7 +155,7 @@ class DevelopCardTest {
    @Test
    void produceTestNoExceptions() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NotActivatableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigFile);
+      developCardDeck = GSON.cardParser(cardConfigStream);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
               "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
@@ -174,7 +175,7 @@ class DevelopCardTest {
    @Test
    void produceCardNotOnTop() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NotActivatableException, NegativeQuantityException, InvalidCardPlacementException {
       DevelopCardDeck developCardDeck;
-      developCardDeck = GSON.cardParser(cardConfigFile);
+      developCardDeck = GSON.cardParser(cardConfigStream);
       InterfacePlayerBoard playerBoard = new PlayerBoard(
               "Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);

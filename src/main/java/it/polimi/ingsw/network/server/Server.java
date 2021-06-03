@@ -211,7 +211,7 @@ public class Server {
             game = new Game(virtualView);
       }catch(IOException | JsonSyntaxException e){ //TODO controllare se viene lanciata la JsonSyntaxException
          //TODO bisogna chiudere la partita (disconnetto tutti i client 1 per volta dicendo Errore nei file di configurazione del gioco)
-         sendToClient(new Message(MessageType.GENERIC_MESSAGE));
+         sendToClient(new Message(MessageType.GENERIC_MESSAGE, e.getStackTrace()));
          return; //TODO è un po alla cazzo per non far sottoilineare initialMoveForward
       }
 

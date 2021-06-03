@@ -36,7 +36,9 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       this.leaderCards = leaderCards != null ? new ArrayList<>(leaderCards) : new ArrayList<>();
       this.chest = new Chest();
       this.warehouse = new Warehouse();
-      this.track = GSON.trackParser(ConfigParameters.trackConfigFile);
+      if(ConfigParameters.trackConfigStream == null)
+         System.out.println("cazzo");
+      this.track = GSON.trackParser(ConfigParameters.trackConfigStream);
       this.track.setUsername(username);
       this.cardSlots = new CardSlots();
       this.market = market;

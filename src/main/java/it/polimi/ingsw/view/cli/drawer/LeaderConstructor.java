@@ -19,7 +19,7 @@ public class LeaderConstructor {
 
   static {
     try {
-      leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
+      leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigStream);
     } catch (IOException e) {
       e.printStackTrace();
     }

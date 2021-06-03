@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -22,12 +23,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerBoardTest {
 
-  File cardConfigFile = ConfigParameters.cardConfigFile;
+  InputStream cardConfigStream = ConfigParameters.cardConfigStream;
   Market market = new Market(null);
 
   PlayerBoard initializer() throws IOException {
     String usr = "talla";
-    DevelopCardDeck developCardDeck = GSON.cardParser(cardConfigFile);
+    DevelopCardDeck developCardDeck = GSON.cardParser(cardConfigStream);
     List<LeaderCard> leaderCards = new ArrayList<>();
     leaderCards.add(new LeaderCard(1,null, null, 4, new MarbleModifierBehaviour(ResourceType.SERVANT)));
     leaderCards.add(new LeaderCard(2,null, null, 6, new MarbleModifierBehaviour(ResourceType.SHIELD)));

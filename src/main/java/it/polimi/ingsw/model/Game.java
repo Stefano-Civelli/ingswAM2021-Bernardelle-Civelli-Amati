@@ -30,8 +30,8 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
     * @throws IOException if there are some problems loading the configuration files
     */
    public Game(ModelObserver controller) throws IOException {
-      this.leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigFile);
-      this.developCardDeck = GSON.cardParser(ConfigParameters.cardConfigFile);
+      this.leaderCardDeck = GSON.leaderCardParser(ConfigParameters.leaderCardConfigStream);
+      this.developCardDeck = GSON.cardParser(ConfigParameters.cardConfigStream);
       this.developCardDeck.finalizeDeckSetup(controller);
       this.market = new Market(controller);
       this.playerBoards = new ArrayList<>();
