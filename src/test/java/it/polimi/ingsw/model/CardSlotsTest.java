@@ -30,7 +30,7 @@ class CardSlotsTest {
     int totalPoints = 0;
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
-    developCardDeck = GSON.cardParser(cardConfigStream);
+    developCardDeck = GSON.cardParser();
 
     cardSlots.addDevelopCard(0, developCardDeck.getCard(0,0));
     totalPoints = totalPoints + developCardDeck.getCard(0,0).getVictoryPoints();
@@ -48,7 +48,7 @@ class CardSlotsTest {
   void checkSameCardPlacementExceptionTest1() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
-    developCardDeck = GSON.cardParser(cardConfigStream);
+    developCardDeck = GSON.cardParser();
 
     cardSlots.addDevelopCard(0, developCardDeck.getCard(0,0));
     assertThrows(InvalidCardPlacementException.class, () -> cardSlots.addDevelopCard(1, developCardDeck.getCard(0,0)));
@@ -58,7 +58,7 @@ class CardSlotsTest {
   void checkSameCardPlacementExceptionTest2() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
-    developCardDeck = GSON.cardParser(cardConfigStream);
+    developCardDeck = GSON.cardParser();
 
     cardSlots.addDevelopCard(0, developCardDeck.getCard(0,0));
     cardSlots.addDevelopCard(0, developCardDeck.getCard(1,0));
@@ -71,7 +71,7 @@ class CardSlotsTest {
   void checkInvalidLevelCardPlacementExceptionTest1() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
-    developCardDeck = GSON.cardParser(cardConfigStream);
+    developCardDeck = GSON.cardParser();
 
     cardSlots.addDevelopCard(0, developCardDeck.getCard(0,0));
     cardSlots.addDevelopCard(0, developCardDeck.getCard(1,0));
@@ -82,7 +82,7 @@ class CardSlotsTest {
   void checkInvalidLevelCardPlacementExceptionTest2() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
-    developCardDeck = GSON.cardParser(cardConfigStream);
+    developCardDeck = GSON.cardParser();
 
     cardSlots.addDevelopCard(0, developCardDeck.getCard(0,0));
     assertThrows(InvalidCardPlacementException.class, () -> cardSlots.addDevelopCard(0, developCardDeck.getCard(2,0)));
@@ -92,7 +92,7 @@ class CardSlotsTest {
   void checkInvalidLevelCardPlacementExceptionTest3() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
-    developCardDeck = GSON.cardParser(cardConfigStream);
+    developCardDeck = GSON.cardParser();
 
     cardSlots.addDevelopCard(0, developCardDeck.getCard(0,0));
     cardSlots.addDevelopCard(0, developCardDeck.getCard(1,0));
@@ -105,7 +105,7 @@ class CardSlotsTest {
   void fullSlotAddDevelopCardTest() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
-    developCardDeck = GSON.cardParser(cardConfigStream);
+    developCardDeck = GSON.cardParser();
 
     cardSlots.addDevelopCard(0, developCardDeck.getCard(0,0));
     cardSlots.addDevelopCard(0, developCardDeck.getCard(1,0));
@@ -117,7 +117,7 @@ class CardSlotsTest {
   void activatableCards() throws IOException, AbuseOfFaithException, InvalidDevelopCardException, InvalidCardPlacementException, NegativeQuantityException {
     CardSlots cardSlots = new CardSlots();
     DevelopCardDeck developCardDeck;
-    developCardDeck = GSON.cardParser(cardConfigStream);
+    developCardDeck = GSON.cardParser();
 
     InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), new Market(null), developCardDeck);
     playerBoard.getChest().addResources(ResourceType.GOLD,10);

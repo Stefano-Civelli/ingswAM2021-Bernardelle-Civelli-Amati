@@ -27,7 +27,7 @@ class ShuffleTokenTest {
         Collections.shuffle(tokens);
         List<ActionToken> tokensTmp = new ArrayList<>(tokens);
 
-        Track lorenzTrack = GSON.trackParser(ConfigParameters.lorenzoTrackConfigStream);
+        Track lorenzTrack = GSON.trackParser();
         int points0 = lorenzTrack.getTrack()[0].getVictoryPoints(),
                 points1 = 0,
                 position = 0;

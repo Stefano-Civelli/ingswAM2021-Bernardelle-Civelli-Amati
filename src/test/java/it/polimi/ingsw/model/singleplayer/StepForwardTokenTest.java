@@ -15,7 +15,7 @@ class StepForwardTokenTest {
 
     @Test
     void useTokenTest() throws IOException {
-        Track lorenzTrack = GSON.trackParser(ConfigParameters.lorenzoTrackConfigStream);
+        Track lorenzTrack = GSON.trackParser();
         int points0 = lorenzTrack.getTrack()[0].getVictoryPoints(),
                 points1 = 0,
                 position = 0;
