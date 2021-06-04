@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelObservables.LeaderSetupObservable;
 import it.polimi.ingsw.model.modelexceptions.*;
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
@@ -18,7 +17,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
    private final LeaderCardDeck leaderCardDeck;
    private final Market market;
    protected final DevelopCardDeck developCardDeck;
-   private final List<Pair<PlayerBoard, Boolean>> playerBoards;
+   protected final List<Pair<PlayerBoard, Boolean>> playerBoards;
    protected boolean endGame = false;
 
    protected final transient ModelObserver controller;
@@ -218,6 +217,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
    }
 
    private void handleEndGame() {
+      Pair<String, Integer> winnerAndScore;
       String winner = null;
       int score=0;
       int bResources=0;
@@ -239,7 +239,8 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
          }
       }
       System.out.println(winner);
-      controller.endGameUpdate(winner);
+      winnerAndScore = new Pair<>(winner, score);
+      controller.endGameUpdate(GSON.getGsonBuilder().toJson(winnerAndScore));
    }
 
    @Override

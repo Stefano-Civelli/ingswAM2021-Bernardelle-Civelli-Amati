@@ -1,10 +1,16 @@
 package it.polimi.ingsw.view.cli;
 
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.market.MarbleColor;
+import it.polimi.ingsw.utility.ConfigParameters;
+import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.cli.drawer.*;
 
-public class CliDrawer{
+import java.lang.reflect.Type;
+
+public class CliDrawer {
 
   private final int PLAYERBOARD_LENGTH = 90;
   private final int PLAYERBOARD_HEIGHT = 16;
@@ -38,21 +44,21 @@ public class CliDrawer{
     this.state = state;
     this.canvas = new String[MAX_DISPLAYABLE_HEIGHT][MAX_DISPLAYABLE_LENGTH];
 
-    for (int i=0; i<MAX_DISPLAYABLE_HEIGHT; i++)
-      for (int j=0; j<MAX_DISPLAYABLE_LENGTH; j++)
+    for (int i = 0; i < MAX_DISPLAYABLE_HEIGHT; i++)
+      for (int j = 0; j < MAX_DISPLAYABLE_LENGTH; j++)
         canvas[i][j] = " ";
   }
 
-  public void displayPlainCanvas(){
+  public void displayPlainCanvas() {
     clearCanvas();
-    placeHereOnCanvas(0,0, canvas);
+    placeHereOnCanvas(0, 0, canvas);
     displayCanvas();
   }
 
   //TODO gestire il caso delle leader girate quando printeró le altre playerboard
   public void displayDefaultCanvas(String username) {
     clearCanvas();
-    placeHereOnCanvas(0,0, MarginConstructor.buildMargins(PLAYERBOARD_HEIGHT, PLAYERBOARD_LENGTH));
+    placeHereOnCanvas(0, 0, MarginConstructor.buildMargins(PLAYERBOARD_HEIGHT, PLAYERBOARD_LENGTH));
     setUsernameOnCanvas(username);
 
     deck = deckDrawer.build();
@@ -73,14 +79,14 @@ public class CliDrawer{
     leaderHandDrawer.fill(leaders, state.getSimplePlayerState(username));
     activatedLeaderDrawer.fill(activatedLeaders, state.getSimplePlayerState(username));
 
-    placeHereOnCanvas(1,3, track);
-    placeHereOnCanvas(0,PLAYERBOARD_LENGTH+4,market);
-    placeHereOnCanvas(0,PLAYERBOARD_LENGTH+21,deck);
-    placeHereOnCanvas(5,3,warehouse);
-    placeHereOnCanvas(10,3,chest);
-    placeHereOnCanvas(5,20,slots);
-    placeHereOnCanvas(PLAYERBOARD_HEIGHT,0,leaders);
-    placeHereOnCanvas(5,75,activatedLeaders);
+    placeHereOnCanvas(1, 3, track);
+    placeHereOnCanvas(0, PLAYERBOARD_LENGTH + 4, market);
+    placeHereOnCanvas(0, PLAYERBOARD_LENGTH + 21, deck);
+    placeHereOnCanvas(5, 3, warehouse);
+    placeHereOnCanvas(10, 3, chest);
+    placeHereOnCanvas(5, 20, slots);
+    placeHereOnCanvas(PLAYERBOARD_HEIGHT, 0, leaders);
+    placeHereOnCanvas(5, 75, activatedLeaders);
     displayCanvas();
   }
 
@@ -88,7 +94,7 @@ public class CliDrawer{
     market = marketDrawer.build();
     marketDrawer.fill(market, state.getSimpleGameState());
 
-    for(int i=1; i<market.length; i++) {
+    for (int i = 1; i < market.length; i++) {
       for (int j = 0; j < market[i].length; j++)
         System.out.print(market[i][j]);
       System.out.println();
@@ -96,13 +102,13 @@ public class CliDrawer{
   }
 
   public void displayLeaderHand(String username) {
-    String[][] leaderHand = new String[5][state.getSimplePlayerState(username).getNotActiveLeaderCards().size()*11];
-    int a=0, b=0, d=5, index=1;
+    String[][] leaderHand = new String[5][state.getSimplePlayerState(username).getNotActiveLeaderCards().size() * 11];
+    int a = 0, b = 0, d = 5, index = 1;
 
-    for(int i=0; i<leaderHand[0].length; i++)
+    for (int i = 0; i < leaderHand[0].length; i++)
       leaderHand[4][i] = " ";
 
-    for(Integer id : state.getSimplePlayerState(username).getNotActiveLeaderCards()) {
+    for (Integer id : state.getSimplePlayerState(username).getNotActiveLeaderCards()) {
       String[][] leader = LeaderConstructor.constructLeaderFromId(id);
       for (int i = 0; i < leader.length; i++, a++)
         for (int j = 0, c = b; j < leader[0].length; j++, c++)
@@ -111,12 +117,12 @@ public class CliDrawer{
       leaderHand[4][d] = Integer.toString(index);
 
       index++;
-      d+=11;
-      a=0;
-      b=b+11;
+      d += 11;
+      a = 0;
+      b = b + 11;
     }
 
-    for(int i=0; i< leaderHand.length; i++) {
+    for (int i = 0; i < leaderHand.length; i++) {
       for (int j = 0; j < leaderHand[0].length; j++)
         System.out.print(leaderHand[i][j]);
       System.out.println();
@@ -126,8 +132,8 @@ public class CliDrawer{
   public void displayResourcesChoice() {
     String[][] marbles = new String[2][8];
 
-    for(int i=0; i<marbles.length; i++)
-      for(int j=0; j<marbles[i].length; j++)
+    for (int i = 0; i < marbles.length; i++)
+      for (int j = 0; j < marbles[i].length; j++)
         marbles[i][j] = " ";
 
     marbles[0][0] = MarbleColor.BLUE.toString();
@@ -135,27 +141,30 @@ public class CliDrawer{
     marbles[0][4] = MarbleColor.YELLOW.toString();
     marbles[0][6] = MarbleColor.GREY.toString();
 
-    int a=1;
-    for(int c=0; c<marbles[0].length; c++)
-      if(c%2==0) {
+    int a = 1;
+    for (int c = 0; c < marbles[0].length; c++)
+      if (c % 2 == 0) {
         marbles[1][c] = Integer.toString(a);
         a++;
       }
 
-    for(int i=0; i<marbles.length; i++) {
+    for (int i = 0; i < marbles.length; i++) {
       for (int j = 0; j < marbles[i].length; j++)
         System.out.print(marbles[i][j]);
-    System.out.println();
+      System.out.println();
     }
   }
 
   public void displayLorenzoHasMoved() {
-    //fillare quella girata
+    clearLorenzo();
+    String[][] token = lastTokenMoved();
     lorenzoDrawer.fill(lorenzo, state.getSimpleGameState());
 
+    for (int i = 0; i < token.length; i++)
+      for (int j = 0; j < token[0].length; j++)
+        lorenzo[i][j + 96] = token[i][j];
 
-
-    for(int i=0; i<lorenzo.length; i++) {
+    for (int i = 0; i < lorenzo.length; i++) {
       for (int j = 0; j < lorenzo[0].length; j++)
         System.out.print(lorenzo[i][j]);
       System.out.println();
@@ -163,25 +172,35 @@ public class CliDrawer{
   }
 
   public void displayLorenzoHasShuffled() {
+    clearLorenzo();
+    String[][] token = lastTokenShuffle();
     lorenzoDrawer.fill(lorenzo, state.getSimpleGameState());
-    //fillare quella girata
 
+    for (int i = 0; i < token.length; i++)
+      for (int j = 0; j < token[0].length; j++)
+        lorenzo[i][j + 96] = token[i][j];
 
-
-    for(int i=0; i<lorenzo.length; i++) {
+    for (int i = 0; i < lorenzo.length; i++) {
       for (int j = 0; j < lorenzo[0].length; j++)
         System.out.print(lorenzo[i][j]);
       System.out.println();
     }
   }
 
-  public void displayLorenzoHasDiscarded() {
+  public void displayLorenzoHasDiscarded(String discardPair) {
+    clearLorenzo();
+    Type token = new TypeToken<Pair<Integer, Integer>>(){}.getType();
+    Pair<Integer, Integer> pair = GSON.getGsonBuilder().fromJson(discardPair, token);
+    int column = pair.getValue();
+
+    String[][] tokenCard = lastTokenDiscarded(column);
     lorenzoDrawer.fill(lorenzo, state.getSimpleGameState());
-    //fillare quella girata
 
+    for (int i = 0; i < tokenCard.length; i++)
+      for (int j = 0; j < tokenCard[0].length; j++)
+        lorenzo[i][j + 96] = tokenCard[i][j];
 
-
-    for(int i=0; i<lorenzo.length; i++) {
+    for (int i = 0; i < lorenzo.length; i++) {
       for (int j = 0; j < lorenzo[0].length; j++)
         System.out.print(lorenzo[i][j]);
       System.out.println();
@@ -219,33 +238,33 @@ public class CliDrawer{
 //        System.out.println(resources[i][j]);
 //  }
 
-  public void drawDevelopCardDeck(){
+  public void drawDevelopCardDeck() {
     String[][] deckWithIndexes = new String[13][46];
     deck = deckDrawer.build();
     deckDrawer.fill(deck, state.getSimpleGameState());
 
-    for(int r=0; r<deckWithIndexes.length; r++)
-      for(int c=0; c<deckWithIndexes[0].length; c++)
+    for (int r = 0; r < deckWithIndexes.length; r++)
+      for (int c = 0; c < deckWithIndexes[0].length; c++)
         deckWithIndexes[r][c] = " ";
 
     deckWithIndexes[0][7] = "1";
-    deckWithIndexes[0][7+11] = "2";
-    deckWithIndexes[0][7+22] = "3";
-    deckWithIndexes[0][7+33] = "4";
+    deckWithIndexes[0][7 + 11] = "2";
+    deckWithIndexes[0][7 + 22] = "3";
+    deckWithIndexes[0][7 + 33] = "4";
 
     deckWithIndexes[1][0] = "1";
-    deckWithIndexes[1+4][0] = "2";
-    deckWithIndexes[1+8][0] = "3";
+    deckWithIndexes[1 + 4][0] = "2";
+    deckWithIndexes[1 + 8][0] = "3";
     deckWithIndexes[1][1] = ".";
-    deckWithIndexes[1+4][1] = ".";
-    deckWithIndexes[1+8][1] = ".";
+    deckWithIndexes[1 + 4][1] = ".";
+    deckWithIndexes[1 + 8][1] = ".";
 
-    for(int r=1; r<deck.length; r++)
-      for(int c=0; c<deck[0].length; c++)
-        deckWithIndexes[r][c+2] = deck[r][c];
+    for (int r = 1; r < deck.length; r++)
+      for (int c = 0; c < deck[0].length; c++)
+        deckWithIndexes[r][c + 2] = deck[r][c];
 
-    for (int i=0; i<deckWithIndexes.length; i++) {
-      for (int j=0; j < deckWithIndexes[0].length; j++)
+    for (int i = 0; i < deckWithIndexes.length; i++) {
+      for (int j = 0; j < deckWithIndexes[0].length; j++)
         System.out.print(deckWithIndexes[i][j]);
       System.out.println();
     }
@@ -253,7 +272,7 @@ public class CliDrawer{
   }
 
   private void displayCanvas() {
-    for (int i = 0; i< MAX_DISPLAYABLE_HEIGHT; i++) {
+    for (int i = 0; i < MAX_DISPLAYABLE_HEIGHT; i++) {
       for (int j = 0; j < MAX_DISPLAYABLE_LENGTH; j++)
         System.out.print(canvas[i][j]);
       System.out.println();
@@ -261,33 +280,101 @@ public class CliDrawer{
   }
 
   private void clearCanvas() {
-    for (int i=0; i<canvas.length; i++)
-      for (int j=0; j<canvas[i].length; j++)
+    for (int i = 0; i < canvas.length; i++)
+      for (int j = 0; j < canvas[i].length; j++)
         canvas[i][j] = " ";
   }
 
   private void placeHereOnCanvas(int r, int c, String[][] placeMe) {
     int startRow = r, startCol = c;
-    for(int i=0 ; i<placeMe.length; i++, startRow++) {
+    for (int i = 0; i < placeMe.length; i++, startRow++) {
       startCol = c;
-      for (int j=0; j < placeMe[0].length; j++, startCol++)
+      for (int j = 0; j < placeMe[0].length; j++, startCol++)
         canvas[startRow][startCol] = placeMe[i][j];
     }
   }
 
   private void setUsernameOnCanvas(String username) {
-    int row=0, col=3;
-    for(char c : username.toUpperCase().toCharArray()) {
+    int row = 0, col = 3;
+    for (char c : username.toUpperCase().toCharArray()) {
       canvas[row][col] = Character.toString(c);
       col += 1;
     }
 
-    for(char c : "'S PLAYERBOARD".toCharArray()) {
+    for (char c : "'S PLAYERBOARD".toCharArray()) {
       canvas[row][col] = Character.toString(c);
       col += 1;
     }
 
     canvas[0][2] = " ";
     canvas[0][col] = " ";
+  }
+
+  private String[][] lastTokenMoved() {
+    String[][] margin = MarginConstructor.buildMargins(4, 11);
+    int col = 3;
+
+    for (char c : "moved".toCharArray()) {
+      margin[1][col] = Character.toString(c);
+      col++;
+    }
+
+    margin[2][5] = Color.ANSI_RED.escape() + "2" + Color.RESET.escape();
+    return margin;
+  }
+
+  private String[][] lastTokenShuffle() {
+    String[][] margin = MarginConstructor.buildMargins(4, 11);
+    int col = 2;
+
+    for (char c : "shuffle".toCharArray()) {
+      margin[1][col] = Character.toString(c);
+      col++;
+    }
+
+    margin[2][4] = "\u2191";
+    margin[2][6] = "\u2193";
+
+    return margin;
+  }
+
+  private String[][] lastTokenDiscarded(int column) {
+    String[][] margin = MarginConstructor.buildMargins(4, 11);
+    int col = 2;
+
+    for(char c :"discard".toCharArray()) {
+      margin[1][col] = Character.toString(c);
+      col++;
+    }
+
+    margin[2][4] = "-";
+    margin[2][5] = "2";
+    margin[2][6] = colorSwitch(column) + ConfigParameters.squareCharacter + Color.RESET.escape();
+
+    return margin;
+  }
+
+  private void clearLorenzo() {
+      for(int j=1; j<75; j+=3)
+        lorenzo[2][j] = " ";
+  }
+
+  private String colorSwitch(int column) {
+    String color = Color.RESET.escape();
+    switch (column){
+      case 0:
+        color = Color.ANSI_GREEN.escape();
+        break;
+      case 1:
+        color = Color.ANSI_BLUE.escape();
+        break;
+      case 2:
+        color = Color.ANSI_YELLOW.escape();
+        break;
+      case 3:
+        color = Color.ANSI_PURPLE.escape();
+        break;
+    }
+    return color;
   }
 }

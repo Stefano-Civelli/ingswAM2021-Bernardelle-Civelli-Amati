@@ -52,17 +52,16 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
 
         playerPosition += 1;
 
-        notifyModelChange(GSON.getGsonBuilder().toJson(Integer.toString(playerPosition)));
-
         if (track[playerPosition].getRed()) {
           int active = track[playerPosition].getActive()-1;
           notifyForVaticanReport(active);
         }
       }
-
-      if(playerPosition == 24)
-        notifyForEndGame();
     }
+
+    notifyModelChange(GSON.getGsonBuilder().toJson(Integer.toString(playerPosition)));
+    if(playerPosition == 24)
+      notifyForEndGame();
   }
 
   @Override
@@ -112,7 +111,6 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
   public void notifyModelChange(String msg) {
     if (controller != null) {
       controller.lorenzoTrackUpdate(msg);
-      System.out.println("talla moved");
     }
   }
 

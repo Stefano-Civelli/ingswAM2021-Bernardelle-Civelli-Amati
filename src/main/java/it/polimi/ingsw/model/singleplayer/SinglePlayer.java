@@ -30,6 +30,7 @@ public class SinglePlayer extends Game {
    public SinglePlayer(ModelObserver virtualView) throws IOException {
       super(virtualView);
       this.lorenzoTrack = GSON.lorenzoTrackParser();
+      this.lorenzoTrack.setController(virtualView);
 
       this.actionTokenStack = new LinkedList<>(Arrays.asList(
               new DiscardToken(DevelopCardColor.BLUE), new DiscardToken(DevelopCardColor.GREEN),
@@ -69,21 +70,30 @@ public class SinglePlayer extends Game {
 
       String player = super.nextConnectedPlayer(currentPlayer);
       if(endGame){
-         handleEndGame(currentPlayer);
+         int score = calculateScore();
+         handleEndGame(currentPlayer, score);
          return null;
       }
       ActionToken token = this.actionTokenStack.remove();
       token.useToken(this.actionTokenStack, this.lorenzoTrack, super.developCardDeck);
       this.actionTokenStack.addLast(token);
       if(endGame){
-         handleEndGame("");
+         int score = calculateScore();
+         handleEndGame("", calculateScore());
          return null;
       }
       return player;
    }
 
-   private void handleEndGame(String winner) {
-      //if()
+   private void handleEndGame(String winner, int score) {
+      Pair<String, Integer> winnerAndScore = new Pair<>(winner, score);
+      controller.endGameUpdate(GSON.getGsonBuilder().toJson(winnerAndScore));
+   }
+
+   private int calculateScore() {
+      for(Pair<PlayerBoard, Boolean> p : playerBoards)
+         return p.getKey().returnScore();
+      return 0;
    }
 }
 

@@ -16,7 +16,6 @@ public final class ConfigParameters {
   public static String arrowCharacter = (Color.RESET.escape() + "\u25B6");
   public static String squareCharacter = "\u25A0";
 
-
   private ConfigParameters() {
     // private constructor to prevent instances of this class (a class can't be final and abstract in Java).
   }

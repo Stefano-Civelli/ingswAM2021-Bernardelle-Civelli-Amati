@@ -142,7 +142,6 @@ public class ServerClientHandler implements Runnable {
 
    public void actionAnswereMessage(Message answerMessage){
       MessageType messageType = answerMessage.getMessageType();
-      answerMessage.setUsername(this.username);
 
       switch (messageType){
          case ERROR:

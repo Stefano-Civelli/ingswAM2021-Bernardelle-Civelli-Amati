@@ -1,15 +1,21 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.ClientModelUpdaterInterface;
 import it.polimi.ingsw.view.LorenzoViewInterface;
+
+import java.lang.reflect.Type;
 
 
 /**
  * to instanciate instead of NetworkViretualView
+ * calls method directly on ClientModelUpdaterInterface
  */
 public class LocalVirtualView implements ModelObserver {
    private ClientModelUpdaterInterface state;
@@ -90,7 +96,7 @@ public class LocalVirtualView implements ModelObserver {
 
    @Override
    public void endGameUpdate(String stateUpdate) {
-
+      view.displayGameEnded(stateUpdate);
    }
 
    @Override
@@ -108,7 +114,7 @@ public class LocalVirtualView implements ModelObserver {
    @Override
    public void lorenzoDevDeckUpdate(String stateUpdate) {
       state.devDeckUpdate(stateUpdate);
-      view.displayLorenzoDiscarded();
+      view.displayLorenzoDiscarded(stateUpdate);
    }
 
    @Override

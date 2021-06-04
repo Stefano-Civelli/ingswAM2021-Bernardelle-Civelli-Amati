@@ -95,7 +95,7 @@ public class SimpleGameState {
    }
 
    public void updateLorenzoPosition(int lorenzoTrackPosition) {
-      this.lorenzoTrackPosition += lorenzoTrackPosition;
+      this.lorenzoTrackPosition = lorenzoTrackPosition;
    }
    //----------UPDATE-----------
 
@@ -143,6 +143,5 @@ public class SimpleGameState {
 
    public void setLorenzoState(LorenzoState lorenzoState) {
       this.lorenzoState = lorenzoState;
-      //notifyLorenzoStateChanged();
    }
 }

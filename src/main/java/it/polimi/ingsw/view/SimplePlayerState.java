@@ -95,7 +95,6 @@ public class SimplePlayerState {
    public void trackUpdate(String payload) {
       int newPosition = GSON.getGsonBuilder().fromJson(payload, Integer.class);
       this.trackPosition = newPosition;
-      //System.out.println(newPosition);
    }
 
    public void vaticanReportUpdate(String payload) {
