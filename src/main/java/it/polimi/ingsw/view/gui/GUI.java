@@ -59,9 +59,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayLogin() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      Platform.runLater(() -> {
-         this.sceneController.changeScene("fxml/login.fxml", this.client);
-      });
+      Platform.runLater(() -> this.sceneController.changeScene("fxml/login.fxml", this.client));
    }
 
    /**
@@ -102,9 +100,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayLobbyCreated() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      Platform.runLater(() -> {
-         this.sceneController.changeScene("fxml/lobbyCreated.fxml", this.client);
-      });
+      Platform.runLater(() -> this.sceneController.changeScene("fxml/lobbyCreated.fxml", this.client));
    }
 
    @Override
@@ -126,9 +122,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayPlayersNumberChoice() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      Platform.runLater(() -> {
-         this.sceneController.changeScene("fxml/numberOfPlayer.fxml", this.client);
-      });
+      Platform.runLater(() -> this.sceneController.changeScene("fxml/numberOfPlayer.fxml", this.client));
    }
 
    @Override
