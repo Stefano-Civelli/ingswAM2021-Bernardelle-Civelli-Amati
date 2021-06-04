@@ -15,7 +15,7 @@ public interface ViewInterface extends LorenzoViewInterface {
   public void displaySetupFailure();
   public void displayDisconnected();
   public void displayFailedLogin();
-  public void displayLoginSuccessful();
+  public void displayLoginSuccessful(String username);
   public void displayLobbyCreated();
   public void displayOtherUserJoined(Message msg);
   public void displayYouJoined();

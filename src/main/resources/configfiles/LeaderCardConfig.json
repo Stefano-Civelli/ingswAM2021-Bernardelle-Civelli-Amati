@@ -2,6 +2,7 @@
   "leaderCardList" : [
     {
       "leaderId": "1",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-49-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -20,6 +21,7 @@
     },
     {
       "leaderId": "2",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-50-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -38,6 +40,7 @@
     },
     {
       "leaderId": "3",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-51-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -56,6 +59,7 @@
     },
     {
       "leaderId": "4",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-52-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -74,6 +78,7 @@
     },
     {
       "leaderId": "5",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-53-1.png",
       "active": "false",
       "requiredResources": "GOLD",
       "requiredCardFlags": [],
@@ -85,6 +90,7 @@
     },
     {
       "leaderId": "6",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-54-1.png",
       "active": "false",
       "requiredResources": "STONE",
       "requiredCardFlags": [],
@@ -96,6 +102,7 @@
     },
     {
       "leaderId": "7",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-55-1.png",
       "active": "false",
       "requiredResources": "SERVANT",
       "requiredCardFlags": [],
@@ -107,6 +114,7 @@
     },
     {
       "leaderId": "8",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-56-1.png",
       "active": "false",
       "requiredResources": "SHIELD",
       "requiredCardFlags": [],
@@ -118,6 +126,7 @@
     },
     {
       "leaderId": "9",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-57-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -136,6 +145,7 @@
     },
     {
       "leaderId": "10",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-58-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -154,6 +164,7 @@
     },
     {
       "leaderId": "11",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-59-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -172,6 +183,7 @@
     },
     {
       "leaderId": "12",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-60-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -190,6 +202,7 @@
     },
     {
       "leaderId": "13",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -205,6 +218,7 @@
     },
     {
       "leaderId": "14",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-62-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -220,6 +234,7 @@
     },
     {
       "leaderId": "15",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-63-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [
@@ -235,6 +250,7 @@
     },
     {
       "leaderId": "16",
+      "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-64-1.png",
       "active": "false",
       "requiredResources": "NONE",
       "requiredCardFlags": [

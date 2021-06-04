@@ -13,6 +13,7 @@ public class LeaderCard {
 
    private transient final int numberOfRequiredResources = 5;
    private int leaderId;
+   private String image;
    private boolean active;
    private ResourceType requiredResources; //is null if no resources are required
    private Map<CardFlag,Integer> requiredCardFlags; //is empty if no flags are required
@@ -91,6 +92,10 @@ public class LeaderCard {
 
    public int getLeaderId() {
       return leaderId;
+   }
+
+   public String getImage() {
+       return this.image;
    }
 
    /**
