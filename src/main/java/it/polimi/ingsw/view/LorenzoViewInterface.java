@@ -5,5 +5,6 @@ public interface LorenzoViewInterface {
   public void displayLorenzoDiscarded();
   public void displayLorenzoMoved();
   public void displayLorenzoShuffled();
+  public void displayGameEnded(String payload);
 
 }

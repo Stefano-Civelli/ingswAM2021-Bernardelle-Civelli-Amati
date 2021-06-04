@@ -99,13 +99,13 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
 
   @Override
   public void lorenzoTrackUpdate(String stateUpdate) {
-    this.simpleGameState.updateLorenzoPosition(2);
+    int move = GSON.getGsonBuilder().fromJson(stateUpdate, Integer.class);
+    this.simpleGameState.updateLorenzoPosition(move);
     this.simpleGameState.setLorenzoState(LorenzoState.MOVED);
   }
 
   @Override
   public void lorenzoShuffleUpdate() {
-    this.simpleGameState.updateLorenzoPosition(1);
     this.simpleGameState.setLorenzoState(LorenzoState.SHUFFLED);
   }
 
@@ -179,7 +179,7 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   @Override
   public int getPlayerTurnPosition(){
     int i = 1;
-    for(Map.Entry<String, SimplePlayerState> entry : simplePlayerStateMap.entrySet()){
+    for(Map.Entry<String, SimplePlayerState> entry : simplePlayerStateMap.entrySet()) {
       if(entry.getKey().equals(this.clientUsername))
         return i;
       i++;

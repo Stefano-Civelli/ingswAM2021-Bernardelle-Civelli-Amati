@@ -90,7 +90,7 @@ public class LocalVirtualView implements ModelObserver {
 
    @Override
    public void endGameUpdate(String stateUpdate) {
-
+      view.displayGameEnded(stateUpdate);
    }
 
    @Override

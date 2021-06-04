@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.action.*;
 
 import it.polimi.ingsw.model.ResourceType;
@@ -10,10 +11,13 @@ import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
+import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.ViewInterface;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -236,8 +240,19 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayGameEnded(String payload) {
-    System.out.println("Game has ended.");
-    System.out.println("The winner is... " + Color.ANSI_RED.escape() + payload.toUpperCase() + Color.RESET.escape());
+    Type token = new TypeToken<Pair<String, Integer>>(){}.getType();
+    Pair<String, Integer> winnerAndScore = GSON.getGsonBuilder().fromJson(payload, token);
+    String winner = winnerAndScore.getKey();
+    int score = winnerAndScore.getValue();
+
+    System.out.println("\n\n\nGame has ended.");
+    if(!winner.equals("")) {
+      System.out.println("The winner is... " + Color.ANSI_RED.escape() + winner.toUpperCase() + Color.RESET.escape());
+    }
+    else{
+      System.out.println("Sorry mate, you have lost. You can't beat the CPU power but ... This time you have scored: " + score + " points");
+      System.out.println("Congrats");
+    }
 
   }
 

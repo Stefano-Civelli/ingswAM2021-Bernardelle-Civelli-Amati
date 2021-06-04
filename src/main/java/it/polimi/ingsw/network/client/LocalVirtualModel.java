@@ -48,11 +48,9 @@ public class LocalVirtualModel implements VirtualModel, PhaseChangedObservable{
       String payload = answerMessage.getPayload();
       switch (messageType){
          case ERROR:
-            payload = payload.replaceAll("\\\"", "");
-            client.handleError(ErrorType.fromValue(payload));
+            client.handleError(ErrorType.fromValue(GSON.getGsonBuilder().fromJson(payload, String.class)));
             break;
-         case NEXT_TURN_STATE: //questa cosa non serve dirla al client, basta dirgli tipo turno finito a tutti e basta, poi loro con la logica capiscono cosa fare
-            System.out.println(answerMessage.getPayload());
+         case NEXT_TURN_STATE:
             notifyPhaseChanged(answerMessage.getPayload());
             break;
       }

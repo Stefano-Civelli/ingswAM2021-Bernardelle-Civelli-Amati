@@ -58,19 +58,32 @@ public class DeckDrawer implements Fillable, Buildable{
     Integer[][] cards = gameState.visibleCards();
 
 
+
     for (char c : "DEV DECK ".toCharArray()) {
       fillMe[0][col] = Character.toString(c);
       col++;
     }
 
+    //TODO testa se funziona, quando finisco le carte dovrebbe printare vuoto
     for (int i = 0, a = 2; i < cards.length; i++, a+=4) {
       for (int j = 0, b = 1; j < cards[0].length; j++, b += 11) {
-        String[][] card = DevelopCardConstructor.constructDevelopFromId(cards[i][j]);
-        for(int k=a, p=1; p<card.length; k++, p++)
-          for(int s=1, w=b; s<card[0].length-1; w++, s++)
-            fillMe[k][w] = card[p][s];
+        if(cards[i][j]!=null) {
+          String[][] card = DevelopCardConstructor.constructDevelopFromId(cards[i][j]);
+          for (int k = a, p = 1; p < card.length; k++, p++)
+            for (int s = 1, w = b; s < card[0].length - 1; w++, s++)
+              fillMe[k][w] = card[p][s];
+        }
+        else {
+          drawPlainCard(fillMe, i, j);
+        }
       }
     }
+  }
+
+  private void drawPlainCard(String[][] fillMe,int i ,int j) {
+    for(; i<4 ;i++)
+      for(; j<11 ;j++)
+        fillMe[i][j] = " ";
   }
 
 
