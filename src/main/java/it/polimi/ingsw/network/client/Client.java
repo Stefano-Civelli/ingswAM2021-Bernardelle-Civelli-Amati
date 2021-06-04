@@ -35,7 +35,7 @@ public class Client implements PhaseChangedObserver{
 
   public static void main(String[] args) {
     boolean isCli = true;
-    boolean isLocal = true;
+    boolean isLocal = false;
 
     if(args.length > 0)
       isLocal = true;
@@ -144,7 +144,7 @@ public class Client implements PhaseChangedObserver{
     String messageUser = msg.getUsername();
     String payload = msg.getPayload();
 
-    switch (msg.getMessageType()){
+    switch (msg.getMessageType()) {
       case PING:
         break;
       case SERVER_DOWN:
@@ -230,7 +230,6 @@ public class Client implements PhaseChangedObserver{
         break;
       case GAME_ENDED:
         view.displayGameEnded(msg.getPayload());
-        virtualModel.stop();
       case CHEST_MERGED:
         state.chestMergeUpdate(messageUser);
         break;
@@ -240,15 +239,15 @@ public class Client implements PhaseChangedObserver{
       case LORENZO_TRACK_UPDATE:
         state.lorenzoTrackUpdate(payload);
         view.displayLorenzoMoved();
-      break; //TODO
+      break;
       case LORENZO_DECK_UPDATE:
         state.lorenzoDevDeckUpdate(payload);
         view.displayLorenzoDiscarded();
-        break; //TODO
+        break;
       case LORENZO_SHUFFLE_UPDATE:
         state.lorenzoShuffleUpdate();
         view.displayLorenzoShuffled();
-        break; //TODO
+        break;
       default:
     }
   }
@@ -259,7 +258,6 @@ public class Client implements PhaseChangedObserver{
     if(clientTurnManager.setStateIsPlayerChanged(newState)) {
       if (username.equals(clientTurnManager.getCurrentPlayer())) {
         view.displayYourTurn(clientTurnManager.getCurrentPlayer());
-        //view.displayDefaultCanvas(turnManager.getCurrentPlayer());
       }
       else
         view.displayPlayerTurn(clientTurnManager.getCurrentPlayer());

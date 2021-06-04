@@ -114,7 +114,7 @@ public class Cli implements ViewInterface {
   @Override
   public void displayDisconnected() {
     out.println("I'm sorry, the connection to the server was lost");
-    client.close();
+    out.println(Color.ANSI_RED.escape() + "quit" + Color.RESET.escape() + " to close the App");
   }
 
   @Override
@@ -254,6 +254,7 @@ public class Cli implements ViewInterface {
       System.out.println("Congrats");
     }
 
+    out.println(Color.ANSI_RED.escape() + "quit" + Color.RESET.escape() + " to close the App");
   }
 
   @Override
@@ -307,6 +308,7 @@ public class Cli implements ViewInterface {
             break;
           case "quit":
             client.forwardMessage(new Message(stateViewer.getUsername(), MessageType.QUIT));
+            client.close();
             actionAlreadyPerformed = true;
             break;
           case "print":
