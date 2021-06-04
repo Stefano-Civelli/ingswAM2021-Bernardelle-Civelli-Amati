@@ -271,7 +271,7 @@ public class Client implements PhaseChangedObserver{
   }
 
 
-  private void handleError(ErrorType errorType) {
+  public void handleError(ErrorType errorType) {
     switch (errorType){
       case GAME_ALREADY_STARTED:
         view.displayGameAlreadyStarted();
