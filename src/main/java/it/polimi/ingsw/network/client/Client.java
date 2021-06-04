@@ -242,7 +242,7 @@ public class Client implements PhaseChangedObserver{
       break;
       case LORENZO_DECK_UPDATE:
         state.lorenzoDevDeckUpdate(payload);
-        view.displayLorenzoDiscarded();
+        view.displayLorenzoDiscarded(payload);
         break;
       case LORENZO_SHUFFLE_UPDATE:
         state.lorenzoShuffleUpdate();

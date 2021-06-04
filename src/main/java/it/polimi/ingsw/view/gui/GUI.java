@@ -193,7 +193,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayLorenzoDiscarded() {
+   public void displayLorenzoDiscarded(String state) {
 
    }
 

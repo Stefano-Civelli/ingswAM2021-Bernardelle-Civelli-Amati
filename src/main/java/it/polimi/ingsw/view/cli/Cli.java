@@ -266,9 +266,9 @@ public class Cli implements ViewInterface {
   public void startingSetupUpdate() {}
 
   @Override
-  public void displayLorenzoDiscarded() {
+  public void displayLorenzoDiscarded(String state) {
     clearScreen();
-    drawer.displayLorenzoHasDiscarded();
+    drawer.displayLorenzoHasDiscarded(state);
   }
 
   @Override
