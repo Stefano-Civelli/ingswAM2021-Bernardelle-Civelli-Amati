@@ -155,7 +155,8 @@ public class Client implements PhaseChangedObserver{
         break;
       case LOGIN_SUCCESSFUL:
         this.username = msg.getUsername();
-        view.displayLoginSuccessful();
+        this.state.setClientUsername(this.username);
+        view.displayLoginSuccessful(this.username);
         break;
       case NUMBER_OF_PLAYERS:
         view.displayPlayersNumberChoice();

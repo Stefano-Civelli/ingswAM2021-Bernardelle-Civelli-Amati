@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.gui.controllers.GUIController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -57,6 +58,8 @@ public class SceneController {
                 this.currentController.setClient(client);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
+            stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/logo.png")));
+            stage.setTitle("Masters of Renaissance");
             this.activeStage = stage;
             stage.show();
         } catch (IOException e) {

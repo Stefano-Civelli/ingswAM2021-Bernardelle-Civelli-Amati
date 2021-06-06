@@ -13,7 +13,7 @@ import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
 
 
-public class GSON{
+public class GSON {
 
    private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().excludeFieldsWithModifiers(Modifier.TRANSIENT).create();
 

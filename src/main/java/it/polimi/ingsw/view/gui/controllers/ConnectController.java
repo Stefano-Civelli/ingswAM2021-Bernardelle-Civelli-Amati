@@ -37,6 +37,7 @@ public class ConnectController extends GUIController {
         } else {
             this.serverIP_textField.setText("");
             this.serverIP_textField.setDisable(false);
+            this.serverIP_textField.setEditable(true);
         }
     }
 
@@ -48,6 +49,7 @@ public class ConnectController extends GUIController {
         } else {
             this.serverPort_textField.setText("");
             this.serverPort_textField.setDisable(false);
+            this.serverPort_textField.setEditable(true);
         }
     }
 
