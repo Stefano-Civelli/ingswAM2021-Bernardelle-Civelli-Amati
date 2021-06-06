@@ -247,8 +247,9 @@ public class Server {
     */
    public void serverBroadcastUpdate(Message message){
       boolean setupMessage = message.getMessageType().equals(MessageType.DECK_SETUP) || message.getMessageType().equals(MessageType.MARKET_SETUP);
-      if(!setupMessage && message.getUsername() == null)
+      if(!setupMessage && message.getUsername() == null) {
          message.setUsername(turnManager.getCurrentPlayer());
+      }
       sendBroadcast(message);
    }
 
@@ -386,9 +387,10 @@ public class Server {
 
       try {
          if (disconnectedClient.isLogged()) {
-            sendBroadcast(new Message(disconnectedClient.getUsername(), MessageType.DISCONNECTED));
             Message errorOrEndTurn = turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
-            disconnectedClient.actionAnswereMessage(errorOrEndTurn);
+            if(errorOrEndTurn != null)
+               disconnectedClient.actionAnswereMessage(errorOrEndTurn);
+            sendBroadcast(new Message(disconnectedClient.getUsername(), MessageType.DISCONNECTED));
          }
       } catch (NoConnectedPlayerException e) {
          System.out.println("NO CONNECTED PLAYERS");
