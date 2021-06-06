@@ -3,9 +3,11 @@ package it.polimi.ingsw.view;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.Warehouse;
+import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
+import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
 
 import java.lang.reflect.Type;
 import java.util.*;
@@ -70,7 +72,7 @@ public class SimplePlayerState {
       //normalLevels
       if(update.getLevel()<3) {
          //controllo se la risorsa é presente
-         for (int i = 0; i < storageLevels.length; i++) {
+         for (int i = 0; i < 3; i++) {
 
             if (storageLevels[i].getKey() != null) {
                if (storageLevels[i].getKey().equals(resource)) {
@@ -87,9 +89,8 @@ public class SimplePlayerState {
             }
          }
       }
-         //se non presente creo
-         storageLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
-
+      //se non presente creo
+      storageLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
    }
 
    public void trackUpdate(String payload) {
@@ -177,6 +178,7 @@ public class SimplePlayerState {
       for(int i=3; i<5; i++)
          if(storageLevels[i].getKey() != null)
             tempList.add(storageLevels[i]);
+
       return tempList;
    }
 
@@ -202,6 +204,32 @@ public class SimplePlayerState {
     */
    public List<Integer> getActiveLeaders(){
       return new ArrayList<>(this.activeLeaderCards);
+   }
+
+
+   public List<Integer> getProducibleLeaders() {
+      List<Integer> producibleLeaderList = new ArrayList<>();
+
+      for(Integer leaderId : activeLeaderCards) {
+         ResourceType produceRequirement = null;
+         try {
+            produceRequirement = LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement();
+         } catch (InvalidCardException e) {
+            e.printStackTrace();
+         }
+         if (produceRequirement != null)
+            producibleLeaderList.add(leaderId);
+      }
+      return producibleLeaderList;
+   }
+
+   public List<Integer> getProducibleCardSlotsId() {
+      List<Integer> producibleCardList = new ArrayList<>();
+      for(List<Integer> slot : cardSlots)
+         if(!slot.isEmpty())
+            producibleCardList.add(slot.get(slot.size()-1));
+
+      return producibleCardList;
    }
 
    //----------------------------------------------------------

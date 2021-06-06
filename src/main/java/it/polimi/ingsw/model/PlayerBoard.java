@@ -167,15 +167,15 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    /**
     * Add a white marble to warehouse using the leaderCard passed as parameter
     *
-    * @param leaderPosition index of the leader to use to modify the color of the white marble
+    * @param leaderId, Id of the leader to use to modify the color of the white marble
     * @throws InvalidLeaderCardException if the index is outOfBound
     * @throws NotEnoughSpaceException if, after have modified the white marble into a resource, there isn't place in the warehouse to place it
     */
-   public void addWhiteToWarehouse(int leaderPosition) throws InvalidLeaderCardException, NotEnoughSpaceException {
-      if (leaderPosition < 0 || leaderPosition >= leaderCards.size())
+   public void addWhiteToWarehouse(int leaderId) throws InvalidLeaderCardException, NotEnoughSpaceException {
+      if (getIndexFromId(leaderId) < 0 || getIndexFromId(leaderId) >= leaderCards.size())
          throw new InvalidLeaderCardException("The index of the leaderCard u gave me doesn't match the length of my array");
       try {
-         tempMarketMarble.get(tempIndexWhiteToAdd).addResource(this, leaderCards.get(leaderPosition));
+         tempMarketMarble.get(tempIndexWhiteToAdd).addResource(this, leaderCards.get(getIndexFromId(leaderId)));
       } catch (NotEnoughSpaceException e) {
          tempMarketMarble.remove(tempIndexWhiteToAdd);
          notifyForMoveForward();
@@ -183,6 +183,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       } catch (WrongLeaderCardException e) {
          e.printStackTrace();
       }
+      tempMarketMarble.remove(tempIndexWhiteToAdd);
    }
 
    /**
