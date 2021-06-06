@@ -123,7 +123,7 @@ public class Cli implements ViewInterface {
   }
 
   @Override
-  public void displayLoginSuccessful() {
+  public void displayLoginSuccessful(String username) {
     out.println("You have been logged in successfully");
     playersJoinedTheLobby =+ 1;
   }
@@ -266,9 +266,9 @@ public class Cli implements ViewInterface {
   public void startingSetupUpdate() {}
 
   @Override
-  public void displayLorenzoDiscarded() {
+  public void displayLorenzoDiscarded(String state) {
     clearScreen();
-    drawer.displayLorenzoHasDiscarded();
+    drawer.displayLorenzoHasDiscarded(state);
   }
 
   @Override

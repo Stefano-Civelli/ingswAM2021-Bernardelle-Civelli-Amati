@@ -25,9 +25,7 @@ public class LoginController extends GUIController {
     @FXML
     private void login(ActionEvent actionEvent) {
         this.login_button.setDisable(true);
-        new Thread(() ->
-                sendMessage(new Message(this.username_textField.getText(), MessageType.LOGIN))
-        ).start();
+        super.sendMessage(new Message(this.username_textField.getText(), MessageType.LOGIN));
     }
 
     public void loginFailed() {

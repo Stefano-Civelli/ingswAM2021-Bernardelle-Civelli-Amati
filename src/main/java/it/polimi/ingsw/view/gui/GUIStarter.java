@@ -32,7 +32,7 @@ public class GUIStarter extends Application {
         gui.getSceneController().setCurrentController(controller);
         controller.setClient(client);
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/logo.png")));
-        stage.setTitle("Login");
+        stage.setTitle("Masters of Renaissance");
         stage.setScene(new Scene(root));
         gui.getSceneController().setActiveStage(stage);
         stage.setResizable(false);

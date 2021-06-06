@@ -1,13 +1,13 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.client.CliTurnManager;
 import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.client.GuiTurnManager;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.ClientModelUpdaterInterface;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.gui.controllers.ConnectController;
+import it.polimi.ingsw.view.gui.controllers.GameboardController;
 import it.polimi.ingsw.view.gui.controllers.LoginController;
 import javafx.application.Platform;
 
@@ -16,6 +16,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    private Client client;
    private GuiTurnManager turnManager;
    private SceneController sceneController;
+   private String username;
+   private String[] othersUsernames = {null, null, null};
 
    public GUI(Client client) {
       this.client = client;
@@ -57,9 +59,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayLogin() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      Platform.runLater(() -> {
-         this.sceneController.changeScene("fxml/login.fxml", this.client);
-      });
+      Platform.runLater(() -> this.sceneController.changeScene("fxml/login.fxml", this.client));
    }
 
    /**
@@ -89,8 +89,9 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayLoginSuccessful() {
+   public void displayLoginSuccessful(String username) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      this.username = username;
    }
 
    /**
@@ -99,14 +100,15 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayLobbyCreated() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      Platform.runLater(() -> {
-         this.sceneController.changeScene("fxml/lobbyCreated.fxml", this.client);
-      });
+      Platform.runLater(() -> this.sceneController.changeScene("fxml/lobbyCreated.fxml", this.client));
    }
 
    @Override
    public void displayOtherUserJoined(Message msg) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      for(int i = 0; i < this.othersUsernames.length; i++)
+         if(this.othersUsernames[i] == null)
+            this.othersUsernames[i] = msg.getUsername();
    }
 
    @Override
@@ -120,9 +122,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayPlayersNumberChoice() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      Platform.runLater(() -> {
-         this.sceneController.changeScene("fxml/numberOfPlayer.fxml", this.client);
-      });
+      Platform.runLater(() -> this.sceneController.changeScene("fxml/numberOfPlayer.fxml", this.client));
    }
 
    @Override
@@ -148,10 +148,6 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayGameStarted() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      Platform.runLater(() -> {
-         this.sceneController.changeStage("fxml/gameboard.fxml", this.client);
-      });
    }
 
    @Override
@@ -181,125 +177,138 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayGameEnded(String payload) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
-   public void displayPlainCanvas() {}
+   public void displayPlainCanvas() {
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+   }
 
    @Override
    public void startingSetupUpdate() {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> {
+         this.sceneController.changeStage("fxml/gameboard.fxml", this.client);
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.setUsername(this.username);
+         controller.setOtherPlayer(this.othersUsernames);
+      });
    }
 
    @Override
-   public void displayLorenzoDiscarded() {
-
+   public void displayLorenzoDiscarded(String state) {
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayLorenzoMoved() {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayLorenzoShuffled() {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
 
    @Override
    public void setClientUsername(String username) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void chestUpdate(String username, String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void warehouseUpdate(String username, String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void leaderUpdate(String username, String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void leaderSetup(String username, String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater( () -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.leaderSetup(username, stateUpdate);
+      });
    }
 
    @Override
    public void marketUpdate(String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void marketSetup(String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void cardSlotUpdate(String username, String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void trackUpdate(String username, String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void vaticanUpdate(String username, String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void devDeckUpdate(String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void devDeckSetup(String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void tempChestUpdate(String username, String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void chestMergeUpdate(String username) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void discardedLeaderUpdate(String username, String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void lorenzoTrackUpdate(String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void lorenzoShuffleUpdate() {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void lorenzoDevDeckUpdate(String stateUpdate) {
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void gameStartedSetup(Message msg){
-
+      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
+
 }

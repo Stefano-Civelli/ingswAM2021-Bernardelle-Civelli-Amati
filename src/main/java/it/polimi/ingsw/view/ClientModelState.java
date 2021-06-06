@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ClientModelState implements ClientModelUpdaterInterface, ClientStateViewer{
+public class ClientModelState implements ClientModelUpdaterInterface, ClientStateViewer {
 
   private String clientUsername;
   private SimpleGameState simpleGameState;
@@ -101,18 +101,18 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   public void lorenzoTrackUpdate(String stateUpdate) {
     int move = GSON.getGsonBuilder().fromJson(stateUpdate, Integer.class);
     this.simpleGameState.updateLorenzoPosition(move);
-    this.simpleGameState.setLorenzoState(LorenzoState.MOVED);
+//    this.simpleGameState.setLorenzoState(LorenzoState.MOVED);
   }
 
   @Override
   public void lorenzoShuffleUpdate() {
-    this.simpleGameState.setLorenzoState(LorenzoState.SHUFFLED);
+//    this.simpleGameState.setLorenzoState(LorenzoState.SHUFFLED);
   }
 
   @Override
   public void lorenzoDevDeckUpdate(String stateUpdate) {
     this.simpleGameState.updateDeck(stateUpdate);
-    this.simpleGameState.setLorenzoState(LorenzoState.DISCARDED);
+//    this.simpleGameState.setLorenzoState(LorenzoState.DISCARDED);
   }
 
   @Override
@@ -191,4 +191,5 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   public String getUsername() {
     return this.clientUsername;
   }
+
 }

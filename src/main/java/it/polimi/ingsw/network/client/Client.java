@@ -155,7 +155,8 @@ public class Client implements PhaseChangedObserver{
         break;
       case LOGIN_SUCCESSFUL:
         this.username = msg.getUsername();
-        view.displayLoginSuccessful();
+        this.state.setClientUsername(this.username);
+        view.displayLoginSuccessful(this.username);
         break;
       case NUMBER_OF_PLAYERS:
         view.displayPlayersNumberChoice();
@@ -242,7 +243,7 @@ public class Client implements PhaseChangedObserver{
       break;
       case LORENZO_DECK_UPDATE:
         state.lorenzoDevDeckUpdate(payload);
-        view.displayLorenzoDiscarded();
+        view.displayLorenzoDiscarded(payload);
         break;
       case LORENZO_SHUFFLE_UPDATE:
         state.lorenzoShuffleUpdate();

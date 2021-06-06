@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="288.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="288.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.controllers.PlayerboardController">
    <children>
       <GridPane layoutX="324.0" layoutY="143.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -127,22 +127,22 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <ImageView fx:id="leader0_ImageView" fitHeight="50.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <image>
                         <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <ImageView fx:id="leader1_ImageView" fitHeight="50.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <image>
                         <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <ImageView fx:id="leader2_ImageView" fitHeight="50.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <image>
                         <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                  <ImageView fx:id="leader3_ImageView" fitHeight="50.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                      <image>
                         <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
