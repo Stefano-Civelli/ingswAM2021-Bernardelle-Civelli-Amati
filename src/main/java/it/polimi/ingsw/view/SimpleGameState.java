@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.utility.GSON;
@@ -90,8 +91,8 @@ public class SimpleGameState {
             this.tempMarble.add(market[i][index-1]);
    }
 
-   public void removeTempMarble(int marbleindex){
-      this.tempMarble.remove(marbleindex - 1);
+   public void removeTempMarble(int marbleIndex){
+      this.tempMarble.remove(marbleIndex - 1);
    }
 
    public void updateLorenzoPosition(int lorenzoTrackPosition) {
@@ -117,10 +118,6 @@ public class SimpleGameState {
    public int getLorenzoTrackPosition() {
       return lorenzoTrackPosition;
    }
-
-   public LorenzoState getLorenzoState() {
-      return lorenzoState;
-   }
    //----------GETTERS----------
 
    /**
@@ -139,9 +136,5 @@ public class SimpleGameState {
          }
       }
       return temp;
-   }
-
-   public void setLorenzoState(LorenzoState lorenzoState) {
-      this.lorenzoState = lorenzoState;
    }
 }

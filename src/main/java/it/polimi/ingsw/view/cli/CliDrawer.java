@@ -9,6 +9,7 @@ import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.cli.drawer.*;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 public class CliDrawer {
 
@@ -127,6 +128,49 @@ public class CliDrawer {
         System.out.print(leaderHand[i][j]);
       System.out.println();
     }
+  }
+
+
+  public void displayProducibleCards() {
+    List<Integer> producibleLeader = state.getSimplePlayerState().getProducibleLeaders();
+    List<Integer> producibleSlots = state.getSimplePlayerState().getProducibleCardSlotsId();
+    int productionLength = producibleLeader.size() + producibleLeader.size();
+    int c=0, b, p=1;
+    String[][] produce = new String[5][productionLength*11];
+
+    for (int i = 0; i < produce.length; i++)
+      for (int j = 0; j < produce[i].length; j++)
+        produce[i][j] = " ";
+
+    for (c = 0, b=5; c < productionLength; c++, b+=11, p++)
+        produce[4][b] = Integer.toString(p);
+
+    c=0;
+
+    for(Integer id : producibleSlots) {
+      String[][] card = DevelopCardConstructor.constructDevelopFromId(id);
+      for(int r=0; r<card.length; r++) {
+        for (int col=0, e=c; col < card[r].length; e++, col++)
+          produce[r][e] = card[r][col];
+      }
+      c+=11;
+    }
+
+    for(Integer id : producibleLeader) {
+      String[][] card = LeaderConstructor.constructLeaderFromId(id);
+      for(int r=0; r<card.length; r++) {
+          for (int col=0, e=c; col < card[r].length; e++, col++)
+            produce[r][e] = card[r][col];
+        }
+        c+=11;
+    }
+
+    if(productionLength>0)
+      for (int i = 0; i < produce.length; i++) {
+        for (int j = 0; j < produce[i].length; j++)
+          System.out.print(produce[i][j]);
+        System.out.println();
+      }
   }
 
   public void displayResourcesChoice() {

@@ -130,7 +130,7 @@
               <configuration>
                 <shadedArtifactAttached>true</shadedArtifactAttached>
                 <shadedClassifierName>project-classifier</shadedClassifierName>
-                <outputFile>shade\${project.artifactId}.jar</outputFile>
+                <outputFile>shade\almostDone.jar</outputFile>
                 <transformers>
                   <transformer implementation= "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 

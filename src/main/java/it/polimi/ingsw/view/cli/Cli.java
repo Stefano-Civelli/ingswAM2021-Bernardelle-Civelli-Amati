@@ -350,7 +350,8 @@ public class Cli implements ViewInterface {
                 break;
               case SHOPPING_LEADER:
                 int index = validateIntInput(line, 1, 2);
-                client.forwardAction(new ChooseLeaderOnWhiteMarbleAction(index));
+                int leaderId = stateViewer.getSimplePlayerState().getActiveLeaders().get(index-1);
+                client.forwardAction(new ChooseLeaderOnWhiteMarbleAction(leaderId));
                 break;
               default:
                 if (cliTurnManager.isValidInCurrenPhase(line)) //to see if the input is valid in this turnPhase
@@ -518,33 +519,42 @@ public class Cli implements ViewInterface {
   }
 
   private Action createProduceAction(){
-    System.out.println("Choose a Slot card you want to activate production on. (0 for base Production)");
-    int index = validateIntInput(0, 3);
+    System.out.println("Choose a Card you want to activate production on. (0 for base Production)");
+//    drawer.displayProducibleCards();
+    int index = validateIntInput(0, 5);
     if(index == 0) {
       String input;
       ResourceType output1, output2, output3;
       do {
         in.nextLine();
-        System.out.println("Choose the first resource to consume (first character of the resource name)");
+        System.out.println("Choose the first resource to consume (first character of the resource color)");
         input = in.nextLine();
         output1 = parsStringToResource(input);
       }while(output1 == null);
 
       do {
-        System.out.println("Choose the second resource to consume (first character of the resource name)");
+        System.out.println("Choose the second resource to consume (first character of the resource color)");
         input = in.nextLine();
         output2 = parsStringToResource(input);
       }while(output2 == null);
 
       do {
-        System.out.println("choose the resource to produce (first character of the resource name)");
+        System.out.println("choose the resource to produce (first character of the resource color)");
         input = in.nextLine();
         output3 = parsStringToResource(input);
       }while(output3 == null);
       return new BaseProductionAction(output1, output2, output3);
     }
-    else
+    else if(index<4)
       return new ProductionAction(index-1);
+    else {
+      ResourceType output;
+      System.out.println("choose the resource to produce (first character of the resource color)");
+      in.nextLine();
+      String line = in.nextLine();
+      output = parsStringToResource(line);
+      return new LeaderProductionAction(index - 4, output);
+    }
   }
 
 
