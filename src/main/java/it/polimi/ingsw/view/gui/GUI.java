@@ -9,6 +9,7 @@ import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.gui.controllers.ConnectController;
 import it.polimi.ingsw.view.gui.controllers.GameboardController;
 import it.polimi.ingsw.view.gui.controllers.LoginController;
+import it.polimi.ingsw.view.gui.controllers.PlayerboardController;
 import javafx.application.Platform;
 
 public class GUI implements ViewInterface, ClientModelUpdaterInterface {
@@ -220,6 +221,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void chestUpdate(String username, String stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.updateChest(username, stateUpdate);
+      });
+
    }
 
    @Override

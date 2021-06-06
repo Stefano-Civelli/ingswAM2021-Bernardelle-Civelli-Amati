@@ -1,11 +1,18 @@
 package it.polimi.ingsw.view.gui.controllers;
 
+import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
+import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class PlayerboardController extends GUIController {
@@ -18,6 +25,21 @@ public class PlayerboardController extends GUIController {
     private ImageView leader2_ImageView;
     @FXML
     private ImageView leader3_ImageView;
+
+    @FXML
+    private Label coinCounter;
+
+    @FXML
+    private Label servantCounter;
+
+    @FXML
+    private Label stoneCounter;
+
+    @FXML
+    private Label shieldCounter;
+
+    @FXML
+    private GridPane trackGrid;
 
     @FXML
     private void initialize() {
@@ -66,5 +88,33 @@ public class PlayerboardController extends GUIController {
             e.printStackTrace();
         }
     }
+
+    public void updateChest(String payload){
+        Type token = new TypeToken<Pair<ResourceType, Integer>>(){}.getType();
+        Pair<ResourceType, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
+        ResourceType resource = pair.getKey();
+        int quantity = pair.getValue();
+
+        switch(resource){
+            case GOLD:
+                coinCounter.setText(Integer.toString(quantity));
+                break;
+            case STONE:
+                stoneCounter.setText(Integer.toString(quantity));
+                break;
+            case SHIELD:
+                shieldCounter.setText(Integer.toString(quantity));
+                break;
+            case SERVANT:
+                servantCounter.setText(Integer.toString(quantity));
+                break;
+        }
+    }
+
+    public void updateTrack(String payload){
+//        trackGrid.add();
+//        trackGrid.getChildren().remove(1,2);
+    }
+
 
 }

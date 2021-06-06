@@ -290,7 +290,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    /**
     * Merge the chest's temporary resources into normal chest,
     * Forgot all the production already activated
-    * Consume any possible remaining marble
+    * Consume any possible remaining marble that haven't been added
     */
    public void enterFinalTurnPhase() {
       this.chest.endOfTurnMapsMerge();

@@ -33,9 +33,11 @@ public class GUIStarter extends Application {
         controller.setClient(client);
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/logo.png")));
         stage.setTitle("Masters of Renaissance");
-        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        //per creare una scena devo passarle un root node che può essere di tanti tipi diversi
+        stage.setScene(new Scene(root)); //setto una scena sullo stage, altrimenti lo stage viene mostrato bianco
         gui.getSceneController().setActiveStage(stage);
         stage.setResizable(false);
-        stage.show();
+        stage.show(); //shows the stage
     }
 }
