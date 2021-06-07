@@ -3,7 +3,10 @@ package it.polimi.ingsw.view.gui.controllers;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.ShopMarketAction;
+import it.polimi.ingsw.model.Chest;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.market.MarbleColor;
+import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
@@ -88,19 +91,16 @@ public class GameboardController extends GUIController {
         }
     }
 
-    public void leaderSetup(String username, String stateUpdate) {
+    public void leaderSetup(String username, Game.LeaderSetup stateUpdate) {
         PlayerboardController playerController = Arrays.stream(this.playerboardControllers).filter(Objects::nonNull).filter(controller -> controller.getUsername().equals(username))
                 .collect(Collectors.toList()).get(0);
-        Type listType = new TypeToken<ArrayList<Integer>>(){}.getType();
-        List<Integer> leadersID = GSON.getGsonBuilder().fromJson(stateUpdate, listType);
+        List<Integer> leadersID = stateUpdate.getLeaderList();
         playerController.leaderSetup(leadersID);
     }
 
-    public void constructMarket(String stateUpdate){
-        Type token = new TypeToken<Pair<MarbleColor[][], MarbleColor>>(){}.getType();
-        Pair<MarbleColor[][], MarbleColor> pair = GSON.getGsonBuilder().fromJson(stateUpdate, token);
-        MarbleColor[][] marketColorMatrix = pair.getKey();
-        MarbleColor slideMarble = pair.getValue();
+    public void constructMarket(Market.MarketSetup stateUpdate){
+        MarbleColor[][] marketColorMatrix = stateUpdate.getMarbleMatrix();
+        MarbleColor slideMarble = stateUpdate.getSlide();
 
         this.slide = new Circle(220, 55, 16,slideMarble.getGuiColor());
         deck_anchorPane.getChildren().add(slide);
@@ -114,18 +114,16 @@ public class GameboardController extends GUIController {
     }
 
 
-    public void updateChest(String username, String stateUpdate){
+    public void updateChest(String username, Chest.ChestUpdate stateUpdate){
         for(PlayerboardController p : playerboardControllers)
             if(username.equals(p.getUsername())){
                 p.updateChest(stateUpdate);
             }
     }
 
-    public void updateMarket(String stateUpdate){
-        Type token = new TypeToken<Pair<Boolean, Integer>>(){}.getType();
-        Pair<Boolean, Integer> pair = GSON.getGsonBuilder().fromJson(stateUpdate, token);
-        boolean isRow = pair.getKey();
-        int index = pair.getValue();
+    public void updateMarket(Market.MarketUpdate stateUpdate) {
+        boolean isRow = stateUpdate.getIsRow();
+        int index = stateUpdate.getIndex();
 
         if(isRow)
             changeRow(index);

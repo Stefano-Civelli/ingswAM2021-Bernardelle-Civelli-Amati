@@ -21,7 +21,7 @@ public interface ModelObserver {
   void endGameUpdate(String stateUpdate);
   void lorenzoTrackUpdate(Track.TrackUpdate stateUpdate);
   void lorenzoShuffleUpdate();
-  void lorenzoDevDeckUpdate(String stateUpdate);
+  void lorenzoDevDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate);
   void chestMergeUpdate();
   //TODO per riconnessione servono update con username e Stringa che chiamano singleUpdate
 }

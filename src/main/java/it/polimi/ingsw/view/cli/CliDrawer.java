@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
@@ -231,7 +232,7 @@ public class CliDrawer {
     }
   }
 
-  public void displayLorenzoHasDiscarded(String discardPair) {
+  public void displayLorenzoHasDiscarded(DevelopCardDeck.DevelopCardDeckUpdate discardUpdate) {
     clearLorenzo();
 
     int column = discardUpdate.getColumn();

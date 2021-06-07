@@ -32,7 +32,7 @@ public class LocalVirtualView implements ModelObserver {
 
 
    @Override
-   public void chestUpdate(String stateUpdate) {
+   public void chestUpdate(Chest.ChestUpdate stateUpdate) {
       state.chestUpdate(username, stateUpdate);
    }
 
@@ -42,57 +42,57 @@ public class LocalVirtualView implements ModelObserver {
    }
 
    @Override
-   public void leaderUpdate(String stateUpdate) {
+   public void leaderUpdate(PlayerBoard.LeaderUpdate stateUpdate) {
       state.leaderUpdate(username, stateUpdate);
    }
 
    @Override
-   public void leaderSetupUpdate(String username, String stateUpdate) {
+   public void leaderSetupUpdate(String username, Game.LeaderSetup stateUpdate) {
       state.leaderSetup(username, stateUpdate);
    }
 
    @Override
-   public void marketUpdate(String stateUpdate) {
+   public void marketUpdate(Market.MarketUpdate stateUpdate) {
       state.marketUpdate(stateUpdate);
    }
 
    @Override
-   public void marketSetupUpdate(String stateUpdate) {
+   public void marketSetupUpdate(Market.MarketSetup stateUpdate) {
       state.marketSetup(stateUpdate);
    }
 
    @Override
-   public void cardSlotUpdate(String stateUpdate) {
+   public void cardSlotUpdate(CardSlots.CardSlotUpdate stateUpdate) {
       state.cardSlotUpdate(username, stateUpdate);
    }
 
    @Override
-   public void trackUpdate(String username, String stateUpdate) {
+   public void trackUpdate(String username, Track.TrackUpdate stateUpdate) {
       state.trackUpdate(username, stateUpdate);
    }
 
    @Override
-   public void vaticanUpdate(String username, String stateUpdate) {
+   public void vaticanUpdate(String username, Track.VaticanReport stateUpdate) {
       state.vaticanUpdate(username, stateUpdate);
    }
 
    @Override
-   public void devDeckUpdate(String stateUpdate) {
+   public void devDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
       state.devDeckUpdate(stateUpdate);
    }
 
    @Override
-   public void devDeckSetup(String stateUpdate) {
+   public void devDeckSetup(DevelopCardDeck.DevelopCardDeckSetup stateUpdate) {
       state.devDeckSetup(stateUpdate);
    }
 
    @Override
-   public void tempChestUpdate(String stateUpdate) {
+   public void tempChestUpdate(Chest.ChestUpdate stateUpdate) {
       state.tempChestUpdate(username, stateUpdate);
    }
 
    @Override
-   public void discardedLeaderUpdate(String stateUpdate) {
+   public void discardedLeaderUpdate(PlayerBoard.LeaderUpdate stateUpdate) {
       state.discardedLeaderUpdate(username, stateUpdate);
    }
 
@@ -102,7 +102,7 @@ public class LocalVirtualView implements ModelObserver {
    }
 
    @Override
-   public void lorenzoTrackUpdate(String stateUpdate) {
+   public void lorenzoTrackUpdate(Track.TrackUpdate stateUpdate) {
       state.lorenzoTrackUpdate(stateUpdate);
       view.displayLorenzoMoved();
    }
@@ -114,7 +114,7 @@ public class LocalVirtualView implements ModelObserver {
    }
 
    @Override
-   public void lorenzoDevDeckUpdate(String stateUpdate) {
+   public void lorenzoDevDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
       state.devDeckUpdate(stateUpdate);
       view.displayLorenzoDiscarded(stateUpdate);
    }

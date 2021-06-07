@@ -20,8 +20,8 @@ public interface ClientModelUpdaterInterface {
   void devDeckSetup(DevelopCardDeck.DevelopCardDeckSetup stateUpdate);
   void tempChestUpdate(String username, Chest.ChestUpdate stateUpdate);
   void chestMergeUpdate(String username);
-  void discardedLeaderUpdate(String username, String stateUpdate);
-  void lorenzoTrackUpdate(String stateUpdate);
+  void discardedLeaderUpdate(String username, PlayerBoard.LeaderUpdate stateUpdate);
+  void lorenzoTrackUpdate(Track.TrackUpdate stateUpdate);
   void lorenzoShuffleUpdate();
   void lorenzoDevDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate);
   void gameStartedSetup(String stateUpdate);

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.controllers;
 
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.Chest;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.utility.GSON;
@@ -89,11 +90,9 @@ public class PlayerboardController extends GUIController {
         }
     }
 
-    public void updateChest(String payload){
-        Type token = new TypeToken<Pair<ResourceType, Integer>>(){}.getType();
-        Pair<ResourceType, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
-        ResourceType resource = pair.getKey();
-        int quantity = pair.getValue();
+    public void updateChest(Chest.ChestUpdate stateUpdate){
+        ResourceType resource = stateUpdate.getResourceType();
+        int quantity = stateUpdate.getQuantity();
 
         switch(resource){
             case GOLD:

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.DevelopCard;
+import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.MarbleColor;
@@ -31,34 +32,26 @@ public class SimpleGameState {
       tempMarble = new ArrayList<>();
    }
 
-   public void constructDeck(String payload) {
-      Type token = new TypeToken<List<Integer>[][]>(){}.getType();
-      this.developCardDeck = GSON.getGsonBuilder().fromJson(payload, token);
-      //this.developCardDeck = GSON.getGsonBuilder().fromJson(payload, List[][].class);
+   public void constructDeck(DevelopCardDeck.DevelopCardDeckSetup stateSetup) {
+      this.developCardDeck = stateSetup.getDevDeck();
    }
 
-   public void constructMarket (String payload) {
-      Type token = new TypeToken<Pair<MarbleColor[][], MarbleColor>>(){}.getType();
-      Pair<MarbleColor[][], MarbleColor> pair = GSON.getGsonBuilder().fromJson(payload, token);
-      this.market = pair.getKey();
-      this.slide = pair.getValue();
+   public void constructMarket (Market.MarketSetup stateSetup) {
+      this.market = stateSetup.getMarbleMatrix();
+      this.slide = stateSetup.getSlide();
    }
 
    //----------UPDATE-----------
-   public void updateDeck(String payload){
-      Type token = new TypeToken<Pair<Integer, Integer>>(){}.getType();
-      Pair<Integer, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
-      int row = pair.getKey();
-      int column = pair.getValue();
+   public void updateDeck(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
+      int row = stateUpdate.getRow();
+      int column = stateUpdate.getColumn();
 
       developCardDeck[row][column].remove(developCardDeck[row][column].size()-1);
    }
 
-   public void updateMarket(String payload) {
-      Type token = new TypeToken<Pair<Boolean, Integer>>(){}.getType();
-      Pair<Boolean, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
-      boolean isRow = pair.getKey();
-      int index = pair.getValue();
+   public void updateMarket(Market.MarketUpdate stateUpdate) {
+      boolean isRow = stateUpdate.getIsRow();
+      int index = stateUpdate.getIndex();
 
       MarbleColor swap1, swap2;
       if(isRow) {

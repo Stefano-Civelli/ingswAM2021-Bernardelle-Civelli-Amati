@@ -29,7 +29,7 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
-  public void chestUpdate(String username, String stateUpdate) {
+  public void chestUpdate(String username, Chest.ChestUpdate stateUpdate) {
     getSimplePlayerState(username).chestUpdate(stateUpdate);
   }
 
@@ -39,54 +39,54 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
-  public void leaderUpdate(String username, String stateUpdate) {
+  public void leaderUpdate(String username, PlayerBoard.LeaderUpdate stateUpdate) {
     getSimplePlayerState(username).activatedLeaderUpdate(stateUpdate);
   }
 
   @Override
-  public void leaderSetup(String username, String stateUpdate) {
+  public void leaderSetup(String username, Game.LeaderSetup stateUpdate) {
         SimplePlayerState playerState = new SimplePlayerState();
         this.simplePlayerStateMap.put(username, playerState);
         playerState.setupLeaderCard(stateUpdate);
   }
 
   @Override
-  public void marketUpdate(String stateUpdate) {
+  public void marketUpdate(Market.MarketUpdate stateUpdate) {
     simpleGameState.updateMarket(stateUpdate);
   }
 
   @Override
-  public void marketSetup(String stateUpdate) {
+  public void marketSetup(Market.MarketSetup stateUpdate) {
     simpleGameState.constructMarket(stateUpdate);
   }
 
   @Override
-  public void cardSlotUpdate(String username, String stateUpdate) {
+  public void cardSlotUpdate(String username, CardSlots.CardSlotUpdate stateUpdate) {
     getSimplePlayerState(username).cardSlotUpdate(stateUpdate);
   }
 
   @Override
-  public void trackUpdate(String username, String stateUpdate) {
+  public void trackUpdate(String username, Track.TrackUpdate stateUpdate) {
     getSimplePlayerState(username).trackUpdate(stateUpdate);
   }
 
   @Override
-  public void vaticanUpdate(String username, String stateUpdate) {
+  public void vaticanUpdate(String username, Track.VaticanReport stateUpdate) {
     getSimplePlayerState(username).vaticanReportUpdate(stateUpdate);
   }
 
   @Override
-  public void devDeckUpdate(String stateUpdate) {
+  public void devDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
     simpleGameState.updateDeck(stateUpdate);
   }
 
   @Override
-  public void devDeckSetup(String stateUpdate) {
+  public void devDeckSetup(DevelopCardDeck.DevelopCardDeckSetup stateUpdate) {
     simpleGameState.constructDeck(stateUpdate);
   }
 
   @Override
-  public void tempChestUpdate(String username, String stateUpdate) {
+  public void tempChestUpdate(String username, Chest.ChestUpdate stateUpdate) {
     getSimplePlayerState(username).tempChestUpdate(stateUpdate);
   }
 
@@ -96,13 +96,13 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
-  public void discardedLeaderUpdate(String username, String stateUpdate) {
-    getSimplePlayerState(username).discardLeader(Integer.parseInt(stateUpdate));
+  public void discardedLeaderUpdate(String username, PlayerBoard.LeaderUpdate stateUpdate) {
+    getSimplePlayerState(username).discardLeader(stateUpdate.getCardId());
   }
 
   @Override
-  public void lorenzoTrackUpdate(String stateUpdate) {
-    int move = GSON.getGsonBuilder().fromJson(stateUpdate, Integer.class);
+  public void lorenzoTrackUpdate(Track.TrackUpdate stateUpdate) {
+    int move = stateUpdate.getPlayerPosition();
     this.simpleGameState.updateLorenzoPosition(move);
 //    this.simpleGameState.setLorenzoState(LorenzoState.MOVED);
   }
@@ -113,7 +113,7 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
-  public void lorenzoDevDeckUpdate(String stateUpdate) {
+  public void lorenzoDevDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
     this.simpleGameState.updateDeck(stateUpdate);
 //    this.simpleGameState.setLorenzoState(LorenzoState.DISCARDED);
   }
