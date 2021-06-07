@@ -36,7 +36,7 @@ public class PlayerDisconnectionAction extends Action {
         if(!this.isActionValid())
             throw new InvalidActionException("This Action is not correctly initialized.");
         if(gameState.getCurrentPhase().isSetup())
-            return this.setupDisconnection(gameState);
+            this.setupDisconnection(gameState);
         gameState.getGame().getPlayerBoard(super.getUsername()).enterFinalTurnPhase();
         gameState.getGame().disconnectPlayer(super.getUsername());
         return super.isCurrentPlayer(gameState)
@@ -48,7 +48,7 @@ public class PlayerDisconnectionAction extends Action {
         return super.getUsername() != null;
     }
 
-    private PhaseType setupDisconnection(IGameState gameState) throws InvalidUsernameException {
+    private void setupDisconnection(IGameState gameState) throws InvalidUsernameException {
         if(gameState.getGame().getOrderedPlayers().indexOf(super.getUsername())
                 > gameState.getGame().getOrderedPlayers().indexOf(gameState.getCurrentPlayer())
             || gameState.getGame().getOrderedPlayers().indexOf(super.getUsername())
@@ -80,7 +80,6 @@ public class PlayerDisconnectionAction extends Action {
             e.printStackTrace();
         }
 
-        return null;
     }
 
 }
