@@ -97,7 +97,12 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
 
   @Override
   public void discardedLeaderUpdate(String username, PlayerBoard.LeaderUpdate stateUpdate) {
-    getSimplePlayerState(username).discardLeader(stateUpdate.getCardId());
+    int i=0;
+    for(Integer id : getSimplePlayerState(username).getNotActiveLeaderCards())
+      if(stateUpdate.getCardId() == id)
+        getSimplePlayerState(username).discardLeader(i);
+      else
+        i++;
   }
 
   @Override
