@@ -9,7 +9,6 @@ import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.gui.controllers.ConnectController;
 import it.polimi.ingsw.view.gui.controllers.GameboardController;
 import it.polimi.ingsw.view.gui.controllers.LoginController;
-import it.polimi.ingsw.view.gui.controllers.PlayerboardController;
 import javafx.application.Platform;
 
 public class GUI implements ViewInterface, ClientModelUpdaterInterface {
@@ -251,11 +250,19 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void marketUpdate(String stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater( () -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.constructMarket(stateUpdate);
+      });
    }
 
    @Override
    public void marketSetup(String stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater( () -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.updateMarket(stateUpdate);
+      });
    }
 
    @Override

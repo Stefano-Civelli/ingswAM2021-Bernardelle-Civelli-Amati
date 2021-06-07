@@ -15,7 +15,7 @@
          </image>
       </ImageView>
       <Label layoutX="80.0" layoutY="242.0" text="Username:" />
-      <TextField fx:id="username_textField" layoutX="145.0" layoutY="238.0" />
+      <TextField fx:id="username_textField" layoutX="145.0" layoutY="238.0" onAction="#login" />
       <Button fx:id="login_button" layoutX="504.0" layoutY="338.0" mnemonicParsing="false" onAction="#login" text="Login" />
       <Label fx:id="error_label" layoutX="145.0" layoutY="286.0" text="ERROR" textFill="RED" />
    </children>

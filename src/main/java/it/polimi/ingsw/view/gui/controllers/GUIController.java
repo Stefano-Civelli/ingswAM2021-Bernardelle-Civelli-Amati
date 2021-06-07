@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.messages.Message;
 
 public abstract class GUIController {
 
-    private Client client = null;
+    protected Client client = null;
 
     public Client setClient(Client client) {
         if(this.client == null)
