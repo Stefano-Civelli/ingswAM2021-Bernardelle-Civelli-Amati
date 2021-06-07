@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model.modelObservables;
 
 
+import it.polimi.ingsw.model.DevelopCardDeck;
+
 public interface DeckSetupObservable {
 
-   void notifyDeckSetup(String msg);
+   void notifyDeckSetup(DevelopCardDeck.DevelopCardDeckSetup msg);
 
 }
 

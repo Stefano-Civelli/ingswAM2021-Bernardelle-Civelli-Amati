@@ -233,9 +233,8 @@ public class CliDrawer {
 
   public void displayLorenzoHasDiscarded(String discardPair) {
     clearLorenzo();
-    Type token = new TypeToken<Pair<Integer, Integer>>(){}.getType();
-    Pair<Integer, Integer> pair = GSON.getGsonBuilder().fromJson(discardPair, token);
-    int column = pair.getValue();
+
+    int column = discardUpdate.getColumn();
 
     String[][] tokenCard = lastTokenDiscarded(column);
     lorenzoDrawer.fill(lorenzo, state.getSimpleGameState());

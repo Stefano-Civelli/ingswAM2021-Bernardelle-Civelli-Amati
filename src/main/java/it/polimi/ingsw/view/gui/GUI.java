@@ -1,5 +1,8 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.market.Market;
+import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.client.GuiTurnManager;
@@ -46,6 +49,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayMarbleChoice() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      //Platform.runLater(() -> this.sceneController.changeScene("fxml/initialChoice.fxml", this.client));
+
    }
 
    @Override
@@ -229,7 +234,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void warehouseUpdate(String username, String stateUpdate) {
+   public void warehouseUpdate(String username, Warehouse.WarehouseUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
@@ -321,8 +326,9 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void gameStartedSetup(Message msg){
+   public void gameStartedSetup(String stateUpdate){
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      this.turnManager.setPlayers(stateUpdate);
    }
 
 }

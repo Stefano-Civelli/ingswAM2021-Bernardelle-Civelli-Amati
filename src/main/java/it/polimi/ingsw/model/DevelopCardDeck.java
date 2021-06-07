@@ -1,18 +1,16 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.modelObservables.DeckSetupObservable;
+import it.polimi.ingsw.model.modelObservables.DevDeckUpdateObservable;
 import it.polimi.ingsw.model.modelObservables.LorenzoDevDeckObservable;
-import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;
-import it.polimi.ingsw.utility.GSON;
-import it.polimi.ingsw.utility.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class DevelopCardDeck implements EndGameObservable, ModelObservable, DeckSetupObservable, LorenzoDevDeckObservable {
+public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, LorenzoDevDeckObservable, DevDeckUpdateObservable {
 
    private final int NUMBER_OF_DECK_ROWS = 3;
    private final int NUMBER_OF_DECK_COLUMS = 4;
@@ -32,6 +30,38 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable, Deck
     * Default constructor because construction is handled by the cardParser method
     */
    public DevelopCardDeck() {}
+
+
+   public static class DevelopCardDeckUpdate {
+      private final int row;
+      private final int column;
+
+      public DevelopCardDeckUpdate(int row, int column) {
+         this.row = row;
+         this.column = column;
+      }
+
+      public int getRow() {
+         return row;
+      }
+
+      public int getColumn() {
+         return column;
+      }
+   }
+
+   public static class DevelopCardDeckSetup {
+      private final List<Integer>[][] devDeck;
+
+      public DevelopCardDeckSetup(List<Integer>[][] devDeck) {
+         this.devDeck = devDeck;
+      }
+
+      public List<Integer>[][] getDevDeck() {
+         return devDeck;
+      }
+   }
+
 
    /**
     * this method is called by the cardParser method in GSON class to complete the setup process of this class
@@ -54,7 +84,7 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable, Deck
    public void finalizeDeckSetup(ModelObserver controller){
       this.controller = controller;
       shuffleDeck(); // if you want to write tests that use the parsed Deck you need to move this call elsewhere
-      notifyDeckSetup(GSON.getGsonBuilder().toJson( serializableIdDeck()));
+      notifyDeckSetup(new DevelopCardDeckSetup(serializableIdDeck()));
    }
 
 
@@ -117,7 +147,7 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable, Deck
          }
          cardsCube[k][column].remove(cardsCube[k][column].size() - 1);
          numberOfCardsToRemove--;
-         notifyLorenzoDeckUpdate(GSON.getGsonBuilder().toJson( new Pair<>(k, column)));
+         notifyLorenzoDeckUpdate(new DevelopCardDeckUpdate(k, column));
       }
    }
 
@@ -155,7 +185,7 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable, Deck
          e.printStackTrace();
       }
       cardsCube[row][column].remove(cardsCube[row][column].size() - 1);
-      notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(row, column)));
+      notifyDeckUpdate(new DevelopCardDeckUpdate(row, column));
 
       //checks if the column where i removed a card is completly empty call the notifyForEndGame method
       for (List<DevelopCard>[] lists : cardsCube)
@@ -202,19 +232,19 @@ public class DevelopCardDeck implements EndGameObservable, ModelObservable, Deck
    }
 
    @Override
-   public void notifyModelChange(String msg) {
+   public void notifyDeckUpdate(DevelopCardDeckUpdate msg) {
       if (controller != null)
          controller.devDeckUpdate(msg);
    }
 
    @Override
-   public void notifyDeckSetup(String msg) {
+   public void notifyDeckSetup(DevelopCardDeckSetup msg) {
       if (controller != null)
          controller.devDeckSetup(msg);
    }
 
    @Override
-   public void notifyLorenzoDeckUpdate(String msg) {
+   public void notifyLorenzoDeckUpdate(DevelopCardDeckUpdate msg) {
       if (controller != null)
          controller.lorenzoDevDeckUpdate(msg);
    }

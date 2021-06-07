@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.MarbleColor;
+import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;

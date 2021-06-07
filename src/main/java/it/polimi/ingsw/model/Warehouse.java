@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.modelObservables.ModelObservable;
+import it.polimi.ingsw.model.modelObservables.WarehouseUpdateObservable;
 import it.polimi.ingsw.model.modelexceptions.*;
-import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Warehouse implements ModelObservable {
+public class Warehouse implements WarehouseUpdateObservable {
 
     private final int NUMBER_OF_NORMAL_LEVELS = 3;
     private final int MAX_SPECIAL_LEVELS = 2;
@@ -124,7 +123,7 @@ public class Warehouse implements ModelObservable {
         for(int i = 0; i < this.numberOfLeaderCardsLevels(); i++) {
             if(this.leaderLevels.get(i).getKey() == resource && this.leaderLevels.get(i).getValue() + 1 <= 2) {
                 this.leaderLevels.set(i, new Pair<>(resource, this.leaderLevels.get(i).getValue() + 1));
-                notifyModelChange(GSON.getGsonBuilder().toJson( new WarehouseUpdate(resource, this.leaderLevels.get(i).getValue(), i + 3))); //3 is the first leader that as been activated
+                notifyModelChange(new WarehouseUpdate(resource, this.leaderLevels.get(i).getValue(), i + 3)); //3 is the first leader that as been activated
                 return;
             }
         }
@@ -134,7 +133,7 @@ public class Warehouse implements ModelObservable {
         if(level != -1) { //There is already a level with this type of resource
             if (this.levels[level].getValue() + 1 <= this.numberOfNormalLevels() - level) {
                 this.levels[level] = new Pair<>(resource, this.levels[level].getValue() + 1);
-                notifyModelChange(GSON.getGsonBuilder().toJson( new WarehouseUpdate(resource, this.levels[level].getValue(), level)));
+                notifyModelChange(new WarehouseUpdate(resource, this.levels[level].getValue(), level));
                 return;
             } else { //Try to swap levels
                 for(int i = level - 1; i >= 0; i--) {
@@ -144,7 +143,7 @@ public class Warehouse implements ModelObservable {
                         swap = this.levels[i];
                         this.levels[i] = new Pair<>(resource, this.levels[level].getValue() + 1);
                         this.levels[level] = swap;
-                        notifyModelChange(GSON.getGsonBuilder().toJson( new WarehouseUpdate(resource, this.levels[i].getValue(), i)));
+                        notifyModelChange(new WarehouseUpdate(resource, this.levels[i].getValue(), i));
                         return;
                     }
                 }
@@ -153,7 +152,7 @@ public class Warehouse implements ModelObservable {
             for(int i = this.numberOfNormalLevels() - 1; i >= 0; i--)
                 if(this.levels[i] == null) {
                     this.levels[i] = new Pair<>(resource, 1);
-                    notifyModelChange(GSON.getGsonBuilder().toJson( new WarehouseUpdate(resource, this.levels[i].getValue(), i)));
+                    notifyModelChange(new WarehouseUpdate(resource, this.levels[i].getValue(), i));
                     return;
                 }
         }
@@ -182,11 +181,11 @@ public class Warehouse implements ModelObservable {
             if( this.levels[level].getValue() <= quantity) {
                 quantity -= this.levels[level].getValue();
                 this.levels[level] = null;
-                notifyModelChange(GSON.getGsonBuilder().toJson( new WarehouseUpdate(resourceType, 0, level)));
+                notifyModelChange(new WarehouseUpdate(resourceType, 0, level));
             } else {
                 this.levels[level] = new Pair<>(resourceType, this.levels[level].getValue() - quantity);
                 quantity = 0;
-                notifyModelChange(GSON.getGsonBuilder().toJson( new WarehouseUpdate(resourceType, this.levels[level].getValue(), level)));
+                notifyModelChange(new WarehouseUpdate(resourceType, this.levels[level].getValue(), level));
             }
 
         }
@@ -204,7 +203,7 @@ public class Warehouse implements ModelObservable {
                     quantity = 0;
                 }
 
-                notifyModelChange(GSON.getGsonBuilder().toJson(new WarehouseUpdate(resourceType, this.leaderLevels.get(i).getValue(), i + 3)));
+                notifyModelChange(new WarehouseUpdate(resourceType, this.leaderLevels.get(i).getValue(), i + 3));
             }
         }
 
@@ -244,7 +243,7 @@ public class Warehouse implements ModelObservable {
 
 
     @Override
-    public void notifyModelChange(String msg) {
+    public void notifyModelChange(WarehouseUpdate msg) {
         if (controller != null)
             controller.warehouseUpdate(msg);
     }

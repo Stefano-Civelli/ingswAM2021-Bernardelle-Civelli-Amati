@@ -1,14 +1,12 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.modelObservables.ModelObservable;
+import it.polimi.ingsw.model.modelObservables.CardSlotObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
-import it.polimi.ingsw.utility.GSON;
-import it.polimi.ingsw.utility.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardSlots implements EndGameObservable, ModelObservable {
+public class CardSlots implements EndGameObservable, CardSlotObservable {
   private final List<List<DevelopCard>> developCards;
   private final int numberOfCardSlots = 3;
   private int totalCards;
@@ -22,6 +20,24 @@ public class CardSlots implements EndGameObservable, ModelObservable {
     for(int i = 0; i< numberOfCardSlots; i++)
       developCards.add(new ArrayList<>());
     endGameObserverList = new ArrayList<>();
+  }
+
+  public static class CardSlotUpdate {
+    private final int devCardID;
+    private final int slotNumber;
+
+    public CardSlotUpdate(int devCardID, int slotNumber) {
+      this.devCardID = devCardID;
+      this.slotNumber = slotNumber;
+    }
+
+    public int getDevCardID() {
+      return devCardID;
+    }
+
+    public int getSlotNumber() {
+      return slotNumber;
+    }
   }
 
   /**
@@ -67,13 +83,13 @@ public class CardSlots implements EndGameObservable, ModelObservable {
       if(levelCardToAdd == 1 && developCards.get(slot).isEmpty()) {
         developCards.get(slot).add(developCard);
         addedACardInACardSlot();
-        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(developCard.getCardId(), slot)));
+        notifyCardSlotUpdate(new CardSlotUpdate(developCard.getCardId(), slot));
         return;
       }
       if(!developCards.get(slot).isEmpty() && levelCardToAdd == developCards.get(slot).get(developCards.get(slot).size()-1).getCardFlag().getLevel()+1) {
         developCards.get(slot).add(developCard);
         addedACardInACardSlot();
-        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(developCard.getCardId(), slot)));
+        notifyCardSlotUpdate(new CardSlotUpdate(developCard.getCardId(), slot));
       }
       else
         throw new InvalidCardPlacementException();
@@ -137,7 +153,7 @@ public class CardSlots implements EndGameObservable, ModelObservable {
   }
 
   @Override
-  public void notifyModelChange(String msg) {
+  public void notifyCardSlotUpdate(CardSlots.CardSlotUpdate msg) {
     if (controller != null)
       controller.cardSlotUpdate(msg);
   }

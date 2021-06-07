@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.ModelObserver;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.market.Market;
+import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
@@ -18,68 +20,68 @@ public class NetworkVirtualView implements ModelObserver {
 
 
    @Override
-   public void chestUpdate(String stateUpdate) {
+   public void chestUpdate(Chest.ChestUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.CHEST_UPDATE, stateUpdate));
    }
 
    @Override
-   public void warehouseUpdate(String stateUpdate) {
+   public void warehouseUpdate(Warehouse.WarehouseUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.WAREHOUSE_UPDATE, stateUpdate));
    }
 
    @Override
-   public void leaderUpdate(String stateUpdate) {
+   public void leaderUpdate(PlayerBoard.LeaderUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.ACTIVATED_LEADERCARD_UPDATE, stateUpdate));
    }
 
    @Override
-   public void marketUpdate(String stateUpdate) {
+   public void marketUpdate(Market.MarketUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.MARKET_UPDATED, stateUpdate));
    }
 
    @Override
-   public void marketSetupUpdate(String stateUpdate) {
+   public void marketSetupUpdate(Market.MarketSetup stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.MARKET_SETUP, stateUpdate));
    }
 
    @Override
-   public void leaderSetupUpdate(String username, String stateUpdate) {
+   public void leaderSetupUpdate(String username, Game.LeaderSetup stateUpdate) {
       server.serverSingleUpdate(new Message(username, MessageType.LEADERCARD_SETUP, stateUpdate));
    }
 
    @Override
-   public void cardSlotUpdate(String stateUpdate) {
+   public void cardSlotUpdate(CardSlots.CardSlotUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.CARD_SLOT_UPDATE, stateUpdate));
    }
 
    @Override
-   public void trackUpdate(String username, String stateUpdate) {
+   public void trackUpdate(String username, Track.TrackUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(username, MessageType.TRACK_UPDATED, stateUpdate));
    }
 
    @Override
-   public void vaticanUpdate(String username, String stateUpdate) {
+   public void vaticanUpdate(String username, Track.VaticanReport stateUpdate) {
       server.serverBroadcastUpdate(new Message(username, MessageType.VATICAN_REPORT, stateUpdate));
    }
 
 
    @Override
-   public void devDeckUpdate(String stateUpdate) {
+   public void devDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.DEVELOP_CARD_DECK_UPDATED, stateUpdate));
    }
 
    @Override
-   public void devDeckSetup(String stateUpdate) {
+   public void devDeckSetup(DevelopCardDeck.DevelopCardDeckSetup stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.DECK_SETUP, stateUpdate));
    }
 
    @Override
-   public void tempChestUpdate(String stateUpdate) {
+   public void tempChestUpdate(Chest.ChestUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.TEMP_CHEST_UPDATE, stateUpdate));
    }
 
    @Override
-   public void discardedLeaderUpdate(String stateUpdate) {
+   public void discardedLeaderUpdate(PlayerBoard.LeaderUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.DISCARDED_LEADERCARD, stateUpdate));
    }
 
@@ -89,7 +91,7 @@ public class NetworkVirtualView implements ModelObserver {
    }
 
    @Override
-   public void lorenzoTrackUpdate(String stateUpdate) {
+   public void lorenzoTrackUpdate(Track.TrackUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.LORENZO_TRACK_UPDATE, stateUpdate));
    }
 
@@ -99,7 +101,7 @@ public class NetworkVirtualView implements ModelObserver {
    }
 
    @Override
-   public void lorenzoDevDeckUpdate(String stateUpdate) {
+   public void lorenzoDevDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.LORENZO_DECK_UPDATE, stateUpdate));
    }
 

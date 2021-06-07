@@ -3,18 +3,14 @@ package it.polimi.ingsw.model.market;
 import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelObservables.MarketSetupObservable;
-import it.polimi.ingsw.model.modelObservables.ModelObservable;
+import it.polimi.ingsw.model.modelObservables.MarketUpdateObservable;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.utility.GSON;
-import it.polimi.ingsw.utility.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Market implements ModelObservable, MarketSetupObservable {
+public class Market implements MarketUpdateObservable, MarketSetupObservable {
 
     private final int N_ROW = 3,
             N_COLUMN = 4;
@@ -46,8 +42,44 @@ public class Market implements ModelObservable, MarketSetupObservable {
 
             this.controller = controller;
 
-            notifyMarketSetup(GSON.getGsonBuilder().toJson( new Pair<>(serializableMarket() ,this.slide.getColor())));
+            notifyMarketSetup(new MarketSetup(serializableMarket() ,this.slide.getColor()));
         } catch (AbuseOfFaithException ignored) {}
+    }
+
+    public static class MarketUpdate{
+        private final boolean isRow;
+        private final int index;
+
+        public MarketUpdate(boolean isRow, int index) {
+            this.isRow = isRow;
+            this.index = index;
+        }
+
+        public boolean getIsRow() {
+            return isRow;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+    }
+
+    public static class MarketSetup {
+        private final MarbleColor[][] marbleMatrix;
+        private final MarbleColor slide;
+
+        public MarketSetup(MarbleColor[][] marbleMatrix, MarbleColor slide) {
+            this.marbleMatrix = marbleMatrix;
+            this.slide = slide;
+        }
+
+        public MarbleColor[][] getMarbleMatrix() {
+            return marbleMatrix;
+        }
+
+        public MarbleColor getSlide() {
+            return slide;
+        }
     }
 
 
@@ -94,7 +126,7 @@ public class Market implements ModelObservable, MarketSetupObservable {
             swap1 = swap2;
         }
         this.slide = swap1;
-        notifyModelChange(GSON.getGsonBuilder().toJson(new Pair<>(true, row)));
+        notifyMarketUpdate(new MarketUpdate(true, row));
         return marbles;
     }
 
@@ -117,7 +149,7 @@ public class Market implements ModelObservable, MarketSetupObservable {
             swap1 = swap2;
         }
         this.slide = swap1;
-        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(false, column)));
+        notifyMarketUpdate(new MarketUpdate(false, column));
         return marbles;
     }
 
@@ -131,13 +163,13 @@ public class Market implements ModelObservable, MarketSetupObservable {
     }
 
     @Override
-    public void notifyModelChange(String msg) {
+    public void notifyMarketUpdate(Market.MarketUpdate msg) {
         if (controller != null)
             controller.marketUpdate(msg);
     }
 
     @Override
-    public void notifyMarketSetup(String msg) {
+    public void notifyMarketSetup(Market.MarketSetup msg) {
         if (controller != null)
             controller.marketSetupUpdate(msg);
     }

@@ -2,11 +2,11 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.controller.LocalVirtualView;
 import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.ModelObserver;
-import it.polimi.ingsw.model.TurnManager;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
+import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -178,7 +178,7 @@ public class Client implements PhaseChangedObserver{
         view.displayOtherUserJoined(msg);
         break;
       case GAME_STARTED:
-        state.gameStartedSetup(msg);
+        state.gameStartedSetup(payload);
         clientTurnManager.setCurrentPlayer(getFirstPlayer(payload));
         view.displayGameStarted();
         if(username.equals(clientTurnManager.getCurrentPlayer()))
@@ -206,7 +206,7 @@ public class Client implements PhaseChangedObserver{
         state.devDeckUpdate(payload);
         break;
       case WAREHOUSE_UPDATE:
-        state.warehouseUpdate(messageUser, payload);
+        state.warehouseUpdate(messageUser, msg.getPayloadByType(Warehouse.WarehouseUpdate.class));
         break;
       case ACTIVATED_LEADERCARD_UPDATE:
         state.leaderUpdate(messageUser, payload);

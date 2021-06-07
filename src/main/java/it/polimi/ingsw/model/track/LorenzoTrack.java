@@ -1,16 +1,15 @@
 package it.polimi.ingsw.model.track;
 import it.polimi.ingsw.model.EndGameObserver;
 import it.polimi.ingsw.model.EndGameObservable;
-import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.MoveForwardObserver;
-import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.model.modelObservables.TrackObservable;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class LorenzoTrack implements VaticanReportObservable, EndGameObservable, ModelObservable, MoveForwardObserver {
+public class LorenzoTrack implements VaticanReportObservable, EndGameObservable, TrackObservable, MoveForwardObserver {
   Square[] track;
   int playerPosition;
   final Set<VaticanReportObserver> vaticanReportObserverList = new HashSet<>();
@@ -59,7 +58,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
       }
     }
 
-    notifyModelChange(GSON.getGsonBuilder().toJson(Integer.toString(playerPosition)));
+    notifyTrackUpdate(new Track.TrackUpdate(playerPosition));
     if(playerPosition == 24)
       notifyForEndGame();
   }
@@ -108,7 +107,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
 
 
   @Override
-  public void notifyModelChange(String msg) {
+  public void notifyTrackUpdate(Track.TrackUpdate msg) {
     if (controller != null) {
       controller.lorenzoTrackUpdate(msg);
     }

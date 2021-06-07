@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.ViewInterface;
 
+import java.util.ArrayList;
+
 public class GuiTurnManager implements ClientTurnManagerInterface{
 
    private Client client;
@@ -20,6 +22,14 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
 
    @Override
    public void currentPhasePrint() {
+
+      switch(currentPhase){
+         case SETUP_CHOOSING_RESOURCES:
+            view.displayMarbleChoice();
+            //if(.getPlayerTurnPosition()!=1) {
+         break;
+      }
+
 
    }
 
@@ -42,6 +52,11 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
          return true;
       }
       return false;
+   }
+
+
+   public void setPlayers(String stateUpdate) {
+      //this.players = new ArrayList<>();
    }
 }
 

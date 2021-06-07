@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.modelObservables;
 
 
+import it.polimi.ingsw.model.market.Market;
+
 public interface MarketSetupObservable {
 
-   void notifyMarketSetup(String msg);
+   void notifyMarketSetup(Market.MarketSetup msg);
 
 }

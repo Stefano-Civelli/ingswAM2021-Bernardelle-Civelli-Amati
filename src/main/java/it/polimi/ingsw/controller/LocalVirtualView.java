@@ -1,7 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.model.ModelObserver;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.market.Market;
+import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -35,7 +37,7 @@ public class LocalVirtualView implements ModelObserver {
    }
 
    @Override
-   public void warehouseUpdate(String stateUpdate) {
+   public void warehouseUpdate(Warehouse.WarehouseUpdate stateUpdate) {
       state.warehouseUpdate(username, stateUpdate);
    }
 

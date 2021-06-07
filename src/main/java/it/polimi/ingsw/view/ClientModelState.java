@@ -1,5 +1,8 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.market.Market;
+import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.GSON;
 
@@ -31,7 +34,7 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
-  public void warehouseUpdate(String username, String stateUpdate) {
+  public void warehouseUpdate(String username, Warehouse.WarehouseUpdate stateUpdate) {
     getSimplePlayerState(username).warehouseUpdate(stateUpdate);
   }
 
@@ -116,8 +119,8 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
-  public void gameStartedSetup(Message msg) {
-    ArrayList<String> players = GSON.getGsonBuilder().fromJson(msg.getPayload(), ArrayList.class);
+  public void gameStartedSetup(String stateUpdate) {
+    ArrayList<String> players = GSON.getGsonBuilder().fromJson(stateUpdate, ArrayList.class);
     SimplePlayerState currentPlayerState = getSimplePlayerState();
     this.simplePlayerStateMap = new LinkedHashMap<>();
 

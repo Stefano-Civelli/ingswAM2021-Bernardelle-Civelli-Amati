@@ -1,17 +1,15 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.modelObservables.ChestMergeObservable;
-import it.polimi.ingsw.model.modelObservables.ModelObservable;
+import it.polimi.ingsw.model.modelObservables.ChestUpdateObservable;
 import it.polimi.ingsw.model.modelObservables.TempChestObservable;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
-import it.polimi.ingsw.utility.GSON;
-import it.polimi.ingsw.utility.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Chest implements ModelObservable, TempChestObservable, ChestMergeObservable {
+public class Chest implements ChestUpdateObservable, TempChestObservable, ChestMergeObservable {
   private final Map<ResourceType, Integer> resources;
   private final Map<ResourceType, Integer> tempResourcesMap;
 
@@ -20,6 +18,26 @@ public class Chest implements ModelObservable, TempChestObservable, ChestMergeOb
   public Chest(){
     resources = new HashMap<>();
     tempResourcesMap = new HashMap<>();
+  }
+
+  public static class ChestUpdate{
+    private final ResourceType resourceType;
+    private final int quantity;
+
+    public ChestUpdate(ResourceType resourceType, int quantity) {
+      this.resourceType = resourceType;
+      this.quantity = quantity;
+    }
+
+    public ResourceType getResourceType() {
+      return resourceType;
+    }
+
+    public int getQuantity() {
+      return quantity;
+    }
+
+
   }
 
   /**
@@ -38,7 +56,7 @@ public class Chest implements ModelObservable, TempChestObservable, ChestMergeOb
       throw new NegativeQuantityException("you are adding a negative quantity of a resource, that's not allowed");
 
     tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
-    notifyTempChestChange(GSON.getGsonBuilder().toJson( new Pair<> (resource, tempResourcesMap.get(resource))));
+    notifyTempChestChange(new ChestUpdate(resource, tempResourcesMap.get(resource)));
   }
 
   /**
@@ -61,11 +79,11 @@ public class Chest implements ModelObservable, TempChestObservable, ChestMergeOb
 
       if(resources.get(resource) == quantity) {
         resources.remove(resource);
-        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(resource, 0)));
+        notifyChestUpdate(new ChestUpdate(resource, 0));
       }
       else {
         resources.replace(resource, resources.get(resource) - quantity);
-        notifyModelChange(GSON.getGsonBuilder().toJson( new Pair<>(resource, resources.get(resource))));
+        notifyChestUpdate(new ChestUpdate(resource, resources.get(resource)));
       }
     }
     else
@@ -101,7 +119,7 @@ public class Chest implements ModelObservable, TempChestObservable, ChestMergeOb
     for(Map.Entry<ResourceType, Integer> entry : tempResourcesMap.entrySet()) {
         resources.put(entry.getKey(), resources.containsKey(entry.getKey()) ? resources.get(entry.getKey()) + entry.getValue() : entry.getValue());
     }
-    notifyChestMerge("");
+    notifyChestMerge();
     this.tempResourcesMap.clear();
   }
 
@@ -110,19 +128,19 @@ public class Chest implements ModelObservable, TempChestObservable, ChestMergeOb
   }
 
   @Override
-  public void notifyModelChange(String msg) {
+  public void notifyChestUpdate(Chest.ChestUpdate msg) {
     if (controller != null)
       controller.chestUpdate(msg);
   }
 
   @Override
-  public void notifyTempChestChange(String msg) {
+  public void notifyTempChestChange(Chest.ChestUpdate msg) {
     if (controller != null)
       controller.tempChestUpdate(msg);
   }
 
   @Override
-  public void notifyChestMerge(String msg) {
+  public void notifyChestMerge() {
     if (controller != null)
       controller.chestMergeUpdate();
   }
