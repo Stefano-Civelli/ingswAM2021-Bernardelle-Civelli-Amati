@@ -227,4 +227,20 @@ public class PlayerboardController extends GUIController {
         Action productionAction = new ProductionAction(cardIndex);
         client.forwardAction(productionAction);
     }
+
+
+    // Cosmetics ----------------------------------------------------------------
+    @FXML
+    void mouseHover(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setScaleX(1.05);
+        button.setScaleY(1.05);
+    }
+
+    @FXML
+    void mouseHoverReset(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setScaleX(1.0);
+        button.setScaleY(1.0);
+    }
 }
