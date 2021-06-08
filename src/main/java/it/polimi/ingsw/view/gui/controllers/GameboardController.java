@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
+import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.event.ActionEvent;
@@ -262,6 +263,11 @@ public class GameboardController extends GUIController {
             pushColumn(index);
     }
 
+    public void updateVatican(String username, Track.VaticanReport stateUpdate) {
+        for(PlayerboardController p : playerboardControllers)
+            if(p.getUsername().equals(username))
+                p.updateVatican(stateUpdate);
+    }
 
 
     private void askFotCardSlot(int row, int column){

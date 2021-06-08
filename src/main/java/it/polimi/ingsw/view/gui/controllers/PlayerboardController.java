@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.action.ProductionAction;
 import it.polimi.ingsw.model.Chest;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
+import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
@@ -140,8 +141,42 @@ public class PlayerboardController extends GUIController {
     }
 
     public void updateTrack(String payload){
-//        trackGrid.add();
-//        trackGrid.getChildren().remove(1,2);
+//        this.trackPosition.setVisible(false);
+//        ImageView image = new ImageView(new Image("images/punchboard/faithTrackCross.png"));
+//        this.trackPosition = image;
+//        image.setFitWidth(20);
+//        image.setFitHeight(20);
+//
+//        if(j==18)
+//            return;
+//        if(((j==2 || j==12) && i>0)) {
+//            i--;
+//            trackGrid.add(image, j, i);
+//            return;
+//        }
+//        if(j==7 && i<2) {
+//            i++;
+//            trackGrid.add(image, j, i);
+//            return;
+//        }
+//        j++;
+//        trackGrid.add(image, j, i);
+    }
+
+    public void updateVatican(Track.VaticanReport stateUpdate) {
+        int zone = stateUpdate.getZone();
+        if(stateUpdate.isActive())
+            switch (zone) {
+                case 1:
+                    popeCard1 = new ImageView(new Image("images/punchboard/coin.png"));
+                    break;
+                case 2:
+                    popeCard2 = new ImageView(new Image("images/punchboard/shield.png"));
+                    break;
+                case 3:
+                    popeCard3 = new ImageView(new Image("images/punchboard/stone.png"));
+                    break;
+            }
     }
 
     @FXML
