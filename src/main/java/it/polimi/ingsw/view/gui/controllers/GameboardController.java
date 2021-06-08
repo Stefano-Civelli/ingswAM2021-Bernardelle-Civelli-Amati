@@ -193,7 +193,8 @@ public class GameboardController extends GUIController {
             Parent root = null;
             root = loader.load();
             this.playerboardControllers[0] = loader.getController();
-            this.playerboardControllers[0].setUsername(username);
+            this.playerboardControllers[0].setUsername(username); //FIXME sembra che non vada
+            this.playerboardControllers[0].setClient(this.client);
             this.player_anchorPane.getChildren().add(root);
             playerboardList.add(root);
         } catch (IOException e) {
@@ -201,7 +202,7 @@ public class GameboardController extends GUIController {
         }
     }
 
-    public void setOtherPlayer(String[] usernames) {
+    public void setOtherPlayer(String[] usernames) { //FIXME sto metodo ha qualcosa che non va
         long opponentNumber = Arrays.stream(usernames).filter(Objects::nonNull).count();
         for(int i=0; i<opponentNumber; i++) { //FIXME non so perchè non va
             otherPlayerboardButtons.get(i).setVisible(true);
