@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="594.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.controllers.PlayerboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="878.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.controllers.PlayerboardController">
    <children>
       <GridPane layoutX="324.0" layoutY="143.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -176,6 +176,10 @@
                         <Image url="@../images/punchboard/quadrato rosso.png" />
                      </image>
                   </ImageView>
+                  <Button fx:id="productionSlot1Button" layoutX="319.0" layoutY="469.0" mnemonicParsing="false" onAction="#produceSlot1" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="27.0" prefWidth="64.0" styleClass="greyButton" stylesheets="@../css/gameboard.css" text="Produce" />
+                  <Button fx:id="productionSlot2Button" layoutX="464.0" layoutY="471.0" mnemonicParsing="false" onAction="#produceSlot2" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="27.0" prefWidth="64.0" styleClass="greyButton" stylesheets="@../css/gameboard.css" text="Produce" />
+                  <Button fx:id="productionSlot3Button" layoutX="614.0" layoutY="469.0" mnemonicParsing="false" onAction="#produceSlot3" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="27.0" prefWidth="64.0" styleClass="greyButton" stylesheets="@../css/gameboard.css" text="Produce" />
+                  <Button fx:id="baseProductionButton" layoutX="201.0" layoutY="470.0" mnemonicParsing="false" onAction="#baseProduction" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="27.0" prefWidth="64.0" styleClass="greyButton" stylesheets="@../css/gameboard.css" text="Produce" />
                </children>
             </Pane>
             <GridPane GridPane.columnIndex="1">

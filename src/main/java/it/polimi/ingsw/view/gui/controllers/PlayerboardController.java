@@ -1,14 +1,20 @@
 package it.polimi.ingsw.view.gui.controllers;
 
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.controller.action.BaseProductionAction;
+import it.polimi.ingsw.controller.action.InsertMarbleAction;
+import it.polimi.ingsw.controller.action.ProductionAction;
 import it.polimi.ingsw.model.Chest;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -51,6 +57,14 @@ public class PlayerboardController extends GUIController {
     private GridPane trackGrid;
     @FXML
     private ImageView trackPosition;
+    @FXML
+    private Button productionSlot1Button;
+    @FXML
+    private Button productionSlot2Button;
+    @FXML
+    private Button productionSlot3Button;
+    @FXML
+    private Button baseProductionButton;
 
 
     @FXML
@@ -153,5 +167,29 @@ public class PlayerboardController extends GUIController {
         }
         j++;
         trackGrid.add(image, j, i);
+    }
+
+    @FXML
+    void baseProduction(ActionEvent event) {
+        //TODO finestra che fa comparire la scelta di risorse
+        //Action productionAction = new BaseProductionAction();
+        //client.forwardAction(productionAction);
+    }
+    @FXML
+    void produceSlot1(ActionEvent event) {
+        createProductionAction(0);
+    }
+    @FXML
+    void produceSlot2(ActionEvent event) {
+        createProductionAction(1);
+    }
+    @FXML
+    void produceSlot3(ActionEvent event) {
+        createProductionAction(2);
+    }
+
+    private void createProductionAction(int cardIndex){
+        Action productionAction = new ProductionAction(cardIndex);
+        client.forwardAction(productionAction);
     }
 }

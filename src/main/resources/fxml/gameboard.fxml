@@ -69,7 +69,7 @@
             </GridPane>
          </children>
       </AnchorPane>
-      <HBox layoutX="14.0" layoutY="19.0" prefHeight="100.0" prefWidth="741.0" spacing="40.0">
+      <HBox layoutX="14.0" layoutY="19.0" prefHeight="130.0" prefWidth="316.0" spacing="40.0">
          <children>
             <VBox prefHeight="100.0" prefWidth="126.0" spacing="10.0">
                <children>
@@ -157,5 +157,13 @@
             </ImageView>
          </children>
       </GridPane>
+      <HBox fx:id="slotSelectionHbox" layoutX="451.0" layoutY="135.0" prefHeight="25.0" prefWidth="426.0" spacing="5.0">
+         <children>
+            <Button fx:id="selectSlot1" mnemonicParsing="false" onAction="#completeBuyWithSlot1" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="35.0" prefWidth="141.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Slot 1" />
+            <Button fx:id="selectSlot2" mnemonicParsing="false" onAction="#completeBuyWithSlot2" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="35.0" prefWidth="141.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Slot 2" />
+            <Button fx:id="selectSlot3" mnemonicParsing="false" onAction="#completeBuyWithSlot3" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="35.0" prefWidth="141.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Slot 3" />
+         </children>
+      </HBox>
+      <HBox fx:id="tempMarbleHbox" layoutX="561.0" layoutY="64.0" prefHeight="56.0" prefWidth="316.0" spacing="8.0" />
    </children>
 </AnchorPane>

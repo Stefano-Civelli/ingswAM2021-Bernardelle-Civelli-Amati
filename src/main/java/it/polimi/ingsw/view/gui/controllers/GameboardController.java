@@ -1,21 +1,14 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.controller.action.EndTurnAction;
-import it.polimi.ingsw.controller.action.ShopMarketAction;
+import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.Chest;
 import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
-import it.polimi.ingsw.utility.GSON;
-import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
-import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
 import it.polimi.ingsw.view.gui.SceneController;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,11 +20,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +53,16 @@ public class GameboardController extends GUIController {
     private Button playerboard3Button;
     @FXML
     private Button endTurnButton;
+    @FXML
+    private HBox slotSelectionHbox;
+    @FXML
+    private Button selectSlot1;
+    @FXML
+    private Button selectSlot2;
+    @FXML
+    private Button selectSlot3;
+    @FXML
+    private HBox tempMarbleHbox;
 
     private Circle slide;
     private Circle[][] marbleGrid;
@@ -66,6 +70,8 @@ public class GameboardController extends GUIController {
     private ImageView[][] imagesDevelopCardDeck = new ImageView[N_ROW][N_COLUMN];
     private List<Parent> playerboardList = new ArrayList<>();
     private List<Button> otherPlayerboardButtons = new ArrayList<>();
+    private int selectedCardRow;
+    private int selectedCardColumn;
 
     private final PlayerboardController [] playerboardControllers = {null, null, null, null};
 
@@ -80,6 +86,8 @@ public class GameboardController extends GUIController {
         playerboard1Button.setVisible(false);
         playerboard2Button.setVisible(false);
         playerboard3Button.setVisible(false);
+        slotSelectionHbox.setVisible(false);
+        endTurnButton.setDisable(true);
         // TODO caricare fxml market e develop card deck
     }
 
@@ -249,110 +257,186 @@ public class GameboardController extends GUIController {
         int index = stateUpdate.getIndex();
 
         if(isRow)
-            changeRow(index);
+            pushRow(index);
         else
-            changeColumn(index);
+            pushColumn(index);
     }
 
 
 
-    private void createBuyCardAction(int row, int column){
+    private void askFotCardSlot(int row, int column){
+        this.slotSelectionHbox.setVisible(true);
+        this.market_anchorPane.setDisable(true);
+        this.deckGridPane.setDisable(true);
+        this.endTurnButton.setDisable(true);
+        this.selectedCardRow = row;
+        this.selectedCardColumn = column;
+
         //TODO è così solo per testing, sta roba in realtà sta solo nell'update
         updateDeck(new DevelopCardDeck.DevelopCardDeckUpdate(row, column));
+        //----------------
     }
 
     @FXML
-    void buyCard1(MouseEvent event) {
-        createBuyCardAction(0, 0);
+    void selectedMarble(MouseEvent event) {
+        int i = 0;
+        for(Node n : tempMarbleHbox.getChildren()){
+            if(n.equals(event.getSource())) {
+                System.out.println("selectedGreyMarble " + i);
+                Action buyCardAction = new InsertMarbleAction(i);
+                client.forwardAction(buyCardAction);
+                break;
+            }
+            i++;
+        }
+        tempMarbleHbox.getChildren().remove(event.getSource());
+    }
+//    @FXML
+//    void selectedYellowMarble(MouseEvent event) {
+//        tempMarbleHbox.getChildren().remove(event.getSource());
+//        System.out.println("selectedYellowMarble");
+//    }
+//    @FXML
+//    void selectedRedMarble(MouseEvent event) {
+//        tempMarbleHbox.getChildren().remove(event.getSource());
+//        System.out.println("selectedRedMarble");
+//
+//    }
+//    @FXML
+//    void selectedWhiteMarble(MouseEvent event) {
+//        tempMarbleHbox.getChildren().remove(event.getSource());
+//        System.out.println("selectedWhiteMarble");
+//
+//    }
+//    @FXML
+//    void selectedBlueMarble(MouseEvent event) {
+//        tempMarbleHbox.getChildren().remove(event.getSource());
+//        System.out.println("selectedBlueMarble");
+//
+//    }
+//    @FXML
+//    void selectedPurpleMarble(MouseEvent event) {
+//        tempMarbleHbox.getChildren().remove(event.getSource());
+//        System.out.println("selectedPurpleMarble");
+//
+//    }
+
+
+    @FXML
+    void buyCard1(MouseEvent event) { askFotCardSlot(0, 0); }
+    @FXML
+    void buyCard2(MouseEvent event) { askFotCardSlot(0, 1); }
+    @FXML
+    void buyCard3(MouseEvent event) { askFotCardSlot(0, 2); }
+    @FXML
+    void buyCard4(MouseEvent event) { askFotCardSlot(0, 3); }
+    @FXML
+    void buyCard5(MouseEvent event) { askFotCardSlot(1, 0); }
+    @FXML
+    void buyCard6(MouseEvent event) { askFotCardSlot(1, 1); }
+    @FXML
+    void buyCard7(MouseEvent event) { askFotCardSlot(1, 2); }
+    @FXML
+    void buyCard8(MouseEvent event) { askFotCardSlot(1, 3); }
+    @FXML
+    void buyCard9(MouseEvent event) { askFotCardSlot(2, 0); }
+    @FXML
+    void buyCard10(MouseEvent event) { askFotCardSlot(2, 1); }
+    @FXML
+    void buyCard11(MouseEvent event) { askFotCardSlot(2, 2); }
+    @FXML
+    void buyCard12(MouseEvent event) { askFotCardSlot(2, 3); }
+
+
+    @FXML //TODO le push vanno tolte, servono solo per testare
+    void pushColumn1(MouseEvent event) { onColumnPushed(0); pushColumn(0);}
+    @FXML
+    void pushColumn2(MouseEvent event) { onColumnPushed(1); pushColumn(1);}
+    @FXML
+    void pushColumn3(MouseEvent event) { onColumnPushed(2); pushColumn(2);}
+    @FXML
+    void pushColumn4(MouseEvent event) { onColumnPushed(3); pushColumn(3);}
+    @FXML
+    void pushRow1(MouseEvent event) { onRowPushed(0); pushRow(0);}
+    @FXML
+    void pushRow2(MouseEvent event) { onRowPushed(1); pushRow(1);}
+    @FXML
+    void pushRow3(MouseEvent event) { onRowPushed(2); pushRow(2);}
+
+    private Circle cloneCircle(Circle circle){
+        Circle clonedCircle = new Circle(circle.getRadius(), circle.getFill());
+//        if (MarbleColor.GREY.getGuiColor().equals(clonedCircle.getFill())) {
+//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedGreyMarble(event));
+//        }
+//        if(MarbleColor.YELLOW.getGuiColor().equals(clonedCircle.getFill())){
+//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedYellowMarble(event));
+//        }
+//        if (MarbleColor.BLUE.getGuiColor().equals(clonedCircle.getFill())) {
+//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedBlueMarble(event));
+//        }
+//        if(MarbleColor.WHITE.getGuiColor().equals(clonedCircle.getFill())){
+//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedWhiteMarble(event));
+//
+//        }
+//        if (MarbleColor.RED.getGuiColor().equals(clonedCircle.getFill())) {
+//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedRedMarble(event));
+//        }
+//        if (MarbleColor.PURPLE.getGuiColor().equals(clonedCircle.getFill())) {
+//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedPurpleMarble(event));
+//        }
+        clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedMarble(event));
+        return clonedCircle;
     }
 
-    @FXML
-    void buyCard2(MouseEvent event) { createBuyCardAction(0, 1); }
-
-    @FXML
-    void buyCard3(MouseEvent event) { createBuyCardAction(0, 2); }
-
-    @FXML
-    void buyCard4(MouseEvent event) { createBuyCardAction(0, 3); }
-
-    @FXML
-    void buyCard5(MouseEvent event) { createBuyCardAction(1, 0); }
-
-    @FXML
-    void buyCard6(MouseEvent event) { createBuyCardAction(1, 1); }
-
-    @FXML
-    void buyCard7(MouseEvent event) { createBuyCardAction(1, 2); }
-
-    @FXML
-    void buyCard8(MouseEvent event) { createBuyCardAction(1, 3); }
-
-    @FXML
-    void buyCard9(MouseEvent event) { createBuyCardAction(2, 0); }
-
-    @FXML
-    void buyCard10(MouseEvent event) { createBuyCardAction(2, 1); }
-
-    @FXML
-    void buyCard11(MouseEvent event) { createBuyCardAction(2, 2); }
-
-    @FXML
-    void buyCard12(MouseEvent event) { createBuyCardAction(2, 3); }
-
-
-    @FXML
-    void pushColumn1(MouseEvent event) {
-        Action marketAction = new ShopMarketAction(false, 0);
-        client.forwardAction(marketAction);
-        changeColumn(0);
-    }
-
-    @FXML
-    void pushColumn2(MouseEvent event) {
-        changeColumn(1);
-    }
-
-    @FXML
-    void pushColumn3(MouseEvent event) {
-        changeColumn(2);
-    }
-
-    @FXML
-    void pushColumn4(MouseEvent event) {
-        changeColumn(3);
-    }
-
-    @FXML
-    void pushRow1(MouseEvent event) {
-        changeRow(0);
-    }
-
-    @FXML
-    void pushRow2(MouseEvent event) {
-        changeRow(1);
-    }
-
-    @FXML
-    void pushRow3(MouseEvent event) {
-        changeRow(2);
-    }
-
-    private void changeRow(int row){
-        Color temp = (Color) this.marbleGrid[row][0].getFill();
+    private void pushRow(int row){
+        Color toSlide = (Color) this.marbleGrid[row][0].getFill();
+        tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[row][0]));
         for(int j=1; j<4; j++){
+            tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[row][j]));
             this.marbleGrid[row][j-1].setFill(this.marbleGrid[row][j].getFill());
         }
         this.marbleGrid[row][3].setFill(this.slide.getFill());
-        this.slide.setFill(temp);
+        this.slide.setFill(toSlide);
     }
 
-    private void changeColumn(int column){
+    private void pushColumn(int column){
         Color temp = (Color) this.marbleGrid[0][column].getFill();
+        tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[0][column]));
         for(int i=1; i<3; i++){
+            tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[i][column]));
             this.marbleGrid[i-1][column].setFill(this.marbleGrid[i][column].getFill());
         }
         this.marbleGrid[2][column].setFill(this.slide.getFill());
         this.slide.setFill(temp);
+    }
+
+    private void onRowPushed(int row){
+        this.market_anchorPane.setDisable(true);
+        this.deckGridPane.setDisable(true);
+        Action marketAction = new ShopMarketAction(true, row);
+        client.forwardAction(marketAction);
+
+        //TODO poi sto codice va cancellato finito il testing
+//        Color temp = (Color) this.marbleGrid[row][0].getFill();
+//        for(int j=1; j<4; j++){
+//            this.marbleGrid[row][j-1].setFill(this.marbleGrid[row][j].getFill());
+//        }
+//        this.marbleGrid[row][3].setFill(this.slide.getFill());
+//        this.slide.setFill(temp);
+    }
+
+    private void onColumnPushed(int column){
+        Action marketAction = new ShopMarketAction(false, column);
+        client.forwardAction(marketAction);
+        this.market_anchorPane.setDisable(true);
+        this.deckGridPane.setDisable(true);
+        //TODO poi sto codice va cancellato finito il testing
+//        Color temp = (Color) this.marbleGrid[0][column].getFill();
+//        for(int i=1; i<3; i++){
+//            this.marbleGrid[i-1][column].setFill(this.marbleGrid[i][column].getFill());
+//        }
+//        this.marbleGrid[2][column].setFill(this.slide.getFill());
+//        this.slide.setFill(temp);
     }
 
     @FXML
@@ -385,6 +469,35 @@ public class GameboardController extends GUIController {
         player_anchorPane.getChildren().add(playerboardList.get(3));
     }
 
+
+    @FXML
+    void completeBuyWithSlot1(ActionEvent event) {
+        createBuyCardAction(0);
+    }
+
+    @FXML
+    void completeBuyWithSlot2(ActionEvent event) {
+        createBuyCardAction(1);
+    }
+
+    @FXML
+    void completeBuyWithSlot3(ActionEvent event) {
+        createBuyCardAction(2);
+    }
+
+    private void createBuyCardAction(int slotNumber){
+        this.slotSelectionHbox.setVisible(false);
+        this.market_anchorPane.setDisable(false);
+        this.deckGridPane.setDisable(false);
+        this.endTurnButton.setDisable(false);
+        Action buyCardAction = new BuyDevelopCardAction(this.selectedCardRow,this.selectedCardColumn, slotNumber);
+        client.forwardAction(buyCardAction);
+    }
+
+
+
+
+    // Cosmetics ----------------------------------------------------------------
     @FXML
     void mouseHover(MouseEvent event) {
         Button button = (Button) event.getSource();
