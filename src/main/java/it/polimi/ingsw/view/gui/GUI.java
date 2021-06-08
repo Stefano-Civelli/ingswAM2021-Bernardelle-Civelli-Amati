@@ -57,7 +57,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
     * Display the form were the player can choose their username
     */
    @Override
-   public void displayLogin() {
+   public void displayLogin() { // FIXME PERCHÉ VIENE MOSTRATO ANCHE SE C'`E UN ERRORE DI CONNESSIONE??
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> this.sceneController.changeScene("fxml/login.fxml", this.client));
    }
@@ -80,7 +80,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayFailedLogin() {
+   public void displayFailedLogin() { // FIXME PERCHÉ VIENE SUBITO "RISCRITTO" DA UNA CHIAMATA A displayLogin DA PARTE DEL CLIENT??
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          LoginController controller = (LoginController) this.sceneController.getCurrentController();
