@@ -1,6 +1,7 @@
 {
     "developCardList": [
         {
+            "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-1-1.png",
             "devCardId": "1",
             "cardFlag": {
                 "level": "1",
@@ -18,6 +19,7 @@
             "victoryPoints": "1"
         },
         {
+            "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-2-1.png",
             "devCardId": "2",
             "cardFlag": {
                 "level": "1",
@@ -35,6 +37,7 @@
             "victoryPoints": "1"
         },
         {
+            "image": "Masters of Renaissance_Cards_FRONT_3mmBleed_1-3-1.png",
             "devCardId": "3",
             "cardFlag": {
                 "level": "1",
