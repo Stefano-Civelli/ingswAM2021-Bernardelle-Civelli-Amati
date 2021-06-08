@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model.leadercard;
 
-import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.modelObservables.ModelObservable;
 import it.polimi.ingsw.model.modelexceptions.*;
-import it.polimi.ingsw.utility.GSON;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -37,6 +37,18 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
       this.controller = controller;
    }
 
+   public static class LeaderSetup {
+      private List<Integer> leaderList;
+
+      public LeaderSetup(List<Integer> leaderList) {
+         this.leaderList = leaderList;
+      }
+
+      public List<Integer> getLeaderList() {
+         return leaderList;
+      }
+   }
+
    /**
     * Adds a new player in this game
     *
@@ -61,7 +73,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
       playerBoard.setController(controller);
       playerBoard.setEndGameObserver(this);
       playerBoards.add(new Pair<>(playerBoard, true));
-      notifyLeaderSetup(username, GSON.getGsonBuilder().toJson( idLeaderList(fourInitialLeaderCardsForPlayer)));
+      notifyLeaderSetup(username, new LeaderSetup( idLeaderList(fourInitialLeaderCardsForPlayer)));
    }
 
    /**
@@ -244,7 +256,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
    }
 
    @Override
-   public void notifyLeaderSetup(String username, String msg) {
+   public void notifyLeaderSetup(String username, Game.LeaderSetup msg) {
       if (controller != null)
          controller.leaderSetupUpdate(username, msg);
    }

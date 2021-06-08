@@ -1,24 +1,27 @@
 package it.polimi.ingsw.model;
 
 
+import it.polimi.ingsw.model.market.Market;
+import it.polimi.ingsw.model.track.Track;
+
 public interface ModelObserver {
-  void chestUpdate(String stateUpdate);
-  void warehouseUpdate(String stateUpdate);
-  void leaderUpdate(String stateUpdate);
-  void leaderSetupUpdate(String username, String stateUpdate); // !! non è broadcast !!
-  void marketUpdate(String stateUpdate);
-  void marketSetupUpdate(String stateUpdate);
-  void cardSlotUpdate(String stateUpdate);
-  void trackUpdate(String username, String stateUpdate);
-  void vaticanUpdate(String username, String stateUpdate);
-  void devDeckUpdate(String stateUpdate);
-  void devDeckSetup(String stateUpdate);
-  void tempChestUpdate(String stateUpdate);
-  void discardedLeaderUpdate(String stateUpdate);
+  void chestUpdate(Chest.ChestUpdate stateUpdate);
+  void warehouseUpdate(Warehouse.WarehouseUpdate stateUpdate);
+  void leaderUpdate(PlayerBoard.LeaderUpdate stateUpdate);
+  void leaderSetupUpdate(String username, Game.LeaderSetup stateUpdate); // !! non è broadcast !!
+  void marketUpdate(Market.MarketUpdate stateUpdate);
+  void marketSetupUpdate(Market.MarketSetup stateUpdate);
+  void cardSlotUpdate(CardSlots.CardSlotUpdate stateUpdate);
+  void trackUpdate(String username, Track.TrackUpdate stateUpdate);
+  void vaticanUpdate(String username, Track.VaticanReport stateUpdate);
+  void devDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate);
+  void devDeckSetup(DevelopCardDeck.DevelopCardDeckSetup stateUpdate);
+  void tempChestUpdate(Chest.ChestUpdate stateUpdate);
+  void discardedLeaderUpdate(PlayerBoard.LeaderUpdate stateUpdate);
   void endGameUpdate(String stateUpdate);
-  void lorenzoTrackUpdate(String stateUpdate);
+  void lorenzoTrackUpdate(Track.TrackUpdate stateUpdate);
   void lorenzoShuffleUpdate();
-  void lorenzoDevDeckUpdate(String stateUpdate);
+  void lorenzoDevDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate);
   void chestMergeUpdate();
   //TODO per riconnessione servono update con username e Stringa che chiamano singleUpdate
 }

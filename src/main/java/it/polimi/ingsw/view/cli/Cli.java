@@ -3,6 +3,8 @@ package it.polimi.ingsw.view.cli;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.action.*;
 
+import it.polimi.ingsw.model.DevelopCardDeck;
+import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.network.client.Client;
@@ -266,7 +268,7 @@ public class Cli implements ViewInterface {
   public void startingSetupUpdate() {}
 
   @Override
-  public void displayLorenzoDiscarded(String state) {
+  public void displayLorenzoDiscarded(DevelopCardDeck.DevelopCardDeckUpdate state) {
     clearScreen();
     drawer.displayLorenzoHasDiscarded(state);
   }

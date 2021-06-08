@@ -1,8 +1,7 @@
 package it.polimi.ingsw.view;
 
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.model.ResourceType;
-import it.polimi.ingsw.model.Warehouse;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
@@ -55,18 +54,15 @@ public class SimplePlayerState {
    }
 
    //-----------SETUP-------------------------------------------
-   public void setupLeaderCard(String payload){
-      Type token = new TypeToken<List<Integer>>(){}.getType();
-      this.notActiveLederCards = GSON.getGsonBuilder().fromJson(payload, token);
-
+   public void setupLeaderCard(Game.LeaderSetup stateSetup) {
+      this.notActiveLederCards = stateSetup.getLeaderList();
    }
    //-----------------------------------------------------------
 
 
    //----------UPDATE----------
-   public void warehouseUpdate(String payload) {
-      Warehouse.WarehouseUpdate update = GSON.getGsonBuilder().fromJson(payload, Warehouse.WarehouseUpdate.class);
-
+   public void warehouseUpdate(Warehouse.WarehouseUpdate update) {
+      //Warehouse.WarehouseUpdate update = GSON.getGsonBuilder().fromJson(payload, Warehouse.WarehouseUpdate.class);
       ResourceType resource = update.getResourceType();
 
       //normalLevels
@@ -93,49 +89,42 @@ public class SimplePlayerState {
       storageLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
    }
 
-   public void trackUpdate(String payload) {
-      int newPosition = GSON.getGsonBuilder().fromJson(payload, Integer.class);
+   public void trackUpdate(Track.TrackUpdate stateUpdate) {
+      int newPosition = stateUpdate.getPlayerPosition();
       this.trackPosition = newPosition;
    }
 
-   public void vaticanReportUpdate(String payload) {
-      Track.VaticanReport update = GSON.getGsonBuilder().fromJson(payload, Track.VaticanReport.class);
-      int zone = update.getZone();
-      boolean flip = update.isActive();
+   public void vaticanReportUpdate(Track.VaticanReport stateUpdate) {
+      int zone = stateUpdate.getZone();
+      boolean flip = stateUpdate.isActive();
 
       vaticanFlipped[zone] = flip;
    }
 
-   public void chestUpdate(String payload) { //serve?
-      Type token = new TypeToken<Pair<ResourceType, Integer>>(){}.getType();
-      Pair<ResourceType, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
-      ResourceType resource = pair.getKey();
-      int quantity = pair.getValue();
+   public void chestUpdate(Chest.ChestUpdate stateUpdate) { //serve?
+      ResourceType resource = stateUpdate.getResourceType();
+      int quantity = stateUpdate.getQuantity();
 
       this.chest.put(resource, quantity);
    }
 
-   public void tempChestUpdate(String payload) {
-      Type token = new TypeToken<Pair<ResourceType, Integer>>(){}.getType();
-      Pair<ResourceType, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
-      ResourceType resource = pair.getKey();
-      int quantity = pair.getValue();
+   public void tempChestUpdate(Chest.ChestUpdate stateUpdate) {
+      ResourceType resource = stateUpdate.getResourceType();
+      int quantity = stateUpdate.getQuantity();
 
       this.tempChest.put(resource, quantity);
    }
 
-   public void cardSlotUpdate(String payload) {
-      Type token = new TypeToken<Pair<Integer, Integer>>(){}.getType();
-      Pair<Integer, Integer> pair = GSON.getGsonBuilder().fromJson(payload, token);
-      int devCardID = pair.getKey();
-      int slot = pair.getValue();
+   public void cardSlotUpdate(CardSlots.CardSlotUpdate stateUpdate) {
+      int devCardID = stateUpdate.getDevCardID();
+      int slot = stateUpdate.getSlotNumber();
 
       cardSlots[slot].add(devCardID);
    }
 
-   public void activatedLeaderUpdate(String payload) {
-      this.activeLeaderCards.add(Integer.parseInt(payload));
-      this.notActiveLederCards.remove(Integer.valueOf(payload)); //potrebbe non andare a causa dell'indice
+   public void activatedLeaderUpdate(PlayerBoard.LeaderUpdate stateUpdate) {
+      this.activeLeaderCards.add(stateUpdate.getCardId());
+      this.notActiveLederCards.remove((Integer) stateUpdate.getCardId()); //potrebbe non andare a causa dell'indice
    }
 
 

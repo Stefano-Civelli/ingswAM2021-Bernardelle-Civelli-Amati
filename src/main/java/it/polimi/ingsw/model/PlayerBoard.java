@@ -4,17 +4,16 @@ import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.modelObservables.ActivatedLeaderObservable;
-import it.polimi.ingsw.model.modelObservables.ModelObservable;
+import it.polimi.ingsw.model.modelObservables.LeaderDiscardObservable;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.model.track.Track;
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
 import java.io.IOException;
 import java.util.*;
 
-public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable, ModelObservable, ActivatedLeaderObservable {
+public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable, LeaderDiscardObservable, ActivatedLeaderObservable {
 
    private final String username;
    private final CardSlots cardSlots;
@@ -44,6 +43,18 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       this.tempMarketMarble = new ArrayList<>();
       this.alreadyProduced = new boolean[this.cardSlots.getNumberOfCardSlots() + 2];
       Arrays.fill(this.alreadyProduced, false);
+   }
+
+   public static class LeaderUpdate {
+      private final int cardId;
+
+      public LeaderUpdate(int cardId) {
+         this.cardId = cardId;
+      }
+
+      public int getCardId() {
+         return cardId;
+      }
    }
 
    /**
@@ -94,7 +105,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
          throw new LeaderIsActiveException();
       leaderCards.remove(getIndexFromId(leaderId));
       track.moveForward(1);
-      notifyModelChange(GSON.getGsonBuilder().toJson(leaderId));
+      notifyLeaderDiscard(new LeaderUpdate(leaderId));
    }
 
    /**
@@ -277,7 +288,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     */
    public void setActiveLeadercard(int leaderCardId) throws InvalidLeaderCardException, NotEnoughResourcesException {
       this.leaderCards.get(getIndexFromId(leaderCardId)).setActive(this);
-      notifyActivatedLeader(GSON.getGsonBuilder().toJson(leaderCardId));
+      notifyActivatedLeader(new LeaderUpdate(leaderCardId));
    }
 
    private int getIndexFromId(int leaderCardId) {
@@ -387,13 +398,13 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
   }
 
    @Override
-   public void notifyModelChange(String msg) {
+   public void notifyLeaderDiscard(LeaderUpdate msg) {
       if (controller != null)
          controller.discardedLeaderUpdate(msg);
    }
 
    @Override
-   public void notifyActivatedLeader(String msg) {
+   public void notifyActivatedLeader(LeaderUpdate msg) {
       if (controller != null)
          controller.leaderUpdate(msg);
    }

@@ -2,12 +2,18 @@ package it.polimi.ingsw.network.messages;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 //TODO aggiugere receiver e setReceiver
 public class Message {
-
    //provare a vedere se deserializzando LoginMessage posso impostare questi attributi private
    private String username = null; //username del Client mittente,
    private MessageType messageType;
@@ -52,6 +58,12 @@ public class Message {
    }
 
    public String getPayload() { return payload; }
+
+   public <T> T getPayloadByType(Class<T> myType){
+      //Type token = new TypeToken<T>(){}.getType();
+      return GSON.getGsonBuilder().fromJson(payload, myType);
+   }
+
 
    public Action getAction() { return GSON.buildAction(payload); } //se registriamo i sottotipi di Action sul builder probabilmente deserializza lui correttamente sulla sottoclasse
 
