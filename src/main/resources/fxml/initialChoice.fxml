@@ -109,22 +109,22 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
+                  <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
+                  <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
+                  <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
+                  <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
          </children>

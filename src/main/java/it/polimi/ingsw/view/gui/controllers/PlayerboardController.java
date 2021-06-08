@@ -8,15 +8,20 @@ import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
 public class PlayerboardController extends GUIController {
+
+    private int i=2;
+    private int j=1;
 
     @FXML
     private ImageView leader0_ImageView;
@@ -41,6 +46,9 @@ public class PlayerboardController extends GUIController {
 
     @FXML
     private GridPane trackGrid;
+    @FXML
+    private ImageView trackPosition;
+
 
     @FXML
     private void initialize() {
@@ -115,5 +123,11 @@ public class PlayerboardController extends GUIController {
 //        trackGrid.getChildren().remove(1,2);
     }
 
-
+    @FXML
+    void move(MouseEvent event) {
+        System.out.println("moved");
+        Node n =trackGrid.getChildren().remove(0);
+        trackGrid.add(n, j, i);
+        j++;
+    }
 }

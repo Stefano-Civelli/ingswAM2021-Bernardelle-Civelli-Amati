@@ -37,8 +37,8 @@ public class Client implements PhaseChangedObserver{
     boolean isCli = true;
     boolean isLocal = false;
 
-    if(args.length > 0)
-      isLocal = true;
+//    if(args.length > 0)
+//      isLocal = true;
 
     if (args.length > 0)
       switch (args[0]){

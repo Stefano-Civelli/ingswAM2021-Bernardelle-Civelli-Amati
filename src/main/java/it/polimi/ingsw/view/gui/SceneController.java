@@ -58,7 +58,7 @@ public class SceneController {
                 this.currentController.setClient(client);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/logo.png")));
+            stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/Logo.png")));
             stage.setTitle("Masters of Renaissance");
             this.activeStage = stage;
             stage.show();
