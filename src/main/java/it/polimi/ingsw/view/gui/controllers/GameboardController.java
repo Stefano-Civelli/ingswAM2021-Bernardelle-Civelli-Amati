@@ -46,17 +46,11 @@ public class GameboardController extends GUIController {
     @FXML
     private AnchorPane player_anchorPane;
     @FXML
-    private AnchorPane player1_anchorPane;
-    @FXML
-    private AnchorPane player2_anchorPane;
-    @FXML
-    private AnchorPane player3_anchorPane;
-    @FXML
     private GridPane deckGridPane;
     @FXML
     private AnchorPane market_anchorPane;
     @FXML
-    private Button playerboard4Button;
+    private Button myPlayerboardButton;
     @FXML
     private Button playerboard1Button;
     @FXML
@@ -70,17 +64,22 @@ public class GameboardController extends GUIController {
     private Circle[][] marbleGrid;
     private List<Integer>[][] developCardDeck;
     private ImageView[][] imagesDevelopCardDeck = new ImageView[N_ROW][N_COLUMN];
+    private List<Parent> playerboardList = new ArrayList<>();
+    private List<Button> otherPlayerboardButtons = new ArrayList<>();
 
     private final PlayerboardController [] playerboardControllers = {null, null, null, null};
 
     @FXML
     private void initialize() {
-//        imagesDevelopCardDeck = new ImageView[N_ROW][N_COLUMN];
-//        for (int i = 0; i < imagesDevelopCardDeck.length; i++) {
-//            for (int j = 0; j < imagesDevelopCardDeck[i].length; j++) {
-//                //imagesDevelopCardDeck[i][j] =
-//            }
+        otherPlayerboardButtons.add(playerboard1Button);
+        otherPlayerboardButtons.add(playerboard2Button);
+        otherPlayerboardButtons.add(playerboard3Button);
+//        for(Button b : otherPlayerboardButtons){
+//            b.setVisible(false);
 //        }
+        playerboard1Button.setVisible(false);
+        playerboard2Button.setVisible(false);
+        playerboard3Button.setVisible(false);
         // TODO caricare fxml market e develop card deck
     }
 
@@ -179,8 +178,6 @@ public class GameboardController extends GUIController {
         }
     }
 
-
-
     public void setUsername(String username) {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -190,21 +187,27 @@ public class GameboardController extends GUIController {
             this.playerboardControllers[0] = loader.getController();
             this.playerboardControllers[0].setUsername(username);
             this.player_anchorPane.getChildren().add(root);
+            playerboardList.add(root);
         } catch (IOException e) {
             e.printStackTrace(); //TODO gestire
         }
     }
 
     public void setOtherPlayer(String[] usernames) {
+        long opponentNumber = Arrays.stream(usernames).filter(Objects::nonNull).count();
+        for(int i=0; i<opponentNumber; i++) { //FIXME non so perchè non va
+            otherPlayerboardButtons.get(i).setVisible(true);
+        }
         try {
             for(int i = 1; i < this.playerboardControllers.length && i <= usernames.length; i++) {
                 if(usernames[i - 1] != null) {
                     FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/othersPlayerboard.fxml"));
+                    loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/playerboard.fxml"));
                     Parent root1 = loader.load();
                     this.playerboardControllers[i] = loader.getController();
                     this.playerboardControllers[i].setUsername(usernames[i - 1]);
-                    this.player1_anchorPane.getChildren().add(root1);
+                    playerboardList.add(root1);
+                    //this.player1_anchorPane.getChildren().add(root1);
                 }
             }
         } catch (IOException e) {
@@ -354,29 +357,61 @@ public class GameboardController extends GUIController {
 
     @FXML
     void endTurn(ActionEvent event) {
-//        Action endTurnAction = new EndTurnAction(client.getUsername());
-//        client.forwardAction(endTurnAction);
+        Action endTurnAction = new EndTurnAction(client.getUsername());
+        client.forwardAction(endTurnAction);
+    }
+
+    @FXML
+    void showMyPlayerboard(ActionEvent event) {
+        player_anchorPane.getChildren().remove(0);
+        player_anchorPane.getChildren().add(playerboardList.get(0));
     }
 
     @FXML
     void showPlayerboard1(ActionEvent event) {
-
+        player_anchorPane.getChildren().remove(0);
+        player_anchorPane.getChildren().add(playerboardList.get(1));
     }
 
     @FXML
     void showPlayerboard2(ActionEvent event) {
-
+        player_anchorPane.getChildren().remove(0);
+        player_anchorPane.getChildren().add(playerboardList.get(2));
     }
 
     @FXML
     void showPlayerboard3(ActionEvent event) {
-
+        player_anchorPane.getChildren().remove(0);
+        player_anchorPane.getChildren().add(playerboardList.get(3));
     }
 
     @FXML
-    void showPlayerboard4(ActionEvent event) {
+    void mouseHover(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setScaleX(1.05);
+        button.setScaleY(1.05);
+    }
 
+    @FXML
+    void mouseHoverReset(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setScaleX(1.0);
+        button.setScaleY(1.0);
     }
 
 
+    @FXML
+    void mouseHoverColorChange(MouseEvent event) {
+        ImageView image = (ImageView) event.getSource();
+        image.setImage(new Image("images/MaterialArrowFilledHover.png"));
+        image.setScaleX(1.1);
+        image.setScaleY(1.1);
+    }
+    @FXML
+    void mouseHoverColorChangeReset(MouseEvent event) {
+        ImageView image = (ImageView) event.getSource();
+        image.setImage(new Image("images/MaterialArrowFilled.png"));
+        image.setScaleX(1.0);
+        image.setScaleY(1.0);
+    }
 }

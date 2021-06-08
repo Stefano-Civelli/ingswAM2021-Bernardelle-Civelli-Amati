@@ -30,37 +30,37 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ImageView fx:id="rowArrow1" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushRow1" pickOnBounds="true" preserveRatio="true" rotate="-90.0" scaleX="0.9" GridPane.columnIndex="4">
+                  <ImageView fx:id="rowArrow1" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushRow1" onMouseEntered="#mouseHoverColorChange" onMouseExited="#mouseHoverColorChangeReset" pickOnBounds="true" preserveRatio="true" rotate="-90.0" scaleX="0.9" GridPane.columnIndex="4">
                      <image>
                         <Image url="@../images/MaterialArrowFilled.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="rowArrow2" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushRow2" pickOnBounds="true" preserveRatio="true" rotate="-90.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                  <ImageView fx:id="rowArrow2" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushRow2" onMouseEntered="#mouseHoverColorChange" onMouseExited="#mouseHoverColorChangeReset" pickOnBounds="true" preserveRatio="true" rotate="-90.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
                      <image>
                         <Image url="@../images/MaterialArrowFilled.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="rowArrow3" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushRow3" pickOnBounds="true" preserveRatio="true" rotate="-90.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                  <ImageView fx:id="rowArrow3" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushRow3" onMouseEntered="#mouseHoverColorChange" onMouseExited="#mouseHoverColorChangeReset" pickOnBounds="true" preserveRatio="true" rotate="-90.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
                      <image>
                         <Image url="@../images/MaterialArrowFilled.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="columnArrow1" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushColumn1" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+                  <ImageView fx:id="columnArrow1" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushColumn1" onMouseEntered="#mouseHoverColorChange" onMouseExited="#mouseHoverColorChangeReset" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                      <image>
                         <Image url="@../images/MaterialArrowFilled.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="columnArrow2" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushColumn2" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <ImageView fx:id="columnArrow2" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushColumn2" onMouseEntered="#mouseHoverColorChange" onMouseExited="#mouseHoverColorChangeReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <image>
                         <Image url="@../images/MaterialArrowFilled.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="columnArrow3" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushColumn3" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                  <ImageView fx:id="columnArrow3" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushColumn3" onMouseEntered="#mouseHoverColorChange" onMouseExited="#mouseHoverColorChangeReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
                      <image>
                         <Image url="@../images/MaterialArrowFilled.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="columnArrow4" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushColumn4" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                  <ImageView fx:id="columnArrow4" fitHeight="20.0" fitWidth="45.0" onMouseClicked="#pushColumn4" onMouseEntered="#mouseHoverColorChange" onMouseExited="#mouseHoverColorChangeReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
                      <image>
                         <Image url="@../images/MaterialArrowFilled.png" />
                      </image>
@@ -69,17 +69,17 @@
             </GridPane>
          </children>
       </AnchorPane>
-      <HBox layoutX="14.0" layoutY="19.0" prefHeight="100.0" prefWidth="741.0" spacing="20.0">
+      <HBox layoutX="14.0" layoutY="19.0" prefHeight="100.0" prefWidth="741.0" spacing="40.0">
          <children>
             <VBox prefHeight="100.0" prefWidth="126.0" spacing="10.0">
                <children>
-                  <Button fx:id="playerboard1Button" mnemonicParsing="false" onAction="#showPlayerboard1" prefHeight="35.0" prefWidth="141.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Playerboard 1" />
-                  <Button fx:id="playerboard2Button" mnemonicParsing="false" onAction="#showPlayerboard2" prefHeight="34.0" prefWidth="134.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Playerboard 2" />
-                  <Button fx:id="playerboard3Button" mnemonicParsing="false" onAction="#showPlayerboard3" prefHeight="34.0" prefWidth="134.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Playerboard 3" />
-                  <Button fx:id="playerboard4Button" mnemonicParsing="false" onAction="#showPlayerboard4" prefHeight="38.0" prefWidth="126.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Playerboard 4" />
+                  <Button fx:id="myPlayerboardButton" mnemonicParsing="false" onAction="#showMyPlayerboard" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="35.0" prefWidth="141.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="My Playerboard" />
+                  <Button fx:id="playerboard1Button" mnemonicParsing="false" onAction="#showPlayerboard1" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="34.0" prefWidth="134.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Playerboard 1" />
+                  <Button fx:id="playerboard2Button" mnemonicParsing="false" onAction="#showPlayerboard2" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="34.0" prefWidth="134.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Playerboard 2" />
+                  <Button fx:id="playerboard3Button" mnemonicParsing="false" onAction="#showPlayerboard3" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="38.0" prefWidth="126.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Playerboard 3" />
                </children>
             </VBox>
-            <Button fx:id="endTurnButton" mnemonicParsing="false" onAction="#endTurn" prefHeight="38.0" prefWidth="573.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="END TURN" />
+            <Button fx:id="endTurnButton" mnemonicParsing="false" onAction="#endTurn" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" prefHeight="89.0" prefWidth="146.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="END TURN" />
          </children>
       </HBox>
       <GridPane fx:id="deckGridPane" layoutX="889.0" layoutY="291.0" prefHeight="423.0" prefWidth="389.0">

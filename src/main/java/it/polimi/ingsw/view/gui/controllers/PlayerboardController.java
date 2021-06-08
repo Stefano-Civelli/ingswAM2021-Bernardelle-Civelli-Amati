@@ -31,19 +31,14 @@ public class PlayerboardController extends GUIController {
     private ImageView leader2_ImageView;
     @FXML
     private ImageView leader3_ImageView;
-
     @FXML
     private Label coinCounter;
-
     @FXML
     private Label servantCounter;
-
     @FXML
     private Label stoneCounter;
-
     @FXML
     private Label shieldCounter;
-
     @FXML
     private GridPane trackGrid;
     @FXML
@@ -126,8 +121,13 @@ public class PlayerboardController extends GUIController {
     @FXML
     void move(MouseEvent event) {
         System.out.println("moved");
-        Node n =trackGrid.getChildren().remove(0);
-        trackGrid.add(n, j, i);
+        this.trackPosition.setVisible(false);
+        //trackGrid.getChildren().get(0).setVisible(false);
+        ImageView image = new ImageView(new Image("images/punchboard/faithTrackCross.png"));
+        this.trackPosition = image;
+        image.setFitWidth(20);
+        image.setFitHeight(20);
+        trackGrid.add(image, j, i);
         j++;
     }
 }
