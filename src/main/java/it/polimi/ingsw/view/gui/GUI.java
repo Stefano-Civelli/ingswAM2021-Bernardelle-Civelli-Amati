@@ -293,6 +293,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void devDeckSetup(DevelopCardDeck.DevelopCardDeckSetup stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater( () -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.constructDeck(stateUpdate);
+      });
    }
 
    @Override

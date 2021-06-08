@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class DevelopCard {
    private int devCardId;
+   private String image;
    private final CardFlag cardFlag;
    private final HashMap<ResourceType, Integer> cost;
    private final HashMap<ResourceType, Integer> requirement;
@@ -152,6 +153,9 @@ public class DevelopCard {
       }
    }
 
+   public String getImage() {
+      return this.image;
+   }
 
    public HashMap<ResourceType, Integer> getCost() {
       return new HashMap<>(cost);
