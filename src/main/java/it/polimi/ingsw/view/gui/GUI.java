@@ -283,6 +283,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void vaticanUpdate(String username, Track.VaticanReport stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater( () -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.updateVatican(username, stateUpdate);
+      });
    }
 
    @Override
