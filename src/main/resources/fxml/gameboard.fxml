@@ -71,7 +71,7 @@
       </AnchorPane>
       <HBox layoutX="14.0" layoutY="19.0" prefHeight="100.0" prefWidth="741.0" spacing="20.0">
          <children>
-            <VBox fx:id="playerboard4Button" prefHeight="100.0" prefWidth="126.0" spacing="10.0">
+            <VBox prefHeight="100.0" prefWidth="126.0" spacing="10.0">
                <children>
                   <Button fx:id="playerboard1Button" mnemonicParsing="false" onAction="#showPlayerboard1" prefHeight="35.0" prefWidth="141.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Playerboard 1" />
                   <Button fx:id="playerboard2Button" mnemonicParsing="false" onAction="#showPlayerboard2" prefHeight="34.0" prefWidth="134.0" styleClass="redButton" stylesheets="@../css/gameboard.css" text="Playerboard 2" />

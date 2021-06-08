@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.controllers;
 
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.controller.action.EndTurnAction;
 import it.polimi.ingsw.controller.action.ShopMarketAction;
 import it.polimi.ingsw.model.Chest;
 import it.polimi.ingsw.model.DevelopCardDeck;
@@ -353,7 +354,8 @@ public class GameboardController extends GUIController {
 
     @FXML
     void endTurn(ActionEvent event) {
-
+//        Action endTurnAction = new EndTurnAction(client.getUsername());
+//        client.forwardAction(endTurnAction);
     }
 
     @FXML
