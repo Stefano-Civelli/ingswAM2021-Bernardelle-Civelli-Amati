@@ -21,7 +21,7 @@ import java.util.List;
 public class PlayerboardController extends GUIController {
 
     private int i=2;
-    private int j=1;
+    private int j=0;
 
     @FXML
     private ImageView leader0_ImageView;
@@ -32,6 +32,12 @@ public class PlayerboardController extends GUIController {
     @FXML
     private ImageView leader3_ImageView;
     @FXML
+    private ImageView popeCard1;
+    @FXML
+    private ImageView popeCard2;
+    @FXML
+    private ImageView popeCard3;
+    @FXML
     private Label coinCounter;
     @FXML
     private Label servantCounter;
@@ -39,6 +45,8 @@ public class PlayerboardController extends GUIController {
     private Label stoneCounter;
     @FXML
     private Label shieldCounter;
+    @FXML
+    private Label usernameLabel;
     @FXML
     private GridPane trackGrid;
     @FXML
@@ -51,12 +59,16 @@ public class PlayerboardController extends GUIController {
         this.leader1_ImageView.setVisible(false);
         this.leader2_ImageView.setVisible(false);
         this.leader3_ImageView.setVisible(false);
+//        this.popeCard1 = new ImageView(new Image("image/punchboard/quadrato giallo.png"));
+//        this.popeCard2 = new ImageView(new Image("image/punchboard/quadrato arancione.png"));
+//        this.popeCard3 = new ImageView(new Image("image/punchboard/quadrato rosso.png"));
     }
 
     private String username;
 
     public void setUsername(String username) {
         this.username = username;
+        this.usernameLabel.setText(this.username);
     }
 
     public String getUsername() {
@@ -122,12 +134,24 @@ public class PlayerboardController extends GUIController {
     void move(MouseEvent event) {
         System.out.println("moved");
         this.trackPosition.setVisible(false);
-        //trackGrid.getChildren().get(0).setVisible(false);
         ImageView image = new ImageView(new Image("images/punchboard/faithTrackCross.png"));
         this.trackPosition = image;
         image.setFitWidth(20);
         image.setFitHeight(20);
-        trackGrid.add(image, j, i);
+
+        if(j==18)
+            return;
+        if(((j==2 || j==12) && i>0)) {
+            i--;
+            trackGrid.add(image, j, i);
+            return;
+        }
+        if(j==7 && i<2) {
+            i++;
+            trackGrid.add(image, j, i);
+            return;
+        }
         j++;
+        trackGrid.add(image, j, i);
     }
 }
