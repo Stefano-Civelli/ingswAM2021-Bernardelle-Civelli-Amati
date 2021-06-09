@@ -603,6 +603,13 @@ public class GameboardController extends GUIController {
         choseResourcesGridPane.setVisible(true);
     }
 
+    public PlayerboardController getPlayerBoardController(String username){
+        for(PlayerboardController p : playerboardControllers)
+            if(username.equals(p.getUsername()))
+                return p;
+        return null;
+    }
+
     @FXML
     void chooseGold(MouseEvent event) {
 
