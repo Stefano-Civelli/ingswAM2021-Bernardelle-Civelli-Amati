@@ -29,6 +29,7 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
 
       switch(currentPhase){
          case SETUP_CHOOSING_RESOURCES:
+            view.displayMarbleChoice();
 //            if(stateViewer.getPlayerTurnPosition()!=1) {
 //               view.displayDefaultCanvas(stateViewer.getUsername());
 //               System.out.println("\nYou need to choose " + stateViewer.getPlayerTurnPosition() / 2 + " resource(s) to add from the following");
@@ -42,7 +43,8 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
 //               client.forwardAction(new ChooseInitialResourcesAction(new HashMap<>()));
 //            }
             break;
-//         case SETUP_DISCARDING_LEADERS:
+         case SETUP_DISCARDING_LEADERS:
+            view.displayLeaderHand();
 //            System.out.println("\nYou have to discard 2 leader cards.");
 //            System.out.println("That's your 4 leader cards: ");
 //            view.displayLeaderHand();

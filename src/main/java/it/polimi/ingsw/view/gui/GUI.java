@@ -49,8 +49,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayMarbleChoice() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      //Platform.runLater(() -> this.sceneController.changeScene("fxml/initialChoice.fxml", this.client));
-
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.displayMarbleChoice(this.username);
+      });
    }
 
    @Override
@@ -244,6 +246,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void warehouseUpdate(String username, Warehouse.WarehouseUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.updateWarehouse(username, stateUpdate);
+      });
    }
 
    @Override

@@ -2,10 +2,7 @@ package it.polimi.ingsw.view.gui.controllers;
 
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.action.*;
-import it.polimi.ingsw.model.CardSlots;
-import it.polimi.ingsw.model.Chest;
-import it.polimi.ingsw.model.DevelopCard;
-import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
@@ -21,11 +18,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +37,12 @@ public class PlayerboardController extends GUIController {
     private ImageView selectedLeader;
     private ResourceType firstToConsume = null;
     private ResourceType secondToConsume = null;
+    private Pair<ResourceType, Integer>[] storageLevels;
+    private List<ImageView>[] guiStorage;
+    private Map<ResourceType,String> resTypeToUrlMap = Map.of(ResourceType.GOLD, "/images/punchboard/coin.png",
+                                                            ResourceType.STONE, "/images/punchboard/stone.png",
+                                                            ResourceType.SERVANT, "/images/punchboard/servant.png",
+                                                            ResourceType.SHIELD, "/images/punchboard/shield.png");
 
     @FXML
     private ImageView leader0_ImageView;
@@ -89,6 +94,18 @@ public class PlayerboardController extends GUIController {
     private Button discardLeaderButton;
     @FXML
     private VBox baseProdChoice;
+    @FXML
+    private HBox warehouseLevel0Hbox;
+    @FXML
+    private HBox warehouseLevel1Hbox;
+    @FXML
+    private HBox warehouseLevel2Hbox;
+
+
+
+
+
+
 
     @FXML
     private void initialize() {
@@ -102,6 +119,19 @@ public class PlayerboardController extends GUIController {
         this.activateLeaderButton.setVisible(false);
         this.discardLeaderButton.setVisible(false);
         this.baseProdChoice.setVisible(false);
+
+        //non so se ste cose sono valide qua
+        this.storageLevels = new Pair[5];
+        for(int i=0; i<5; i++)
+            storageLevels[i] = new Pair(null, null);
+
+        this.guiStorage = new List[5];
+        for(int i=0; i<5; i++) {
+            guiStorage[i] = new ArrayList<>();
+//            ImageView image = new ImageView(new Image("/images/punchboard/shield.png"));
+//            image.setVisible(false);
+//            guiStorage[i].add(image);
+        }
     }
 
     private String username;
@@ -272,6 +302,9 @@ public class PlayerboardController extends GUIController {
         clone.setLayoutY(cardCardSlotY - (leaderLevel * 40));
         clone.setFitHeight(height);
         clone.setFitWidth(width);
+        clone.setOnMouseEntered((MouseEvent event) -> mouseHover(event));
+        clone.setOnMouseExited((MouseEvent event) -> mouseHoverReset(event));
+
         playerBoardPane.getChildren().add(clone);
 
     }
@@ -389,6 +422,95 @@ public class PlayerboardController extends GUIController {
             Action baseProduction = new BaseProductionAction(firstToConsume, secondToConsume, r);
             client.forwardAction(baseProduction);
             this.baseProdChoice.setVisible(false);
+            firstToConsume = null;
+            secondToConsume = null;
+        }
+    }
+
+    @FXML
+    void addStone(MouseEvent event) {
+        updateWarehouse(new Warehouse.WarehouseUpdate(ResourceType.STONE, 2, 1));
+    }
+
+    @FXML
+    void addShield(MouseEvent event) {
+        updateWarehouse(new Warehouse.WarehouseUpdate(ResourceType.SHIELD, 2, 0));
+        updateWarehouse(new Warehouse.WarehouseUpdate(ResourceType.STONE, 3, 2));
+    }
+
+
+    public void updateWarehouse(Warehouse.WarehouseUpdate update){
+        ResourceType resource = update.getResourceType();
+            //res, quantity, level
+        //normalLevels
+        warehouseLevel0Hbox.getChildren().clear();
+        warehouseLevel1Hbox.getChildren().clear();
+        warehouseLevel2Hbox.getChildren().clear();
+
+
+        if(update.getLevel()<3) {
+            //controllo se la risorsa é presente
+            for (int i = 0; i < 3; i++) {
+
+                if (storageLevels[i].getKey() != null) {
+                    if (storageLevels[i].getKey().equals(resource)) {
+                        System.out.println("ciao");
+                        if (i == update.getLevel()) {
+                            System.out.println("ciao2");
+                            storageLevels[i] = new Pair<>(resource, update.getQuantity());
+                            guiStorage[i].clear();
+                            for(int k=0; k<update.getQuantity(); k++){
+                                guiStorage[i].add(new ImageView(new Image(resTypeToUrlMap.get(storageLevels[i].getKey()))));
+                            }
+                            updateWarehouseVisuals();
+                            return;
+                        } else {
+                            guiStorage[update.getLevel()].clear();
+                            guiStorage[i].clear();
+                            Pair<ResourceType, Integer> temp = new Pair<>(storageLevels[update.getLevel()].getKey(), storageLevels[update.getLevel()].getValue());
+                            storageLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
+                            storageLevels[i] = new Pair<>(temp.getKey(), temp.getValue());
+
+                            for(int k=0; k<update.getQuantity(); k++){
+                                guiStorage[update.getLevel()].add(new ImageView(new Image(resTypeToUrlMap.get(storageLevels[update.getLevel()].getKey()))));
+                            }
+
+                            for(int k=0; temp.getValue()!= null && k<temp.getValue(); k++){
+                                guiStorage[i].add(new ImageView(new Image(resTypeToUrlMap.get(storageLevels[i].getKey()))));
+                            }
+                            updateWarehouseVisuals();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        //se non presente creo
+        storageLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
+
+        guiStorage[update.getLevel()] =  new ArrayList<>();
+        for(int k=0; k<update.getQuantity(); k++){
+            guiStorage[update.getLevel()].add(new ImageView(new Image(resTypeToUrlMap.get(storageLevels[update.getLevel()].getKey()))));
+        }
+
+        updateWarehouseVisuals();
+    }
+
+    private void updateWarehouseVisuals(){
+        for(ImageView i : guiStorage[0]){
+            i.setFitHeight(30);
+            i.setFitWidth(30);
+            warehouseLevel2Hbox.getChildren().add(i);
+        }
+        for(ImageView i : guiStorage[1]){
+            i.setFitHeight(30);
+            i.setFitWidth(30);
+            warehouseLevel1Hbox.getChildren().add(i);
+        }
+        for(ImageView i : guiStorage[2]){
+            i.setFitHeight(30);
+            i.setFitWidth(30);
+            warehouseLevel0Hbox.getChildren().add(i);
         }
     }
 
@@ -396,15 +518,15 @@ public class PlayerboardController extends GUIController {
     // Cosmetics ----------------------------------------------------------------
     @FXML
     void mouseHover(MouseEvent event) {
-        Button button = (Button) event.getSource();
-        button.setScaleX(1.05);
-        button.setScaleY(1.05);
+        Node node = (Node) event.getSource();
+        node.setScaleX(1.05);
+        node.setScaleY(1.05);
     }
 
     @FXML
     void mouseHoverReset(MouseEvent event) {
-        Button button = (Button) event.getSource();
-        button.setScaleX(1.0);
-        button.setScaleY(1.0);
+        Node node = (Node) event.getSource();
+        node.setScaleX(1.0);
+        node.setScaleY(1.0);
     }
 }

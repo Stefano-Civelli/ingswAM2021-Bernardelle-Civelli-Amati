@@ -1,10 +1,7 @@
 package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.controller.action.*;
-import it.polimi.ingsw.model.CardSlots;
-import it.polimi.ingsw.model.Chest;
-import it.polimi.ingsw.model.DevelopCardDeck;
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
@@ -68,6 +65,8 @@ public class GameboardController extends GUIController {
     private HBox tempMarbleHbox;
     @FXML
     private Label whiteLeadercardLable;
+    @FXML
+    private GridPane choseResourcesGridPane;
 
     private Circle slide;
     private Circle[][] marbleGrid;
@@ -95,6 +94,7 @@ public class GameboardController extends GUIController {
         slotSelectionHbox.setVisible(false);
         endTurnButton.setDisable(true);
         whiteLeadercardLable.setVisible(false);
+        choseResourcesGridPane.setVisible(false);
         // TODO caricare fxml market e develop card deck
     }
 
@@ -109,6 +109,8 @@ public class GameboardController extends GUIController {
                     imagesDevelopCardDeck[i][j] = new ImageView(new Image(url));
                     imagesDevelopCardDeck[i][j].setFitHeight(138);
                     imagesDevelopCardDeck[i][j].setFitWidth(90);
+                    imagesDevelopCardDeck[i][j].setOnMouseEntered((MouseEvent event) -> mouseHover(event));
+                    imagesDevelopCardDeck[i][j].setOnMouseExited((MouseEvent event) -> mouseHoverReset(event));
                     assignMethodToCard(imagesDevelopCardDeck[i][j], i, j);
                     deckGridPane.add(imagesDevelopCardDeck[i][j], j, i);
                 } catch (InvalidCardException e) {
@@ -591,21 +593,50 @@ public class GameboardController extends GUIController {
                 p.askLeaderOnWhite();
     }
 
+    public void updateWarehouse(String username, Warehouse.WarehouseUpdate stateUpdate){
+        for (PlayerboardController p : playerboardControllers)
+            if (p.getUsername().equals(username))
+                p.updateWarehouse(stateUpdate);
+    }
+
+    public void displayMarbleChoice(String username){
+        choseResourcesGridPane.setVisible(true);
+    }
+
+    @FXML
+    void chooseGold(MouseEvent event) {
+
+    }
+
+    @FXML
+    void chooseServant(MouseEvent event) {
+
+    }
+
+    @FXML
+    void chooseShield(MouseEvent event) {
+
+    }
+
+    @FXML
+    void chooseStone(MouseEvent event) {
+
+    }
 
 
     // Cosmetics ----------------------------------------------------------------
     @FXML
     void mouseHover(MouseEvent event) {
-        Button button = (Button) event.getSource();
-        button.setScaleX(1.05);
-        button.setScaleY(1.05);
+        Node node = (Node) event.getSource();
+        node.setScaleX(1.05);
+        node.setScaleY(1.05);
     }
 
     @FXML
     void mouseHoverReset(MouseEvent event) {
-        Button button = (Button) event.getSource();
-        button.setScaleX(1.0);
-        button.setScaleY(1.0);
+        Node node = (Node) event.getSource();
+        node.setScaleX(1.0);
+        node.setScaleY(1.0);
     }
 
 
@@ -624,5 +655,4 @@ public class GameboardController extends GUIController {
         image.setScaleX(1.0);
         image.setScaleY(1.0);
     }
-
 }

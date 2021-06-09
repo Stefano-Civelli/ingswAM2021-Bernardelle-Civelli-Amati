@@ -71,7 +71,7 @@
             </GridPane>
          </children>
       </AnchorPane>
-      <HBox layoutX="14.0" layoutY="19.0" prefHeight="130.0" prefWidth="316.0" spacing="40.0">
+      <HBox layoutX="14.0" layoutY="19.0" prefHeight="130.0" prefWidth="316.0" spacing="15.0">
          <children>
             <VBox prefHeight="100.0" prefWidth="126.0" spacing="10.0">
                <children>
@@ -97,62 +97,62 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="dc1" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="dc1" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dc11" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <ImageView fx:id="dc11" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dc12" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <ImageView fx:id="dc12" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dc10" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <ImageView fx:id="dc10" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dc9" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+            <ImageView fx:id="dc9" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dc8" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <ImageView fx:id="dc8" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dc7" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <ImageView fx:id="dc7" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dc6" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <ImageView fx:id="dc6" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dc5" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+            <ImageView fx:id="dc5" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dc4" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+            <ImageView fx:id="dc4" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dc3" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+            <ImageView fx:id="dc3" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="dc2" fitHeight="138.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+            <ImageView fx:id="dc2" fitHeight="138.0" fitWidth="90.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                <image>
                   <Image url="@../images/back/Masters%20of%20Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                </image>
@@ -167,10 +167,42 @@
          </children>
       </HBox>
       <HBox fx:id="tempMarbleHbox" layoutX="561.0" layoutY="64.0" prefHeight="56.0" prefWidth="316.0" spacing="8.0" />
-      <Label fx:id="whiteLeadercardLable" layoutX="451.0" layoutY="19.0" prefHeight="17.0" prefWidth="383.0" text="Choose what leadercard you want to use for the white marble" textFill="WHITE">
+      <Label fx:id="whiteLeadercardLable" alignment="CENTER" layoutX="347.0" layoutY="6.0" prefHeight="17.0" prefWidth="497.0" text="Choose what leadercard you want to use for the white marble" textFill="WHITE">
          <font>
-            <Font name="Arial Bold" size="12.0" />
+            <Font name="Arial Bold" size="14.0" />
          </font>
       </Label>
+      <GridPane fx:id="choseResourcesGridPane" layoutX="389.0" layoutY="44.0" prefHeight="73.0" prefWidth="82.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#chooseGold" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/punchboard/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#chooseShield" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+               <image>
+                  <Image url="@../images/punchboard/shield.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#chooseServant" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../images/punchboard/servant.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#chooseStone" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../images/punchboard/stone.png" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>
