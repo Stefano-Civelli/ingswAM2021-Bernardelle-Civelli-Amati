@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.controller.action.*;
+import it.polimi.ingsw.model.CardSlots;
 import it.polimi.ingsw.model.Chest;
 import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.Game;
@@ -73,6 +74,7 @@ public class GameboardController extends GUIController {
     private List<Button> otherPlayerboardButtons = new ArrayList<>();
     private int selectedCardRow;
     private int selectedCardColumn;
+    private int i = 2; //TODO usato solo per testing
 
     private final PlayerboardController [] playerboardControllers = {null, null, null, null};
 
@@ -268,6 +270,12 @@ public class GameboardController extends GUIController {
         for(PlayerboardController p : playerboardControllers)
             if(p.getUsername().equals(username))
                 p.updateVatican(stateUpdate);
+    }
+
+    public void updateCardSlot(String username, CardSlots.CardSlotUpdate stateUpdate) {
+        for(PlayerboardController p : playerboardControllers)
+            if(p.getUsername().equals(username))
+                p.updateCardSlot(stateUpdate);
     }
 
 
@@ -483,6 +491,12 @@ public class GameboardController extends GUIController {
     @FXML
     void completeBuyWithSlot1(ActionEvent event) {
         createBuyCardAction(0);
+
+        CardSlots.CardSlotUpdate slotUpdate = new CardSlots.CardSlotUpdate(i, 0);
+        for(PlayerboardController p : playerboardControllers)
+            if(p != null)
+                p.updateCardSlot(slotUpdate);
+        i++;
     }
 
     @FXML

@@ -273,6 +273,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void cardSlotUpdate(String username, CardSlots.CardSlotUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater( () -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.updateCardSlot(username, stateUpdate);
+      });
    }
 
    @Override

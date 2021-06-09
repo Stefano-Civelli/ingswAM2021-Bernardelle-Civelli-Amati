@@ -5,12 +5,15 @@ import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.action.BaseProductionAction;
 import it.polimi.ingsw.controller.action.InsertMarbleAction;
 import it.polimi.ingsw.controller.action.ProductionAction;
+import it.polimi.ingsw.model.CardSlots;
 import it.polimi.ingsw.model.Chest;
+import it.polimi.ingsw.model.DevelopCard;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
+import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,6 +69,12 @@ public class PlayerboardController extends GUIController {
     private Button productionSlot3Button;
     @FXML
     private Button baseProductionButton;
+    @FXML
+    private ImageView cardCardSlot2;
+    @FXML
+    private ImageView cardCardSlot3;
+    @FXML
+    private ImageView cardCardSlot1;
 
 
     @FXML
@@ -74,9 +83,9 @@ public class PlayerboardController extends GUIController {
         this.leader1_ImageView.setVisible(false);
         this.leader2_ImageView.setVisible(false);
         this.leader3_ImageView.setVisible(false);
-//        this.popeCard1 = new ImageView(new Image("image/punchboard/quadrato giallo.png"));
-//        this.popeCard2 = new ImageView(new Image("image/punchboard/quadrato arancione.png"));
-//        this.popeCard3 = new ImageView(new Image("image/punchboard/quadrato rosso.png"));
+        this.cardCardSlot1.setVisible(false);
+        this.cardCardSlot2.setVisible(false);
+        this.cardCardSlot3.setVisible(false);
     }
 
     private String username;
@@ -202,6 +211,54 @@ public class PlayerboardController extends GUIController {
         }
         j++;
         trackGrid.add(image, j, i);
+    }
+
+    public void updateCardSlot(CardSlots.CardSlotUpdate stateUpdate) {
+        int slot = stateUpdate.getSlotNumber();
+        int cardId = stateUpdate.getDevCardID();
+        int leaderLevel = 0;
+        DevelopCard devCard = null;
+
+        try {
+            devCard = DevelopCardConstructor.getDevelopCardFromId(cardId);
+            leaderLevel = devCard.getCardFlag().getLevel()-1;
+        } catch (InvalidCardException e) {}
+
+        if(leaderLevel == 0) {
+            switch (slot) {
+                case 0:
+                    cardCardSlot1 = new ImageView(new Image("/images/front/" + devCard.getImage()));
+                    System.out.println("talla");
+                    this.cardCardSlot1.setVisible(true);
+                    break;
+                case 1:
+                    cardCardSlot2 = new ImageView(new Image("/images/front/" + devCard.getImage()));
+                    break;
+                case 2:
+                    cardCardSlot3 = new ImageView(new Image("/images/front/" + devCard.getImage()));
+                    break;
+            }
+        }
+        else {
+            ImageView newCard;
+            switch (slot) {
+                case 0:
+                    double firstCardCardSlotX = cardCardSlot1.getX();
+                    double firstCardCardSlotY = cardCardSlot1.getY();
+                    newCard = new ImageView(new Image("/images/front/" + devCard.getImage()));
+                    newCard.setX(firstCardCardSlotX);
+                    newCard.setY(firstCardCardSlotY - (leaderLevel * 40));
+
+                    System.out.println("rita");
+                    break;
+                case 1:
+                    newCard = new ImageView(new Image("/images/front/" + devCard.getImage()));
+                    break;
+                case 2:
+                    newCard = new ImageView(new Image("/images/front/" + devCard.getImage()));
+                    break;
+            }
+        }
     }
 
     @FXML
