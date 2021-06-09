@@ -297,6 +297,9 @@ public class GameboardController extends GUIController {
             i++;
         }
         tempMarbleHbox.getChildren().remove(event.getSource());
+        if(tempMarbleHbox.getChildren().isEmpty()) {
+            this.endTurnButton.setDisable(false); //TODO verificare se serve davvero
+        }
     }
 //    @FXML
 //    void selectedYellowMarble(MouseEvent event) {
