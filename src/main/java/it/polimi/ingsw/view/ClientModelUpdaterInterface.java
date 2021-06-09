@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.network.messages.Message;
 
+import java.util.List;
+
 public interface ClientModelUpdaterInterface {
   void setClientUsername(String username);
   void chestUpdate(String username, Chest.ChestUpdate stateUpdate);
@@ -24,5 +26,5 @@ public interface ClientModelUpdaterInterface {
   void lorenzoTrackUpdate(Track.TrackUpdate stateUpdate);
   void lorenzoShuffleUpdate();
   void lorenzoDevDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate);
-  void gameStartedSetup(String stateUpdate);
+  void gameStartedSetup(List<String> stateUpdate);
 }

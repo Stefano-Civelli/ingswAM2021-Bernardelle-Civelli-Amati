@@ -31,6 +31,7 @@ import java.util.Map;
 
 public class PlayerboardController extends GUIController {
 
+    private String username;
     private int i=2;
     private int j=0;
     private Map<ImageView, Integer> leaderImageIdMap = new HashMap<>();
@@ -53,6 +54,8 @@ public class PlayerboardController extends GUIController {
     private ImageView leader2_ImageView;
     @FXML
     private ImageView leader3_ImageView;
+    @FXML
+    private VBox leaderCardVbox;
     @FXML
     private ImageView popeCard1;
     @FXML
@@ -135,7 +138,6 @@ public class PlayerboardController extends GUIController {
         }
     }
 
-    private String username;
 
     public void setUsername(String username) {
         this.username = username;
@@ -342,6 +344,8 @@ public class PlayerboardController extends GUIController {
     public void askLeaderOnWhite(){
         leader0_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
         leader1_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
+        leader2_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
+        leader3_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
     }
 
     @FXML
@@ -351,6 +355,8 @@ public class PlayerboardController extends GUIController {
         //TODO rimetto alle leader il loro metodo standard
         leader0_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
         leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
+        leader2_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
+        leader3_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
     }
 
 
@@ -507,31 +513,31 @@ public class PlayerboardController extends GUIController {
         }
     }
 
-    public void changeLeaderBehaviour(){
-        leader0_ImageView.setOnMouseClicked((MouseEvent event) -> initialDiscard(event));
-        leader1_ImageView.setOnMouseClicked((MouseEvent event) -> initialDiscard(event));
-        leader2_ImageView.setOnMouseClicked((MouseEvent event) -> initialDiscard(event));
-        leader3_ImageView.setOnMouseClicked((MouseEvent event) -> initialDiscard(event));
-    }
-
     @FXML
     void initialDiscard(MouseEvent event) {
+        System.out.println("ciaocazzo");
         if(selectedLeaderToDiscard == null)
             this.selectedLeaderToDiscard = (ImageView) event.getSource();
         else {
             Action discardLeaderAction = new DiscardInitialLeaderAction(leaderImageIdMap.get((ImageView) event.getSource()), leaderImageIdMap.get(this.selectedLeaderToDiscard));
-            System.out.println(leaderImageIdMap.get((ImageView) event.getSource()));
+            leaderCardVbox.getChildren().remove((ImageView) event.getSource());
+            leaderCardVbox.getChildren().remove(this.selectedLeaderToDiscard);
             client.forwardAction(discardLeaderAction);
+
             this.selectedLeaderToDiscard = null;
-            List<ImageView> cardList = List.of(leader0_ImageView, leader1_ImageView, leader2_ImageView, leader3_ImageView);
-            for(ImageView i : cardList){
-                if(i.equals(this.selectedLeaderToDiscard) || i.equals((ImageView) event.getSource()))
-                    cardList.remove(i);
-            }
-            leader0_ImageView = cardList.get(0);
-            leader1_ImageView = cardList.get(1);
+//            List<ImageView> cardList = new ArrayList<>(List.of(leader0_ImageView, leader1_ImageView, leader2_ImageView, leader3_ImageView));
+//            //List<ImageView> cardListClone = List.of(leader0_ImageView, leader1_ImageView, leader2_ImageView, leader3_ImageView);
+//            for(ImageView i : cardList){ //FIXME questa parte non va
+//                if(i.equals(this.selectedLeaderToDiscard) || i.equals((ImageView) event.getSource()))
+//                    cardList.remove(i);
+//            }
+//            leader0_ImageView = cardList.get(0);
+//            leader1_ImageView = cardList.get(1);
+
             leader0_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
             leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
+            leader2_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
+            leader3_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
         }
     }
 

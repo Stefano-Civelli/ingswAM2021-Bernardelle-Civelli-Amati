@@ -14,13 +14,15 @@ import it.polimi.ingsw.view.gui.controllers.GameboardController;
 import it.polimi.ingsw.view.gui.controllers.LoginController;
 import javafx.application.Platform;
 
+import java.util.List;
+
 public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    private Client client;
    private GuiTurnManager turnManager;
    private SceneController sceneController;
    private String username;
-   private String[] othersUsernames = {null, null, null};
+   //private String[] othersUsernames = {null, null, null};
 
    public GUI(Client client) {
       this.client = client;
@@ -47,7 +49,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
-         controller.displayLeaderChoiceLable(this.username); //FIXME voglio chiamarlo solo sul current, non su tutti -> serve disambiguare prima i playerboardController
+         controller.displayLeaderChoiceLable(this.username);
       });
    }
 
@@ -118,9 +120,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayOtherUserJoined(Message msg) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      for(int i = 0; i < this.othersUsernames.length; i++)
-         if(this.othersUsernames[i] == null)
-            this.othersUsernames[i] = msg.getUsername();
+      //TODO qua al massimo posso fargli vedere a schermo l'username del tizio che è entrato. non ha senso salvarselo perchè poi potrebbe uscire.
+//      for(int i = 0; i < this.othersUsernames.length; i++)
+//         if(this.othersUsernames[i] == null)
+//            this.othersUsernames[i] = msg.getUsername();
    }
 
    @Override
@@ -204,7 +207,6 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
          this.sceneController.changeStage("fxml/gameboard.fxml", this.client);
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
          controller.setUsername(this.username);
-         controller.setOtherPlayer(this.othersUsernames);
       });
    }
 
@@ -370,9 +372,15 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void gameStartedSetup(String stateUpdate){
+   public void gameStartedSetup(List<String> stateUpdate){
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       this.turnManager.setPlayers(stateUpdate);
+      Platform.runLater( () -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+
+         controller.setOtherPlayer(stateUpdate);
+      });
+
    }
    //------------- ClientModelUpdaterInterface ---------------
 }

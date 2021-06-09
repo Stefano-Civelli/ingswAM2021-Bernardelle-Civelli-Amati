@@ -124,8 +124,8 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
-  public void gameStartedSetup(String stateUpdate) {
-    ArrayList<String> players = GSON.getGsonBuilder().fromJson(stateUpdate, ArrayList.class);
+  public void gameStartedSetup(List<String> players) {
+//    ArrayList<String> players = GSON.getGsonBuilder().fromJson(stateUpdate, ArrayList.class);
     SimplePlayerState currentPlayerState = getSimplePlayerState();
     this.simplePlayerStateMap = new LinkedHashMap<>();
 

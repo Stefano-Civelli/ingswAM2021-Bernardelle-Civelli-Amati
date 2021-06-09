@@ -206,22 +206,22 @@
             </Pane>
             <VBox fx:id="leaderCardVbox" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="7.0" style="-fx-background-color: #222222;">
                <children>
-                  <ImageView fx:id="leader3_ImageView" fitHeight="130.0" fitWidth="115.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="leader3_ImageView" fitHeight="130.0" fitWidth="115.0" onMouseClicked="#initialDiscard" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="leader2_ImageView" fitHeight="130.0" fitWidth="115.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="leader2_ImageView" fitHeight="130.0" fitWidth="115.0" onMouseClicked="#initialDiscard" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="leader1_ImageView" fitHeight="130.0" fitWidth="115.0" onMouseClicked="#showDiscardActivateMenu" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="leader1_ImageView" fitHeight="130.0" fitWidth="115.0" onMouseClicked="#initialDiscard" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="leader0_ImageView" fitHeight="130.0" fitWidth="115.0" onMouseClicked="#showDiscardActivateMenu" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="leader0_ImageView" fitHeight="130.0" fitWidth="115.0" onMouseClicked="#initialDiscard" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>

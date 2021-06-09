@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class GuiTurnManager implements ClientTurnManagerInterface{
 
@@ -48,11 +49,11 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
 //            System.out.println("That's your 4 leader cards: ");
 //            view.displayLeaderHand();
 //            System.out.println("You can have only 2 of them.\nWhich do you want to discard?");
-//            break;
+              break;
          case SHOPPING:
 //            System.out.println("\nYou need to insert one of the following marbles you got from market: ");
 //            view.displayMarbleShopping();
-//            break;
+            break;
          case SHOPPING_LEADER:
             view.displayChooseLeaderOnWhite();
             break;
@@ -83,7 +84,7 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
    }
 
 
-   public void setPlayers(String stateUpdate) {
+   public void setPlayers(List<String> stateUpdate) {
       //this.players = new ArrayList<>();
    }
 }

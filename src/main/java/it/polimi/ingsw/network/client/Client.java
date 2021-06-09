@@ -178,7 +178,7 @@ public class Client implements PhaseChangedObserver{
         view.displayOtherUserJoined(msg);
         break;
       case GAME_STARTED:
-        state.gameStartedSetup(payload);
+        state.gameStartedSetup(msg.getPayloadByType(List.class));
         clientTurnManager.setCurrentPlayer(getFirstPlayer(payload));
         view.displayGameStarted();
         if(username.equals(clientTurnManager.getCurrentPlayer()))

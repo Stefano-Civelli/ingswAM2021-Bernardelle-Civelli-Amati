@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.event.ActionEvent;
@@ -76,7 +77,7 @@ public class GameboardController extends GUIController {
     private int numberOfInitRes = 0;
     private Map<ResourceType, Integer> chosenResourceMap = new HashMap<>();
 
-    private final PlayerboardController[] playerboardControllers = {null, null, null, null}; //TODO sarebbe meglio avere una lista
+    private List<PlayerboardController> playerboardControllers = new ArrayList<>(); //TODO sarebbe meglio avere una lista
 
     @FXML
     private void initialize() {
@@ -198,9 +199,13 @@ public class GameboardController extends GUIController {
             loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/playerboard.fxml"));
             Parent root = null;
             root = loader.load();
-            this.playerboardControllers[0] = loader.getController();
-            this.playerboardControllers[0].setUsername(username); //FIXME sembra che non vada
-            this.playerboardControllers[0].setClient(this.client);
+            PlayerboardController newPlayerboardController = loader.getController();
+            newPlayerboardController.setUsername(username); //FIXME sembra che non vada
+            newPlayerboardController.setClient(this.client);
+            this.playerboardControllers.add(newPlayerboardController);
+//            this.playerboardControllers[0] = loader.getController();
+//            this.playerboardControllers[0].setUsername(username);
+//            this.playerboardControllers[0].setClient(this.client);
             this.player_anchorPane.getChildren().add(root);
             playerboardList.add(root);
         } catch (IOException e) {
@@ -208,30 +213,52 @@ public class GameboardController extends GUIController {
         }
     }
 
-    public void setOtherPlayer(String[] usernames) { //FIXME sto metodo ha qualcosa che non va
-        long opponentNumber = Arrays.stream(usernames).filter(Objects::nonNull).count();
-        for (int i = 0; i < opponentNumber; i++) { //FIXME non so perchè non va
+    public void setOtherPlayer(List<String> players) {
+
+        for (int i = 0; i < players.size() - 1; i++) {
             otherPlayerboardButtons.get(i).setVisible(true);
         }
+
+        PlayerboardController myPlayerboardController = getPlayerBoardController(client.getUsername());
+        this.playerboardControllers = new ArrayList<>();
         try {
-            for (int i = 1; i < this.playerboardControllers.length && i <= usernames.length; i++) {
-                if (usernames[i - 1] != null) {
+            for (String s : players) {
+                if (s.equals(client.getUsername()))
+                    this.playerboardControllers.add(myPlayerboardController);
+                else {
+                    PlayerboardController newPlayerboardController = new PlayerboardController();
+                    this.playerboardControllers.add(newPlayerboardController); //the array is ordered to give the right amount of resouces to each player
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/playerboard.fxml"));
                     Parent root1 = loader.load();
-                    this.playerboardControllers[i] = loader.getController();
-                    this.playerboardControllers[i].setUsername(usernames[i - 1]);
+                    newPlayerboardController = loader.getController();
+                    newPlayerboardController.setUsername(s);
                     playerboardList.add(root1);
-                    //this.player1_anchorPane.getChildren().add(root1);
                 }
             }
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace(); //TODO gestire
         }
+
+//        try {
+//            for (int i = 1; i < this.playerboardControllers.length && i <= usernames.length; i++) {
+//                if (usernames[i - 1] != null) {
+//                    FXMLLoader loader = new FXMLLoader();
+//                    loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/playerboard.fxml"));
+//                    Parent root1 = loader.load();
+//                    this.playerboardControllers[i] = loader.getController();
+//                    this.playerboardControllers[i].setUsername(usernames[i - 1]);
+//                    playerboardList.add(root1);
+//                    //this.player1_anchorPane.getChildren().add(root1);
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace(); //TODO gestire
+//        }
     }
 
     public void leaderSetup(String username, Game.LeaderSetup stateUpdate) {
-        PlayerboardController playerController = Arrays.stream(this.playerboardControllers).filter(Objects::nonNull).filter(controller -> controller.getUsername().equals(username))
+        PlayerboardController playerController = this.playerboardControllers.stream().filter(Objects::nonNull).filter(controller -> controller.getUsername().equals(username))
                 .collect(Collectors.toList()).get(0);
         List<Integer> leadersID = stateUpdate.getLeaderList();
         playerController.leaderSetup(leadersID);
@@ -252,12 +279,6 @@ public class GameboardController extends GUIController {
             }
     }
 
-    public void updateChest(String username, Chest.ChestUpdate stateUpdate) {
-        for (PlayerboardController p : playerboardControllers)
-            if (username.equals(p.getUsername())) {
-                p.updateChest(stateUpdate);
-            }
-    }
 
     public void updateMarket(Market.MarketUpdate stateUpdate) {
         boolean isRow = stateUpdate.getIsRow();
@@ -269,17 +290,6 @@ public class GameboardController extends GUIController {
             pushColumn(index);
     }
 
-    public void updateVatican(String username, Track.VaticanReport stateUpdate) {
-        for (PlayerboardController p : playerboardControllers)
-            if (p.getUsername().equals(username))
-                p.updateVatican(stateUpdate);
-    }
-
-    public void updateCardSlot(String username, CardSlots.CardSlotUpdate stateUpdate) {
-        for(PlayerboardController p : playerboardControllers)
-            if(p.getUsername().equals(username))
-                p.updateCardSlot(stateUpdate);
-    }
 
 
     private void askFotCardSlot(int row, int column) {
@@ -586,21 +596,14 @@ public class GameboardController extends GUIController {
     public void askLeaderOnWHite(String username) {
         //TODO settare a non usabili tutti i comandi che non siano le leader (sia in playerboard che in gameboard)
         turnPhaseLable.setVisible(true);
-        for (PlayerboardController p : playerboardControllers)
-            if (p.getUsername().equals(username))
-                p.askLeaderOnWhite();
+        getPlayerBoardController(username).askLeaderOnWhite();
     }
 
-    public void updateWarehouse(String username, Warehouse.WarehouseUpdate stateUpdate){
-        for (PlayerboardController p : playerboardControllers)
-            if (p.getUsername().equals(username))
-                p.updateWarehouse(stateUpdate);
-    }
 
     public void displayMarbleChoice(String username){
         int i = 0;
         for (PlayerboardController p : playerboardControllers)
-            if (p!= null && !username.equals(p.getUsername())) //TODO cancellare p!=null quando si fixa la lista di playerboardController
+            if (!username.equals(p.getUsername()))
                 i++;
 
         if (i == 0){
@@ -648,9 +651,6 @@ public class GameboardController extends GUIController {
     public void displayLeaderChoiceLable(String username){
         turnPhaseLable.setText("Choose 2 leadercards to DISCARD");
         turnPhaseLable.setVisible(true);
-        for (PlayerboardController p : playerboardControllers)
-            if (p!= null && username.equals(p.getUsername())) //TODO cancellare p!=null quando si fixa la lista di playerboardController
-                p.changeLeaderBehaviour();
     }
 
 
