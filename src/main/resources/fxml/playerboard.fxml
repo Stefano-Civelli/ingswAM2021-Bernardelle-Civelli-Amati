@@ -25,7 +25,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Pane prefHeight="619.0" prefWidth="746.0" styleClass="plyerboardPane" stylesheets="@../css/playerboard.css" GridPane.columnIndex="1">
+            <Pane fx:id="playerBoardPane" prefHeight="619.0" prefWidth="746.0" styleClass="plyerboardPane" stylesheets="@../css/playerboard.css" GridPane.columnIndex="1">
                <children>
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="32.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true">
                      <image>

@@ -562,7 +562,7 @@ public class GameboardController extends GUIController {
         for(PlayerboardController p : playerboardControllers)
             if(p != null)
                 p.updateCardSlot(slotUpdate);
-        i++;
+        i+=16;
     }
 
     @FXML
