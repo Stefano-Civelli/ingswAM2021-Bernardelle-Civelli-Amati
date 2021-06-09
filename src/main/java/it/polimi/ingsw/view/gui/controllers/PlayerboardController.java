@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 
 import java.lang.reflect.Type;
@@ -33,6 +34,10 @@ public class PlayerboardController extends GUIController {
 
     private int i=2;
     private int j=0;
+    private Map<ImageView, Integer> leaderImageIdMap = new HashMap<>();
+    private ImageView selectedLeader;
+    private ResourceType firstToConsume = null;
+    private ResourceType secondToConsume = null;
 
     @FXML
     private ImageView leader0_ImageView;
@@ -78,14 +83,12 @@ public class PlayerboardController extends GUIController {
     private ImageView cardCardSlot1;
     @FXML
     private Pane playerBoardPane;
-
     @FXML
     private Button activateLeaderButton;
     @FXML
     private Button discardLeaderButton;
-
-    private Map<ImageView, Integer> leaderImageIdMap = new HashMap<>();
-    private ImageView selectedLeader;
+    @FXML
+    private VBox baseProdChoice;
 
     @FXML
     private void initialize() {
@@ -98,6 +101,7 @@ public class PlayerboardController extends GUIController {
         this.cardCardSlot3.setVisible(false);
         this.activateLeaderButton.setVisible(false);
         this.discardLeaderButton.setVisible(false);
+        this.baseProdChoice.setVisible(false);
     }
 
     private String username;
@@ -275,6 +279,7 @@ public class PlayerboardController extends GUIController {
     @FXML
     void baseProduction(ActionEvent event) {
         //TODO finestra che fa comparire la scelta di risorse
+        this.baseProdChoice.setVisible(true);
         //Action productionAction = new BaseProductionAction();
         //client.forwardAction(productionAction);
     }
@@ -344,6 +349,47 @@ public class PlayerboardController extends GUIController {
         client.forwardAction(discardLeaderAction);
         this.activateLeaderButton.setVisible(false);
         this.discardLeaderButton.setVisible(false);
+    }
+
+    @FXML
+    void chooseGold(MouseEvent event) {
+        createBaseProduction(ResourceType.GOLD);
+//        if(firstToConsume == null)
+//            firstToConsume = ResourceType.GOLD;
+//        else if(secondToConsume == null)
+//            secondToConsume = ResourceType.GOLD;
+//        else {
+//            Action baseProduction = new BaseProductionAction(firstToConsume, secondToConsume, ResourceType.GOLD);
+//            client.forwardAction(baseProduction);
+//        }
+    }
+
+    @FXML
+    void chooseServant(MouseEvent event) {
+        createBaseProduction(ResourceType.SERVANT);
+    }
+
+    @FXML
+    void chooseShield(MouseEvent event) {
+        createBaseProduction(ResourceType.SHIELD);
+    }
+
+    @FXML
+    void chooseStone(MouseEvent event) {
+        createBaseProduction(ResourceType.STONE);
+    }
+
+    private void createBaseProduction(ResourceType r) {
+        System.out.println(r);
+        if(firstToConsume == null)
+            firstToConsume = r;
+        else if(secondToConsume == null)
+            secondToConsume = r;
+        else {
+            Action baseProduction = new BaseProductionAction(firstToConsume, secondToConsume, r);
+            client.forwardAction(baseProduction);
+            this.baseProdChoice.setVisible(false);
+        }
     }
 
 

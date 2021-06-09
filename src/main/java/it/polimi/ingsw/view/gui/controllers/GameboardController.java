@@ -557,12 +557,11 @@ public class GameboardController extends GUIController {
     @FXML
     void completeBuyWithSlot1(ActionEvent event) {
         createBuyCardAction(0);
-
-        CardSlots.CardSlotUpdate slotUpdate = new CardSlots.CardSlotUpdate(i, 0);
-        for(PlayerboardController p : playerboardControllers)
-            if(p != null)
-                p.updateCardSlot(slotUpdate);
-        i+=16;
+//        CardSlots.CardSlotUpdate slotUpdate = new CardSlots.CardSlotUpdate(i, 0);
+//        for(PlayerboardController p : playerboardControllers)
+//            if(p != null)
+//                p.updateCardSlot(slotUpdate);
+//        i+=16;
     }
 
     @FXML
