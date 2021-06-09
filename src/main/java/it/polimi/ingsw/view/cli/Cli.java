@@ -268,6 +268,12 @@ public class Cli implements ViewInterface {
   public void startingSetupUpdate() {}
 
   @Override
+  public void displayChooseLeaderOnWhite() {
+    System.out.println("\nYou need to use one of the 2 following leader to convert your white marble");
+    System.out.println("Choose the leader index (1. or 2.)");
+  }
+
+  @Override
   public void displayLorenzoDiscarded(DevelopCardDeck.DevelopCardDeckUpdate state) {
     clearScreen();
     drawer.displayLorenzoHasDiscarded(state);

@@ -202,6 +202,14 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
+   public void displayChooseLeaderOnWhite() {
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.askLeaderOnWHite(this.username);
+      });
+   }
+
+   @Override
    public void displayLorenzoDiscarded(DevelopCardDeck.DevelopCardDeckUpdate state) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }

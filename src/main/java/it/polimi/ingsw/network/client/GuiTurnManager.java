@@ -1,11 +1,15 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.controller.action.Action;
+import it.polimi.ingsw.controller.action.ChooseInitialResourcesAction;
+import it.polimi.ingsw.controller.action.ChooseLeaderOnWhiteMarbleAction;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GuiTurnManager implements ClientTurnManagerInterface{
 
@@ -25,9 +29,32 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
 
       switch(currentPhase){
          case SETUP_CHOOSING_RESOURCES:
-            view.displayMarbleChoice();
-            //if(.getPlayerTurnPosition()!=1) {
-         break;
+//            if(stateViewer.getPlayerTurnPosition()!=1) {
+//               view.displayDefaultCanvas(stateViewer.getUsername());
+//               System.out.println("\nYou need to choose " + stateViewer.getPlayerTurnPosition() / 2 + " resource(s) to add from the following");
+//               view.displayMarbleChoice();
+//               System.out.println("Which resource do you want to pick? (index)");
+//            }
+//            else {
+//               view.displayPlainCanvas();
+//               view.displayDefaultCanvas(stateViewer.getUsername());
+//               //FIXME serve per forza mandare un messaggio vuoto? è un po' brutto
+//               client.forwardAction(new ChooseInitialResourcesAction(new HashMap<>()));
+//            }
+            break;
+//         case SETUP_DISCARDING_LEADERS:
+//            System.out.println("\nYou have to discard 2 leader cards.");
+//            System.out.println("That's your 4 leader cards: ");
+//            view.displayLeaderHand();
+//            System.out.println("You can have only 2 of them.\nWhich do you want to discard?");
+//            break;
+         case SHOPPING:
+//            System.out.println("\nYou need to insert one of the following marbles you got from market: ");
+//            view.displayMarbleShopping();
+//            break;
+         case SHOPPING_LEADER:
+            view.displayChooseLeaderOnWhite();
+            break;
       }
 
 

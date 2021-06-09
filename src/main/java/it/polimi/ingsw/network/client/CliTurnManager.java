@@ -54,8 +54,7 @@ public class CliTurnManager implements ClientTurnManagerInterface {
         view.displayMarbleShopping();
         break;
       case SHOPPING_LEADER:
-        System.out.println("\nYou need to use one of the 2 following leader to convert your white marble");
-        System.out.println("Choose the leader index (1. or 2.)");
+        view.displayChooseLeaderOnWhite();
         break;
       default: handleOtherPossiblePhases();
     }

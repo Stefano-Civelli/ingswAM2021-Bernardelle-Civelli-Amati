@@ -32,4 +32,5 @@ public interface ViewInterface extends LorenzoViewInterface {
   public void displayDefaultCanvas(String username);
   public void displayPlainCanvas();
   public void startingSetupUpdate();
+  public void displayChooseLeaderOnWhite();
 }

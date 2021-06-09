@@ -1,10 +1,7 @@
 package it.polimi.ingsw.view.gui.controllers;
 
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.controller.action.BaseProductionAction;
-import it.polimi.ingsw.controller.action.InsertMarbleAction;
-import it.polimi.ingsw.controller.action.ProductionAction;
+import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.CardSlots;
 import it.polimi.ingsw.model.Chest;
 import it.polimi.ingsw.model.DevelopCard;
@@ -26,7 +23,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlayerboardController extends GUIController {
 
@@ -75,7 +74,13 @@ public class PlayerboardController extends GUIController {
     private ImageView cardCardSlot3;
     @FXML
     private ImageView cardCardSlot1;
+    @FXML
+    private Button activateLeaderButton;
+    @FXML
+    private Button discardLeaderButton;
 
+    private Map<ImageView, Integer> leaderImageIdMap = new HashMap<>();
+    private ImageView selectedLeader;
 
     @FXML
     private void initialize() {
@@ -86,6 +91,8 @@ public class PlayerboardController extends GUIController {
         this.cardCardSlot1.setVisible(false);
         this.cardCardSlot2.setVisible(false);
         this.cardCardSlot3.setVisible(false);
+        this.activateLeaderButton.setVisible(false);
+        this.discardLeaderButton.setVisible(false);
     }
 
     private String username;
@@ -106,21 +113,26 @@ public class PlayerboardController extends GUIController {
             String url = "images/front/" + LeaderConstructor.getLeaderCardFromId(ledersID.get(0)).getImage();
             this.leader0_ImageView.setImage(new Image(url));
             this.leader0_ImageView.setVisible(true);
+            leaderImageIdMap.put(this.leader0_ImageView, ledersID.get(0));
+
 
             // SECOND IMAGE
             url = "images/front/" + LeaderConstructor.getLeaderCardFromId(ledersID.get(1)).getImage();
             this.leader1_ImageView.setImage(new Image(url));
             this.leader1_ImageView.setVisible(true);
+            leaderImageIdMap.put(this.leader1_ImageView, ledersID.get(1));
 
             // THIRD IMAGE
             url = "images/front/" + LeaderConstructor.getLeaderCardFromId(ledersID.get(2)).getImage();
             this.leader2_ImageView.setImage(new Image(url));
             this.leader2_ImageView.setVisible(true);
+            leaderImageIdMap.put(this.leader2_ImageView, ledersID.get(2));
 
             // FOURTH IMAGE
             url = "images/front/" + LeaderConstructor.getLeaderCardFromId(ledersID.get(3)).getImage();
             this.leader3_ImageView.setImage(new Image(url));
             this.leader3_ImageView.setVisible(true);
+            leaderImageIdMap.put(this.leader3_ImageView, ledersID.get(3));
 
         } catch (IndexOutOfBoundsException ignored) {
             // Don't print tack trace because it's normal entering here
@@ -283,6 +295,52 @@ public class PlayerboardController extends GUIController {
     private void createProductionAction(int cardIndex){
         Action productionAction = new ProductionAction(cardIndex);
         client.forwardAction(productionAction);
+    }
+
+    public void askLeaderOnWhite(){
+        leader0_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader0(event));
+        leader1_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader1(event));
+    }
+
+    @FXML
+    void selectWhiteLeader0(MouseEvent event) {
+        Action chooseLeaderOnWhiteMarbleAction = new ChooseLeaderOnWhiteMarbleAction(leaderImageIdMap.get(leader0_ImageView));
+        client.forwardAction(chooseLeaderOnWhiteMarbleAction);
+        //TODO rimetto alle leader il loro metodo standard
+        leader0_ImageView.setOnMouseClicked((MouseEvent event1) -> selectWhiteLeader0(event1));
+        leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> selectWhiteLeader1(event1));
+    }
+    @FXML
+    void selectWhiteLeader1(MouseEvent event) {
+        Action chooseLeaderOnWhiteMarbleAction = new ChooseLeaderOnWhiteMarbleAction(leaderImageIdMap.get(leader1_ImageView));
+        client.forwardAction(chooseLeaderOnWhiteMarbleAction);
+        //TODO rimetto alle leader il loro metodo standard
+        leader0_ImageView.setOnMouseClicked((MouseEvent event1) -> selectWhiteLeader0(event1));
+        leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> selectWhiteLeader1(event1));
+    }
+
+
+    @FXML
+    void showDiscardActivateMenu(MouseEvent event) {
+        this.selectedLeader = (ImageView) event.getSource();
+        this.activateLeaderButton.setVisible(true);
+        this.discardLeaderButton.setVisible(true);
+    }
+    @FXML
+    void activateLeader(ActionEvent event) {
+        Action activateLeaderAction = new ActivateLeaderAction(leaderImageIdMap.get(this.selectedLeader));
+        System.out.println(leaderImageIdMap.get(this.selectedLeader));
+        client.forwardAction(activateLeaderAction);
+        this.activateLeaderButton.setVisible(false);
+        this.discardLeaderButton.setVisible(false);
+    }
+    @FXML
+    void discardLeader(ActionEvent event) {
+        Action discardLeaderAction = new DiscardLeaderAction(leaderImageIdMap.get(this.selectedLeader));
+        System.out.println(leaderImageIdMap.get(this.selectedLeader));
+        client.forwardAction(discardLeaderAction);
+        this.activateLeaderButton.setVisible(false);
+        this.discardLeaderButton.setVisible(false);
     }
 
 

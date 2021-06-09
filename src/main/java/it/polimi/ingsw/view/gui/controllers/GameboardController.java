@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -65,6 +66,8 @@ public class GameboardController extends GUIController {
     private Button selectSlot3;
     @FXML
     private HBox tempMarbleHbox;
+    @FXML
+    private Label whiteLeadercardLable;
 
     private Circle slide;
     private Circle[][] marbleGrid;
@@ -76,7 +79,7 @@ public class GameboardController extends GUIController {
     private int selectedCardColumn;
     private int i = 2; //TODO usato solo per testing
 
-    private final PlayerboardController [] playerboardControllers = {null, null, null, null};
+    private final PlayerboardController[] playerboardControllers = {null, null, null, null};
 
     @FXML
     private void initialize() {
@@ -91,6 +94,7 @@ public class GameboardController extends GUIController {
         playerboard3Button.setVisible(false);
         slotSelectionHbox.setVisible(false);
         endTurnButton.setDisable(true);
+        whiteLeadercardLable.setVisible(false);
         // TODO caricare fxml market e develop card deck
     }
 
@@ -101,12 +105,12 @@ public class GameboardController extends GUIController {
         for (int i = 0; i < developCardDeck.length; i++) {
             for (int j = 0; j < developCardDeck[i].length; j++) {
                 try {
-                    url = "images/front/" + DevelopCardConstructor.getDevelopCardFromId(developCardDeck[i][j].get(developCardDeck[i][j].size()-1)).getImage();
+                    url = "images/front/" + DevelopCardConstructor.getDevelopCardFromId(developCardDeck[i][j].get(developCardDeck[i][j].size() - 1)).getImage();
                     imagesDevelopCardDeck[i][j] = new ImageView(new Image(url));
                     imagesDevelopCardDeck[i][j].setFitHeight(138);
                     imagesDevelopCardDeck[i][j].setFitWidth(90);
                     assignMethodToCard(imagesDevelopCardDeck[i][j], i, j);
-                    deckGridPane.add(imagesDevelopCardDeck[i][j],j,i);
+                    deckGridPane.add(imagesDevelopCardDeck[i][j], j, i);
                 } catch (InvalidCardException e) {
                     e.printStackTrace();
                 }
@@ -114,10 +118,10 @@ public class GameboardController extends GUIController {
         }
     }
 
-    private void assignMethodToCard(ImageView image, int i, int j){
-        switch(i){
+    private void assignMethodToCard(ImageView image, int i, int j) {
+        switch (i) {
             case 0:
-                switch(j){
+                switch (j) {
                     case 0:
                         image.setOnMouseClicked((MouseEvent event) -> buyCard1(event));
                         break;
@@ -131,9 +135,9 @@ public class GameboardController extends GUIController {
                         image.setOnMouseClicked((MouseEvent event) -> buyCard4(event));
                         break;
                 }
-            break;
+                break;
             case 1:
-                switch(j){
+                switch (j) {
                     case 0:
                         image.setOnMouseClicked((MouseEvent event) -> buyCard5(event));
                         break;
@@ -149,7 +153,7 @@ public class GameboardController extends GUIController {
                 }
                 break;
             case 2:
-                switch(j){
+                switch (j) {
                     case 0:
                         image.setOnMouseClicked((MouseEvent event) -> buyCard9(event));
                         break;
@@ -174,8 +178,8 @@ public class GameboardController extends GUIController {
         int row = stateUpdate.getRow();
         int column = stateUpdate.getColumn();
 
-        developCardDeck[row][column].remove(developCardDeck[row][column].size()-1);
-        if(!developCardDeck[row][column].isEmpty()) {
+        developCardDeck[row][column].remove(developCardDeck[row][column].size() - 1);
+        if (!developCardDeck[row][column].isEmpty()) {
             String url = null;
             try {
                 url = "images/front/" + DevelopCardConstructor.getDevelopCardFromId(developCardDeck[row][column].get(developCardDeck[row][column].size() - 1)).getImage();
@@ -183,8 +187,7 @@ public class GameboardController extends GUIController {
                 e.printStackTrace();
             }
             imagesDevelopCardDeck[row][column].setImage(new Image(url));
-        }
-        else {
+        } else {
             imagesDevelopCardDeck[row][column].setVisible(false);
         }
     }
@@ -207,12 +210,12 @@ public class GameboardController extends GUIController {
 
     public void setOtherPlayer(String[] usernames) { //FIXME sto metodo ha qualcosa che non va
         long opponentNumber = Arrays.stream(usernames).filter(Objects::nonNull).count();
-        for(int i=0; i<opponentNumber; i++) { //FIXME non so perchè non va
+        for (int i = 0; i < opponentNumber; i++) { //FIXME non so perchè non va
             otherPlayerboardButtons.get(i).setVisible(true);
         }
         try {
-            for(int i = 1; i < this.playerboardControllers.length && i <= usernames.length; i++) {
-                if(usernames[i - 1] != null) {
+            for (int i = 1; i < this.playerboardControllers.length && i <= usernames.length; i++) {
+                if (usernames[i - 1] != null) {
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/playerboard.fxml"));
                     Parent root1 = loader.load();
@@ -234,24 +237,24 @@ public class GameboardController extends GUIController {
         playerController.leaderSetup(leadersID);
     }
 
-    public void constructMarket(Market.MarketSetup stateUpdate){
+    public void constructMarket(Market.MarketSetup stateUpdate) {
         MarbleColor[][] marketColorMatrix = stateUpdate.getMarbleMatrix();
         MarbleColor slideMarble = stateUpdate.getSlide();
 
-        this.slide = new Circle(140, 10, 16,slideMarble.getGuiColor());
+        this.slide = new Circle(140, 10, 16, slideMarble.getGuiColor());
         market_anchorPane.getChildren().add(slide);
 
         this.marbleGrid = new Circle[N_ROW][N_COLUMN];
-        for(int i=0; i < marbleGrid.length; i++)
-            for (int j=0; j<marbleGrid[0].length; j++) {
-                marbleGrid[i][j] = new Circle(20 + j*40,55 + i*40,16, marketColorMatrix[i][j].getGuiColor());
+        for (int i = 0; i < marbleGrid.length; i++)
+            for (int j = 0; j < marbleGrid[0].length; j++) {
+                marbleGrid[i][j] = new Circle(20 + j * 40, 55 + i * 40, 16, marketColorMatrix[i][j].getGuiColor());
                 market_anchorPane.getChildren().add(marbleGrid[i][j]);
             }
     }
 
-    public void updateChest(String username, Chest.ChestUpdate stateUpdate){
-        for(PlayerboardController p : playerboardControllers)
-            if(username.equals(p.getUsername())){
+    public void updateChest(String username, Chest.ChestUpdate stateUpdate) {
+        for (PlayerboardController p : playerboardControllers)
+            if (username.equals(p.getUsername())) {
                 p.updateChest(stateUpdate);
             }
     }
@@ -260,15 +263,15 @@ public class GameboardController extends GUIController {
         boolean isRow = stateUpdate.getIsRow();
         int index = stateUpdate.getIndex();
 
-        if(isRow)
+        if (isRow)
             pushRow(index);
         else
             pushColumn(index);
     }
 
     public void updateVatican(String username, Track.VaticanReport stateUpdate) {
-        for(PlayerboardController p : playerboardControllers)
-            if(p.getUsername().equals(username))
+        for (PlayerboardController p : playerboardControllers)
+            if (p.getUsername().equals(username))
                 p.updateVatican(stateUpdate);
     }
 
@@ -279,7 +282,7 @@ public class GameboardController extends GUIController {
     }
 
 
-    private void askFotCardSlot(int row, int column){
+    private void askFotCardSlot(int row, int column) {
         this.slotSelectionHbox.setVisible(true);
         this.market_anchorPane.setDisable(true);
         this.deckGridPane.setDisable(true);
@@ -295,8 +298,8 @@ public class GameboardController extends GUIController {
     @FXML
     void selectedMarble(MouseEvent event) {
         int i = 0;
-        for(Node n : tempMarbleHbox.getChildren()){
-            if(n.equals(event.getSource())) {
+        for (Node n : tempMarbleHbox.getChildren()) {
+            if (n.equals(event.getSource())) {
                 System.out.println("selectedGreyMarble " + i);
                 Action buyCardAction = new InsertMarbleAction(i);
                 client.forwardAction(buyCardAction);
@@ -305,7 +308,7 @@ public class GameboardController extends GUIController {
             i++;
         }
         tempMarbleHbox.getChildren().remove(event.getSource());
-        if(tempMarbleHbox.getChildren().isEmpty()) {
+        if (tempMarbleHbox.getChildren().isEmpty()) {
             this.endTurnButton.setDisable(false); //TODO verificare se serve davvero
         }
     }
@@ -341,47 +344,110 @@ public class GameboardController extends GUIController {
 
 
     @FXML
-    void buyCard1(MouseEvent event) { askFotCardSlot(0, 0); }
+    void buyCard1(MouseEvent event) {
+        askFotCardSlot(0, 0);
+    }
+
     @FXML
-    void buyCard2(MouseEvent event) { askFotCardSlot(0, 1); }
+    void buyCard2(MouseEvent event) {
+        askFotCardSlot(0, 1);
+    }
+
     @FXML
-    void buyCard3(MouseEvent event) { askFotCardSlot(0, 2); }
+    void buyCard3(MouseEvent event) {
+        askFotCardSlot(0, 2);
+    }
+
     @FXML
-    void buyCard4(MouseEvent event) { askFotCardSlot(0, 3); }
+    void buyCard4(MouseEvent event) {
+        askFotCardSlot(0, 3);
+    }
+
     @FXML
-    void buyCard5(MouseEvent event) { askFotCardSlot(1, 0); }
+    void buyCard5(MouseEvent event) {
+        askFotCardSlot(1, 0);
+    }
+
     @FXML
-    void buyCard6(MouseEvent event) { askFotCardSlot(1, 1); }
+    void buyCard6(MouseEvent event) {
+        askFotCardSlot(1, 1);
+    }
+
     @FXML
-    void buyCard7(MouseEvent event) { askFotCardSlot(1, 2); }
+    void buyCard7(MouseEvent event) {
+        askFotCardSlot(1, 2);
+    }
+
     @FXML
-    void buyCard8(MouseEvent event) { askFotCardSlot(1, 3); }
+    void buyCard8(MouseEvent event) {
+        askFotCardSlot(1, 3);
+    }
+
     @FXML
-    void buyCard9(MouseEvent event) { askFotCardSlot(2, 0); }
+    void buyCard9(MouseEvent event) {
+        askFotCardSlot(2, 0);
+    }
+
     @FXML
-    void buyCard10(MouseEvent event) { askFotCardSlot(2, 1); }
+    void buyCard10(MouseEvent event) {
+        askFotCardSlot(2, 1);
+    }
+
     @FXML
-    void buyCard11(MouseEvent event) { askFotCardSlot(2, 2); }
+    void buyCard11(MouseEvent event) {
+        askFotCardSlot(2, 2);
+    }
+
     @FXML
-    void buyCard12(MouseEvent event) { askFotCardSlot(2, 3); }
+    void buyCard12(MouseEvent event) {
+        askFotCardSlot(2, 3);
+    }
 
 
-    @FXML //TODO le push vanno tolte, servono solo per testare
-    void pushColumn1(MouseEvent event) { onColumnPushed(0); pushColumn(0);}
     @FXML
-    void pushColumn2(MouseEvent event) { onColumnPushed(1); pushColumn(1);}
-    @FXML
-    void pushColumn3(MouseEvent event) { onColumnPushed(2); pushColumn(2);}
-    @FXML
-    void pushColumn4(MouseEvent event) { onColumnPushed(3); pushColumn(3);}
-    @FXML
-    void pushRow1(MouseEvent event) { onRowPushed(0); pushRow(0);}
-    @FXML
-    void pushRow2(MouseEvent event) { onRowPushed(1); pushRow(1);}
-    @FXML
-    void pushRow3(MouseEvent event) { onRowPushed(2); pushRow(2);}
+        //TODO le push vanno tolte, servono solo per testare
+    void pushColumn1(MouseEvent event) {
+        onColumnPushed(0);
+        pushColumn(0);
+    }
 
-    private Circle cloneCircle(Circle circle){
+    @FXML
+    void pushColumn2(MouseEvent event) {
+        onColumnPushed(1);
+        pushColumn(1);
+    }
+
+    @FXML
+    void pushColumn3(MouseEvent event) {
+        onColumnPushed(2);
+        pushColumn(2);
+    }
+
+    @FXML
+    void pushColumn4(MouseEvent event) {
+        onColumnPushed(3);
+        pushColumn(3);
+    }
+
+    @FXML
+    void pushRow1(MouseEvent event) {
+        onRowPushed(0);
+        pushRow(0);
+    }
+
+    @FXML
+    void pushRow2(MouseEvent event) {
+        onRowPushed(1);
+        pushRow(1);
+    }
+
+    @FXML
+    void pushRow3(MouseEvent event) {
+        onRowPushed(2);
+        pushRow(2);
+    }
+
+    private Circle cloneCircle(Circle circle) {
         Circle clonedCircle = new Circle(circle.getRadius(), circle.getFill());
 //        if (MarbleColor.GREY.getGuiColor().equals(clonedCircle.getFill())) {
 //            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedGreyMarble(event));
@@ -406,29 +472,29 @@ public class GameboardController extends GUIController {
         return clonedCircle;
     }
 
-    private void pushRow(int row){
+    private void pushRow(int row) {
         Color toSlide = (Color) this.marbleGrid[row][0].getFill();
         tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[row][0]));
-        for(int j=1; j<4; j++){
+        for (int j = 1; j < 4; j++) {
             tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[row][j]));
-            this.marbleGrid[row][j-1].setFill(this.marbleGrid[row][j].getFill());
+            this.marbleGrid[row][j - 1].setFill(this.marbleGrid[row][j].getFill());
         }
         this.marbleGrid[row][3].setFill(this.slide.getFill());
         this.slide.setFill(toSlide);
     }
 
-    private void pushColumn(int column){
+    private void pushColumn(int column) {
         Color temp = (Color) this.marbleGrid[0][column].getFill();
         tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[0][column]));
-        for(int i=1; i<3; i++){
+        for (int i = 1; i < 3; i++) {
             tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[i][column]));
-            this.marbleGrid[i-1][column].setFill(this.marbleGrid[i][column].getFill());
+            this.marbleGrid[i - 1][column].setFill(this.marbleGrid[i][column].getFill());
         }
         this.marbleGrid[2][column].setFill(this.slide.getFill());
         this.slide.setFill(temp);
     }
 
-    private void onRowPushed(int row){
+    private void onRowPushed(int row) {
         this.market_anchorPane.setDisable(true);
         this.deckGridPane.setDisable(true);
         Action marketAction = new ShopMarketAction(true, row);
@@ -443,7 +509,7 @@ public class GameboardController extends GUIController {
 //        this.slide.setFill(temp);
     }
 
-    private void onColumnPushed(int column){
+    private void onColumnPushed(int column) {
         Action marketAction = new ShopMarketAction(false, column);
         client.forwardAction(marketAction);
         this.market_anchorPane.setDisable(true);
@@ -509,15 +575,22 @@ public class GameboardController extends GUIController {
         createBuyCardAction(2);
     }
 
-    private void createBuyCardAction(int slotNumber){
+    private void createBuyCardAction(int slotNumber) {
         this.slotSelectionHbox.setVisible(false);
         this.market_anchorPane.setDisable(false);
         this.deckGridPane.setDisable(false);
         this.endTurnButton.setDisable(false);
-        Action buyCardAction = new BuyDevelopCardAction(this.selectedCardRow,this.selectedCardColumn, slotNumber);
+        Action buyCardAction = new BuyDevelopCardAction(this.selectedCardRow, this.selectedCardColumn, slotNumber);
         client.forwardAction(buyCardAction);
     }
 
+    public void askLeaderOnWHite(String username) {
+        //TODO settare a non usabili tutti i comandi che non siano le leader (sia in playerboard che in gameboard)
+        whiteLeadercardLable.setVisible(true);
+        for (PlayerboardController p : playerboardControllers)
+            if (p.getUsername().equals(username))
+                p.askLeaderOnWhite();
+    }
 
 
 
@@ -544,6 +617,7 @@ public class GameboardController extends GUIController {
         image.setScaleX(1.1);
         image.setScaleY(1.1);
     }
+
     @FXML
     void mouseHoverColorChangeReset(MouseEvent event) {
         ImageView image = (ImageView) event.getSource();
@@ -551,4 +625,5 @@ public class GameboardController extends GUIController {
         image.setScaleX(1.0);
         image.setScaleY(1.0);
     }
+
 }
