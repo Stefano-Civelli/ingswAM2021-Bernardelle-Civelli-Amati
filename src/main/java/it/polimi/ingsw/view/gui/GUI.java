@@ -44,6 +44,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayLeaderHand() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.displayLeaderChoiceLable(this.username); //FIXME voglio chiamarlo solo sul current, non su tutti -> serve disambiguare prima i playerboardController
+      });
    }
 
    @Override

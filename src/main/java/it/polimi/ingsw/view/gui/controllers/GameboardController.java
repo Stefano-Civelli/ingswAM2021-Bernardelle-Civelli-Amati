@@ -22,14 +22,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameboardController extends GUIController {
@@ -64,7 +60,7 @@ public class GameboardController extends GUIController {
     @FXML
     private HBox tempMarbleHbox;
     @FXML
-    private Label whiteLeadercardLable;
+    private Label turnPhaseLable;
     @FXML
     private GridPane choseResourcesGridPane;
 
@@ -77,8 +73,10 @@ public class GameboardController extends GUIController {
     private int selectedCardRow;
     private int selectedCardColumn;
     private int i = 2; //TODO usato solo per testing
+    private int numberOfInitRes = 0;
+    private Map<ResourceType, Integer> chosenResourceMap = new HashMap<>();
 
-    private final PlayerboardController[] playerboardControllers = {null, null, null, null};
+    private final PlayerboardController[] playerboardControllers = {null, null, null, null}; //TODO sarebbe meglio avere una lista
 
     @FXML
     private void initialize() {
@@ -93,7 +91,7 @@ public class GameboardController extends GUIController {
         playerboard3Button.setVisible(false);
         slotSelectionHbox.setVisible(false);
         endTurnButton.setDisable(true);
-        whiteLeadercardLable.setVisible(false);
+        turnPhaseLable.setVisible(false);
         choseResourcesGridPane.setVisible(false);
         // TODO caricare fxml market e develop card deck
     }
@@ -587,7 +585,7 @@ public class GameboardController extends GUIController {
 
     public void askLeaderOnWHite(String username) {
         //TODO settare a non usabili tutti i comandi che non siano le leader (sia in playerboard che in gameboard)
-        whiteLeadercardLable.setVisible(true);
+        turnPhaseLable.setVisible(true);
         for (PlayerboardController p : playerboardControllers)
             if (p.getUsername().equals(username))
                 p.askLeaderOnWhite();
@@ -600,27 +598,52 @@ public class GameboardController extends GUIController {
     }
 
     public void displayMarbleChoice(String username){
-        choseResourcesGridPane.setVisible(true);
+        int i = 0;
+        for (PlayerboardController p : playerboardControllers)
+            if (p!= null && !username.equals(p.getUsername())) //TODO cancellare p!=null quando si fixa la lista di playerboardController
+                i++;
+
+        if (i == 0){
+            client.forwardAction(new ChooseInitialResourcesAction(new HashMap<>()));
+        }
+        else {
+            this.numberOfInitRes = i/2;
+            choseResourcesGridPane.setVisible(true);
+            turnPhaseLable.setText("You need to choose " + this.numberOfInitRes + " resources to add");
+        }
     }
 
     @FXML
-    void chooseGold(MouseEvent event) {
-
-    }
+    void chooseGold(MouseEvent event) { onChosenResource(ResourceType.GOLD); }
 
     @FXML
-    void chooseServant(MouseEvent event) {
-
-    }
+    void chooseServant(MouseEvent event) { onChosenResource(ResourceType.SERVANT); }
 
     @FXML
-    void chooseShield(MouseEvent event) {
-
-    }
+    void chooseShield(MouseEvent event) { onChosenResource(ResourceType.SHIELD); }
 
     @FXML
-    void chooseStone(MouseEvent event) {
+    void chooseStone(MouseEvent event) { onChosenResource(ResourceType.STONE); }
 
+    private void onChosenResource(ResourceType resource){
+        if(chosenResourceMap.containsKey(resource))
+            chosenResourceMap.compute(resource, (k,v) -> (v==null) ? 1 : v + 1);
+        else {
+            chosenResourceMap.put(resource, 1);
+        }
+        if(chosenResourceMap.size() == this.numberOfInitRes){
+            client.forwardAction(new ChooseInitialResourcesAction(chosenResourceMap));
+            choseResourcesGridPane.setVisible(false);
+            choseResourcesGridPane.setDisable(true);
+        }
+    }
+
+    public void displayLeaderChoiceLable(String username){
+        turnPhaseLable.setText("Choose 2 leadercards to DISCARD");
+        turnPhaseLable.setVisible(true);
+        for (PlayerboardController p : playerboardControllers)
+            if (p!= null && username.equals(p.getUsername())) //TODO cancellare p!=null quando si fixa la lista di playerboardController
+                p.changeLeaderBehaviour();
     }
 
 

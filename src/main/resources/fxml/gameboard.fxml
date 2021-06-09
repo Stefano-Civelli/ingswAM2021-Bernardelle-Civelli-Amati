@@ -167,7 +167,7 @@
          </children>
       </HBox>
       <HBox fx:id="tempMarbleHbox" layoutX="561.0" layoutY="64.0" prefHeight="56.0" prefWidth="316.0" spacing="8.0" />
-      <Label fx:id="whiteLeadercardLable" alignment="CENTER" layoutX="347.0" layoutY="6.0" prefHeight="17.0" prefWidth="497.0" text="Choose what leadercard you want to use for the white marble" textFill="WHITE">
+      <Label fx:id="turnPhaseLable" alignment="CENTER" layoutX="347.0" layoutY="6.0" prefHeight="17.0" prefWidth="497.0" text="Choose what leadercard you want to use for the white marble" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="14.0" />
          </font>

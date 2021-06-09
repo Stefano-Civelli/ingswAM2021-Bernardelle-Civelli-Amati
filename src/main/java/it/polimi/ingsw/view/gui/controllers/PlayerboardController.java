@@ -35,6 +35,7 @@ public class PlayerboardController extends GUIController {
     private int j=0;
     private Map<ImageView, Integer> leaderImageIdMap = new HashMap<>();
     private ImageView selectedLeader;
+    private ImageView selectedLeaderToDiscard;
     private ResourceType firstToConsume = null;
     private ResourceType secondToConsume = null;
     private Pair<ResourceType, Integer>[] storageLevels;
@@ -339,25 +340,17 @@ public class PlayerboardController extends GUIController {
     }
 
     public void askLeaderOnWhite(){
-        leader0_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader0(event));
-        leader1_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader1(event));
+        leader0_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
+        leader1_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
     }
 
     @FXML
-    void selectWhiteLeader0(MouseEvent event) {
-        Action chooseLeaderOnWhiteMarbleAction = new ChooseLeaderOnWhiteMarbleAction(leaderImageIdMap.get(leader0_ImageView));
+    void selectWhiteLeader(MouseEvent event) {
+        Action chooseLeaderOnWhiteMarbleAction = new ChooseLeaderOnWhiteMarbleAction(leaderImageIdMap.get((ImageView) event.getSource()));
         client.forwardAction(chooseLeaderOnWhiteMarbleAction);
         //TODO rimetto alle leader il loro metodo standard
-        leader0_ImageView.setOnMouseClicked((MouseEvent event1) -> selectWhiteLeader0(event1));
-        leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> selectWhiteLeader1(event1));
-    }
-    @FXML
-    void selectWhiteLeader1(MouseEvent event) {
-        Action chooseLeaderOnWhiteMarbleAction = new ChooseLeaderOnWhiteMarbleAction(leaderImageIdMap.get(leader1_ImageView));
-        client.forwardAction(chooseLeaderOnWhiteMarbleAction);
-        //TODO rimetto alle leader il loro metodo standard
-        leader0_ImageView.setOnMouseClicked((MouseEvent event1) -> selectWhiteLeader0(event1));
-        leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> selectWhiteLeader1(event1));
+        leader0_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
+        leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
     }
 
 
@@ -514,6 +507,33 @@ public class PlayerboardController extends GUIController {
         }
     }
 
+    public void changeLeaderBehaviour(){
+        leader0_ImageView.setOnMouseClicked((MouseEvent event) -> initialDiscard(event));
+        leader1_ImageView.setOnMouseClicked((MouseEvent event) -> initialDiscard(event));
+        leader2_ImageView.setOnMouseClicked((MouseEvent event) -> initialDiscard(event));
+        leader3_ImageView.setOnMouseClicked((MouseEvent event) -> initialDiscard(event));
+    }
+
+    @FXML
+    void initialDiscard(MouseEvent event) {
+        if(selectedLeaderToDiscard == null)
+            this.selectedLeaderToDiscard = (ImageView) event.getSource();
+        else {
+            Action discardLeaderAction = new DiscardInitialLeaderAction(leaderImageIdMap.get((ImageView) event.getSource()), leaderImageIdMap.get(this.selectedLeaderToDiscard));
+            System.out.println(leaderImageIdMap.get((ImageView) event.getSource()));
+            client.forwardAction(discardLeaderAction);
+            this.selectedLeaderToDiscard = null;
+            List<ImageView> cardList = List.of(leader0_ImageView, leader1_ImageView, leader2_ImageView, leader3_ImageView);
+            for(ImageView i : cardList){
+                if(i.equals(this.selectedLeaderToDiscard) || i.equals((ImageView) event.getSource()))
+                    cardList.remove(i);
+            }
+            leader0_ImageView = cardList.get(0);
+            leader1_ImageView = cardList.get(1);
+            leader0_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
+            leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
+        }
+    }
 
     // Cosmetics ----------------------------------------------------------------
     @FXML
