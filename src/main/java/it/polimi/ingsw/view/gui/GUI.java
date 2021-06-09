@@ -31,6 +31,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       return this.sceneController;
    }
 
+//------------- ViewInterface --------------
    @Override
    public void setClientTurnManager(ClientTurnManagerInterface turnManager) {
       this.turnManager = (GuiTurnManager) turnManager;
@@ -229,8 +230,11 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayLorenzoShuffled() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
+//------------- ViewInterface --------------
 
 
+
+//------------- ClientModelUpdaterInterface ---------------
    @Override
    public void setClientUsername(String username) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
@@ -242,7 +246,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
       Platform.runLater(() -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
-         controller.updateChest(username, stateUpdate);
+         controller.getPlayerBoardController(username).updateChest(stateUpdate);
+         //controller.updateChest(username, stateUpdate);
       });
 
    }
@@ -252,7 +257,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
-         controller.updateWarehouse(username, stateUpdate);
+         controller.getPlayerBoardController(username).updateWarehouse(stateUpdate);
+         //controller.updateWarehouse(username, stateUpdate);
       });
    }
 
@@ -266,6 +272,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         //controller.getPlayerBoardController(username).leaderSetup(stateUpdate);
          controller.leaderSetup(username, stateUpdate);
       });
    }
@@ -293,7 +300,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
-         controller.updateCardSlot(username, stateUpdate);
+         controller.getPlayerBoardController(username).updateCardSlot(stateUpdate);
+         //controller.updateCardSlot(username, stateUpdate);
       });
    }
 
@@ -307,7 +315,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
-         controller.updateVatican(username, stateUpdate);
+         controller.getPlayerBoardController(username).updateVatican(stateUpdate);
+         //controller.updateVatican(username, stateUpdate);
       });
    }
 
@@ -332,6 +341,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void tempChestUpdate(String username, Chest.ChestUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+
    }
 
    @Override
@@ -364,5 +374,5 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       this.turnManager.setPlayers(stateUpdate);
    }
-
+   //------------- ClientModelUpdaterInterface ---------------
 }
