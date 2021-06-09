@@ -24,6 +24,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -75,6 +77,9 @@ public class PlayerboardController extends GUIController {
     private ImageView cardCardSlot3;
     @FXML
     private ImageView cardCardSlot1;
+    @FXML
+    private Pane playerBoardPane;
+
 
 
     @FXML
@@ -218,47 +223,41 @@ public class PlayerboardController extends GUIController {
         int cardId = stateUpdate.getDevCardID();
         int leaderLevel = 0;
         DevelopCard devCard = null;
+        ImageView newCard;
+        double height = cardCardSlot1.getFitHeight();
+        double width = cardCardSlot1.getFitWidth();
+
+        double cardCardSlotY = cardCardSlot1.getLayoutY();
 
         try {
             devCard = DevelopCardConstructor.getDevelopCardFromId(cardId);
             leaderLevel = devCard.getCardFlag().getLevel()-1;
         } catch (InvalidCardException e) {}
 
-        if(leaderLevel == 0) {
-            switch (slot) {
-                case 0:
-                    cardCardSlot1 = new ImageView(new Image("/images/front/" + devCard.getImage()));
-                    System.out.println("talla");
-                    this.cardCardSlot1.setVisible(true);
-                    break;
-                case 1:
-                    cardCardSlot2 = new ImageView(new Image("/images/front/" + devCard.getImage()));
-                    break;
-                case 2:
-                    cardCardSlot3 = new ImageView(new Image("/images/front/" + devCard.getImage()));
-                    break;
-            }
-        }
-        else {
-            ImageView newCard;
-            switch (slot) {
-                case 0:
-                    double firstCardCardSlotX = cardCardSlot1.getX();
-                    double firstCardCardSlotY = cardCardSlot1.getY();
-                    newCard = new ImageView(new Image("/images/front/" + devCard.getImage()));
-                    newCard.setX(firstCardCardSlotX);
-                    newCard.setY(firstCardCardSlotY - (leaderLevel * 40));
 
-                    System.out.println("rita");
-                    break;
-                case 1:
-                    newCard = new ImageView(new Image("/images/front/" + devCard.getImage()));
-                    break;
-                case 2:
-                    newCard = new ImageView(new Image("/images/front/" + devCard.getImage()));
-                    break;
-            }
+        newCard = new ImageView(new Image("/images/front/" + devCard.getImage()));
+        ImageView clone = cloneImageView(newCard);
+
+        switch (slot) {
+            case 0:
+                double firstCardCardSlotX = cardCardSlot1.getLayoutX();
+                clone.setLayoutX(firstCardCardSlotX);
+                break;
+            case 1:
+                double secondCardCardSlotX = cardCardSlot2.getLayoutX();
+                clone.setLayoutX(secondCardCardSlotX);
+                break;
+            case 2:
+                double thirdCardCardSlotX = cardCardSlot3.getLayoutX();
+                clone.setLayoutX(thirdCardCardSlotX);
+                break;
         }
+
+        clone.setLayoutY(cardCardSlotY - (leaderLevel * 40));
+        clone.setFitHeight(height);
+        clone.setFitWidth(width);
+        playerBoardPane.getChildren().add(clone);
+
     }
 
     @FXML
@@ -283,6 +282,10 @@ public class PlayerboardController extends GUIController {
     private void createProductionAction(int cardIndex){
         Action productionAction = new ProductionAction(cardIndex);
         client.forwardAction(productionAction);
+    }
+
+    private ImageView cloneImageView(ImageView imageView){
+        return new ImageView(imageView.getImage());
     }
 
 
