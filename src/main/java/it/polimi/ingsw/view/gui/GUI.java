@@ -317,7 +317,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
-         controller.updateMarket(stateUpdate);
+         if(this.username.equals(this.turnManager.getCurrentPlayer()))
+            controller.updateMarket(stateUpdate);
+         else
+            controller.updateMarketOtherPlayers(stateUpdate);
       });
    }
 
@@ -343,6 +346,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void trackUpdate(String username, Track.TrackUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.getPlayerBoardController(username).updateTrack(stateUpdate);
+      });
    }
 
    @Override

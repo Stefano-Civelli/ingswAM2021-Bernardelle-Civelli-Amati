@@ -203,27 +203,28 @@ public class PlayerboardController extends GUIController {
         }
     }
 
-    public void updateTrack(String payload){
-//        this.trackPosition.setVisible(false);
-//        ImageView image = new ImageView(new Image("images/punchboard/faithTrackCross.png"));
-//        this.trackPosition = image;
-//        image.setFitWidth(20);
-//        image.setFitHeight(20);
-//
-//        if(j==18)
-//            return;
-//        if(((j==2 || j==12) && i>0)) {
-//            i--;
-//            trackGrid.add(image, j, i);
-//            return;
-//        }
-//        if(j==7 && i<2) {
-//            i++;
-//            trackGrid.add(image, j, i);
-//            return;
-//        }
-//        j++;
-//        trackGrid.add(image, j, i);
+    public void updateTrack(Track.TrackUpdate stateUpdate) {
+        int position = stateUpdate.getPlayerPosition();
+        this.trackPosition.setVisible(false);
+        ImageView image = new ImageView(new Image("images/punchboard/faithTrackCross.png"));
+        this.trackPosition = image;
+        image.setFitWidth(32);
+        image.setFitHeight(31);
+
+        if(j==18)
+            return;
+        if(((j==2 || j==12) && i>0)) {
+            i--;
+            trackGrid.add(image, j, i);
+            return;
+        }
+        if(j==7 && i<2) {
+            i++;
+            trackGrid.add(image, j, i);
+            return;
+        }
+        j++;
+        trackGrid.add(image, j, i);
     }
 
     public void updateVatican(Track.VaticanReport stateUpdate) {
