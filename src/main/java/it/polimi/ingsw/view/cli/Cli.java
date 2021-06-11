@@ -274,6 +274,21 @@ public class Cli implements ViewInterface {
   }
 
   @Override
+  public void displayFinalPhase() {
+    return;
+  }
+
+  @Override
+  public void displayProducingPhase() {
+    return;
+  }
+
+  @Override
+  public void displayShoppingPhase() {
+    return;
+  }
+
+  @Override
   public void displayLorenzoDiscarded(DevelopCardDeck.DevelopCardDeckUpdate state) {
     clearScreen();
     drawer.displayLorenzoHasDiscarded(state);

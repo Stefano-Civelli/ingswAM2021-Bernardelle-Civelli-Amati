@@ -5,8 +5,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
-import it.polimi.ingsw.model.track.Track;
-import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.event.ActionEvent;
@@ -226,13 +224,14 @@ public class GameboardController extends GUIController {
                 if (s.equals(client.getUsername()))
                     this.playerboardControllers.add(myPlayerboardController);
                 else {
-                    PlayerboardController newPlayerboardController = new PlayerboardController();
-                    this.playerboardControllers.add(newPlayerboardController); //the array is ordered to give the right amount of resouces to each player
+                    PlayerboardController newPlayerboardController;
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/playerboard.fxml"));
                     Parent root1 = loader.load();
                     newPlayerboardController = loader.getController();
                     newPlayerboardController.setUsername(s);
+                    this.playerboardControllers.add(newPlayerboardController); //the array is ordered to give the right amount of resouces to each player
+                    newPlayerboardController.disableAll();
                     playerboardList.add(root1);
                 }
             }
@@ -595,7 +594,7 @@ public class GameboardController extends GUIController {
 
     public void askLeaderOnWHite(String username) {
         //TODO settare a non usabili tutti i comandi che non siano le leader (sia in playerboard che in gameboard)
-        turnPhaseLable.setVisible(true);
+        turnPhaseLable.setText("Choose a leader to convert the white marble");
         getPlayerBoardController(username).askLeaderOnWhite();
     }
 
@@ -605,14 +604,16 @@ public class GameboardController extends GUIController {
         for (PlayerboardController p : playerboardControllers)
             if (!username.equals(p.getUsername()))
                 i++;
-
+            else
+                break;
         if (i == 0){
             client.forwardAction(new ChooseInitialResourcesAction(new HashMap<>()));
         }
         else {
-            this.numberOfInitRes = i/2;
+            this.numberOfInitRes = (i + 1) / 2;
             choseResourcesGridPane.setVisible(true);
             turnPhaseLable.setText("You need to choose " + this.numberOfInitRes + " resources to add");
+            turnPhaseLable.setVisible(true);
         }
     }
 
@@ -654,9 +655,43 @@ public class GameboardController extends GUIController {
     }
 
     public void enableInitialAction() {
+        this.turnPhaseLable.setText("It's your turn");
         this.market_anchorPane.setDisable(false);
         this.deckGridPane.setDisable(false);
+        getPlayerBoardController(this.client.getUsername()).enableProduction();
+        getPlayerBoardController(this.client.getUsername()).enableLeader();
         this.endTurnButton.setDisable(true);
+    }
+
+    public void otherPlayerTurn(String username) {
+        this.turnPhaseLable.setText("It's " + username + "'s turn");
+        this.market_anchorPane.setDisable(true);
+        this.deckGridPane.setDisable(true);
+        getPlayerBoardController(this.client.getUsername()).disableProduction();
+        getPlayerBoardController(this.client.getUsername()).disableLeader();
+        this.endTurnButton.setDisable(true);
+    }
+
+    public void enableFinalAction() {
+        this.market_anchorPane.setDisable(true);
+        this.deckGridPane.setDisable(true);
+        getPlayerBoardController(this.client.getUsername()).disableProduction();
+        this.endTurnButton.setDisable(false);
+    }
+
+    public void enableProductionAction() {
+        this.market_anchorPane.setDisable(true);
+        this.deckGridPane.setDisable(true);
+        getPlayerBoardController(this.client.getUsername()).enableProduction();
+        this.endTurnButton.setDisable(false);
+    }
+
+    public void enableShoppingAction() {
+        this.market_anchorPane.setDisable(true);
+        this.deckGridPane.setDisable(true);
+        getPlayerBoardController(this.client.getUsername()).disableProduction();
+        this.endTurnButton.setDisable(true);
+        getPlayerBoardController(this.client.getUsername()).disableLeader();
     }
 
     // Cosmetics ----------------------------------------------------------------

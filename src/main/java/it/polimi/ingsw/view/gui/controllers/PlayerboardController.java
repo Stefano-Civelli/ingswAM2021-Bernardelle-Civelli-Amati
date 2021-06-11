@@ -342,6 +342,7 @@ public class PlayerboardController extends GUIController {
     }
 
     public void askLeaderOnWhite(){
+        this.enableLeader();
         leader0_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
         leader1_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
         leader2_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
@@ -357,6 +358,7 @@ public class PlayerboardController extends GUIController {
         leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
         leader2_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
         leader3_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
+        this.disableLeader();
     }
 
 
@@ -539,6 +541,37 @@ public class PlayerboardController extends GUIController {
             leader2_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
             leader3_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
         }
+    }
+
+    public void enableProduction() {
+        this.baseProductionButton.setDisable(false);
+        this.productionSlot1Button.setDisable(false);
+        this.productionSlot2Button.setDisable(false);
+        this.productionSlot3Button.setDisable(false);
+    }
+
+    public void disableProduction() {
+        this.baseProductionButton.setDisable(true);
+        this.productionSlot1Button.setDisable(true);
+        this.productionSlot2Button.setDisable(true);
+        this.productionSlot3Button.setDisable(true);
+    }
+
+    public void disableLeader() {
+        this.leaderCardVbox.setDisable(true);
+    }
+
+    public void enableLeader() {
+        this.leaderCardVbox.setDisable(false);
+    }
+
+    public void disableAll() {
+        this.disableLeader();
+        this.disableProduction();
+        this.baseProductionButton.setVisible(false);
+        this.productionSlot1Button.setVisible(false);
+        this.productionSlot2Button.setVisible(false);
+        this.productionSlot3Button.setVisible(false);
     }
 
     // Cosmetics ----------------------------------------------------------------

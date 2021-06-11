@@ -178,13 +178,16 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayPlayerTurn(String player) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.otherPlayerTurn(player);
+      });
    }
 
    @Override
    public void displayYourTurn(String username) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
-
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
          controller.enableInitialAction();
       });
@@ -220,6 +223,30 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       Platform.runLater(() -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
          controller.askLeaderOnWHite(this.username);
+      });
+   }
+
+   @Override
+   public void displayFinalPhase() {
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.enableFinalAction();
+      });
+   }
+
+   @Override
+   public void displayProducingPhase() {
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.enableProductionAction();
+      });
+   }
+
+   @Override
+   public void displayShoppingPhase() {
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.enableShoppingAction();
       });
    }
 

@@ -179,12 +179,13 @@ public class Client implements PhaseChangedObserver {
         break;
       case GAME_STARTED:
         state.gameStartedSetup(msg.getPayloadByType(List.class));
-        clientTurnManager.setCurrentPlayer(getFirstPlayer(payload));
+        //clientTurnManager.setCurrentPlayer(getFirstPlayer(payload));
         view.displayGameStarted();
-        if(username.equals(clientTurnManager.getCurrentPlayer()))
-          clientTurnManager.currentPhasePrint();
-        else
-          view.displayPlayerTurn(msg.getUsername());
+//        if(username.equals(clientTurnManager.getCurrentPlayer())) {
+//          clientTurnManager.currentPhasePrint();
+//        }else
+//          view.displayPlayerTurn(msg.getUsername());
+        clientTurnManager.setStateIsPlayerChanged(new TurnManager.TurnState(getFirstPlayer(payload), PhaseType.SETUP_CHOOSING_RESOURCES));
         break;
       case NEXT_TURN_STATE:
         TurnManager.TurnState newState = msg.getPayloadByType(TurnManager.TurnState.class);

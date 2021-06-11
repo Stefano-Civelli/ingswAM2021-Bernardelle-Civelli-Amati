@@ -26,6 +26,7 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
       switch(currentPhase){
          case INITIAL:
 
+            break;
          case SETUP_CHOOSING_RESOURCES:
             view.displayMarbleChoice();
 //            if(stateViewer.getPlayerTurnPosition()!=1) {
@@ -46,13 +47,19 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
 //            System.out.println("That's your 4 leader cards: ");
 //            view.displayLeaderHand();
 //            System.out.println("You can have only 2 of them.\nWhich do you want to discard?");
-              break;
+            break;
          case SHOPPING:
 //            System.out.println("\nYou need to insert one of the following marbles you got from market: ");
-//            view.displayMarbleShopping();
+            view.displayMarbleShopping();
+            break;
+         case PRODUCING:
+            view.displayProducingPhase();
             break;
          case SHOPPING_LEADER:
             view.displayChooseLeaderOnWhite();
+            break;
+         case FINAL:
+            view.displayFinalPhase();
             break;
       }
 
@@ -73,19 +80,17 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
    public void setStateIsPlayerChanged(TurnManager.TurnState newState) {
       this.currentPhase = newState.getPhase(); //set new phase
 
-
-       if (!currentPlayer.equals(newState.getPlayer())) {
-          this.currentPlayer = newState.getPlayer();
-          if (client.getUsername().equals(this.currentPlayer))
-             view.displayYourTurn(this.currentPlayer);
-          else
-             view.displayPlayerTurn(this.currentPlayer);
-       }
+      if (currentPlayer == null || !currentPlayer.equals(newState.getPlayer())) {
+         this.currentPlayer = newState.getPlayer();
+         if (client.getUsername().equals(this.currentPlayer))
+            view.displayYourTurn(this.currentPlayer);
+         else
+            view.displayPlayerTurn(this.currentPlayer);
+      }
 
       if(client.getUsername().equals(this.currentPlayer)) {
          this.currentPhasePrint();
       }
-
    }
 
 

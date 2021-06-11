@@ -127,6 +127,7 @@ public class TurnManager implements IGameState {
         if(this.currentPhase == PhaseType.END_SETUP) {
             try {
                 this.currentPlayer = this.game.nextConnectedPlayer(this.currentPlayer);
+                this.game.gameStarted();
             } catch (InvalidUsernameException e) {
                 // This code should never be executed
                 e.printStackTrace();

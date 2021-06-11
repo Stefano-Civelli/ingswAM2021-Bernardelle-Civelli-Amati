@@ -4,6 +4,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.network.client.CliTurnManager;
 import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.view.gui.controllers.GameboardController;
 
 public interface ViewInterface extends LorenzoViewInterface {
   public void setClientTurnManager(ClientTurnManagerInterface turnManager);
@@ -33,4 +34,7 @@ public interface ViewInterface extends LorenzoViewInterface {
   public void displayPlainCanvas();
   public void startingSetupUpdate();
   public void displayChooseLeaderOnWhite();
+  public void displayFinalPhase();
+  public void displayProducingPhase();
+  public void displayShoppingPhase();
 }

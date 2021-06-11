@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 public class Game implements LeaderSetupObservable, EndGameObserver {
 
+   private boolean gameStarted = false;
    private final LeaderCardDeck leaderCardDeck;
    private final Market market;
    protected final DevelopCardDeck developCardDeck;
@@ -226,6 +227,14 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
 
    private List<Integer> idLeaderList(List<LeaderCard> leaderList) {
       return leaderList.stream().map(LeaderCard::getLeaderId).collect(Collectors.toList());
+   }
+
+   public void gameStarted() {
+      this.gameStarted = true;
+   }
+
+   public boolean isGameStarted() {
+      return this.gameStarted;
    }
 
    private void handleEndGame() {

@@ -148,7 +148,7 @@ public class CliTurnManager implements ClientTurnManagerInterface {
 
     this.currentPhase = newState.getPhase(); //set new phase
 
-    if (!currentPlayer.equals(newState.getPlayer())) {
+    if (currentPlayer == null || !currentPlayer.equals(newState.getPlayer())) {
       this.currentPlayer = newState.getPlayer();
       if (client.getUsername().equals(this.currentPlayer))
         view.displayYourTurn(this.currentPlayer);
