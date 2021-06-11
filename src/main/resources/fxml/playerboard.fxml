@@ -111,7 +111,7 @@
                         </ImageView>
                      </children>
                   </GridPane>
-                  <Button layoutX="688.0" layoutY="122.0" mnemonicParsing="false" onMouseClicked="#move" prefHeight="36.0" prefWidth="51.0" text="move">
+                  <Button layoutX="688.0" layoutY="122.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="51.0" text="move">
                      <font>
                         <Font size="7.0" />
                      </font>

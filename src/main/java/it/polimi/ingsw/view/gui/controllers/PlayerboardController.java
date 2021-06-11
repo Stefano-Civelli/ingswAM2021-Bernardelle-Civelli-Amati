@@ -211,20 +211,20 @@ public class PlayerboardController extends GUIController {
         image.setFitWidth(32);
         image.setFitHeight(31);
 
-        if(j==18)
-            return;
-        if(((j==2 || j==12) && i>0)) {
-            i--;
-            trackGrid.add(image, j, i);
-            return;
-        }
-        if(j==7 && i<2) {
-            i++;
-            trackGrid.add(image, j, i);
-            return;
-        }
-        j++;
-        trackGrid.add(image, j, i);
+        if(position<3)
+            trackGrid.add(image, position, 2);
+        if(position>2 && position<5)
+            trackGrid.add(image, 2, 4-position);
+        if(position>4 && position<10)
+            trackGrid.add(image, position-2, 0);
+        if(position>9 && position<12)
+            trackGrid.add(image, 7, position-9);
+        if(position>11 && position<17)
+            trackGrid.add(image, position-4, 2);
+        if(position>16 && position<19)
+            trackGrid.add(image, 12, 18-position);
+        if(position>18)
+            trackGrid.add(image, position-6, 0);
     }
 
     public void updateVatican(Track.VaticanReport stateUpdate) {
@@ -241,31 +241,6 @@ public class PlayerboardController extends GUIController {
                     popeCard3 = new ImageView(new Image("images/punchboard/stone.png"));
                     break;
             }
-    }
-
-    @FXML
-    void move(MouseEvent event) {
-        System.out.println("moved");
-        this.trackPosition.setVisible(false);
-        ImageView image = new ImageView(new Image("images/punchboard/faithTrackCross.png"));
-        this.trackPosition = image;
-        image.setFitWidth(32);
-        image.setFitHeight(31);
-
-        if(j==18)
-            return;
-        if(((j==2 || j==12) && i>0)) {
-            i--;
-            trackGrid.add(image, j, i);
-            return;
-        }
-        if(j==7 && i<2) {
-            i++;
-            trackGrid.add(image, j, i);
-            return;
-        }
-        j++;
-        trackGrid.add(image, j, i);
     }
 
     public void updateCardSlot(CardSlots.CardSlotUpdate stateUpdate) {
@@ -389,14 +364,6 @@ public class PlayerboardController extends GUIController {
     @FXML
     void chooseGold(MouseEvent event) {
         createBaseProduction(ResourceType.GOLD);
-//        if(firstToConsume == null)
-//            firstToConsume = ResourceType.GOLD;
-//        else if(secondToConsume == null)
-//            secondToConsume = ResourceType.GOLD;
-//        else {
-//            Action baseProduction = new BaseProductionAction(firstToConsume, secondToConsume, ResourceType.GOLD);
-//            client.forwardAction(baseProduction);
-//        }
     }
 
     @FXML

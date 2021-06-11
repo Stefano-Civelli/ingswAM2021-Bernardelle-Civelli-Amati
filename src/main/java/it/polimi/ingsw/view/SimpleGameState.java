@@ -73,7 +73,6 @@ public class SimpleGameState {
             }
       }
       this.slide = swap1;
-
    }
 
    public void setTempMarble(boolean row, int index){
