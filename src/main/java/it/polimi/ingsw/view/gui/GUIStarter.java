@@ -40,4 +40,5 @@ public class GUIStarter extends Application {
         stage.setResizable(false);
         stage.show(); //shows the stage
     }
+
 }

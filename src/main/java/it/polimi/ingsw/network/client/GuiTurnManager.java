@@ -87,5 +87,6 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
    public void setPlayers(List<String> stateUpdate) {
       //this.players = new ArrayList<>();
    }
+
 }
 

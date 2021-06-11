@@ -84,11 +84,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     * @throws InvalidLeaderCardException if one or both the leader cards don't exist
     */
    public void discardLeaderAtBegin(int leaderPosition1, int leaderPosition2) throws InvalidLeaderCardException {
-      if(leaderPosition1 < 0 || leaderPosition1 >= this.leaderCards.size()
-              || leaderPosition2 < 0 || leaderPosition2 >= this.leaderCards.size() - 1)
-         throw new InvalidLeaderCardException();
-      leaderCards.remove(leaderPosition1);
-      leaderCards.remove(leaderPosition2);
+      leaderCards.remove(getIndexFromId(leaderPosition1));
+      leaderCards.remove(getIndexFromId(leaderPosition2));
    }
 
    /**
@@ -292,6 +289,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    }
 
    private int getIndexFromId(int leaderCardId) {
+      // FIXME ECCEZIONE SE NON ESISTE ID
       int index = -1;
       for(int i=0; i<leaderCards.size(); i++)
          if(leaderCards.get(i).getLeaderId() == leaderCardId)
