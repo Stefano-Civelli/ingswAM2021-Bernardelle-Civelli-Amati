@@ -300,7 +300,7 @@ public class GameboardController extends GUIController {
         this.selectedCardRow = row;
         this.selectedCardColumn = column;
 
-        //TODO è così solo per testing, sta roba in realtà sta solo nell'update
+        //TODO è così solo per testing, sta roba in realtà sta solo nell'phaseUpdate
         updateDeck(new DevelopCardDeck.DevelopCardDeckUpdate(row, column));
         //----------------
     }
@@ -418,43 +418,43 @@ public class GameboardController extends GUIController {
         //TODO le push vanno tolte, servono solo per testare
     void pushColumn1(MouseEvent event) {
         onColumnPushed(0);
-        pushColumn(0);
+        //pushColumn(0);
     }
 
     @FXML
     void pushColumn2(MouseEvent event) {
         onColumnPushed(1);
-        pushColumn(1);
+        //pushColumn(1);
     }
 
     @FXML
     void pushColumn3(MouseEvent event) {
         onColumnPushed(2);
-        pushColumn(2);
+        //pushColumn(2);
     }
 
     @FXML
     void pushColumn4(MouseEvent event) {
         onColumnPushed(3);
-        pushColumn(3);
+        //pushColumn(3);
     }
 
     @FXML
     void pushRow1(MouseEvent event) {
         onRowPushed(0);
-        pushRow(0);
+        //pushRow(0);
     }
 
     @FXML
     void pushRow2(MouseEvent event) {
         onRowPushed(1);
-        pushRow(1);
+        //pushRow(1);
     }
 
     @FXML
     void pushRow3(MouseEvent event) {
         onRowPushed(2);
-        pushRow(2);
+        //pushRow(2);
     }
 
     private Circle cloneCircle(Circle circle) {
@@ -653,6 +653,11 @@ public class GameboardController extends GUIController {
         turnPhaseLable.setVisible(true);
     }
 
+    public void enableInitialAction() {
+        this.market_anchorPane.setDisable(false);
+        this.deckGridPane.setDisable(false);
+        this.endTurnButton.setDisable(true);
+    }
 
     // Cosmetics ----------------------------------------------------------------
     @FXML

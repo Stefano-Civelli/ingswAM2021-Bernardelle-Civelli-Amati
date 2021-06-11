@@ -38,8 +38,8 @@ public class LocalVirtualModel implements VirtualModel, PhaseChangedObservable{
    public void stop() { /*does nothing*/ }
 
    @Override
-   public void notifyPhaseChanged(String nextPhase) {
-      client.update(nextPhase);
+   public void notifyPhaseChanged(TurnManager.TurnState nextPhase) {
+      client.phaseUpdate(nextPhase);
    }
 
 
@@ -51,7 +51,7 @@ public class LocalVirtualModel implements VirtualModel, PhaseChangedObservable{
             client.handleError(ErrorType.fromValue(GSON.getGsonBuilder().fromJson(payload, String.class)));
             break;
          case NEXT_TURN_STATE:
-            notifyPhaseChanged(answerMessage.getPayload());
+            notifyPhaseChanged(answerMessage.getPayloadByType(TurnManager.TurnState.class));
             break;
       }
    }

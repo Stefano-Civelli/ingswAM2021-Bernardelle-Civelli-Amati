@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
 
-public class Client implements PhaseChangedObserver{
+public class Client implements PhaseChangedObserver {
   public static final int MIN_PORT = Server.MIN_PORT_NUMBER;
   public static final int MAX_PORT = Server.MAX_PORT_NUMBER;
 
@@ -187,7 +187,8 @@ public class Client implements PhaseChangedObserver{
           view.displayPlayerTurn(msg.getUsername());
         break;
       case NEXT_TURN_STATE:
-        handleTurnState(msg.getPayload());
+        TurnManager.TurnState newState = msg.getPayloadByType(TurnManager.TurnState.class);
+        clientTurnManager.setStateIsPlayerChanged(newState);
         break;
       case LEADERCARD_SETUP: //received only by the interested player
         state.leaderSetup(messageUser, msg.getPayloadByType(Game.LeaderSetup.class));
@@ -253,23 +254,6 @@ public class Client implements PhaseChangedObserver{
     }
   }
 
-  private void handleTurnState(String payload) {
-    TurnManager.TurnState newState = GSON.getGsonBuilder().fromJson(payload, TurnManager.TurnState.class);
-    //TODO probabilmente non serve più il fatto che setState ritorna un booleano
-    if(clientTurnManager.setStateIsPlayerChanged(newState)) {
-      if (username.equals(clientTurnManager.getCurrentPlayer())) {
-        view.displayYourTurn(clientTurnManager.getCurrentPlayer());
-      }
-      else
-        view.displayPlayerTurn(clientTurnManager.getCurrentPlayer());
-    }
-
-    if(username.equals(clientTurnManager.getCurrentPlayer())){
-      clientTurnManager.currentPhasePrint();
-    }
-  }
-
-
   public void handleError(ErrorType errorType) {
     switch (errorType){
       case GAME_ALREADY_STARTED:
@@ -334,12 +318,13 @@ public class Client implements PhaseChangedObserver{
     clientTurnManager.currentPhasePrint();
   }
 
-  @Override
-  public void update(String nextPhase) {
-    handleTurnState(nextPhase);
+  public void phaseUpdate(TurnManager.TurnState nextPhase) {
+    clientTurnManager.setStateIsPlayerChanged(nextPhase);
+    //handleTurnState(nextPhase);
   }
 
   public ViewInterface getView() {
     return this.view;
   }
+
 }

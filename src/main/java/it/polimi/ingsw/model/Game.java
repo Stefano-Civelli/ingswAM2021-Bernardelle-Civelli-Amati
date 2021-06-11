@@ -198,7 +198,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
       if(index < 0)
          throw new InvalidUsernameException();
       this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), true));
-      // TODO fare tutti gli update per mandare al player il modello
+      // TODO fare tutti gli phaseUpdate per mandare al player il modello
    }
 
    /**

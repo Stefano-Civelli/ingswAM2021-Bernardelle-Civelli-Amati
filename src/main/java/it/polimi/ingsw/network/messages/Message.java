@@ -18,7 +18,7 @@ public class Message {
    private String username = null; //username del Client mittente,
    private MessageType messageType;
    private String payload = null; //usiamo il payload in questo modo:
-   //-da Server a Client per 1)notificare gli update -> Oggetti serializzati 2)messaggi di servizio;
+   //-da Server a Client per 1)notificare gli phaseUpdate -> Oggetti serializzati 2)messaggi di servizio;
    //-da Client a Server per contenere le Action in formato Json
 
 

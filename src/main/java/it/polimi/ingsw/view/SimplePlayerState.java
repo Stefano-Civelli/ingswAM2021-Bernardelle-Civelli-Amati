@@ -62,7 +62,7 @@ public class SimplePlayerState {
 
    //----------UPDATE----------
    public void warehouseUpdate(Warehouse.WarehouseUpdate update) {
-      //Warehouse.WarehouseUpdate update = GSON.getGsonBuilder().fromJson(payload, Warehouse.WarehouseUpdate.class);
+      //Warehouse.WarehouseUpdate phaseUpdate = GSON.getGsonBuilder().fromJson(payload, Warehouse.WarehouseUpdate.class);
       ResourceType resource = update.getResourceType();
 
       //normalLevels

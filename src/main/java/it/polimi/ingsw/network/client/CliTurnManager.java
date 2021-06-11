@@ -4,8 +4,6 @@ import it.polimi.ingsw.controller.action.ActionType;
 import it.polimi.ingsw.controller.action.ChooseInitialResourcesAction;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.TurnManager;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.cli.Color;
@@ -144,17 +142,23 @@ public class CliTurnManager implements ClientTurnManagerInterface {
    * set new phase and new currentPlayer
    *
    * @param newState the new Turn State
-   * @return true if the currentPlayer is changed
    */
   @Override
-  public boolean setStateIsPlayerChanged(TurnManager.TurnState newState) {
+  public void setStateIsPlayerChanged(TurnManager.TurnState newState) {
 
     this.currentPhase = newState.getPhase(); //set new phase
 
-    if(!currentPlayer.equals(newState.getPlayer())) {
+    if (!currentPlayer.equals(newState.getPlayer())) {
       this.currentPlayer = newState.getPlayer();
-      return true;
+      if (client.getUsername().equals(this.currentPlayer))
+        view.displayYourTurn(this.currentPlayer);
+      else
+        view.displayPlayerTurn(this.currentPlayer);
     }
-    return false;
+
+    if(client.getUsername().equals(this.currentPlayer)) {
+      this.currentPhasePrint();
+    }
   }
+
 }

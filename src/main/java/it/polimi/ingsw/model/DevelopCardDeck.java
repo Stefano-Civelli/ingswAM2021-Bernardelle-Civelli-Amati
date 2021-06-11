@@ -141,7 +141,7 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
             //if there are no cards to remove simply return
             if (k == cardsCube.length) {
                notifyForEndGame();
-               //dovrebbe fare update di un observer che guarda se il game è finito
+               //dovrebbe fare phaseUpdate di un observer che guarda se il game è finito
                return;
             }
          }

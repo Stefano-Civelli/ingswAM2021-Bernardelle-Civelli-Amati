@@ -489,11 +489,13 @@ public class Cli implements ViewInterface {
 
   private void createInitialDiscardLeaderAction(String line) {
     int firstDiscard = validateIntInput(line, 1, stateViewer.getSimplePlayerState().getNotActiveLeaderCards().size());
+    int id1 = stateViewer.getSimplePlayerState().getNotActiveLeaderCards().get(firstDiscard-1);
     stateViewer.getSimplePlayerState().discardLeader(firstDiscard - 1);
     drawer.displayLeaderHand(stateViewer.getUsername());
     int secondDiscard = validateIntInput(1, stateViewer.getSimplePlayerState().getNotActiveLeaderCards().size());
-    client.forwardAction(new DiscardInitialLeaderAction(stateViewer.getUsername(), firstDiscard-1, secondDiscard-1));
+    int id2 = stateViewer.getSimplePlayerState().getNotActiveLeaderCards().get(secondDiscard-1);
     stateViewer.getSimplePlayerState().discardLeader(secondDiscard - 1);
+    client.forwardAction(new DiscardInitialLeaderAction(stateViewer.getUsername(), id1, id2));
   }
 
   public void displayLeaderHand() {

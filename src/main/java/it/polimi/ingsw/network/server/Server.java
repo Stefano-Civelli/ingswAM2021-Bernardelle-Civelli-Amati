@@ -202,8 +202,8 @@ public class Server {
       //else TODO fare per il local
          //ModelObserver virtualView = new LocalVirtualView(this, loggedPlayers().get(0));
 
-      // problema: al game server turnmanager per fare gli update e a TurnManager serve game
-      // altro problema: mando gli update del modello prima del messaggio startGame
+      // problema: al game server turnmanager per fare gli phaseUpdate e a TurnManager serve game
+      // altro problema: mando gli phaseUpdate del modello prima del messaggio startGame
       try {
          if(singlePlayer)
             game = new SinglePlayer(virtualView);
@@ -232,18 +232,18 @@ public class Server {
 
 
    /**
-    * sends update message only to the current player
+    * sends phaseUpdate message only to the current player
     *
-    * @param message the update message (username can be null)
+    * @param message the phaseUpdate message (username can be null)
     */
    public void serverSingleUpdate(Message message){
       sendToClient(message);
    }
 
    /**
-    * sends broadcast update message
+    * sends broadcast phaseUpdate message
     *
-    * @param message the update message (username can be null)
+    * @param message the phaseUpdate message (username can be null)
     */
    public void serverBroadcastUpdate(Message message){
       boolean setupMessage = message.getMessageType().equals(MessageType.DECK_SETUP) || message.getMessageType().equals(MessageType.MARKET_SETUP);

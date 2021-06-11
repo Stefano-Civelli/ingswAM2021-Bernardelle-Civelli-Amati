@@ -94,8 +94,8 @@ public class Track extends LorenzoTrack implements VaticanReportObserver, Vatica
   }
 
   /**
-   * Method called by update() of VaticanReportObserver interface
-   * once it's called it check if the player is into the active zone that it receives from the update
+   * Method called by phaseUpdate() of VaticanReportObserver interface
+   * once it's called it check if the player is into the active zone that it receives from the phaseUpdate
    * Set the correct value in popeCards array, depending on active and position of the player
    * @param active indicate which is the activeZone i should be in to flip the popeCard related to that zone
    */

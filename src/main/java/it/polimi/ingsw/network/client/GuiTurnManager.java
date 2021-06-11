@@ -1,15 +1,9 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.controller.action.ChooseInitialResourcesAction;
-import it.polimi.ingsw.controller.action.ChooseLeaderOnWhiteMarbleAction;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.TurnManager;
-import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.ViewInterface;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class GuiTurnManager implements ClientTurnManagerInterface{
@@ -20,6 +14,7 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
    private ViewInterface view;
 
    public GuiTurnManager(Client client, ViewInterface view) {
+
       this.currentPhase = PhaseType.SETUP_CHOOSING_RESOURCES;
       this.client = client;
       this.view = view;
@@ -29,6 +24,8 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
    public void currentPhasePrint() {
 
       switch(currentPhase){
+         case INITIAL:
+
          case SETUP_CHOOSING_RESOURCES:
             view.displayMarbleChoice();
 //            if(stateViewer.getPlayerTurnPosition()!=1) {
@@ -73,14 +70,22 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
    }
 
    @Override
-   public boolean setStateIsPlayerChanged(TurnManager.TurnState newState) {
+   public void setStateIsPlayerChanged(TurnManager.TurnState newState) {
       this.currentPhase = newState.getPhase(); //set new phase
 
-      if(!currentPlayer.equals(newState.getPlayer())) {
-         this.currentPlayer = newState.getPlayer();
-         return true;
+
+       if (!currentPlayer.equals(newState.getPlayer())) {
+          this.currentPlayer = newState.getPlayer();
+          if (client.getUsername().equals(this.currentPlayer))
+             view.displayYourTurn(this.currentPlayer);
+          else
+             view.displayPlayerTurn(this.currentPlayer);
+       }
+
+      if(client.getUsername().equals(this.currentPlayer)) {
+         this.currentPhasePrint();
       }
-      return false;
+
    }
 
 
