@@ -122,6 +122,7 @@ public class Cli implements ViewInterface {
   @Override
   public void displayFailedLogin() {
     out.print("Username already taken, Please... ");
+    displayLogin();
   }
 
   @Override
