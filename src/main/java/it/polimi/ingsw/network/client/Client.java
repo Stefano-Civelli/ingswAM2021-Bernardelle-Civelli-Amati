@@ -34,7 +34,7 @@ public class Client implements PhaseChangedObserver {
 
 
   public static void main(String[] args) {
-    boolean isCli = false;
+    boolean isCli = true;
     boolean isLocal = false;
 
 //    if(args.length > 0)
@@ -263,7 +263,6 @@ public class Client implements PhaseChangedObserver {
         break;
       case INVALID_LOGIN_USERNAME:
         view.displayFailedLogin();
-        view.displayLogin();
         break;
       case NOT_BUYABLE:
         System.out.println("sorry mate, sei troppo povero per comprarla. Riprova quando avrai comprato azioni Tesla");

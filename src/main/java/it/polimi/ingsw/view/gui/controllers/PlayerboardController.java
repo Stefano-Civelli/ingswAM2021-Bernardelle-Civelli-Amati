@@ -517,9 +517,11 @@ public class PlayerboardController extends GUIController {
 
     @FXML
     void initialDiscard(MouseEvent event) {
-        System.out.println("ciaocazzo");
-        if(selectedLeaderToDiscard == null)
+        if(selectedLeaderToDiscard == null) {
             this.selectedLeaderToDiscard = (ImageView) event.getSource();
+            this.selectedLeaderToDiscard.setVisible(false);
+            this.selectedLeaderToDiscard.setDisable(true);
+        }
         else {
             Action discardLeaderAction = new DiscardInitialLeaderAction(leaderImageIdMap.get((ImageView) event.getSource()), leaderImageIdMap.get(this.selectedLeaderToDiscard));
             leaderCardVbox.getChildren().remove((ImageView) event.getSource());
