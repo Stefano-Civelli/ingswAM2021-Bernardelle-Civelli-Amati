@@ -248,8 +248,8 @@ public class PlayerboardController extends GUIController {
         this.trackPosition.setVisible(false);
         ImageView image = new ImageView(new Image("images/punchboard/faithTrackCross.png"));
         this.trackPosition = image;
-        image.setFitWidth(20);
-        image.setFitHeight(20);
+        image.setFitWidth(32);
+        image.setFitHeight(31);
 
         if(j==18)
             return;
