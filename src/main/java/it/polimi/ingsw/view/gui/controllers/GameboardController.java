@@ -290,6 +290,16 @@ public class GameboardController extends GUIController {
             pushColumn(index);
     }
 
+    public void updateMarketOtherPlayers(Market.MarketUpdate stateUpdate) {
+        boolean isRow = stateUpdate.getIsRow();
+        int index = stateUpdate.getIndex();
+
+        if (isRow)
+            pushRowOthers(index);
+        else
+            pushColumnOthers(index);
+    }
+
 
 
     private void askFotCardSlot(int row, int column) {
@@ -498,6 +508,26 @@ public class GameboardController extends GUIController {
         tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[0][column]));
         for (int i = 1; i < 3; i++) {
             tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[i][column]));
+            this.marbleGrid[i - 1][column].setFill(this.marbleGrid[i][column].getFill());
+        }
+        this.marbleGrid[2][column].setFill(this.slide.getFill());
+        this.slide.setFill(temp);
+    }
+
+
+
+    private void pushRowOthers(int row) {
+        Color toSlide = (Color) this.marbleGrid[row][0].getFill();
+        for (int j = 1; j < 4; j++) {
+            this.marbleGrid[row][j - 1].setFill(this.marbleGrid[row][j].getFill());
+        }
+        this.marbleGrid[row][3].setFill(this.slide.getFill());
+        this.slide.setFill(toSlide);
+    }
+
+    private void pushColumnOthers(int column) {
+        Color temp = (Color) this.marbleGrid[0][column].getFill();
+        for (int i = 1; i < 3; i++) {
             this.marbleGrid[i - 1][column].setFill(this.marbleGrid[i][column].getFill());
         }
         this.marbleGrid[2][column].setFill(this.slide.getFill());
