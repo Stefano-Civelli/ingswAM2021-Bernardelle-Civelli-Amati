@@ -96,8 +96,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     * @throws InvalidLeaderCardException if the leaderCard is activated or the index is outOfBound
     */
    public void discardLeader(int leaderId) throws InvalidLeaderCardException, LeaderIsActiveException {
-      if(leaderCards.size()>2 || leaderCards.size()<0)
-         throw new InvalidLeaderCardException("You can't remove this card in this moment");
       if(leaderCards.get(getIndexFromId(leaderId)).isActive())
          throw new LeaderIsActiveException();
       leaderCards.remove(getIndexFromId(leaderId));
@@ -180,8 +178,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     * @throws NotEnoughSpaceException if, after have modified the white marble into a resource, there isn't place in the warehouse to place it
     */
    public void addWhiteToWarehouse(int leaderId) throws InvalidLeaderCardException, NotEnoughSpaceException {
-      if (getIndexFromId(leaderId) < 0 || getIndexFromId(leaderId) >= leaderCards.size())
-         throw new InvalidLeaderCardException("The index of the leaderCard u gave me doesn't match the length of my array");
       try {
          tempMarketMarble.get(tempIndexWhiteToAdd).addResource(this, leaderCards.get(getIndexFromId(leaderId)));
       } catch (NotEnoughSpaceException e) {
@@ -288,12 +284,14 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       notifyActivatedLeader(new LeaderUpdate(leaderCardId));
    }
 
-   private int getIndexFromId(int leaderCardId) {
+   private int getIndexFromId(int leaderCardId) throws InvalidLeaderCardException {
       // FIXME ECCEZIONE SE NON ESISTE ID
       int index = -1;
       for(int i=0; i<leaderCards.size(); i++)
          if(leaderCards.get(i).getLeaderId() == leaderCardId)
             index = i;
+      if(index == -1)
+         throw new InvalidLeaderCardException();
       return index;
    }
 

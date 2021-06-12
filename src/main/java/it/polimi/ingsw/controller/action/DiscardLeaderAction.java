@@ -10,21 +10,21 @@ import it.polimi.ingsw.model.modelexceptions.*;
 public class DiscardLeaderAction extends Action {
 // TODO uml
 
-    private Integer leaderCardIndex = null;
+    private Integer leaderCardID = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
     private DiscardLeaderAction() {
         super(ActionType.DISCARD_LEADER);
     }
 
-    public DiscardLeaderAction(int leaderCardIndex) {
+    public DiscardLeaderAction(int leaderCardID) {
         super(ActionType.DISCARD_LEADER);
-        this.leaderCardIndex = leaderCardIndex;
+        this.leaderCardID = leaderCardID;
     }
 
-    public DiscardLeaderAction(String username, int leaderCardIndex) {
+    public DiscardLeaderAction(String username, int leaderCardID) {
         super(ActionType.DISCARD_LEADER, username);
-        this.leaderCardIndex = leaderCardIndex;
+        this.leaderCardID = leaderCardID;
     }
 
     /**
@@ -50,7 +50,7 @@ public class DiscardLeaderAction extends Action {
         if(!this.isActionAllowed(gameState))
             throw new NotAllowedActionException();
         gameState.getGame().getPlayerBoard(super.getUsername()).enterFinalTurnPhase();
-        gameState.getGame().getPlayerBoard(super.getUsername()).discardLeader(this.leaderCardIndex);
+        gameState.getGame().getPlayerBoard(super.getUsername()).discardLeader(this.leaderCardID);
         if(gameState.getCurrentPhase() == PhaseType.INITIAL)
             return PhaseType.INITIAL;
         return PhaseType.FINAL;
@@ -61,7 +61,7 @@ public class DiscardLeaderAction extends Action {
     }
 
     private boolean isActionValid() {
-        return super.getUsername() != null && this.leaderCardIndex != null;
+        return super.getUsername() != null && this.leaderCardID != null;
     }
 
 }

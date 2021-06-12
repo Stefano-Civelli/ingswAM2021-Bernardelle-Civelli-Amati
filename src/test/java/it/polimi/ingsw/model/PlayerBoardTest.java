@@ -303,7 +303,7 @@ class PlayerBoardTest {
     PlayerBoard playerBoard = initializer();
     List<LeaderCard> support = new ArrayList<>(playerBoard.getLeaderCards());
 
-    playerBoard.discardLeaderAtBegin(2, 0);
+    playerBoard.discardLeaderAtBegin(support.get(2).getLeaderId(), support.get(0).getLeaderId());
     assertFalse(playerBoard.getLeaderCards().contains(support.get(2)));
     assertFalse(playerBoard.getLeaderCards().contains(support.get(0)));
     assertEquals(playerBoard.getLeaderCards().size(), 2);
@@ -315,7 +315,7 @@ class PlayerBoardTest {
     PlayerBoard playerBoard = initializer();
     List<LeaderCard> support = new ArrayList<>(playerBoard.getLeaderCards());
 
-    playerBoard.discardLeaderAtBegin(2, 0);
+    playerBoard.discardLeaderAtBegin(support.get(2).getLeaderId(), support.get(0).getLeaderId());
 
     playerBoard.getLeaderCards().get(0).setActive(playerBoard);
     assertThrows(LeaderIsActiveException.class, () -> playerBoard.discardLeader(playerBoard.getLeaderCards().get(0).getLeaderId()));

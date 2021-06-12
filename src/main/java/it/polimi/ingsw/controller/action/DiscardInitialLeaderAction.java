@@ -11,24 +11,24 @@ import it.polimi.ingsw.model.modelexceptions.LeaderIsActiveException;
 
 public class DiscardInitialLeaderAction extends Action {
 
-    private Integer leaderCardIndex1 = null;
-    private Integer leaderCardIndex2 = null;
+    private Integer leaderCardID1 = null;
+    private Integer leaderCardID2 = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
     private DiscardInitialLeaderAction() {
         super(ActionType.SETUP_DISCARD_LEADERS);
     }
 
-    public DiscardInitialLeaderAction(int leaderCardIndex1, int leaderCardIndex2) {
+    public DiscardInitialLeaderAction(int leaderCardID1, int leaderCardID2) {
         super(ActionType.SETUP_DISCARD_LEADERS);
-        this.leaderCardIndex1 = leaderCardIndex1;
-        this.leaderCardIndex2 = leaderCardIndex2;
+        this.leaderCardID1 = leaderCardID1;
+        this.leaderCardID2 = leaderCardID2;
     }
 
-    public DiscardInitialLeaderAction(String username, int leaderCardIndex1, int leaderCardIndex2) {
+    public DiscardInitialLeaderAction(String username, int leaderCardID1, int leaderCardID2) {
         super(ActionType.SETUP_DISCARD_LEADERS, username);
-        this.leaderCardIndex1 = leaderCardIndex1;
-        this.leaderCardIndex2 = leaderCardIndex2;
+        this.leaderCardID1 = leaderCardID1;
+        this.leaderCardID2 = leaderCardID2;
     }
 
     /**
@@ -53,7 +53,7 @@ public class DiscardInitialLeaderAction extends Action {
             throw new WrongPlayerException();
         if(!this.isActionAllowed(gameState))
             throw new NotAllowedActionException();
-        gameState.getGame().getPlayerBoard(super.getUsername()).discardLeaderAtBegin(this.leaderCardIndex1, this.leaderCardIndex2);
+        gameState.getGame().getPlayerBoard(super.getUsername()).discardLeaderAtBegin(this.leaderCardID1, this.leaderCardID2);
         return PhaseType.END_SETUP;
     }
 
@@ -62,7 +62,7 @@ public class DiscardInitialLeaderAction extends Action {
     }
 
     private boolean isActionValid() {
-        return super.getUsername() != null && this.leaderCardIndex1 != null && this.leaderCardIndex2 != null;
+        return super.getUsername() != null && this.leaderCardID1 != null && this.leaderCardID2 != null;
     }
 
 }

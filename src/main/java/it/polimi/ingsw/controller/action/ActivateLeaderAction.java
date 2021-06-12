@@ -5,26 +5,25 @@ import it.polimi.ingsw.controller.controllerexception.NotAllowedActionException;
 import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
-import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.modelexceptions.*;
 
 public class ActivateLeaderAction extends Action {
 
-    private Integer leaderCardIndex = null;
+    private Integer leaderCardID = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
     private ActivateLeaderAction() {
         super(ActionType.ACTIVATE_LEADER);
     }
 
-    public ActivateLeaderAction(int leaderCardIndex) {
+    public ActivateLeaderAction(int leaderCardID) {
         super(ActionType.ACTIVATE_LEADER);
-        this.leaderCardIndex = leaderCardIndex;
+        this.leaderCardID = leaderCardID;
     }
 
-    public ActivateLeaderAction(String username, int leaderCardIndex) {
+    public ActivateLeaderAction(String username, int leaderCardID) {
         super(ActionType.ACTIVATE_LEADER, username);
-        this.leaderCardIndex = leaderCardIndex;
+        this.leaderCardID = leaderCardID;
     }
 
     /**
@@ -52,7 +51,7 @@ public class ActivateLeaderAction extends Action {
         if(gameState.getCurrentPhase() == PhaseType.PRODUCING)
             gameState.getGame().getPlayerBoard(super.getUsername()).enterFinalTurnPhase();
 
-        gameState.getGame().getPlayerBoard(super.getUsername()).setActiveLeadercard(this.leaderCardIndex);
+        gameState.getGame().getPlayerBoard(super.getUsername()).setActiveLeadercard(this.leaderCardID);
 
         return gameState.getCurrentPhase() == PhaseType.INITIAL ? PhaseType.INITIAL : PhaseType.FINAL;
     }
@@ -62,7 +61,7 @@ public class ActivateLeaderAction extends Action {
     }
 
     private boolean isActionValid() {
-        return super.getUsername() != null && this.leaderCardIndex != null;
+        return super.getUsername() != null && this.leaderCardID != null;
     }
 
 }
