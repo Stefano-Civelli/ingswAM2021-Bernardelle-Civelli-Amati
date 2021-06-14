@@ -4,7 +4,6 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.action.*;
 
 import it.polimi.ingsw.model.DevelopCardDeck;
-import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.network.client.Client;
@@ -374,7 +373,7 @@ public class Cli implements ViewInterface {
                 break;
               case SHOPPING_LEADER:
                 int index = validateIntInput(line, 1, 2);
-                int leaderId = stateViewer.getSimplePlayerState().getActiveLeaders().get(index-1);
+                int leaderId = stateViewer.getSimplePlayerState().getActiveLeaderCards().get(index-1);
                 client.forwardAction(new ChooseLeaderOnWhiteMarbleAction(leaderId));
                 break;
               default:
@@ -420,7 +419,7 @@ public class Cli implements ViewInterface {
         client.forwardAction(produceAction);
         break;
       case "L": case "l"://leaderProduce
-
+        //FIXME togliere il case?
         break;
       case "A": case "a"://activate leader card
         Action activateLeaderAction = createActivateLeaderAction();
@@ -579,7 +578,8 @@ public class Cli implements ViewInterface {
       in.nextLine();
       String line = in.nextLine();
       output = parsStringToResource(line);
-      return new LeaderProductionAction(index - 4, output);
+      int id = stateViewer.getSimplePlayerState().getActiveLeaderCards().get(index - 4);
+      return new LeaderProductionAction(id, output);
     }
   }
 

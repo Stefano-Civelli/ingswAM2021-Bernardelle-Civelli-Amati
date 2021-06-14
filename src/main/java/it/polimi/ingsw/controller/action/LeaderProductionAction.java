@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 public class LeaderProductionAction extends Action {
 
-    private Integer leaderCardIndex = null;
+    private Integer leaderId = null;
     private ResourceType product = null;
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
@@ -18,15 +18,15 @@ public class LeaderProductionAction extends Action {
         super(ActionType.LEADER_PRODUCE);
     }
 
-    public LeaderProductionAction(int leaderCardIndex, ResourceType product) {
+    public LeaderProductionAction(int leaderId, ResourceType product) {
         super(ActionType.LEADER_PRODUCE);
-        this.leaderCardIndex = leaderCardIndex;
+        this.leaderId = leaderId;
         this.product = product;
     }
 
-    public LeaderProductionAction(String username, int leaderCardIndex, ResourceType product) {
+    public LeaderProductionAction(String username, int leaderId, ResourceType product) {
         super(ActionType.LEADER_PRODUCE, username);
-        this.leaderCardIndex = leaderCardIndex;
+        this.leaderId = leaderId;
         this.product = product;
     }
 
@@ -47,7 +47,7 @@ public class LeaderProductionAction extends Action {
     public PhaseType performAction(IGameState gameState)
             throws InvalidActionException, NotAllowedActionException, WrongPlayerException,
             InvalidUsernameException, AlreadyProducedException,
-            NotEnoughResourcesException, AbuseOfFaithException {
+            NotEnoughResourcesException, AbuseOfFaithException, InvalidLeaderCardException {
         if(!this.isActionValid())
             throw new InvalidActionException("This Action is not correctly initialized.");
         if(!super.isCurrentPlayer(gameState))
@@ -55,7 +55,7 @@ public class LeaderProductionAction extends Action {
         if(!this.isActionAllowed(gameState))
             throw new NotAllowedActionException();
         try {
-            gameState.getGame().getPlayerBoard(super.getUsername()).leaderProduce(this.leaderCardIndex, this.product);
+            gameState.getGame().getPlayerBoard(super.getUsername()).leaderProduce(this.leaderId, this.product);
         } catch (NeedAResourceToAddException e) {
             // This code should never be executed
             // I have already checked that all the fields are not null
@@ -69,7 +69,7 @@ public class LeaderProductionAction extends Action {
     }
 
     private boolean isActionValid() {
-        return super.getUsername() != null && this.leaderCardIndex != null&& this.product != null;
+        return super.getUsername() != null && this.leaderId != null && this.product != null;
     }
 
 }

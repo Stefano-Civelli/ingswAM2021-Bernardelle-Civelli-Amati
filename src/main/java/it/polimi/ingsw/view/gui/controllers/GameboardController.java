@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,7 +22,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 import java.util.*;
@@ -66,7 +69,7 @@ public class GameboardController extends GUIController {
     private Circle slide;
     private Circle[][] marbleGrid;
     private List<Integer>[][] developCardDeck;
-    private final ImageView[][] imagesDevelopCardDeck = new ImageView[N_ROW][N_COLUMN];
+    private final Rectangle[][] imagesDevelopCardDeck = new Rectangle[N_ROW][N_COLUMN];
     private final List<Parent> playerboardList = new ArrayList<>();
     private final List<Button> otherPlayerboardButtons = new ArrayList<>();
     private int selectedCardRow;
@@ -103,9 +106,7 @@ public class GameboardController extends GUIController {
             for (int j = 0; j < developCardDeck[i].length; j++) {
                 try {
                     url = "images/front/" + DevelopCardConstructor.getDevelopCardFromId(developCardDeck[i][j].get(developCardDeck[i][j].size() - 1)).getImage();
-                    imagesDevelopCardDeck[i][j] = new ImageView(new Image(url));
-                    imagesDevelopCardDeck[i][j].setFitHeight(138);
-                    imagesDevelopCardDeck[i][j].setFitWidth(90);
+                    imagesDevelopCardDeck[i][j] = createRectangleFromImageUrl(url, 90, 138);
                     imagesDevelopCardDeck[i][j].setOnMouseEntered((MouseEvent event) -> mouseHover(event));
                     imagesDevelopCardDeck[i][j].setOnMouseExited((MouseEvent event) -> mouseHoverReset(event));
                     assignMethodToCard(imagesDevelopCardDeck[i][j], i, j);
@@ -117,7 +118,18 @@ public class GameboardController extends GUIController {
         }
     }
 
-    private void assignMethodToCard(ImageView image, int i, int j) {
+    private Rectangle createRectangleFromImageUrl(String url, int width, int height){
+        Rectangle rectangle = new Rectangle(0, 0, 90, 138);
+        rectangle.setArcWidth(30.0);   // Corner radius
+        rectangle.setArcHeight(30.0);
+        ImagePattern pattern = new ImagePattern(
+                new Image(url, 90, 138, false, false) // Resizing
+        );
+        rectangle.setFill(pattern);
+        return rectangle;
+    }
+
+    private void assignMethodToCard(Rectangle image, int i, int j) {
         switch (i) {
             case 0:
                 switch (j) {
@@ -185,7 +197,7 @@ public class GameboardController extends GUIController {
             } catch (InvalidCardException e) {
                 e.printStackTrace();
             }
-            imagesDevelopCardDeck[row][column].setImage(new Image(url));
+            imagesDevelopCardDeck[row][column].setFill(new ImagePattern(new Image(url, 90, 138, false, false)));
         } else {
             imagesDevelopCardDeck[row][column].setVisible(false);
         }
@@ -694,7 +706,6 @@ public class GameboardController extends GUIController {
         this.endTurnButton.setDisable(true);
         turnPhaseLable.setText("Choose 2 leadercards to DISCARD");
         turnPhaseLable.setVisible(true);
-
     }
 
     public void enableInitialAction() {
@@ -743,6 +754,7 @@ public class GameboardController extends GUIController {
         Node node = (Node) event.getSource();
         node.setScaleX(1.05);
         node.setScaleY(1.05);
+        node.setEffect(new DropShadow(10, Color.WHITE));
     }
 
     @FXML
@@ -750,6 +762,7 @@ public class GameboardController extends GUIController {
         Node node = (Node) event.getSource();
         node.setScaleX(1.0);
         node.setScaleY(1.0);
+        node.setEffect(new DropShadow(0, Color.WHITE));
     }
 
 
@@ -759,6 +772,7 @@ public class GameboardController extends GUIController {
         image.setImage(new Image("images/MaterialArrowFilledHover.png"));
         image.setScaleX(1.1);
         image.setScaleY(1.1);
+        image.setEffect(new DropShadow(10, Color.WHITE));
     }
 
     @FXML
@@ -767,5 +781,6 @@ public class GameboardController extends GUIController {
         image.setImage(new Image("images/MaterialArrowFilled.png"));
         image.setScaleX(1.0);
         image.setScaleY(1.0);
+        image.setEffect(new DropShadow(0, Color.WHITE));
     }
 }

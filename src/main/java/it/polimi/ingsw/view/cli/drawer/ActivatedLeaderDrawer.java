@@ -40,7 +40,7 @@ public class ActivatedLeaderDrawer implements Buildable, Fillable{
 
   @Override
   public void fill(String[][] fillMe, SimplePlayerState playerState) {
-    List<Integer> leaderCardsID = playerState.getActiveLeaders();
+    List<Integer> leaderCardsID = playerState.getActiveLeaderCards();
     int a=2, b=2;
 
     for(Integer id : leaderCardsID) {

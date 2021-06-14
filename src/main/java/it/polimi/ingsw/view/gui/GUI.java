@@ -278,6 +278,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void chestUpdate(String username, Chest.ChestUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater( () -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.getPlayerBoardController(username).updateChest(stateUpdate);
+      });
 
       Platform.runLater(() -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
@@ -299,7 +303,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void leaderUpdate(String username, PlayerBoard.LeaderUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      //TODO fare !!!!!!!!!!
+      Platform.runLater(() -> {
+         PlayerboardController controller = ((GameboardController) this.sceneController.getCurrentController()).getPlayerBoardController(username);
+         controller.updateActivatedLeader(stateUpdate);
+      });
    }
 
    @Override
@@ -358,7 +365,6 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       Platform.runLater( () -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
          controller.getPlayerBoardController(username).updateVatican(stateUpdate);
-         //controller.updateVatican(username, stateUpdate);
       });
    }
 
@@ -401,6 +407,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void discardedLeaderUpdate(String username, PlayerBoard.LeaderUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> {
+         PlayerboardController controller = ((GameboardController) this.sceneController.getCurrentController()).getPlayerBoardController(username);
+         controller.updateDiscardedLeader(stateUpdate);
+      });
    }
 
    @Override

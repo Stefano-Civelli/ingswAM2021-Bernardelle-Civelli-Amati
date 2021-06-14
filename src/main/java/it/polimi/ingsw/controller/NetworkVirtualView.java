@@ -30,7 +30,7 @@ public class NetworkVirtualView implements ModelObserver {
    }
 
    @Override
-   public void leaderUpdate(PlayerBoard.LeaderUpdate stateUpdate) {
+   public void leaderUpdate(PlayerBoard.LeaderUpdate stateUpdate) { //when a leadercard gets activated
       server.serverBroadcastUpdate(new Message(MessageType.ACTIVATED_LEADERCARD_UPDATE, stateUpdate));
    }
 

@@ -136,7 +136,7 @@ public class LeaderCard {
     * @throws AbuseOfFaithException if you pass {@code ResourceType.FAITH} as the resource you want to add
     * @throws NotEnoughResourcesException if the player doesn't have the resources to activate the production
     */
-   public void getProduct(ResourceType resourceToAdd, InterfacePlayerBoard playerBoard) throws AbuseOfFaithException, NotEnoughResourcesException, NeedAResourceToAddException {
+   public void leaderProduce(ResourceType resourceToAdd, InterfacePlayerBoard playerBoard) throws AbuseOfFaithException, NotEnoughResourcesException, NeedAResourceToAddException {
       if(this.isActive())
          cardBehaviour.produce(resourceToAdd, playerBoard);
    }

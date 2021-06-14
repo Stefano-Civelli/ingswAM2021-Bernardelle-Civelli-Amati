@@ -191,7 +191,7 @@ public class SimplePlayerState {
     *
     * @return active leader cards present in this simplemodel
     */
-   public List<Integer> getActiveLeaders(){
+   public List<Integer> getActiveLeaderCards(){
       return new ArrayList<>(this.activeLeaderCards);
    }
 

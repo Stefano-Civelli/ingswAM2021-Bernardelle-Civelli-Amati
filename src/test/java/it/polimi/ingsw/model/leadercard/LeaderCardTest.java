@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.*;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -128,7 +127,7 @@ class LeaderCardTest {
 
       card1.setActive(playerBoard1);
       playerBoard1.getWarehouse().addResource(ResourceType.GOLD);
-      card1.getProduct(ResourceType.SERVANT, playerBoard1);
+      card1.leaderProduce(ResourceType.SERVANT, playerBoard1);
       assertEquals(playerBoard1.getTrack().calculateTrackScore(),1);
       playerBoard1.getChest().endOfTurnMapsMerge();
       assertEquals(playerBoard1.getChest().getNumberOf(ResourceType.SERVANT),1);
@@ -144,7 +143,7 @@ class LeaderCardTest {
               "Mario", new ArrayList<>(List.of(card1)), null, null);
 
       card1.setActive(playerBoard1);
-      assertThrows(NotEnoughResourcesException.class, () -> card1.getProduct(ResourceType.SERVANT, playerBoard1));
+      assertThrows(NotEnoughResourcesException.class, () -> card1.leaderProduce(ResourceType.SERVANT, playerBoard1));
 
 
    }
@@ -158,7 +157,7 @@ class LeaderCardTest {
 
       card1.setActive(playerBoard1);
       playerBoard1.getWarehouse().addResource(ResourceType.SHIELD);
-      assertThrows(AbuseOfFaithException.class, () -> card1.getProduct(ResourceType.FAITH,playerBoard1));
+      assertThrows(AbuseOfFaithException.class, () -> card1.leaderProduce(ResourceType.FAITH,playerBoard1));
 
    }
 
@@ -207,7 +206,7 @@ class LeaderCardTest {
       mapToDiscount.put(ResourceType.SHIELD,1);
       HashMap<ResourceType, Integer> mapToDiscountClone = new HashMap<>(mapToDiscount);
       card1.addStorageSpace(playerBoard1);
-      card1.getProduct(ResourceType.SERVANT,playerBoard1);
+      card1.leaderProduce(ResourceType.SERVANT,playerBoard1);
       card1.applyDiscount(mapToDiscount);
 
       assertEquals(mapToDiscount, mapToDiscountClone);

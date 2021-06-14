@@ -257,19 +257,19 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    /**
     * Activate production on a leader card
     *
-    * @param leaderIndex index of the leader on which the production must be activated
+    * @param leaderId index of the leader on which the production must be activated
     * @param product resource that the player wants to gain
     * @throws AbuseOfFaithException if one of the 3 resources is faith, he can't throw faith and he can't gain faith
     * @throws NotEnoughResourcesException if the player has not the specified required resources
     * @throws AlreadyProducedException if this production has already been activated during this turn
     * @throws NeedAResourceToAddException if the specified product parameter is null
     */
-   public void leaderProduce(int leaderIndex, ResourceType product) throws NotEnoughResourcesException,
-           AbuseOfFaithException, NeedAResourceToAddException, AlreadyProducedException {
-      if(this.alreadyProduced[cardSlots.getNumberOfCardSlots() + leaderIndex + 1])
+   public void leaderProduce(int leaderId, ResourceType product) throws NotEnoughResourcesException,
+           AbuseOfFaithException, NeedAResourceToAddException, AlreadyProducedException, InvalidLeaderCardException {
+      if(this.alreadyProduced[cardSlots.getNumberOfCardSlots() + getIndexFromId(leaderId) + 1])
          throw new AlreadyProducedException();
-      this.leaderCards.get(leaderIndex).getProduct(product, this);
-      this.alreadyProduced[cardSlots.getNumberOfCardSlots() + leaderIndex + 1] = true;
+      this.leaderCards.get(getIndexFromId(leaderId)).leaderProduce(product, this);
+      this.alreadyProduced[cardSlots.getNumberOfCardSlots() + getIndexFromId(leaderId) + 1] = true;
    }
 
    /**

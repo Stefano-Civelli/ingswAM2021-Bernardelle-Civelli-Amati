@@ -111,27 +111,22 @@
                         </ImageView>
                      </children>
                   </GridPane>
-                  <Button layoutX="688.0" layoutY="122.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="51.0" text="move">
-                     <font>
-                        <Font size="7.0" />
-                     </font>
-                  </Button>
-                  <Label fx:id="usernameLabel" layoutX="4.0" layoutY="1.0" text="Talla">
+                  <Label fx:id="usernameLabel" layoutX="4.0" layoutY="1.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" text="Talla">
                      <font>
                         <Font name="DejaVu Sans Bold" size="21.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="popeCard1" fitHeight="51.0" fitWidth="60.0" layoutX="184.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="popeCard1" fitHeight="51.0" fitWidth="60.0" layoutX="184.0" layoutY="81.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/punchboard/quadrato giallo.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="popeCard2" fitHeight="51.0" fitWidth="60.0" layoutX="367.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="popeCard2" fitHeight="51.0" fitWidth="60.0" layoutX="367.0" layoutY="41.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/punchboard/quadrato arancione.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="popeCard3" fitHeight="51.0" fitWidth="60.0" layoutX="586.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="popeCard3" fitHeight="51.0" fitWidth="60.0" layoutX="586.0" layoutY="81.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/punchboard/quadrato rosso.png" />
                      </image>
@@ -178,22 +173,22 @@
                   </VBox>
                   <VBox fx:id="baseProdChoice" alignment="BOTTOM_CENTER" layoutX="219.0" layoutY="233.0" prefHeight="72.0" prefWidth="30.0" spacing="5.0">
                      <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#chooseGold" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#chooseGold" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchboard/coin.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#chooseShield" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#chooseShield" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchboard/shield.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#chooseServant" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#chooseServant" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchboard/servant.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#chooseStone" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#chooseStone" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchboard/stone.png" />
                            </image>

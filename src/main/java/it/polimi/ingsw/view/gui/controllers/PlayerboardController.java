@@ -1,11 +1,12 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
+import it.polimi.ingsw.model.modelexceptions.NeedAResourceToAddException;
+import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 import it.polimi.ingsw.model.track.Track;
-import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
@@ -14,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,9 +23,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
+import javafx.scene.paint.Color;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +36,7 @@ public class PlayerboardController extends GUIController {
     private int i=2;
     private int j=0;
     private Map<ImageView, Integer> leaderImageIdMap = new HashMap<>();
-    private ImageView selectedLeader;
+    private ImageView selectedLeader = null;
     private ImageView selectedLeaderToDiscard;
     private ResourceType firstToConsume = null;
     private ResourceType secondToConsume = null;
@@ -45,6 +46,7 @@ public class PlayerboardController extends GUIController {
                                                             ResourceType.STONE, "/images/punchboard/stone.png",
                                                             ResourceType.SERVANT, "/images/punchboard/servant.png",
                                                             ResourceType.SHIELD, "/images/punchboard/shield.png");
+    private boolean forLeaderProd = false;
 
     @FXML
     private ImageView leader0_ImageView;
@@ -279,13 +281,13 @@ public class PlayerboardController extends GUIController {
         if(stateUpdate.isActive())
             switch (zone) {
                 case 1:
-                    popeCard1 = new ImageView(new Image("images/punchboard/coin.png"));
+                    popeCard1.setImage(new Image("images/punchboard/pope_favor1_front.png"));
                     break;
                 case 2:
-                    popeCard2 = new ImageView(new Image("images/punchboard/shield.png"));
+                    popeCard2.setImage(new Image("images/punchboard/pope_favor2_front.png"));
                     break;
                 case 3:
-                    popeCard3 = new ImageView(new Image("images/punchboard/stone.png"));
+                    popeCard3.setImage(new Image("images/punchboard/pope_favor3_front.png"));
                     break;
             }
     }
@@ -410,22 +412,35 @@ public class PlayerboardController extends GUIController {
 
     @FXML
     void chooseGold(MouseEvent event) {
-        createBaseProduction(ResourceType.GOLD);
+        if(!forLeaderProd)
+            createBaseProduction(ResourceType.GOLD);
+        else
+            createLeaderProductionAction(ResourceType.GOLD);
+
     }
 
     @FXML
     void chooseServant(MouseEvent event) {
-        createBaseProduction(ResourceType.SERVANT);
+        if(!forLeaderProd)
+            createBaseProduction(ResourceType.SERVANT);
+        else
+            createLeaderProductionAction(ResourceType.GOLD);
     }
 
     @FXML
     void chooseShield(MouseEvent event) {
-        createBaseProduction(ResourceType.SHIELD);
+        if(!forLeaderProd)
+            createBaseProduction(ResourceType.SHIELD);
+        else
+            createLeaderProductionAction(ResourceType.GOLD);
     }
 
     @FXML
     void chooseStone(MouseEvent event) {
-        createBaseProduction(ResourceType.STONE);
+        if(!forLeaderProd)
+            createBaseProduction(ResourceType.STONE);
+        else
+            createLeaderProductionAction(ResourceType.GOLD);
     }
 
     private void createBaseProduction(ResourceType r) {
@@ -513,7 +528,7 @@ public class PlayerboardController extends GUIController {
     }
 
     private void updateWarehouseVisuals(){
-        for(ImageView i : guiStorage[0]){
+        for(ImageView i : guiStorage[2]){
             i.setFitHeight(30);
             i.setFitWidth(30);
             warehouseLevel2Hbox.getChildren().add(i);
@@ -523,7 +538,7 @@ public class PlayerboardController extends GUIController {
             i.setFitWidth(30);
             warehouseLevel1Hbox.getChildren().add(i);
         }
-        for(ImageView i : guiStorage[2]){
+        for(ImageView i : guiStorage[0]){
             i.setFitHeight(30);
             i.setFitWidth(30);
             warehouseLevel0Hbox.getChildren().add(i);
@@ -544,14 +559,6 @@ public class PlayerboardController extends GUIController {
             client.forwardAction(discardLeaderAction);
 
             this.selectedLeaderToDiscard = null;
-//            List<ImageView> cardList = new ArrayList<>(List.of(leader0_ImageView, leader1_ImageView, leader2_ImageView, leader3_ImageView));
-//            //List<ImageView> cardListClone = List.of(leader0_ImageView, leader1_ImageView, leader2_ImageView, leader3_ImageView);
-//            for(ImageView i : cardList){ //FIXME questa parte non va
-//                if(i.equals(this.selectedLeaderToDiscard) || i.equals((ImageView) event.getSource()))
-//                    cardList.remove(i);
-//            }
-//            leader0_ImageView = cardList.get(0);
-//            leader1_ImageView = cardList.get(1);
 
             leader0_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
             leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
@@ -591,12 +598,55 @@ public class PlayerboardController extends GUIController {
         this.productionSlot3Button.setVisible(false);
     }
 
+    public void updateDiscardedLeader(PlayerBoard.LeaderUpdate stateUpdate){
+        int leaderId = stateUpdate.getCardId();
+        for(Map.Entry<ImageView, Integer> p : leaderImageIdMap.entrySet())
+            if(p.getValue() == leaderId)
+                leaderCardVbox.getChildren().remove(p.getKey());
+    }
+
+    public void updateActivatedLeader(PlayerBoard.LeaderUpdate stateUpdate){
+        int leaderId = stateUpdate.getCardId();
+        for(Map.Entry<ImageView, Integer> p : leaderImageIdMap.entrySet()) {
+            if (p.getValue() == leaderId) {
+                p.getKey().setOnMouseClicked(null);
+                //p.getKey(). //TODO settare qualche proprietà per far vedere visivamente che è attiva
+
+                try {
+                    if (LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement() != null){
+                        p.getKey().setOnMouseClicked((MouseEvent event1) -> activateLeaderProduction(event1));
+                    }
+                } catch (InvalidCardException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @FXML
+    void activateLeaderProduction(MouseEvent event) {
+        //TODO nella lable dire "select the resource to produce ??
+        this.selectedLeader = (ImageView) event.getSource();
+        this.baseProdChoice.setVisible(true);
+        this.forLeaderProd = true;
+
+    }
+
+    private void createLeaderProductionAction(ResourceType r){
+        Action leaderProdAction = new LeaderProductionAction(leaderImageIdMap.get(this.selectedLeader),r);
+        this.selectedLeader = null;
+        client.forwardAction(leaderProdAction);
+        this.baseProdChoice.setVisible(false);
+        this.forLeaderProd = false;
+    }
+
     // Cosmetics ----------------------------------------------------------------
     @FXML
     void mouseHover(MouseEvent event) {
         Node node = (Node) event.getSource();
         node.setScaleX(1.05);
         node.setScaleY(1.05);
+        node.setEffect(new DropShadow(10, Color.WHITE));
     }
 
     @FXML
@@ -604,5 +654,8 @@ public class PlayerboardController extends GUIController {
         Node node = (Node) event.getSource();
         node.setScaleX(1.0);
         node.setScaleY(1.0);
+        node.setEffect(new DropShadow(0, Color.WHITE));
     }
+
+
 }

@@ -34,7 +34,7 @@ public class Client implements PhaseChangedObserver {
 
 
   public static void main(String[] args) {
-    boolean isCli = false;
+    boolean isCli = true;
     boolean isLocal = false;
 
 //    if(args.length > 0)
