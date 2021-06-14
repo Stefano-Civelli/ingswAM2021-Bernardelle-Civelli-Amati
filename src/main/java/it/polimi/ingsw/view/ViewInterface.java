@@ -37,4 +37,11 @@ public interface ViewInterface extends LorenzoViewInterface {
   public void displayFinalPhase();
   public void displayProducingPhase();
   public void displayShoppingPhase();
+  public void displayNotBuyable();
+  public void displayInvalidLeadercard();
+  public void displayCannotDiscardActiveLeader();
+  public void displayNotActivatableProduction();
+  public void displayAlreadyProduced();
+  public void displayNotEnoughResources();
+  public void displayInvalidCardPlacement();
 }

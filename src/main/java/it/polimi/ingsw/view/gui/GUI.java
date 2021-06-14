@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.client.GuiTurnManager;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.ClientModelUpdaterInterface;
+import it.polimi.ingsw.view.ClientStrings;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.gui.controllers.ConnectController;
 import it.polimi.ingsw.view.gui.controllers.GameboardController;
@@ -248,6 +249,62 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       Platform.runLater(() -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
          controller.enableShoppingAction();
+      });
+   }
+
+   @Override
+   public void displayNotBuyable() {
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.setErrorLable(ClientStrings.NOT_BUYABLE);
+      });
+   }
+
+   @Override
+   public void displayInvalidLeadercard() {
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.setErrorLable(ClientStrings.INVALID_LEADERCARD);
+      });
+   }
+
+   @Override
+   public void displayCannotDiscardActiveLeader() {
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.setErrorLable(ClientStrings.CANNOT_DISCARD_ACTIVE_LEADER);
+      });
+   }
+
+   @Override
+   public void displayNotActivatableProduction() {
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.setErrorLable(ClientStrings.NOT_ACTIVATABLE_PRODUCTION);
+      });
+   }
+
+   @Override
+   public void displayAlreadyProduced() {
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.setErrorLable(ClientStrings.ALREADY_PRODUCED);
+      });
+   }
+
+   @Override
+   public void displayNotEnoughResources() {
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.setErrorLable(ClientStrings.NOT_ENOUGH_RESOURCES);
+      });
+   }
+
+   @Override
+   public void displayInvalidCardPlacement() {
+      Platform.runLater(() -> {
+         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+         controller.setErrorLable(ClientStrings.INVALID_CARD_PLACEMENT);
       });
    }
 

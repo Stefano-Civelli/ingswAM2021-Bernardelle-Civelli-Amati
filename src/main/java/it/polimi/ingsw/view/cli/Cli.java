@@ -15,6 +15,7 @@ import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.ClientStateViewer;
+import it.polimi.ingsw.view.ClientStrings;
 import it.polimi.ingsw.view.ViewInterface;
 
 import java.io.*;
@@ -286,6 +287,44 @@ public class Cli implements ViewInterface {
   @Override
   public void displayShoppingPhase() {
     return;
+  }
+
+  @Override
+  public void displayNotBuyable() {
+    System.out.println(ClientStrings.NOT_BUYABLE);
+  }
+
+  @Override
+  public void displayInvalidLeadercard() {
+    System.out.println(ClientStrings.INVALID_LEADERCARD);
+  }
+
+  @Override
+  public void displayCannotDiscardActiveLeader() {
+    System.out.println(ClientStrings.CANNOT_DISCARD_ACTIVE_LEADER);
+  }
+
+  @Override
+  public void displayNotActivatableProduction() {
+    System.out.println(ClientStrings.NOT_ACTIVATABLE_PRODUCTION);
+  }
+
+  @Override
+  public void displayAlreadyProduced() {
+    System.out.println(ClientStrings.ALREADY_PRODUCED);
+
+  }
+
+  @Override
+  public void displayNotEnoughResources() {
+    System.out.println(ClientStrings.NOT_ENOUGH_RESOURCES);
+
+  }
+
+  @Override
+  public void displayInvalidCardPlacement() {
+    System.out.println(ClientStrings.INVALID_CARD_PLACEMENT);
+
   }
 
   @Override

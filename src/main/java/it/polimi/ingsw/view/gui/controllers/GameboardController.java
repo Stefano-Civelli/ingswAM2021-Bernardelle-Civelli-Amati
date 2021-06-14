@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.gui.SceneController;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.*;
@@ -64,6 +66,8 @@ public class GameboardController extends GUIController {
     @FXML
     private Label turnPhaseLable;
     @FXML
+    private Label errorLable;
+    @FXML
     private GridPane choseResourcesGridPane;
 
     private Circle slide;
@@ -95,6 +99,7 @@ public class GameboardController extends GUIController {
         endTurnButton.setDisable(true);
         turnPhaseLable.setVisible(false);
         choseResourcesGridPane.setVisible(false);
+        errorLable.setVisible(false);
         // TODO caricare fxml market e develop card deck
     }
 
@@ -747,6 +752,16 @@ public class GameboardController extends GUIController {
         this.endTurnButton.setDisable(true);
         getPlayerBoardController(this.client.getUsername()).disableLeader();
     }
+
+    public void setErrorLable(String lableText){
+        errorLable.setText("ERROR: " + lableText);
+        errorLable.setVisible(true);
+
+        PauseTransition visiblePause = new PauseTransition( Duration.seconds(4) );
+        visiblePause.setOnFinished( event -> errorLable.setVisible(false) );
+        visiblePause.play();
+    }
+
 
     // Cosmetics ----------------------------------------------------------------
     @FXML

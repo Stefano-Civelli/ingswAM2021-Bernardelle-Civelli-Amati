@@ -265,32 +265,33 @@ public class Client implements PhaseChangedObserver {
         view.displayFailedLogin();
         break;
       case NOT_BUYABLE:
-        System.out.println("sorry mate, sei troppo povero per comprarla. Riprova quando avrai comprato azioni Tesla");
+        view.displayNotBuyable();
         clientTurnManager.currentPhasePrint();
         break;
       case INVALID_LEADERCARD:
+        view.displayInvalidLeadercard();
         clientTurnManager.currentPhasePrint();
         break;
       case INVALID_DEVELOP_CARD:
         break;
       case CANNOT_DISCARD_ACTIVE_LEADER:
-        System.out.println("sorry mate, you can't discard an active leader card ");
+        view.displayCannotDiscardActiveLeader();
         clientTurnManager.currentPhasePrint();
         break;
       case NOT_ACTIVATABLE_PRODUCTION:
-        System.out.println("sorry mate, you can't activate this production ");
+        view.displayNotActivatableProduction();
         clientTurnManager.currentPhasePrint();
         break;
       case ALREADY_PRODUCED:
-        System.out.println("sorry mate, you already have already used this production in this turn");
+        view.displayAlreadyProduced();
         clientTurnManager.currentPhasePrint();
         break;
       case NOT_ENOUGH_RESOURCES:
-        System.out.println("sorry mate, you don't have enough resources to perform this action ");
-        clientTurnManager.currentPhasePrint();
+        view.displayNotEnoughResources();
+                clientTurnManager.currentPhasePrint();
         break;
       case INVALID_CARD_PLACEMENT:
-        System.out.println("sorry mate, you can't place your Develop card here ");
+        view.displayInvalidCardPlacement();
         clientTurnManager.currentPhasePrint();
         break;
       default:
