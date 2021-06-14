@@ -387,18 +387,23 @@ public class Server {
 
       try {
          if (disconnectedClient.isLogged()) {
-            Message errorOrEndTurn = turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
+            Message errorOrEndTurn = null;
+            if(turnManager != null) // it's null if the game isn't started
+               errorOrEndTurn = turnManager.handleAction(new PlayerDisconnectionAction(disconnectedClient.getUsername()));
             if(errorOrEndTurn != null)
                disconnectedClient.actionAnswereMessage(errorOrEndTurn);
             sendBroadcast(new Message(disconnectedClient.getUsername(), MessageType.DISCONNECTED));
          }
-      } catch (NoConnectedPlayerException e) {
-         System.out.println("NO CONNECTED PLAYERS");
-         this.resetServer();
+      } catch (NoConnectedPlayerException ignored) {
+         // Don't print stack trace
       }
       finally {
          disconnectedClient.closeSocket();
          disconnectedClient.setConnected(false); //needed to handle reconnection
+      }
+      if(this.clients.stream().noneMatch(ServerClientHandler::isConnected)) {
+         System.out.println("NO CONNECTED PLAYERS");
+         this.resetServer();
       }
    }
 
