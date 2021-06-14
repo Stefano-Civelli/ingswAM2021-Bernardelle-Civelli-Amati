@@ -25,31 +25,15 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
 
       switch(currentPhase){
          case INITIAL:
-
+            view.displayYourTurn(this.currentPlayer); // it's necessary in singleplayer, in multiplayer it's repeated
             break;
          case SETUP_CHOOSING_RESOURCES:
             view.displayMarbleChoice();
-//            if(stateViewer.getPlayerTurnPosition()!=1) {
-//               view.displayDefaultCanvas(stateViewer.getUsername());
-//               System.out.println("\nYou need to choose " + stateViewer.getPlayerTurnPosition() / 2 + " resource(s) to add from the following");
-//               view.displayMarbleChoice();
-//               System.out.println("Which resource do you want to pick? (index)");
-//            }
-//            else {
-//               view.displayPlainCanvas();
-//               view.displayDefaultCanvas(stateViewer.getUsername());
-//
-//            }
             break;
          case SETUP_DISCARDING_LEADERS:
             view.displayLeaderHand();
-//            System.out.println("\nYou have to discard 2 leader cards.");
-//            System.out.println("That's your 4 leader cards: ");
-//            view.displayLeaderHand();
-//            System.out.println("You can have only 2 of them.\nWhich do you want to discard?");
             break;
          case SHOPPING:
-//            System.out.println("\nYou need to insert one of the following marbles you got from market: ");
             view.displayMarbleShopping();
             break;
          case PRODUCING:
