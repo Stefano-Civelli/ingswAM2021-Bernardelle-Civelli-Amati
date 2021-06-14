@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.gui.controllers.ConnectController;
 import it.polimi.ingsw.view.gui.controllers.GameboardController;
 import it.polimi.ingsw.view.gui.controllers.LoginController;
+import it.polimi.ingsw.view.gui.controllers.PlayerboardController;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -382,12 +383,19 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void tempChestUpdate(String username, Chest.ChestUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-
+      Platform.runLater( () -> {
+         PlayerboardController controller = ((GameboardController) this.sceneController.getCurrentController()).getPlayerBoardController(username);
+         controller.updateTempChest(stateUpdate);
+      });
    }
 
    @Override
    public void chestMergeUpdate(String username) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> {
+         PlayerboardController controller = ((GameboardController) this.sceneController.getCurrentController()).getPlayerBoardController(username);
+         controller.chestMergeUpdate();
+      });
    }
 
    @Override

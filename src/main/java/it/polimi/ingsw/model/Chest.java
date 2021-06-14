@@ -51,10 +51,11 @@ public class Chest implements ChestUpdateObservable, TempChestObservable, ChestM
   public void addResources(ResourceType resource, int quantity) throws AbuseOfFaithException, NegativeQuantityException {
     if(resource == ResourceType.FAITH)
       throw new AbuseOfFaithException("Adding faith to chest is not allowed");
-      //if the key is not present adds a new element to the map with value quantity
+
     if(quantity < 0)
       throw new NegativeQuantityException("you are adding a negative quantity of a resource, that's not allowed");
 
+    //if the key is not present adds a new element to the map with value quantity
     tempResourcesMap.compute(resource, (k,v) -> (v==null) ? quantity : v + quantity);
     notifyTempChestChange(new ChestUpdate(resource, tempResourcesMap.get(resource)));
   }
@@ -144,4 +145,5 @@ public class Chest implements ChestUpdateObservable, TempChestObservable, ChestM
     if (controller != null)
       controller.chestMergeUpdate();
   }
+
 }

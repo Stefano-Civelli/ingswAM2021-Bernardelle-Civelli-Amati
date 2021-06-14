@@ -187,7 +187,7 @@ public class PlayerboardController extends GUIController {
         ResourceType resource = stateUpdate.getResourceType();
         int quantity = stateUpdate.getQuantity();
 
-        switch(resource){
+        switch(resource) {
             case GOLD:
                 coinCounter.setText(Integer.toString(quantity));
                 break;
@@ -201,6 +201,53 @@ public class PlayerboardController extends GUIController {
                 servantCounter.setText(Integer.toString(quantity));
                 break;
         }
+    }
+
+    public void updateTempChest(Chest.ChestUpdate chestUpdate) {
+        ResourceType resource = chestUpdate.getResourceType();
+        int quantity = chestUpdate.getQuantity();
+        Label resourceCounter = null;
+        switch (resource) {
+            case GOLD:
+                System.out.println("GOLD");
+                resourceCounter = coinCounter;
+                break;
+            case STONE:
+                System.out.println("STONE");
+                resourceCounter = stoneCounter;
+                break;
+            case SHIELD:
+                System.out.println("SHIELD");
+                resourceCounter = shieldCounter;
+                break;
+            case SERVANT:
+                System.out.println("SERVANT");
+                resourceCounter = servantCounter;
+                break;
+        }
+        String string = resourceCounter.getText() + "(" + quantity + ")";
+        resourceCounter.setText(string);
+    }
+
+    public void chestMergeUpdate() {
+        String [] amounts;
+        int amount = 0;
+
+        amounts = coinCounter.getText().split("\\(");
+        amount = Integer.parseInt(amounts[0]) + (amounts.length >= 2 ? Integer.parseInt(amounts[1].replace(")", "")) : 0);
+        coinCounter.setText(Integer.toString(amount));
+
+        amounts = stoneCounter.getText().split("\\(");
+        amount = Integer.parseInt(amounts[0]) + (amounts.length >= 2 ? Integer.parseInt(amounts[1].replace(")", "")) : 0);
+        stoneCounter.setText(Integer.toString(amount));
+
+        amounts = shieldCounter.getText().split("\\(");
+        amount = Integer.parseInt(amounts[0]) + (amounts.length >= 2 ? Integer.parseInt(amounts[1].replace(")", "")) : 0);
+        shieldCounter.setText(Integer.toString(amount));
+
+        amounts = servantCounter.getText().split("\\(");
+        amount = Integer.parseInt(amounts[0]) + (amounts.length >= 2 ? Integer.parseInt(amounts[1].replace(")", "")) : 0);
+        servantCounter.setText(Integer.toString(amount));
     }
 
     public void updateTrack(Track.TrackUpdate stateUpdate) {
