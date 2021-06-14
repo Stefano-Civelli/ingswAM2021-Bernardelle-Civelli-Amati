@@ -630,6 +630,12 @@ public class GameboardController extends GUIController {
 
 
     public void displayMarbleChoice(String username){
+        this.turnPhaseLable.setText("It's " + username + "'s turn");
+        this.market_anchorPane.setDisable(true);
+        this.deckGridPane.setDisable(true);
+        getPlayerBoardController(this.client.getUsername()).disableProduction();
+        getPlayerBoardController(this.client.getUsername()).disableLeader();
+        this.endTurnButton.setDisable(true);
         int i = 0;
         for (PlayerboardController p : playerboardControllers)
             if (!username.equals(p.getUsername()))
@@ -679,9 +685,16 @@ public class GameboardController extends GUIController {
         }
     }
 
-    public void displayLeaderChoiceLable(String username){
+    public void displayLeaderChoiceLable(String username) {
+        this.turnPhaseLable.setText("It's " + username + "'s turn");
+        this.market_anchorPane.setDisable(true);
+        this.deckGridPane.setDisable(true);
+        getPlayerBoardController(this.client.getUsername()).disableProduction();
+        getPlayerBoardController(this.client.getUsername()).enableLeader();
+        this.endTurnButton.setDisable(true);
         turnPhaseLable.setText("Choose 2 leadercards to DISCARD");
         turnPhaseLable.setVisible(true);
+
     }
 
     public void enableInitialAction() {

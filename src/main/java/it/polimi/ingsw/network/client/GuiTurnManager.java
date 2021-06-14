@@ -8,10 +8,10 @@ import java.util.List;
 
 public class GuiTurnManager implements ClientTurnManagerInterface{
 
-   private Client client;
+   private final Client client;
    private PhaseType currentPhase;
    private String currentPlayer;
-   private ViewInterface view;
+   private final ViewInterface view;
 
    public GuiTurnManager(Client client, ViewInterface view) {
 
