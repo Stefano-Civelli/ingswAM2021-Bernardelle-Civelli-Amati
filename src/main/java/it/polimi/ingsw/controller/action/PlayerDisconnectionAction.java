@@ -53,10 +53,10 @@ public class PlayerDisconnectionAction extends Action {
 
     private void setupDisconnection(IGameState gameState) throws InvalidUsernameException {
         if(gameState.getGame().getOrderedPlayers().indexOf(super.getUsername())
-                > gameState.getGame().getOrderedPlayers().indexOf(gameState.getCurrentPlayer())
+                > gameState.getGame().getOrderedPlayers().indexOf(gameState.getCurrentPlayer()) // if player id before current player in turn order
             || gameState.getGame().getOrderedPlayers().indexOf(super.getUsername())
                 == gameState.getGame().getOrderedPlayers().indexOf(gameState.getCurrentPlayer())
-            && gameState.getCurrentPhase() == PhaseType.SETUP_CHOOSING_RESOURCES
+            && gameState.getCurrentPhase() == PhaseType.SETUP_CHOOSING_RESOURCES // or if the player is the current player and the current phase is setup SETUP_CHOOSING_RESOURCES
         ) {
             // Player must choose initial resources
             ResourceType[] possibleResources = List.of(ResourceType.values()).stream().
@@ -71,9 +71,14 @@ public class PlayerDisconnectionAction extends Action {
                     e.printStackTrace();
                 }
             }
-        }
+        } else
+            if( !(gameState.getGame().getOrderedPlayers().indexOf(super.getUsername())
+                    == gameState.getGame().getOrderedPlayers().indexOf(gameState.getCurrentPlayer())
+                    && gameState.getCurrentPhase() == PhaseType.SETUP_DISCARDING_LEADERS) // if it isn't that the player is the current player and the current phase is SETUP_DISCARDING_LEADERS
+            )
+                return;
 
-        // Discard two leader cards
+        // Discard two random leader cards
         Random random = new Random();
         try {
             gameState.getGame().getPlayerBoard(super.getUsername()).discardLeaderAtBegin(
