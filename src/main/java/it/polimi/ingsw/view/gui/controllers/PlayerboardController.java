@@ -225,7 +225,7 @@ public class PlayerboardController extends GUIController {
                 resourceCounter = servantCounter;
                 break;
         }
-        String string = resourceCounter.getText() + "(" + quantity + ")";
+        String string = resourceCounter.getText().split("\\(")[0] + "(" + quantity + ")";
         resourceCounter.setText(string);
     }
 

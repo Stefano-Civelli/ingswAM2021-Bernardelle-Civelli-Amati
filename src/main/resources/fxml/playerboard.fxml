@@ -27,12 +27,12 @@
          <children>
             <Pane fx:id="playerBoardPane" prefHeight="619.0" prefWidth="746.0" styleClass="plyerboardPane" stylesheets="@../css/playerboard.css" GridPane.columnIndex="1">
                <children>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="32.0" layoutY="430.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="15.0" layoutY="428.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/punchboard/coin.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="34.0" layoutY="466.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="17.0" layoutY="464.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/punchboard/servant.png" />
                      </image>
@@ -47,22 +47,22 @@
                         <Image url="@../images/punchboard/stone.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="coinCounter" layoutX="64.0" layoutY="433.0" prefHeight="20.0" prefWidth="25.0" text="0" textFill="WHITE">
+                  <Label fx:id="coinCounter" layoutX="47.0" layoutY="431.0" prefHeight="20.0" prefWidth="43.0" text="0" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="servantCounter" layoutX="64.0" layoutY="469.0" prefHeight="20.0" prefWidth="25.0" text="0" textFill="WHITE">
+                  <Label fx:id="servantCounter" layoutX="47.0" layoutY="467.0" prefHeight="20.0" prefWidth="43.0" text="0" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="stoneCounter" layoutX="124.0" layoutY="470.0" prefHeight="20.0" prefWidth="25.0" text="0" textFill="WHITE">
+                  <Label fx:id="stoneCounter" layoutX="124.0" layoutY="470.0" prefHeight="20.0" prefWidth="43.0" text="0" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="shieldCounter" layoutX="124.0" layoutY="434.0" prefHeight="20.0" prefWidth="25.0" text="0" textFill="WHITE">
+                  <Label fx:id="shieldCounter" layoutX="124.0" layoutY="434.0" prefHeight="20.0" prefWidth="43.0" text="0" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
