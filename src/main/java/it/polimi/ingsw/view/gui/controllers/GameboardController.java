@@ -66,14 +66,14 @@ public class GameboardController extends GUIController {
     private Circle slide;
     private Circle[][] marbleGrid;
     private List<Integer>[][] developCardDeck;
-    private ImageView[][] imagesDevelopCardDeck = new ImageView[N_ROW][N_COLUMN];
-    private List<Parent> playerboardList = new ArrayList<>();
-    private List<Button> otherPlayerboardButtons = new ArrayList<>();
+    private final ImageView[][] imagesDevelopCardDeck = new ImageView[N_ROW][N_COLUMN];
+    private final List<Parent> playerboardList = new ArrayList<>();
+    private final List<Button> otherPlayerboardButtons = new ArrayList<>();
     private int selectedCardRow;
     private int selectedCardColumn;
-    private int i = 2; //TODO usato solo per testing
+    private final int i = 2; //TODO usato solo per testing
     private int numberOfInitRes = 0;
-    private Map<ResourceType, Integer> chosenResourceMap = new HashMap<>();
+    private final Map<ResourceType, Integer> chosenResourceMap = new HashMap<>();
 
     private List<PlayerboardController> playerboardControllers = new ArrayList<>(); //TODO sarebbe meglio avere una lista
 
@@ -310,7 +310,7 @@ public class GameboardController extends GUIController {
         this.selectedCardColumn = column;
 
         //TODO è così solo per testing, sta roba in realtà sta solo nell'phaseUpdate
-        updateDeck(new DevelopCardDeck.DevelopCardDeckUpdate(row, column));
+        //updateDeck(new DevelopCardDeck.DevelopCardDeckUpdate(row, column));
         //----------------
     }
 

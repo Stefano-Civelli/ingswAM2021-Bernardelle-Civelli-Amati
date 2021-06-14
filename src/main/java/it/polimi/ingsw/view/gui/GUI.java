@@ -281,7 +281,6 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       Platform.runLater(() -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
          controller.getPlayerBoardController(username).updateChest(stateUpdate);
-         //controller.updateChest(username, stateUpdate);
       });
 
    }
