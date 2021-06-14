@@ -4,10 +4,13 @@ import it.polimi.ingsw.controller.controllerexception.InvalidActionException;
 import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.ResourceType;
+import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class PlayerDisconnectionAction extends Action {
 
@@ -74,7 +77,10 @@ public class PlayerDisconnectionAction extends Action {
         Random random = new Random();
         try {
             gameState.getGame().getPlayerBoard(super.getUsername()).discardLeaderAtBegin(
-                    random.nextInt(4), random.nextInt(3));
+                    gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().stream()
+                            .map(LeaderCard::getLeaderId).collect(Collectors.toList()).get(random.nextInt(4)),
+                    gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().stream()
+                            .map(LeaderCard::getLeaderId).collect(Collectors.toList()).get(random.nextInt(4)));
         } catch (InvalidLeaderCardException e) {
             // This code should never be executed
             e.printStackTrace();
