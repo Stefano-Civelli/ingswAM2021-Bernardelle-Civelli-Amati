@@ -41,7 +41,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       this.market = market;
       this.developCardDeck = developCardDeck;
       this.tempMarketMarble = new ArrayList<>();
-      this.alreadyProduced = new boolean[this.cardSlots.getNumberOfCardSlots() + 3];
+      this.alreadyProduced = new boolean[this.cardSlots.getNumberOfCardSlots() + 3]; // 0 = base | 1 ... #CardSlots = devCards | (#CardSlots + 1) ... (#CardSlots + #Leder): leader
       Arrays.fill(this.alreadyProduced, false);
    }
 
