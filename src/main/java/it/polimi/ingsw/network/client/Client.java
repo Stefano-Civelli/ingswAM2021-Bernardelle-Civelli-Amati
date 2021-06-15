@@ -43,7 +43,7 @@ public class Client implements PhaseChangedObserver {
     if (args.length > 0)
       switch (args[0]){
         case "cli":
-          isCli = false;
+          isCli = true;
           break;
         case "gui":
           isCli = false;
