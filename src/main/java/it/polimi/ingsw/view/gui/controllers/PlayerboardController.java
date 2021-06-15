@@ -424,7 +424,7 @@ public class PlayerboardController extends GUIController {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.SERVANT);
         else
-            createLeaderProductionAction(ResourceType.GOLD);
+            createLeaderProductionAction(ResourceType.SERVANT);
     }
 
     @FXML
@@ -432,7 +432,7 @@ public class PlayerboardController extends GUIController {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.SHIELD);
         else
-            createLeaderProductionAction(ResourceType.GOLD);
+            createLeaderProductionAction(ResourceType.SHIELD);
     }
 
     @FXML
@@ -440,7 +440,7 @@ public class PlayerboardController extends GUIController {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.STONE);
         else
-            createLeaderProductionAction(ResourceType.GOLD);
+            createLeaderProductionAction(ResourceType.SHIELD);
     }
 
     private void createBaseProduction(ResourceType r) {
