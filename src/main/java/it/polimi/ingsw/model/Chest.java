@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.modelObservables.TempChestObservable;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
+import it.polimi.ingsw.model.updateContainers.ChestUpdate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,26 +19,6 @@ public class Chest implements ChestUpdateObservable, TempChestObservable, ChestM
   public Chest(){
     resources = new HashMap<>();
     tempResourcesMap = new HashMap<>();
-  }
-
-  public static class ChestUpdate{
-    private final ResourceType resourceType;
-    private final int quantity;
-
-    public ChestUpdate(ResourceType resourceType, int quantity) {
-      this.resourceType = resourceType;
-      this.quantity = quantity;
-    }
-
-    public ResourceType getResourceType() {
-      return resourceType;
-    }
-
-    public int getQuantity() {
-      return quantity;
-    }
-
-
   }
 
   /**
@@ -129,13 +110,13 @@ public class Chest implements ChestUpdateObservable, TempChestObservable, ChestM
   }
 
   @Override
-  public void notifyChestUpdate(Chest.ChestUpdate msg) {
+  public void notifyChestUpdate(ChestUpdate msg) {
     if (controller != null)
       controller.chestUpdate(msg);
   }
 
   @Override
-  public void notifyTempChestChange(Chest.ChestUpdate msg) {
+  public void notifyTempChestChange(ChestUpdate msg) {
     if (controller != null)
       controller.tempChestUpdate(msg);
   }

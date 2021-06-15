@@ -1,14 +1,11 @@
 package it.polimi.ingsw.view;
 
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
-import it.polimi.ingsw.model.track.Track;
-import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.model.updateContainers.*;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
 
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class SimplePlayerState {
@@ -54,14 +51,14 @@ public class SimplePlayerState {
    }
 
    //-----------SETUP-------------------------------------------
-   public void setupLeaderCard(Game.LeaderSetup stateSetup) {
+   public void setupLeaderCard(LeaderSetup stateSetup) {
       this.notActiveLederCards = stateSetup.getLeaderList();
    }
    //-----------------------------------------------------------
 
 
    //----------UPDATE----------
-   public void warehouseUpdate(Warehouse.WarehouseUpdate update) {
+   public void warehouseUpdate(WarehouseUpdate update) {
       //Warehouse.WarehouseUpdate phaseUpdate = GSON.getGsonBuilder().fromJson(payload, Warehouse.WarehouseUpdate.class);
       ResourceType resource = update.getResourceType();
 
@@ -89,40 +86,40 @@ public class SimplePlayerState {
       storageLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
    }
 
-   public void trackUpdate(Track.TrackUpdate stateUpdate) {
+   public void trackUpdate(TrackUpdate stateUpdate) {
       int newPosition = stateUpdate.getPlayerPosition();
       this.trackPosition = newPosition;
    }
 
-   public void vaticanReportUpdate(Track.VaticanReport stateUpdate) {
+   public void vaticanReportUpdate(VaticanReport stateUpdate) {
       int zone = stateUpdate.getZone();
       boolean flip = stateUpdate.isActive();
 
       vaticanFlipped[zone] = flip;
    }
 
-   public void chestUpdate(Chest.ChestUpdate stateUpdate) { //serve?
+   public void chestUpdate(ChestUpdate stateUpdate) { //serve?
       ResourceType resource = stateUpdate.getResourceType();
       int quantity = stateUpdate.getQuantity();
 
       this.chest.put(resource, quantity);
    }
 
-   public void tempChestUpdate(Chest.ChestUpdate stateUpdate) {
+   public void tempChestUpdate(ChestUpdate stateUpdate) {
       ResourceType resource = stateUpdate.getResourceType();
       int quantity = stateUpdate.getQuantity();
 
       this.tempChest.put(resource, quantity);
    }
 
-   public void cardSlotUpdate(CardSlots.CardSlotUpdate stateUpdate) {
+   public void cardSlotUpdate(CardSlotUpdate stateUpdate) {
       int devCardID = stateUpdate.getDevCardID();
       int slot = stateUpdate.getSlotNumber();
 
       cardSlots[slot].add(devCardID);
    }
 
-   public void activatedLeaderUpdate(PlayerBoard.LeaderUpdate stateUpdate) {
+   public void activatedLeaderUpdate(LeaderUpdate stateUpdate) {
       this.activeLeaderCards.add(stateUpdate.getCardId());
       this.notActiveLederCards.remove((Integer) stateUpdate.getCardId()); //potrebbe non andare a causa dell'indice
    }

@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.modelObservables.MarketSetupObservable;
 import it.polimi.ingsw.model.modelObservables.MarketUpdateObservable;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
+import it.polimi.ingsw.model.updateContainers.MarketSetup;
+import it.polimi.ingsw.model.updateContainers.MarketUpdate;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,42 +46,6 @@ public class Market implements MarketUpdateObservable, MarketSetupObservable {
 
             notifyMarketSetup(new MarketSetup(serializableMarket() ,this.slide.getColor()));
         } catch (AbuseOfFaithException ignored) {}
-    }
-
-    public static class MarketUpdate{
-        private final boolean isRow;
-        private final int index;
-
-        public MarketUpdate(boolean isRow, int index) {
-            this.isRow = isRow;
-            this.index = index;
-        }
-
-        public boolean getIsRow() {
-            return isRow;
-        }
-
-        public int getIndex() {
-            return index;
-        }
-    }
-
-    public static class MarketSetup {
-        private final MarbleColor[][] marbleMatrix;
-        private final MarbleColor slide;
-
-        public MarketSetup(MarbleColor[][] marbleMatrix, MarbleColor slide) {
-            this.marbleMatrix = marbleMatrix;
-            this.slide = slide;
-        }
-
-        public MarbleColor[][] getMarbleMatrix() {
-            return marbleMatrix;
-        }
-
-        public MarbleColor getSlide() {
-            return slide;
-        }
     }
 
 
@@ -163,13 +129,13 @@ public class Market implements MarketUpdateObservable, MarketSetupObservable {
     }
 
     @Override
-    public void notifyMarketUpdate(Market.MarketUpdate msg) {
+    public void notifyMarketUpdate(MarketUpdate msg) {
         if (controller != null)
             controller.marketUpdate(msg);
     }
 
     @Override
-    public void notifyMarketSetup(Market.MarketSetup msg) {
+    public void notifyMarketSetup(MarketSetup msg) {
         if (controller != null)
             controller.marketSetupUpdate(msg);
     }

@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.modelObservables;
 
 
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.updateContainers.LeaderSetup;
 
 public interface LeaderSetupObservable {
 
-   void notifyLeaderSetup(String username, Game.LeaderSetup msg);
+   void notifyLeaderSetup(String username, LeaderSetup msg);
 
 }

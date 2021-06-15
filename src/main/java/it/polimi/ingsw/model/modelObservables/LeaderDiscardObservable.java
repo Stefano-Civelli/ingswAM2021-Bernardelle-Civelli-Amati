@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.modelObservables;
 
-import it.polimi.ingsw.model.PlayerBoard;
+import it.polimi.ingsw.model.updateContainers.LeaderUpdate;
 
 public interface LeaderDiscardObservable {
-   void notifyLeaderDiscard(PlayerBoard.LeaderUpdate msg);
+   void notifyLeaderDiscard(LeaderUpdate msg);
 }

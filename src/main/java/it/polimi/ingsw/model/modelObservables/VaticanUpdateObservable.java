@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.modelObservables;
 
 
-import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.model.updateContainers.VaticanReport;
 
 public interface VaticanUpdateObservable {
 
-   void notifyVaticanChange(Track.VaticanReport msg);
+   void notifyVaticanChange(VaticanReport msg);
 
 }

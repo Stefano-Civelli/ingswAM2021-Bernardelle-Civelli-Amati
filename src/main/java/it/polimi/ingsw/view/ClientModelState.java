@@ -1,10 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.market.Market;
-import it.polimi.ingsw.model.track.Track;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.model.updateContainers.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -29,64 +25,64 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
-  public void chestUpdate(String username, Chest.ChestUpdate stateUpdate) {
+  public void chestUpdate(String username, ChestUpdate stateUpdate) {
     getSimplePlayerState(username).chestUpdate(stateUpdate);
   }
 
   @Override
-  public void warehouseUpdate(String username, Warehouse.WarehouseUpdate stateUpdate) {
+  public void warehouseUpdate(String username, WarehouseUpdate stateUpdate) {
     getSimplePlayerState(username).warehouseUpdate(stateUpdate);
   }
 
   @Override
-  public void leaderUpdate(String username, PlayerBoard.LeaderUpdate stateUpdate) {
+  public void leaderUpdate(String username, LeaderUpdate stateUpdate) {
     getSimplePlayerState(username).activatedLeaderUpdate(stateUpdate);
   }
 
   @Override
-  public void leaderSetup(String username, Game.LeaderSetup stateUpdate) {
+  public void leaderSetup(String username, LeaderSetup stateUpdate) {
         SimplePlayerState playerState = new SimplePlayerState();
         this.simplePlayerStateMap.put(username, playerState);
         playerState.setupLeaderCard(stateUpdate);
   }
 
   @Override
-  public void marketUpdate(Market.MarketUpdate stateUpdate) {
+  public void marketUpdate(MarketUpdate stateUpdate) {
     simpleGameState.updateMarket(stateUpdate);
   }
 
   @Override
-  public void marketSetup(Market.MarketSetup stateUpdate) {
+  public void marketSetup(MarketSetup stateUpdate) {
     simpleGameState.constructMarket(stateUpdate);
   }
 
   @Override
-  public void cardSlotUpdate(String username, CardSlots.CardSlotUpdate stateUpdate) {
+  public void cardSlotUpdate(String username, CardSlotUpdate stateUpdate) {
     getSimplePlayerState(username).cardSlotUpdate(stateUpdate);
   }
 
   @Override
-  public void trackUpdate(String username, Track.TrackUpdate stateUpdate) {
+  public void trackUpdate(String username, TrackUpdate stateUpdate) {
     getSimplePlayerState(username).trackUpdate(stateUpdate);
   }
 
   @Override
-  public void vaticanUpdate(String username, Track.VaticanReport stateUpdate) {
+  public void vaticanUpdate(String username, VaticanReport stateUpdate) {
     getSimplePlayerState(username).vaticanReportUpdate(stateUpdate);
   }
 
   @Override
-  public void devDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
+  public void devDeckUpdate(DevelopCardDeckUpdate stateUpdate) {
     simpleGameState.updateDeck(stateUpdate);
   }
 
   @Override
-  public void devDeckSetup(DevelopCardDeck.DevelopCardDeckSetup stateUpdate) {
+  public void devDeckSetup(DevelopCardDeckSetup stateUpdate) {
     simpleGameState.constructDeck(stateUpdate);
   }
 
   @Override
-  public void tempChestUpdate(String username, Chest.ChestUpdate stateUpdate) {
+  public void tempChestUpdate(String username, ChestUpdate stateUpdate) {
     getSimplePlayerState(username).tempChestUpdate(stateUpdate);
   }
 
@@ -96,7 +92,7 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
-  public void discardedLeaderUpdate(String username, PlayerBoard.LeaderUpdate stateUpdate) {
+  public void discardedLeaderUpdate(String username, LeaderUpdate stateUpdate) {
     int i=0;
     for(Integer id : getSimplePlayerState(username).getNotActiveLeaderCards())
       if(stateUpdate.getCardId() == id)
@@ -106,7 +102,7 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
-  public void lorenzoTrackUpdate(Track.TrackUpdate stateUpdate) {
+  public void lorenzoTrackUpdate(TrackUpdate stateUpdate) {
     int move = stateUpdate.getPlayerPosition();
     this.simpleGameState.updateLorenzoPosition(move);
 //    this.simpleGameState.setLorenzoState(LorenzoState.MOVED);
@@ -118,7 +114,7 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   }
 
   @Override
-  public void lorenzoDevDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
+  public void lorenzoDevDeckUpdate(DevelopCardDeckUpdate stateUpdate) {
     this.simpleGameState.updateDeck(stateUpdate);
 //    this.simpleGameState.setLorenzoState(LorenzoState.DISCARDED);
   }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.modelObservables;
 
-import it.polimi.ingsw.model.PlayerBoard;
+import it.polimi.ingsw.model.updateContainers.LeaderUpdate;
 
 public interface ActivatedLeaderObservable {
-  public void notifyActivatedLeader(PlayerBoard.LeaderUpdate msg);
+  public void notifyActivatedLeader(LeaderUpdate msg);
 }

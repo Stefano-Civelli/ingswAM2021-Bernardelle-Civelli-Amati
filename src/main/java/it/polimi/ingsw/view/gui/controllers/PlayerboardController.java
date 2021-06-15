@@ -2,11 +2,8 @@ package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
-import it.polimi.ingsw.model.modelexceptions.NeedAResourceToAddException;
-import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
-import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.model.updateContainers.*;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
@@ -185,7 +182,7 @@ public class PlayerboardController extends GUIController {
         }
     }
 
-    public void updateChest(Chest.ChestUpdate stateUpdate){
+    public void updateChest(ChestUpdate stateUpdate){
         ResourceType resource = stateUpdate.getResourceType();
         int quantity = stateUpdate.getQuantity();
 
@@ -205,7 +202,7 @@ public class PlayerboardController extends GUIController {
         }
     }
 
-    public void updateTempChest(Chest.ChestUpdate chestUpdate) {
+    public void updateTempChest(ChestUpdate chestUpdate) {
         ResourceType resource = chestUpdate.getResourceType();
         int quantity = chestUpdate.getQuantity();
         Label resourceCounter = null;
@@ -252,7 +249,7 @@ public class PlayerboardController extends GUIController {
         servantCounter.setText(Integer.toString(amount));
     }
 
-    public void updateTrack(Track.TrackUpdate stateUpdate) {
+    public void updateTrack(TrackUpdate stateUpdate) {
         int position = stateUpdate.getPlayerPosition();
         this.trackPosition.setVisible(false);
         ImageView image = new ImageView(new Image("images/punchboard/faithTrackCross.png"));
@@ -276,7 +273,7 @@ public class PlayerboardController extends GUIController {
             trackGrid.add(image, position-6, 0);
     }
 
-    public void updateVatican(Track.VaticanReport stateUpdate) {
+    public void updateVatican(VaticanReport stateUpdate) {
         int zone = stateUpdate.getZone();
         if(stateUpdate.isActive())
             switch (zone) {
@@ -292,7 +289,7 @@ public class PlayerboardController extends GUIController {
             }
     }
 
-    public void updateCardSlot(CardSlots.CardSlotUpdate stateUpdate) {
+    public void updateCardSlot(CardSlotUpdate stateUpdate) {
         int slot = stateUpdate.getSlotNumber();
         int cardId = stateUpdate.getDevCardID();
         int leaderLevel = 0;
@@ -460,17 +457,17 @@ public class PlayerboardController extends GUIController {
 
     @FXML
     void addStone(MouseEvent event) {
-        updateWarehouse(new Warehouse.WarehouseUpdate(ResourceType.STONE, 2, 1));
+        updateWarehouse(new WarehouseUpdate(ResourceType.STONE, 2, 1));
     }
 
     @FXML
     void addShield(MouseEvent event) {
-        updateWarehouse(new Warehouse.WarehouseUpdate(ResourceType.SHIELD, 2, 0));
-        updateWarehouse(new Warehouse.WarehouseUpdate(ResourceType.STONE, 3, 2));
+        updateWarehouse(new WarehouseUpdate(ResourceType.SHIELD, 2, 0));
+        updateWarehouse(new WarehouseUpdate(ResourceType.STONE, 3, 2));
     }
 
 
-    public void updateWarehouse(Warehouse.WarehouseUpdate update){
+    public void updateWarehouse(WarehouseUpdate update){
         ResourceType resource = update.getResourceType();
             //res, quantity, level
         //normalLevels
@@ -598,14 +595,14 @@ public class PlayerboardController extends GUIController {
         this.productionSlot3Button.setVisible(false);
     }
 
-    public void updateDiscardedLeader(PlayerBoard.LeaderUpdate stateUpdate){
+    public void updateDiscardedLeader(LeaderUpdate stateUpdate){
         int leaderId = stateUpdate.getCardId();
         for(Map.Entry<ImageView, Integer> p : leaderImageIdMap.entrySet())
             if(p.getValue() == leaderId)
                 leaderCardVbox.getChildren().remove(p.getKey());
     }
 
-    public void updateActivatedLeader(PlayerBoard.LeaderUpdate stateUpdate){
+    public void updateActivatedLeader(LeaderUpdate stateUpdate){
         int leaderId = stateUpdate.getCardId();
         for(Map.Entry<ImageView, Integer> p : leaderImageIdMap.entrySet()) {
             if (p.getValue() == leaderId) {

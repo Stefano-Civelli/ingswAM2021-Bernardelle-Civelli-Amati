@@ -3,9 +3,9 @@ package it.polimi.ingsw.view.cli;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.action.*;
 
-import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.market.MarbleColor;
+import it.polimi.ingsw.model.updateContainers.DevelopCardDeckUpdate;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.CliTurnManager;
 import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
@@ -328,7 +328,7 @@ public class Cli implements ViewInterface {
   }
 
   @Override
-  public void displayLorenzoDiscarded(DevelopCardDeck.DevelopCardDeckUpdate state) {
+  public void displayLorenzoDiscarded(DevelopCardDeckUpdate state) {
     clearScreen();
     drawer.displayLorenzoHasDiscarded(state);
   }

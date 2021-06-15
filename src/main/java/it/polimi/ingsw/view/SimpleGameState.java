@@ -1,17 +1,11 @@
 package it.polimi.ingsw.view;
 
-import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.model.DevelopCard;
-import it.polimi.ingsw.model.DevelopCardDeck;
-import it.polimi.ingsw.model.ResourceType;
-import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.MarbleColor;
-import it.polimi.ingsw.model.market.Market;
-import it.polimi.ingsw.model.market.MarketMarble;
-import it.polimi.ingsw.utility.GSON;
-import it.polimi.ingsw.utility.Pair;
+import it.polimi.ingsw.model.updateContainers.DevelopCardDeckSetup;
+import it.polimi.ingsw.model.updateContainers.DevelopCardDeckUpdate;
+import it.polimi.ingsw.model.updateContainers.MarketSetup;
+import it.polimi.ingsw.model.updateContainers.MarketUpdate;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,24 +26,24 @@ public class SimpleGameState {
       tempMarble = new ArrayList<>();
    }
 
-   public void constructDeck(DevelopCardDeck.DevelopCardDeckSetup stateSetup) {
+   public void constructDeck(DevelopCardDeckSetup stateSetup) {
       this.developCardDeck = stateSetup.getDevDeck();
    }
 
-   public void constructMarket (Market.MarketSetup stateSetup) {
+   public void constructMarket (MarketSetup stateSetup) {
       this.market = stateSetup.getMarbleMatrix();
       this.slide = stateSetup.getSlide();
    }
 
    //----------UPDATE-----------
-   public void updateDeck(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
+   public void updateDeck(DevelopCardDeckUpdate stateUpdate) {
       int row = stateUpdate.getRow();
       int column = stateUpdate.getColumn();
 
       developCardDeck[row][column].remove(developCardDeck[row][column].size()-1);
    }
 
-   public void updateMarket(Market.MarketUpdate stateUpdate) {
+   public void updateMarket(MarketUpdate stateUpdate) {
       boolean isRow = stateUpdate.getIsRow();
       int index = stateUpdate.getIndex();
 

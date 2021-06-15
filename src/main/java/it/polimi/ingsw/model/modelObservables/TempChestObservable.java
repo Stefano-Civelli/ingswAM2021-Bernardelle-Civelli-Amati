@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.modelObservables;
 
 
-import it.polimi.ingsw.model.Chest;
+import it.polimi.ingsw.model.updateContainers.ChestUpdate;
 
 public interface TempChestObservable {
 
-   void notifyTempChestChange(Chest.ChestUpdate msg);
+   void notifyTempChestChange(ChestUpdate msg);
 
 }

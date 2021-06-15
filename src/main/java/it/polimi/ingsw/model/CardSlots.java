@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.modelObservables.CardSlotObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
+import it.polimi.ingsw.model.updateContainers.CardSlotUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,24 +21,6 @@ public class CardSlots implements EndGameObservable, CardSlotObservable {
     for(int i = 0; i< numberOfCardSlots; i++)
       developCards.add(new ArrayList<>());
     endGameObserverList = new ArrayList<>();
-  }
-
-  public static class CardSlotUpdate {
-    private final int devCardID;
-    private final int slotNumber;
-
-    public CardSlotUpdate(int devCardID, int slotNumber) {
-      this.devCardID = devCardID;
-      this.slotNumber = slotNumber;
-    }
-
-    public int getDevCardID() {
-      return devCardID;
-    }
-
-    public int getSlotNumber() {
-      return slotNumber;
-    }
   }
 
   /**
@@ -153,7 +136,7 @@ public class CardSlots implements EndGameObservable, CardSlotObservable {
   }
 
   @Override
-  public void notifyCardSlotUpdate(CardSlots.CardSlotUpdate msg) {
+  public void notifyCardSlotUpdate(CardSlotUpdate msg) {
     if (controller != null)
       controller.cardSlotUpdate(msg);
   }

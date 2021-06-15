@@ -1,27 +1,26 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.model.market.Market;
-import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.model.updateContainers.*;
 
 public interface ModelObserver {
-  void chestUpdate(Chest.ChestUpdate stateUpdate);
-  void warehouseUpdate(Warehouse.WarehouseUpdate stateUpdate);
-  void leaderUpdate(PlayerBoard.LeaderUpdate stateUpdate);
-  void leaderSetupUpdate(String username, Game.LeaderSetup stateUpdate); // !! non è broadcast !!
-  void marketUpdate(Market.MarketUpdate stateUpdate);
-  void marketSetupUpdate(Market.MarketSetup stateUpdate);
-  void cardSlotUpdate(CardSlots.CardSlotUpdate stateUpdate);
-  void trackUpdate(String username, Track.TrackUpdate stateUpdate);
-  void vaticanUpdate(String username, Track.VaticanReport stateUpdate);
-  void devDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate);
-  void devDeckSetup(DevelopCardDeck.DevelopCardDeckSetup stateUpdate);
-  void tempChestUpdate(Chest.ChestUpdate stateUpdate);
-  void discardedLeaderUpdate(PlayerBoard.LeaderUpdate stateUpdate);
+  void chestUpdate(ChestUpdate stateUpdate);
+  void warehouseUpdate(WarehouseUpdate stateUpdate);
+  void leaderUpdate(LeaderUpdate stateUpdate);
+  void leaderSetupUpdate(String username, LeaderSetup stateUpdate); // !! non è broadcast !!
+  void marketUpdate(MarketUpdate stateUpdate);
+  void marketSetupUpdate(MarketSetup stateUpdate);
+  void cardSlotUpdate(CardSlotUpdate stateUpdate);
+  void trackUpdate(String username, TrackUpdate stateUpdate);
+  void vaticanUpdate(String username, VaticanReport stateUpdate);
+  void devDeckUpdate(DevelopCardDeckUpdate stateUpdate);
+  void devDeckSetup(DevelopCardDeckSetup stateUpdate);
+  void tempChestUpdate(ChestUpdate stateUpdate);
+  void discardedLeaderUpdate(LeaderUpdate stateUpdate);
   void endGameUpdate(String stateUpdate);
-  void lorenzoTrackUpdate(Track.TrackUpdate stateUpdate);
+  void lorenzoTrackUpdate(TrackUpdate stateUpdate);
   void lorenzoShuffleUpdate();
-  void lorenzoDevDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate);
+  void lorenzoDevDeckUpdate(DevelopCardDeckUpdate stateUpdate);
   void chestMergeUpdate();
   //TODO per riconnessione servono phaseUpdate con username e Stringa che chiamano singleUpdate
 }

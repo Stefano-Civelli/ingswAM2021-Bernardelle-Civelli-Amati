@@ -1,13 +1,10 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.market.Market;
-import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.model.updateContainers.*;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
-
-import java.security.MessageDigestSpi;
 
 public class NetworkVirtualView implements ModelObserver {
 
@@ -20,68 +17,68 @@ public class NetworkVirtualView implements ModelObserver {
 
 
    @Override
-   public void chestUpdate(Chest.ChestUpdate stateUpdate) {
+   public void chestUpdate(ChestUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.CHEST_UPDATE, stateUpdate));
    }
 
    @Override
-   public void warehouseUpdate(Warehouse.WarehouseUpdate stateUpdate) {
+   public void warehouseUpdate(WarehouseUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.WAREHOUSE_UPDATE, stateUpdate));
    }
 
    @Override
-   public void leaderUpdate(PlayerBoard.LeaderUpdate stateUpdate) { //when a leadercard gets activated
+   public void leaderUpdate(LeaderUpdate stateUpdate) { //when a leadercard gets activated
       server.serverBroadcastUpdate(new Message(MessageType.ACTIVATED_LEADERCARD_UPDATE, stateUpdate));
    }
 
    @Override
-   public void marketUpdate(Market.MarketUpdate stateUpdate) {
+   public void marketUpdate(MarketUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.MARKET_UPDATED, stateUpdate));
    }
 
    @Override
-   public void marketSetupUpdate(Market.MarketSetup stateUpdate) {
+   public void marketSetupUpdate(MarketSetup stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.MARKET_SETUP, stateUpdate));
    }
 
    @Override
-   public void leaderSetupUpdate(String username, Game.LeaderSetup stateUpdate) {
+   public void leaderSetupUpdate(String username, LeaderSetup stateUpdate) {
       server.serverSingleUpdate(new Message(username, MessageType.LEADERCARD_SETUP, stateUpdate));
    }
 
    @Override
-   public void cardSlotUpdate(CardSlots.CardSlotUpdate stateUpdate) {
+   public void cardSlotUpdate(CardSlotUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.CARD_SLOT_UPDATE, stateUpdate));
    }
 
    @Override
-   public void trackUpdate(String username, Track.TrackUpdate stateUpdate) {
+   public void trackUpdate(String username, TrackUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(username, MessageType.TRACK_UPDATED, stateUpdate));
    }
 
    @Override
-   public void vaticanUpdate(String username, Track.VaticanReport stateUpdate) {
+   public void vaticanUpdate(String username, VaticanReport stateUpdate) {
       server.serverBroadcastUpdate(new Message(username, MessageType.VATICAN_REPORT, stateUpdate));
    }
 
 
    @Override
-   public void devDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
+   public void devDeckUpdate(DevelopCardDeckUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.DEVELOP_CARD_DECK_UPDATED, stateUpdate));
    }
 
    @Override
-   public void devDeckSetup(DevelopCardDeck.DevelopCardDeckSetup stateUpdate) {
+   public void devDeckSetup(DevelopCardDeckSetup stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.DECK_SETUP, stateUpdate));
    }
 
    @Override
-   public void tempChestUpdate(Chest.ChestUpdate stateUpdate) {
+   public void tempChestUpdate(ChestUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.TEMP_CHEST_UPDATE, stateUpdate));
    }
 
    @Override
-   public void discardedLeaderUpdate(PlayerBoard.LeaderUpdate stateUpdate) {
+   public void discardedLeaderUpdate(LeaderUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.DISCARDED_LEADERCARD, stateUpdate));
    }
 
@@ -91,7 +88,7 @@ public class NetworkVirtualView implements ModelObserver {
    }
 
    @Override
-   public void lorenzoTrackUpdate(Track.TrackUpdate stateUpdate) {
+   public void lorenzoTrackUpdate(TrackUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.LORENZO_TRACK_UPDATE, stateUpdate));
    }
 
@@ -101,7 +98,7 @@ public class NetworkVirtualView implements ModelObserver {
    }
 
    @Override
-   public void lorenzoDevDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
+   public void lorenzoDevDeckUpdate(DevelopCardDeckUpdate stateUpdate) {
       server.serverBroadcastUpdate(new Message(MessageType.LORENZO_DECK_UPDATE, stateUpdate));
    }
 

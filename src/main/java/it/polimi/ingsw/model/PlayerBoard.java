@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.modelObservables.ActivatedLeaderObservable;
 import it.polimi.ingsw.model.modelObservables.LeaderDiscardObservable;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.model.updateContainers.LeaderUpdate;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
@@ -43,18 +44,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       this.tempMarketMarble = new ArrayList<>();
       this.alreadyProduced = new boolean[this.cardSlots.getNumberOfCardSlots() + 3];
       Arrays.fill(this.alreadyProduced, false);
-   }
-
-   public static class LeaderUpdate {
-      private final int cardId;
-
-      public LeaderUpdate(int cardId) {
-         this.cardId = cardId;
-      }
-
-      public int getCardId() {
-         return cardId;
-      }
    }
 
    /**

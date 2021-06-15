@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model.modelObservables;
 
-import it.polimi.ingsw.model.Chest;
-import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.model.updateContainers.TrackUpdate;
 
 public interface TrackObservable {
-   void notifyTrackUpdate(Track.TrackUpdate msg);
+   void notifyTrackUpdate(TrackUpdate msg);
 }

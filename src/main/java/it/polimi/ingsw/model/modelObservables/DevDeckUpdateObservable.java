@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model.modelObservables;
 
-import it.polimi.ingsw.model.CardSlots;
-import it.polimi.ingsw.model.DevelopCardDeck;
+import it.polimi.ingsw.model.updateContainers.DevelopCardDeckUpdate;
 
 public interface DevDeckUpdateObservable {
-   void notifyDeckUpdate(DevelopCardDeck.DevelopCardDeckUpdate msg);
+   void notifyDeckUpdate(DevelopCardDeckUpdate msg);
 }

@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model.track;
 
 import it.polimi.ingsw.model.modelObservables.VaticanUpdateObservable;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.MessageType;
-import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.model.updateContainers.TrackUpdate;
+import it.polimi.ingsw.model.updateContainers.VaticanReport;
 
 public class Track extends LorenzoTrack implements VaticanReportObserver, VaticanUpdateObservable {
   private final int[] popeCards = new int[]{-1, -1, -1};
@@ -15,35 +14,6 @@ public class Track extends LorenzoTrack implements VaticanReportObserver, Vatica
   public Track() {
   }
 
-  public static class VaticanReport {
-    private final int zone;
-    private final boolean active;
-
-    public VaticanReport (int zone, boolean active){
-      this.zone = zone;
-      this.active = active;
-    }
-
-    public int getZone() {
-      return zone;
-    }
-
-    public boolean isActive() {
-      return active;
-    }
-  }
-
-  public static class TrackUpdate {
-    private final int playerPosition;
-
-    public TrackUpdate(int playerPosition) {
-      this.playerPosition = playerPosition;
-    }
-
-    public int getPlayerPosition() {
-      return playerPosition;
-    }
-  }
   /**
    * Calculate track's points
    * @return total score of the track
@@ -152,7 +122,7 @@ public class Track extends LorenzoTrack implements VaticanReportObserver, Vatica
   }
 
   @Override
-  public void notifyTrackUpdate(Track.TrackUpdate msg) {
+  public void notifyTrackUpdate(TrackUpdate msg) {
     if (controller != null)
       controller.trackUpdate(username, msg);
   }

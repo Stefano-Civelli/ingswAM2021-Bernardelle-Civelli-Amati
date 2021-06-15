@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.EndGameObservable;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.MoveForwardObserver;
 import it.polimi.ingsw.model.modelObservables.TrackObservable;
+import it.polimi.ingsw.model.updateContainers.TrackUpdate;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -58,7 +59,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
       }
     }
 
-    notifyTrackUpdate(new Track.TrackUpdate(playerPosition));
+    notifyTrackUpdate(new TrackUpdate(playerPosition));
     if(playerPosition == 24)
       notifyForEndGame();
   }
@@ -107,7 +108,7 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
 
 
   @Override
-  public void notifyTrackUpdate(Track.TrackUpdate msg) {
+  public void notifyTrackUpdate(TrackUpdate msg) {
     if (controller != null) {
       controller.lorenzoTrackUpdate(msg);
     }

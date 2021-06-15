@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelObservables.LeaderSetupObservable;
 import it.polimi.ingsw.model.modelexceptions.*;
+import it.polimi.ingsw.model.updateContainers.LeaderSetup;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 
@@ -36,18 +37,6 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
       this.market = new Market(controller);
       this.playerBoards = new ArrayList<>();
       this.controller = controller;
-   }
-
-   public static class LeaderSetup {
-      private List<Integer> leaderList;
-
-      public LeaderSetup(List<Integer> leaderList) {
-         this.leaderList = leaderList;
-      }
-
-      public List<Integer> getLeaderList() {
-         return leaderList;
-      }
    }
 
    /**
@@ -265,7 +254,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
    }
 
    @Override
-   public void notifyLeaderSetup(String username, Game.LeaderSetup msg) {
+   public void notifyLeaderSetup(String username, LeaderSetup msg) {
       if (controller != null)
          controller.leaderSetupUpdate(username, msg);
    }

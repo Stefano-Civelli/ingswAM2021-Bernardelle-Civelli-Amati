@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model.modelObservables;
 
-import it.polimi.ingsw.model.CardSlots;
-import it.polimi.ingsw.model.market.Market;
+import it.polimi.ingsw.model.updateContainers.CardSlotUpdate;
 
 public interface CardSlotObservable {
-   void notifyCardSlotUpdate(CardSlots.CardSlotUpdate msg);
+   void notifyCardSlotUpdate(CardSlotUpdate msg);
 }

@@ -3,8 +3,8 @@ package it.polimi.ingsw.view.gui.controllers;
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.market.MarbleColor;
-import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
+import it.polimi.ingsw.model.updateContainers.*;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.animation.PauseTransition;
@@ -104,7 +104,7 @@ public class GameboardController extends GUIController {
     }
 
 
-    public void constructDeck(DevelopCardDeck.DevelopCardDeckSetup stateSetup) {
+    public void constructDeck(DevelopCardDeckSetup stateSetup) {
         this.developCardDeck = stateSetup.getDevDeck();
         String url;
         for (int i = 0; i < developCardDeck.length; i++) {
@@ -190,7 +190,7 @@ public class GameboardController extends GUIController {
 
     }
 
-    public void updateDeck(DevelopCardDeck.DevelopCardDeckUpdate stateUpdate) {
+    public void updateDeck(DevelopCardDeckUpdate stateUpdate) {
         int row = stateUpdate.getRow();
         int column = stateUpdate.getColumn();
 
@@ -273,14 +273,14 @@ public class GameboardController extends GUIController {
 //        }
     }
 
-    public void leaderSetup(String username, Game.LeaderSetup stateUpdate) {
+    public void leaderSetup(String username, LeaderSetup stateUpdate) {
         PlayerboardController playerController = this.playerboardControllers.stream().filter(Objects::nonNull).filter(controller -> controller.getUsername().equals(username))
                 .collect(Collectors.toList()).get(0);
         List<Integer> leadersID = stateUpdate.getLeaderList();
         playerController.leaderSetup(leadersID);
     }
 
-    public void constructMarket(Market.MarketSetup stateUpdate) {
+    public void constructMarket(MarketSetup stateUpdate) {
         MarbleColor[][] marketColorMatrix = stateUpdate.getMarbleMatrix();
         MarbleColor slideMarble = stateUpdate.getSlide();
 
@@ -296,7 +296,7 @@ public class GameboardController extends GUIController {
     }
 
 
-    public void updateMarket(Market.MarketUpdate stateUpdate) {
+    public void updateMarket(MarketUpdate stateUpdate) {
         boolean isRow = stateUpdate.getIsRow();
         int index = stateUpdate.getIndex();
 
@@ -306,7 +306,7 @@ public class GameboardController extends GUIController {
             pushColumn(index);
     }
 
-    public void updateMarketOtherPlayers(Market.MarketUpdate stateUpdate) {
+    public void updateMarketOtherPlayers(MarketUpdate stateUpdate) {
         boolean isRow = stateUpdate.getIsRow();
         int index = stateUpdate.getIndex();
 

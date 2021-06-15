@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.modelObservables;
 
-import it.polimi.ingsw.model.Chest;
+import it.polimi.ingsw.model.updateContainers.ChestUpdate;
 
 public interface ChestUpdateObservable {
 
-   void notifyChestUpdate(Chest.ChestUpdate msg);
+   void notifyChestUpdate(ChestUpdate msg);
 }

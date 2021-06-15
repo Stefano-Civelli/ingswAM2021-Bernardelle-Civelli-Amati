@@ -3,10 +3,9 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.controller.LocalVirtualView;
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
-import it.polimi.ingsw.model.track.Track;
+import it.polimi.ingsw.model.updateContainers.*;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -34,7 +33,7 @@ public class Client implements PhaseChangedObserver {
 
 
   public static void main(String[] args) {
-    boolean isCli = true;
+    boolean isCli = false;
     boolean isLocal = false;
 
 //    if(args.length > 0)
@@ -192,44 +191,44 @@ public class Client implements PhaseChangedObserver {
         clientTurnManager.setStateIsPlayerChanged(newState);
         break;
       case LEADERCARD_SETUP: //received only by the interested player
-        state.leaderSetup(messageUser, msg.getPayloadByType(Game.LeaderSetup.class));
+        state.leaderSetup(messageUser, msg.getPayloadByType(LeaderSetup.class));
         view.displayRecievedLeadercards();
         break;
       case DECK_SETUP:
-        state.devDeckSetup(msg.getPayloadByType(DevelopCardDeck.DevelopCardDeckSetup.class));
+        state.devDeckSetup(msg.getPayloadByType(DevelopCardDeckSetup.class));
         break;
       case MARKET_SETUP:
-        state.marketSetup(msg.getPayloadByType(Market.MarketSetup.class));
+        state.marketSetup(msg.getPayloadByType(MarketSetup.class));
         break;
       case MARKET_UPDATED:
-        state.marketUpdate(msg.getPayloadByType(Market.MarketUpdate.class));
+        state.marketUpdate(msg.getPayloadByType(MarketUpdate.class));
         break;
       case DEVELOP_CARD_DECK_UPDATED:
-        state.devDeckUpdate(msg.getPayloadByType(DevelopCardDeck.DevelopCardDeckUpdate.class));
+        state.devDeckUpdate(msg.getPayloadByType(DevelopCardDeckUpdate.class));
         break;
       case WAREHOUSE_UPDATE:
-        state.warehouseUpdate(messageUser, msg.getPayloadByType(Warehouse.WarehouseUpdate.class));
+        state.warehouseUpdate(messageUser, msg.getPayloadByType(WarehouseUpdate.class));
         break;
       case ACTIVATED_LEADERCARD_UPDATE:
-        state.leaderUpdate(messageUser, msg.getPayloadByType(PlayerBoard.LeaderUpdate.class));
+        state.leaderUpdate(messageUser, msg.getPayloadByType(LeaderUpdate.class));
         break;
       case TRACK_UPDATED:
-        state.trackUpdate(messageUser, msg.getPayloadByType(Track.TrackUpdate.class));
+        state.trackUpdate(messageUser, msg.getPayloadByType(TrackUpdate.class));
         break;
       case VATICAN_REPORT:
-        state.vaticanUpdate(messageUser, msg.getPayloadByType(Track.VaticanReport.class));
+        state.vaticanUpdate(messageUser, msg.getPayloadByType(VaticanReport.class));
         break;
       case CHEST_UPDATE:
-        state.chestUpdate(messageUser, msg.getPayloadByType(Chest.ChestUpdate.class));
+        state.chestUpdate(messageUser, msg.getPayloadByType(ChestUpdate.class));
         break;
       case TEMP_CHEST_UPDATE:
-        state.tempChestUpdate(messageUser, msg.getPayloadByType(Chest.ChestUpdate.class));
+        state.tempChestUpdate(messageUser, msg.getPayloadByType(ChestUpdate.class));
         break;
       case CARD_SLOT_UPDATE:
-        state.cardSlotUpdate(messageUser, msg.getPayloadByType(CardSlots.CardSlotUpdate.class));
+        state.cardSlotUpdate(messageUser, msg.getPayloadByType(CardSlotUpdate.class));
         break;
       case DISCARDED_LEADERCARD:
-        state.discardedLeaderUpdate(messageUser, msg.getPayloadByType(PlayerBoard.LeaderUpdate.class));
+        state.discardedLeaderUpdate(messageUser, msg.getPayloadByType(LeaderUpdate.class));
         break;
       case GAME_ENDED:
         view.displayGameEnded(msg.getPayload());
@@ -240,12 +239,12 @@ public class Client implements PhaseChangedObserver {
         view.startingSetupUpdate();
         break;
       case LORENZO_TRACK_UPDATE:
-        state.lorenzoTrackUpdate(msg.getPayloadByType(Track.TrackUpdate.class));
+        state.lorenzoTrackUpdate(msg.getPayloadByType(TrackUpdate.class));
         view.displayLorenzoMoved();
       break;
       case LORENZO_DECK_UPDATE:
-        state.lorenzoDevDeckUpdate(msg.getPayloadByType(DevelopCardDeck.DevelopCardDeckUpdate.class));
-        view.displayLorenzoDiscarded(msg.getPayloadByType(DevelopCardDeck.DevelopCardDeckUpdate.class));
+        state.lorenzoDevDeckUpdate(msg.getPayloadByType(DevelopCardDeckUpdate.class));
+        view.displayLorenzoDiscarded(msg.getPayloadByType(DevelopCardDeckUpdate.class));
         break;
       case LORENZO_SHUFFLE_UPDATE:
         state.lorenzoShuffleUpdate();

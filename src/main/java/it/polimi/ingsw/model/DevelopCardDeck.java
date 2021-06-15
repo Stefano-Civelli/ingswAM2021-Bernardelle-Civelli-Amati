@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.modelObservables.DevDeckUpdateObservable;
 import it.polimi.ingsw.model.modelObservables.LorenzoDevDeckObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;
+import it.polimi.ingsw.model.updateContainers.DevelopCardDeckSetup;
+import it.polimi.ingsw.model.updateContainers.DevelopCardDeckUpdate;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,37 +32,6 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
     * Default constructor because construction is handled by the cardParser method
     */
    public DevelopCardDeck() {}
-
-
-   public static class DevelopCardDeckUpdate {
-      private final int row;
-      private final int column;
-
-      public DevelopCardDeckUpdate(int row, int column) {
-         this.row = row;
-         this.column = column;
-      }
-
-      public int getRow() {
-         return row;
-      }
-
-      public int getColumn() {
-         return column;
-      }
-   }
-
-   public static class DevelopCardDeckSetup {
-      private final List<Integer>[][] devDeck;
-
-      public DevelopCardDeckSetup(List<Integer>[][] devDeck) {
-         this.devDeck = devDeck;
-      }
-
-      public List<Integer>[][] getDevDeck() {
-         return devDeck;
-      }
-   }
 
 
    /**
