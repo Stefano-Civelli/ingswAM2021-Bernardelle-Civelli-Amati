@@ -60,6 +60,7 @@ public class SceneController {
             stage.setScene(new Scene(root));
             stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/Logo.png")));
             stage.setTitle("Masters of Renaissance");
+            stage.setResizable(false);
             this.activeStage = stage;
             stage.show();
         } catch (IOException e) {
