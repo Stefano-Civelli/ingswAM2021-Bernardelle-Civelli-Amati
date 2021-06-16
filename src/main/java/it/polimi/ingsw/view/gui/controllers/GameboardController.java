@@ -75,7 +75,7 @@ public class GameboardController extends GUIController {
     private List<Integer>[][] developCardDeck;
     private final Rectangle[][] imagesDevelopCardDeck = new Rectangle[N_ROW][N_COLUMN];
     private final List<Parent> playerboardList = new ArrayList<>();
-    private final List<Button> otherPlayerboardButtons = new ArrayList<>();
+    private final List<Button> playerboardButtons = new ArrayList<>();
     private int selectedCardRow;
     private int selectedCardColumn;
     private final int i = 2; //TODO usato solo per testing
@@ -86,12 +86,14 @@ public class GameboardController extends GUIController {
 
     @FXML
     private void initialize() {
-        otherPlayerboardButtons.add(playerboard1Button);
-        otherPlayerboardButtons.add(playerboard2Button);
-        otherPlayerboardButtons.add(playerboard3Button);
+        playerboardButtons.add(myPlayerboardButton);
+        playerboardButtons.add(playerboard1Button);
+        playerboardButtons.add(playerboard2Button);
+        playerboardButtons.add(playerboard3Button);
 //        for(Button b : otherPlayerboardButtons){
 //            b.setVisible(false);
 //        }
+        myPlayerboardButton.setVisible(false);
         playerboard1Button.setVisible(false);
         playerboard2Button.setVisible(false);
         playerboard3Button.setVisible(false);
@@ -230,9 +232,15 @@ public class GameboardController extends GUIController {
 
     public void setOtherPlayer(List<String> players) {
 
-        for (int i = 0; i < players.size() - 1; i++) {
-            otherPlayerboardButtons.get(i).setVisible(true);
+        for (int i = 0; i < players.size(); i++) {
+            playerboardButtons.get(i).setVisible(true);
         }
+        if(players.size() == 1) {
+            playerboard1Button.setText("Lorenzo");
+            playerboard1Button.setVisible(true);
+        }
+
+
 
         PlayerboardController myPlayerboardController = getPlayerBoardController(client.getUsername());
         this.playerboardControllers = new ArrayList<>();

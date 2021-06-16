@@ -142,7 +142,7 @@
             </ImageView>
          </children>
       </GridPane>
-      <Label fx:id="errorLable" layoutX="347.0" layoutY="6.0" prefHeight="17.0" prefWidth="522.0" text="ERROR LABLE" textFill="RED">
+      <Label fx:id="errorLable" layoutX="162.0" layoutY="147.0" prefHeight="17.0" prefWidth="281.0" text="ERROR LABLE" textFill="RED">
          <font>
             <Font name="Arial Bold" size="14.0" />
          </font>

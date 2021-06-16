@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.updateContainers.*;
 import it.polimi.ingsw.utility.Pair;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,11 +18,9 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +45,8 @@ public class PlayerboardController extends GUIController {
                                                             ResourceType.SHIELD, "/images/punchboard/shield.png");
     private boolean forLeaderProd = false;
 
+    @FXML
+    private List<Pair<ResourceType, HBox>> resourceTypeHBoxPairList = new ArrayList<>();
     @FXML
     private ImageView leader0_ImageView;
     @FXML
@@ -439,7 +441,7 @@ public class PlayerboardController extends GUIController {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.STONE);
         else
-            createLeaderProductionAction(ResourceType.SHIELD);
+            createLeaderProductionAction(ResourceType.STONE);
     }
 
     private void createBaseProduction(ResourceType r) {
@@ -476,7 +478,6 @@ public class PlayerboardController extends GUIController {
         warehouseLevel0Hbox.getChildren().clear();
         warehouseLevel1Hbox.getChildren().clear();
         warehouseLevel2Hbox.getChildren().clear();
-
 
         if(update.getLevel()<3) {
             //controllo se la risorsa é presente
@@ -523,10 +524,40 @@ public class PlayerboardController extends GUIController {
             guiStorage[update.getLevel()].add(new ImageView(new Image(resTypeToUrlMap.get(storageLevels[update.getLevel()].getKey()))));
         }
 
+        if(update.getLevel()>2) {
+            boolean alreadyAdded = false;
+            System.out.println("leader devee updatearsi");
+            if(!this.resourceTypeHBoxPairList.isEmpty()) {
+                for (Pair<ResourceType, HBox> p : resourceTypeHBoxPairList) {
+                    if (p.getKey().equals(update.getResourceType())) { //already exists an HBOX for this resource
+                        p.getValue().getChildren().clear();
+                        for(ImageView i : guiStorage[update.getLevel()]){
+                            i.setFitHeight(30);
+                            i.setFitWidth(30);
+                            p.getValue().getChildren().add(i);
+                        }
+                        alreadyAdded = true;
+                    }
+                }
+            }
+            if(!alreadyAdded){
+                HBox resourcesHbox = new HBox(5);
+                resourcesHbox.setAlignment(Pos.CENTER);
+                for(ImageView i : guiStorage[update.getLevel()]){
+                    i.setFitHeight(30);
+                    i.setFitWidth(30);
+                    resourcesHbox.getChildren().add(i);
+                }
+                this.resourceTypeHBoxPairList.add(new Pair<>(update.getResourceType(), resourcesHbox));
+                leaderCardVbox.getChildren().add(0, resourcesHbox);
+            }
+        }
+
         updateWarehouseVisuals();
     }
 
     private void updateWarehouseVisuals(){
+
         for(ImageView i : guiStorage[2]){
             i.setFitHeight(30);
             i.setFitWidth(30);
@@ -608,12 +639,13 @@ public class PlayerboardController extends GUIController {
         int leaderId = stateUpdate.getCardId();
         for(Map.Entry<ImageView, Integer> p : leaderImageIdMap.entrySet()) {
             if (p.getValue() == leaderId) {
-                p.getKey().setOnMouseClicked(null);
+                ImageView activatedCard = p.getKey();
+                activatedCard.setOnMouseClicked(null);
                 //p.getKey(). //TODO settare qualche proprietà per far vedere visivamente che è attiva
 
                 try {
                     if (LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement() != null){
-                        p.getKey().setOnMouseClicked((MouseEvent event1) -> activateLeaderProduction(event1));
+                        activatedCard.setOnMouseClicked((MouseEvent event1) -> activateLeaderProduction(event1));
                     }
                 } catch (InvalidCardException e) {
                     e.printStackTrace();

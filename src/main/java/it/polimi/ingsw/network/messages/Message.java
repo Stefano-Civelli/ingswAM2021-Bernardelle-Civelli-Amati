@@ -60,7 +60,6 @@ public class Message {
    public String getPayload() { return payload; }
 
    public <T> T getPayloadByType(Class<T> myType){
-      //Type token = new TypeToken<T>(){}.getType();
       return GSON.getGsonBuilder().fromJson(payload, myType);
    }
 
