@@ -7,6 +7,8 @@ import javafx.scene.control.*;
 public class ConnectController extends GUIController {
 
     @FXML
+    private CheckBox local_checkBox;
+    @FXML
     private TextField serverIP_textField;
     @FXML
     private TextField serverPort_textField;
@@ -24,9 +26,12 @@ public class ConnectController extends GUIController {
         this.serverIP_textField.setText("127.0.0.1");
         this.serverIP_textField.setDisable(true);
         this.localHostServerIP_checkBox.setSelected(true);
+        this.localHostServerIP_checkBox.setDisable(false);
         this.serverPort_textField.setText("6754");
         this.serverPort_textField.setDisable(true);
         this.defaultServerPort_checkBox.setSelected(true);
+        this.defaultServerPort_checkBox.setDisable(false);
+        this.local_checkBox.setSelected(false);
     }
 
     @FXML
@@ -55,17 +60,38 @@ public class ConnectController extends GUIController {
 
     @FXML
     private void login(ActionEvent actionEvent) {
-        if(!this.serverPort_textField.getText().equals("")
-                && !this.serverIP_textField.getText().equals("")) {
-            this.connect_button.setDisable(true);
-            this.error_label.setVisible(false);
-            this.error_label.setText("ERROR");
-            // TODO gestire errori
-            setSocket(this.serverIP_textField.getText(), Integer.parseInt(this.serverPort_textField.getText()));
+        if(this.local_checkBox.isSelected()) {
+
         } else {
-            this.error_label.setVisible(true);
-            this.error_label.setText("ERROR: all fields are required");
+            if (!this.serverPort_textField.getText().equals("")
+                    && !this.serverIP_textField.getText().equals("")) {
+                this.connect_button.setDisable(true);
+                this.error_label.setVisible(false);
+                this.error_label.setText("ERROR");
+                // TODO gestire errori
+                setSocket(this.serverIP_textField.getText(), Integer.parseInt(this.serverPort_textField.getText()));
+            } else {
+                this.error_label.setVisible(true);
+                this.error_label.setText("ERROR: all fields are required");
+            }
         }
+    }
+
+    @FXML
+    private void local(ActionEvent actionEvent) {
+        if(this.local_checkBox.isSelected()) {
+            this.serverIP_textField.setText("");
+            this.serverIP_textField.setDisable(true);
+            this.localHostServerIP_checkBox.setSelected(false);
+            this.localHostServerIP_checkBox.setDisable(true);
+            this.serverPort_textField.setText("");
+            this.serverPort_textField.setDisable(true);
+            this.defaultServerPort_checkBox.setSelected(false);
+            this.defaultServerPort_checkBox.setDisable(true);
+        } else {
+            this.initialize();
+        }
+
     }
 
     public void loginError(String error) {

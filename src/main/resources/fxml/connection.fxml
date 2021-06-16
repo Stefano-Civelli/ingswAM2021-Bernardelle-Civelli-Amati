@@ -27,5 +27,6 @@
       <CheckBox fx:id="defaultServerPort_checkBox" layoutX="404.0" layoutY="233.0" mnemonicParsing="false" onAction="#defaultServerPort" text="Default" />
       <Label fx:id="error_label" layoutX="150.0" layoutY="345.0" text="ERROR" textFill="RED" visible="false" />
       <Button fx:id="connect_button" layoutX="492.0" layoutY="341.0" mnemonicParsing="false" onAction="#login" text="connect" />
+      <CheckBox fx:id="local_checkBox" layoutX="404.0" layoutY="268.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="Local singleplayer" onAction="#local" />
    </children>
 </Pane>

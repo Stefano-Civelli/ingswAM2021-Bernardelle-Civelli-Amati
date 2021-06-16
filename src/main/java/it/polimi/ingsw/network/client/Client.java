@@ -63,7 +63,6 @@ public class Client implements PhaseChangedObserver {
         client.view.displayLogin();
         client.view.displayGameStarted();
         client.localGameSetup();
-
       }
       else
       {
@@ -302,7 +301,7 @@ public class Client implements PhaseChangedObserver {
     return players.get(0);
   }
 
-  private void localGameSetup() {
+  public void localGameSetup() {
     ModelObserver localVirtualView = new LocalVirtualView(state, username, view);
     TurnManager gameTurnManager = null;
     try {

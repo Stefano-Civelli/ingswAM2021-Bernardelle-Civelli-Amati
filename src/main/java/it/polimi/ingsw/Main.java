@@ -26,4 +26,5 @@ public class Main {
 
       System.out.println("Something wrong with the parameters you inserted.\n Try relaunching the jar file ");
    }
+
 }
