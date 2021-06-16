@@ -1,9 +1,9 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.TurnManager;
+import it.polimi.ingsw.model.updateContainers.TurnState;
 
 public interface PhaseChangedObservable {
 
-  void notifyPhaseChanged(TurnManager.TurnState nextPhase);
+  void notifyPhaseChanged(TurnState nextPhase);
 
 }

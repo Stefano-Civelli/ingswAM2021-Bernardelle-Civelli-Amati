@@ -303,7 +303,9 @@ public class PlayerboardController extends GUIController {
         try {
             devCard = DevelopCardConstructor.getDevelopCardFromId(cardId);
             leaderLevel = devCard.getCardFlag().getLevel()-1;
-        } catch (InvalidCardException e) {}
+        } catch (InvalidCardException e) {
+            // TODO ??
+        }
 
 
         newCard = new ImageView(new Image("/images/front/" + devCard.getImage()));

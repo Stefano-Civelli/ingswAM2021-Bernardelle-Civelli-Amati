@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.PhaseType;
-import it.polimi.ingsw.model.TurnManager;
+import it.polimi.ingsw.model.updateContainers.TurnState;
 import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.List;
@@ -63,7 +63,7 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
    }
 
    @Override
-   public void setStateIsPlayerChanged(TurnManager.TurnState newState) {
+   public void setStateIsPlayerChanged(TurnState newState) {
       this.currentPhase = newState.getPhase(); //set new phase
 
       if (currentPlayer == null || !currentPlayer.equals(newState.getPlayer())) {

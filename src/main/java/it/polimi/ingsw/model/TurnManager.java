@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.controllerexception.NotAllowedActionException;
+import it.polimi.ingsw.model.updateContainers.TurnState;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -14,26 +15,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class TurnManager implements IGameState {
-
-    public static class TurnState {
-
-        private final String player;
-        private final PhaseType phase;
-
-        public TurnState(String player, PhaseType phase) {
-            this.player = player;
-            this.phase = phase;
-        }
-
-        public String getPlayer() {
-            return player;
-        }
-
-        public PhaseType getPhase() {
-            return phase;
-        }
-
-    }
 
     private String currentPlayer = null;
     private PhaseType currentPhase = null;

@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.controller.action.ActionType;
 import it.polimi.ingsw.controller.action.ChooseInitialResourcesAction;
 import it.polimi.ingsw.model.PhaseType;
-import it.polimi.ingsw.model.TurnManager;
+import it.polimi.ingsw.model.updateContainers.TurnState;
 import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.cli.Color;
@@ -144,7 +144,7 @@ public class CliTurnManager implements ClientTurnManagerInterface {
    * @param newState the new Turn State
    */
   @Override
-  public void setStateIsPlayerChanged(TurnManager.TurnState newState) {
+  public void setStateIsPlayerChanged(TurnState newState) {
 
     this.currentPhase = newState.getPhase(); //set new phase
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.TurnManager;
+import it.polimi.ingsw.model.updateContainers.TurnState;
 
 public interface ClientTurnManagerInterface {
 
@@ -12,5 +12,5 @@ public interface ClientTurnManagerInterface {
     *
     * @param newState the new Turn State
     */
-   public void setStateIsPlayerChanged(TurnManager.TurnState newState);
+   public void setStateIsPlayerChanged(TurnState newState);
 }

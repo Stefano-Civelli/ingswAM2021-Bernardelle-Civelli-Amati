@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.TurnManager;
+import it.polimi.ingsw.model.updateContainers.TurnState;
 
 public interface PhaseChangedObserver {
-  void phaseUpdate(TurnManager.TurnState nextPhase);
+  void phaseUpdate(TurnState nextPhase);
 }

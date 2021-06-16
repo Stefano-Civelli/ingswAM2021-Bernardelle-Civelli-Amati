@@ -1,9 +1,9 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
+import it.polimi.ingsw.model.updateContainers.TurnState;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
@@ -38,7 +38,7 @@ public class LocalVirtualModel implements VirtualModel, PhaseChangedObservable{
    public void stop() { /*does nothing*/ }
 
    @Override
-   public void notifyPhaseChanged(TurnManager.TurnState nextPhase) {
+   public void notifyPhaseChanged(TurnState nextPhase) {
       client.phaseUpdate(nextPhase);
    }
 
@@ -51,7 +51,7 @@ public class LocalVirtualModel implements VirtualModel, PhaseChangedObservable{
             client.handleError(ErrorType.fromValue(GSON.getGsonBuilder().fromJson(payload, String.class)));
             break;
          case NEXT_TURN_STATE:
-            notifyPhaseChanged(answerMessage.getPayloadByType(TurnManager.TurnState.class));
+            notifyPhaseChanged(answerMessage.getPayloadByType(TurnState.class));
             break;
       }
    }

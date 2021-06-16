@@ -184,10 +184,10 @@ public class Client implements PhaseChangedObserver {
 //          clientTurnManager.currentPhasePrint();
 //        }else
 //          view.displayPlayerTurn(msg.getUsername());
-        clientTurnManager.setStateIsPlayerChanged(new TurnManager.TurnState(getFirstPlayer(payload), PhaseType.SETUP_CHOOSING_RESOURCES));
+        clientTurnManager.setStateIsPlayerChanged(new TurnState(getFirstPlayer(payload), PhaseType.SETUP_CHOOSING_RESOURCES));
         break;
       case NEXT_TURN_STATE:
-        TurnManager.TurnState newState = msg.getPayloadByType(TurnManager.TurnState.class);
+        TurnState newState = msg.getPayloadByType(TurnState.class);
         clientTurnManager.setStateIsPlayerChanged(newState);
         break;
       case LEADERCARD_SETUP: //received only by the interested player
@@ -318,7 +318,7 @@ public class Client implements PhaseChangedObserver {
     clientTurnManager.currentPhasePrint();
   }
 
-  public void phaseUpdate(TurnManager.TurnState nextPhase) {
+  public void phaseUpdate(TurnState nextPhase) {
     clientTurnManager.setStateIsPlayerChanged(nextPhase);
     //handleTurnState(nextPhase);
   }
