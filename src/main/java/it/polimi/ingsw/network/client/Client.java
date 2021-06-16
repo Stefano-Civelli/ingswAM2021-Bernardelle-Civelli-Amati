@@ -14,10 +14,12 @@ import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.view.*;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.CliDrawer;
+import it.polimi.ingsw.view.cli.Color;
 import it.polimi.ingsw.view.gui.GUIStarter;
 import javafx.application.Application;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 
@@ -49,7 +51,6 @@ public class Client implements PhaseChangedObserver {
           break;
       }
 
-    //devo fargli scegliere se giocare in locale o network
     if (isCli) {
       Client client = new Client();
       ClientModelState state = new ClientModelState();
@@ -59,7 +60,13 @@ public class Client implements PhaseChangedObserver {
       client.setClientTurnManager(new CliTurnManager(client, cli, state));
       cli.setClientTurnManager(client.clientTurnManager);
 
-      if(isLocal) {
+      // Ask for local game
+      System.out.println("Do you want to play local?["
+              + Color.ANSI_RED.escape() + "y" + Color.RESET.escape() + "/"
+              + Color.ANSI_RED.escape() + "n"+ Color.RESET.escape() + "]");
+      Scanner in = new Scanner(System.in);
+      String local = in.nextLine().toLowerCase();
+      if("y".equals(local)) {
         client.view.displayLogin();
         client.view.displayGameStarted();
         client.localGameSetup();

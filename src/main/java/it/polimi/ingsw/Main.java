@@ -7,7 +7,6 @@ public class Main {
 
    public static void main(String[] args) {
       String[] empty = {};
-      System.out.println("string di tes5");
       if(args.length == 0)
          Client.main(empty); //runs client in GUI mode
 
@@ -24,7 +23,8 @@ public class Main {
          Client.main(empty);
       }
 
-      System.out.println("Something wrong with the parameters you inserted.\n Try relaunching the jar file ");
+      if(args.length > 1 || args.length == 1 && !args[0].equals("-c") && !args[0].equals("-s") && !args[0].equals("-l"))
+         System.out.println("Something wrong with the parameters you inserted.\n Try relaunching the jar file ");
    }
 
 }
