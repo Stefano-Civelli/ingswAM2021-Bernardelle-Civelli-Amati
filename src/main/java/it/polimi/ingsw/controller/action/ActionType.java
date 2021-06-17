@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.action;
 
 public enum ActionType {
 
+   //if you add a type here you probably should add the name to the actionBuilder in GSON
    PLAYER_DISCONNECTION,
    PLAYER_RECONNECTION,
    SETUP_CHOOSE_RESOURCES,

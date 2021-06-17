@@ -150,7 +150,6 @@ public class Client implements PhaseChangedObserver {
 
   public void handleMessage(Message msg) {
     String messageUser = msg.getUsername();
-    String payload = msg.getPayload();
 
     switch (msg.getMessageType()) {
       case PING:
@@ -193,7 +192,8 @@ public class Client implements PhaseChangedObserver {
 //          clientTurnManager.currentPhasePrint();
 //        }else
 //          view.displayPlayerTurn(msg.getUsername());
-        clientTurnManager.setStateIsPlayerChanged(new TurnState(getFirstPlayer(payload), PhaseType.SETUP_CHOOSING_RESOURCES));
+        ArrayList<String> players = msg.getPayloadByType(ArrayList.class);
+        clientTurnManager.setStateIsPlayerChanged(new TurnState(getFirstPlayer(players), PhaseType.SETUP_CHOOSING_RESOURCES));
         break;
       case NEXT_TURN_STATE:
         TurnState newState = msg.getPayloadByType(TurnState.class);
@@ -306,8 +306,7 @@ public class Client implements PhaseChangedObserver {
     }
   }
 
-  private String getFirstPlayer(String payload) {
-    ArrayList<String> players = GSON.getGsonBuilder().fromJson(payload, ArrayList.class);
+  private String getFirstPlayer(List<String> players) {
     return players.get(0);
   }
 

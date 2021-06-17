@@ -57,8 +57,18 @@ public class Message {
       return messageType;
    }
 
+   /**
+    * returns message payload as a String
+    * @return the message payload String
+    */
    public String getPayload() { return payload; }
 
+   /**
+    * returns message payload as a java object of the specified type
+    * @param myType the type of the returned object
+    * @param <T>
+    * @return
+    */
    public <T> T getPayloadByType(Class<T> myType){
       return GSON.getGsonBuilder().fromJson(payload, myType);
    }

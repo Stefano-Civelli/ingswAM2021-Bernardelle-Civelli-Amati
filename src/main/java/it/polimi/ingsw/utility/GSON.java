@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.leadercard.*;
 import it.polimi.ingsw.model.track.LorenzoTrack;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.controller.action.*;
+import it.polimi.ingsw.network.messages.Message;
 
 import java.io.*;
 import java.lang.reflect.Modifier;
@@ -97,6 +98,25 @@ public class GSON {
 
       return action;
    }
+
+   //potrebbe essere figo anche che il messaggio ha una toString che spiega come usare l'oggetto ritornato oppure ti da solo il JSON da guardarti per capire
+//   public static Message buildAMessage(String payload){
+//      RuntimeTypeAdapterFactory<Message> actionAdapter = RuntimeTypeAdapterFactory.of(Message.class, "messageType");
+//      actionAdapter
+//              .registerSubtype(EndTurnAction.class, "END_TURN")
+//              .registerSubtype(InsertMarbleAction.class, "INSERT_MARBLE")
+//              .registerSubtype(DiscardInitialLeaderAction.class, "SETUP_DISCARD_LEADERS");
+//
+//
+//      GsonBuilder builder = new GsonBuilder()
+//              .enableComplexMapKeySerialization()
+//              .registerTypeAdapterFactory(actionAdapter);
+//      Gson gson = builder.create();
+//
+//      Message message = gson.fromJson(payload, Message.class);
+//
+//      return message;
+//   }
 }
 
 

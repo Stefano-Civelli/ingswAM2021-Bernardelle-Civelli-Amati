@@ -79,9 +79,9 @@ public class LeaderCard {
    }
 
    /**
-    * method to check if this is an active card in the player's playerboard
+    * returns true if this is an active card in the player's playerboard
     *
-    * @return true if the card is active, false if it isn't
+    * @return true if this card is active
     */
    public boolean isActive() {
     return active;

@@ -1,8 +1,26 @@
 # MAESTRI DEL RINASCIMENTO - Progetto IngSW - 2021
 
+## Implemented Functionalities
+| Functionality | Status |
+|:-----------------------|:------------------------------------:|
+| Basic rules |🟩 |
+| Complete rules | 🟩 |
+| Socket | 🟩 |
+| CLI | 🟩 |
+| GUI | 🟩 |
+| Local Game | 🟩|
+
+<!--
+[![RED](http://placehold.it/15/f03c15/f03c15)](#)
+[![GREEN](http://placehold.it/15/44bb44/44bb44)](#)
+-->
+  
+
 ## COMMUNICATION PROTOCOL
 
 ## Message Structure
+All messages share the following structure:
+
 - username (String) 
   - Client -> Server :  username of the message sender
   - Server -> Client :  
@@ -32,18 +50,18 @@
 | Server     | DISCONNECTED |      | 
 | Server     | NEXT_TURN_STATE |      |
 | Server     | GENERIC_MESSAGE |      | 
-| Server     | MARKET_UPDATED |      | 
-| Server     | VATICAN_REPORT |     | 
-| Server     | TRACK_UPDATED |   player position   | tells every client that the current player has moved his faith marker 
-| Server     | WAREHOUSE_UPDATE |   inner class containing a resource, the level to place it and the quantity   | tells every client that the current player has added (removed) a resource in (from) the warehouse
-| Server     | DEVELOP_CARD_DECK_UPDATED |   pair containing indexes of row and column   | tells every client that a card has been removed 
-| Server     | CARD_SLOT_UPDATE |   pair containing DevelopCard ID and the slot to place it   | tells every client that the current player has added a DevelopCard in one of his slots
-| Server     | CHEST_UPDATE |   pair containing a resource and his quantity in the chest   | tells every client that the current player has added (removed) a resource in (from) the chest 
-| Server     | ACTIVATED_LEADERCARD_UPDATE |   leader card ID   | tells every client that the current player has activated a leader card 
+| Server     | MARKET_UPDATED | MarketUpdate object | 
+| Server     | VATICAN_REPORT | VaticanReport object | 
+| Server     | TRACK_UPDATED | TrackUpdate object | tells every client the current position of the player's faith market 
+| Server     | WAREHOUSE_UPDATE | WarehouseUpdate object | tells every client that the current player has added (removed) a resource in (from) the warehouse
+| Server     | DEVELOP_CARD_DECK_UPDATED | DevelopCardDeckUpdate object | tells every client that a card has been removed 
+| Server     | CARD_SLOT_UPDATE | CardSlotUpdate object | tells every client that the current player has added a DevelopCard in one of his slots
+| Server     | CHEST_UPDATE | ChestUpdate object | tells every client that the current player has added (removed) a resource in (from) the chest 
+| Server     | ACTIVATED_LEADERCARD_UPDATE | LeaderUpdate object | tells every client that the current player has activated a leader card 
 | Server     | WINNING_PLAYER |      | 
-| Server     | DECK_SETUP |   matrix of lists containing the id of the DevelopCards   | tells all clients what is the beginning state of the deck
-| Server     | MARKET_SETUP |      | 
-| Server     | LEADERCARD_SETUP |      | 
+| Server     | DECK_SETUP | DevelopCardDeckSetup object | tells all clients what is the beginning state of the deck
+| Server     | MARKET_SETUP | MarketSetup object | 
+| Server     | LEADERCARD_SETUP | LeaderSetup object | 
 | Server/Client| PING        | null     | simple ping message to keep the socketTimeout from expiring
 | Client     | NUMBER_OF_PLAYERS        |  the chosen number of players    | 
 | Client     | LOGIN        |      | 
@@ -54,11 +72,20 @@
 
 
 ###Action Table
-| non lo so | description |
-| :----: | :---- |
-| ........ | .....................
-| ......... | |
-| .............. | |
+| Action Type | parameters |description |
+| :----: | :---- | :---- |
+| ActivateLeaderAction | `leaderCardID` | To activate the specified leaderCard
+| BaseProductionAction |`resource1`, `resource2`, `product`| To activate the Base production
+| BuyDevelopCardAction | `row`,  `column`, `cardSlotIndex`| 
+| ChooseInitialResourcesAction |`resourcesMap`|
+| ChooseLeaderOnWhiteMarbleAction |`leaderIndex`|
+| DiscardInitialLeaderAction |`leaderCardID1`, `leaderCardID2`|
+| DiscardLeaderAction |`leaderCardID`|
+| EndTurnAction | | 
+| InsertMarbleAction |`marbleIndex`|
+| LeaderProductionAction |`leaderId`, `product`|
+| ProductionAction |`cardIndex`|
+| ShopMarketAction |`inRow`, `index`| inRow should be true if a row is pushed
 
 ### Errors Tables
 #### Generic Errors
@@ -95,4 +122,45 @@
 | NEGATIVE_QUANTITY | a specified quantity is negative 
 | ABUSE_OF_FAITH | 
 | NOT_BUYABLE | card isn't buyable for the player 
-| NOT_ENOUGH_SPACE | 
+| NOT_ENOUGH_SPACE |
+
+
+## API Reference
+
+Here are some advices if you want to use the API provided by our server to create your own client.
+
+Remember to also reference the [Communication Protocol](#COMMUNICATION-PROTOCOL) documentation for more 
+informations on protocol structure.
+
+####Recieving a Message: Client <- Server
+Upon reading a JSON from the socket, the client should parse it into a ` Message ` class.
+
+For example:
+  ```java
+ while (true) {
+          Message msg = messageParserFromJson(in.readLine());
+          client.handleMessage(msg);
+        }
+```
+
+You can than parse the object contained in the message in one of the provided
+` updateContainers classes ` using the ` getPayloadByType() ` method.
+
+For example:
+ ```java
+   WarehouseUpdate stateUpdate  = msg.getPayloadByType(WarehouseUpdate.class)
+```
+
+If you have trouble finding the right object you can simply call the ` getPayload() ` method to view
+a JSON representation of the received Object or look at [Messages Table](#Messages-Table) documentation.
+
+####Sending a message: Client -> Server
+
+In most cases, messages sent to Server contain an [Action](#Action-Table) as payload.
+
+Here is an example of how to create a message countaining a specific action:
+```java
+   Action buyCardAction = new BuyDevelopCardAction(row, column, cardSlot);
+```
+
+
