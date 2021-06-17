@@ -71,7 +71,7 @@ All messages share the following structure:
 | Client     | QUIT |      |
 
 
-###Action Table
+### Action Table
 | Action Type | parameters |description |
 | :----: | :---- | :---- |
 | ActivateLeaderAction | `leaderCardID` | To activate the specified leaderCard
@@ -132,7 +132,7 @@ Here are some advices if you want to use the API provided by our server to creat
 Remember to also reference the [Communication Protocol](#COMMUNICATION-PROTOCOL) documentation for more 
 informations on protocol structure.
 
-####Recieving a Message: Client <- Server
+#### Recieving a Message: Client <- Server
 Upon reading a JSON from the socket, the client should parse it into a ` Message ` class.
 
 For example:
@@ -154,7 +154,7 @@ For example:
 If you have trouble finding the right object you can simply call the ` getPayload() ` method to view
 a JSON representation of the received Object or look at [Messages Table](#Messages-Table) documentation.
 
-####Sending a message: Client -> Server
+#### Sending a message: Client -> Server
 
 In most cases, messages sent to Server contain an [Action](#Action-Table) as payload.
 
