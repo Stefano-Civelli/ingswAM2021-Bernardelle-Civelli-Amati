@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.updateContainers.*;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
+import it.polimi.ingsw.view.gui.GuiResources;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -69,6 +70,8 @@ public class GameboardController extends GUIController {
     private Label errorLable;
     @FXML
     private GridPane choseResourcesGridPane;
+    @FXML
+    private ImageView lorenzoToken;
 
     private Circle slide;
     private Circle[][] marbleGrid;
@@ -78,11 +81,10 @@ public class GameboardController extends GUIController {
     private final List<Button> playerboardButtons = new ArrayList<>();
     private int selectedCardRow;
     private int selectedCardColumn;
-    private final int i = 2; //TODO usato solo per testing
     private int numberOfInitRes = 0;
     private final Map<ResourceType, Integer> chosenResourceMap = new HashMap<>();
 
-    private List<PlayerboardController> playerboardControllers = new ArrayList<>(); //TODO sarebbe meglio avere una lista
+    private List<PlayerboardController> playerboardControllers = new ArrayList<>();
 
     @FXML
     private void initialize() {
@@ -102,6 +104,7 @@ public class GameboardController extends GUIController {
         turnPhaseLable.setVisible(false);
         choseResourcesGridPane.setVisible(false);
         errorLable.setVisible(false);
+        lorenzoToken.setVisible(false);
         // TODO caricare fxml market e develop card deck
     }
 
@@ -113,7 +116,7 @@ public class GameboardController extends GUIController {
             for (int j = 0; j < developCardDeck[i].length; j++) {
                 try {
                     url = "images/front/" + DevelopCardConstructor.getDevelopCardFromId(developCardDeck[i][j].get(developCardDeck[i][j].size() - 1)).getImage();
-                    imagesDevelopCardDeck[i][j] = createRectangleFromImageUrl(url, 90, 138);
+                    imagesDevelopCardDeck[i][j] = createRectangleFromImageUrl(url, GuiResources.cardWidth, GuiResources.cardHeight);
                     imagesDevelopCardDeck[i][j].setOnMouseEntered((MouseEvent event) -> mouseHover(event));
                     imagesDevelopCardDeck[i][j].setOnMouseExited((MouseEvent event) -> mouseHoverReset(event));
                     assignMethodToCard(imagesDevelopCardDeck[i][j], i, j);
@@ -125,12 +128,12 @@ public class GameboardController extends GUIController {
         }
     }
 
-    private Rectangle createRectangleFromImageUrl(String url, int width, int height){
-        Rectangle rectangle = new Rectangle(0, 0, 90, 138);
+    private Rectangle createRectangleFromImageUrl(String url, double width, double height){
+        Rectangle rectangle = new Rectangle(0, 0, GuiResources.cardWidth, GuiResources.cardHeight);
         rectangle.setArcWidth(30.0);   // Corner radius
         rectangle.setArcHeight(30.0);
         ImagePattern pattern = new ImagePattern(
-                new Image(url, 90, 138, false, false) // Resizing
+                new Image(url, GuiResources.cardWidth, GuiResources.cardHeight, false, false) // Resizing
         );
         rectangle.setFill(pattern);
         return rectangle;
@@ -204,7 +207,7 @@ public class GameboardController extends GUIController {
             } catch (InvalidCardException e) {
                 e.printStackTrace();
             }
-            imagesDevelopCardDeck[row][column].setFill(new ImagePattern(new Image(url, 90, 138, false, false)));
+            imagesDevelopCardDeck[row][column].setFill(new ImagePattern(new Image(url, GuiResources.cardWidth, GuiResources.cardHeight, false, false)));
         } else {
             imagesDevelopCardDeck[row][column].setVisible(false);
         }
@@ -213,7 +216,7 @@ public class GameboardController extends GUIController {
     public void setUsername(String username) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/playerboard.fxml"));
+            loader.setLocation(SceneController.class.getClassLoader().getResource(GuiResources.playerboardFXML));
             Parent root = null;
             root = loader.load();
             PlayerboardController newPlayerboardController = loader.getController();
@@ -235,12 +238,6 @@ public class GameboardController extends GUIController {
         for (int i = 0; i < players.size(); i++) {
             playerboardButtons.get(i).setVisible(true);
         }
-        if(players.size() == 1) {
-            playerboard1Button.setText("Lorenzo");
-            playerboard1Button.setVisible(true);
-        }
-
-
 
         PlayerboardController myPlayerboardController = getPlayerBoardController(client.getUsername());
         this.playerboardControllers = new ArrayList<>();
@@ -251,7 +248,7 @@ public class GameboardController extends GUIController {
                 else {
                     PlayerboardController newPlayerboardController;
                     FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/playerboard.fxml"));
+                    loader.setLocation(SceneController.class.getClassLoader().getResource(GuiResources.playerboardFXML));
                     Parent root1 = loader.load();
                     newPlayerboardController = loader.getController();
                     newPlayerboardController.setUsername(s);
@@ -264,21 +261,23 @@ public class GameboardController extends GUIController {
             e.printStackTrace(); //TODO gestire
         }
 
-//        try {
-//            for (int i = 1; i < this.playerboardControllers.length && i <= usernames.length; i++) {
-//                if (usernames[i - 1] != null) {
-//                    FXMLLoader loader = new FXMLLoader();
-//                    loader.setLocation(SceneController.class.getClassLoader().getResource("fxml/playerboard.fxml"));
-//                    Parent root1 = loader.load();
-//                    this.playerboardControllers[i] = loader.getController();
-//                    this.playerboardControllers[i].setUsername(usernames[i - 1]);
-//                    playerboardList.add(root1);
-//                    //this.player1_anchorPane.getChildren().add(root1);
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace(); //TODO gestire
-//        }
+
+    }
+
+    public void setupLorenzo(){
+        lorenzoToken.setVisible(true);
+        getPlayerBoardController(client.getUsername()).setupLorenzo();
+    }
+
+    public void setLorenzoToken(Image image){
+        this.lorenzoToken.setImage(image);
+    }
+
+    public PlayerboardController getPlayerBoardController(String username){
+        for(PlayerboardController p : playerboardControllers)
+            if(username.equals(p.getUsername()))
+                return p;
+        return null;
     }
 
     public void leaderSetup(String username, LeaderSetup stateUpdate) {
@@ -292,13 +291,13 @@ public class GameboardController extends GUIController {
         MarbleColor[][] marketColorMatrix = stateUpdate.getMarbleMatrix();
         MarbleColor slideMarble = stateUpdate.getSlide();
 
-        this.slide = new Circle(140, 10, 16, slideMarble.getGuiColor());
+        this.slide = new Circle(140, 10, GuiResources.marbleRadius, slideMarble.getGuiColor());
         market_anchorPane.getChildren().add(slide);
 
         this.marbleGrid = new Circle[N_ROW][N_COLUMN];
         for (int i = 0; i < marbleGrid.length; i++)
             for (int j = 0; j < marbleGrid[0].length; j++) {
-                marbleGrid[i][j] = new Circle(20 + j * 40, 55 + i * 40, 16, marketColorMatrix[i][j].getGuiColor());
+                marbleGrid[i][j] = new Circle(20 + j * 40, 55 + i * 40, GuiResources.marbleRadius, marketColorMatrix[i][j].getGuiColor());
                 market_anchorPane.getChildren().add(marbleGrid[i][j]);
             }
     }
@@ -356,36 +355,6 @@ public class GameboardController extends GUIController {
             this.endTurnButton.setDisable(false); //TODO verificare se serve davvero
         }
     }
-//    @FXML
-//    void selectedYellowMarble(MouseEvent event) {
-//        tempMarbleHbox.getChildren().remove(event.getSource());
-//        System.out.println("selectedYellowMarble");
-//    }
-//    @FXML
-//    void selectedRedMarble(MouseEvent event) {
-//        tempMarbleHbox.getChildren().remove(event.getSource());
-//        System.out.println("selectedRedMarble");
-//
-//    }
-//    @FXML
-//    void selectedWhiteMarble(MouseEvent event) {
-//        tempMarbleHbox.getChildren().remove(event.getSource());
-//        System.out.println("selectedWhiteMarble");
-//
-//    }
-//    @FXML
-//    void selectedBlueMarble(MouseEvent event) {
-//        tempMarbleHbox.getChildren().remove(event.getSource());
-//        System.out.println("selectedBlueMarble");
-//
-//    }
-//    @FXML
-//    void selectedPurpleMarble(MouseEvent event) {
-//        tempMarbleHbox.getChildren().remove(event.getSource());
-//        System.out.println("selectedPurpleMarble");
-//
-//    }
-
 
     @FXML
     void buyCard1(MouseEvent event) {
@@ -493,25 +462,6 @@ public class GameboardController extends GUIController {
 
     private Circle cloneCircle(Circle circle) {
         Circle clonedCircle = new Circle(circle.getRadius(), circle.getFill());
-//        if (MarbleColor.GREY.getGuiColor().equals(clonedCircle.getFill())) {
-//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedGreyMarble(event));
-//        }
-//        if(MarbleColor.YELLOW.getGuiColor().equals(clonedCircle.getFill())){
-//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedYellowMarble(event));
-//        }
-//        if (MarbleColor.BLUE.getGuiColor().equals(clonedCircle.getFill())) {
-//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedBlueMarble(event));
-//        }
-//        if(MarbleColor.WHITE.getGuiColor().equals(clonedCircle.getFill())){
-//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedWhiteMarble(event));
-//
-//        }
-//        if (MarbleColor.RED.getGuiColor().equals(clonedCircle.getFill())) {
-//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedRedMarble(event));
-//        }
-//        if (MarbleColor.PURPLE.getGuiColor().equals(clonedCircle.getFill())) {
-//            clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedPurpleMarble(event));
-//        }
         clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedMarble(event));
         return clonedCircle;
     }
@@ -519,7 +469,7 @@ public class GameboardController extends GUIController {
     private void pushRow(int row) {
         Color toSlide = (Color) this.marbleGrid[row][0].getFill();
         tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[row][0]));
-        for (int j = 1; j < 4; j++) {
+        for (int j = 1; j < N_COLUMN; j++) {
             tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[row][j]));
             this.marbleGrid[row][j - 1].setFill(this.marbleGrid[row][j].getFill());
         }
@@ -530,7 +480,7 @@ public class GameboardController extends GUIController {
     private void pushColumn(int column) {
         Color temp = (Color) this.marbleGrid[0][column].getFill();
         tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[0][column]));
-        for (int i = 1; i < 3; i++) {
+        for (int i = 1; i < N_ROW; i++) {
             tempMarbleHbox.getChildren().add(cloneCircle(this.marbleGrid[i][column]));
             this.marbleGrid[i - 1][column].setFill(this.marbleGrid[i][column].getFill());
         }
@@ -542,7 +492,7 @@ public class GameboardController extends GUIController {
 
     private void pushRowOthers(int row) {
         Color toSlide = (Color) this.marbleGrid[row][0].getFill();
-        for (int j = 1; j < 4; j++) {
+        for (int j = 1; j < N_COLUMN; j++) {
             this.marbleGrid[row][j - 1].setFill(this.marbleGrid[row][j].getFill());
         }
         this.marbleGrid[row][3].setFill(this.slide.getFill());
@@ -551,7 +501,7 @@ public class GameboardController extends GUIController {
 
     private void pushColumnOthers(int column) {
         Color temp = (Color) this.marbleGrid[0][column].getFill();
-        for (int i = 1; i < 3; i++) {
+        for (int i = 1; i < N_ROW; i++) {
             this.marbleGrid[i - 1][column].setFill(this.marbleGrid[i][column].getFill());
         }
         this.marbleGrid[2][column].setFill(this.slide.getFill());
@@ -678,12 +628,7 @@ public class GameboardController extends GUIController {
         }
     }
 
-    public PlayerboardController getPlayerBoardController(String username){
-        for(PlayerboardController p : playerboardControllers)
-            if(username.equals(p.getUsername()))
-                return p;
-        return null;
-    }
+
 
     @FXML
     void chooseGold(MouseEvent event) { onChosenResource(ResourceType.GOLD); }
@@ -792,7 +737,7 @@ public class GameboardController extends GUIController {
     @FXML
     void mouseHoverColorChange(MouseEvent event) {
         ImageView image = (ImageView) event.getSource();
-        image.setImage(new Image("images/MaterialArrowFilledHover.png"));
+        image.setImage(GuiResources.redMarketArrow);
         image.setScaleX(1.1);
         image.setScaleY(1.1);
         image.setEffect(new DropShadow(10, Color.WHITE));
@@ -801,7 +746,7 @@ public class GameboardController extends GUIController {
     @FXML
     void mouseHoverColorChangeReset(MouseEvent event) {
         ImageView image = (ImageView) event.getSource();
-        image.setImage(new Image("images/MaterialArrowFilled.png"));
+        image.setImage(GuiResources.marketArrow);
         image.setScaleX(1.0);
         image.setScaleY(1.0);
         image.setEffect(new DropShadow(0, Color.WHITE));

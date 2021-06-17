@@ -70,10 +70,47 @@
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="52.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="36.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="66.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="21.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="49.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="76.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true" />
-                  <GridPane fx:id="trackGrid" layoutX="27.0" layoutY="30.0" prefHeight="113.0" prefWidth="695.0">
+                  <GridPane fx:id="lorenzoTrackGrid" layoutX="32.0" layoutY="30.0" prefHeight="113.0" prefWidth="695.0">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="101.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="102.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="101.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="102.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="101.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="101.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="101.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="102.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="101.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="102.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <ImageView fx:id="lorenzoTrackPosition" fitHeight="31.0" fitWidth="32.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                           <image>
+                              <Image url="@../images/punchboard/croce.png" />
+                           </image>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </ImageView>
+                     </children>
+                  </GridPane>
+                  <GridPane fx:id="trackGrid" layoutX="25.0" layoutY="30.0" prefHeight="113.0" prefWidth="695.0">
                     <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="101.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="102.0" />

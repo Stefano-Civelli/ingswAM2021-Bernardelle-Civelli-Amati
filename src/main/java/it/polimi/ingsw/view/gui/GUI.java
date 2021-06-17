@@ -318,16 +318,28 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayLorenzoDiscarded(DevelopCardDeckUpdate state) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+//      Platform.runLater( () -> {
+//         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
+//         controller.setLorenzoToken(GuiResources.deckTokensMap.get(state.getColumn()));
+//      });
    }
 
    @Override
    public void displayLorenzoMoved() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+//      Platform.runLater(() -> {
+//         GameboardController gameController = (GameboardController) this.sceneController.getCurrentController();
+//         gameController.setLorenzoToken(GuiResources.lorenzoMoveTrackToken);
+//      });
    }
 
    @Override
    public void displayLorenzoShuffled() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+//      Platform.runLater(() -> {
+//         GameboardController gameController = (GameboardController) this.sceneController.getCurrentController();
+//         gameController.setLorenzoToken(GuiResources.lorenzoShuffleToken);
+//      });
    }
 //------------- ViewInterface --------------
 
@@ -419,7 +431,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
-         controller.getPlayerBoardController(username).updateTrack(stateUpdate);
+         controller.getPlayerBoardController(username).updatePlayerTrack(stateUpdate);
       });
    }
 
@@ -480,11 +492,21 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void lorenzoTrackUpdate(TrackUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> {
+         PlayerboardController controller = ((GameboardController) this.sceneController.getCurrentController()).getPlayerBoardController(this.username);
+         controller.updateLorenzoTrack(stateUpdate);
+         GameboardController gameController = (GameboardController) this.sceneController.getCurrentController();
+         gameController.setLorenzoToken(GuiResources.lorenzoMoveTrackToken);
+      });
    }
 
    @Override
    public void lorenzoShuffleUpdate() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> {
+         GameboardController gameController = (GameboardController) this.sceneController.getCurrentController();
+         gameController.setLorenzoToken(GuiResources.lorenzoShuffleToken);
+      });
    }
 
    @Override
@@ -493,6 +515,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       Platform.runLater( () -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
          controller.updateDeck(stateUpdate);
+         controller.setLorenzoToken(GuiResources.deckTokensMap.get(stateUpdate.getColumn()));
       });
    }
 
@@ -502,9 +525,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       this.turnManager.setPlayers(stateUpdate);
       Platform.runLater( () -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
-
          controller.setOtherPlayer(stateUpdate);
+         if(stateUpdate.size() == 1) {
+            controller.setupLorenzo();
+         }
       });
+
 
    }
 

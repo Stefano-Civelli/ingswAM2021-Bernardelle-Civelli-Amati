@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.updateContainers.*;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
+import it.polimi.ingsw.view.gui.GuiResources;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -39,10 +40,7 @@ public class PlayerboardController extends GUIController {
     private ResourceType secondToConsume = null;
     private Pair<ResourceType, Integer>[] storageLevels;
     private List<ImageView>[] guiStorage;
-    private Map<ResourceType,String> resTypeToUrlMap = Map.of(ResourceType.GOLD, "/images/punchboard/coin.png",
-                                                            ResourceType.STONE, "/images/punchboard/stone.png",
-                                                            ResourceType.SERVANT, "/images/punchboard/servant.png",
-                                                            ResourceType.SHIELD, "/images/punchboard/shield.png");
+
     private boolean forLeaderProd = false;
 
     @FXML
@@ -76,7 +74,11 @@ public class PlayerboardController extends GUIController {
     @FXML
     private GridPane trackGrid;
     @FXML
+    private GridPane lorenzoTrackGrid;
+    @FXML
     private ImageView trackPosition;
+    @FXML
+    private ImageView lorenzoTrackPosition;
     @FXML
     private Button productionSlot1Button;
     @FXML
@@ -110,8 +112,6 @@ public class PlayerboardController extends GUIController {
 
 
 
-
-
     @FXML
     private void initialize() {
         this.leader0_ImageView.setVisible(false);
@@ -124,6 +124,8 @@ public class PlayerboardController extends GUIController {
         this.activateLeaderButton.setVisible(false);
         this.discardLeaderButton.setVisible(false);
         this.baseProdChoice.setVisible(false);
+        this.lorenzoTrackGrid.setVisible(false);
+
 
         //non so se ste cose sono valide qua
         this.storageLevels = new Pair[5];
@@ -251,14 +253,18 @@ public class PlayerboardController extends GUIController {
         servantCounter.setText(Integer.toString(amount));
     }
 
-    public void updateTrack(TrackUpdate stateUpdate) {
+    public void updatePlayerTrack(TrackUpdate stateUpdate) {
         int position = stateUpdate.getPlayerPosition();
         this.trackPosition.setVisible(false);
-        ImageView image = new ImageView(new Image("images/punchboard/faithTrackCross.png"));
+        ImageView image = new ImageView(GuiResources.faithTrackCross);
         this.trackPosition = image;
-        image.setFitWidth(32);
-        image.setFitHeight(31);
+        image.setFitWidth(GuiResources.trackCrossWidth);
+        image.setFitHeight(GuiResources.trackCrossHeight);
 
+        positionTrackMarker(this.trackGrid, image, position);
+    }
+
+    private void positionTrackMarker(GridPane grid, ImageView image, int position){
         if(position<3)
             trackGrid.add(image, position, 2);
         if(position>2 && position<5)
@@ -280,13 +286,13 @@ public class PlayerboardController extends GUIController {
         if(stateUpdate.isActive())
             switch (zone) {
                 case 1:
-                    popeCard1.setImage(new Image("images/punchboard/pope_favor1_front.png"));
+                    popeCard1.setImage(GuiResources.popeFavorFront1);
                     break;
                 case 2:
-                    popeCard2.setImage(new Image("images/punchboard/pope_favor2_front.png"));
+                    popeCard2.setImage(GuiResources.popeFavorFront2);
                     break;
                 case 3:
-                    popeCard3.setImage(new Image("images/punchboard/pope_favor3_front.png"));
+                    popeCard3.setImage(GuiResources.popeFavorFront3);
                     break;
             }
     }
@@ -485,13 +491,11 @@ public class PlayerboardController extends GUIController {
 
                 if (storageLevels[i].getKey() != null) {
                     if (storageLevels[i].getKey().equals(resource)) {
-                        System.out.println("ciao");
                         if (i == update.getLevel()) {
-                            System.out.println("ciao2");
                             storageLevels[i] = new Pair<>(resource, update.getQuantity());
                             guiStorage[i].clear();
                             for(int k=0; k<update.getQuantity(); k++){
-                                guiStorage[i].add(new ImageView(new Image(resTypeToUrlMap.get(storageLevels[i].getKey()))));
+                                guiStorage[i].add(new ImageView(GuiResources.resTypeToImageMap.get(storageLevels[i].getKey())));
                             }
                             updateWarehouseVisuals();
                             return;
@@ -503,11 +507,11 @@ public class PlayerboardController extends GUIController {
                             storageLevels[i] = new Pair<>(temp.getKey(), temp.getValue());
 
                             for(int k=0; k<update.getQuantity(); k++){
-                                guiStorage[update.getLevel()].add(new ImageView(new Image(resTypeToUrlMap.get(storageLevels[update.getLevel()].getKey()))));
+                                guiStorage[update.getLevel()].add(new ImageView(GuiResources.resTypeToImageMap.get(storageLevels[update.getLevel()].getKey())));
                             }
 
                             for(int k=0; temp.getValue()!= null && k<temp.getValue(); k++){
-                                guiStorage[i].add(new ImageView(new Image(resTypeToUrlMap.get(storageLevels[i].getKey()))));
+                                guiStorage[i].add(new ImageView(GuiResources.resTypeToImageMap.get(storageLevels[i].getKey())));
                             }
                             updateWarehouseVisuals();
                             return;
@@ -521,19 +525,18 @@ public class PlayerboardController extends GUIController {
 
         guiStorage[update.getLevel()] =  new ArrayList<>();
         for(int k=0; k<update.getQuantity(); k++){
-            guiStorage[update.getLevel()].add(new ImageView(new Image(resTypeToUrlMap.get(storageLevels[update.getLevel()].getKey()))));
+            guiStorage[update.getLevel()].add(new ImageView(GuiResources.resTypeToImageMap.get(storageLevels[update.getLevel()].getKey())));
         }
 
         if(update.getLevel()>2) {
             boolean alreadyAdded = false;
-            System.out.println("leader devee updatearsi");
             if(!this.resourceTypeHBoxPairList.isEmpty()) {
                 for (Pair<ResourceType, HBox> p : resourceTypeHBoxPairList) {
                     if (p.getKey().equals(update.getResourceType())) { //already exists an HBOX for this resource
                         p.getValue().getChildren().clear();
                         for(ImageView i : guiStorage[update.getLevel()]){
-                            i.setFitHeight(30);
-                            i.setFitWidth(30);
+                            i.setFitHeight(GuiResources.resourcesDimension);
+                            i.setFitWidth(GuiResources.resourcesDimension);
                             p.getValue().getChildren().add(i);
                         }
                         alreadyAdded = true;
@@ -544,8 +547,8 @@ public class PlayerboardController extends GUIController {
                 HBox resourcesHbox = new HBox(5);
                 resourcesHbox.setAlignment(Pos.CENTER);
                 for(ImageView i : guiStorage[update.getLevel()]){
-                    i.setFitHeight(30);
-                    i.setFitWidth(30);
+                    i.setFitHeight(GuiResources.resourcesDimension);
+                    i.setFitWidth(GuiResources.resourcesDimension);
                     resourcesHbox.getChildren().add(i);
                 }
                 this.resourceTypeHBoxPairList.add(new Pair<>(update.getResourceType(), resourcesHbox));
@@ -559,18 +562,18 @@ public class PlayerboardController extends GUIController {
     private void updateWarehouseVisuals(){
 
         for(ImageView i : guiStorage[2]){
-            i.setFitHeight(30);
-            i.setFitWidth(30);
+            i.setFitHeight(GuiResources.resourcesDimension);
+            i.setFitWidth(GuiResources.resourcesDimension);
             warehouseLevel2Hbox.getChildren().add(i);
         }
         for(ImageView i : guiStorage[1]){
-            i.setFitHeight(30);
-            i.setFitWidth(30);
+            i.setFitHeight(GuiResources.resourcesDimension);
+            i.setFitWidth(GuiResources.resourcesDimension);
             warehouseLevel1Hbox.getChildren().add(i);
         }
         for(ImageView i : guiStorage[0]){
-            i.setFitHeight(30);
-            i.setFitWidth(30);
+            i.setFitHeight(GuiResources.resourcesDimension);
+            i.setFitWidth(GuiResources.resourcesDimension);
             warehouseLevel0Hbox.getChildren().add(i);
         }
     }
@@ -642,7 +645,7 @@ public class PlayerboardController extends GUIController {
                 ImageView activatedCard = p.getKey();
                 activatedCard.setOnMouseClicked(null);
                 //p.getKey(). //TODO settare qualche proprietà per far vedere visivamente che è attiva
-
+                //potrei mettere bordo rosso e fare che non fa nulla on mouse hover
                 try {
                     if (LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement() != null){
                         activatedCard.setOnMouseClicked((MouseEvent event1) -> activateLeaderProduction(event1));
@@ -669,6 +672,22 @@ public class PlayerboardController extends GUIController {
         client.forwardAction(leaderProdAction);
         this.baseProdChoice.setVisible(false);
         this.forLeaderProd = false;
+    }
+
+    public void setupLorenzo(){
+        this.lorenzoTrackGrid.setVisible(true);
+    }
+
+
+    public void updateLorenzoTrack(TrackUpdate stateUpdate){
+        int position = stateUpdate.getPlayerPosition();
+        this.lorenzoTrackPosition.setVisible(false);
+        ImageView image = new ImageView(GuiResources.lorenzoFaithTrackCross);
+        this.lorenzoTrackPosition = image;
+        image.setFitWidth(GuiResources.trackCrossWidth);
+        image.setFitHeight(GuiResources.trackCrossHeight);
+
+        positionTrackMarker(this.lorenzoTrackGrid, image, position);
     }
 
     // Cosmetics ----------------------------------------------------------------

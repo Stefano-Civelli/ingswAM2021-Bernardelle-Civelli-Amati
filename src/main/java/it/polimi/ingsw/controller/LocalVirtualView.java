@@ -106,7 +106,7 @@ public class LocalVirtualView implements ModelObserver {
 
    @Override
    public void lorenzoDevDeckUpdate(DevelopCardDeckUpdate stateUpdate) {
-      state.devDeckUpdate(stateUpdate);
+      state.lorenzoDevDeckUpdate(stateUpdate);
       view.displayLorenzoDiscarded(stateUpdate);
    }
 

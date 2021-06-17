@@ -1,5 +1,14 @@
 # MAESTRI DEL RINASCIMENTO - Progetto IngSW - 2021
 
+## Project Description
+The project consists of a Java version of the board game [Maestri del Rinascimento](https://www.craniocreations.it/prodotto/masters-of-renaissance/) by CranioCreations.
+
+This repository includes:
+* initial UML diagram;
+* final UML diagram, automatically generated;
+* the actual Game;
+* all required resources to run the game.
+
 ## Implemented Functionalities
 | Functionality | Status |
 |:-----------------------|:------------------------------------:|
@@ -14,7 +23,7 @@
 [![RED](http://placehold.it/15/f03c15/f03c15)](#)
 [![GREEN](http://placehold.it/15/44bb44/44bb44)](#)
 -->
-  
+
 
 ## COMMUNICATION PROTOCOL
 

@@ -324,6 +324,7 @@ public class Client implements PhaseChangedObserver {
     virtualModel = new LocalVirtualModel(gameTurnManager, clientTurnManager, this);
     clientTurnManager.setCurrentPlayer(username);
     clientTurnManager.currentPhasePrint();
+    state.gameStartedSetup(new ArrayList<>(List.of(this.username)));
   }
 
   public void phaseUpdate(TurnState nextPhase) {
