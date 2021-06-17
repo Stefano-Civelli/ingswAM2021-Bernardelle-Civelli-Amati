@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.updateContainers.*;
 import java.util.List;
 
 public interface ClientModelUpdaterInterface {
+
   void setClientUsername(String username);
   void chestUpdate(String username, ChestUpdate stateUpdate);
   void warehouseUpdate(String username, WarehouseUpdate stateUpdate);
@@ -24,4 +25,5 @@ public interface ClientModelUpdaterInterface {
   void lorenzoShuffleUpdate();
   void lorenzoDevDeckUpdate(DevelopCardDeckUpdate stateUpdate);
   void gameStartedSetup(List<String> stateUpdate);
+
 }

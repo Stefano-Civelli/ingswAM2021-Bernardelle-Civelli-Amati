@@ -12,26 +12,19 @@ import java.io.IOException;
 
 public class SceneController {
 
-    private Stage activeStage;
-    private GUIController currentController;
+    private Stage activeStage = null;
+    private GUIController currentController = null;
+    private final Client client;
 
-    protected void setActiveStage(Stage activeStage) {
-        this.activeStage = activeStage;
-    }
-
-    public void setCurrentController(GUIController controller) {
-        this.currentController = controller;
+    public SceneController(Client client) {
+        this.client = client;
     }
 
     public GUIController getCurrentController() {
         return this.currentController;
     }
 
-    public Stage getActiveStage() {
-        return this.activeStage;
-    }
-
-    public void changeScene(String fxml, Client client) {
+    private void changeScene(String fxml, Client client) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SceneController.class.getClassLoader().getResource(fxml));
@@ -47,7 +40,7 @@ public class SceneController {
         }
     }
 
-    public void changeStage(String fxml, Client client) {
+    private void changeStage(String fxml, Client client) {
         this.activeStage.hide();
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -67,6 +60,38 @@ public class SceneController {
             //TODO gestire
             e.printStackTrace();
         }
+    }
+
+    public void start(Stage stage) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource(GuiResources.connectionFXML));
+        Parent root = loader.load();
+        GUIController controller = loader.getController();
+        this.currentController = controller;
+        controller.setClient(client);
+        this.activeStage = stage;
+        this.activeStage.getIcons().add(GuiResources.logo);
+        this.activeStage.setTitle("Masters of Renaissance");
+        this.activeStage.setResizable(false);
+        this.activeStage.setScene(new Scene(root));
+        this.activeStage.setResizable(false);
+        this.activeStage.show();
+    }
+
+    public void loadLogin() {
+        this.changeScene(GuiResources.loginFXML, this.client);
+    }
+
+    public void loadLobby() {
+        this.changeScene(GuiResources.lobbyFXML, this.client);
+    }
+
+    public void loadNumberOfPlayer() {
+        this.changeScene(GuiResources.numberOfPlayerFXML, this.client);
+    }
+
+    public void loadGameboard() {
+        this.changeStage(GuiResources.gameboardFXML, this.client);
     }
 
 }

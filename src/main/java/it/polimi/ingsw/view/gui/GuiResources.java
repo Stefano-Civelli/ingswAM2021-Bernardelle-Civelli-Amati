@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * contains resources used in gui
  */
-public class GuiResources {
+public final class GuiResources {
 
    public static double marbleRadius = 16;
    public static double cardHeight = 138;
@@ -16,11 +16,20 @@ public class GuiResources {
    public static double trackCrossHeight = 31;
    public static double trackCrossWidth = 32;
    public static double resourcesDimension = 30;
+
+   //fxml files
+   public static String connectionFXML = "fxml/connection.fxml";
+   public static String loginFXML = "fxml/login.fxml";
+   public static String numberOfPlayerFXML = "fxml/numberOfPlayer.fxml";
+   public static String lobbyFXML = "fxml/lobby.fxml";
+   public static String gameboardFXML = "fxml/gameboard.fxml";
    public static String playerboardFXML = "fxml/playerboard.fxml";
+
 
    //NOTE: card images are contained in the JSON files
 
    //images
+   protected static Image logo = new Image(GuiResources.class.getResource("/images/Logo.png").toString());
    protected static Image lorenzoMoveTrackToken = new Image(GuiResources.class.getResource("/images/punchboard/cerchio5.png").toString());
    protected static Image lorenzoShuffleToken = new Image(GuiResources.class.getResource("/images/punchboard/cerchio7.png").toString());
    protected static Image coin = new Image(GuiResources.class.getResource("/images/punchboard/coin.png").toString());
@@ -48,5 +57,9 @@ public class GuiResources {
            ResourceType.SERVANT, new Image(GuiResources.class.getResource("/images/punchboard/servant.png").toString()),
            ResourceType.SHIELD, new Image(GuiResources.class.getResource("/images/punchboard/shield.png").toString())
    );
+
+   private GuiResources() {
+      // private constructor to prevent instances of this class (a class can't be final and abstract in Java).
+   }
 
 }
