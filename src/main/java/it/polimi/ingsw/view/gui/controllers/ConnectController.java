@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.controllers;
 
+import it.polimi.ingsw.view.gui.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -61,7 +62,8 @@ public class ConnectController extends GUIController {
     @FXML
     private void login(ActionEvent actionEvent) {
         if(this.local_checkBox.isSelected()) {
-
+            ((GUI) super.client.getView()).singlePlayer(); // FIXME
+            super.client.getView().displayLogin();
         } else {
             if (!this.serverPort_textField.getText().equals("")
                     && !this.serverIP_textField.getText().equals("")) {
