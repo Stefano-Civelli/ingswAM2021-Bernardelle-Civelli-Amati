@@ -94,4 +94,12 @@ public class SceneController {
         this.changeStage(GuiResources.gameboardFXML, this.client);
     }
 
+    public void loadEndGameWin() {
+        this.changeScene(GuiResources.endGameWinFXML, this.client);
+    }
+
+    public void loadEndGameLose() {
+        this.changeScene(GuiResources.endGameLoseFXML, this.client);
+    }
+
 }

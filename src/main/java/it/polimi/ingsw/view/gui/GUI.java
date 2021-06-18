@@ -1,19 +1,20 @@
 package it.polimi.ingsw.view.gui;
 
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.updateContainers.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.client.GuiTurnManager;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.ClientModelUpdaterInterface;
 import it.polimi.ingsw.view.ClientStrings;
 import it.polimi.ingsw.view.ViewInterface;
-import it.polimi.ingsw.view.gui.controllers.ConnectController;
-import it.polimi.ingsw.view.gui.controllers.GameboardController;
-import it.polimi.ingsw.view.gui.controllers.LoginController;
-import it.polimi.ingsw.view.gui.controllers.PlayerboardController;
+import it.polimi.ingsw.view.gui.controllers.*;
 import javafx.application.Platform;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class GUI implements ViewInterface, ClientModelUpdaterInterface {
@@ -182,7 +183,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayPlayerTurn(String player) {
+   public void displayPlayerTurn(String player) { //FIXME viene chiamata dopo game ended
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
@@ -207,6 +208,21 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayGameEnded(String payload) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Type token = new TypeToken<Pair<String, Integer>>(){}.getType();
+      Pair<String, Integer> winnerAndScore = GSON.getGsonBuilder().fromJson(payload, token);
+      String winner = winnerAndScore.getKey();
+      int score = winnerAndScore.getValue();
+      if(this.username.equals(winner))
+         Platform.runLater(this.sceneController::loadEndGameWin);
+      else
+         Platform.runLater(this.sceneController::loadEndGameLose);
+      if("".equals(winner))
+         winner = "Lorenzo Il Magnifico";
+      final String finalWinner = winner; // necessary for lambda
+      Platform.runLater(() -> {
+         ((EndGameController) this.sceneController.getCurrentController()).setWinner(finalWinner, score);
+      });
+
    }
 
    @Override
