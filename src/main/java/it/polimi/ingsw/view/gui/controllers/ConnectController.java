@@ -70,8 +70,9 @@ public class ConnectController extends GUIController {
                 this.connect_button.setDisable(true);
                 this.error_label.setVisible(false);
                 this.error_label.setText("ERROR");
-                // TODO gestire errori
-                setSocket(this.serverIP_textField.getText(), Integer.parseInt(this.serverPort_textField.getText()));
+                boolean connected = this.client.connectToServer(this.serverIP_textField.getText(), Integer.parseInt(this.serverPort_textField.getText()));
+                if(connected)
+                    this.client.getView().displayLogin();
             } else {
                 this.error_label.setVisible(true);
                 this.error_label.setText("ERROR: all fields are required");

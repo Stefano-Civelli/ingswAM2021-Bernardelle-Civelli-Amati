@@ -13,16 +13,4 @@ public abstract class GUIController {
         return this.client;
     }
 
-    protected void sendMessage(Message message) {
-        //FIXME messagi nella gui??
-        if(this.client.getUsername() != null)
-            message.setUsername(this.client.getUsername());
-        this.client.forwardMessage(message);
-    }
-
-    protected void setSocket(String ip, int port) {
-            this.client.connectToServer(ip, port);
-            this.client.getView().displayLogin();
-    }
-
 }

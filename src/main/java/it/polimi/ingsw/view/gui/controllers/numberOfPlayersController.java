@@ -47,9 +47,7 @@ public class numberOfPlayersController extends GUIController {
         else if(this.fourPlayers_radioButton.isSelected())
             playersNumber = 4;
         int finalPlayersNumber = playersNumber;
-        new Thread(() ->
-                sendMessage(new Message(MessageType.NUMBER_OF_PLAYERS, finalPlayersNumber))
-        ).start();
+        this.client.forwardMessage(new Message(MessageType.NUMBER_OF_PLAYERS, finalPlayersNumber));
     }
 
 }

@@ -99,7 +99,7 @@ public class Client implements PhaseChangedObserver {
   /**
    * Instantiates a connection with the server
    */
-  public void connectToServer(String serverIP, int serverPort) {
+  public boolean connectToServer(String serverIP, int serverPort) {
     Socket server;
     try {
       server = new Socket(serverIP, serverPort);
@@ -110,10 +110,11 @@ public class Client implements PhaseChangedObserver {
       Thread thread = new Thread(threadServerConnection);
       thread.setName("StreamIn");
       thread.start();
-
     } catch (IOException e) {
       view.displaySetupFailure();
+      return false;
     }
+    return true;
   }
 
   public void sendLogin(boolean create, String roomName){

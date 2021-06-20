@@ -51,7 +51,13 @@ public class LoginController extends GUIController {
     }
 
     public void loginFailed() {
-        this.error_label.setText("ERROR: username already taken or invalid");
+        this.error_label.setText("ERROR: username already taken or invalid in this game");
+        this.error_label.setVisible(true);
+        this.login_button.setDisable(false);
+    }
+
+    public void gameFailed() {
+        this.error_label.setText("ERROR: gameID already exist or invalid");
         this.error_label.setVisible(true);
         this.login_button.setDisable(false);
     }
