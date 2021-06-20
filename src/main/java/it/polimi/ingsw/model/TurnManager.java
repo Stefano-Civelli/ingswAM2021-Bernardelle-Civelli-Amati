@@ -45,6 +45,8 @@ public class TurnManager implements IGameState {
      * @throws NoConnectedPlayerException if the last player disconnected
      */
     public synchronized Message handleAction(Action action) throws NoConnectedPlayerException {
+        if(this.currentPlayer == null)
+            return null;
         try {
             PhaseType tmpPhase = action.performAction(this);
             if(tmpPhase == null)
@@ -130,7 +132,9 @@ public class TurnManager implements IGameState {
         }
 
         // Send new turn state to players
-        return new Message(MessageType.NEXT_TURN_STATE, new TurnState(this.currentPlayer, this.currentPhase));
+        if(this.currentPlayer != null)
+            return new Message(MessageType.NEXT_TURN_STATE, new TurnState(this.currentPlayer, this.currentPhase));
+        return null;
     }
 
     @Override
@@ -146,5 +150,10 @@ public class TurnManager implements IGameState {
     @Override
     public Game getGame() {
         return this.game;
+    }
+
+    public void stop() {
+        this.currentPlayer = null;
+        this.currentPhase = null;
     }
 }
