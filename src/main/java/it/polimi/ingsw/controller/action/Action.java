@@ -53,7 +53,7 @@ public abstract class Action {
      * @return true if this player is the current player, false if it's not
      */
     protected final boolean isCurrentPlayer(IGameState gameState) {
-        return !(this.username == null) && gameState.getCurrentPlayer().equals(this.username);
+        return this.username != null && this.username.equals(gameState.getCurrentPlayer());
     }
 
     /**

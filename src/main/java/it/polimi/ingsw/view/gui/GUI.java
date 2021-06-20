@@ -219,9 +219,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       if("".equals(winner))
          winner = "Lorenzo Il Magnifico";
       final String finalWinner = winner; // necessary for lambda
-      Platform.runLater(() -> {
-         ((EndGameController) this.sceneController.getCurrentController()).setWinner(finalWinner, score);
-      });
+      Platform.runLater(() -> ((EndGameController) this.sceneController.getCurrentController()).setWinner(finalWinner, score));
 
    }
 
