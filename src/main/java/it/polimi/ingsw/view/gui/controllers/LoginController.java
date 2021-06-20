@@ -27,13 +27,13 @@ public class LoginController extends GUIController {
     private void login(ActionEvent actionEvent) {
         if(((GUI) super.client.getView()).isSinglePlayer()) {
             super.client.setUsername(this.username_textField.getText());
-            super.client.sendLogin();
+            //super.client.sendLogin(); FIXME
             super.client.getView().displayLoginSuccessful(this.username_textField.getText());
             super.client.getView().startingSetupUpdate();
             super.client.localGameSetup();
         }
         this.login_button.setDisable(true);
-        super.sendMessage(new Message(this.username_textField.getText(), MessageType.LOGIN));
+        //super.sendMessage(new Message(this.username_textField.getText(), MessageType.LOGIN));
     }
 
     public void loginFailed() {

@@ -90,10 +90,19 @@ public class Cli implements ViewInterface {
   @Override
   public void displayLogin() {
     String username;
+    String roomName = null;
+    boolean create = false;
     out.println("Choose your username:");
     username = in.nextLine();
+    out.println("Create or Join?");
+    String input = stringInputValidation(in, "c", "j");
+    if(input.equals("c"))
+      create = true;
+    out.println("Room name?");
+    roomName = in.nextLine();
+
     client.setUsername(username);
-    client.sendLogin();
+    client.sendLogin(create, roomName);
   }
 
     @Override
@@ -560,6 +569,7 @@ public class Cli implements ViewInterface {
     drawer.marketDisplay();
     System.out.println("Do you want to push a " + Color.ANSI_RED.escape() + "R" + Color.RESET.escape() + "ow or a "
             + Color.ANSI_RED.escape() + "C" + Color.RESET.escape() + "olumn ? ");
+    in.nextLine();
     String choice = stringInputValidation(in,"r","c");
     boolean row = choice.equals("r");
     System.out.println("what number ?");
@@ -625,7 +635,6 @@ public class Cli implements ViewInterface {
 
   private static String stringInputValidation(Scanner in, String a, String b) {
     String input;
-    in.nextLine();
     input = in.nextLine().toLowerCase();
 
     while(!input.equals(a) && !input.equals(b)){

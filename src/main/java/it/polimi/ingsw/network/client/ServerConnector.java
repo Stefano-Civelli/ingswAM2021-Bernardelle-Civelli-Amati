@@ -53,7 +53,7 @@ public class ServerConnector{
   }
 
   public void sendToServer(Message msg) {
-    if(msg.getMessageType() != MessageType.LOGIN)
+    if(msg.getMessageType() != MessageType.CREATE_MATCH && msg.getMessageType() != MessageType.JOIN_MATCH)
       msg.setUsername(client.getUsername());
 
     String message = parserToJson(msg);

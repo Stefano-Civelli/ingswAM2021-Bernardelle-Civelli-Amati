@@ -4,7 +4,7 @@ package it.polimi.ingsw.network.messages;
 public enum MessageType {
 
   PING,
-  LOGIN,
+  JOIN_MATCH,
   NUMBER_OF_PLAYERS,
   LOGIN_SUCCESSFUL,
   WAIT_FOR_LOBBY_CREATION,
@@ -16,6 +16,7 @@ public enum MessageType {
   RECONNECTED,
   DISCONNECTED,
   STARTING_GAME_SETUP,
+  CREATE_MATCH,
 
   ACTION, // -> se ho questo tipo il payload del messaggio deve contenere il Type dell'azione e i correti field per poter fare le doAction
 

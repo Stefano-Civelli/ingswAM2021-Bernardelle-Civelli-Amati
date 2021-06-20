@@ -27,6 +27,7 @@ public class ServerClientHandler implements Runnable {
    private BufferedReader in;
    private PrintWriter out;
 
+   private Match match = null;
    private String username;
    private boolean connected; // Default: true
    private boolean logged; // set to true when the players logs in
@@ -57,7 +58,7 @@ public class ServerClientHandler implements Runnable {
    private void handleClientConnection() throws IOException {
 
       System.out.println("Connected to " + clientSocket.getInetAddress());
-      server.addClient(this); // probabilmente serve aggiungerlo ora perchè così so che non posso far connettere + player di quanti sono rischiesti
+      //match.addClient(this); // probabilmente serve aggiungerlo ora perchè così so che non posso far connettere + player di quanti sono rischiesti
 
       try {
 
@@ -66,7 +67,7 @@ public class ServerClientHandler implements Runnable {
                String receivedString = in.readLine();
                Message message = messageParser(receivedString);
                if(message.getMessageType() != MessageType.PING)
-                  System.out.println("LOG: Recieved: " + receivedString);
+                  System.out.println("LOG match " + (this.match == null ? "" : this.match.getMatchName()) + ": Recieved: " + receivedString);
                messageReceived(message);
             }catch(JsonSyntaxException e){
                e.printStackTrace();
@@ -78,7 +79,7 @@ public class ServerClientHandler implements Runnable {
          if(e instanceof SocketTimeoutException)
             System.out.print("TIMEOUT, ");
          System.out.println("connection lost on client: " + clientSocket.getInetAddress() + "  --username: " + username);
-         server.handleClientDisconnection(this);
+         match.handleClientDisconnection(this);
       }
    }
 
@@ -91,31 +92,51 @@ public class ServerClientHandler implements Runnable {
 
       switch (message.getMessageType()) {
 
-         case LOGIN:
+         case CREATE_MATCH:
+            if(server.matchIdPresent(message.getPayloadByType(String.class)))
+               sendMessage(new Message(MessageType.ERROR, ErrorType.MATCH_ALREADY_EXISTS));
+            else {
+               this.match = server.createNewMatch(message.getPayloadByType(String.class));
+               this.match.addClient(this);
+               this.match.handleLogin(message, this);
+            }
+            break;
+
+         case JOIN_MATCH:
             if(logged)
                return;
-            server.handleLogin(message, this);
+            if(server.matchIdPresent(message.getPayloadByType(String.class)) && this.match == null) {
+               this.match = server.assignToMatch(message.getPayloadByType(String.class), this);
+               if(this.match != null) {
+                  this.match.addClient(this);
+                  this.match.handleLogin(message, this);
+               }
+               else
+                  sendMessage(new Message(MessageType.WAIT_FOR_LOBBY_CREATION, "A player is creating the lobby, try again in a few seconds"));
+            }
+            else
+               sendMessage(new Message(MessageType.ERROR, ErrorType.CANNOT_JOIN_MATCH));
             break;
 
          case NUMBER_OF_PLAYERS:
             if(!logged)
                return;
-            server.lobbySetup(message);
+            match.lobbySetup(message);
             break;
 
          case PING:
             break;
 
          case QUIT:
-            server.handleClientDisconnection(this);
+            match.handleClientDisconnection(this);
             break;
 
          case ACTION:
-            if(!server.isGameRunning())
+            if(!match.isGameRunning())
                return;
             Action action = message.getAction();
             try {
-               Message errorOrEndTurn = server.getTurnManager().handleAction(action);
+               Message errorOrEndTurn = match.getTurnManager().handleAction(action);
                actionAnswereMessage(errorOrEndTurn);
             } catch (NoConnectedPlayerException e) {
                //This code should never be executed
@@ -126,13 +147,13 @@ public class ServerClientHandler implements Runnable {
             if(!ConfigParameters.TESTING)
                return;
             try {
-               Chest tempChest = server.getTurnManager().getGame().getPlayerBoard(server.getTurnManager().getCurrentPlayer()).getChest();
+               Chest tempChest = match.getTurnManager().getGame().getPlayerBoard(match.getTurnManager().getCurrentPlayer()).getChest();
                tempChest.addResources(ResourceType.SHIELD, 50);
                tempChest.addResources(ResourceType.STONE, 50);
                tempChest.addResources(ResourceType.SERVANT, 50);
                tempChest.addResources(ResourceType.GOLD, 50);
                tempChest.endOfTurnMapsMerge();
-               server.getTurnManager().getGame().getPlayerBoard(server.getTurnManager().getCurrentPlayer()).getTrack().moveForward(19);
+               match.getTurnManager().getGame().getPlayerBoard(match.getTurnManager().getCurrentPlayer()).getTrack().moveForward(19);
             } catch (InvalidUsernameException | NegativeQuantityException | AbuseOfFaithException e) {e.printStackTrace();}
             break;
          default:
@@ -148,7 +169,7 @@ public class ServerClientHandler implements Runnable {
             sendMessage(answerMessage);
             break;
          case NEXT_TURN_STATE: //questa cosa non serve dirla al client, basta dirgli tipo turno finito a tutti e basta, poi loro con la logica capiscono cosa fare
-            server.sendBroadcast(answerMessage);
+            match.sendBroadcast(answerMessage);
             break;
       }
    }
@@ -163,7 +184,7 @@ public class ServerClientHandler implements Runnable {
          return;
       String jsonMessage = GSON.getGsonBuilder().toJson(message);
       if(message.getMessageType() != MessageType.PING)
-         System.out.println("LOG: Sent: " + jsonMessage);
+         System.out.println("LOG match " + (this.match == null ? "" : this.match.getMatchName()) + ": Sent: " + jsonMessage);
       jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
       out.println(jsonMessage);
       out.flush();

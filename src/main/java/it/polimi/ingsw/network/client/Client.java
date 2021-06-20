@@ -38,7 +38,7 @@ public class Client implements PhaseChangedObserver {
 
 
   public static void main(String[] args) {
-    boolean isCli = false;
+    boolean isCli = true;
     boolean isLocal = false;
 
 //    if(args.length > 0)
@@ -116,9 +116,12 @@ public class Client implements PhaseChangedObserver {
     }
   }
 
-  public void sendLogin(){
+  public void sendLogin(boolean create, String roomName){
     state.setClientUsername(this.username);
-    forwardMessage(new Message(username, MessageType.LOGIN));
+    if(create)
+      forwardMessage(new Message(username, MessageType.CREATE_MATCH, roomName));
+    else
+      forwardMessage(new Message(username, MessageType.JOIN_MATCH, roomName));
   }
 
   public void forwardAction(Action actionToForward) {
