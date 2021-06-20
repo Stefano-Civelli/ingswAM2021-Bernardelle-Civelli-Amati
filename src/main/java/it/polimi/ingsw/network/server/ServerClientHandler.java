@@ -21,7 +21,6 @@ import java.net.SocketTimeoutException;
 
 
 public class ServerClientHandler implements Runnable {
-
    private final Socket clientSocket;
    private final Server server;
    private BufferedReader in;
@@ -61,7 +60,7 @@ public class ServerClientHandler implements Runnable {
       //match.addClient(this); // probabilmente serve aggiungerlo ora perchè così so che non posso far connettere + player di quanti sono rischiesti
 
       try {
-
+         int errorCounter = 0;
          while (true) {
             try {
                String receivedString = in.readLine();
@@ -69,17 +68,35 @@ public class ServerClientHandler implements Runnable {
                if(message.getMessageType() != MessageType.PING)
                   System.out.println("LOG match " + (this.match == null ? "" : this.match.getMatchName()) + ": Recieved: " + receivedString);
                messageReceived(message);
+               errorCounter = 0;
             }catch(JsonSyntaxException e){
-               e.printStackTrace();
+               errorCounter++;
                sendMessage(new Message(MessageType.ERROR, ErrorType.MALFORMED_MESSAGE));
+               if(errorCounter >= ConfigParameters.MAX_CONSECUTIVE_MALFORMED_MESSAGE) {
+                  System.out.println("LOG: " + this.clientSocket.getInetAddress()
+                          + " sent " + ConfigParameters.MAX_CONSECUTIVE_MALFORMED_MESSAGE
+                          + " consecutive malformed message. This socket will be closed. ");
+                  if(this.match != null) {
+                     match.handleClientDisconnection(this);
+                  } else {
+                     this.clientSocket.close();
+                     this.connected = false;
+                  }
+                  return;
+               }
             }
          }//while
 
-      }catch(IOException e){ //client crashes or timeout runs out
+      } catch(IOException e) { //client crashes or timeout runs out
          if(e instanceof SocketTimeoutException)
-            System.out.print("TIMEOUT, ");
+            System.out.print("TIMEOUT: ");
          System.out.println("connection lost on client: " + clientSocket.getInetAddress() + "  --username: " + username);
-         match.handleClientDisconnection(this);
+         if(this.match != null)
+            match.handleClientDisconnection(this);
+         else {
+            this.clientSocket.close();
+            this.connected = false;
+         }
       }
    }
 
@@ -224,8 +241,9 @@ public class ServerClientHandler implements Runnable {
    /**
     * closes this client's socket
     */
-   public void closeSocket(){
+   public void closeSocket() {
       try {
+         this.connected = false;
          clientSocket.close();
       } catch (IOException e) {
          e.printStackTrace();

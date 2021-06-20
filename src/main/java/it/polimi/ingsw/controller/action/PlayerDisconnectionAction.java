@@ -81,11 +81,14 @@ public class PlayerDisconnectionAction extends Action {
         // Discard two random leader cards
         Random random = new Random();
         try {
-            gameState.getGame().getPlayerBoard(super.getUsername()).discardLeaderAtBegin(
-                    gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().stream()
-                            .map(LeaderCard::getLeaderId).collect(Collectors.toList()).get(random.nextInt(4)),
-                    gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().stream()
-                            .map(LeaderCard::getLeaderId).collect(Collectors.toList()).get(random.nextInt(4)));
+            int leaderID1, leaderID2;
+            leaderID1 = gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().stream()
+                    .map(LeaderCard::getLeaderId).collect(Collectors.toList()).get(random.nextInt(4));
+            do {
+                leaderID2 = gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().stream()
+                        .map(LeaderCard::getLeaderId).collect(Collectors.toList()).get(random.nextInt(4));
+            } while (leaderID2 == leaderID1);
+            gameState.getGame().getPlayerBoard(super.getUsername()).discardLeaderAtBegin(leaderID1, leaderID2);
         } catch (InvalidLeaderCardException e) {
             // This code should never be executed
             e.printStackTrace();

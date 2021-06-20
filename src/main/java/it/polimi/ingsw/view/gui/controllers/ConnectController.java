@@ -94,7 +94,6 @@ public class ConnectController extends GUIController {
         } else {
             this.initialize();
         }
-
     }
 
     public void loginError(String error) {

@@ -22,7 +22,7 @@ public class Match {
    private static final int SINGLE_PLAYER_NUMBER = 1;
    private static final int MAX_MULTIPLAYER_NUMBER = 4;
 
-   private String matchName;
+   private final String matchName;
    private int playersNumber = 0;
    private final Map<String, ServerClientHandler> usernameToClientHandler = new HashMap<>();
    private final List<ServerClientHandler> clients = new ArrayList<>();
@@ -318,12 +318,10 @@ public class Match {
       }
       finally {
          disconnectedClient.closeSocket();
-         disconnectedClient.setConnected(false); //needed to handle reconnection
       }
       if(this.clients.stream().noneMatch(ServerClientHandler::isConnected)) {
          System.out.println("NO CONNECTED PLAYERS");
          this.deleteMatch();
-         System.out.println("talla");
       }
    }
 
