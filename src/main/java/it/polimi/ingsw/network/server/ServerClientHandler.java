@@ -137,7 +137,8 @@ public class ServerClientHandler implements Runnable {
             Action action = message.getAction();
             try {
                Message errorOrEndTurn = match.getTurnManager().handleAction(action);
-               actionAnswereMessage(errorOrEndTurn);
+               if(errorOrEndTurn != null)
+                  actionAnswereMessage(errorOrEndTurn);
             } catch (NoConnectedPlayerException e) {
                //This code should never be executed
                e.printStackTrace();
@@ -153,7 +154,7 @@ public class ServerClientHandler implements Runnable {
                tempChest.addResources(ResourceType.SERVANT, 50);
                tempChest.addResources(ResourceType.GOLD, 50);
                tempChest.endOfTurnMapsMerge();
-               match.getTurnManager().getGame().getPlayerBoard(match.getTurnManager().getCurrentPlayer()).getTrack().moveForward(19);
+               match.getTurnManager().getGame().getPlayerBoard(match.getTurnManager().getCurrentPlayer()).getTrack().moveForward(23);
             } catch (InvalidUsernameException | NegativeQuantityException | AbuseOfFaithException e) {e.printStackTrace();}
             break;
          default:

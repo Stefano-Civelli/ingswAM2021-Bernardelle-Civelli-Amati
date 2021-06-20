@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.view.gui.controllers.GUIController;
+import it.polimi.ingsw.view.gui.controllers.LoginController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -80,6 +81,8 @@ public class SceneController {
 
     public void loadLogin() {
         this.changeScene(GuiResources.loginFXML, this.client);
+        LoginController controller = (LoginController) this.currentController;
+        controller.checkLocal();
     }
 
     public void loadLobby() {

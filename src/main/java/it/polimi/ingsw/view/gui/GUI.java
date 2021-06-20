@@ -22,18 +22,18 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    private GuiTurnManager turnManager;
    private final SceneController sceneController;
    private String username;
-   private boolean singlePlayer = false;
+   private boolean local = false;
 
    public GUI(Client client) {
       this.sceneController = new SceneController(client);
    }
 
-   public void singlePlayer() {
-      this.singlePlayer = true;
+   public void local() {
+      this.local = true;
    }
 
-   public boolean isSinglePlayer() {
-      return this.singlePlayer;
+   public boolean isLocal() {
+      return this.local;
    }
 
    public SceneController getSceneController() {
