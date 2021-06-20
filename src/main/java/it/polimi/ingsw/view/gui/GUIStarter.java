@@ -24,21 +24,23 @@ public class GUIStarter extends Application {
         client.setClientTurnManager(turnManager);
         gui.setClientTurnManager(turnManager);
         client.setState(gui);
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("fxml/connection.fxml"));
-        //loader.setLocation(getClass().getClassLoader().getResource("fxml/gameboard.fxml"));
-        Parent root = loader.load();
-        GUIController controller = loader.getController();
-        gui.getSceneController().setCurrentController(controller);
-        controller.setClient(client);
-        stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/Logo.png")));
-        stage.setTitle("Masters of Renaissance");
-        stage.setResizable(false);
-        //per creare una scena devo passarle un root node che può essere di tanti tipi diversi
-        stage.setScene(new Scene(root)); //setto una scena sullo stage, altrimenti lo stage viene mostrato bianco
-        gui.getSceneController().setActiveStage(stage);
-        stage.setResizable(false);
-        stage.show(); //shows the stage
+        gui.getSceneController().start(stage);
+
+
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(getClass().getClassLoader().getResource("fxml/connection.fxml"));
+//        Parent root = loader.load();
+//        GUIController controller = loader.getController();
+//        gui.getSceneController().setCurrentController(controller);
+//        controller.setClient(client);
+//        stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/Logo.png")));
+//        stage.setTitle("Masters of Renaissance");
+//        stage.setResizable(false);
+//        //per creare una scena devo passarle un root node che può essere di tanti tipi diversi
+//        stage.setScene(new Scene(root)); //setto una scena sullo stage, altrimenti lo stage viene mostrato bianco
+//        gui.getSceneController().setActiveStage(stage);
+//        stage.setResizable(false);
+//        stage.show(); //shows the stage
     }
 
 }

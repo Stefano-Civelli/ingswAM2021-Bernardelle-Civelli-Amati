@@ -8,5 +8,6 @@ public interface MoveForwardObservable {
   void notifyForMoveForward();
 
   void addToMoveForwardObserverList(MoveForwardObserver observerToAdd);
+
 }
 

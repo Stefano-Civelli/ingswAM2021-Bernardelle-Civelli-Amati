@@ -1,33 +1,31 @@
 package it.polimi.ingsw.view.gui;
 
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.updateContainers.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.client.GuiTurnManager;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.utility.GSON;
+import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.ClientModelUpdaterInterface;
 import it.polimi.ingsw.view.ClientStrings;
 import it.polimi.ingsw.view.ViewInterface;
-import it.polimi.ingsw.view.gui.controllers.ConnectController;
-import it.polimi.ingsw.view.gui.controllers.GameboardController;
-import it.polimi.ingsw.view.gui.controllers.LoginController;
-import it.polimi.ingsw.view.gui.controllers.PlayerboardController;
+import it.polimi.ingsw.view.gui.controllers.*;
 import javafx.application.Platform;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
-   private Client client;
    private GuiTurnManager turnManager;
-   private SceneController sceneController;
+   private final SceneController sceneController;
    private String username;
    private boolean singlePlayer = false;
-   //private String[] othersUsernames = {null, null, null};
 
    public GUI(Client client) {
-      this.client = client;
-      this.sceneController = new SceneController();
+      this.sceneController = new SceneController(client);
    }
 
    public void singlePlayer() {
@@ -82,7 +80,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayLogin() { // FIXME PERCHÉ VIENE MOSTRATO ANCHE SE C'`E UN ERRORE DI CONNESSIONE??
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      Platform.runLater(() -> this.sceneController.changeScene("fxml/login.fxml", this.client));
+      Platform.runLater(this.sceneController::loadLogin);
    }
 
    /**
@@ -123,7 +121,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayLobbyCreated() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      Platform.runLater(() -> this.sceneController.changeScene("fxml/lobbyCreated.fxml", this.client));
+      Platform.runLater(this.sceneController::loadLobby);
    }
 
    @Override
@@ -146,7 +144,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayPlayersNumberChoice() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      Platform.runLater(() -> this.sceneController.changeScene("fxml/numberOfPlayer.fxml", this.client));
+      Platform.runLater(this.sceneController::loadNumberOfPlayer);
    }
 
    @Override
@@ -185,7 +183,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayPlayerTurn(String player) {
+   public void displayPlayerTurn(String player) { //FIXME viene chiamata dopo game ended
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
@@ -210,6 +208,19 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayGameEnded(String payload) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Type token = new TypeToken<Pair<String, Integer>>(){}.getType();
+      Pair<String, Integer> winnerAndScore = GSON.getGsonBuilder().fromJson(payload, token);
+      String winner = winnerAndScore.getKey();
+      int score = winnerAndScore.getValue();
+      if(this.username.equals(winner))
+         Platform.runLater(this.sceneController::loadEndGameWin);
+      else
+         Platform.runLater(this.sceneController::loadEndGameLose);
+      if("".equals(winner))
+         winner = "Lorenzo Il Magnifico";
+      final String finalWinner = winner; // necessary for lambda
+      Platform.runLater(() -> ((EndGameController) this.sceneController.getCurrentController()).setWinner(finalWinner, score));
+
    }
 
    @Override
@@ -221,7 +232,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void startingSetupUpdate() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
-         this.sceneController.changeStage("fxml/gameboard.fxml", this.client);
+         this.sceneController.loadGameboard();
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
          controller.setUsername(this.username);
       });
@@ -530,8 +541,6 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
             controller.setupLorenzo();
          }
       });
-
-
    }
 
    //------------- ClientModelUpdaterInterface ---------------
