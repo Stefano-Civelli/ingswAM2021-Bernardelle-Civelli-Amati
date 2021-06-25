@@ -285,13 +285,13 @@ public class PlayerboardController extends GUIController {
         int zone = stateUpdate.getZone();
         if(stateUpdate.isActive())
             switch (zone) {
-                case 1:
+                case 0:
                     popeCard1.setImage(GuiResources.popeFavorFront1);
                     break;
-                case 2:
+                case 1:
                     popeCard2.setImage(GuiResources.popeFavorFront2);
                     break;
-                case 3:
+                case 2:
                     popeCard3.setImage(GuiResources.popeFavorFront3);
                     break;
             }
