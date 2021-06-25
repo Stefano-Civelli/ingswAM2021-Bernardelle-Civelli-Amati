@@ -17,6 +17,12 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This class contains reference to all the clientHandlers in order to manage at an high level of abstraction
+ * the message sending process and the client disconnections inside of a match.
+ * A match is a game room that can be created or joined by players using it's unique Id. Once the game has started
+ * the match is no longer accessible by players. If a player disconnects from a match others can still play
+ */
 public class Match {
 
    private static final int SINGLE_PLAYER_NUMBER = 1;

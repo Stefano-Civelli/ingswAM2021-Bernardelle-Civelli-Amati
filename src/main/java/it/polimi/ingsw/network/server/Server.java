@@ -10,8 +10,7 @@ import java.util.*;
 
 /**
  * This class accepts connection to a client and assign the client handling to the ServerClientHandler class via Thread.
- * Server class also contains reference to all the clientHandlers in order to manage at an high level of abstraction
- * the message sending process and the client disconnections.
+ * Also handles match creation, deletion and player assignment to matches.
  */
 public class Server {
 
@@ -20,6 +19,11 @@ public class Server {
 
    private Map<String, Match> matchMap = new HashMap<>();
 
+   /**
+    * Creates a new match with the specified Id
+    * @param matchId the unique identifier for the match to be created
+    * @return the new created Match
+    */
    public synchronized Match createNewMatch(String matchId){
       if(matchIdPresent(matchId))
          return null;
@@ -28,6 +32,12 @@ public class Server {
       return match;
    }
 
+   /**
+    *  //FIXME sto metodo fa un po schifo e ha un parametro inutile
+    * @param matchId
+    * @param serverClientHandler
+    * @return
+    */
    public synchronized Match assignToMatch(String matchId, ServerClientHandler serverClientHandler){
       Match match = matchMap.get(matchId);
       if(match.getPlayersNumber() == 0)
@@ -35,14 +45,23 @@ public class Server {
       return match;
    }
 
+   /**
+    * Returns true if the specified matchId is already present in the server
+    * @param matchId the matchId to be checked if already present
+    * @return true if the specified matchId is already present
+    */
    public synchronized Boolean matchIdPresent(String matchId){
       if(this.matchMap.entrySet().stream().map(x -> x.getKey()).filter(x -> x.equals(matchId)).count() > 0)
          return true;
       return false;
    }
 
-   public synchronized void deleteMatch(String matchName){
-      this.matchMap.remove(matchName);
+   /**
+    * Deletes the specified match from the server
+    * @param matchId the match to be deleted
+    */
+   public synchronized void deleteMatch(String matchId){
+      this.matchMap.remove(matchId);
    }
 
    public static void main(String[] args) {
