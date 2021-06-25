@@ -281,12 +281,6 @@ public class Match {
               .collect(Collectors.toList());
    }
 
-   //TODO probabilmente va usata
-   public synchronized List<ServerClientHandler> connectedPlayers(){
-      return clients.stream()
-              .filter(ServerClientHandler::isConnected)
-              .collect(Collectors.toList());
-   }
 
    public TurnManager getTurnManager() {
       return turnManager;
@@ -331,6 +325,9 @@ public class Match {
       }
    }
 
+   /**
+    * Delete the match closing all sockets and deleting it from the server reference list
+    */
    public void deleteMatch() {
       this.clients.forEach(ServerClientHandler::closeSocket);
 //      this.usernameToClientHandler.clear();
