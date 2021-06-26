@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * An action to request to terminate a player's turn
+ */
 public class EndTurnAction extends Action {
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization

@@ -6,6 +6,9 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Match;
 
+/**
+ * A model observer that send all the received update in the network: used when the game is not in local
+ */
 public class NetworkVirtualView implements ModelObserver {
 
    public Match match;

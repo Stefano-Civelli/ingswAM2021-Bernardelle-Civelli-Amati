@@ -8,6 +8,9 @@ import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * An action to request to the model to activate the base player board production of a specific player
+ */
 public class BaseProductionAction extends Action {
 
     private ResourceType resource1 = null,

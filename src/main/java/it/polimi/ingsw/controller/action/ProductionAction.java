@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * An action to request to the model to activate the production on the develop top card of a specific card slot
+ */
 public class ProductionAction extends Action {
 
     private Integer cardIndex = null;

@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.modelexceptions.InvalidLeaderCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.modelexceptions.LeaderIsActiveException;
 
+/**
+ * An action to specify which leader cards of a player must be discarded during the initial setup
+ */
 public class DiscardInitialLeaderAction extends Action {
 
     private Integer leaderCardID1 = null;

@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * An action to notify the model that a player is no longer connected with the server
+ */
 public class PlayerDisconnectionAction extends Action {
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization

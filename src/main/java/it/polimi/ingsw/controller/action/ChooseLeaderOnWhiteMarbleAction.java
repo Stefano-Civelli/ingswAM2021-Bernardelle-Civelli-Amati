@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * An action used to specify which leader card must be used to convert a white marble
+ */
 public class ChooseLeaderOnWhiteMarbleAction extends Action {
 
     private Integer leaderIndex = null;

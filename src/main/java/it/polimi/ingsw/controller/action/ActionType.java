@@ -1,5 +1,8 @@
 package it.polimi.ingsw.controller.action;
 
+/**
+ * All the possible type of action: they are necessary for json serialization
+ */
 public enum ActionType {
 
    //if you add a type here you probably should add the name to the actionBuilder in GSON

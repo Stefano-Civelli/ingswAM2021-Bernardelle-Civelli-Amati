@@ -11,6 +11,9 @@ import it.polimi.ingsw.model.modelexceptions.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An action to specify the initial resources of a player
+ */
 public class ChooseInitialResourcesAction extends Action {
 
     // TODO controllare che funziona se arriva vuota per il primo player

@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * An action to request to the model to insert a specific marble obtained after shopping the market into warehouse
+ */
 public class InsertMarbleAction extends Action {
 
     private Integer marbleIndex = null;

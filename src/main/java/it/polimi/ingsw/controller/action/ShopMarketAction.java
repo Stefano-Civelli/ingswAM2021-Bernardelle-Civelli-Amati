@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * An action to request to the model to buy a specific row or column of the marked to a specific player
+ */
 public class ShopMarketAction extends Action {
 
     private Boolean inRow = null; // if true -> row, else -> column

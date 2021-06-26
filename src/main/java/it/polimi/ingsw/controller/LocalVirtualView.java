@@ -7,13 +7,14 @@ import it.polimi.ingsw.view.LorenzoViewInterface;
 
 
 /**
- * to instanciate instead of NetworkViretualView
- * calls method directly on ClientModelUpdaterInterface
+ * A model observer that calls method directly on ClientModelUpdaterInterface when an update is received: used in local game
+ * (to instantiate instead of NetworkVirtualView)
  */
 public class LocalVirtualView implements ModelObserver {
-   private ClientModelUpdaterInterface state;
-   private String username;
-   private LorenzoViewInterface view;
+
+   private final ClientModelUpdaterInterface state;
+   private final String username;
+   private final LorenzoViewInterface view;
 
    public LocalVirtualView(ClientModelUpdaterInterface state, String username, LorenzoViewInterface view) {
       this.state = state;

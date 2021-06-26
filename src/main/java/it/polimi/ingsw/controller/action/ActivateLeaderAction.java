@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * An action to request to the model to activate a specific leader card of a specific player
+ */
 public class ActivateLeaderAction extends Action {
 
     private Integer leaderCardID = null;

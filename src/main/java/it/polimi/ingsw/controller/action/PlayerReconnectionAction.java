@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 
+/**
+ * An action to notify the model that a disconnected player is reconnected
+ */
+@Deprecated
 public class PlayerReconnectionAction extends Action {
 
     @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization

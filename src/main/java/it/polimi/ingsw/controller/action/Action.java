@@ -5,10 +5,12 @@ import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * A generic action that a player can request to perform on the model
+ */
 public abstract class Action {
 
     // TODO fare test action
-    // TODO action per disconnessione e connessione giocatore
 
     @SuppressWarnings({"unused", "FieldCanBeLocal"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
     private final ActionType type;

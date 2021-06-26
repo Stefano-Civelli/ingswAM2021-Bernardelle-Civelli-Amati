@@ -7,8 +7,10 @@ import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * An action to request to the model to discard a specific leader card of a player
+ */
 public class DiscardLeaderAction extends Action {
-// TODO uml
 
     private Integer leaderCardID = null;
 

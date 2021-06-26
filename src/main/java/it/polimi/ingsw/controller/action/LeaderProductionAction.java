@@ -8,6 +8,9 @@ import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * An action to request to the model to activate the production on a specific leader card of a player
+ */
 public class LeaderProductionAction extends Action {
 
     private Integer leaderId = null;

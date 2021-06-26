@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.IGameState;
 import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * An action to request to the model to buy a specific develop card for a specific player
+ */
 public class BuyDevelopCardAction extends Action {
 
     private Integer row = null,

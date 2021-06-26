@@ -3,6 +3,9 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.updateContainers.*;
 
+/**
+ * Defines all the required method of class used to observe the model
+ */
 public interface ModelObserver {
   void chestUpdate(ChestUpdate stateUpdate);
   void warehouseUpdate(WarehouseUpdate stateUpdate);
