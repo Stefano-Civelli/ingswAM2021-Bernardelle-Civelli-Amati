@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.modelexceptions;
 
+/**
+ * Thrown when one try to start a game with too many players
+ */
 public class MaximumNumberOfPlayersException extends ModelException {
 
     private Integer maxPlayer = null;

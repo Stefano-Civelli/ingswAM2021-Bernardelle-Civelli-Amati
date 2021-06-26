@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.modelexceptions;
 
+/**
+ * Thrown when some specified resources are too many or too few
+ */
 public class WrongResourceNumberException extends ModelException {
 
     private int expected,
