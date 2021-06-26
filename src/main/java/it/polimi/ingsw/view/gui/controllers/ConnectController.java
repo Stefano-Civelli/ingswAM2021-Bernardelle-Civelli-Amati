@@ -5,6 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+/**
+ * Java controller of the connection.fxml file
+ */
 public class ConnectController extends GUIController {
 
     @FXML
@@ -96,6 +99,10 @@ public class ConnectController extends GUIController {
         }
     }
 
+    /**
+     * Notify the player that the login failed
+     * @param error error message
+     */
     public void loginError(String error) {
         this.error_label.setVisible(true);
         this.error_label.setText("ERROR: " + error);

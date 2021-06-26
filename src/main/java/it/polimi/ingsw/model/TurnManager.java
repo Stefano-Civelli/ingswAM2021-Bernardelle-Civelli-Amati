@@ -14,6 +14,9 @@ import it.polimi.ingsw.network.messages.MessageType;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Represent the current phase of the game and manages the players turn
+ */
 public class TurnManager implements IGameState {
 
     private String currentPlayer = null;
@@ -152,8 +155,4 @@ public class TurnManager implements IGameState {
         return this.game;
     }
 
-    public void stop() {
-        this.currentPlayer = null;
-        this.currentPhase = null;
-    }
 }

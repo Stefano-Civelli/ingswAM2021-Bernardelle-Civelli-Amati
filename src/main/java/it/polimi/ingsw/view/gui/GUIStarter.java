@@ -13,8 +13,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Class used by javafx to start GUI
+ */
 public class GUIStarter extends Application {
 
+    /**
+     * Method called by javafx when the gui starts:
+     * instantiates: a client to receives messages from the server, a gui to receive update from the client and a scene controller to load and manages gui windows
+     */
     @Override
     public void start(Stage stage) throws IOException {
         Client client = new Client();
@@ -25,22 +32,6 @@ public class GUIStarter extends Application {
         gui.setClientTurnManager(turnManager);
         client.setState(gui);
         gui.getSceneController().start(stage);
-
-
-//        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(getClass().getClassLoader().getResource("fxml/connection.fxml"));
-//        Parent root = loader.load();
-//        GUIController controller = loader.getController();
-//        gui.getSceneController().setCurrentController(controller);
-//        controller.setClient(client);
-//        stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/Logo.png")));
-//        stage.setTitle("Masters of Renaissance");
-//        stage.setResizable(false);
-//        //per creare una scena devo passarle un root node che può essere di tanti tipi diversi
-//        stage.setScene(new Scene(root)); //setto una scena sullo stage, altrimenti lo stage viene mostrato bianco
-//        gui.getSceneController().setActiveStage(stage);
-//        stage.setResizable(false);
-//        stage.show(); //shows the stage
     }
 
 }

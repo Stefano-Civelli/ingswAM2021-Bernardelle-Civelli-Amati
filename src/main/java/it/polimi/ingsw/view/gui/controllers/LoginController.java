@@ -5,6 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+/**
+ * Java controller of the login.fxml file
+ */
 public class LoginController extends GUIController {
 
     @FXML
@@ -27,6 +30,9 @@ public class LoginController extends GUIController {
         this.error_label.setVisible(false);
     }
 
+    /**
+     * Check if the game is local and in case set invisible the correct components
+     */
     public void checkLocal() {
         if(((GUI) super.client.getView()).isLocal()) {
             this.gameId_label.setVisible(false);
@@ -50,14 +56,20 @@ public class LoginController extends GUIController {
         super.client.sendLogin(create, this.gameID_textField.getText());
     }
 
+    /**
+     * Notify the player that the username is invalid
+     */
     public void loginFailed() {
         this.error_label.setText("ERROR: username already taken or invalid in this game");
         this.error_label.setVisible(true);
         this.login_button.setDisable(false);
     }
 
+    /**
+     * Notify the player that the gameID is invalid
+     */
     public void gameFailed() {
-        this.error_label.setText("ERROR: gameID already exist or invalid");
+        this.error_label.setText("ERROR: invalid gameID");
         this.error_label.setVisible(true);
         this.login_button.setDisable(false);
     }

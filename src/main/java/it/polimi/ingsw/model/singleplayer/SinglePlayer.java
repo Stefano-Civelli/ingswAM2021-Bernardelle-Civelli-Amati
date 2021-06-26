@@ -15,6 +15,9 @@ import it.polimi.ingsw.view.LorenzoViewInterface;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Represent a single player game
+ */
 public class SinglePlayer extends Game {
 
    private final LinkedList<ActionToken> actionTokenStack; // don't change with List, it's required a LinkedList.
@@ -96,5 +99,6 @@ public class SinglePlayer extends Game {
          return p.getKey().returnScore();
       return 0;
    }
+
 }
 

@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a game
+ */
 public class Game implements LeaderSetupObservable, EndGameObserver {
 
    private boolean gameStarted = false;
@@ -218,6 +221,9 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
       return leaderList.stream().map(LeaderCard::getLeaderId).collect(Collectors.toList());
    }
 
+   /**
+    * Notify the game that the setup phase is finished
+    */
    public void gameStarted() {
       this.gameStarted = true;
    }
@@ -263,4 +269,5 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
    public void update() {
       this.endGame = true;
    }
+
 }

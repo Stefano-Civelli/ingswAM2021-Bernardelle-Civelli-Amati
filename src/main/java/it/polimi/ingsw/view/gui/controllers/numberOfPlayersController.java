@@ -8,10 +8,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
 
+/**
+ * Java controller of the numberOfPlayer.fxml file
+ */
 public class numberOfPlayersController extends GUIController {
 
     @FXML
-    public Button createGame_button;
+    private Button createGame_button;
     @FXML
     private Pane multiplayer_pane;
     @FXML

@@ -33,6 +33,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Java controller of the gameboard.fxml file
+ */
 public class GameboardController extends GUIController {
 
     private final int N_ROW = 3,
@@ -108,7 +111,10 @@ public class GameboardController extends GUIController {
         // TODO caricare fxml market e develop card deck
     }
 
-
+    /**
+     * Construct the gui's develop card deck
+     * @param stateSetup the state of the develop card deck
+     */
     public void constructDeck(DevelopCardDeckSetup stateSetup) {
         this.developCardDeck = stateSetup.getDevDeck();
         String url;
@@ -195,6 +201,10 @@ public class GameboardController extends GUIController {
 
     }
 
+    /**
+     * Display a deck update: a player bought a card
+     * @param stateUpdate the update object of the develop card deck
+     */
     public void updateDeck(DevelopCardDeckUpdate stateUpdate) {
         int row = stateUpdate.getRow();
         int column = stateUpdate.getColumn();
@@ -213,6 +223,10 @@ public class GameboardController extends GUIController {
         }
     }
 
+    /**
+     * Set player username and create their personal player board loading the correct fxml file and saving its controller
+     * @param username player's username
+     */
     public void setUsername(String username) {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -222,7 +236,7 @@ public class GameboardController extends GUIController {
             PlayerboardController newPlayerboardController = loader.getController();
             newPlayerboardController.setUsername(username); //FIXME sembra che non vada
             newPlayerboardController.setClient(this.client);
-            newPlayerboardController.isThisClientPlayer();
+            newPlayerboardController.thisClientPlayer();
             this.playerboardControllers.add(newPlayerboardController);
 //            this.playerboardControllers[0] = loader.getController();
 //            this.playerboardControllers[0].setUsername(username);
@@ -234,6 +248,10 @@ public class GameboardController extends GUIController {
         }
     }
 
+    /**
+     * Create the player boards of the other players loading the fxml files and saving their controller
+     * @param players other player usernames list
+     */
     public void setOtherPlayer(List<String> players) {
 
         for (int i = 0; i < players.size(); i++) {
@@ -265,15 +283,27 @@ public class GameboardController extends GUIController {
 
     }
 
+    /**
+     * Set the last token and the black cross visible
+     */
     public void setupLorenzo(){
         lorenzoToken.setVisible(true);
         getPlayerBoardController(client.getUsername()).setupLorenzo();
     }
 
+    /**
+     * Set the last lorenzo token image
+     * @param image the image of the last token
+     */
     public void setLorenzoToken(Image image){
         this.lorenzoToken.setImage(image);
     }
 
+    /**
+     *
+     * @param username username of the user of which return the controller
+     * @return the player board controller of the specified user
+     */
     public PlayerboardController getPlayerBoardController(String username){
         for(PlayerboardController p : playerboardControllers)
             if(username.equals(p.getUsername()))
@@ -281,6 +311,11 @@ public class GameboardController extends GUIController {
         return null;
     }
 
+    /**
+     * Display leader cards during setup
+     * @param username username of the player
+     * @param stateUpdate  the leader update containing the leader cards to display
+     */
     public void leaderSetup(String username, LeaderSetup stateUpdate) {
         PlayerboardController playerController = this.playerboardControllers.stream().filter(Objects::nonNull).filter(controller -> controller.getUsername().equals(username))
                 .collect(Collectors.toList()).get(0);
@@ -288,6 +323,10 @@ public class GameboardController extends GUIController {
         playerController.leaderSetup(leadersID);
     }
 
+    /**
+     * Construct the GUI's market
+     * @param stateUpdate the model update representing the initial market
+     */
     public void constructMarket(MarketSetup stateUpdate) {
         MarbleColor[][] marketColorMatrix = stateUpdate.getMarbleMatrix();
         MarbleColor slideMarble = stateUpdate.getSlide();
@@ -303,7 +342,10 @@ public class GameboardController extends GUIController {
             }
     }
 
-
+    /**
+     * Display a market update when you are the player who bought from the market and show the tmp marble to insert them into warehouse
+     * @param stateUpdate the model update representing the market update
+     */
     public void updateMarket(MarketUpdate stateUpdate) {
         boolean isRow = stateUpdate.getIsRow();
         int index = stateUpdate.getIndex();
@@ -314,6 +356,10 @@ public class GameboardController extends GUIController {
             pushColumn(index);
     }
 
+    /**
+     * Display a market update when another player bought a row or a column
+     * @param stateUpdate
+     */
     public void updateMarketOtherPlayers(MarketUpdate stateUpdate) {
         boolean isRow = stateUpdate.getIsRow();
         int index = stateUpdate.getIndex();
@@ -340,7 +386,7 @@ public class GameboardController extends GUIController {
     }
 
     @FXML
-    void selectedMarble(MouseEvent event) {
+    private void selectedMarble(MouseEvent event) {
         int i = 0;
         for (Node n : tempMarbleHbox.getChildren()) {
             if (n.equals(event.getSource())) {
@@ -358,105 +404,104 @@ public class GameboardController extends GUIController {
     }
 
     @FXML
-    void buyCard1(MouseEvent event) {
+    private void buyCard1(MouseEvent event) {
         askFotCardSlot(0, 0);
     }
 
     @FXML
-    void buyCard2(MouseEvent event) {
+    private void buyCard2(MouseEvent event) {
         askFotCardSlot(0, 1);
     }
 
     @FXML
-    void buyCard3(MouseEvent event) {
+    private void buyCard3(MouseEvent event) {
         askFotCardSlot(0, 2);
     }
 
     @FXML
-    void buyCard4(MouseEvent event) {
+    private void buyCard4(MouseEvent event) {
         askFotCardSlot(0, 3);
     }
 
     @FXML
-    void buyCard5(MouseEvent event) {
+    private void buyCard5(MouseEvent event) {
         askFotCardSlot(1, 0);
     }
 
     @FXML
-    void buyCard6(MouseEvent event) {
+    private void buyCard6(MouseEvent event) {
         askFotCardSlot(1, 1);
     }
 
     @FXML
-    void buyCard7(MouseEvent event) {
+    private void buyCard7(MouseEvent event) {
         askFotCardSlot(1, 2);
     }
 
     @FXML
-    void buyCard8(MouseEvent event) {
+    private void buyCard8(MouseEvent event) {
         askFotCardSlot(1, 3);
     }
 
     @FXML
-    void buyCard9(MouseEvent event) {
+    private void buyCard9(MouseEvent event) {
         askFotCardSlot(2, 0);
     }
 
     @FXML
-    void buyCard10(MouseEvent event) {
+    private void buyCard10(MouseEvent event) {
         askFotCardSlot(2, 1);
     }
 
     @FXML
-    void buyCard11(MouseEvent event) {
+    private void buyCard11(MouseEvent event) {
         askFotCardSlot(2, 2);
     }
 
     @FXML
-    void buyCard12(MouseEvent event) {
+    private void buyCard12(MouseEvent event) {
         askFotCardSlot(2, 3);
     }
 
 
     @FXML
-        //TODO le push vanno tolte, servono solo per testare
-    void pushColumn1(MouseEvent event) {
+    private void pushColumn1(MouseEvent event) {
         onColumnPushed(0);
         //pushColumn(0);
     }
 
     @FXML
-    void pushColumn2(MouseEvent event) {
+    private void pushColumn2(MouseEvent event) {
         onColumnPushed(1);
         //pushColumn(1);
     }
 
     @FXML
-    void pushColumn3(MouseEvent event) {
+    private void pushColumn3(MouseEvent event) {
         onColumnPushed(2);
         //pushColumn(2);
     }
 
     @FXML
-    void pushColumn4(MouseEvent event) {
+    private void pushColumn4(MouseEvent event) {
         onColumnPushed(3);
         //pushColumn(3);
     }
 
     @FXML
-    void pushRow1(MouseEvent event) {
+    private void pushRow1(MouseEvent event) {
         onRowPushed(0);
         //pushRow(0);
     }
 
     @FXML
-    void pushRow2(MouseEvent event) {
+    private void pushRow2(MouseEvent event) {
         onRowPushed(1);
         //pushRow(1);
     }
 
     @FXML
-    void pushRow3(MouseEvent event) {
+    private void pushRow3(MouseEvent event) {
         onRowPushed(2);
         //pushRow(2);
     }
@@ -539,38 +584,38 @@ public class GameboardController extends GUIController {
     }
 
     @FXML
-    void endTurn(ActionEvent event) {
+    private void endTurn(ActionEvent event) {
         Action endTurnAction = new EndTurnAction(client.getUsername());
         client.forwardAction(endTurnAction);
     }
 
     @FXML
-    void showMyPlayerboard(ActionEvent event) {
+    private void showMyPlayerboard(ActionEvent event) {
         player_anchorPane.getChildren().remove(0);
         player_anchorPane.getChildren().add(playerboardList.get(0));
     }
 
     @FXML
-    void showPlayerboard1(ActionEvent event) {
+    private void showPlayerboard1(ActionEvent event) {
         player_anchorPane.getChildren().remove(0);
         player_anchorPane.getChildren().add(playerboardList.get(1));
     }
 
     @FXML
-    void showPlayerboard2(ActionEvent event) {
+    private void showPlayerboard2(ActionEvent event) {
         player_anchorPane.getChildren().remove(0);
         player_anchorPane.getChildren().add(playerboardList.get(2));
     }
 
     @FXML
-    void showPlayerboard3(ActionEvent event) {
+    private void showPlayerboard3(ActionEvent event) {
         player_anchorPane.getChildren().remove(0);
         player_anchorPane.getChildren().add(playerboardList.get(3));
     }
 
 
     @FXML
-    void completeBuyWithSlot1(ActionEvent event) {
+    private void completeBuyWithSlot1(ActionEvent event) {
         createBuyCardAction(0);
 //        CardSlots.CardSlotUpdate slotUpdate = new CardSlots.CardSlotUpdate(i, 0);
 //        for(PlayerboardController p : playerboardControllers)
@@ -580,12 +625,12 @@ public class GameboardController extends GUIController {
     }
 
     @FXML
-    void completeBuyWithSlot2(ActionEvent event) {
+    private void completeBuyWithSlot2(ActionEvent event) {
         createBuyCardAction(1);
     }
 
     @FXML
-    void completeBuyWithSlot3(ActionEvent event) {
+    private void completeBuyWithSlot3(ActionEvent event) {
         createBuyCardAction(2);
     }
 
@@ -598,13 +643,20 @@ public class GameboardController extends GUIController {
         client.forwardAction(buyCardAction);
     }
 
+    /**
+     * Ask the player which leader card must be used to convert a white marble
+     * @param username username of this user
+     */
     public void askLeaderOnWHite(String username) {
         //TODO settare a non usabili tutti i comandi che non siano le leader (sia in playerboard che in gameboard)
         turnPhaseLable.setText("Choose a leader to convert the white marble");
         getPlayerBoardController(username).askLeaderOnWhite();
     }
 
-
+    /**
+     * Display the tmp marbles bought form market
+     * @param username the player who bought from market
+     */
     public void displayMarbleChoice(String username){
         this.turnPhaseLable.setText("It's " + username + "'s turn");
         this.market_anchorPane.setDisable(true);
@@ -632,16 +684,16 @@ public class GameboardController extends GUIController {
 
 
     @FXML
-    void chooseGold(MouseEvent event) { onChosenResource(ResourceType.GOLD); }
+    private void chooseGold(MouseEvent event) { onChosenResource(ResourceType.GOLD); }
 
     @FXML
-    void chooseServant(MouseEvent event) { onChosenResource(ResourceType.SERVANT); }
+    private void chooseServant(MouseEvent event) { onChosenResource(ResourceType.SERVANT); }
 
     @FXML
-    void chooseShield(MouseEvent event) { onChosenResource(ResourceType.SHIELD); }
+    private void chooseShield(MouseEvent event) { onChosenResource(ResourceType.SHIELD); }
 
     @FXML
-    void chooseStone(MouseEvent event) { onChosenResource(ResourceType.STONE); }
+    private void chooseStone(MouseEvent event) { onChosenResource(ResourceType.STONE); }
 
     private void onChosenResource(ResourceType resource){
         if(chosenResourceMap.containsKey(resource))
@@ -656,6 +708,10 @@ public class GameboardController extends GUIController {
         }
     }
 
+    /**
+     * Ask the player to discard two leader card during setup
+     * @param username the player username
+     */
     public void displayLeaderChoiceLable(String username) {
         this.turnPhaseLable.setText("It's " + username + "'s turn");
         this.market_anchorPane.setDisable(true);
@@ -667,6 +723,9 @@ public class GameboardController extends GUIController {
         turnPhaseLable.setVisible(true);
     }
 
+    /**
+     * Set disabled all the correct component for the initial phase
+     */
     public void enableInitialAction() {
         this.turnPhaseLable.setText("It's your turn");
         this.market_anchorPane.setDisable(false);
@@ -676,6 +735,9 @@ public class GameboardController extends GUIController {
         this.endTurnButton.setDisable(true);
     }
 
+    /**
+     * Set disabled all the correct component during an other player turn
+     */
     public void otherPlayerTurn(String username) {
         this.turnPhaseLable.setText("It's " + username + "'s turn");
         this.market_anchorPane.setDisable(true);
@@ -685,6 +747,9 @@ public class GameboardController extends GUIController {
         this.endTurnButton.setDisable(true);
     }
 
+    /**
+     * Set disabled all the correct component for the final phase
+     */
     public void enableFinalAction() {
         this.market_anchorPane.setDisable(true);
         this.deckGridPane.setDisable(true);
@@ -692,6 +757,9 @@ public class GameboardController extends GUIController {
         this.endTurnButton.setDisable(false);
     }
 
+    /**
+     * Set disabled all the correct component for the producing phase
+     */
     public void enableProductionAction() {
         this.market_anchorPane.setDisable(true);
         this.deckGridPane.setDisable(true);
@@ -699,6 +767,9 @@ public class GameboardController extends GUIController {
         this.endTurnButton.setDisable(false);
     }
 
+    /**
+     * Set disabled all the correct component for the shopping phase
+     */
     public void enableShoppingAction() {
         this.market_anchorPane.setDisable(true);
         this.deckGridPane.setDisable(true);
@@ -707,7 +778,11 @@ public class GameboardController extends GUIController {
         getPlayerBoardController(this.client.getUsername()).disableLeader();
     }
 
-    public void setErrorLable(String lableText){
+    /**
+     * Display and error
+     * @param lableText error message
+     */
+    public void setErrorLable(String lableText) {
         errorLable.setText("ERROR: " + lableText);
         errorLable.setVisible(true);
 
@@ -719,7 +794,7 @@ public class GameboardController extends GUIController {
 
     // Cosmetics ----------------------------------------------------------------
     @FXML
-    void mouseHover(MouseEvent event) {
+    private void mouseHover(MouseEvent event) {
         Node node = (Node) event.getSource();
         node.setScaleX(1.05);
         node.setScaleY(1.05);
@@ -727,7 +802,7 @@ public class GameboardController extends GUIController {
     }
 
     @FXML
-    void mouseHoverReset(MouseEvent event) {
+    private void mouseHoverReset(MouseEvent event) {
         Node node = (Node) event.getSource();
         node.setScaleX(1.0);
         node.setScaleY(1.0);
@@ -736,7 +811,7 @@ public class GameboardController extends GUIController {
 
 
     @FXML
-    void mouseHoverColorChange(MouseEvent event) {
+    private void mouseHoverColorChange(MouseEvent event) {
         ImageView image = (ImageView) event.getSource();
         image.setImage(GuiResources.redMarketArrow);
         image.setScaleX(1.1);
@@ -745,11 +820,12 @@ public class GameboardController extends GUIController {
     }
 
     @FXML
-    void mouseHoverColorChangeReset(MouseEvent event) {
+    private void mouseHoverColorChangeReset(MouseEvent event) {
         ImageView image = (ImageView) event.getSource();
         image.setImage(GuiResources.marketArrow);
         image.setScaleX(1.0);
         image.setScaleY(1.0);
         image.setEffect(new DropShadow(0, Color.WHITE));
     }
+
 }

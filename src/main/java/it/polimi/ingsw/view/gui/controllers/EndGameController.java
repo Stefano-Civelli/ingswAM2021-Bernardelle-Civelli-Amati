@@ -4,19 +4,27 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
+/**
+ * Java controller of endGameWin.fxml and endGameLose.fxml files
+ */
 public class EndGameController extends GUIController {
 
     @FXML
-    public Label score_label;
+    private Label score_label;
 
     @FXML
-    public Label winner_label;
+    private Label winner_label;
 
     @FXML
     private void quitButton(ActionEvent actionEvent) {
         System.exit(0);
     }
 
+    /**
+     * Set which player is the winner
+     * @param winner winner username
+     * @param score score
+     */
     public void setWinner(String winner, int score) {
         if(this.winner_label != null)
             this.winner_label.setText(winner);

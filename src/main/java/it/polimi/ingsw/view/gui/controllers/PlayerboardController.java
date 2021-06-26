@@ -152,10 +152,14 @@ public class PlayerboardController extends GUIController {
         return this.username;
     }
 
-    public void isThisClientPlayer() {
+    public void thisClientPlayer() {
         this.isPlayer = true;
     }
 
+    /**
+     * Display leader cards during setup
+     * @param ledersID leader cards ids list
+     */
     public void leaderSetup(List<Integer> ledersID) {
         try {
 
@@ -191,6 +195,10 @@ public class PlayerboardController extends GUIController {
         }
     }
 
+    /**
+     * Display a chest update
+     * @param stateUpdate model update represent a chest update
+     */
     public void updateChest(ChestUpdate stateUpdate){
         ResourceType resource = stateUpdate.getResourceType();
         int quantity = stateUpdate.getQuantity();
@@ -211,6 +219,10 @@ public class PlayerboardController extends GUIController {
         }
     }
 
+    /**
+     * Display a tmp chest update after production
+     * @param chestUpdate model update represent a chest update
+     */
     public void updateTempChest(ChestUpdate chestUpdate) {
         ResourceType resource = chestUpdate.getResourceType();
         int quantity = chestUpdate.getQuantity();
@@ -237,6 +249,9 @@ public class PlayerboardController extends GUIController {
         resourceCounter.setText(string);
     }
 
+    /**
+     * Display merging between tmp chest and normal chest
+     */
     public void chestMergeUpdate() {
         String [] amounts;
         int amount = 0;
@@ -258,6 +273,10 @@ public class PlayerboardController extends GUIController {
         servantCounter.setText(Integer.toString(amount));
     }
 
+    /**
+     * Display a track position update
+     * @param stateUpdate a model update representing a track update
+     */
     public void updatePlayerTrack(TrackUpdate stateUpdate) {
         int position = stateUpdate.getPlayerPosition();
         this.trackPosition.setVisible(false);
@@ -286,6 +305,10 @@ public class PlayerboardController extends GUIController {
             trackGrid.add(image, position-6, 0);
     }
 
+    /**
+     * Display a pope cards track update
+     * @param stateUpdate the vatican report update
+     */
     public void updateVatican(VaticanReport stateUpdate) {
         int zone = stateUpdate.getZone();
         if(stateUpdate.isActive())
@@ -302,6 +325,10 @@ public class PlayerboardController extends GUIController {
             }
     }
 
+    /**
+     * Display a card slot update
+     * @param stateUpdate the card slot update
+     */
     public void updateCardSlot(CardSlotUpdate stateUpdate) {
         int slot = stateUpdate.getSlotNumber();
         int cardId = stateUpdate.getDevCardID();
@@ -350,22 +377,22 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    void baseProduction(ActionEvent event) {
+    private void baseProduction(ActionEvent event) {
         //TODO finestra che fa comparire la scelta di risorse
         this.baseProdChoice.setVisible(true);
         //Action productionAction = new BaseProductionAction();
         //client.forwardAction(productionAction);
     }
     @FXML
-    void produceSlot1(ActionEvent event) {
+    private void produceSlot1(ActionEvent event) {
         createProductionAction(0);
     }
     @FXML
-    void produceSlot2(ActionEvent event) {
+    private void produceSlot2(ActionEvent event) {
         createProductionAction(1);
     }
     @FXML
-    void produceSlot3(ActionEvent event) {
+    private void produceSlot3(ActionEvent event) {
         createProductionAction(2);
     }
 
@@ -378,6 +405,9 @@ public class PlayerboardController extends GUIController {
         return new ImageView(imageView.getImage());
     }
 
+    /**
+     * Ask the player which leader must be used to convert a white marble
+     */
     public void askLeaderOnWhite(){
         this.enableLeader();
         leader0_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
@@ -387,7 +417,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    void selectWhiteLeader(MouseEvent event) {
+    private void selectWhiteLeader(MouseEvent event) {
         Action chooseLeaderOnWhiteMarbleAction = new ChooseLeaderOnWhiteMarbleAction(leaderImageIdMap.get((ImageView) event.getSource()));
         client.forwardAction(chooseLeaderOnWhiteMarbleAction);
         //TODO rimetto alle leader il loro metodo standard
@@ -400,21 +430,23 @@ public class PlayerboardController extends GUIController {
 
 
     @FXML
-    void showDiscardActivateMenu(MouseEvent event) {
+    private void showDiscardActivateMenu(MouseEvent event) {
         this.selectedLeader = (ImageView) event.getSource();
         this.activateLeaderButton.setVisible(true);
         this.discardLeaderButton.setVisible(true);
     }
+
     @FXML
-    void activateLeader(ActionEvent event) {
+    private void activateLeader(ActionEvent event) {
         Action activateLeaderAction = new ActivateLeaderAction(leaderImageIdMap.get(this.selectedLeader));
         System.out.println(leaderImageIdMap.get(this.selectedLeader));
         client.forwardAction(activateLeaderAction);
         this.activateLeaderButton.setVisible(false);
         this.discardLeaderButton.setVisible(false);
     }
+
     @FXML
-    void discardLeader(ActionEvent event) {
+    private void discardLeader(ActionEvent event) {
         Action discardLeaderAction = new DiscardLeaderAction(leaderImageIdMap.get(this.selectedLeader));
         System.out.println(leaderImageIdMap.get(this.selectedLeader));
         client.forwardAction(discardLeaderAction);
@@ -423,7 +455,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    void chooseGold(MouseEvent event) {
+    private void chooseGold(MouseEvent event) {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.GOLD);
         else
@@ -432,7 +464,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    void chooseServant(MouseEvent event) {
+    private void chooseServant(MouseEvent event) {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.SERVANT);
         else
@@ -440,7 +472,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    void chooseShield(MouseEvent event) {
+    private void chooseShield(MouseEvent event) {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.SHIELD);
         else
@@ -448,7 +480,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    void chooseStone(MouseEvent event) {
+    private void chooseStone(MouseEvent event) {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.STONE);
         else
@@ -471,17 +503,20 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    void addStone(MouseEvent event) {
+    private void addStone(MouseEvent event) {
         updateWarehouse(new WarehouseUpdate(ResourceType.STONE, 2, 1));
     }
 
     @FXML
-    void addShield(MouseEvent event) {
+    private void addShield(MouseEvent event) {
         updateWarehouse(new WarehouseUpdate(ResourceType.SHIELD, 2, 0));
         updateWarehouse(new WarehouseUpdate(ResourceType.STONE, 3, 2));
     }
 
-
+    /**
+     * Display a warehouse update
+     * @param update the warehouse update
+     */
     public void updateWarehouse(WarehouseUpdate update){
         ResourceType resource = update.getResourceType();
             //res, quantity, level
@@ -584,7 +619,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    void initialDiscard(MouseEvent event) {
+    private void initialDiscard(MouseEvent event) {
         if(selectedLeaderToDiscard == null) {
             this.selectedLeaderToDiscard = (ImageView) event.getSource();
             this.selectedLeaderToDiscard.setVisible(false);
@@ -605,6 +640,9 @@ public class PlayerboardController extends GUIController {
         }
     }
 
+    /**
+     * Set disabled all the correct component for the producing phase
+     */
     public void enableProduction() {
         this.baseProductionButton.setDisable(false);
         this.productionSlot1Button.setDisable(false);
@@ -612,6 +650,9 @@ public class PlayerboardController extends GUIController {
         this.productionSlot3Button.setDisable(false);
     }
 
+    /**
+     * Set disabled all the component concerning production
+     */
     public void disableProduction() {
         this.baseProductionButton.setDisable(true);
         this.productionSlot1Button.setDisable(true);
@@ -619,14 +660,23 @@ public class PlayerboardController extends GUIController {
         this.productionSlot3Button.setDisable(true);
     }
 
+    /**
+     * Disable leader cards
+     */
     public void disableLeader() {
         this.leaderCardVbox.setDisable(true);
     }
 
+    /**
+     * Enable leader cards
+     */
     public void enableLeader() {
         this.leaderCardVbox.setDisable(false);
     }
 
+    /**
+     * Set all disabled
+     */
     public void disableAll() {
         this.disableLeader();
         this.disableProduction();
@@ -636,6 +686,10 @@ public class PlayerboardController extends GUIController {
         this.productionSlot3Button.setVisible(false);
     }
 
+    /**
+     * Display a discarded leader card update
+     * @param stateUpdate the leader update
+     */
     public void updateDiscardedLeader(LeaderUpdate stateUpdate){
         int leaderId = stateUpdate.getCardId();
         for(Map.Entry<ImageView, Integer> p : leaderImageIdMap.entrySet())
@@ -643,6 +697,10 @@ public class PlayerboardController extends GUIController {
                 leaderCardVbox.getChildren().remove(p.getKey());
     }
 
+    /**
+     * Display an activated leader card update
+     * @param stateUpdate the leader update
+     */
     public void updateActivatedLeader(LeaderUpdate stateUpdate){
         int leaderId = stateUpdate.getCardId();
         if(!this.isPlayer) {
@@ -683,7 +741,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    void activateLeaderProduction(MouseEvent event) {
+    private void activateLeaderProduction(MouseEvent event) {
         //TODO nella lable dire "select the resource to produce ??
         this.selectedLeader = (ImageView) event.getSource();
         this.baseProdChoice.setVisible(true);
@@ -699,11 +757,17 @@ public class PlayerboardController extends GUIController {
         this.forLeaderProd = false;
     }
 
+    /**
+     * Set the black cross visible
+     */
     public void setupLorenzo(){
         this.lorenzoTrackGrid.setVisible(true);
     }
 
-
+    /**
+     * Display a Lorenzo track update
+     * @param stateUpdate the track update
+     */
     public void updateLorenzoTrack(TrackUpdate stateUpdate){
         int position = stateUpdate.getPlayerPosition();
         this.lorenzoTrackPosition.setVisible(false);
@@ -716,8 +780,9 @@ public class PlayerboardController extends GUIController {
     }
 
     // Cosmetics ----------------------------------------------------------------
+
     @FXML
-    void mouseHover(MouseEvent event) {
+    private void mouseHover(MouseEvent event) {
         Node node = (Node) event.getSource();
         node.setScaleX(1.05);
         node.setScaleY(1.05);
@@ -725,12 +790,11 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    void mouseHoverReset(MouseEvent event) {
+    private void mouseHoverReset(MouseEvent event) {
         Node node = (Node) event.getSource();
         node.setScaleX(1.0);
         node.setScaleY(1.0);
         node.setEffect(new DropShadow(0, Color.WHITE));
     }
-
 
 }

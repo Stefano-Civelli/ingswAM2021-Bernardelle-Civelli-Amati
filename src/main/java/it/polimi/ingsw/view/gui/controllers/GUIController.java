@@ -3,6 +3,9 @@ package it.polimi.ingsw.view.gui.controllers;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 
+/**
+ * A generic fxml file controller
+ */
 public abstract class GUIController {
 
     protected Client client = null;
