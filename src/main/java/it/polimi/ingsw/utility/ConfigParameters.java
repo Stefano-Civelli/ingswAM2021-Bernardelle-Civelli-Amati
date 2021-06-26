@@ -1,10 +1,6 @@
 package it.polimi.ingsw.utility;
 
-
 import it.polimi.ingsw.view.cli.Color;
-
-import java.io.File;
-import java.io.InputStream;
 
 public final class ConfigParameters {
   public static final int MAX_CONSECUTIVE_MALFORMED_MESSAGE = 2;

@@ -222,6 +222,7 @@ public class GameboardController extends GUIController {
             PlayerboardController newPlayerboardController = loader.getController();
             newPlayerboardController.setUsername(username); //FIXME sembra che non vada
             newPlayerboardController.setClient(this.client);
+            newPlayerboardController.isThisClientPlayer();
             this.playerboardControllers.add(newPlayerboardController);
 //            this.playerboardControllers[0] = loader.getController();
 //            this.playerboardControllers[0].setUsername(username);

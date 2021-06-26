@@ -30,6 +30,7 @@ import java.util.Map;
 
 public class PlayerboardController extends GUIController {
 
+    private boolean isPlayer = false;
     private String username;
     private int i=2;
     private int j=0;
@@ -149,6 +150,10 @@ public class PlayerboardController extends GUIController {
 
     public String getUsername() {
         return this.username;
+    }
+
+    public void isThisClientPlayer() {
+        this.isPlayer = true;
     }
 
     public void leaderSetup(List<Integer> ledersID) {
@@ -640,21 +645,41 @@ public class PlayerboardController extends GUIController {
 
     public void updateActivatedLeader(LeaderUpdate stateUpdate){
         int leaderId = stateUpdate.getCardId();
-        for(Map.Entry<ImageView, Integer> p : leaderImageIdMap.entrySet()) {
-            if (p.getValue() == leaderId) {
-                ImageView activatedCard = p.getKey();
-                activatedCard.setOnMouseClicked(null);
-                //p.getKey(). //TODO settare qualche proprietà per far vedere visivamente che è attiva
-                //potrei mettere bordo rosso e fare che non fa nulla on mouse hover
-                try {
-                    if (LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement() != null){
-                        activatedCard.setOnMouseClicked((MouseEvent event1) -> activateLeaderProduction(event1));
+        if(!this.isPlayer) {
+            // this isn't this client player
+            ImageView image = null;
+            if(this.leader0_ImageView.isVisible()) {
+                if (!this.leader1_ImageView.isVisible())
+                    image = leader1_ImageView;
+            } else {
+                image = leader0_ImageView;
+            }
+            this.leaderImageIdMap.put(image, leaderId);
+            try {
+                String url = "images/front/" + LeaderConstructor.getLeaderCardFromId(leaderId).getImage();
+                image.setImage(new Image(url));
+                image.setVisible(true);
+            } catch (InvalidCardException e) {
+                e.printStackTrace();
+            }
+        } else {
+            for (Map.Entry<ImageView, Integer> p : leaderImageIdMap.entrySet()) {
+                if (p.getValue() == leaderId) {
+                    ImageView activatedCard = p.getKey();
+                    activatedCard.setOnMouseClicked(null);
+                    //p.getKey(). //TODO settare qualche proprietà per far vedere visivamente che è attiva
+                    //potrei mettere bordo rosso e fare che non fa nulla on mouse hover
+                    try {
+                        if (LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement() != null) {
+                            activatedCard.setOnMouseClicked((MouseEvent event1) -> activateLeaderProduction(event1));
+                        }
+                    } catch (InvalidCardException e) {
+                        e.printStackTrace();
                     }
-                } catch (InvalidCardException e) {
-                    e.printStackTrace();
                 }
             }
         }
+
     }
 
     @FXML
