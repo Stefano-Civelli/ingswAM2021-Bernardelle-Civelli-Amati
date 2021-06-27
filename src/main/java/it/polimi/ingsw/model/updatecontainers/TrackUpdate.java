@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.updateContainers;
+package it.polimi.ingsw.model.updatecontainers;
 
 /**
  * A model update represents the update of player that changes their position on the {@link it.polimi.ingsw.model.track.Track track}.

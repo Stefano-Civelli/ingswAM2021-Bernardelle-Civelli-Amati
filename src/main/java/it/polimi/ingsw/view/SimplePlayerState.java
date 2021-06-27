@@ -2,7 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
-import it.polimi.ingsw.model.updateContainers.*;
+import it.polimi.ingsw.model.updatecontainers.*;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
 

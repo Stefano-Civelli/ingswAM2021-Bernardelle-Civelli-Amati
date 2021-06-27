@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.updateContainers.DevelopCardDeckUpdate;
+import it.polimi.ingsw.model.updatecontainers.DevelopCardDeckUpdate;
 
 public interface LorenzoViewInterface {
 

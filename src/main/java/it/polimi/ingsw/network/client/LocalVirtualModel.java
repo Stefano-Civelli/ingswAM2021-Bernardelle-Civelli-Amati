@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
-import it.polimi.ingsw.model.updateContainers.TurnState;
+import it.polimi.ingsw.model.updatecontainers.TurnState;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;

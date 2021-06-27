@@ -2,9 +2,8 @@ package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
-import it.polimi.ingsw.model.updateContainers.*;
+import it.polimi.ingsw.model.updatecontainers.*;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
@@ -21,7 +20,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 import java.util.HashMap;

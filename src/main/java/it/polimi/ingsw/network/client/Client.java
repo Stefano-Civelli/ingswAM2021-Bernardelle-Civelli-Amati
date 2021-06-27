@@ -8,12 +8,11 @@ import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.TurnManager;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
-import it.polimi.ingsw.model.updateContainers.*;
+import it.polimi.ingsw.model.updatecontainers.*;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
-import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.view.*;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.CliDrawer;
@@ -22,7 +21,6 @@ import it.polimi.ingsw.view.gui.GUIStarter;
 import javafx.application.Application;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 

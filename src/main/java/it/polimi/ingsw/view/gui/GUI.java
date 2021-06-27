@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.model.updateContainers.*;
+import it.polimi.ingsw.model.updatecontainers.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.client.GuiTurnManager;

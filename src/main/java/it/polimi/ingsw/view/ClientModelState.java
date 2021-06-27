@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.updateContainers.*;
+import it.polimi.ingsw.model.updatecontainers.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

@@ -6,7 +6,7 @@ import it.polimi.ingsw.controller.controllerexception.WrongPlayerException;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.controller.action.Action;
 import it.polimi.ingsw.controller.controllerexception.NotAllowedActionException;
-import it.polimi.ingsw.model.updateContainers.TurnState;
+import it.polimi.ingsw.model.updatecontainers.TurnState;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;

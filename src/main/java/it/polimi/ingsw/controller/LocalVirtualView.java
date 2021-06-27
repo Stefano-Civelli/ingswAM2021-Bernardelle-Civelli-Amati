@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.updateContainers.*;
+import it.polimi.ingsw.model.updatecontainers.*;
 import it.polimi.ingsw.view.ClientModelUpdaterInterface;
 import it.polimi.ingsw.view.LorenzoViewInterface;
 

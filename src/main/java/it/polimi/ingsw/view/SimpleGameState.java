@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.market.MarbleColor;
-import it.polimi.ingsw.model.updateContainers.DevelopCardDeckSetup;
-import it.polimi.ingsw.model.updateContainers.DevelopCardDeckUpdate;
-import it.polimi.ingsw.model.updateContainers.MarketSetup;
-import it.polimi.ingsw.model.updateContainers.MarketUpdate;
+import it.polimi.ingsw.model.updatecontainers.DevelopCardDeckSetup;
+import it.polimi.ingsw.model.updatecontainers.DevelopCardDeckUpdate;
+import it.polimi.ingsw.model.updatecontainers.MarketSetup;
+import it.polimi.ingsw.model.updatecontainers.MarketUpdate;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.updateContainers;
+package it.polimi.ingsw.model.updatecontainers;
 
 /**
  * A model update represents an update concerning a {@link it.polimi.ingsw.model.leadercard.LeaderCard leader card}.

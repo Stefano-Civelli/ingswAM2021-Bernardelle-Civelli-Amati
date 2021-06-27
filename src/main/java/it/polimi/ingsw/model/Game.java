@@ -3,9 +3,9 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.leadercard.LeaderCardDeck;
 import it.polimi.ingsw.model.market.Market;
-import it.polimi.ingsw.model.modelObservables.LeaderSetupObservable;
+import it.polimi.ingsw.model.modelobservables.LeaderSetupObservable;
 import it.polimi.ingsw.model.modelexceptions.*;
-import it.polimi.ingsw.model.updateContainers.LeaderSetup;
+import it.polimi.ingsw.model.updatecontainers.LeaderSetup;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 

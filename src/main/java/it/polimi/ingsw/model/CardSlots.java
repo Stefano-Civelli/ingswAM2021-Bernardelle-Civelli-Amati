@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.modelObservables.CardSlotObservable;
+import it.polimi.ingsw.model.modelobservables.CardSlotObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
-import it.polimi.ingsw.model.updateContainers.CardSlotUpdate;
+import it.polimi.ingsw.model.updatecontainers.CardSlotUpdate;
 
 import java.util.ArrayList;
 import java.util.List;

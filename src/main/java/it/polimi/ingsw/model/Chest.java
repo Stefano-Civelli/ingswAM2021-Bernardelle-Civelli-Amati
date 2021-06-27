@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.model.modelObservables.ChestMergeObservable;
-import it.polimi.ingsw.model.modelObservables.ChestUpdateObservable;
-import it.polimi.ingsw.model.modelObservables.TempChestObservable;
+import it.polimi.ingsw.model.modelobservables.ChestMergeObservable;
+import it.polimi.ingsw.model.modelobservables.ChestUpdateObservable;
+import it.polimi.ingsw.model.modelobservables.TempChestObservable;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
-import it.polimi.ingsw.model.updateContainers.ChestUpdate;
+import it.polimi.ingsw.model.updatecontainers.ChestUpdate;
 
 import java.util.HashMap;
 import java.util.Map;

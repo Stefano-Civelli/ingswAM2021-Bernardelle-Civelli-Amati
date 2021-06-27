@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.updateContainers;
+package it.polimi.ingsw.model.updatecontainers;
 
 import java.util.List;
 

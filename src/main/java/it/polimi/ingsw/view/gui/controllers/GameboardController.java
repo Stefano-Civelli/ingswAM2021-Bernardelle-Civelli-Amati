@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
-import it.polimi.ingsw.model.updateContainers.*;
+import it.polimi.ingsw.model.updatecontainers.*;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.gui.GuiResources;
 import it.polimi.ingsw.view.gui.SceneController;

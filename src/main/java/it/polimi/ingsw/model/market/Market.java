@@ -2,12 +2,12 @@ package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.modelObservables.MarketSetupObservable;
-import it.polimi.ingsw.model.modelObservables.MarketUpdateObservable;
+import it.polimi.ingsw.model.modelobservables.MarketSetupObservable;
+import it.polimi.ingsw.model.modelobservables.MarketUpdateObservable;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.RowOrColumnNotExistsException;
-import it.polimi.ingsw.model.updateContainers.MarketSetup;
-import it.polimi.ingsw.model.updateContainers.MarketUpdate;
+import it.polimi.ingsw.model.updatecontainers.MarketSetup;
+import it.polimi.ingsw.model.updatecontainers.MarketUpdate;
 
 import java.util.*;
 import java.util.stream.Collectors;

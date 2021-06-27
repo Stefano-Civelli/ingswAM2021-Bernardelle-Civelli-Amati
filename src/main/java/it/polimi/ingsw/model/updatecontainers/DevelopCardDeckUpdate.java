@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.updateContainers;
+package it.polimi.ingsw.model.updatecontainers;
 
 /**
  * A model update represents an update happened in a {@link it.polimi.ingsw.model.DevelopCardDeck develop card deck}.

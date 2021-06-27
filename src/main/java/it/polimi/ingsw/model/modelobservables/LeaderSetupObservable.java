@@ -1,7 +1,7 @@
-package it.polimi.ingsw.model.modelObservables;
+package it.polimi.ingsw.model.modelobservables;
 
 
-import it.polimi.ingsw.model.updateContainers.LeaderSetup;
+import it.polimi.ingsw.model.updatecontainers.LeaderSetup;
 
 public interface LeaderSetupObservable {
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.market.MarbleColor;
-import it.polimi.ingsw.model.updateContainers.DevelopCardDeckUpdate;
+import it.polimi.ingsw.model.updatecontainers.DevelopCardDeckUpdate;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.cli.drawer.*;

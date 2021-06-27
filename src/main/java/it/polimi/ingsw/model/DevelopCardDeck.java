@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.modelObservables.DeckSetupObservable;
-import it.polimi.ingsw.model.modelObservables.DevDeckUpdateObservable;
-import it.polimi.ingsw.model.modelObservables.LorenzoDevDeckObservable;
+import it.polimi.ingsw.model.modelobservables.DeckSetupObservable;
+import it.polimi.ingsw.model.modelobservables.DevDeckUpdateObservable;
+import it.polimi.ingsw.model.modelobservables.LorenzoDevDeckObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;
-import it.polimi.ingsw.model.updateContainers.DevelopCardDeckSetup;
-import it.polimi.ingsw.model.updateContainers.DevelopCardDeckUpdate;
+import it.polimi.ingsw.model.updatecontainers.DevelopCardDeckSetup;
+import it.polimi.ingsw.model.updatecontainers.DevelopCardDeckUpdate;
 
 import java.util.*;
 import java.util.stream.Collectors;

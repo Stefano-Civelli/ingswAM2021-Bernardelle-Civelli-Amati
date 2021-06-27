@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.model.updateContainers.*;
+import it.polimi.ingsw.model.updatecontainers.*;
 
 /**
  * Defines all the required method of class used to observe the model

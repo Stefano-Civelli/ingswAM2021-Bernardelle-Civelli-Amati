@@ -5,7 +5,7 @@ import it.polimi.ingsw.controller.action.*;
 
 import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.market.MarbleColor;
-import it.polimi.ingsw.model.updateContainers.DevelopCardDeckUpdate;
+import it.polimi.ingsw.model.updatecontainers.DevelopCardDeckUpdate;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.CliTurnManager;
 import it.polimi.ingsw.network.client.ClientTurnManagerInterface;

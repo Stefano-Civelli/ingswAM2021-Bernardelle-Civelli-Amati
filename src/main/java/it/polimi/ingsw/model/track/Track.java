@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.track;
 
-import it.polimi.ingsw.model.modelObservables.VaticanUpdateObservable;
-import it.polimi.ingsw.model.updateContainers.TrackUpdate;
-import it.polimi.ingsw.model.updateContainers.VaticanReport;
+import it.polimi.ingsw.model.modelobservables.VaticanUpdateObservable;
+import it.polimi.ingsw.model.updatecontainers.TrackUpdate;
+import it.polimi.ingsw.model.updatecontainers.VaticanReport;
 
 /**
  * Represents a player's track with their position and their pope cards

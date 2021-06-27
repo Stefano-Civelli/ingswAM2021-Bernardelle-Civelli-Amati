@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.singleplayer;
 
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.modelObservables.TokenShuffleObservable;
+import it.polimi.ingsw.model.modelobservables.TokenShuffleObservable;
 import it.polimi.ingsw.model.track.LorenzoTrack;
 
 import java.util.Collections;

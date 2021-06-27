@@ -3,8 +3,8 @@ import it.polimi.ingsw.model.EndGameObserver;
 import it.polimi.ingsw.model.EndGameObservable;
 import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.MoveForwardObserver;
-import it.polimi.ingsw.model.modelObservables.TrackObservable;
-import it.polimi.ingsw.model.updateContainers.TrackUpdate;
+import it.polimi.ingsw.model.modelobservables.TrackObservable;
+import it.polimi.ingsw.model.updatecontainers.TrackUpdate;
 
 import java.util.HashSet;
 import java.util.Set;

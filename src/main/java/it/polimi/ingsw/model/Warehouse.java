@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.modelObservables.WarehouseUpdateObservable;
+import it.polimi.ingsw.model.modelobservables.WarehouseUpdateObservable;
 import it.polimi.ingsw.model.modelexceptions.*;
-import it.polimi.ingsw.model.updateContainers.WarehouseUpdate;
+import it.polimi.ingsw.model.updatecontainers.WarehouseUpdate;
 import it.polimi.ingsw.utility.Pair;
 
 import java.util.ArrayList;
