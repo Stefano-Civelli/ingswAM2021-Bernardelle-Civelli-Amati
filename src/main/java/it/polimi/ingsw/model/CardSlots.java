@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.updateContainers.CardSlotUpdate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents the set of card slots of a player where they can place their develop cards
+ */
 public class CardSlots implements EndGameObservable, CardSlotObservable {
   private final List<List<DevelopCard>> developCards;
   private final int numberOfCardSlots = 3;

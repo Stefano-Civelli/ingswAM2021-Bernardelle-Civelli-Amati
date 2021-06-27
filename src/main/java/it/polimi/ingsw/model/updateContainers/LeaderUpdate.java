@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.updateContainers;
 
 /**
- * one of the updateContainers classes.
- * They contain the update information to be stored in the message payload
+ * A model update represents an update concerning a {@link it.polimi.ingsw.model.leadercard.LeaderCard leader card}.
+ * Model updates contain information to notify clients or views of an update happened on the model
  */
-public class LeaderUpdate {
+public class LeaderUpdate implements ModelUpdate {
    private final int cardId;
 
    public LeaderUpdate(int cardId) {
@@ -18,4 +18,5 @@ public class LeaderUpdate {
    public int getCardId() {
       return cardId;
    }
+
 }

@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Represents the warehouse of player.
+ * A warehouse can contain a limited amount of resources organized on limited number of level, each of them containing a single type of resource.
+ * The number of resources that each level can contain decrease from maximum in the level zero to one in the last level.
+ * A warehouse can't contain faith.
+ */
 public class Warehouse implements WarehouseUpdateObservable {
 
     private final int NUMBER_OF_NORMAL_LEVELS = 3;
@@ -217,7 +223,6 @@ public class Warehouse implements WarehouseUpdateObservable {
                         .reduce(Integer::sum).orElse(0);
     }
 
-
     @Override
     public void notifyModelChange(WarehouseUpdate msg) {
         if (controller != null)
@@ -227,4 +232,5 @@ public class Warehouse implements WarehouseUpdateObservable {
     public void setController(ModelObserver controller) {
         this.controller = controller;
     }
+
 }

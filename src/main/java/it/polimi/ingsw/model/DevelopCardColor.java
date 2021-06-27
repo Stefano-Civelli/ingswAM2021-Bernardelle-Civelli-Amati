@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Represents all the possible color of a develop card
+ */
 public enum DevelopCardColor {
 
    GREEN(0, "Green"),

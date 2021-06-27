@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.track;
 
+/**
+ * Represents a single cell of the track
+ */
 public class Square {
 
   @SuppressWarnings("UnusedDeclaration") // Because the field value is assigned using reflection

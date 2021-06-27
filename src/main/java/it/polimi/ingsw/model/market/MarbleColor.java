@@ -3,7 +3,11 @@ package it.polimi.ingsw.model.market;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.view.cli.Color;
 
+/**
+ * Represents the color of a market marble, it's used in json serialization
+ */
 public enum MarbleColor {
+
     GREY ( Color.ANSI_GREY.escape(), ConfigParameters.marbleCharacter + Color.RESET.escape(), javafx.scene.paint.Color.GREY),
     YELLOW (Color.ANSI_YELLOW.escape(), ConfigParameters.marbleCharacter + Color.RESET.escape(), javafx.scene.paint.Color.YELLOW),
     BLUE (Color.ANSI_BLUE.escape(), ConfigParameters.marbleCharacter + Color.RESET.escape(), javafx.scene.paint.Color.BLUE),
@@ -33,4 +37,5 @@ public enum MarbleColor {
     public String toString(){
         return this.color + this.escape;
     }
+
 }

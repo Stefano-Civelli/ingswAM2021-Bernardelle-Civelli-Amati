@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model.updateContainers;
 
 /**
- * one of the updateContainers classes.
- * They contain the update information to be stored in the message payload
+ * A model update represents an update happened in a {@link it.polimi.ingsw.model.DevelopCardDeck develop card deck}.
+ * Model updates contain information to notify clients or views of an update happened on the model
  */
-public class DevelopCardDeckUpdate {
+public class DevelopCardDeckUpdate implements ModelUpdate {
+
    private final int row;
    private final int column;
 

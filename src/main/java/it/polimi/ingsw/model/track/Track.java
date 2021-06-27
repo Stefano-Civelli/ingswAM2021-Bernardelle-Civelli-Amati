@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.modelObservables.VaticanUpdateObservable;
 import it.polimi.ingsw.model.updateContainers.TrackUpdate;
 import it.polimi.ingsw.model.updateContainers.VaticanReport;
 
+/**
+ * Represents a player's track with their position and their pope cards
+ */
 public class Track extends LorenzoTrack implements VaticanReportObserver, VaticanUpdateObservable {
   private final int[] popeCards = new int[]{-1, -1, -1};
 

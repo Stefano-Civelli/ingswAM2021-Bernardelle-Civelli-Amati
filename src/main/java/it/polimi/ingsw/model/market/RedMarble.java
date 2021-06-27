@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.market;
 
 import it.polimi.ingsw.model.*;
 
+/**
+ * Represents a red market marble that will be converted in a faith resulting in a step forward on track
+ */
 public class RedMarble extends MarketMarble{
 
     public RedMarble() {

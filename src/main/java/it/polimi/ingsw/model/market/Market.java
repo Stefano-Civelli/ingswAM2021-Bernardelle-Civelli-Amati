@@ -12,6 +12,9 @@ import it.polimi.ingsw.model.updateContainers.MarketUpdate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Represents the market of the game where players can buy a row or column of marble that will be converted in resources
+ */
 public class Market implements MarketUpdateObservable, MarketSetupObservable {
 
     private final int N_ROW = 3,

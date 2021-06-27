@@ -11,7 +11,9 @@ import it.polimi.ingsw.model.updateContainers.DevelopCardDeckUpdate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+/**
+ * Represent the develop cards' deck where players can buy
+ */
 public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, LorenzoDevDeckObservable, DevDeckUpdateObservable {
 
    private final int NUMBER_OF_DECK_ROWS = 3;

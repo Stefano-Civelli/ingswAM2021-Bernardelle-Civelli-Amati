@@ -9,7 +9,9 @@ import it.polimi.ingsw.model.updateContainers.TrackUpdate;
 import java.util.HashSet;
 import java.util.Set;
 
-
+/**
+ * Represents the Lorenzo's track and his position in a single player game
+ */
 public class LorenzoTrack implements VaticanReportObservable, EndGameObservable, TrackObservable, MoveForwardObserver {
   Square[] track;
   int playerPosition;

@@ -3,6 +3,9 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.market.MarbleColor;
 import it.polimi.ingsw.view.cli.Color;
 
+/**
+ * Represents all the possible type of resources
+ */
 public enum ResourceType {
 
   STONE (MarbleColor.GREY),
@@ -11,13 +14,16 @@ public enum ResourceType {
   FAITH (MarbleColor.RED),
   SHIELD (MarbleColor.BLUE);
 
-  private MarbleColor color;
+  private final MarbleColor color;
 
   ResourceType(MarbleColor m) {
     this.color = m;
   }
 
-
+  /**
+   *
+   * @return the corresponding marble color of the marbles that will be converted in this type o resource
+   */
   public MarbleColor getColor(){
     return color;
   }
@@ -41,4 +47,5 @@ public enum ResourceType {
   public String toString () {
     return getColor().toString();
   }
+
 }

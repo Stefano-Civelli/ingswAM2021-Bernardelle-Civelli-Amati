@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model.updateContainers;
 
 /**
- * one of the updateContainers classes.
- * They contain the update information to be stored in the message payload
+ * A model update represents an update happened in a {@link it.polimi.ingsw.model.market.Market market}.
+ * Model updates contain information to notify clients or views of an update happened on the model
  */
-public class MarketUpdate {
+public class MarketUpdate implements ModelUpdate {
+
    private final boolean isRow;
    private final int index;
 
@@ -28,4 +29,5 @@ public class MarketUpdate {
    public int getIndex() {
       return index;
    }
+
 }

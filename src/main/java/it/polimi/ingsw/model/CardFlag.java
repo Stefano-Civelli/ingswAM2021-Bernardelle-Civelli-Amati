@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Represents a develop card banner (i.e. level and colour of a develop card)
+ */
 public class CardFlag {
 
    private final int level;

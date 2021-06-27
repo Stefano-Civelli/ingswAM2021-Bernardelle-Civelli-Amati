@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.updateContainers;
 
 /**
- * one of the updateContainers classes.
- * They contain the update information to be stored in the message payload
+ * A model update represents the update of player that changes their position on the {@link it.polimi.ingsw.model.track.Track track}.
+ * Model updates contain information to notify clients or views of an update happened on the model
  */
-public class TrackUpdate {
+public class TrackUpdate implements ModelUpdate {
    private final int playerPosition;
 
    public TrackUpdate(int playerPosition) {

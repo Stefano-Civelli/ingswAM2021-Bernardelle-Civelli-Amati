@@ -10,6 +10,10 @@ import it.polimi.ingsw.model.updateContainers.ChestUpdate;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents the chest of player.
+ * A chest can contain an unlimited amount of resources, but can't contain faith.
+ */
 public class Chest implements ChestUpdateObservable, TempChestObservable, ChestMergeObservable {
   private final Map<ResourceType, Integer> resources;
   private final Map<ResourceType, Integer> tempResourcesMap;
@@ -22,7 +26,7 @@ public class Chest implements ChestUpdateObservable, TempChestObservable, ChestM
   }
 
   /**
-   *  add resources to the chest
+   *  Adds resources to the chest
    *  NOTE: the newly added resources will be available to remove only after calling {@link #endOfTurnMapsMerge()}
    *
    * @param resource the resource to be added

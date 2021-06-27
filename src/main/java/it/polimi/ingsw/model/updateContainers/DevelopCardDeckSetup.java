@@ -3,10 +3,11 @@ package it.polimi.ingsw.model.updateContainers;
 import java.util.List;
 
 /**
- * one of the updateContainers classes.
- * They contain the update information to be stored in the message payload
+ * A special model update used to communicate to clients or views the initial state of a {@link it.polimi.ingsw.model.DevelopCardDeck develop card deck}.
+ * Model updates contain information to notify clients or views of an update happened on the model
  */
-public class DevelopCardDeckSetup {
+public class DevelopCardDeckSetup implements ModelUpdate {
+
    private final List<Integer>[][] devDeck;
 
    public DevelopCardDeckSetup(List<Integer>[][] devDeck) {
@@ -20,4 +21,5 @@ public class DevelopCardDeckSetup {
    public List<Integer>[][] getDevDeck() {
       return devDeck;
    }
+
 }

@@ -14,6 +14,9 @@ import it.polimi.ingsw.utility.Pair;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Represents a player board containing all the element of the game that regards a single player
+ */
 public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable, LeaderDiscardObservable, ActivatedLeaderObservable {
 
    private final String username;

@@ -6,6 +6,10 @@ import it.polimi.ingsw.model.modelexceptions.*;
 
 import java.util.stream.Collectors;
 
+/**
+ * Represents a white market marble that can be converted, using a particular type of leader card, in a specific resource
+ * that can be added into warehouse or, in case it's faith, resulting in a step forward on track
+ */
 public class WhiteMarble extends MarketMarble{
 
     public WhiteMarble() {

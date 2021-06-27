@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model.track;
 
+/**
+ * It's used together with {@link it.polimi.ingsw.model.track.VaticanReportObservable VaticanReportObserver} to notify
+ * other players' track when a track reaches a vatican report cell
+ */
 public interface VaticanReportObserver {
 
   /**

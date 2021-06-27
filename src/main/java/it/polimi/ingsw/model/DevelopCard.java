@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.modelexceptions.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a develop card
+ */
 public class DevelopCard {
    private int devCardId;
    private String image;

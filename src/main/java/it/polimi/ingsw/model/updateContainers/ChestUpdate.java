@@ -3,10 +3,11 @@ package it.polimi.ingsw.model.updateContainers;
 import it.polimi.ingsw.model.ResourceType;
 
 /**
- * one of the updateContainers classes.
- * They contain the update information to be stored in the message payload
+ * A model update represents an update happened in a {@link it.polimi.ingsw.model.Chest chest}.
+ * Model updates contain information to notify clients or views of an update happened on the model
  */
-public class ChestUpdate {
+public class ChestUpdate implements ModelUpdate {
+
    private final ResourceType resourceType;
    private final int quantity;
 
@@ -30,6 +31,5 @@ public class ChestUpdate {
    public int getQuantity() {
       return quantity;
    }
-
 
 }

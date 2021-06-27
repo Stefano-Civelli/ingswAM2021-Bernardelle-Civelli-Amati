@@ -7,7 +7,7 @@ import java.util.List;
 import static it.polimi.ingsw.controller.action.ActionType.*;
 
 /**
- * Enum that represents possible turn phases.
+ * Represents all the possible turn phases.
  * Each phase has a list of the valid action during that phase
  */
 public enum PhaseType {

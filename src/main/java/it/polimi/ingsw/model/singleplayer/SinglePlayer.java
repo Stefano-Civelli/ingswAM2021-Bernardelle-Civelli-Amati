@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Represent a single player game
+ * Represents a single player game
  */
 public class SinglePlayer extends Game {
 

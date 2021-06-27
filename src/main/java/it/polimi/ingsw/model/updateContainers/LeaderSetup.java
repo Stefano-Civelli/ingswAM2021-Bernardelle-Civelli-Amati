@@ -3,10 +3,11 @@ package it.polimi.ingsw.model.updateContainers;
 import java.util.List;
 
 /**
- * one of the updateContainers classes.
- * They contain the update information to be stored in the message payload
+ * A special model update used to communicate to clients or views the initial {@link it.polimi.ingsw.model.leadercard.LeaderCard leader cards} of a player.
+ * Model updates contain information to notify clients or views of an update happened on the model
  */
-public class LeaderSetup {
+public class LeaderSetup implements ModelUpdate {
+
    private List<Integer> leaderList;
 
    public LeaderSetup(List<Integer> leaderList) {
@@ -20,4 +21,5 @@ public class LeaderSetup {
    public List<Integer> getLeaderList() {
       return leaderList;
    }
+
 }

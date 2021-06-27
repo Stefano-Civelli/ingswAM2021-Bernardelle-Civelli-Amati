@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.track.Track;
 
 import java.util.List;
 
+/**
+ * An interface used to restrict the visible methods of {@link it.polimi.ingsw.model.PlayerBoard PlayerBoard}
+ * when it's passed as a parameter of a method
+ */
 public interface InterfacePlayerBoard {
 
     Warehouse getWarehouse();

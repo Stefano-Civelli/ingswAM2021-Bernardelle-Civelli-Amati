@@ -3,10 +3,10 @@ package it.polimi.ingsw.model.updateContainers;
 import it.polimi.ingsw.model.PhaseType;
 
 /**
- * one of the updateContainers classes.
- * They contain the update information to be stored in the message payload
+ * A model update represents the new state of the game, i.e. an update happened in a {@link it.polimi.ingsw.model.TurnManager turn manager}.
+ * Model updates contain information to notify clients or views of an update happened on the model
  */
-public class TurnState {
+public class TurnState implements ModelUpdate {
 
     private final String player;
     private final PhaseType phase;

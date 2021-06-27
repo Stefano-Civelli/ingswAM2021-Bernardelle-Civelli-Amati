@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * Represents a generic market marble
+ */
 public abstract class MarketMarble {
 
     @SuppressWarnings({"unused", "FieldCanBeLocal"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection

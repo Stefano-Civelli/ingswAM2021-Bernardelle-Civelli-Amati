@@ -3,6 +3,9 @@ package it.polimi.ingsw.model.market;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.modelexceptions.*;
 
+/**
+ * Represents a market marble that will be converted in a resource that can be added into warehouse
+ */
 public class NormalMarble extends MarketMarble{
 
     private ResourceType resource = null;
