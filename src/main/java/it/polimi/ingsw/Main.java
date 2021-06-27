@@ -13,7 +13,7 @@ public abstract class Main {
 
    static {
       helpString =   "Usage: java -jar MoR.jar [OPTIONS]\n" +
-                     "Option   Long option     Meaning" +
+                     "Option    Long option     Meaning" +
                      "-s        --server       start the game server\n" +
                      "-g        --gui          start the game client whit GUI\n" +
                      "-c        --cli          start the game client in CLI\n" +
