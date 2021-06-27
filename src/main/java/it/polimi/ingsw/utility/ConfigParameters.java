@@ -2,7 +2,11 @@ package it.polimi.ingsw.utility;
 
 import it.polimi.ingsw.view.cli.Color;
 
+/**
+ * Contains configuration parameters of the game
+ */
 public final class ConfigParameters {
+
   public static final int MAX_CONSECUTIVE_MALFORMED_MESSAGE = 2;
   public static final int SERVER_TIMEOUT = 4 * 1000; // seconds
   public static final int CLIENT_TIMEOUT = 2 * 1000; // seconds

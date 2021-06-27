@@ -1,19 +1,13 @@
 package it.polimi.ingsw.network.messages;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.utility.GSON;
-import it.polimi.ingsw.utility.Pair;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
-//TODO aggiugere receiver e setReceiver
+/**
+ * Represents a message between client and server in network
+ */
 public class Message {
+   //TODO aggiugere receiver e setReceiver
    //provare a vedere se deserializzando LoginMessage posso impostare questi attributi private
    private String username = null; //username del Client mittente,
    private MessageType messageType;

@@ -13,8 +13,11 @@ import java.io.*;
 import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
 
-
-public class GSON {
+/**
+ * Contains all the possible method used to parse to and from a json string.
+ * Can be used for loading configuration files or for sending and receiving messages to and from the network
+ */
+public final class GSON {
 
    private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().excludeFieldsWithModifiers(Modifier.TRANSIENT).create();
 
@@ -117,6 +120,11 @@ public class GSON {
 //
 //      return message;
 //   }
+
+   private GSON() {
+      // private constructor to prevent instances of this class (a class can't be final and abstract in Java).
+   }
+
 }
 
 

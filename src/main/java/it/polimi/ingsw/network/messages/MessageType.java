@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.messages;
 
 //fare attenzione perché per la CLI posso printare con lo stesso tipo (ad esempio LOGIN_FAILED) cose diverse (grazie al payload), pensare se puó essere fatto anche con GUI
+/**
+ * Represents the possible type of messages
+ */
 public enum MessageType {
 
   PING,

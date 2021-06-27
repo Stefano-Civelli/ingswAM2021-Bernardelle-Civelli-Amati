@@ -2,7 +2,15 @@ package it.polimi.ingsw.utility;
 
 import java.util.Objects;
 
+/**
+ * Represents a pair of two object: a key and a value.
+ * It's an immutable object.
+ *
+ * @param <K> the type of the key
+ * @param <V> the type of the value
+ */
 public class Pair<K, V> {
+
     private final K key;
     private final V value;
 
@@ -48,4 +56,5 @@ public class Pair<K, V> {
         Pair<?, ?> pair = (Pair<?, ?>) o;
         return Objects.equals(this.key, pair.getKey()) && Objects.equals(this.value, pair.getValue());
     }
+
 }

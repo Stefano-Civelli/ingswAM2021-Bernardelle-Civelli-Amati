@@ -1,6 +1,10 @@
 package it.polimi.ingsw.network.messages;
 
+/**
+ * Represents the possible type of error that can be sent to client
+ */
 public enum ErrorType {
+
     MALFORMED_MESSAGE,
     GAME_ALREADY_STARTED, // player tryes to LOGIN when the game is already started
     INVALID_LOGIN_USERNAME, // username is empty or null
@@ -29,7 +33,6 @@ public enum ErrorType {
     MATCH_ALREADY_EXISTS,
     CANNOT_JOIN_MATCH,
     UNKNOWN_ERROR;
-
 
     public static ErrorType fromValue(String value) {
         for (ErrorType errorType : values()) {
