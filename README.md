@@ -28,6 +28,15 @@ This repository includes:
 [![GREEN](http://placehold.it/15/44bb44/44bb44)](#)
 -->
 
+## Test Coverage
+
+**Coverage criteria: code lines.**
+
+| Package |Tested Class | Coverage |
+|:-----------------------|:------------------|:------------------------------------:|
+|  |  | 
+
+
 
 ## COMMUNICATION PROTOCOL
 

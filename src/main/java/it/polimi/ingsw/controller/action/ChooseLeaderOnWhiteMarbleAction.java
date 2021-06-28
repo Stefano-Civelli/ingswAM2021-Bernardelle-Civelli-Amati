@@ -52,7 +52,7 @@ public class ChooseLeaderOnWhiteMarbleAction extends Action {
             throw new NotAllowedActionException();
         try {
             gameState.getGame().getPlayerBoard(super.getUsername()).addWhiteToWarehouse(this.leaderIndex);
-        } catch (NotEnoughSpaceException ignored) {}
+        } catch (NotEnoughSpaceException | MarbleNotExistException ignored) {}
         return gameState.getGame().getPlayerBoard(super.getUsername()).areMarblesFinished()
                 ? PhaseType.FINAL : PhaseType.SHOPPING;
     }

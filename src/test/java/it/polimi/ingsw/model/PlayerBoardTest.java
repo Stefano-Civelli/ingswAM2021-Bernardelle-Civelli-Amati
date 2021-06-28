@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.market.RedMarble;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -27,13 +28,13 @@ class PlayerBoardTest {
 
   PlayerBoard initializer() throws IOException {
     String usr = "talla";
-    DevelopCardDeck developCardDeck = GSON.cardParser();
+
     List<LeaderCard> leaderCards = new ArrayList<>();
     leaderCards.add(new LeaderCard(1,null, null, 4, new MarbleModifierBehaviour(ResourceType.SERVANT)));
     leaderCards.add(new LeaderCard(2,null, null, 6, new MarbleModifierBehaviour(ResourceType.SHIELD)));
     leaderCards.add(new LeaderCard(3,null, null, 4, new StorageBehaviour(ResourceType.SERVANT)));
     leaderCards.add(new LeaderCard(4,null, null, 4, new StorageBehaviour(ResourceType.GOLD)));
-
+    DevelopCardDeck developCardDeck = GSON.cardParser();
     return new PlayerBoard(usr, leaderCards, market, developCardDeck);
   }
 
@@ -322,4 +323,63 @@ class PlayerBoardTest {
     playerBoard.discardLeader(playerBoard.getLeaderCards().get(1).getLeaderId());
     assertEquals(1, playerBoard.getLeaderCards().size());
   }
+
+
+  @Test
+  void finalTurnPhaseTest() throws IOException, RowOrColumnNotExistsException, InvalidLeaderCardException, NotEnoughSpaceException {
+    PlayerBoard playerBoard = initializer();
+    playerBoard.shopMarketColumn(1);
+    playerBoard.enterFinalTurnPhase();
+    assertThrows(MarbleNotExistException.class, () -> playerBoard.addWhiteToWarehouse(1));
+  }
+
+
+  @Test
+  void developProduceTest() throws IOException, AbuseOfFaithException, NegativeQuantityException, InvalidDevelopCardException, InvalidCardPlacementException, NotBuyableException, NotActivatableException, AlreadyProducedException {
+    PlayerBoard playerBoard = initializer();
+    playerBoard.getChest().addResources(ResourceType.GOLD,50);
+    playerBoard.getChest().addResources(ResourceType.STONE,50);
+    playerBoard.getChest().addResources(ResourceType.SERVANT,50);
+    playerBoard.getChest().addResources(ResourceType.SHIELD,50);
+    playerBoard.getChest().endOfTurnMapsMerge();
+    DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
+    DevelopCard developCard = developCardDeck.getCard(0,1);
+    //since the deck is created always the same for testing purposes i know what card i get and what it produces
+    developCard.buy(playerBoard,0);
+    playerBoard.developProduce(0);
+    playerBoard.getChest().endOfTurnMapsMerge();
+    assertEquals(playerBoard.getChest().getNumberOf(ResourceType.GOLD),50-2);
+    assertEquals(playerBoard.getChest().getNumberOf(ResourceType.STONE),50-1);
+    assertEquals(playerBoard.getChest().getNumberOf(ResourceType.SHIELD),50-1);
+    assertEquals(playerBoard.getChest().getNumberOf(ResourceType.SERVANT),50);
+
+    //try to produce again on the same card throws exception
+    assertThrows(AlreadyProducedException.class, () -> playerBoard.developProduce(0));
+
+  }
+
+  @Test
+  void emptySlotProductionTest() throws NegativeQuantityException, AbuseOfFaithException, IOException, InvalidDevelopCardException, InvalidCardPlacementException, NotBuyableException {
+    PlayerBoard playerBoard = initializer();
+    playerBoard.getChest().addResources(ResourceType.GOLD,50);
+    playerBoard.getChest().addResources(ResourceType.STONE,50);
+    playerBoard.getChest().addResources(ResourceType.SERVANT,50);
+    playerBoard.getChest().addResources(ResourceType.SHIELD,50);
+    playerBoard.getChest().endOfTurnMapsMerge();
+    DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
+
+    assertThrows(NotActivatableException.class, () -> playerBoard.developProduce(0));
+  }
+
+//  @Test
+//  void leaderProduceTest() throws IOException, NegativeQuantityException, AbuseOfFaithException, InvalidLeaderCardException, NeedAResourceToAddException, NotEnoughResourcesException, AlreadyProducedException {
+//    PlayerBoard playerBoard = initializer();
+//    playerBoard.getChest().addResources(ResourceType.GOLD,50);
+//    playerBoard.getChest().addResources(ResourceType.STONE,50);
+//    playerBoard.getChest().addResources(ResourceType.SERVANT,50);
+//    playerBoard.getChest().addResources(ResourceType.SHIELD,50);
+//    playerBoard.getChest().endOfTurnMapsMerge();
+//
+//    playerBoard.leaderProduce(2, ResourceType.GOLD);
+//  }
 }

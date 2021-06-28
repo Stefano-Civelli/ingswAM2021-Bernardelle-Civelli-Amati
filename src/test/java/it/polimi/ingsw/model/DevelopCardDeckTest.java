@@ -119,9 +119,24 @@ class DevelopCardDeckTest {
       assertTrue(count == 12);
    }
 
-   //need to add a test to check the endGame notify call
+   // TODO need to add a test to check the endGame notify call
    @Test
    void checkForEndGameNotifyCall(){
       //
+   }
+
+   @Test
+   void getCardFromIdTest() throws IOException, InvalidCardException {
+      DevelopCardDeck developCardDeck;
+      developCardDeck = GSON.cardParser();
+      DevelopCard developCard = developCardDeck.getCardFromId(1);
+      assertNotNull(developCard);
+   }
+
+   @Test
+   void getCardFromIdTest2() throws IOException {
+      DevelopCardDeck developCardDeck;
+      developCardDeck = GSON.cardParser();
+      assertThrows(InvalidCardException.class, () -> developCardDeck.getCardFromId(100000000));
    }
 }
