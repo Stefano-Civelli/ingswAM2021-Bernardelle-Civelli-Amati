@@ -83,7 +83,7 @@ public class TurnManager implements IGameState {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.ABUSE_OF_FAITH);
         } catch (NotBuyableException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.NOT_BUYABLE);
-        } catch (InvalidCardPlacementException e) {
+        } catch (InvalidCardSlotException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_CARD_PLACEMENT);
         } catch (RowOrColumnNotExistsException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_ROW_OR_COLUMN);

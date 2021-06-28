@@ -230,7 +230,7 @@ public class GameboardController extends GUIController {
             Parent root = null;
             root = loader.load();
             PlayerboardController newPlayerboardController = loader.getController();
-            newPlayerboardController.setUsername(username); //FIXME sembra che non vada
+            newPlayerboardController.setUsername(username);
             newPlayerboardController.setClient(this.client);
             newPlayerboardController.thisClientPlayer();
             this.playerboardControllers.add(newPlayerboardController);
@@ -387,9 +387,6 @@ public class GameboardController extends GUIController {
             i++;
         }
         tempMarbleHbox.getChildren().remove(event.getSource());
-        if (tempMarbleHbox.getChildren().isEmpty()) {
-            this.endTurnButton.setDisable(false); //TODO verificare se serve davvero
-        }
     }
 
     @FXML
@@ -571,11 +568,6 @@ public class GameboardController extends GUIController {
     @FXML
     private void completeBuyWithSlot1(ActionEvent event) {
         createBuyCardAction(0);
-//        CardSlots.CardSlotUpdate slotUpdate = new CardSlots.CardSlotUpdate(i, 0);
-//        for(PlayerboardController p : playerboardControllers)
-//            if(p != null) TODO si puo cancellare sto pezzo di codice???
-//                p.updateCardSlot(slotUpdate);
-//        i+=16;
     }
 
     @FXML

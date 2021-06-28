@@ -206,7 +206,6 @@ public class Cli implements ViewInterface {
   @Override
   public void displayReconnection() {
     out.println("You have been successfully RECONNECTED !");
-    // TODO display dello stato aggiornato del gioco
   }
 
   @Override
@@ -234,7 +233,6 @@ public class Cli implements ViewInterface {
     drawer.marketDisplay();
   }
 
-  //TODO
   @Override
   public void displayPlayerTurn(String player) {
     System.out.println("It's " + cliTurnManager.getCurrentPlayer() + "'s turn.");
@@ -450,7 +448,6 @@ public class Cli implements ViewInterface {
   private void handleInput(String line){
     switch (line) {
       case "B": case "b":
-        //TODO fare display del market e del magazzino/chest
         drawer.drawDevelopCardDeck();
         Action buyCardAction = createBuyCardAction();
         client.forwardAction(buyCardAction);
@@ -462,9 +459,6 @@ public class Cli implements ViewInterface {
       case "P": case "p":
         Action produceAction = createProduceAction();
         client.forwardAction(produceAction);
-        break;
-      case "L": case "l"://leaderProduce
-        //FIXME togliere il case?
         break;
       case "A": case "a"://activate leader card
         Action activateLeaderAction = createActivateLeaderAction();

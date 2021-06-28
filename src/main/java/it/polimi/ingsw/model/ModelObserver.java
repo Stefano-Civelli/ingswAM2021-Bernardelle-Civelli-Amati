@@ -25,5 +25,4 @@ public interface ModelObserver {
   void lorenzoShuffleUpdate();
   void lorenzoDevDeckUpdate(DevelopCardDeckUpdate stateUpdate);
   void chestMergeUpdate();
-  //TODO per riconnessione servono phaseUpdate con username e Stringa che chiamano singleUpdate
 }

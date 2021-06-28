@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.modelobservables.CardSlotObservable;
-import it.polimi.ingsw.model.modelexceptions.InvalidCardPlacementException;
+import it.polimi.ingsw.model.modelexceptions.InvalidCardSlotException;
 import it.polimi.ingsw.model.updatecontainers.CardSlotUpdate;
 
 import java.util.ArrayList;
@@ -45,8 +45,11 @@ public class CardSlots implements EndGameObservable, CardSlotObservable {
    *
    * @param slot, slot of which the caller wants to know the top card (int between 0 and {@code numberOfCardSlots})
    * @return the top card of a slot (the highest in level)
+   * @throws InvalidCardSlotException if the card slot doesn't exists
    */
-  public DevelopCard returnTopCard(int slot) {
+  public DevelopCard returnTopCard(int slot) throws InvalidCardSlotException {
+    if(slot < 0 || slot >= numberOfCardSlots)
+      throw new InvalidCardSlotException();
     if(developCards.get(slot).isEmpty())
        return new DevelopCard(new CardFlag(0,null), null, null, null, 0); //when returnTopCard is called on an empty slot I return a card with level equals to 0
     return developCards.get(slot).get(developCards.get(slot).size()-1);
@@ -57,14 +60,14 @@ public class CardSlots implements EndGameObservable, CardSlotObservable {
    * @param slot, slot in which the caller wants to put the card (int between 0 and numberOfCardSlots)
    * @param developCard, card to add
    */
-  public void addDevelopCard(int slot, DevelopCard developCard) throws InvalidCardPlacementException, NullPointerException {
+  public void addDevelopCard(int slot, DevelopCard developCard) throws InvalidCardSlotException, NullPointerException {
       int levelCardToAdd = developCard.getCardFlag().getLevel();
 
       if (slot<0 || slot>2)
         throw new IndexOutOfBoundsException("Slot need to be between 0 and " + (numberOfCardSlots-1));
       for(List<DevelopCard> d : developCards)
         if(d.contains(developCard))
-          throw new InvalidCardPlacementException();
+          throw new InvalidCardSlotException();
 
       if(levelCardToAdd == 1 && developCards.get(slot).isEmpty()) {
         developCards.get(slot).add(developCard);
@@ -78,7 +81,7 @@ public class CardSlots implements EndGameObservable, CardSlotObservable {
         notifyCardSlotUpdate(new CardSlotUpdate(developCard.getCardId(), slot));
       }
       else
-        throw new InvalidCardPlacementException();
+        throw new InvalidCardSlotException();
   }
 
   /**

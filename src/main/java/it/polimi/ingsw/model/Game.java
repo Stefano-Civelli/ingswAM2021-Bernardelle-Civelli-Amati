@@ -94,7 +94,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
 
       if(endGame && currentPlayer.equals(playerBoards.get(playerBoards.size()-1).getKey().getUsername())) {
          handleEndGame();
-         return  null; //TODO alex controllami
+         return null;
       }
       else {
          for (int i = 0; i < this.playerBoards.size(); i++)
@@ -191,7 +191,6 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
       if(index < 0)
          throw new InvalidUsernameException();
       this.playerBoards.set(index, new Pair<>(this.playerBoards.get(index).getKey(), true));
-      // TODO fare tutti gli phaseUpdate per mandare al player il modello
    }
 
    /**

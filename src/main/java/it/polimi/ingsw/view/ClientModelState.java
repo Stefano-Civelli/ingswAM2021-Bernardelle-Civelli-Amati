@@ -160,7 +160,6 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
     return simpleGameState;
   }
 
-  //TODO migliorarla
   @Override
   public int getPlayerTurnPosition(){
     int i = 1;

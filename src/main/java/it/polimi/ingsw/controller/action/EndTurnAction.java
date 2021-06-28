@@ -19,7 +19,7 @@ public class EndTurnAction extends Action {
 
     public EndTurnAction(String username) {
         super(ActionType.END_TURN, username);
-    } //FIXME gli serve davvero avere l'username ?
+    }
 
     /**
      * Terminate the turn of these player.

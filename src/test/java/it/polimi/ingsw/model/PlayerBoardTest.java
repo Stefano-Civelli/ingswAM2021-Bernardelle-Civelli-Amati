@@ -7,18 +7,12 @@ import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.market.MarketMarble;
 import it.polimi.ingsw.model.market.RedMarble;
 import it.polimi.ingsw.model.modelexceptions.*;
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,7 +40,7 @@ class PlayerBoardTest {
   }
 
   @Test
-  void calculateTotalScoreOnlyCardSlotsTest() throws IOException, InvalidDevelopCardException, InvalidCardPlacementException,
+  void calculateTotalScoreOnlyCardSlotsTest() throws IOException, InvalidDevelopCardException, InvalidCardSlotException,
           NotBuyableException, NegativeQuantityException, AbuseOfFaithException, NotEnoughResourcesException {
     PlayerBoard playerBoard = initializer();
     int sum = 1; //viene considerato anche il punto 1 del track non mosso
@@ -335,7 +329,7 @@ class PlayerBoardTest {
 
 
   @Test
-  void developProduceTest() throws IOException, AbuseOfFaithException, NegativeQuantityException, InvalidDevelopCardException, InvalidCardPlacementException, NotBuyableException, NotActivatableException, AlreadyProducedException {
+  void developProduceTest() throws IOException, AbuseOfFaithException, NegativeQuantityException, InvalidDevelopCardException, InvalidCardSlotException, NotBuyableException, NotActivatableException, AlreadyProducedException {
     PlayerBoard playerBoard = initializer();
     playerBoard.getChest().addResources(ResourceType.GOLD,50);
     playerBoard.getChest().addResources(ResourceType.STONE,50);
@@ -359,7 +353,7 @@ class PlayerBoardTest {
   }
 
   @Test
-  void emptySlotProductionTest() throws NegativeQuantityException, AbuseOfFaithException, IOException, InvalidDevelopCardException, InvalidCardPlacementException, NotBuyableException {
+  void emptySlotProductionTest() throws NegativeQuantityException, AbuseOfFaithException, IOException, InvalidDevelopCardException, InvalidCardSlotException, NotBuyableException {
     PlayerBoard playerBoard = initializer();
     playerBoard.getChest().addResources(ResourceType.GOLD,50);
     playerBoard.getChest().addResources(ResourceType.STONE,50);

@@ -101,12 +101,12 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     * @param row, row of the Deck that identifies the Develop to add (starts at 0)
     * @param column, column of the Deck that identifies the Develop to add (starts at 0)
     * @param cardSlot, slot of CardSlots where the card is placed (starts at 0)
-    * @throws InvalidCardPlacementException if the card can't be placed in the slot passed as parameter
+    * @throws InvalidCardSlotException if the card can't be placed in the slot passed as parameter
     * @throws NotBuyableException if the player can't buy this card
     * @throws InvalidDevelopCardException if the index of row or column doesn't exists
     */
    public void addDevelopCard(int row, int column, int cardSlot)
-           throws InvalidDevelopCardException, NotBuyableException, InvalidCardPlacementException {
+           throws InvalidDevelopCardException, NotBuyableException, InvalidCardSlotException {
       developCardDeck.getCard(row, column).buy(this, cardSlot);
    }
 
@@ -199,6 +199,12 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    public void baseProduction(ResourceType resource1, ResourceType resource2, ResourceType product)
            throws AbuseOfFaithException, NotEnoughResourcesException,
            AlreadyProducedException, NeedAResourceToAddException {
+
+      if(resource1 == null || resource2 == null || product == null)
+         throw new NullPointerException();
+      if(resource1.equals(ResourceType.FAITH) || resource2.equals(ResourceType.FAITH) || product.equals(ResourceType.FAITH))
+         throw new AbuseOfFaithException("you can't consume or produce faith");
+
       if(alreadyProduced[0])
          throw new AlreadyProducedException();
       if(warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) > 0 && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) > 0) {
@@ -209,7 +215,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
             remainingToRemove = warehouse.removeResources(resource2, 1);
             chest.removeResources(resource2, remainingToRemove);
 
-            // FIXME E se product è faith?? Ormai le risorse sono sate tolte, bisogna controllare prima! Stessa cosa se è null.
             chest.addResources(product, 1);
 
             alreadyProduced[0] = true;
@@ -239,8 +244,9 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     * @param slotIndex index of cards slot where the card is
     * @throws NotActivatableException if the player can't activate this card
     * @throws AlreadyProducedException if this production has already been activated during this turn
+    * @throws InvalidCardSlotException if the card slot doesn't exists
     */
-   public void developProduce(int slotIndex) throws NotActivatableException, AlreadyProducedException {
+   public void developProduce(int slotIndex) throws NotActivatableException, AlreadyProducedException, InvalidCardSlotException {
       if(this.alreadyProduced[slotIndex + 1])
          throw new AlreadyProducedException();
       if(this.cardSlots.returnTopCard(slotIndex).getCardFlag().getLevel() == 0)
@@ -282,7 +288,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    }
 
    private int getIndexFromId(int leaderCardId) throws InvalidLeaderCardException {
-      // FIXME ECCEZIONE SE NON ESISTE ID
       int index = -1;
       for(int i=0; i<leaderCards.size(); i++)
          if(leaderCards.get(i).getLeaderId() == leaderCardId)
@@ -309,7 +314,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
          try {
             marble.addResource(this);
          } catch (MoreWhiteLeaderCardsException | NotEnoughSpaceException e) {
-            // FIXME magari con la bianca provare ad aggiungerla prima di scartarla e mandare avanti tutti
             notifyForMoveForward();
          }
       }

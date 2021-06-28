@@ -83,7 +83,6 @@ public class Client implements PhaseChangedObserver {
       }
     }
     else {
-      //TODO fare come sopra per il game in locale con la GUI
       Application.launch(GUIStarter.class);
     }
   }

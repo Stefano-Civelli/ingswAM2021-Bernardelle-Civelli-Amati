@@ -342,7 +342,7 @@ public class PlayerboardController extends GUIController {
             devCard = DevelopCardConstructor.getDevelopCardFromId(cardId);
             leaderLevel = devCard.getCardFlag().getLevel()-1;
         } catch (InvalidCardException e) {
-            // TODO ??
+            e.printStackTrace();
         }
 
 
@@ -738,7 +738,6 @@ public class PlayerboardController extends GUIController {
 
     @FXML
     private void activateLeaderProduction(MouseEvent event) {
-        //TODO nella lable dire "select the resource to produce ??
         this.selectedLeader = (ImageView) event.getSource();
         this.baseProdChoice.setVisible(true);
         this.forLeaderProd = true;

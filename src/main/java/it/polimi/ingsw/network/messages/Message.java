@@ -7,13 +7,10 @@ import it.polimi.ingsw.utility.GSON;
  * Represents a message between client and server in network
  */
 public class Message {
-   //TODO aggiugere receiver e setReceiver
    //provare a vedere se deserializzando LoginMessage posso impostare questi attributi private
    private String username = null; //username del Client mittente,
    private MessageType messageType;
-   private String payload = null; //usiamo il payload in questo modo:
-   //-da Server a Client per 1)notificare gli phaseUpdate -> Oggetti serializzati 2)messaggi di servizio;
-   //-da Client a Server per contenere le Action in formato Json
+   private String payload = null;
 
    /**
     * construct a message with the specified MessageType

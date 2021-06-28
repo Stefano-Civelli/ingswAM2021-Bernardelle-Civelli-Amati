@@ -142,10 +142,7 @@ public class Match {
       Game game = null; //TODO sarebbe merglio avere solo controller qua
       List<String> playersInOrder = null;
       boolean singlePlayer = (playersNumber == 1);
-      //if(local)
       ModelObserver virtualView = new NetworkVirtualView(this);
-      //else TODO fare per il local
-      //ModelObserver virtualView = new LocalVirtualView(this, loggedPlayers().get(0));
 
       // problema: al game server turnmanager per fare gli phaseUpdate e a TurnManager serve game
       // altro problema: mando gli phaseUpdate del modello prima del messaggio startGame
@@ -155,7 +152,7 @@ public class Match {
          else
             game = new Game(virtualView);
       }catch(IOException | JsonSyntaxException e){ //TODO controllare se viene lanciata la JsonSyntaxException
-         //TODO bisogna chiudere la partita (disconnetto tutti i client 1 per volta dicendo Errore nei file di configurazione del gioco)
+         //TODO bisogna chiudere la partita (disconnetto tutti i client 1 per volta dicendo "Errore nei file di configurazione del gioco")
          sendToClient(new Message(MessageType.GENERIC_MESSAGE, e.getStackTrace()));
          return; //TODO è un po alla cazzo per non far sottoilineare initialMoveForward
       }

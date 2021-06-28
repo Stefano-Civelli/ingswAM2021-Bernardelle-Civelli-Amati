@@ -40,11 +40,11 @@ public class ProductionAction extends Action {
      * @throws InvalidUsernameException the player for which this action must be performed doesn't exist in this game
      * @throws NotActivatableException the specified develop card can't be activated now
      * @throws AlreadyProducedException the production of this develop card has already been performed in this turn
-     */ // FIXME se lo develop card non esiste? IndexOutOfBound????
+     */
     @Override
     public PhaseType performAction(IGameState gameState)
             throws InvalidActionException, NotAllowedActionException, WrongPlayerException,
-            InvalidUsernameException, NotActivatableException, AlreadyProducedException {
+            InvalidUsernameException, NotActivatableException, AlreadyProducedException, InvalidCardSlotException {
         if(!this.isActionValid())
             throw new InvalidActionException("This Action is not correctly initialized.");
         if(!super.isCurrentPlayer(gameState))

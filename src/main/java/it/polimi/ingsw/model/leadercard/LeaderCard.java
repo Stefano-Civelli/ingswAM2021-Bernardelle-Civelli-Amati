@@ -56,7 +56,6 @@ public class LeaderCard {
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
 
-      // TODO sarebbe meglio lanciarla questa eccezione
       try {
          this.addStorageSpace(playerBoard);
       } catch (MaxLeaderCardLevelsException e) {
@@ -152,8 +151,6 @@ public class LeaderCard {
          cardBehaviour.createStorage(playerBoard);
    }
 
-
-   //---------- getter for the type -------------------
    public ResourceType getResToDiscount() {
      return cardBehaviour.getResourceToDiscount();
    }
@@ -177,6 +174,5 @@ public class LeaderCard {
   public Map<CardFlag, Integer> getRequiredCardFlags() {
     return new HashMap<>(requiredCardFlags);
   }
-  //---------- getter for the type -------------------
 
 }

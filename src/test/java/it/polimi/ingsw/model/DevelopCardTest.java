@@ -4,14 +4,11 @@ import it.polimi.ingsw.model.leadercard.DiscountBehaviour;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.*;
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 
@@ -39,7 +36,7 @@ class DevelopCardTest {
    }
 
    @Test
-   void everyCardIsBuyable() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
+   void everyCardIsBuyable() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser();
       InterfacePlayerBoard playerBoard = new PlayerBoard(
@@ -88,7 +85,7 @@ class DevelopCardTest {
 
 
    @Test
-   void buyCardsFromSamePosition() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
+   void buyCardsFromSamePosition() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser();
       InterfacePlayerBoard playerBoard = new PlayerBoard(
@@ -107,7 +104,7 @@ class DevelopCardTest {
    }
 
    @Test
-   void invalidCardSlotPlacementInBuy() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
+   void invalidCardSlotPlacementInBuy() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser();
       InterfacePlayerBoard playerBoard = new PlayerBoard(
@@ -127,13 +124,13 @@ class DevelopCardTest {
       developCardDeck.getCard(0,0).buy(playerBoard,2);
       developCardDeck.getCard(1,0).buy(playerBoard,2);
       developCardDeck.getCard(0,0).buy(playerBoard,1);
-      assertThrows(InvalidCardPlacementException.class, () -> developCardDeck.getCard(2,0).buy(playerBoard,1));
+      assertThrows(InvalidCardSlotException.class, () -> developCardDeck.getCard(2,0).buy(playerBoard,1));
    }
 
 
    @Test
    void isActivatebleTest() throws IOException, InvalidDevelopCardException,
-           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
+           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser();
       InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), new Market(null), developCardDeck);
@@ -152,7 +149,7 @@ class DevelopCardTest {
    }
 
    @Test
-   void produceTestNoExceptions() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NotActivatableException, NegativeQuantityException, InvalidCardPlacementException {
+   void produceTestNoExceptions() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NotActivatableException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser();
       InterfacePlayerBoard playerBoard = new PlayerBoard(
@@ -172,7 +169,7 @@ class DevelopCardTest {
    }
 
    @Test
-   void produceCardNotOnTop() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NotActivatableException, NegativeQuantityException, InvalidCardPlacementException {
+   void produceCardNotOnTop() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, InvalidDevelopCardException, NotBuyableException, NotActivatableException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser();
       InterfacePlayerBoard playerBoard = new PlayerBoard(
@@ -196,14 +193,9 @@ class DevelopCardTest {
 
    }
 
-   //TODO finire di testare produce
 
    //-----------------------------Test with activated LeaderCards in the PlayerBoard--------------------------------------------
 
-   //PER ALEX -> i test da qua in poi avevo in mente di farli con delle leadercard attive per provare robe tipo lo sconto
-
-
-  //non riesco a testare perchè la developcard non è tra le visible cards
    @Test
    void isBuyableWithDiscount() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException, AbuseOfFaithException, NegativeQuantityException {
       DevelopCard devCard1 = new DevelopCard(
@@ -227,7 +219,7 @@ class DevelopCardTest {
 
    @Test
    void buyWithDiscountTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException,
-           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException {
+           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(1,DevelopCardColor.BLUE),
               Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
@@ -248,7 +240,7 @@ class DevelopCardTest {
       playerBoard.getChest().endOfTurnMapsMerge();
       try{
          devCard.buy(playerBoard, 1);
-      } catch (NullPointerException | InvalidCardPlacementException ignored) {
+      } catch (NullPointerException | InvalidCardSlotException ignored) {
          // card can't remove itself from developCardDeck because developCardDeck is null
       }
       assertEquals(0, playerBoard.getWarehouse().totalResources());
@@ -258,7 +250,7 @@ class DevelopCardTest {
 
    @Test
    void buyNoResourcesTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException,
-           AbuseOfFaithException, NotEnoughSpaceException, NegativeQuantityException {
+           AbuseOfFaithException, NotEnoughSpaceException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(1, DevelopCardColor.BLUE),
               Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
@@ -306,7 +298,7 @@ class DevelopCardTest {
 
    @Test
    void buyLevelTwoTest() throws IOException, NotEnoughResourcesException, InvalidLeaderCardException,
-           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException, InvalidCardPlacementException {
+           AbuseOfFaithException, NotEnoughSpaceException, NotBuyableException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(2, DevelopCardColor.BLUE),
               Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
@@ -340,7 +332,7 @@ class DevelopCardTest {
 
    @Test
    void buyWrongLevelTest() throws AbuseOfFaithException, NotEnoughSpaceException, NotEnoughResourcesException,
-           InvalidLeaderCardException, IOException, NegativeQuantityException {
+           InvalidLeaderCardException, IOException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(2, DevelopCardColor.BLUE),
               Map.of(ResourceType.GOLD, 3, ResourceType.SHIELD, 1, ResourceType.STONE, 4),
@@ -355,7 +347,7 @@ class DevelopCardTest {
               new CardFlag(1, DevelopCardColor.BLUE), Map.of(), null, null, 0);
       try {
          devCard1.buy(playerBoard, 1);
-      } catch (NullPointerException | NotBuyableException | InvalidCardPlacementException ignored) {}
+      } catch (NullPointerException | NotBuyableException | InvalidCardSlotException ignored) {}
 
       card1.setActive(playerBoard);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
@@ -365,7 +357,7 @@ class DevelopCardTest {
       playerBoard.getChest().addResources(ResourceType.STONE, 3);
       playerBoard.getChest().endOfTurnMapsMerge();
 
-      assertThrows(InvalidCardPlacementException.class, () -> devCard.buy(playerBoard, 2));
+      assertThrows(InvalidCardSlotException.class, () -> devCard.buy(playerBoard, 2));
       assertEquals(0, playerBoard.getCardSlots().returnTopCard(2).getCardFlag().getLevel());
       assertSame(devCard1, playerBoard.getCardSlots().returnTopCard(1));
       assertEquals(4, playerBoard.getWarehouse().totalResources());
@@ -374,7 +366,7 @@ class DevelopCardTest {
 
    @Test
    void activatableTest() throws IOException, NotBuyableException, AbuseOfFaithException,
-           NotEnoughSpaceException, NegativeQuantityException, InvalidCardPlacementException {
+           NotEnoughSpaceException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(1, DevelopCardColor.BLUE), null,
               Map.of(ResourceType.GOLD, 2, ResourceType.STONE, 1), null, 0);
@@ -404,7 +396,7 @@ class DevelopCardTest {
 
       try {
          devCard.buy(playerBoard, 0);
-      } catch (NullPointerException | InvalidCardPlacementException ignored) {}
+      } catch (NullPointerException | InvalidCardSlotException ignored) {}
 
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
       playerBoard.getWarehouse().addResource(ResourceType.GOLD);
@@ -431,7 +423,7 @@ class DevelopCardTest {
 
    @Test
    void activatableNotOnTopTest() throws IOException, NotBuyableException, AbuseOfFaithException,
-           NotEnoughSpaceException, NegativeQuantityException, InvalidCardPlacementException {
+           NotEnoughSpaceException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(1, DevelopCardColor.BLUE), Map.of(),
               Map.of(ResourceType.GOLD, 2, ResourceType.STONE, 1), null, 0);
@@ -456,7 +448,7 @@ class DevelopCardTest {
    }
 
    @Test
-   void produceTest() throws IOException, NotBuyableException, AbuseOfFaithException, NotEnoughSpaceException, NotActivatableException, NegativeQuantityException, InvalidCardPlacementException {
+   void produceTest() throws IOException, NotBuyableException, AbuseOfFaithException, NotEnoughSpaceException, NotActivatableException, NegativeQuantityException, InvalidCardSlotException {
       DevelopCard devCard = new DevelopCard(
               new CardFlag(1, DevelopCardColor.BLUE),
               Map.of(),

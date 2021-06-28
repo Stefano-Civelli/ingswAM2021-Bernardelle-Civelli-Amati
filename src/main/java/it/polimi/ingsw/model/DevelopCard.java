@@ -55,9 +55,12 @@ public class DevelopCard {
             return false;
 
       //check if there is a lower level card so that the new one can be put on top
-      for(int i=0; i<cardSlots.getNumberOfCardSlots(); i++)
-         if (cardSlots.returnTopCard(i).getCardFlag().getLevel() == this.getCardFlag().getLevel() - 1)
-            return true;
+      for(int i=0; i<cardSlots.getNumberOfCardSlots(); i++) {
+         try {
+            if (cardSlots.returnTopCard(i).getCardFlag().getLevel() == this.getCardFlag().getLevel() - 1)
+               return true;
+         } catch (InvalidCardSlotException e) { e.printStackTrace(); }
+      }
 
       return false;
    }
@@ -80,9 +83,12 @@ public class DevelopCard {
       }
 
       //check if the card is on top of a card slot
-      for(int i=0; i<cardSlots.getNumberOfCardSlots(); i++)
-         if (cardSlots.returnTopCard(i).equals(this))
-            return true;
+      for(int i=0; i<cardSlots.getNumberOfCardSlots(); i++) {
+         try {
+            if (cardSlots.returnTopCard(i).equals(this))
+               return true;
+         } catch (InvalidCardSlotException e) {e.printStackTrace();}
+      }
 
       return false;
    }
@@ -94,19 +100,17 @@ public class DevelopCard {
     * @param playerBoard that wants to buy the card
     * @param cardSlotNumber number of the slot to put the new card in. (starts at 0)
     * @throws NotBuyableException if the card can't be bought
-    * @throws InvalidCardPlacementException if the card cannot be placed in the specified slot
+    * @throws InvalidCardSlotException if the card cannot be placed in the specified slot or the slot doesn't exists
     */
    public void buy(InterfacePlayerBoard playerBoard, int cardSlotNumber)
-           throws NotBuyableException, InvalidCardPlacementException {
-      // FIXME assicurarsi che non venga lanciata una indexOutOfBound se il cardslot non esiste.
-      //       in caso sostituire con un'eccezione vera: una nuova oppure InvalidCardPlacementException
+           throws NotBuyableException, InvalidCardSlotException {
       CardSlots cardSlots = playerBoard.getCardSlots();
       DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
       HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
       if(!this.isBuyable(playerBoard))
          throw new NotBuyableException("you are trying to buy a card you cannot buy");
       if(cardSlots.returnTopCard(cardSlotNumber).getCardFlag().getLevel() != (this.getCardFlag().getLevel() - 1))
-         throw new InvalidCardPlacementException();
+         throw new InvalidCardSlotException();
 
 
       //apply discount
@@ -121,7 +125,7 @@ public class DevelopCard {
 
       try {
          cardSlots.addDevelopCard(cardSlotNumber,this);
-      } catch (InvalidCardPlacementException e) {e.printStackTrace();}
+      } catch (InvalidCardSlotException e) {e.printStackTrace();}
 
       try {
          developCardDeck.removeCard(this);

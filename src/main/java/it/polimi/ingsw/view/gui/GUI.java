@@ -78,7 +78,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayLogin() { // FIXME PERCHÉ VIENE MOSTRATO ANCHE SE C'`E UN ERRORE DI CONNESSIONE??
+   public void displayLogin() { //FIXME PERCHÉ VIENE MOSTRATO ANCHE SE C'`E UN ERRORE DI CONNESSIONE??
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(this.sceneController::loadLogin);
    }
@@ -124,10 +124,6 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayOtherUserJoined(Message msg) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      //TODO qua al massimo posso fargli vedere a schermo l'username del tizio che è entrato. non ha senso salvarselo perchè poi potrebbe uscire.
-//      for(int i = 0; i < this.othersUsernames.length; i++)
-//         if(this.othersUsernames[i] == null)
-//            this.othersUsernames[i] = msg.getUsername();
    }
 
    @Override

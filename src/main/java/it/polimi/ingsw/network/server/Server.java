@@ -35,10 +35,9 @@ public class Server {
    /**
     *  //FIXME sto metodo fa un po schifo e ha un parametro inutile
     * @param matchId
-    * @param serverClientHandler
     * @return
     */
-   public synchronized Match assignToMatch(String matchId, ServerClientHandler serverClientHandler){
+   public synchronized Match assignToMatch(String matchId){
       Match match = matchMap.get(matchId);
       if(match.getPlayersNumber() == 0)
          return null;

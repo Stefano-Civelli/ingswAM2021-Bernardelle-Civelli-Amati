@@ -123,7 +123,7 @@ public class ServerClientHandler implements Runnable {
             if(logged)
                return;
             if(server.matchIdPresent(message.getPayloadByType(String.class)) && this.match == null) {
-               this.match = server.assignToMatch(message.getPayloadByType(String.class), this);
+               this.match = server.assignToMatch(message.getPayloadByType(String.class));
                if(this.match != null) {
                   this.match.addClient(this);
                   this.match.handleLogin(message, this);

@@ -3,13 +3,13 @@ package it.polimi.ingsw.model.modelexceptions;
 /**
  * Thrown when a card placement (e.g. a card slot) is full/empty, doesn't exist or a card can't be placed into it
  */
-public class InvalidCardPlacementException extends ModelException {
+public class InvalidCardSlotException extends ModelException {
 
-  public InvalidCardPlacementException() {
+  public InvalidCardSlotException() {
     super();
   }
 
-  public InvalidCardPlacementException(String message) {
+  public InvalidCardSlotException(String message) {
     super(message);
   }
 

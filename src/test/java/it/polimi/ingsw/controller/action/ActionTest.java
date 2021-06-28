@@ -179,11 +179,11 @@ class ActionTest {
    }
 
    @Test
-   void BaseProductionactionTest() throws NegativeQuantityException, AbuseOfFaithException, NoConnectedPlayerException {
+   void BaseProductionActionTest() throws NegativeQuantityException, AbuseOfFaithException, NoConnectedPlayerException {
 
       Message returnedMessage = this.turnManager.handleAction(new BaseProductionAction("pippo", ResourceType.GOLD, ResourceType.GOLD, ResourceType.GOLD));
       assertEquals(returnedMessage.getMessageType(), MessageType.ERROR);
-      assertEquals(ErrorType.fromValue(returnedMessage.getPayload()), ErrorType.WRONG_RESOURCES_NUMBER);
+      assertEquals(ErrorType.fromValue(removeVirgolette(returnedMessage.getPayload())), ErrorType.NOT_ENOUGH_RESOURCES);
 
       playerBoard.getChest().addResources(ResourceType.GOLD,50);
       playerBoard.getChest().addResources(ResourceType.STONE,50);
@@ -198,6 +198,36 @@ class ActionTest {
       assertEquals(playerBoard.getChest().getNumberOf(ResourceType.GOLD), 50-1);
       assertEquals(playerBoard.getChest().getNumberOf(ResourceType.SERVANT), 50-1);
       assertEquals(playerBoard.getChest().getNumberOf(ResourceType.STONE), 50+1);
+   }
+
+   @Test
+   void shopMarketActionTest() throws NoConnectedPlayerException {
+
+      Message returnedMessage = this.turnManager.handleAction(new ShopMarketAction("pippo", true, 1));
+      assertEquals(returnedMessage.getMessageType(), MessageType.NEXT_TURN_STATE);
+      assertEquals(returnedMessage.getPayloadByType(TurnState.class).getPlayer(), "pippo");
+      assertEquals(returnedMessage.getPayloadByType(TurnState.class).getPhase(), PhaseType.SHOPPING);
+
+      returnedMessage = this.turnManager.handleAction(new InsertMarbleAction("pippo", 1));
+      assertEquals(returnedMessage.getMessageType(), MessageType.NEXT_TURN_STATE);
+      assertEquals(returnedMessage.getPayloadByType(TurnState.class).getPlayer(), "pippo");
+      assertEquals(returnedMessage.getPayloadByType(TurnState.class).getPhase(), PhaseType.SHOPPING);
+
+      this.turnManager.handleAction(new InsertMarbleAction("pippo", 1));
+      assertEquals(returnedMessage.getMessageType(), MessageType.NEXT_TURN_STATE);
+      assertEquals(returnedMessage.getPayloadByType(TurnState.class).getPlayer(), "pippo");
+      assertEquals(returnedMessage.getPayloadByType(TurnState.class).getPhase(), PhaseType.SHOPPING);
+
+      this.turnManager.handleAction(new InsertMarbleAction("pippo", 1));
+      assertEquals(returnedMessage.getMessageType(), MessageType.NEXT_TURN_STATE);
+      assertEquals(returnedMessage.getPayloadByType(TurnState.class).getPlayer(), "pippo");
+      assertEquals(returnedMessage.getPayloadByType(TurnState.class).getPhase(), PhaseType.SHOPPING);
+
+      returnedMessage = this.turnManager.handleAction(new InsertMarbleAction("pippo", 0));
+      assertEquals(returnedMessage.getMessageType(), MessageType.NEXT_TURN_STATE);
+      assertEquals(returnedMessage.getPayloadByType(TurnState.class).getPlayer(), "pippo");
+      assertEquals(returnedMessage.getPayloadByType(TurnState.class).getPhase(), PhaseType.FINAL);
+
    }
 
    private String removeVirgolette(String string){
