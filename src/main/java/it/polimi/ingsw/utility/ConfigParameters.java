@@ -3,7 +3,7 @@ package it.polimi.ingsw.utility;
 import it.polimi.ingsw.view.cli.Color;
 
 /**
- * Contains configuration parameters of the game
+ * Contains configuration parameters for the project
  */
 public final class ConfigParameters {
 

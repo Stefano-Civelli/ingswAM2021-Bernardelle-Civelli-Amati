@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
 
+/**
+ * this class
+ */
 public class Client implements PhaseChangedObserver {
   public static final int MIN_PORT = Server.MIN_PORT_NUMBER;
   public static final int MAX_PORT = Server.MAX_PORT_NUMBER;
@@ -95,7 +98,10 @@ public class Client implements PhaseChangedObserver {
   }
 
   /**
-   * Instantiates a connection with the server
+   * Establishes a connection with the server given IP and port to connect to
+   * @param serverIP the server IP to connect to
+   * @param serverPort the server  port to connect to
+   * @return true if connection is successful, false otherwise
    */
   public boolean connectToServer(String serverIP, int serverPort) {
     Socket server;
@@ -115,6 +121,11 @@ public class Client implements PhaseChangedObserver {
     return true;
   }
 
+  /**
+   * Sends a login message to server
+   * @param create this parameter should be true if you want to create a game, false if you want to join
+   * @param roomName name of the room to create or join
+   */
   public void sendLogin(boolean create, String roomName){
     state.setClientUsername(this.username);
     if(create)
@@ -123,18 +134,30 @@ public class Client implements PhaseChangedObserver {
       forwardMessage(new Message(username, MessageType.JOIN_MATCH, roomName));
   }
 
+  /**
+   * forward action to the next layer where it will be handled by the virtualModel
+   * @param actionToForward the action to forward
+   */
   public void forwardAction(Action actionToForward) {
     actionToForward.setUsername(username);
     virtualModel.handleAction(actionToForward);
   }
 
+  /**
+   * forward action to the next layer where it will be handled by the virtualModel
+   * @param message the message to forward
+   */
   public void forwardMessage(Message message) {
     if(virtualModel != null)
       virtualModel.handleMessage(message);
   }
 
+  /**
+   * print disconnection message in console, disconnects client socket
+   * and terminate client execution
+   */
   public void close() {
-    System.out.println("You will be disconnected... Bye shdroonzo");
+    System.out.println("You will be disconnected...");
     virtualModel.stop();
     System.exit(0);
   }
@@ -150,6 +173,12 @@ public class Client implements PhaseChangedObserver {
     return clientTurnManager.getCurrentPlayer();
   }
 
+  /**
+   * Takes the message and handles it performing the expected action
+   * based on the message type and the payload content
+   *
+   * @param msg the message to be handled, received from the server
+   */
   public void handleMessage(Message msg) {
     String messageUser = msg.getUsername();
 
@@ -190,10 +219,6 @@ public class Client implements PhaseChangedObserver {
         state.gameStartedSetup(msg.getPayloadByType(List.class));
         //clientTurnManager.setCurrentPlayer(getFirstPlayer(payload));
         view.displayGameStarted();
-//        if(username.equals(clientTurnManager.getCurrentPlayer())) {
-//          clientTurnManager.currentPhasePrint();
-//        }else
-//          view.displayPlayerTurn(msg.getUsername());
         ArrayList<String> players = msg.getPayloadByType(ArrayList.class);
         clientTurnManager.setStateIsPlayerChanged(new TurnState(getFirstPlayer(players), PhaseType.SETUP_CHOOSING_RESOURCES));
         break;
@@ -265,6 +290,10 @@ public class Client implements PhaseChangedObserver {
     }
   }
 
+  /**
+   * handles error received from the server
+   * @param errorType the error type
+   */
   public void handleError(ErrorType errorType) {
     switch (errorType){
       case GAME_ALREADY_STARTED:
@@ -312,6 +341,9 @@ public class Client implements PhaseChangedObserver {
     return players.get(0);
   }
 
+  /**
+   * Setup the client to be able to play in local mode (without needing the server)
+   */
   public void localGameSetup() {
     ModelObserver localVirtualView = new LocalVirtualView(state, username, view);
     TurnManager gameTurnManager = null;
@@ -329,6 +361,10 @@ public class Client implements PhaseChangedObserver {
     state.gameStartedSetup(new ArrayList<>(List.of(this.username)));
   }
 
+  /**
+   * Updates the turnState with the new state received by the server
+   * @param nextPhase the next state received by the server
+   */
   public void phaseUpdate(TurnState nextPhase) {
     clientTurnManager.setStateIsPlayerChanged(nextPhase);
     //handleTurnState(nextPhase);

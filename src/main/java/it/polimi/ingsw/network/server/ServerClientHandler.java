@@ -19,7 +19,9 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-
+/**
+ * Every instance of this class handles the server side connection of a specific client
+ */
 public class ServerClientHandler implements Runnable {
    private final Socket clientSocket;
    private final Server server;
@@ -48,7 +50,7 @@ public class ServerClientHandler implements Runnable {
          in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
          out = new PrintWriter(clientSocket.getOutputStream());
          startPinging();
-         handleClientConnection(); // sta qua dentro finchè la connessione è aperta
+         handleClientConnection();
       } catch (IOException e) {
          e.printStackTrace();
       }
@@ -57,7 +59,6 @@ public class ServerClientHandler implements Runnable {
    private void handleClientConnection() throws IOException {
 
       System.out.println("Connected to " + clientSocket.getInetAddress());
-      //match.addClient(this); // probabilmente serve aggiungerlo ora perchè così so che non posso far connettere + player di quanti sono rischiesti
 
       try {
          int errorCounter = 0;
@@ -100,9 +101,8 @@ public class ServerClientHandler implements Runnable {
       }
    }
 
-   /**
-    * Called when the ClientHandler receive a message from a client
-    */
+
+   //Called when the ClientHandler receive a message from a client
    private void messageReceived(Message message) {
       if((username != null && !username.equals(message.getUsername())) || message.getMessageType() == null)
          return;
@@ -164,21 +164,31 @@ public class ServerClientHandler implements Runnable {
          case CHEAT:
             if(!ConfigParameters.TESTING)
                return;
-            try {
-               Chest tempChest = match.getTurnManager().getGame().getPlayerBoard(match.getTurnManager().getCurrentPlayer()).getChest();
-               tempChest.addResources(ResourceType.SHIELD, 50);
-               tempChest.addResources(ResourceType.STONE, 50);
-               tempChest.addResources(ResourceType.SERVANT, 50);
-               tempChest.addResources(ResourceType.GOLD, 50);
-               tempChest.endOfTurnMapsMerge();
-               match.getTurnManager().getGame().getPlayerBoard(match.getTurnManager().getCurrentPlayer()).getTrack().moveForward(23);
-            } catch (InvalidUsernameException | NegativeQuantityException | AbuseOfFaithException e) {e.printStackTrace();}
+            activateCheats();
             break;
          default:
 
       }//switch
    }
 
+   private void activateCheats(){
+      try {
+         Chest tempChest = match.getTurnManager().getGame().getPlayerBoard(match.getTurnManager().getCurrentPlayer()).getChest();
+         tempChest.addResources(ResourceType.SHIELD, 50);
+         tempChest.addResources(ResourceType.STONE, 50);
+         tempChest.addResources(ResourceType.SERVANT, 50);
+         tempChest.addResources(ResourceType.GOLD, 50);
+         tempChest.endOfTurnMapsMerge();
+         match.getTurnManager().getGame().getPlayerBoard(match.getTurnManager().getCurrentPlayer()).getTrack().moveForward(23);
+      } catch (InvalidUsernameException | NegativeQuantityException | AbuseOfFaithException e) {e.printStackTrace();}
+   }
+
+   /**
+    * this method should be called to handle the message returned
+    * by the handleAction method in turnManager class
+    *
+    * @param answerMessage the message returned by the handleAction method in turnManager
+    */
    public void actionAnswereMessage(Message answerMessage){
       MessageType messageType = answerMessage.getMessageType();
 
@@ -193,9 +203,10 @@ public class ServerClientHandler implements Runnable {
    }
 
    /**
-    * Sends the message trough the socket
+    * Sends the message to the client associated with
+    * this ClientHandler trough the socket
     *
-    * @param message message to be sent
+    * @param message the message to be sent
     */
    protected synchronized void sendMessage(Message message) {
       if(!connected)
@@ -223,11 +234,7 @@ public class ServerClientHandler implements Runnable {
       {
          while(connected){
             Message messageToSend = new Message(MessageType.PING);
-//            String jsonMessage = GSON.getGsonBuilder().toJson(messageToSend);
-//            jsonMessage = jsonMessage.replaceAll("\n", " "); //remove all newlines before sending the message
             sendMessage(messageToSend);
-//            out.println(jsonMessage);
-//            out.flush();
             try {
                Thread.sleep(ConfigParameters.CLIENT_TIMEOUT);
             } catch (InterruptedException e) {

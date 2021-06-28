@@ -95,9 +95,6 @@ public class GameboardController extends GUIController {
         playerboardButtons.add(playerboard1Button);
         playerboardButtons.add(playerboard2Button);
         playerboardButtons.add(playerboard3Button);
-//        for(Button b : otherPlayerboardButtons){
-//            b.setVisible(false);
-//        }
         myPlayerboardButton.setVisible(false);
         playerboard1Button.setVisible(false);
         playerboard2Button.setVisible(false);
@@ -108,7 +105,6 @@ public class GameboardController extends GUIController {
         choseResourcesGridPane.setVisible(false);
         errorLable.setVisible(false);
         lorenzoToken.setVisible(false);
-        // TODO caricare fxml market e develop card deck
     }
 
     /**
@@ -238,9 +234,6 @@ public class GameboardController extends GUIController {
             newPlayerboardController.setClient(this.client);
             newPlayerboardController.thisClientPlayer();
             this.playerboardControllers.add(newPlayerboardController);
-//            this.playerboardControllers[0] = loader.getController();
-//            this.playerboardControllers[0].setUsername(username);
-//            this.playerboardControllers[0].setClient(this.client);
             this.player_anchorPane.getChildren().add(root);
             playerboardList.add(root);
         } catch (IOException e) {
@@ -379,10 +372,6 @@ public class GameboardController extends GUIController {
         this.endTurnButton.setDisable(true);
         this.selectedCardRow = row;
         this.selectedCardColumn = column;
-
-        //TODO è così solo per testing, sta roba in realtà sta solo nell'phaseUpdate
-        //updateDeck(new DevelopCardDeck.DevelopCardDeckUpdate(row, column));
-        //----------------
     }
 
     @FXML
@@ -465,46 +454,26 @@ public class GameboardController extends GUIController {
 
 
     @FXML
-    private void pushColumn1(MouseEvent event) {
-        onColumnPushed(0);
-        //pushColumn(0);
-    }
+    private void pushColumn1(MouseEvent event) { onColumnPushed(0); }
 
     @FXML
-    private void pushColumn2(MouseEvent event) {
-        onColumnPushed(1);
-        //pushColumn(1);
-    }
+    private void pushColumn2(MouseEvent event) { onColumnPushed(1); }
 
     @FXML
-    private void pushColumn3(MouseEvent event) {
-        onColumnPushed(2);
-        //pushColumn(2);
-    }
+    private void pushColumn3(MouseEvent event) { onColumnPushed(2); }
 
     @FXML
-    private void pushColumn4(MouseEvent event) {
-        onColumnPushed(3);
-        //pushColumn(3);
-    }
+    private void pushColumn4(MouseEvent event) { onColumnPushed(3); }
 
     @FXML
-    private void pushRow1(MouseEvent event) {
-        onRowPushed(0);
-        //pushRow(0);
-    }
+    private void pushRow1(MouseEvent event) { onRowPushed(0); }
 
     @FXML
-    private void pushRow2(MouseEvent event) {
-        onRowPushed(1);
-        //pushRow(1);
-    }
+    private void pushRow2(MouseEvent event) { onRowPushed(1); }
 
     @FXML
-    private void pushRow3(MouseEvent event) {
-        onRowPushed(2);
-        //pushRow(2);
-    }
+    private void pushRow3(MouseEvent event) { onRowPushed(2); }
+
 
     private Circle cloneCircle(Circle circle) {
         Circle clonedCircle = new Circle(circle.getRadius(), circle.getFill());
@@ -559,14 +528,6 @@ public class GameboardController extends GUIController {
         this.deckGridPane.setDisable(true);
         Action marketAction = new ShopMarketAction(true, row);
         client.forwardAction(marketAction);
-
-        //TODO poi sto codice va cancellato finito il testing
-//        Color temp = (Color) this.marbleGrid[row][0].getFill();
-//        for(int j=1; j<4; j++){
-//            this.marbleGrid[row][j-1].setFill(this.marbleGrid[row][j].getFill());
-//        }
-//        this.marbleGrid[row][3].setFill(this.slide.getFill());
-//        this.slide.setFill(temp);
     }
 
     private void onColumnPushed(int column) {
@@ -574,13 +535,6 @@ public class GameboardController extends GUIController {
         client.forwardAction(marketAction);
         this.market_anchorPane.setDisable(true);
         this.deckGridPane.setDisable(true);
-        //TODO poi sto codice va cancellato finito il testing
-//        Color temp = (Color) this.marbleGrid[0][column].getFill();
-//        for(int i=1; i<3; i++){
-//            this.marbleGrid[i-1][column].setFill(this.marbleGrid[i][column].getFill());
-//        }
-//        this.marbleGrid[2][column].setFill(this.slide.getFill());
-//        this.slide.setFill(temp);
     }
 
     @FXML
@@ -619,7 +573,7 @@ public class GameboardController extends GUIController {
         createBuyCardAction(0);
 //        CardSlots.CardSlotUpdate slotUpdate = new CardSlots.CardSlotUpdate(i, 0);
 //        for(PlayerboardController p : playerboardControllers)
-//            if(p != null)
+//            if(p != null) TODO si puo cancellare sto pezzo di codice???
 //                p.updateCardSlot(slotUpdate);
 //        i+=16;
     }
@@ -648,7 +602,7 @@ public class GameboardController extends GUIController {
      * @param username username of this user
      */
     public void askLeaderOnWHite(String username) {
-        //TODO settare a non usabili tutti i comandi che non siano le leader (sia in playerboard che in gameboard)
+        this.tempMarbleHbox.setDisable(true);
         turnPhaseLable.setText("Choose a leader to convert the white marble");
         getPlayerBoardController(username).askLeaderOnWhite();
     }
@@ -680,7 +634,6 @@ public class GameboardController extends GUIController {
             turnPhaseLable.setVisible(true);
         }
     }
-
 
 
     @FXML
@@ -789,6 +742,13 @@ public class GameboardController extends GUIController {
         PauseTransition visiblePause = new PauseTransition( Duration.seconds(4) );
         visiblePause.setOnFinished( event -> errorLable.setVisible(false) );
         visiblePause.play();
+    }
+
+    /**
+     *
+     */
+    public void setTempMarbleVisible(){
+        this.tempMarbleHbox.setDisable(false);
     }
 
 

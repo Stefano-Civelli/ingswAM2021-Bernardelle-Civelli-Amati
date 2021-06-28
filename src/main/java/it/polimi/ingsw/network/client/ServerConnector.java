@@ -43,6 +43,9 @@ public class ServerConnector{
       }
   }
 
+  /**
+   * sends a quit message to server and closes client socket
+   */
   public void stop(){
     sendToServer(new Message(client.getUsername(), MessageType.QUIT));
     try {

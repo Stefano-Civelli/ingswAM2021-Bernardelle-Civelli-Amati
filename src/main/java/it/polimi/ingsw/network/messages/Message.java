@@ -15,32 +15,62 @@ public class Message {
    //-da Server a Client per 1)notificare gli phaseUpdate -> Oggetti serializzati 2)messaggi di servizio;
    //-da Client a Server per contenere le Action in formato Json
 
-
+   /**
+    * construct a message with the specified MessageType
+    * @param messageType the new message messageType
+    */
    public Message(MessageType messageType) {
       this.messageType = messageType;
    }
 
+   /**
+    * construct a message with an username, a messageType and an empty payload
+    * @param username the sender/receiver username
+    * @param messageType the new message messageType
+    */
    public Message(String username, MessageType messageType) {
       this.username = username;
       this.messageType = messageType;
    }
 
+   /**
+    * construct a message with a payload, a messageType and an empty username
+    * @param messageType the new message messageType
+    * @param payload the new message payload as a String
+    */
    public Message(MessageType messageType, String payload) {
       this.messageType = messageType;
       this.payload = payload;
    }
 
+   /**
+    * construct a message with a payload as an Object, a messageType and an empty username
+    * @param messageType the new message messageType
+    * @param object the payload Object
+    */
    public Message(MessageType messageType, Object object) {
       this.messageType = messageType;
       this.payload = GSON.getGsonBuilder().toJson(object);
    }
 
+   /**
+    * construct a message with an username, a payload as a String and a messageType
+    * @param username the sender/receiver username
+    * @param messageType the new message messageType
+    * @param payload the new message payload as a String
+    */
    public Message(String username, MessageType messageType, String payload) {
       this.username = username;
       this.messageType = messageType;
       this.payload = payload;
    }
 
+   /**
+    * construct a message with an username, a payload as an Object and a messageType
+    * @param username the sender/receiver username
+    * @param messageType the new message messageType
+    * @param object the new message payload as an Object
+    */
    public Message(String username, MessageType messageType, Object object) {
       this.messageType = messageType;
       this.username = username;
@@ -60,15 +90,24 @@ public class Message {
    /**
     * returns message payload as a java object of the specified type
     * @param myType the type of the returned object
-    * @param <T>
-    * @return
+    * @param <T> the generic return type (same as parameter myType)
+    * @return the message payload as a java object
     */
    public <T> T getPayloadByType(Class<T> myType){
       return GSON.getGsonBuilder().fromJson(payload, myType);
    }
 
-
-   public Action getAction() { return GSON.buildAction(payload); } //se registriamo i sottotipi di Action sul builder probabilmente deserializza lui correttamente sulla sottoclasse
+   /**
+    * if the messageType is ACTION this method returns the action object contained as payload in the message
+    * if the payload doesn't contain an action returns null
+    * @return the ACTION contained as payload
+    */
+   public Action getAction() {
+      if(this.messageType.equals(MessageType.ACTION))
+         return GSON.buildAction(payload);
+      else
+         return null;
+   }
 
    public void setUsername(String usr) {
       this.username = usr;

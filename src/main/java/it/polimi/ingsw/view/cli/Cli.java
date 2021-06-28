@@ -586,7 +586,6 @@ public class Cli implements ViewInterface {
     System.out.println("Chose row and column of the card you want to buy separated by new line");
     int row = validateIntInput(1,3);
     int column = validateIntInput(1,4);
-    //TODO display dei card slots con eventualmente sopra le carte
     System.out.println("Chose the card slot in which to place it");
     int cardSlot = validateIntInput(1,3);
     return new BuyDevelopCardAction(row-1, column-1, cardSlot-1);

@@ -34,6 +34,12 @@ public enum ErrorType {
     CANNOT_JOIN_MATCH,
     UNKNOWN_ERROR;
 
+    /**
+     * static factory method that constructs enum by string
+     *
+     * @param value string to create the enum
+     * @return a new enumeration
+     */
     public static ErrorType fromValue(String value) {
         for (ErrorType errorType : values()) {
             if (errorType.name().equals(value)) {

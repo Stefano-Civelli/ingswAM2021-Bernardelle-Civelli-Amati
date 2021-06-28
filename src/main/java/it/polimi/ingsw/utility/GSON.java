@@ -20,11 +20,23 @@ import java.nio.charset.StandardCharsets;
 public final class GSON {
 
    private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().excludeFieldsWithModifiers(Modifier.TRANSIENT).create();
+   private static Gson actionBuilder = null;
 
+
+
+   /**
+    * Static method to obtain a GsonBuilder with the necessary modifiers enebled
+    * @return the gsonBuilder
+    */
    public static Gson getGsonBuilder() {
       return gsonBuilder;
    }
 
+   /**
+    * construct and setup a DevelopCardDeck class from a JSON config file
+    * @return the constructed DevelopCardDeck
+    * @throws IOException if it is unable to read the configuration file
+    */
    public static DevelopCardDeck cardParser() throws IOException {
       InputStreamReader reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/DevelopCardConfig.json"), StandardCharsets.UTF_8);
       DevelopCardDeck developCardDeck = gsonBuilder.fromJson(reader, DevelopCardDeck.class);
@@ -33,6 +45,11 @@ public final class GSON {
       return developCardDeck;
    }
 
+   /**
+    * construct track class from a JSON config file
+    * @return the constructed Track
+    * @throws IOException if it is unable to read the configuration file
+    */
    public static Track trackParser() throws IOException {
       InputStreamReader reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/SquareConfig.json"), StandardCharsets.UTF_8);
       Track track = gsonBuilder.fromJson(reader, Track.class);
@@ -40,6 +57,11 @@ public final class GSON {
       return track;
    }
 
+   /**
+    * construct LorenzoTrack class from a JSON config file
+    * @return the constructed LorenzoTrack
+    * @throws IOException if it is unable to read the configuration file
+    */
    public static LorenzoTrack lorenzoTrackParser() throws IOException {
       InputStreamReader reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/SquareConfig.json"), StandardCharsets.UTF_8);
       LorenzoTrack lorenzoTrack = gsonBuilder.fromJson(reader, LorenzoTrack.class);
@@ -47,9 +69,14 @@ public final class GSON {
       return lorenzoTrack;
    }
 
-   //"requiredResources": "NONE" creates a null ResourceType
-   //"requiredCardFlags": [] creates an empty Map
+   /**
+    * construct and setup LeaderCardDeck class from a JSON config file
+    * @return the constructed LeaderCardDeck
+    * @throws IOException if it is unable to read the configuration file
+    */
    public static LeaderCardDeck leaderCardParser() throws IOException {
+      //"requiredResources": "NONE" creates a null ResourceType
+      //"requiredCardFlags": [] creates an empty Map
       RuntimeTypeAdapterFactory<CardBehaviour> cardBehaviourAdapter = RuntimeTypeAdapterFactory.of(CardBehaviour.class, "type");
       cardBehaviourAdapter
               .registerSubtype(MarbleModifierBehaviour.class, "MarbleModifierBehaviour")
@@ -74,8 +101,20 @@ public final class GSON {
       return leaderCardDeck;
    }
 
-   //in caso non funzioni passare il Type dell'action e usare switch per creare un Action sottoclassata
+   /**
+    * constructs an ACTION from the given JSON payload
+    * @param payload JSON representation of the ACTION to be constructed
+    * @return the newly created action
+    */
    public static Action buildAction(String payload){
+      Action action = getActionBuilder().fromJson(payload, Action.class);
+      return action;
+   }
+
+   private static Gson getActionBuilder(){
+      if(actionBuilder != null)
+         return actionBuilder;
+
       RuntimeTypeAdapterFactory<Action> actionAdapter = RuntimeTypeAdapterFactory.of(Action.class, "type");
       actionAdapter
               .registerSubtype(EndTurnAction.class, "END_TURN")
@@ -90,36 +129,17 @@ public final class GSON {
               .registerSubtype(ChooseInitialResourcesAction.class, "SETUP_CHOOSE_RESOURCES")
               .registerSubtype(ChooseLeaderOnWhiteMarbleAction.class, "CHOOSE_WHITE_LEADER")
               .registerSubtype(DiscardInitialLeaderAction.class, "SETUP_DISCARD_LEADERS");
-      //man mano che si aggiungono sottoclassi di Action registarle anche qui
+      //all ACTION subclasses should be registered here
 
       GsonBuilder builder = new GsonBuilder()
               .enableComplexMapKeySerialization()
               .registerTypeAdapterFactory(actionAdapter);
-      Gson gson = builder.create();
 
-      Action action = gson.fromJson(payload, Action.class);
+      actionBuilder = builder.create();
 
-      return action;
+      return actionBuilder;
    }
 
-   //potrebbe essere figo anche che il messaggio ha una toString che spiega come usare l'oggetto ritornato oppure ti da solo il JSON da guardarti per capire
-//   public static Message buildAMessage(String payload){
-//      RuntimeTypeAdapterFactory<Message> actionAdapter = RuntimeTypeAdapterFactory.of(Message.class, "messageType");
-//      actionAdapter
-//              .registerSubtype(EndTurnAction.class, "END_TURN")
-//              .registerSubtype(InsertMarbleAction.class, "INSERT_MARBLE")
-//              .registerSubtype(DiscardInitialLeaderAction.class, "SETUP_DISCARD_LEADERS");
-//
-//
-//      GsonBuilder builder = new GsonBuilder()
-//              .enableComplexMapKeySerialization()
-//              .registerTypeAdapterFactory(actionAdapter);
-//      Gson gson = builder.create();
-//
-//      Message message = gson.fromJson(payload, Message.class);
-//
-//      return message;
-//   }
 
    private GSON() {
       // private constructor to prevent instances of this class (a class can't be final and abstract in Java).

@@ -376,11 +376,9 @@ public class PlayerboardController extends GUIController {
 
     @FXML
     private void baseProduction(ActionEvent event) {
-        //TODO finestra che fa comparire la scelta di risorse
         this.baseProdChoice.setVisible(true);
-        //Action productionAction = new BaseProductionAction();
-        //client.forwardAction(productionAction);
     }
+
     @FXML
     private void produceSlot1(ActionEvent event) {
         createProductionAction(0);
@@ -418,11 +416,11 @@ public class PlayerboardController extends GUIController {
     private void selectWhiteLeader(MouseEvent event) {
         Action chooseLeaderOnWhiteMarbleAction = new ChooseLeaderOnWhiteMarbleAction(leaderImageIdMap.get((ImageView) event.getSource()));
         client.forwardAction(chooseLeaderOnWhiteMarbleAction);
-        //TODO rimetto alle leader il loro metodo standard
-        leader0_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
-        leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
-        leader2_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
-        leader3_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
+        //set click on leaders to do nothing
+        leader0_ImageView.setOnMouseClicked(null);
+        leader1_ImageView.setOnMouseClicked(null);
+        leader2_ImageView.setOnMouseClicked(null);
+        leader3_ImageView.setOnMouseClicked(null);
         this.disableLeader();
     }
 
