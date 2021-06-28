@@ -83,7 +83,7 @@ class GameTest {
         game.addPlayer("test4");
         String player = game.startGame();
         List<String> players = game.getOrderedPlayers();
-        assertTrue(game.isFirst(player));
+        assertTrue(game.isFirstConnected(player));
         game.initialMoveForward();
         assertEquals(player, players.get(0));
         assertEquals(0, game.getPlayerBoard(players.get(0)).getTrack().getCurrentPosition());
@@ -132,10 +132,10 @@ class GameTest {
         game.addPlayer("test4");
         game.startGame();
         List<String> players = game.getOrderedPlayers();
-        assertTrue(game.isFirst(players.get(0)));
-        assertFalse(game.isFirst(players.get(1)));
-        assertFalse(game.isFirst(players.get(2)));
-        assertFalse(game.isFirst(players.get(3)));
+        assertTrue(game.isFirstConnected(players.get(0)));
+        assertFalse(game.isFirstConnected(players.get(1)));
+        assertFalse(game.isFirstConnected(players.get(2)));
+        assertFalse(game.isFirstConnected(players.get(3)));
     }
 
     @Test

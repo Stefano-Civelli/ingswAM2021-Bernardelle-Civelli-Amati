@@ -77,18 +77,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
-   /**
-    * Display the form were the player can choose their username
-    */
    @Override
    public void displayLogin() { // FIXME PERCHÉ VIENE MOSTRATO ANCHE SE C'`E UN ERRORE DI CONNESSIONE??
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(this.sceneController::loadLogin);
    }
 
-   /**
-    * Show an error message for failing to open a socket with the server
-    */
    @Override
    public void displaySetupFailure() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug

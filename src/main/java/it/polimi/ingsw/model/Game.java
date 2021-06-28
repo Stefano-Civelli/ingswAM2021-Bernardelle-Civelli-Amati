@@ -212,9 +212,13 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
     * @param username the username of the player
     * @return true if player is the first, false otherwise
     */
-   public boolean isFirst(String username) {
+   public boolean isFirstConnected(String username) {
       return this.playerBoards.stream().filter(Pair::getValue).collect(Collectors.toList())
               .get(0).getKey().getUsername().equals(username);
+   }
+
+   public boolean isFirst(String username) {
+      return this.playerBoards.get(0).getKey().getUsername().equals(username);
    }
 
    private List<Integer> idLeaderList(List<LeaderCard> leaderList) {

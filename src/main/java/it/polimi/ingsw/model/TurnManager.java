@@ -56,8 +56,8 @@ public class TurnManager implements IGameState {
                 return null;
             this.currentPhase = tmpPhase;
         } catch (InvalidActionException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+//            System.out.println(e.getMessage());
+//            e.printStackTrace();
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.INVALID_ACTION);
         } catch (WrongPlayerException e) {
             return new Message(this.currentPlayer, MessageType.ERROR, ErrorType.WRONG_PLAYER);
@@ -113,15 +113,15 @@ public class TurnManager implements IGameState {
         if(this.currentPhase == PhaseType.END_SETUP) {
             try {
                 this.currentPlayer = this.game.nextConnectedPlayer(this.currentPlayer);
-                this.game.gameStarted();
             } catch (InvalidUsernameException e) {
                 // This code should never be executed
                 e.printStackTrace();
             }
 
-            if(this.game.isFirst(this.currentPlayer))
+            if(this.game.isFirst(this.currentPlayer)) {
                 this.currentPhase = PhaseType.INITIAL;
-            else
+                this.game.gameStarted();
+            } else
                 this.currentPhase = PhaseType.SETUP_CHOOSING_RESOURCES;
         }
         if(this.currentPhase == PhaseType.END) {
