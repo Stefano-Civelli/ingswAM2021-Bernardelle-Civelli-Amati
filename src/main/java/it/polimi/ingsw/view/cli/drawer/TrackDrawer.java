@@ -4,6 +4,9 @@ import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.cli.Color;
 
+/**
+ * Class that builds and fills the Cli representation of the Track
+ */
 public class TrackDrawer implements Fillable, Buildable{
   private final int TRACK_LENGTH = 25*3;
   private final int TRACK_HEIGHT = 3;
@@ -40,6 +43,25 @@ public class TrackDrawer implements Fillable, Buildable{
 
     return trackSkeleton;
   }
+
+  @Override
+  public void fill(String[][] fillMe, SimplePlayerState playerState) {
+    int playerPosition = playerState.getTrackPosition();
+    boolean[] popeCards = playerState.getVaticanFlipped();
+
+    for(int i=0, c=8; i<popeCards.length; i++, c+=8) {
+      if (popeCards[i]) {
+        fillMe[2][c * 3 + 1] = Integer.toString(i + 2);
+      } else {
+        fillMe[2][c * 3 + 1] = Color.ANSI_RED.escape() + "X" + Color.RESET.escape();
+      }
+    }
+
+    fillMe[1][playerPosition*3+1] = Color.ANSI_RED.escape() + "+" + Color.RESET.escape();
+  }
+
+  @Override
+  public void fill(String[][] fillMe, SimpleGameState gameState) {/*does nothing*/}
 
   private void addVp(String[][] track) {
     track[0][0] = "v";
@@ -93,23 +115,4 @@ public class TrackDrawer implements Fillable, Buildable{
     trackAndVatican[1][5*3] = Color.ANSI_BRIGHT_YELLOW.escape() + trackAndVatican[1][5*3] + Color.RESET.escape();
     trackAndVatican[1][5*3+2] = Color.ANSI_BRIGHT_YELLOW.escape() + trackAndVatican[1][5*3+2] + Color.RESET.escape();
   }
-
-  @Override
-  public void fill(String[][] fillMe, SimplePlayerState playerState) {
-    int playerPosition = playerState.getTrackPosition();
-    boolean[] popeCards = playerState.getVaticanFlipped();
-
-    for(int i=0, c=8; i<popeCards.length; i++, c+=8) {
-      if (popeCards[i]) {
-        fillMe[2][c * 3 + 1] = Integer.toString(i + 2);
-      } else {
-        fillMe[2][c * 3 + 1] = Color.ANSI_RED.escape() + "X" + Color.RESET.escape();
-      }
-    }
-
-    fillMe[1][playerPosition*3+1] = Color.ANSI_RED.escape() + "+" + Color.RESET.escape();
-  }
-
-  @Override
-  public void fill(String[][] fillMe, SimpleGameState gameState) {}
 }

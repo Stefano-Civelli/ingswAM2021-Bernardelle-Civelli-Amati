@@ -13,13 +13,9 @@ import it.polimi.ingsw.view.ClientStrings;
 import it.polimi.ingsw.view.ViewInterface;
 import it.polimi.ingsw.view.gui.controllers.*;
 import javafx.application.Platform;
-
 import java.lang.reflect.Type;
 import java.util.List;
 
-/**
- * Class used to receive all the update from the client
- */
 public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    private GuiTurnManager turnManager;

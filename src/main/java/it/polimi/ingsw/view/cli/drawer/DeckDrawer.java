@@ -4,6 +4,9 @@ import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.cli.Color;
 
+/**
+ * Class that builds and fills the Cli representation of the Develop Card Deck
+ */
 public class DeckDrawer implements Fillable, Buildable{
   private final int DECK_LENGTH = 44;
   private final int DECK_HEIGHT = 13;
@@ -51,20 +54,16 @@ public class DeckDrawer implements Fillable, Buildable{
     return deckSkeleton;
   }
 
-
   @Override
   public void fill(String[][] fillMe, SimpleGameState gameState) {
     int col = 0;
     Integer[][] cards = gameState.visibleCards();
-
-
 
     for (char c : "DEV DECK ".toCharArray()) {
       fillMe[0][col] = Character.toString(c);
       col++;
     }
 
-    //TODO testa se funziona, quando finisco le carte dovrebbe printare vuoto
     for (int i = 0, a = 2; i < cards.length; i++, a+=4) {
       for (int j = 0, b = 1; j < cards[0].length; j++, b += 11) {
         if(cards[i][j]!=null) {
@@ -86,7 +85,6 @@ public class DeckDrawer implements Fillable, Buildable{
         fillMe[i][j] = " ";
   }
 
-
   @Override
-  public void fill(String[][] fillMe, SimplePlayerState playerState) {}
+  public void fill(String[][] fillMe, SimplePlayerState playerState) {/*does nothing*/}
 }

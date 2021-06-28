@@ -5,6 +5,9 @@ import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 
+/**
+ * Class that builds and fills the Cli representation of the Warehouse
+ */
 public class WarehouseDrawer implements Buildable, Fillable{
   private static final int WAREHOUSE_LENGTH = 9;
   private static final int WAREHOUSE_HEIGHT = 4;
@@ -58,5 +61,5 @@ public class WarehouseDrawer implements Buildable, Fillable{
   }
 
   @Override
-  public void fill(String[][] fillMe, SimpleGameState gameState) {}
+  public void fill(String[][] fillMe, SimpleGameState gameState) {/*does nothing*/}
 }

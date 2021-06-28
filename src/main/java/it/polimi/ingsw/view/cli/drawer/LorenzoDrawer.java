@@ -4,6 +4,10 @@ import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 import it.polimi.ingsw.view.cli.Color;
 
+/**
+ * Class that builds and fills the Cli representation of Lorenzo il Magnifico
+ * Builds and Fills the track and the last token played
+ */
 public class LorenzoDrawer implements Buildable, Fillable {
   private final int LORENZO_LENGTH = 25*3 + 11 + 6 + 11 + 2 + 13;
   private final int LORENZO_HEIGHT = 4;
@@ -48,11 +52,11 @@ public class LorenzoDrawer implements Buildable, Fillable {
   }
 
   @Override
-  public void fill(String[][] fillMe, SimplePlayerState playerState) { /*does nothing*/ }
-
-  @Override
   public void fill(String[][] fillMe, SimpleGameState gameState) {
     int lorenzoPosition = gameState.getLorenzoTrackPosition();
     fillMe[2][lorenzoPosition*3+1] = Color.ANSI_RED.escape() + "+" + Color.RESET.escape();
   }
+
+  @Override
+  public void fill(String[][] fillMe, SimplePlayerState playerState) { /*does nothing*/ }
 }

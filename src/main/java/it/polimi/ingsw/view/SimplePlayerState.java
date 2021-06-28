@@ -5,9 +5,11 @@ import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.updatecontainers.*;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
-
 import java.util.*;
 
+/**
+ * Class containing a simplified version of the PlayerBoard state
+ */
 public class SimplePlayerState {
 
    private final int NUMBER_OF_NORMAL_LEVELS = 3;
@@ -22,7 +24,9 @@ public class SimplePlayerState {
    private final Pair<ResourceType, Integer>[] storageLevels;
    private final List<Integer>[] cardSlots;
 
-
+   /**
+    * Constructor for SimplePlayerState class
+    */
    public SimplePlayerState() {
       this.trackPosition = 0;
       this.chest = new HashMap<>();
@@ -30,8 +34,8 @@ public class SimplePlayerState {
          chest.put(resType, 0);
 
       this.tempChest = new HashMap<>();
-      this.storageLevels = new Pair[5];
-      for(int i=0; i<5; i++)
+      this.storageLevels = new Pair[MAX_SPECIAL_LEVELS+NUMBER_OF_NORMAL_LEVELS];
+      for(int i=0; i<MAX_SPECIAL_LEVELS+NUMBER_OF_NORMAL_LEVELS; i++)
          storageLevels[i] = new Pair(null, null);
 
       this.cardSlots = new List[3];
@@ -51,6 +55,10 @@ public class SimplePlayerState {
    }
 
    //-----------SETUP-------------------------------------------
+   /**
+    * Setups non activated LeaderCards
+    * @param stateSetup, contains the list of LeaderCards that belong to this SimplePlayer
+    */
    public void setupLeaderCard(LeaderSetup stateSetup) {
       this.notActiveLederCards = stateSetup.getLeaderList();
    }
@@ -58,13 +66,15 @@ public class SimplePlayerState {
 
 
    //----------UPDATE----------
+   /**
+    * Updates the warehouse
+    * LeaderCards that works as a warehouse level are also updated with this method
+    * @param update, update content
+    */
    public void warehouseUpdate(WarehouseUpdate update) {
-      //Warehouse.WarehouseUpdate phaseUpdate = GSON.getGsonBuilder().fromJson(payload, Warehouse.WarehouseUpdate.class);
       ResourceType resource = update.getResourceType();
 
-      //normalLevels
       if(update.getLevel()<3) {
-         //controllo se la risorsa é presente
          for (int i = 0; i < 3; i++) {
 
             if (storageLevels[i].getKey() != null) {
@@ -82,15 +92,22 @@ public class SimplePlayerState {
             }
          }
       }
-      //se non presente creo
       storageLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
    }
 
+   /**
+    * Updates the track
+    * @param stateUpdate, update content
+    */
    public void trackUpdate(TrackUpdate stateUpdate) {
       int newPosition = stateUpdate.getPlayerPosition();
       this.trackPosition = newPosition;
    }
 
+   /**
+    * Updates the vatican report cells
+    * @param stateUpdate, update content
+    */
    public void vaticanReportUpdate(VaticanReport stateUpdate) {
       int zone = stateUpdate.getZone();
       boolean flip = stateUpdate.isActive();
@@ -98,6 +115,10 @@ public class SimplePlayerState {
       vaticanFlipped[zone] = flip;
    }
 
+   /**
+    * Updates the chest
+    * @param stateUpdate, update content
+    */
    public void chestUpdate(ChestUpdate stateUpdate) { //serve?
       ResourceType resource = stateUpdate.getResourceType();
       int quantity = stateUpdate.getQuantity();
@@ -105,6 +126,10 @@ public class SimplePlayerState {
       this.chest.put(resource, quantity);
    }
 
+   /**
+    * Updates the temporary chest
+    * @param stateUpdate, update content
+    */
    public void tempChestUpdate(ChestUpdate stateUpdate) {
       ResourceType resource = stateUpdate.getResourceType();
       int quantity = stateUpdate.getQuantity();
@@ -112,6 +137,10 @@ public class SimplePlayerState {
       this.tempChest.put(resource, quantity);
    }
 
+   /**
+    * Updates the CardSlots
+    * @param stateUpdate, update content
+    */
    public void cardSlotUpdate(CardSlotUpdate stateUpdate) {
       int devCardID = stateUpdate.getDevCardID();
       int slot = stateUpdate.getSlotNumber();
@@ -119,6 +148,10 @@ public class SimplePlayerState {
       cardSlots[slot].add(devCardID);
    }
 
+   /**
+    * Updates the LeaderCards activating one them
+    * @param stateUpdate, update content
+    */
    public void activatedLeaderUpdate(LeaderUpdate stateUpdate) {
       this.activeLeaderCards.add(stateUpdate.getCardId());
       this.notActiveLederCards.remove((Integer) stateUpdate.getCardId()); //potrebbe non andare a causa dell'indice
@@ -126,9 +159,8 @@ public class SimplePlayerState {
 
 
    /**
-    * delete a leadercard from the SimplePlayerState
-    *
-    * @param indexOfLeaderToDiscard
+    * discard a LeaderCard from the SimplePlayerState
+    * @param indexOfLeaderToDiscard, index of the leader to discard (starting at 0)
     */
    public void discardLeader(int indexOfLeaderToDiscard) {
          notActiveLederCards.remove(indexOfLeaderToDiscard);
@@ -137,20 +169,27 @@ public class SimplePlayerState {
 
 
    //----------GETTERS-----------------------------------------
-
    /**
-    * return non-active leader cards present in this simplemodel
+    * return non-active leader cards
     * NOTE: can return null
-    * @return non-active leader cards present in this simplemodel
+    * @return non-active leader cards
     */
    public List<Integer> getNotActiveLeaderCards() {
       return new ArrayList<>(notActiveLederCards);
    }
 
+   /**
+    * Returns the chest
+    * @return the chest
+    */
    public Map<ResourceType, Integer> getChest() {
       return new HashMap<>(chest);
    }
 
+   /**
+    * Returns normal levels of warehouse (so excluding leader levels if they are present)
+    * @return normal levels of warehouse
+    */
    public Pair<ResourceType, Integer>[] getWarehouseLevels() {
       Pair<ResourceType, Integer>[] warehouseLevels = new Pair[3];
       for(int i=0; i<3; i++)
@@ -158,8 +197,12 @@ public class SimplePlayerState {
       return warehouseLevels;
    }
 
+   /**
+    * Returns levels of the warehouse that belongs to LeaderCards
+    * NOTE: can return null
+    * @return levels of the warehouse that belongs to LeaderCards
+    */
    public List<Pair<ResourceType, Integer>> getLeaderLevels() {
-
       List<Pair<ResourceType, Integer>> tempList = new ArrayList<>();
       for(int i=3; i<5; i++)
          if(storageLevels[i].getKey() != null)
@@ -184,44 +227,45 @@ public class SimplePlayerState {
    }
 
    /**
-    * return active leader cards present in this simplemodel
-    *
-    * @return active leader cards present in this simplemodel
+    * Returns active LeaderCards present in this SimplePlayerState
+    * @return active LeaderCards present in this SimplePlayerState
     */
    public List<Integer> getActiveLeaderCards(){
       return new ArrayList<>(this.activeLeaderCards);
    }
 
-
-   public List<Integer> getProducibleLeaders() {
-      List<Integer> producibleLeaderList = new ArrayList<>();
-
-      for(Integer leaderId : activeLeaderCards) {
-         ResourceType produceRequirement = null;
-         try {
-            produceRequirement = LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement();
-         } catch (InvalidCardException e) {
-            e.printStackTrace();
-         }
-         if (produceRequirement != null)
-            producibleLeaderList.add(leaderId);
-      }
-      return producibleLeaderList;
-   }
-
-   public List<Integer> getProducibleCardSlotsId() {
-      List<Integer> producibleCardList = new ArrayList<>();
-      for(List<Integer> slot : cardSlots)
-         if(!slot.isEmpty())
-            producibleCardList.add(slot.get(slot.size()-1));
-
-      return producibleCardList;
-   }
+//   public List<Integer> getProducibleLeaders() {
+//      List<Integer> producibleLeaderList = new ArrayList<>();
+//
+//      for(Integer leaderId : activeLeaderCards) {
+//         ResourceType produceRequirement = null;
+//         try {
+//            produceRequirement = LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement();
+//         } catch (InvalidCardException e) {
+//            e.printStackTrace();
+//         }
+//         if (produceRequirement != null)
+//            producibleLeaderList.add(leaderId);
+//      }
+//      return producibleLeaderList;
+//   }
+//
+//   public List<Integer> getProducibleCardSlotsId() {
+//      List<Integer> producibleCardList = new ArrayList<>();
+//      for(List<Integer> slot : cardSlots)
+//         if(!slot.isEmpty())
+//            producibleCardList.add(slot.get(slot.size()-1));
+//
+//      return producibleCardList;
+//   }
 
    //----------------------------------------------------------
 
 
    //----------UTILITY-----------------------------------------
+   /**
+    * Merges the temporary chest of this SimplePlayerState into his chest
+    */
    public void mergeTempChest() {
       for(Map.Entry<ResourceType, Integer> entry : tempChest.entrySet()){
          chest.put(entry.getKey(), chest.containsKey(entry.getKey()) ? chest.get(entry.getKey()) + entry.getValue() : entry.getValue());

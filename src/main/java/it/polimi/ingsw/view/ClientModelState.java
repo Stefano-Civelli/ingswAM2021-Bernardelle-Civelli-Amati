@@ -8,12 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Class that contains game state client side
+ */
 public class ClientModelState implements ClientModelUpdaterInterface, ClientStateViewer {
 
   private String clientUsername;
   private SimpleGameState simpleGameState;
   private LinkedHashMap<String, SimplePlayerState> simplePlayerStateMap;
 
+  /**
+   * Constructor for ClientModelState class
+   */
   public ClientModelState() {
     this.simpleGameState = new SimpleGameState();
     this.simplePlayerStateMap = new LinkedHashMap<>();
@@ -105,23 +111,16 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   public void lorenzoTrackUpdate(TrackUpdate stateUpdate) {
     int move = stateUpdate.getPlayerPosition();
     this.simpleGameState.updateLorenzoPosition(move);
-//    this.simpleGameState.setLorenzoState(LorenzoState.MOVED);
   }
 
   @Override
-  public void lorenzoShuffleUpdate() {
-//    this.simpleGameState.setLorenzoState(LorenzoState.SHUFFLED);
-  }
+  public void lorenzoShuffleUpdate() {/*does nothing*/}
 
   @Override
-  public void lorenzoDevDeckUpdate(DevelopCardDeckUpdate stateUpdate) {
-    this.simpleGameState.updateDeck(stateUpdate);
-//    this.simpleGameState.setLorenzoState(LorenzoState.DISCARDED);
-  }
+  public void lorenzoDevDeckUpdate(DevelopCardDeckUpdate stateUpdate) { this.simpleGameState.updateDeck(stateUpdate); }
 
   @Override
   public void gameStartedSetup(List<String> players) {
-//    ArrayList<String> players = GSON.getGsonBuilder().fromJson(stateUpdate, ArrayList.class);
     SimplePlayerState currentPlayerState = getSimplePlayerState();
     this.simplePlayerStateMap = new LinkedHashMap<>();
 
@@ -129,37 +128,19 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
       if (s.equals(this.clientUsername))
         this.simplePlayerStateMap.put(s, currentPlayerState);
       else
-        this.simplePlayerStateMap.put(s, new SimplePlayerState()); //the array is ordered to give the right amount of resouces to each player
+        this.simplePlayerStateMap.put(s, new SimplePlayerState()); //the array is ordered to give the right amount of resources to each player
     }
   }
 
-
-  /**
-   * @return this client's simpleplayerstate
-   */
   @Override
   public SimplePlayerState getSimplePlayerState() {
     return this.simplePlayerStateMap.get(this.clientUsername);
   }
 
-  /**
-   * returns the simpleplayerstate belonging to the specified player
-   *
-   * @param username the username of the players whose simpleplayerstate is to be returned
-   * @return the specified player's simpleplayerstate
-   */
   @Override
   public SimplePlayerState getSimplePlayerState(String username) {
     return this.simplePlayerStateMap.get(username);
   }
-
-//  @Override
-//  public List<SimplePlayerState> otherSimplePlayerStates(){
-//    return simplePlayerStateMap.entrySet().stream()
-//            .filter(x -> !x.getKey().equals(this.username))
-//            .map(x -> x.getValue())
-//            .collect(Collectors.toList());
-//  }
 
   @Override
   public List<String> otherPlayersUsername(){
@@ -195,5 +176,4 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
   public String getUsername() {
     return this.clientUsername;
   }
-
 }

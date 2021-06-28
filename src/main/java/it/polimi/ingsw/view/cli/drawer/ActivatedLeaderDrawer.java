@@ -9,10 +9,16 @@ import it.polimi.ingsw.view.SimplePlayerState;
 
 import java.util.List;
 
+/**
+ * Class that builds and fills the Cli representation of the LeaderCards that has been activated
+ */
 public class ActivatedLeaderDrawer implements Buildable, Fillable{
+  private final int ACTIVATED_LEADERS_LENGTH = 13;
+  private final int ACTIVATED_LEADERS_HEIGHT = 10;
+
   @Override
   public String[][] build() {
-    String[][] activatedSkeleton = new String[10][13];
+    String[][] activatedSkeleton = new String[ACTIVATED_LEADERS_HEIGHT][ACTIVATED_LEADERS_LENGTH];
     int col=0;
 
     for(int i=0; i<activatedSkeleton.length; i++)
@@ -74,5 +80,5 @@ public class ActivatedLeaderDrawer implements Buildable, Fillable{
   }
 
   @Override
-  public void fill(String[][] fillMe, SimpleGameState gameState) {}
+  public void fill(String[][] fillMe, SimpleGameState gameState) {/* does nothing */}
 }

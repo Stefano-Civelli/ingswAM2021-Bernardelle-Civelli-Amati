@@ -6,6 +6,9 @@ import it.polimi.ingsw.view.SimplePlayerState;
 
 import java.util.Map;
 
+/**
+ * Class that builds and fills the Cli representation of the Chest
+ */
 public class ChestDrawer implements Buildable, Fillable{
   private static final int CHEST_LENGTH = 11;
   private static final int CHEST_HEIGHT = 4;
@@ -97,5 +100,5 @@ public class ChestDrawer implements Buildable, Fillable{
   }
 
   @Override
-  public void fill(String[][] fillMe, SimpleGameState gameState) {}
+  public void fill(String[][] fillMe, SimpleGameState gameState) {/*does nothing*/}
 }

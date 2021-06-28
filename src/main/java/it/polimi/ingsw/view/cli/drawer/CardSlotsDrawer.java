@@ -8,14 +8,19 @@ import it.polimi.ingsw.view.SimplePlayerState;
 
 import java.util.List;
 
+/**
+ * Class that builds and fills the Cli representation of the Card Slots
+ */
 public class CardSlotsDrawer implements Buildable, Fillable{
   private final int CARD_SLOTS_LENGTH = 49;
   private final int CARD_SLOTS_HEIGHT = 9;
+  private final int SLOT_MARGIN_LENGTH = 13;
+  private final int SLOT_MARGIN_HEIGHT = 8;
 
   @Override
   public String[][] build() {
     String[][] cardSlotsSkeleton = new String[CARD_SLOTS_HEIGHT][CARD_SLOTS_LENGTH];
-    String[][] slotMargins = MarginConstructor.buildMargins(8,13);
+    String[][] slotMargins = MarginConstructor.buildMargins(SLOT_MARGIN_HEIGHT,SLOT_MARGIN_LENGTH);
     int col=14;
 
     for(int i=0; i<cardSlotsSkeleton.length; i++)
@@ -25,8 +30,8 @@ public class CardSlotsDrawer implements Buildable, Fillable{
     for(int i=0; i<slotMargins.length; i++)
       for(int j=0, b=10; j<slotMargins[0].length; j++, b++) {
         cardSlotsSkeleton[i][b] = slotMargins[i][j];
-        cardSlotsSkeleton[i][b+13] = slotMargins[i][j];
-        cardSlotsSkeleton[i][b+26] = slotMargins[i][j];
+        cardSlotsSkeleton[i][b+SLOT_MARGIN_LENGTH] = slotMargins[i][j];
+        cardSlotsSkeleton[i][b+(SLOT_MARGIN_LENGTH*2)] = slotMargins[i][j];
       }
 
     for(int i=0; i<3; i++) {
@@ -77,11 +82,11 @@ public class CardSlotsDrawer implements Buildable, Fillable{
           a--;
         } catch (InvalidCardException e) {}
       }
-      b=b+13;
+      b=b+SLOT_MARGIN_LENGTH;
       a=fillMe.length-6;
     }
   }
 
   @Override
-  public void fill(String[][] fillMe, SimpleGameState gameState) {}
+  public void fill(String[][] fillMe, SimpleGameState gameState) {/* does nothing */}
 }

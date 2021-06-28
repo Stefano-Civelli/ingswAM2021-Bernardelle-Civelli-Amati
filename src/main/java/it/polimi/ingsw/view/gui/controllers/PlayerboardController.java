@@ -251,7 +251,7 @@ public class PlayerboardController extends GUIController {
      * Display merging between tmp chest and normal chest
      */
     public void chestMergeUpdate() {
-        String [] amounts;
+        String[] amounts;
         int amount = 0;
 
         amounts = coinCounter.getText().split("\\(");
