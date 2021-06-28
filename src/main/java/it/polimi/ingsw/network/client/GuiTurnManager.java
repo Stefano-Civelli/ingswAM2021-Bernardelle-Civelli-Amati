@@ -6,6 +6,10 @@ import it.polimi.ingsw.view.ViewInterface;
 
 import java.util.List;
 
+/**
+ * Class instantiated once a game is played in GUI configuration.
+ * Manages turns client side
+ */
 public class GuiTurnManager implements ClientTurnManagerInterface{
 
    private final Client client;
@@ -13,8 +17,12 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
    private String currentPlayer;
    private final ViewInterface view;
 
+   /**
+    * Constructor for GuiTurnManager class
+    * @param client, client's interface
+    * @param view, instance of ViewInterface used to display
+    */
    public GuiTurnManager(Client client, ViewInterface view) {
-
       this.currentPhase = PhaseType.SETUP_CHOOSING_RESOURCES;
       this.client = client;
       this.view = view;
@@ -22,7 +30,6 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
 
    @Override
    public void currentPhasePrint() {
-
       switch(currentPhase){
          case INITIAL:
             view.displayYourTurn(this.currentPlayer); // it's necessary in singleplayer, in multiplayer it's repeated
@@ -46,10 +53,6 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
             view.displayFinalPhase();
             break;
       }
-
-
-
-
    }
 
    @Override
@@ -78,11 +81,5 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
          this.currentPhasePrint();
       }
    }
-
-
-   public void setPlayers(List<String> stateUpdate) {
-      //this.players = new ArrayList<>();
-   }
-
 }
 

@@ -422,7 +422,7 @@ public class Cli implements ViewInterface {
                 client.forwardAction(new ChooseLeaderOnWhiteMarbleAction(leaderId));
                 break;
               default:
-                if (cliTurnManager.isValidInCurrenPhase(line)) //to see if the input is valid in this turnPhase
+                if (cliTurnManager.isValidInCurrentPhase(line)) //to see if the input is valid in this turnPhase
                   handleInput(line);
                 else {
                   System.out.println("Command you gave me is not allowed in this phase of the game or doesn't exists");

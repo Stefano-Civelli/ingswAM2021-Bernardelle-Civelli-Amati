@@ -10,6 +10,10 @@ import it.polimi.ingsw.view.cli.Color;
 
 import java.util.HashMap;
 
+/**
+ * Class instantiated once a game is played in CLI configuration.
+ * Manages turns client side
+ */
 public class CliTurnManager implements ClientTurnManagerInterface {
   private Client client;
   private PhaseType currentPhase;
@@ -17,6 +21,12 @@ public class CliTurnManager implements ClientTurnManagerInterface {
   private ViewInterface view;
   private ClientStateViewer stateViewer;
 
+  /**
+   * Constructor for CliTurnManager class
+   * @param client, client's interface
+   * @param view, instance of ViewInterface used to display
+   * @param stateViewer, instance of ClientStateViewer that enables querying on client side model state
+   */
   public CliTurnManager(Client client, ViewInterface view, ClientStateViewer stateViewer) {
     this.currentPhase = PhaseType.SETUP_CHOOSING_RESOURCES;
     this.client = client;
@@ -59,7 +69,7 @@ public class CliTurnManager implements ClientTurnManagerInterface {
   }
 
 
-  public void handleOtherPossiblePhases() {
+  private void handleOtherPossiblePhases() {
     view.displayDefaultCanvas(stateViewer.getUsername());
     System.out.println("\nYou can: ");
 
@@ -87,7 +97,12 @@ public class CliTurnManager implements ClientTurnManagerInterface {
     }
   }
 
-  public boolean isValidInCurrenPhase(String input) {
+  /**
+   * Checks if the action performed can be done in this phase of the game
+   * @param input, String associated to the action that has been performed
+   * @return true if the action performed can be actually done in this phase, false otherwise
+   */
+  public boolean isValidInCurrentPhase(String input) {
     ActionType action = null;
     switch (input) {
       case "P": case "p":
@@ -137,16 +152,10 @@ public class CliTurnManager implements ClientTurnManagerInterface {
     this.currentPlayer = currentPlayer;
   }
 
-
-  /**
-   * set new phase and new currentPlayer
-   *
-   * @param newState the new Turn State
-   */
   @Override
   public void setStateIsPlayerChanged(TurnState newState) {
 
-    this.currentPhase = newState.getPhase(); //set new phase
+    this.currentPhase = newState.getPhase();
 
     if (currentPlayer == null || !currentPlayer.equals(newState.getPlayer())) {
       this.currentPlayer = newState.getPlayer();
@@ -160,5 +169,4 @@ public class CliTurnManager implements ClientTurnManagerInterface {
       this.currentPhasePrint();
     }
   }
-
 }

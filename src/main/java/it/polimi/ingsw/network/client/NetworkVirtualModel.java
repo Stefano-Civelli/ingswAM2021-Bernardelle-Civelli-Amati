@@ -5,10 +5,18 @@ import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
+/**
+ * Class instantiated once a game is played in network configuration.
+ * This class connects the Client class with the ServerConnector one
+ */
 public class NetworkVirtualModel implements VirtualModel{
 
    private ServerConnector serverConnector;
 
+   /**
+    * Constructor for NetworkVirtualModel class
+    * @param serverConnector, instance of ServerConnector used to send messages to server
+    */
    public NetworkVirtualModel(ServerConnector serverConnector) {
       this.serverConnector = serverConnector;
    }

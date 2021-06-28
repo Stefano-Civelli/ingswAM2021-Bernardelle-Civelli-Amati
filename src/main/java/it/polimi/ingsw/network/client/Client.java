@@ -25,7 +25,8 @@ import java.net.Socket;
 import java.util.*;
 
 /**
- * this class
+ * Main class to manage the client side of the application.
+ * Performs the message handling of messages coming from server.
  */
 public class Client implements PhaseChangedObserver {
   public static final int MIN_PORT = Server.MIN_PORT_NUMBER;
@@ -373,5 +374,4 @@ public class Client implements PhaseChangedObserver {
   public ViewInterface getView() {
     return this.view;
   }
-
 }

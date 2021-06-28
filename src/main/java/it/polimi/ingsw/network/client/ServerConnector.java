@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,6 +15,10 @@ import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Class that manage the connection with the server.
+ * This class receives and send Messages
+ */
 public class ServerConnector{
   private Client client;
   private Socket server;
@@ -23,11 +26,19 @@ public class ServerConnector{
   private BufferedReader in;
   private Timer pingTimer = null;
 
+  /**
+   * Constructor for CliDrawer class
+   * @param server, socket that connects this class to server
+   * @param client, client's instance
+   */
   public ServerConnector(Socket server, Client client) {
     this.server = server;
     this.client = client;
   }
 
+  /**
+   * Receives messages from server formatted in Json, de-parses them into Message class and sends them to client
+   */
   public void handleServerConnection() {
       try {
         out = new PrintWriter(server.getOutputStream());
@@ -55,6 +66,10 @@ public class ServerConnector{
     }
   }
 
+  /**
+   * Sends the message passed as parameter to server
+   * @param msg, message to send
+   */
   public void sendToServer(Message msg) {
     if(msg.getMessageType() != MessageType.CREATE_MATCH && msg.getMessageType() != MessageType.JOIN_MATCH)
       msg.setUsername(client.getUsername());

@@ -106,7 +106,6 @@ public class Server {
    }
 
 
-
    private static int integerInputValidation(Scanner in, int minPortNumber, int maxPortNumber) {
       boolean error = false;
       int input = 0;
@@ -127,5 +126,4 @@ public class Server {
       }
       return input;
    }
-
 }

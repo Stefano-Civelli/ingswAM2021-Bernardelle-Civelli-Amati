@@ -530,7 +530,6 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void gameStartedSetup(List<String> stateUpdate){
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-      this.turnManager.setPlayers(stateUpdate);
       Platform.runLater( () -> {
          GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
          controller.setOtherPlayer(stateUpdate);

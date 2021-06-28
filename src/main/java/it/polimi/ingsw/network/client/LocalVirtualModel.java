@@ -9,12 +9,22 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.GSON;
 
+/**
+ * Class instantiated once a game is played in local configuration.
+ * This class connects the Client class with the TurnManager one
+ */
 public class LocalVirtualModel implements VirtualModel, PhaseChangedObservable{
 
    private TurnManager turnManager;
    private ClientTurnManagerInterface clientTurnManager;
    private Client client;
 
+   /**
+    * Constructor for LocalVirtualModel class
+    * @param turnManager, instance of TurnManager used to forward actions
+    * @param clientTurnManager, instance of ClientTurnManager
+    * @param client, client's instance
+    */
    public LocalVirtualModel(TurnManager turnManager, ClientTurnManagerInterface clientTurnManager, Client client) {
       this.turnManager = turnManager;
       this.clientTurnManager = clientTurnManager;

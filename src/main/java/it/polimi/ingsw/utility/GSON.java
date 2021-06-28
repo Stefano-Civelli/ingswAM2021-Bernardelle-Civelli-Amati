@@ -22,10 +22,9 @@ public final class GSON {
    private static final Gson gsonBuilder = new GsonBuilder().serializeNulls().enableComplexMapKeySerialization().excludeFieldsWithModifiers(Modifier.TRANSIENT).create();
    private static Gson actionBuilder = null;
 
-
-
    /**
     * Static method to obtain a GsonBuilder with the necessary modifiers enebled
+    *
     * @return the gsonBuilder
     */
    public static Gson getGsonBuilder() {
@@ -34,6 +33,7 @@ public final class GSON {
 
    /**
     * construct and setup a DevelopCardDeck class from a JSON config file
+    *
     * @return the constructed DevelopCardDeck
     * @throws IOException if it is unable to read the configuration file
     */
@@ -47,6 +47,7 @@ public final class GSON {
 
    /**
     * construct track class from a JSON config file
+    *
     * @return the constructed Track
     * @throws IOException if it is unable to read the configuration file
     */
@@ -59,6 +60,7 @@ public final class GSON {
 
    /**
     * construct LorenzoTrack class from a JSON config file
+    *
     * @return the constructed LorenzoTrack
     * @throws IOException if it is unable to read the configuration file
     */
@@ -71,6 +73,7 @@ public final class GSON {
 
    /**
     * construct and setup LeaderCardDeck class from a JSON config file
+    *
     * @return the constructed LeaderCardDeck
     * @throws IOException if it is unable to read the configuration file
     */
@@ -89,10 +92,9 @@ public final class GSON {
               .registerTypeAdapterFactory(cardBehaviourAdapter);
       Gson gson = builder.create();
       InputStreamReader reader;
-      if(ConfigParameters.TESTING) {
+      if (ConfigParameters.TESTING) {
          reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/LeaderCardConfig0Requirements.json"), StandardCharsets.UTF_8);
-      }
-      else {
+      } else {
          reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/LeaderCardConfig.json"), StandardCharsets.UTF_8);
       }
       LeaderCardDeck leaderCardDeck = gson.fromJson(reader, LeaderCardDeck.class);
@@ -103,16 +105,17 @@ public final class GSON {
 
    /**
     * constructs an ACTION from the given JSON payload
+    *
     * @param payload JSON representation of the ACTION to be constructed
     * @return the newly created action
     */
-   public static Action buildAction(String payload){
+   public static Action buildAction(String payload) {
       Action action = getActionBuilder().fromJson(payload, Action.class);
       return action;
    }
 
-   private static Gson getActionBuilder(){
-      if(actionBuilder != null)
+   private static Gson getActionBuilder() {
+      if (actionBuilder != null)
          return actionBuilder;
 
       RuntimeTypeAdapterFactory<Action> actionAdapter = RuntimeTypeAdapterFactory.of(Action.class, "type");
@@ -140,12 +143,7 @@ public final class GSON {
       return actionBuilder;
    }
 
-
    private GSON() {
       // private constructor to prevent instances of this class (a class can't be final and abstract in Java).
    }
-
 }
-
-
-
