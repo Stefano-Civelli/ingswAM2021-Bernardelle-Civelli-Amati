@@ -28,7 +28,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    private final Track track;
    private final DevelopCardDeck developCardDeck;
    private List<MarketMarble> tempMarketMarble;
-   private int tempIndexWhiteToAdd;
+   private int tempIndexWhiteToAdd = -1;
    private final Set<MoveForwardObserver> moveForwardObserverList = new HashSet<>();
    private final boolean[] alreadyProduced;
 
@@ -169,7 +169,9 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     * @throws InvalidLeaderCardException if the index is outOfBound
     * @throws NotEnoughSpaceException if, after have modified the white marble into a resource, there isn't place in the warehouse to place it
     */
-   public void addWhiteToWarehouse(int leaderId) throws InvalidLeaderCardException, NotEnoughSpaceException {
+   public void addWhiteToWarehouse(int leaderId) throws InvalidLeaderCardException, NotEnoughSpaceException, MarbleNotExistException {
+      if(this.tempIndexWhiteToAdd == - 1)
+         throw new MarbleNotExistException("you have no white marble to add");
       try {
          tempMarketMarble.get(tempIndexWhiteToAdd).addResource(this, leaderCards.get(getIndexFromId(leaderId)));
       } catch (NotEnoughSpaceException e) {
@@ -180,6 +182,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
          e.printStackTrace();
       }
       tempMarketMarble.remove(tempIndexWhiteToAdd);
+      this.tempIndexWhiteToAdd = -1;
    }
 
    /**
@@ -251,7 +254,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     *
     * @param leaderId index of the leader on which the production must be activated
     * @param product resource that the player wants to gain
-    * @throws AbuseOfFaithException if one of the 3 resources is faith, he can't throw faith and he can't gain faith
+    * @throws AbuseOfFaithException if product is equal to faith
     * @throws NotEnoughResourcesException if the player has not the specified required resources
     * @throws AlreadyProducedException if this production has already been activated during this turn
     * @throws NeedAResourceToAddException if the specified product parameter is null
@@ -260,8 +263,10 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
            AbuseOfFaithException, NeedAResourceToAddException, AlreadyProducedException, InvalidLeaderCardException {
       if(this.alreadyProduced[cardSlots.getNumberOfCardSlots() + getIndexFromId(leaderId) + 1])
          throw new AlreadyProducedException();
-      this.leaderCards.get(getIndexFromId(leaderId)).leaderProduce(product, this);
-      this.alreadyProduced[cardSlots.getNumberOfCardSlots() + getIndexFromId(leaderId) + 1] = true;
+      LeaderCard leaderToProduceOn = this.leaderCards.get(getIndexFromId(leaderId));
+      leaderToProduceOn.leaderProduce(product, this);
+      if(leaderToProduceOn.getProductionRequirement() != null)
+         this.alreadyProduced[cardSlots.getNumberOfCardSlots() + getIndexFromId(leaderId) + 1] = true;
    }
 
    /**
@@ -289,8 +294,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
 
    /**
     * Merge the chest's temporary resources into normal chest,
-    * Forgot all the production already activated
-    * Consume any possible remaining marble that haven't been added
+    * Forget all the production already activated
+    * Consume any possible remaining marble that hasn't been added
     */
    public void enterFinalTurnPhase() {
       this.chest.endOfTurnMapsMerge();
@@ -299,6 +304,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
    }
 
    private void emptyTempMarbles() {
+
       for(MarketMarble marble : this.tempMarketMarble) {
          try {
             marble.addResource(this);
@@ -306,8 +312,8 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
             // FIXME magari con la bianca provare ad aggiungerla prima di scartarla e mandare avanti tutti
             notifyForMoveForward();
          }
-         this.tempMarketMarble.remove(marble);
       }
+      this.tempMarketMarble.clear();
    }
 
    public String getUsername() {
