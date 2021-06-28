@@ -8,10 +8,12 @@ import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.view.cli.Color;
-
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Class that builds and fills the Cli representation of a LeaderCard
+ */
 public class LeaderConstructor {
   private static final int LEADER_HEIGHT = 4;
   private static final int LEADER_LENGTH = 11;
@@ -25,6 +27,11 @@ public class LeaderConstructor {
     }
   }
 
+  /**
+   * Build a Cli representation of the LeaderCard associated to the id passed as parameter
+   * @param id, Id of the card
+   * @return a matrix of String that represent the LeaderCard associated to the id passed as parameter
+   */
   public static String[][] constructLeaderFromId(int id) {
     String[][] leader = new String[LEADER_HEIGHT][LEADER_LENGTH];
     String[][] margin = MarginConstructor.buildMargins(4,11);
@@ -112,6 +119,12 @@ public class LeaderConstructor {
     return leader;
   }
 
+  /**
+   * Returns the LeaderCard associated to the @cardId passed as parameter
+   * @param cardId, Id of the card
+   * @return the LeaderCard associated to the @cardId passed as parameter
+   * @throws InvalidCardException if the @cardId passed as parameter doesn't exists
+   */
   public static LeaderCard getLeaderCardFromId(int cardId) throws InvalidCardException {
       return leaderCardDeck.getCardFromId(cardId);
   }

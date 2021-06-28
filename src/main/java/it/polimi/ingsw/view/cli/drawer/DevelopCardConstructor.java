@@ -7,14 +7,13 @@ import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
-import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Color;
-
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Map;
 
+/**
+ * Class that builds and fills the Cli representation of a DevelopCard
+ */
 public class DevelopCardConstructor {
   private static final int DEV_HEIGHT = 4;
   private static final int DEV_LENGTH = 11;
@@ -28,6 +27,11 @@ public class DevelopCardConstructor {
     }
   }
 
+  /**
+   * Build a Cli representation of the DevelopCard associated to the id passed as parameter
+   * @param id, Id of the card
+   * @return a matrix of String that represent the DevelopCard associated to the id passed as parameter
+   */
   public static String[][] constructDevelopFromId(int id) {
     String[][] develop = new String[DEV_HEIGHT][DEV_LENGTH];
     String[][] margin = MarginConstructor.buildMargins(4, 11);
@@ -78,6 +82,12 @@ public class DevelopCardConstructor {
     return develop;
   }
 
+  /**
+   * Returns the DevelopCard associated to the @cardId passed as parameter
+   * @param cardId, Id of the card
+   * @return the DevelopCard associated to the @cardId passed as parameter
+   * @throws InvalidCardException if the @cardId passed as parameter doesn't exists
+   */
   public static DevelopCard getDevelopCardFromId(int cardId) throws InvalidCardException {
     return developCardDeck.getCardFromId(cardId);
   }

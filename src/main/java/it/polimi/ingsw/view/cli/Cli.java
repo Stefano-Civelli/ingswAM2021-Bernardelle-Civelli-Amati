@@ -17,15 +17,16 @@ import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.ClientStrings;
 import it.polimi.ingsw.view.ViewInterface;
-
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.regex.Pattern;
 
+/**
+ * CLI client class, manages the game if the player decides to play with Command Line Interface
+ */
 public class Cli implements ViewInterface {
 
-  /* ATTRIBUTES */
   private final ClientStateViewer stateViewer;
   private final CliDrawer drawer;
   private CliTurnManager cliTurnManager;
@@ -33,17 +34,15 @@ public class Cli implements ViewInterface {
 
   private static final PrintWriter out = new PrintWriter(System.out, true);
   private static final Scanner in = new Scanner(System.in);
-  //private boolean debug = ConfigParameters.DEBUG;
-  private boolean debug = false;
   private int numOfPlayers = 0;
   private int playersJoinedTheLobby = 0;
   private int countDown = ConfigParameters.countDown;
 
-
   /**
-   * Constructor
-   *
-   * @param stateViewer where the CLI runs
+   * Constructor for Cli class
+   * @param stateViewer, instance of the interface that allows the user to query the client's side model state
+   * @param drawer, instance of the class that manage the Cli representation of the game state
+   * @param client, client on which the Cli is running
    */
   public Cli(ClientStateViewer stateViewer, CliDrawer drawer, Client client) {
     this.stateViewer = stateViewer;
@@ -51,13 +50,24 @@ public class Cli implements ViewInterface {
     this.client = client;
   }
 
-  private void showTitle() {
-    out.println("Welcome to Masters of Renaissance");
+  @Override
+  public void displayMarbleChoice() {
+    drawer.displayResourcesChoice();
   }
 
-  /**
-   * when the player joins the game that's the first thing that is displayed (with the CLI)
-   */
+  @Override
+  public void displayMarbleShopping(){
+    for(MarbleColor m : stateViewer.getSimpleGameState().getTempMarble())
+      System.out.print(m.toString() + " ");
+    System.out.println();
+    System.out.print("index of the marble to insert: ");
+  }
+
+  @Override
+  public void displayLeaderHand() {
+    drawer.displayLeaderHand(stateViewer.getUsername());
+  }
+
   @Override
   public void displayNetworkSetup() {
     int port;
@@ -90,7 +100,7 @@ public class Cli implements ViewInterface {
   @Override
   public void displayLogin() {
     String username;
-    String roomName = null;
+    String roomName;
     boolean create = false;
     out.println("Choose your username:");
     username = in.nextLine();
@@ -154,10 +164,12 @@ public class Cli implements ViewInterface {
       out.println("Waiting for " + msg.getPayload() + " more player(s) ... ");
   }
 
+  @Override
   public void displayYouJoined(){
     out.println("You have been successfully added to the lobby");
   }
 
+  @Override
   public void displayWaiting(){
     //int secondsRemaining = this.countDown;
     System.out.println("There's a player creating a lobby, retry to login in a few seconds");
@@ -177,17 +189,6 @@ public class Cli implements ViewInterface {
 //    if(secondsRemaining == 0)
       //out.println("Countdown terminated, retry to login");
       displayLogin();
-  }
-
-  public void displayMarbleChoice() {
-    drawer.displayResourcesChoice();
-  }
-
-  public void displayMarbleShopping(){
-    for(MarbleColor m : stateViewer.getSimpleGameState().getTempMarble())
-      System.out.print(m.toString() + " ");
-    System.out.println();
-    System.out.print("index of the marble to insert: ");
   }
 
   @Override
@@ -275,28 +276,23 @@ public class Cli implements ViewInterface {
   }
 
   @Override
-  public void startingSetupUpdate() {}
+  public void startingSetupUpdate() {/*does nothing*/}
 
   @Override
   public void displayChooseLeaderOnWhite() {
     System.out.println("\nYou need to use one of the 2 following leader to convert your white marble");
+    drawer.displayActiveLeaders(stateViewer.getUsername());
     System.out.println("Choose the leader index (1. or 2.)");
   }
 
   @Override
-  public void displayFinalPhase() {
-    return;
-  }
+  public void displayFinalPhase() {/*does nothing*/}
 
   @Override
-  public void displayProducingPhase() {
-    return;
-  }
+  public void displayProducingPhase() {/*does nothing*/}
 
   @Override
-  public void displayShoppingPhase() {
-    return;
-  }
+  public void displayShoppingPhase() {/*does nothing*/}
 
   @Override
   public void displayNotBuyable() {
@@ -321,19 +317,16 @@ public class Cli implements ViewInterface {
   @Override
   public void displayAlreadyProduced() {
     System.out.println(ClientStrings.ALREADY_PRODUCED);
-
   }
 
   @Override
   public void displayNotEnoughResources() {
     System.out.println(ClientStrings.NOT_ENOUGH_RESOURCES);
-
   }
 
   @Override
   public void displayInvalidCardPlacement() {
     System.out.println(ClientStrings.INVALID_CARD_PLACEMENT);
-
   }
 
   @Override
@@ -352,6 +345,10 @@ public class Cli implements ViewInterface {
   public void displayLorenzoShuffled() {
     clearScreen();
     drawer.displayLorenzoHasShuffled();
+  }
+
+  private void showTitle() {
+    out.println("Welcome to Masters of Renaissance");
   }
 
   private void waitForInput() {
@@ -561,10 +558,6 @@ public class Cli implements ViewInterface {
     client.forwardAction(new DiscardInitialLeaderAction(stateViewer.getUsername(), id1, id2));
   }
 
-  public void displayLeaderHand() {
-    drawer.displayLeaderHand(stateViewer.getUsername());
-  }
-
   private Action createMarketAction() {
     drawer.marketDisplay();
     System.out.println("Do you want to push a " + Color.ANSI_RED.escape() + "R" + Color.RESET.escape() + "ow or a "
@@ -593,7 +586,6 @@ public class Cli implements ViewInterface {
 
   private Action createProduceAction(){
     System.out.println("Choose a Card you want to activate production on. (0 for base Production)");
-//    drawer.displayProducibleCards();
     int index = validateIntInput(0, 5);
     if(index == 0) {
       String input;
@@ -630,7 +622,6 @@ public class Cli implements ViewInterface {
       return new LeaderProductionAction(id, output);
     }
   }
-
 
   private static String stringInputValidation(Scanner in, String a, String b) {
     String input;
@@ -676,24 +667,8 @@ public class Cli implements ViewInterface {
         in.nextLine();
       }
     }
-    //in.nextLine();
     return output;
   }
-
-//  private ResourceType validateInputForResources(Map<ResourceType, Integer> validResources) {
-//    String input;
-//
-//    input = in.nextLine();
-//    ResourceType resource = parsStringToResource(input.toUpperCase());
-//    while(resource == null || !validResources.containsKey(resource)) {
-//      System.out.println("Input you gave me is not valid, choose the resource to throw from the following");
-//      drawer.drawTotalResourcesChoice(client.getUsername());
-//      input = in.nextLine();
-//      resource = parsStringToResource(input.toUpperCase());
-//    }
-//
-//    return resource;
-//  }
 
   private int validateIntInput(String line, int minValue, int maxValue) {
     int output;
@@ -712,7 +687,6 @@ public class Cli implements ViewInterface {
         in.nextLine();
       }
     }
-    //in.nextLine();
     return output;
   }
 }

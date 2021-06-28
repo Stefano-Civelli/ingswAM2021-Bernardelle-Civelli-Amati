@@ -5,11 +5,14 @@ import it.polimi.ingsw.model.updatecontainers.DevelopCardDeckSetup;
 import it.polimi.ingsw.model.updatecontainers.DevelopCardDeckUpdate;
 import it.polimi.ingsw.model.updatecontainers.MarketSetup;
 import it.polimi.ingsw.model.updatecontainers.MarketUpdate;
-
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Class containing a simplified version of the game state.
+ * Contains the state of the market and the state of the DevelopCard Deck.
+ * It also contains Lorenzo's position.
+ */
 public class SimpleGameState {
 
    private final int NUMBER_OF_DECK_ROWS = 3;
@@ -20,22 +23,36 @@ public class SimpleGameState {
    private MarbleColor slide;
    private List<MarbleColor> tempMarble;
    private int lorenzoTrackPosition = 0;
-   private LorenzoState lorenzoState;
 
+   /**
+    * Constructor for SimpleGameState class
+    */
    public SimpleGameState() {
       tempMarble = new ArrayList<>();
    }
 
+   /**
+    * Setups the DevelopCard Deck
+    * @param stateSetup, setup content
+    */
    public void constructDeck(DevelopCardDeckSetup stateSetup) {
       this.developCardDeck = stateSetup.getDevDeck();
    }
 
+   /**
+    * Setups the market
+    * @param stateSetup, setup content
+    */
    public void constructMarket (MarketSetup stateSetup) {
       this.market = stateSetup.getMarbleMatrix();
       this.slide = stateSetup.getSlide();
    }
 
    //----------UPDATE-----------
+   /**
+    * Updates the DevelopCard Deck
+    * @param stateUpdate, update content
+    */
    public void updateDeck(DevelopCardDeckUpdate stateUpdate) {
       int row = stateUpdate.getRow();
       int column = stateUpdate.getColumn();
@@ -43,6 +60,10 @@ public class SimpleGameState {
       developCardDeck[row][column].remove(developCardDeck[row][column].size()-1);
    }
 
+   /**
+    * Updates the market
+    * @param stateUpdate, update content
+    */
    public void updateMarket(MarketUpdate stateUpdate) {
       boolean isRow = stateUpdate.getIsRow();
       int index = stateUpdate.getIndex();
@@ -69,6 +90,11 @@ public class SimpleGameState {
       this.slide = swap1;
    }
 
+   /**
+    * Sets into tempMarble list the marbles player got from the market
+    * @param row, true to take marbles from a row, false to take marbles from a column
+    * @param index, index of the row/column from which take the marbles
+    */
    public void setTempMarble(boolean row, int index){
       if(row)
          for(int i=0; i<market[0].length; i++)
@@ -78,10 +104,18 @@ public class SimpleGameState {
             this.tempMarble.add(market[i][index-1]);
    }
 
+   /**
+    * Discards by index the marble passed as parameter from the tempMarble list
+    * @param marbleIndex, index of the marble to discard
+    */
    public void removeTempMarble(int marbleIndex){
       this.tempMarble.remove(marbleIndex - 1);
    }
 
+   /**
+    * Updates Lorenzo's track position
+    * @param lorenzoTrackPosition, updated position of Lorenzo
+    */
    public void updateLorenzoPosition(int lorenzoTrackPosition) {
       this.lorenzoTrackPosition = lorenzoTrackPosition;
    }
@@ -89,13 +123,17 @@ public class SimpleGameState {
 
 
    //----------GETTERS----------
-   //TODO clone
    public MarbleColor[][] getMarket() {
-      return market;
+      MarbleColor[][] marketCloned = new MarbleColor[market.length][market[0].length];
+      for(int i=0; i< market.length; i++)
+         for(int j=0; j< market[0].length; j++)
+            marketCloned[i][j] = MarbleColor.getMarbleColorByColor(market[i][j].getColor());
+
+      return marketCloned;
    }
 
    public MarbleColor getSlide() {
-      return slide;
+      return MarbleColor.getMarbleColorByColor(slide.getColor());
    }
 
    public List<MarbleColor> getTempMarble() {
@@ -108,8 +146,7 @@ public class SimpleGameState {
    //----------GETTERS----------
 
    /**
-    * returns the visible cards (the ones on top of the card square)
-    *
+    * Returns visible cards (the ones on top of the card square)
     * @return a matrix of DevelopCard
     */
    public Integer[][] visibleCards() {

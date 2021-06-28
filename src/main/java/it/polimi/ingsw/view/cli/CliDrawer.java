@@ -6,8 +6,9 @@ import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.cli.drawer.*;
 
-import java.util.List;
-
+/**
+ * Class that manage the Cli representation of the game state
+ */
 public class CliDrawer {
 
   private final int PLAYERBOARD_LENGTH = 90;
@@ -15,7 +16,6 @@ public class CliDrawer {
   private final int MAX_DISPLAYABLE_LENGTH = 200;
   private final int MAX_DISPLAYABLE_HEIGHT = 20;
 
-  private final Color marginColor = Color.RESET;
   private final String[][] canvas;
   private String[][] market;
   private String[][] warehouse;
@@ -38,6 +38,10 @@ public class CliDrawer {
   private static ActivatedLeaderDrawer activatedLeaderDrawer = new ActivatedLeaderDrawer();
   private static LorenzoDrawer lorenzoDrawer = new LorenzoDrawer();
 
+  /**
+   * Constructor for CliDrawer class
+   * @param state, contains the state of the game
+   */
   public CliDrawer(ClientStateViewer state) {
     this.state = state;
     this.canvas = new String[MAX_DISPLAYABLE_HEIGHT][MAX_DISPLAYABLE_LENGTH];
@@ -47,6 +51,9 @@ public class CliDrawer {
         canvas[i][j] = " ";
   }
 
+  /**
+   * Prints a plain canvas
+   */
   public void displayPlainCanvas() {
     clearCanvas();
     placeHereOnCanvas(0, 0, canvas);
@@ -54,6 +61,12 @@ public class CliDrawer {
   }
 
   //TODO gestire il caso delle leader girate quando printeró le altre playerboard
+  /**
+   * Builds, fills and prints the default representation of the game.
+   * Default representation includes the Market, the DevelopCard Deck and the PlayerBoard of the player which as
+   * the username that is passed as parameter
+   * @param username, username of the player
+   */
   public void displayDefaultCanvas(String username) {
     clearCanvas();
     placeHereOnCanvas(0, 0, MarginConstructor.buildMargins(PLAYERBOARD_HEIGHT, PLAYERBOARD_LENGTH));
@@ -88,6 +101,9 @@ public class CliDrawer {
     displayCanvas();
   }
 
+  /**
+   * Builds, fills and prints the Market
+   */
   public void marketDisplay() {
     market = marketDrawer.build();
     marketDrawer.fill(market, state.getSimpleGameState());
@@ -99,6 +115,10 @@ public class CliDrawer {
     }
   }
 
+  /**
+   * Builds and prints the leader hand of the player with the username passed as parameter
+   * @param username, username of the player
+   */
   public void displayLeaderHand(String username) {
     String[][] leaderHand = new String[5][state.getSimplePlayerState(username).getNotActiveLeaderCards().size() * 11];
     int a = 0, b = 0, d = 5, index = 1;
@@ -127,49 +147,84 @@ public class CliDrawer {
     }
   }
 
+  /**
+   * Builds and prints the active leaders of the player with the username passed as parameter
+   * @param username, username of the player
+   */
+  public void displayActiveLeaders(String username) {
+    String[][] activated = new String[5][state.getSimplePlayerState(username).getActiveLeaderCards().size() * 11];
+    int a = 0, b = 0, d = 5, index = 1;
 
-  public void displayProducibleCards() {
-    List<Integer> producibleLeader = state.getSimplePlayerState().getProducibleLeaders();
-    List<Integer> producibleSlots = state.getSimplePlayerState().getProducibleCardSlotsId();
-    int productionLength = producibleLeader.size() + producibleLeader.size();
-    int c=0, b, p=1;
-    String[][] produce = new String[5][productionLength*11];
+    for (int i = 0; i < activated[0].length; i++)
+      activated[4][i] = " ";
 
-    for (int i = 0; i < produce.length; i++)
-      for (int j = 0; j < produce[i].length; j++)
-        produce[i][j] = " ";
+    for (Integer id : state.getSimplePlayerState(username).getActiveLeaderCards()) {
+      String[][] leader = LeaderConstructor.constructLeaderFromId(id);
+      for (int i = 0; i < leader.length; i++, a++)
+        for (int j = 0, c = b; j < leader[0].length; j++, c++)
+          activated[a][c] = leader[i][j];
 
-    for (c = 0, b=5; c < productionLength; c++, b+=11, p++)
-        produce[4][b] = Integer.toString(p);
+      activated[4][d] = Integer.toString(index);
 
-    c=0;
-
-    for(Integer id : producibleSlots) {
-      String[][] card = DevelopCardConstructor.constructDevelopFromId(id);
-      for(int r=0; r<card.length; r++) {
-        for (int col=0, e=c; col < card[r].length; e++, col++)
-          produce[r][e] = card[r][col];
-      }
-      c+=11;
+      index++;
+      d += 11;
+      a = 0;
+      b = b + 11;
     }
 
-    for(Integer id : producibleLeader) {
-      String[][] card = LeaderConstructor.constructLeaderFromId(id);
-      for(int r=0; r<card.length; r++) {
-          for (int col=0, e=c; col < card[r].length; e++, col++)
-            produce[r][e] = card[r][col];
-        }
-        c+=11;
+    for (int i = 0; i < activated.length; i++) {
+      for (int j = 0; j < activated[0].length; j++)
+        System.out.print(activated[i][j]);
+      System.out.println();
     }
-
-    if(productionLength>0)
-      for (int i = 0; i < produce.length; i++) {
-        for (int j = 0; j < produce[i].length; j++)
-          System.out.print(produce[i][j]);
-        System.out.println();
-      }
   }
 
+
+//  public void displayProducibleCards() {
+//    List<Integer> producibleLeader = state.getSimplePlayerState().getProducibleLeaders();
+//    List<Integer> producibleSlots = state.getSimplePlayerState().getProducibleCardSlotsId();
+//    int productionLength = producibleLeader.size() + producibleLeader.size();
+//    int c=0, b, p=1;
+//    String[][] produce = new String[5][productionLength*11];
+//
+//    for (int i = 0; i < produce.length; i++)
+//      for (int j = 0; j < produce[i].length; j++)
+//        produce[i][j] = " ";
+//
+//    for (c = 0, b=5; c < productionLength; c++, b+=11, p++)
+//        produce[4][b] = Integer.toString(p);
+//
+//    c=0;
+//
+//    for(Integer id : producibleSlots) {
+//      String[][] card = DevelopCardConstructor.constructDevelopFromId(id);
+//      for(int r=0; r<card.length; r++) {
+//        for (int col=0, e=c; col < card[r].length; e++, col++)
+//          produce[r][e] = card[r][col];
+//      }
+//      c+=11;
+//    }
+//
+//    for(Integer id : producibleLeader) {
+//      String[][] card = LeaderConstructor.constructLeaderFromId(id);
+//      for(int r=0; r<card.length; r++) {
+//          for (int col=0, e=c; col < card[r].length; e++, col++)
+//            produce[r][e] = card[r][col];
+//        }
+//        c+=11;
+//    }
+//
+//    if(productionLength>0)
+//      for (int i = 0; i < produce.length; i++) {
+//        for (int j = 0; j < produce[i].length; j++)
+//          System.out.print(produce[i][j]);
+//        System.out.println();
+//      }
+//  }
+
+  /**
+   * Prints the four marbles associated to resources
+   */
   public void displayResourcesChoice() {
     String[][] marbles = new String[2][8];
 
@@ -196,6 +251,9 @@ public class CliDrawer {
     }
   }
 
+  /**
+   * Builds, fills and prints Lorenzo track and last token flipped
+   */
   public void displayLorenzoHasMoved() {
     clearLorenzo();
     String[][] token = lastTokenMoved();
@@ -212,6 +270,9 @@ public class CliDrawer {
     }
   }
 
+  /**
+   * Builds, fills and prints Lorenzo track and last token flipped
+   */
   public void displayLorenzoHasShuffled() {
     clearLorenzo();
     String[][] token = lastTokenShuffle();
@@ -228,6 +289,10 @@ public class CliDrawer {
     }
   }
 
+  /**
+   * Builds, fills and prints Lorenzo track and last token flipped
+   * @param discardUpdate, update of the develop card Lorenzo has discarded
+   */
   public void displayLorenzoHasDiscarded(DevelopCardDeckUpdate discardUpdate) {
     clearLorenzo();
 
@@ -278,6 +343,9 @@ public class CliDrawer {
 //        System.out.println(resources[i][j]);
 //  }
 
+  /**
+   * Builds, fills and prints the DevelopCard Deck
+   */
   public void drawDevelopCardDeck() {
     String[][] deckWithIndexes = new String[13][46];
     deck = deckDrawer.build();

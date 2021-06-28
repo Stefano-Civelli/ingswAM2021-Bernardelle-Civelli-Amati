@@ -1,7 +1,9 @@
 package it.polimi.ingsw.view.cli;
 
+/**
+ * Enumeration of the colors used in Cli
+ */
 public enum Color {
-
   ANSI_GREY("\u001B[37m"),
   ANSI_RED("\u001B[31m"),
   ANSI_GREEN("\u001B[32m"),
@@ -17,6 +19,10 @@ public enum Color {
     this.escape = escape;
   }
 
+  /**
+   * Returns the String associated to the enumeration value
+   * @return the String associated to the enumeration value
+   */
   public String escape() {
     return escape;
   }

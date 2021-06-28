@@ -5,6 +5,9 @@ import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 
+/**
+ * Class that builds and fills the Cli representation of the Market
+ */
 public class MarketDrawer implements Fillable, Buildable{
   private static final int MARKET_LENGTH = 13;
   private static final int MARKET_HEIGHT = 9;
@@ -67,5 +70,5 @@ public class MarketDrawer implements Fillable, Buildable{
   }
 
   @Override
-  public void fill(String[][] fillMe, SimplePlayerState playerState) {}
+  public void fill(String[][] fillMe, SimplePlayerState playerState) {/*does nothing*/}
 }

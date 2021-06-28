@@ -5,6 +5,10 @@ import it.polimi.ingsw.view.SimplePlayerState;
 
 import java.util.List;
 
+/**
+ * Class that builds and fills the Cli representation of the LeaderCards that has not been activated,
+ * the cards that the player has in is hand
+ */
 public class LeaderHandDrawer implements Buildable, Fillable{
   private static final int MAX_LEADER_LENGTH = 44;
   private static final int MAX_LEADER_HEIGHT = 4;
@@ -36,5 +40,5 @@ public class LeaderHandDrawer implements Buildable, Fillable{
   }
 
   @Override
-  public void fill(String[][] fillMe, SimpleGameState gameState) {}
+  public void fill(String[][] fillMe, SimpleGameState gameState) {/*does nothing*/}
 }

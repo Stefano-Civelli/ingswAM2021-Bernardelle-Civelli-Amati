@@ -1,5 +1,8 @@
 package it.polimi.ingsw.view;
 
+/**
+ * Class containing the possible error outputs
+ */
 public class ClientStrings {
    public static String NOT_BUYABLE = "You can't buy this card";
    public static String INVALID_LEADERCARD = "";

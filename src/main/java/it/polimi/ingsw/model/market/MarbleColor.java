@@ -8,7 +8,7 @@ import it.polimi.ingsw.view.cli.Color;
  */
 public enum MarbleColor {
 
-    GREY ( Color.ANSI_GREY.escape(), ConfigParameters.marbleCharacter + Color.RESET.escape(), javafx.scene.paint.Color.GREY),
+    GREY (Color.ANSI_GREY.escape(), ConfigParameters.marbleCharacter + Color.RESET.escape(), javafx.scene.paint.Color.GREY),
     YELLOW (Color.ANSI_YELLOW.escape(), ConfigParameters.marbleCharacter + Color.RESET.escape(), javafx.scene.paint.Color.YELLOW),
     BLUE (Color.ANSI_BLUE.escape(), ConfigParameters.marbleCharacter + Color.RESET.escape(), javafx.scene.paint.Color.BLUE),
     PURPLE (Color.ANSI_PURPLE.escape(), ConfigParameters.marbleCharacter + Color.RESET.escape(), javafx.scene.paint.Color.PURPLE),
@@ -38,4 +38,17 @@ public enum MarbleColor {
         return this.color + this.escape;
     }
 
+    /**
+     * Returns the MarbleColor value associated to the String color passed as parameter
+     * @param color, String that represent the color of the marble
+     * @return the MarbleColor value associated to the String color passed as parameter
+     */
+    public static MarbleColor getMarbleColorByColor(String color){
+        for (MarbleColor marbleColor : values()) {
+            if (marbleColor.getColor().equals(color)) {
+                return marbleColor;
+            }
+        }
+        throw new IllegalArgumentException("invalid string value passed: " + color);
+    }
 }
