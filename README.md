@@ -1,4 +1,5 @@
 # MAESTRI DEL RINASCIMENTO - Progetto IngSW - 2021
+<img src="https://user-images.githubusercontent.com/63519918/123807789-73b62680-d8f0-11eb-94cf-faca0ef8a6a3.PNG" width=200px height=115 px align="right" />
 
 ## Project Description
 The project consists of a Java version of the board game [Maestri del Rinascimento](https://www.craniocreations.it/prodotto/masters-of-renaissance/) by CranioCreations.
