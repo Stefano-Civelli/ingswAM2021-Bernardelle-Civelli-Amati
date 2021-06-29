@@ -23,7 +23,7 @@ public class GUIStarter extends Application {
      * instantiates: a client to receives messages from the server, a gui to receive update from the client and a scene controller to load and manages gui windows
      */
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         Client client = new Client();
         GUI gui = new GUI(client);
         client.setView(gui);

@@ -25,6 +25,7 @@ public class SceneController {
     private NumberOfPlayersController numberOfPlayersController = null;
     private GameboardController gameboardController = null;
     private EndGameController endGameController = null;
+    private FatalErrorController fatalErrorController = null;
 
     public SceneController(Client client) {
         this.client = client;
@@ -34,6 +35,8 @@ public class SceneController {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SceneController.class.getClassLoader().getResource(fxml));
+            if(loader.getLocation() == null)
+                throw new IOException();
             Parent root = loader.load();
             GUIController controller = loader.getController();
             if(controller != null) {
@@ -42,17 +45,20 @@ public class SceneController {
             this.activeStage.setScene(new Scene(root));
             return loader;
         } catch (IOException e) {
-            //TODO gestire
             e.printStackTrace();
+            this.client.getView().displayFatalError("Fatal Error: loading fxml file failed");
         }
         return null;
     }
 
     private FXMLLoader changeStage(String fxml, Client client) {
-        this.activeStage.hide();
+        if(this.activeStage != null)
+            this.activeStage.hide();
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SceneController.class.getClassLoader().getResource(fxml));
+            if(loader.getLocation() == null)
+                throw new IOException();
             Parent root = loader.load();
             GUIController controller = loader.getController();
             if(controller != null)
@@ -66,8 +72,8 @@ public class SceneController {
             stage.show();
             return loader;
         } catch (IOException e) {
-            //TODO gestire
             e.printStackTrace();
+            this.client.getView().displayFatalError("Fatal Error: loading fxml file failed");
         }
         return null;
     }
@@ -75,19 +81,26 @@ public class SceneController {
     /**
      * Initialize the first stage and ask the user for server connection
      */
-    public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource(GuiResources.connectionFXML));
-        Parent root = loader.load();
-        this.connectionController = loader.getController();
-        this.connectionController.setClient(client);
-        this.activeStage = stage;
-        this.activeStage.getIcons().add(GuiResources.logo);
-        this.activeStage.setTitle("Masters of Renaissance");
-        this.activeStage.setResizable(false);
-        this.activeStage.setScene(new Scene(root));
-        this.activeStage.setResizable(false);
-        this.activeStage.show();
+    public void start(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource(GuiResources.connectionFXML));
+            if(loader.getLocation() == null)
+                throw new IOException();
+            Parent root = loader.load();
+            this.connectionController = loader.getController();
+            this.connectionController.setClient(client);
+            this.activeStage = stage;
+            this.activeStage.getIcons().add(GuiResources.logo);
+            this.activeStage.setTitle("Masters of Renaissance");
+            this.activeStage.setResizable(false);
+            this.activeStage.setScene(new Scene(root));
+            this.activeStage.setResizable(false);
+            this.activeStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            this.client.getView().displayFatalError("Fatal Error: loading fxml file failed");
+        }
     }
 
     /**
@@ -152,6 +165,7 @@ public class SceneController {
             this.numberOfPlayersController = null;
             this.gameboardController = null;
             this.endGameController = null;
+            this.fatalErrorController = null;
     }
 
     public ConnectionController getConnectionController() {
@@ -174,4 +188,9 @@ public class SceneController {
         return endGameController;
     }
 
+    public void fatalError(String error) {
+        this.clearController();
+        this.fatalErrorController = this.changeStage(GuiResources.fatalErrorFXML, this.client).getController();
+        this.fatalErrorController.setErrorDescription(error);
+    }
 }

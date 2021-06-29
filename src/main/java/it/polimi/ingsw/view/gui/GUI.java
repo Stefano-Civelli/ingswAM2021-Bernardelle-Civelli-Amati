@@ -169,7 +169,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayPlayerTurn(String player) { //FIXME viene chiamata dopo game ended
+   public void displayPlayerTurn(String player) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
@@ -328,6 +328,11 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
          if(loginController != null)
             loginController.gameCannotJoin();
       });
+   }
+
+   @Override
+   public void displayFatalError(String errorMessage) {
+      this.sceneController.fatalError(errorMessage);
    }
 
    @Override

@@ -27,6 +27,7 @@ public final class GuiResources {
    public final static String playerboardFXML = "fxml/playerboard.fxml";
    public final static String endGameWinFXML = "fxml/endGameWin.fxml";
    public final static String endGameLoseFXML = "fxml/endGameLose.fxml";
+   public final static String fatalErrorFXML = "fxml/fatalError.fxml";
 
    //NOTE: card images are contained in the JSON files
 

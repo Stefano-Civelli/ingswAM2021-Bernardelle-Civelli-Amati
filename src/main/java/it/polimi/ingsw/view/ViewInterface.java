@@ -73,7 +73,6 @@ public interface ViewInterface extends LorenzoViewInterface {
    */
   void displayPlayersNumberChoice();
 
-  //non serve piu
   void displayWaiting();
 
   /**
@@ -189,4 +188,10 @@ public interface ViewInterface extends LorenzoViewInterface {
    * i.e. the match doesn't exist, the match is full or the match is already started
    */
   void displayCannotJoinMatch();
+
+  /**
+   * Display a fatal error and ask the player to close the game
+   */
+  void displayFatalError(String errorMessage);
+
 }

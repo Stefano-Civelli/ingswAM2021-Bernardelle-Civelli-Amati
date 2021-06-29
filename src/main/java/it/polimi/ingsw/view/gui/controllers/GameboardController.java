@@ -225,9 +225,11 @@ public class GameboardController extends GUIController {
      */
     public void setUsername(String username) {
         try {
+            Parent root = null;
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SceneController.class.getClassLoader().getResource(GuiResources.playerboardFXML));
-            Parent root = null;
+            if(loader.getLocation() == null)
+                throw new IOException();
             root = loader.load();
             PlayerboardController newPlayerboardController = loader.getController();
             newPlayerboardController.setUsername(username);
@@ -238,6 +240,7 @@ public class GameboardController extends GUIController {
             playerboardList.add(root);
         } catch (IOException e) {
             e.printStackTrace(); //TODO gestire
+            this.client.getView().displayFatalError("Fatal Error: loading fxml file failed");
         }
     }
 
@@ -261,6 +264,8 @@ public class GameboardController extends GUIController {
                     PlayerboardController newPlayerboardController;
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(SceneController.class.getClassLoader().getResource(GuiResources.playerboardFXML));
+                    if(loader.getLocation() == null)
+                        throw new IOException();
                     Parent root1 = loader.load();
                     newPlayerboardController = loader.getController();
                     newPlayerboardController.setUsername(s);
@@ -272,6 +277,7 @@ public class GameboardController extends GUIController {
             }
         }catch (IOException e) {
             e.printStackTrace(); //TODO gestire
+            this.client.getView().displayFatalError("Fatal Error: loading fxml file failed");
         }
     }
 

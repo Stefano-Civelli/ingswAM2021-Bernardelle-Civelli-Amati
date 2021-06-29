@@ -338,6 +338,11 @@ public class Cli implements ViewInterface {
   }
 
   @Override
+  public void displayFatalError(String errorMessage) {
+    // TODO
+  }
+
+  @Override
   public void displayLorenzoDiscarded(DevelopCardDeckUpdate state) {
     clearScreen();
     drawer.displayLorenzoHasDiscarded(state);
