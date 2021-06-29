@@ -71,7 +71,7 @@ public class SinglePlayer extends Game {
       // This statement is first due to throws the exception if the username is wrong
       String player = super.nextConnectedPlayer(currentPlayer);
 
-      if(super.isGameStarted()) {
+      if(super.isGameStarted() && !endGame){
          ActionToken token = this.actionTokenStack.remove();
          token.useToken(this.actionTokenStack, this.lorenzoTrack, super.developCardDeck);
          this.actionTokenStack.addLast(token);
