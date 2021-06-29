@@ -167,7 +167,6 @@ public class PlayerboardController extends GUIController {
             this.leader0_ImageView.setVisible(true);
             leaderImageIdMap.put(this.leader0_ImageView, ledersID.get(0));
 
-
             // SECOND IMAGE
             url = "images/front/" + LeaderConstructor.getLeaderCardFromId(ledersID.get(1)).getImage();
             this.leader1_ImageView.setImage(new Image(url));
@@ -701,21 +700,17 @@ public class PlayerboardController extends GUIController {
         int leaderId = stateUpdate.getCardId();
         if(!this.isPlayer) {
             // this isn't this client player
-            ImageView image = null;
-            if(this.leader0_ImageView.isVisible()) {
-                if (!this.leader1_ImageView.isVisible())
-                    image = leader1_ImageView;
-            } else {
-                image = leader0_ImageView;
-            }
-            this.leaderImageIdMap.put(image, leaderId);
+            String url = null;
             try {
-                String url = "images/front/" + LeaderConstructor.getLeaderCardFromId(leaderId).getImage();
-                image.setImage(new Image(url));
-                image.setVisible(true);
+                url = "images/front/" + LeaderConstructor.getLeaderCardFromId(leaderId).getImage();
             } catch (InvalidCardException e) {
                 e.printStackTrace();
             }
+            ImageView newCard = new ImageView(new Image(url));
+            newCard.setFitHeight(GuiResources.cardHeight);
+            newCard.setFitWidth(GuiResources.cardWidth);
+            this.leaderCardVbox.getChildren().add(newCard);
+            //this.leaderImageIdMap.put(newCard, leaderId); //FIXME mi sa che non va messa sta istruzione
         } else {
             for (Map.Entry<ImageView, Integer> p : leaderImageIdMap.entrySet()) {
                 if (p.getValue() == leaderId) {
@@ -772,6 +767,10 @@ public class PlayerboardController extends GUIController {
         image.setFitHeight(GuiResources.trackCrossHeight);
 
         positionTrackMarker(this.lorenzoTrackGrid, image, position);
+    }
+
+    public void clearLeaderVbox(){
+        this.leaderCardVbox.getChildren().clear();
     }
 
     // Cosmetics ----------------------------------------------------------------

@@ -91,7 +91,6 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
     * @throws InvalidUsernameException if the specified player doesn't exist
     */
    public String nextConnectedPlayer(String currentPlayer) throws InvalidUsernameException {
-      System.out.println("Game");
       if(endGame && currentPlayer.equals(playerBoards.get(playerBoards.size()-1).getKey().getUsername())) {
          handleEndGame();
          return null;

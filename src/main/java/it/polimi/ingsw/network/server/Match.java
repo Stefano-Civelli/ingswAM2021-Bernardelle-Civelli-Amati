@@ -126,6 +126,7 @@ public class Match {
 
 
    private void succesfulLogin(String username, ServerClientHandler clientHandler) {
+      addClient(clientHandler);
       clientHandler.setUsername(username);
       clientHandler.setLogged(true);
       usernameToClientHandler.put(username, clientHandler);

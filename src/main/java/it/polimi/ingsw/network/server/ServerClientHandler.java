@@ -114,7 +114,6 @@ public class ServerClientHandler implements Runnable {
                sendMessage(new Message(MessageType.ERROR, ErrorType.MATCH_ALREADY_EXISTS));
             else {
                this.match = server.createNewMatch(message.getPayloadByType(String.class));
-               this.match.addClient(this);
                this.match.handleLogin(message, this);
             }
             break;
@@ -122,14 +121,8 @@ public class ServerClientHandler implements Runnable {
          case JOIN_MATCH:
             if(logged)
                return;
-            if(server.matchIdPresent(message.getPayloadByType(String.class)) && this.match == null) {
-               this.match = server.assignToMatch(message.getPayloadByType(String.class));
-               if(this.match != null) {
-                  this.match.addClient(this);
-                  this.match.handleLogin(message, this);
-               }
-               else
-                  sendMessage(new Message(MessageType.WAIT_FOR_LOBBY_CREATION, "A player is creating the lobby, try again in a few seconds"));
+            if(server.matchIdPresent(message.getPayloadByType(String.class))) {
+               this.match = server.assignToMatch(message.getPayloadByType(String.class), message,this);
             }
             else
                sendMessage(new Message(MessageType.ERROR, ErrorType.CANNOT_JOIN_MATCH));

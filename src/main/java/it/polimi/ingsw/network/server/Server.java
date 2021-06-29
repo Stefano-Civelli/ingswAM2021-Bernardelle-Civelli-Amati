@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.utility.ConfigParameters;
 
 
@@ -33,14 +35,21 @@ public class Server {
    }
 
    /**
-    *  //FIXME sto metodo fa un po schifo e ha un parametro inutile
+    *
     * @param matchId
+    * @param message
+    * @param serverClientHandler
     * @return
     */
-   public synchronized Match assignToMatch(String matchId){
+   public synchronized Match assignToMatch(String matchId, Message message,ServerClientHandler serverClientHandler){
       Match match = matchMap.get(matchId);
-      if(match.getPlayersNumber() == 0)
+      if(match.getPlayersNumber() != 0) {
+         match.handleLogin(message, serverClientHandler);
+      }
+      else {
+         serverClientHandler.sendMessage(new Message(MessageType.WAIT_FOR_LOBBY_CREATION, "A player is creating the lobby, try again in a few seconds"));
          return null;
+      }
       return match;
    }
 
