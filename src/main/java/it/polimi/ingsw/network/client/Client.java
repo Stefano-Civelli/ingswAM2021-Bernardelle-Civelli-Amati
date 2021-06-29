@@ -39,6 +39,7 @@ public class Client implements PhaseChangedObserver {
   private ClientModelUpdaterInterface state;
   private ClientTurnManagerInterface clientTurnManager;
 
+  private boolean isLocal = false;
 
   public static void main(String[] args) {
     boolean isCli = false;
@@ -73,6 +74,7 @@ public class Client implements PhaseChangedObserver {
       Scanner in = new Scanner(System.in);
       String local = in.nextLine().toLowerCase();
       if("y".equals(local)) {
+        client.setLocal();
         client.view.displayLogin();
         client.view.displayGameStarted();
         client.localGameSetup();
@@ -86,6 +88,14 @@ public class Client implements PhaseChangedObserver {
     else {
       Application.launch(GUIStarter.class);
     }
+  }
+
+  public void setLocal() {
+    this.isLocal = true;
+  }
+
+  public boolean isLocal() {
+    return this.isLocal;
   }
 
   public void setView(ViewInterface view) {

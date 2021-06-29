@@ -34,7 +34,7 @@ public class LoginController extends GUIController {
      * Check if the game is local and in case set invisible the correct components
      */
     public void checkLocal() {
-        if(((GUI) super.client.getView()).isLocal()) {
+        if(super.client.isLocal()) {
             this.gameId_label.setVisible(false);
             this.join_radioButton.setVisible(false);
             this.create_radioButton.setVisible(false);
@@ -44,7 +44,7 @@ public class LoginController extends GUIController {
 
     @FXML
     private void login(ActionEvent actionEvent) {
-        if(((GUI) super.client.getView()).isLocal()) {
+        if(super.client.isLocal()) {
             super.client.setUsername(this.username_textField.getText());
             super.client.getView().displayLoginSuccessful(this.username_textField.getText());
             super.client.getView().startingSetupUpdate();

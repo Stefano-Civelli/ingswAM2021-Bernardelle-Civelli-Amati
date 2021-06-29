@@ -21,18 +21,9 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    private GuiTurnManager turnManager;
    private final SceneController sceneController;
    private String username;
-   private boolean local = false;
 
    public GUI(Client client) {
       this.sceneController = new SceneController(client);
-   }
-
-   public void local() {
-      this.local = true;
-   }
-
-   public boolean isLocal() {
-      return this.local;
    }
 
    public SceneController getSceneController() {
@@ -480,7 +471,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          PlayerboardController controller = this.sceneController.getGameboardController().getPlayerBoardController(username);
-         controller.chestMergeUpdate();
+         if(controller != null)
+            controller.chestMergeUpdate();
       });
    }
 

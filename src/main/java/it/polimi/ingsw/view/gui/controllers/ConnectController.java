@@ -65,7 +65,7 @@ public class ConnectController extends GUIController {
     @FXML
     private void login(ActionEvent actionEvent) {
         if(this.local_checkBox.isSelected()) {
-            ((GUI) super.client.getView()).local(); // FIXME
+            super.client.setLocal();
             super.client.getView().displayLogin();
         } else {
             if (!this.serverPort_textField.getText().equals("")
