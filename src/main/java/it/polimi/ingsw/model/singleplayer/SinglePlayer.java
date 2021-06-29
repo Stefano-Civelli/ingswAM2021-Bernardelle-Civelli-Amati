@@ -71,11 +71,11 @@ public class SinglePlayer extends Game {
       System.out.println("ciao");
       // This statement is first due to throws the exception if the username is wrong
       String player = super.nextConnectedPlayer(currentPlayer);
-      if(endGame){
-         int score = calculateScore();
-         handleEndGame(currentPlayer, score);
-         return null;
-      }
+//      if(endGame) {
+//         int score = calculateScore();
+//         handleEndGame(currentPlayer, score);
+//         return null;
+//      }
       if(super.isGameStarted()) {
          ActionToken token = this.actionTokenStack.remove();
          token.useToken(this.actionTokenStack, this.lorenzoTrack, super.developCardDeck);
