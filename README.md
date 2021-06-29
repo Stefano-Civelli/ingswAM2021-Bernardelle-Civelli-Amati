@@ -19,7 +19,7 @@ This repository includes:
 | CLI | [![GREEN](http://placehold.it/15/44bb44/44bb44)](#) |
 | GUI | [![GREEN](http://placehold.it/15/44bb44/44bb44)](#) |
 | Local Game | [![GREEN](http://placehold.it/15/44bb44/44bb44)](#)|
-| Multiple Games | [![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#)|
+| Multiple Games | [![GREEN](http://placehold.it/15/44bb44/44bb44)](#)|
 | Disconnection Resilience | [![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#)|
 
 
