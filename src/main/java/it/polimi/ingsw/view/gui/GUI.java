@@ -479,6 +479,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void chestMergeUpdate(String username) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
+         //FIXME per Alex: QUA CI AVEVO MESSO INSTANCE OF PERCHé IL CONTROLLER GIUSTO E' EndGameController
+         //in realtà secondo me basta fare che quando c'è endgamecontroller sto metodo non fa niente
          PlayerboardController controller = ((GameboardController) this.sceneController.getCurrentController()).getPlayerBoardController(username);
          controller.chestMergeUpdate();
       });

@@ -264,6 +264,7 @@ public class GameboardController extends GUIController {
                     Parent root1 = loader.load();
                     newPlayerboardController = loader.getController();
                     newPlayerboardController.setUsername(s);
+                    newPlayerboardController.clearLeaderVbox();
                     this.playerboardControllers.add(newPlayerboardController); //the array is ordered to give the right amount of resouces to each player
                     newPlayerboardController.disableAll();
                     playerboardList.add(root1);
@@ -272,9 +273,9 @@ public class GameboardController extends GUIController {
         }catch (IOException e) {
             e.printStackTrace(); //TODO gestire
         }
-
-
     }
+
+
 
     /**
      * Set the last token and the black cross visible
