@@ -10,6 +10,13 @@ public abstract class GUIController {
 
     protected Client client = null;
 
+    /**
+     * Set the client of this controller.
+     * The client will be set only once.
+     *
+     * @param client the client to set
+     * @return the client of this controller, can be the player just set or another if it was already set.
+     */
     public Client setClient(Client client) {
         if(this.client == null)
             this.client = client;

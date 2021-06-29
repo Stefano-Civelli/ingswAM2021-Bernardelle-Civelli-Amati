@@ -10,7 +10,6 @@ import it.polimi.ingsw.model.modelexceptions.*;
  */
 public abstract class Action {
 
-
     @SuppressWarnings({"unused", "FieldCanBeLocal"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
     private final ActionType type;
     private String username = null;
@@ -28,7 +27,7 @@ public abstract class Action {
 
     /**
      * Set the player for which this action must be performed.
-     * The player will be set only the first time.
+     * The player will be set only once.
      *
      * @param username the player to set
      * @return the player that owns this action, can be the player just set or another if it was already set.

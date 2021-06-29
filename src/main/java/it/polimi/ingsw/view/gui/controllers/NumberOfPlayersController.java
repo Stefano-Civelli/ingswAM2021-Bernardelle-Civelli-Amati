@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 /**
  * Java controller of the numberOfPlayer.fxml file
  */
-public class numberOfPlayersController extends GUIController {
+public class NumberOfPlayersController extends GUIController {
 
     @FXML
     private Button createGame_button;
