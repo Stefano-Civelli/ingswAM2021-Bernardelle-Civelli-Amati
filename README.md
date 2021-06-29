@@ -49,6 +49,7 @@ This repository includes:
 ## Project Documentation
 | **[Installation][installation-link]**     | **[Compiling][compiling-link]**     |    **[Running][running-link]**       | **[Javadocs][javadocs]** | **[Communication Protocol][communicationProtocol-link]**
 |-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|
+| [<p align="center"> <img src="https://user-images.githubusercontent.com/62955439/123874078-d7b00d80-d937-11eb-921b-e6c2873731a0.png" width="80px"> </p>][installation-link] | [<p align="center"> <img src="https://user-images.githubusercontent.com/62955439/123873521-e0ecaa80-d936-11eb-8769-d3ca38c0f745.png" width="90px"> </p>][compiling-link] | [<p align="center"> <img src="https://user-images.githubusercontent.com/62955439/123870984-63736b00-d933-11eb-92ed-ad35f055eaa7.png" width="60px"> </p>][running-link] | [![i3][javadocs-image]][javadocs] | [![i5][communicationProtocol-image]][communicationProtocol-link]
 
 
 ## API Reference
@@ -96,3 +97,5 @@ Here is an example of how to create a message countaining a specific action:
 [compiling-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Compiling
 [running-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Running
 [javadocs]:
+
+
