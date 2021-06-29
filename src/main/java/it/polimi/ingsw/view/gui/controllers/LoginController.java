@@ -43,11 +43,21 @@ public class LoginController extends GUIController {
 
     @FXML
     private void login(ActionEvent actionEvent) {
+        if(!isAlphanumeric(this.username_textField.getText())) {
+            this.error_label.setText("ERROR: all fields must be alphanumeric");
+            this.error_label.setVisible(true);
+            return;
+        }
         if(super.client.isLocal()) {
             super.client.setUsername(this.username_textField.getText());
             super.client.getView().displayLoginSuccessful(this.username_textField.getText());
             super.client.getView().startingSetupUpdate();
             super.client.localGameSetup();
+        }
+        if(!isAlphanumeric(this.gameID_textField.getText())) {
+            this.error_label.setText("ERROR: all fields must be alphanumeric");
+            this.error_label.setVisible(true);
+            return;
         }
         this.login_button.setDisable(true);
         super.client.setUsername(this.username_textField.getText());
@@ -90,6 +100,10 @@ public class LoginController extends GUIController {
         this.error_label.setText("Wait a moment: your mate is creating this game");
         this.error_label.setVisible(true);
         this.login_button.setDisable(false);
+    }
+
+    private boolean isAlphanumeric(String string) {
+        return string.matches("[a-zA-Z0-9]+");
     }
 
 }

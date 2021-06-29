@@ -68,17 +68,16 @@ public class ConnectionController extends GUIController {
             super.client.setLocal();
             super.client.getView().displayLogin();
         } else {
-            if (!this.serverPort_textField.getText().equals("")
-                    && !this.serverIP_textField.getText().equals("")) {
+            if (validPort(this.serverPort_textField.getText())
+                    && validIP(this.serverIP_textField.getText())) {
                 this.connect_button.setDisable(true);
                 this.error_label.setVisible(false);
-                this.error_label.setText("ERROR");
                 boolean connected = this.client.connectToServer(this.serverIP_textField.getText(), Integer.parseInt(this.serverPort_textField.getText()));
                 if(connected)
                     this.client.getView().displayLogin();
             } else {
+                this.error_label.setText("ERROR");
                 this.error_label.setVisible(true);
-                this.error_label.setText("ERROR: all fields are required");
             }
         }
     }
@@ -107,6 +106,45 @@ public class ConnectionController extends GUIController {
         this.error_label.setVisible(true);
         this.error_label.setText("ERROR: " + error);
         this.connect_button.setDisable(false);
+    }
+
+    private boolean validIP (String ip) {
+        try {
+            if ( ip == null || ip.isEmpty() ) {
+                return false;
+            }
+
+            String[] parts = ip.split( "\\." );
+            if ( parts.length != 4 ) {
+                return false;
+            }
+
+            for ( String s : parts ) {
+                int i = Integer.parseInt( s );
+                if ( (i < 0) || (i > 255) ) {
+                    return false;
+                }
+            }
+            if ( ip.endsWith(".") ) {
+                return false;
+            }
+
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validPort(String port) {
+        try{
+            int portInt = Integer.parseInt(port);
+            if(portInt < 0 || portInt > 65535)
+                return false;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 
 }
