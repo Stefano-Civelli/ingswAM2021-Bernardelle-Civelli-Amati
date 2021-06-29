@@ -47,7 +47,7 @@ This repository includes:
 
 
 ## Project Documentation
-| **[Installation][installation-link]**     | **[Compiling][compiling-link]**     |    **[Running][running-link]**       | **[Javadocs][javadocs]** | **[Communication Protocol][communicationProtocol-link]**
+| **[Installation][installation-link]**     | **[Compiling][compiling-link]**     |    **[Running][running-link]**       | **[Javadocs][javadocs]** | **[Communication<br>Protocol][communicationProtocol-link]**
 |-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|
 | [<p align="center"> <img src="https://user-images.githubusercontent.com/62955439/123874078-d7b00d80-d937-11eb-921b-e6c2873731a0.png" width="80px"> </p>][installation-link] | [<p align="center"> <img src="https://user-images.githubusercontent.com/62955439/123873521-e0ecaa80-d936-11eb-8769-d3ca38c0f745.png" width="90px"> </p>][compiling-link] | [<p align="center"> <img src="https://user-images.githubusercontent.com/62955439/123870984-63736b00-d933-11eb-92ed-ad35f055eaa7.png" width="60px"> </p>][running-link] | [<p align="center"> <img src="https://user-images.githubusercontent.com/62955439/123876084-0d0a2a80-d93b-11eb-81a3-d3fd39ef1bf6.png" width="90px"> </p>][javadocs] | [<p align="center"> <img src="https://user-images.githubusercontent.com/62955439/123874920-227e5500-d939-11eb-9ecb-abcfb76a7625.png" width="80px"> </p>][communicationProtocol-link]
 
