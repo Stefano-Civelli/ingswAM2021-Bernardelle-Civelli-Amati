@@ -32,9 +32,15 @@ This repository includes:
 
 **Coverage criteria: code lines.**
 
-| Package |Tested Class | Coverage |
-|:-----------------------|:------------------|:------------------------------------:|
-|  |  | 
+| Package | Coverage |
+|:-----------------------|:------------------:|
+| model | 80% |
+| model: leadercard | 80% | 
+| model: market | 87% | 
+| model: singleplayer | 72% | 
+| model: track | 92% | 
+| controller | 56% | 
+
 
 
 
