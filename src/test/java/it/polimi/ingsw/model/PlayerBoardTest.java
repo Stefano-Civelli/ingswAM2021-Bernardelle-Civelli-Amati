@@ -98,7 +98,6 @@ class PlayerBoardTest {
   void calculateTotalScoreOnlyAddingRemainingResourcesTest() throws IOException, NegativeQuantityException,
           AbuseOfFaithException, NotEnoughSpaceException {
     PlayerBoard playerBoard = initializer();
-    int sum = 1; //viene considerato anche il punto 1 del track non mosso
     Chest chest = playerBoard.getChest();
     Warehouse warehouse = playerBoard.getWarehouse();
 
@@ -134,7 +133,6 @@ class PlayerBoardTest {
   void calculateTotalScoreAlsoRemovingRemainingResourcesTest() throws IOException, NegativeQuantityException,
           AbuseOfFaithException, NotEnoughSpaceException, NotEnoughResourcesException {
     PlayerBoard playerBoard = initializer();
-    int sum = 1; //viene considerato anche il punto 1 del track non mosso
     Chest chest = playerBoard.getChest();
     Warehouse warehouse = playerBoard.getWarehouse();
 
@@ -200,7 +198,7 @@ class PlayerBoardTest {
   }
 
   @Test
-  void baseProductionTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException, NegativeQuantityException,
+  void baseProductionTest() throws IOException, NotEnoughSpaceException, AbuseOfFaithException,
           NotEnoughResourcesException, AlreadyProducedException, NeedAResourceToAddException {
     PlayerBoard playerBoard = initializer();
     Chest chest = playerBoard.getChest();
@@ -306,7 +304,8 @@ class PlayerBoardTest {
   }
 
   @Test
-  void discardLeaderDuringTheGameTest() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException, LeaderIsActiveException {
+  void discardLeaderDuringTheGameTest() throws IOException, InvalidLeaderCardException,
+          NotEnoughResourcesException, LeaderIsActiveException {
     PlayerBoard playerBoard = initializer();
     List<LeaderCard> support = new ArrayList<>(playerBoard.getLeaderCards());
 
@@ -320,7 +319,7 @@ class PlayerBoardTest {
 
 
   @Test
-  void finalTurnPhaseTest() throws IOException, RowOrColumnNotExistsException, InvalidLeaderCardException, NotEnoughSpaceException {
+  void finalTurnPhaseTest() throws IOException, RowOrColumnNotExistsException {
     PlayerBoard playerBoard = initializer();
     playerBoard.shopMarketColumn(1);
     playerBoard.enterFinalTurnPhase();
@@ -329,7 +328,9 @@ class PlayerBoardTest {
 
 
   @Test
-  void developProduceTest() throws IOException, AbuseOfFaithException, NegativeQuantityException, InvalidDevelopCardException, InvalidCardSlotException, NotBuyableException, NotActivatableException, AlreadyProducedException {
+  void developProduceTest() throws IOException, AbuseOfFaithException, NegativeQuantityException,
+          InvalidDevelopCardException, InvalidCardSlotException, NotBuyableException, NotActivatableException,
+          AlreadyProducedException {
     PlayerBoard playerBoard = initializer();
     playerBoard.getChest().addResources(ResourceType.GOLD,50);
     playerBoard.getChest().addResources(ResourceType.STONE,50);
@@ -349,24 +350,47 @@ class PlayerBoardTest {
 
     //try to produce again on the same card throws exception
     assertThrows(AlreadyProducedException.class, () -> playerBoard.developProduce(0));
-
   }
 
   @Test
-  void emptySlotProductionTest() throws NegativeQuantityException, AbuseOfFaithException, IOException, InvalidDevelopCardException, InvalidCardSlotException, NotBuyableException {
+  void emptySlotProductionTest() throws NegativeQuantityException, AbuseOfFaithException, IOException {
     PlayerBoard playerBoard = initializer();
     playerBoard.getChest().addResources(ResourceType.GOLD,50);
     playerBoard.getChest().addResources(ResourceType.STONE,50);
     playerBoard.getChest().addResources(ResourceType.SERVANT,50);
     playerBoard.getChest().addResources(ResourceType.SHIELD,50);
     playerBoard.getChest().endOfTurnMapsMerge();
-    DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
 
     assertThrows(NotActivatableException.class, () -> playerBoard.developProduce(0));
   }
 
   @Test
-  void leaderProduceTest() throws IOException, NegativeQuantityException, AbuseOfFaithException, InvalidLeaderCardException, NeedAResourceToAddException, NotEnoughResourcesException, AlreadyProducedException {
+  void leaderActivationTest() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException {
+    PlayerBoard playerBoard = initializer();
+    int idLeaderToActivate = playerBoard.getLeaderCards().get(1).getLeaderId();
+    playerBoard.setActiveLeadercard(idLeaderToActivate);
+
+    assertThrows(InvalidLeaderCardException.class, () -> playerBoard.setActiveLeadercard(5));
+  }
+
+  @Test
+  void baseProductionNullResourceTest() throws IOException {
+    PlayerBoard playerBoard = initializer();
+    assertThrows(NullPointerException.class,
+            () -> playerBoard.baseProduction(null, ResourceType.GOLD, ResourceType.FAITH));
+  }
+
+  @Test
+  void baseProductionFaithResourceTest() throws IOException {
+    PlayerBoard playerBoard = initializer();
+    assertThrows(AbuseOfFaithException.class,
+            () -> playerBoard.baseProduction(ResourceType.STONE, ResourceType.GOLD, ResourceType.FAITH));
+  }
+
+  @Test
+  void leaderProduceTest() throws IOException, NegativeQuantityException, AbuseOfFaithException,
+          InvalidLeaderCardException, NeedAResourceToAddException, NotEnoughResourcesException,
+          AlreadyProducedException {
     PlayerBoard playerBoard = initializer();
     playerBoard.getChest().addResources(ResourceType.GOLD,50);
     playerBoard.getChest().addResources(ResourceType.STONE,50);

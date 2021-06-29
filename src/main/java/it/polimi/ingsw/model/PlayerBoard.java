@@ -221,9 +221,7 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
          } catch (NegativeQuantityException e) {
             //non si verifica mai perché la sto chiamando io e gli sto passando 1
             e.printStackTrace();
-         } catch (NullPointerException e) {
-            throw new NeedAResourceToAddException();
-         }
+         } catch (NullPointerException e) { throw new NeedAResourceToAddException(); }
       }
       else
          throw new NotEnoughResourcesException();
