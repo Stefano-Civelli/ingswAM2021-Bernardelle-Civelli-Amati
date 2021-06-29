@@ -44,7 +44,6 @@ public class Server {
    public synchronized Match assignToMatch(String matchId, Message message,ServerClientHandler serverClientHandler){
       Match match = matchMap.get(matchId);
       if(match.getPlayersNumber() != 0) {
-         match.addClient(serverClientHandler);
          match.handleLogin(message, serverClientHandler);
       }
       else {

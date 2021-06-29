@@ -114,7 +114,6 @@ public class ServerClientHandler implements Runnable {
                sendMessage(new Message(MessageType.ERROR, ErrorType.MATCH_ALREADY_EXISTS));
             else {
                this.match = server.createNewMatch(message.getPayloadByType(String.class));
-               this.match.addClient(this);
                this.match.handleLogin(message, this);
             }
             break;
