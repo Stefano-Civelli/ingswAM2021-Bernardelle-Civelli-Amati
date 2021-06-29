@@ -62,8 +62,9 @@ public class LorenzoTrack implements VaticanReportObservable, EndGameObservable,
     }
 
     notifyTrackUpdate(new TrackUpdate(playerPosition));
-    if(playerPosition == 24)
+    if(playerPosition == 24){
       notifyForEndGame();
+    }
   }
 
   @Override

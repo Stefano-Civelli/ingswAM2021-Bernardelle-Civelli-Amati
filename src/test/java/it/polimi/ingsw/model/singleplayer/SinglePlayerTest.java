@@ -16,6 +16,7 @@ class SinglePlayerTest {
       Game game = new SinglePlayer(null);
       game.addPlayer("test1");
       game.startGame();
+      game.gameStarted();
       game.getPlayerBoard("test1").getTrack().moveForward(24);
 
       //needs to throw this exception because in reality a controller is needed to proceed,

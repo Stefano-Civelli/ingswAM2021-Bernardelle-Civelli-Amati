@@ -22,7 +22,6 @@ public class SinglePlayer extends Game {
 
    private final LinkedList<ActionToken> actionTokenStack; // don't change with List, it's required a LinkedList.
    private final LorenzoTrack lorenzoTrack;
-   private boolean lorenzoWon = false;
 
    /**
     * Create a new single player game
@@ -34,6 +33,7 @@ public class SinglePlayer extends Game {
       super(virtualView);
       this.lorenzoTrack = GSON.lorenzoTrackParser();
       this.lorenzoTrack.setController(virtualView);
+      this.lorenzoTrack.addToEndGameObserverList(this);
 
       this.actionTokenStack = new LinkedList<>(Arrays.asList(
               new DiscardToken(DevelopCardColor.BLUE), new DiscardToken(DevelopCardColor.GREEN),
@@ -68,14 +68,9 @@ public class SinglePlayer extends Game {
     */
    @Override
    public String nextConnectedPlayer(String currentPlayer) throws InvalidUsernameException {
-      System.out.println("ciao");
       // This statement is first due to throws the exception if the username is wrong
       String player = super.nextConnectedPlayer(currentPlayer);
-      if(endGame){
-         int score = calculateScore();
-         handleEndGame(currentPlayer, score);
-         return null;
-      }
+
       if(super.isGameStarted()) {
          ActionToken token = this.actionTokenStack.remove();
          token.useToken(this.actionTokenStack, this.lorenzoTrack, super.developCardDeck);
