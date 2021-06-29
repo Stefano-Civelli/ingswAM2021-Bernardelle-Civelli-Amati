@@ -1,9 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.view.gui.controllers.ConnectController;
-import it.polimi.ingsw.view.gui.controllers.GUIController;
-import it.polimi.ingsw.view.gui.controllers.LoginController;
+import it.polimi.ingsw.view.gui.controllers.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,48 +11,52 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Used to manages GUI's stages loading fxml files and conserve their root controller
+ * Used to manages GUI's stages loading fxml files and conserve their root controllers
  * (Note that only one stage will be active at a time)
  */
 public class SceneController {
 
-    private Stage activeStage = null;
-    private GUIController currentController = null;
     private final Client client;
+
+    private Stage activeStage = null;
+
+    private ConnectController connectionController = null;
+    private LoginController loginController = null;
+    private NumberOfPlayersController numberOfPlayersController = null;
+    private GameboardController gameboardController = null;
+    private EndGameController endGameController = null;
 
     public SceneController(Client client) {
         this.client = client;
     }
 
-    public GUIController getCurrentController() {
-        return this.currentController;
-    }
-
-    private void changeScene(String fxml, Client client) {
+    private FXMLLoader changeScene(String fxml, Client client) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SceneController.class.getClassLoader().getResource(fxml));
             Parent root = loader.load();
-            this.currentController = loader.getController();
-            if(this.currentController != null) {
-                this.currentController.setClient(client);
+            GUIController controller = loader.getController();
+            if(controller != null) {
+                controller.setClient(client);
             }
             this.activeStage.setScene(new Scene(root));
+            return loader;
         } catch (IOException e) {
             //TODO gestire
             e.printStackTrace();
         }
+        return null;
     }
 
-    private void changeStage(String fxml, Client client) {
+    private FXMLLoader changeStage(String fxml, Client client) {
         this.activeStage.hide();
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SceneController.class.getClassLoader().getResource(fxml));
             Parent root = loader.load();
-            this.currentController = loader.getController();
-            if(this.currentController != null)
-                this.currentController.setClient(client);
+            GUIController controller = loader.getController();
+            if(controller != null)
+                controller.setClient(client);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/Logo.png")));
@@ -62,23 +64,23 @@ public class SceneController {
             stage.setResizable(false);
             this.activeStage = stage;
             stage.show();
+            return loader;
         } catch (IOException e) {
             //TODO gestire
             e.printStackTrace();
         }
+        return null;
     }
 
     /**
      * Initialize the first stage and ask the user for server connection
      */
     public void start(Stage stage) throws IOException {
-        ConnectController a = null;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource(GuiResources.connectionFXML));
         Parent root = loader.load();
-        GUIController controller = loader.getController();
-        this.currentController = controller;
-        controller.setClient(client);
+        this.connectionController = loader.getController();
+        this.connectionController.setClient(client);
         this.activeStage = stage;
         this.activeStage.getIcons().add(GuiResources.logo);
         this.activeStage.setTitle("Masters of Renaissance");
@@ -93,9 +95,10 @@ public class SceneController {
      * (using the current stage)
      */
     public void loadLogin() {
-        this.changeScene(GuiResources.loginFXML, this.client);
-        LoginController controller = (LoginController) this.currentController;
-        controller.checkLocal();
+        this.clearController();
+        this.loginController = this.changeScene(GuiResources.loginFXML, this.client).getController();
+        this.loginController.checkLocal();
+
     }
 
     /**
@@ -103,6 +106,7 @@ public class SceneController {
      * (using the current stage)
      */
     public void loadLobby() {
+        this.clearController();
         this.changeScene(GuiResources.lobbyFXML, this.client);
     }
 
@@ -111,7 +115,8 @@ public class SceneController {
      * (using the current stage)
      */
     public void loadNumberOfPlayer() {
-        this.changeScene(GuiResources.numberOfPlayerFXML, this.client);
+        this.clearController();
+        this.numberOfPlayersController = this.changeScene(GuiResources.numberOfPlayerFXML, this.client).getController();
     }
 
     /**
@@ -119,7 +124,8 @@ public class SceneController {
      * (closing the current stage and show in a new stage)
      */
     public void loadGameboard() {
-        this.changeStage(GuiResources.gameboardFXML, this.client);
+        this.clearController();
+        this.gameboardController = this.changeStage(GuiResources.gameboardFXML, this.client).getController();
     }
 
     /**
@@ -127,7 +133,8 @@ public class SceneController {
      * (using the current stage)
      */
     public void loadEndGameWin() {
-        this.changeScene(GuiResources.endGameWinFXML, this.client);
+        this.clearController();
+        this.endGameController = this.changeScene(GuiResources.endGameWinFXML, this.client).getController();
     }
 
     /**
@@ -135,7 +142,36 @@ public class SceneController {
      * (using the current stage)
      */
     public void loadEndGameLose() {
-        this.changeScene(GuiResources.endGameLoseFXML, this.client);
+        this.clearController();
+        this.endGameController = this.changeScene(GuiResources.endGameLoseFXML, this.client).getController();
+    }
+
+    private void clearController() {
+            this.connectionController = null;
+            this.loginController = null;
+            this.numberOfPlayersController = null;
+            this.gameboardController = null;
+            this.endGameController = null;
+    }
+
+    public ConnectController getConnectionController() {
+        return connectionController;
+    }
+
+    public LoginController getLoginController() {
+        return loginController;
+    }
+
+    public NumberOfPlayersController getNumberOfPlayersController() {
+        return numberOfPlayersController;
+    }
+
+    public GameboardController getGameboardController() {
+        return gameboardController;
+    }
+
+    public EndGameController getEndGameController() {
+        return endGameController;
     }
 
 }

@@ -29,6 +29,7 @@ import java.util.*;
  * Performs the message handling of messages coming from server.
  */
 public class Client implements PhaseChangedObserver {
+
   public static final int MIN_PORT = Server.MIN_PORT_NUMBER;
   public static final int MAX_PORT = Server.MAX_PORT_NUMBER;
 
@@ -40,7 +41,7 @@ public class Client implements PhaseChangedObserver {
 
 
   public static void main(String[] args) {
-    boolean isCli = true;
+    boolean isCli = false;
     boolean isLocal = false;
 
 //    if(args.length > 0)
