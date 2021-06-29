@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import it.polimi.ingsw.view.gui.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -70,6 +69,15 @@ public class LoginController extends GUIController {
      */
     public void gameFailed() {
         this.error_label.setText("ERROR: invalid gameID");
+        this.error_label.setVisible(true);
+        this.login_button.setDisable(false);
+    }
+
+    /**
+     * Notify the player that the creation of the game they tried to join is not already completed
+     */
+    public void gameWait() {
+        this.error_label.setText("Wait a moment: your mate is creating this game");
         this.error_label.setVisible(true);
         this.login_button.setDisable(false);
     }

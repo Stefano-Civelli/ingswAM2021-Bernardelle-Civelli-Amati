@@ -20,7 +20,7 @@ public class SceneController {
 
     private Stage activeStage = null;
 
-    private ConnectController connectionController = null;
+    private ConnectionController connectionController = null;
     private LoginController loginController = null;
     private NumberOfPlayersController numberOfPlayersController = null;
     private GameboardController gameboardController = null;
@@ -154,7 +154,7 @@ public class SceneController {
             this.endGameController = null;
     }
 
-    public ConnectController getConnectionController() {
+    public ConnectionController getConnectionController() {
         return connectionController;
     }
 

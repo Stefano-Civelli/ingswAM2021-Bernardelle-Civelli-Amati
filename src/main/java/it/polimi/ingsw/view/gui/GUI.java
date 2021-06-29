@@ -69,7 +69,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayLogin() { //FIXME PERCHÉ VIENE MOSTRATO ANCHE SE C'`E UN ERRORE DI CONNESSIONE??
+   public void displayLogin() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(this.sceneController::loadLogin);
    }
@@ -78,7 +78,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displaySetupFailure() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
-         ConnectController controller = this.sceneController.getConnectionController();
+         ConnectionController controller = this.sceneController.getConnectionController();
          controller.loginError("This server doesn't exist");
       });
    }
@@ -89,7 +89,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayFailedLogin() { // FIXME PERCHÉ VIENE SUBITO "RISCRITTO" DA UNA CHIAMATA A displayLogin DA PARTE DEL CLIENT??
+   public void displayFailedLogin() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          LoginController controller = this.sceneController.getLoginController();
@@ -103,9 +103,6 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       this.username = username;
    }
 
-   /**
-    *
-    */
    @Override
    public void displayLobbyCreated() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
@@ -134,6 +131,11 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayWaiting() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> {
+         LoginController loginController = this.sceneController.getLoginController();
+         if(loginController != null)
+            loginController.gameWait();
+      });
    }
 
    @Override
