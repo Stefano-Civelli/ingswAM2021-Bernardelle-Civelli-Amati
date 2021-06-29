@@ -1,8 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.LocalVirtualView;
+import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
 import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
+import it.polimi.ingsw.network.server.Match;
+import it.polimi.ingsw.network.server.Server;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -239,4 +243,15 @@ class GameTest {
         assertThrows(InvalidUsernameException.class, () -> game.nextConnectedPlayer("test"));
     }
 
+    @Test
+    void endGameTest() throws IOException, MaximumNumberOfPlayersException, InvalidUsernameException {
+        Game game = new Game(null);
+        game.addPlayer("test1");
+        game.startGame();
+        game.getPlayerBoard("test1").getTrack().moveForward(24);
+
+        //needs to throw this exception because in reality a controller is needed to proceed,
+        //for thesting purposes the controller is not needed
+        assertThrows(NullPointerException.class, () -> game.nextConnectedPlayer("test1"));
+    }
 }

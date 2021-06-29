@@ -68,7 +68,7 @@ public class SinglePlayer extends Game {
     */
    @Override
    public String nextConnectedPlayer(String currentPlayer) throws InvalidUsernameException {
-
+      System.out.println("ciao");
       // This statement is first due to throws the exception if the username is wrong
       String player = super.nextConnectedPlayer(currentPlayer);
       if(endGame){

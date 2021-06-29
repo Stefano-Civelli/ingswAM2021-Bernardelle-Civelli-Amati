@@ -365,15 +365,20 @@ class PlayerBoardTest {
     assertThrows(NotActivatableException.class, () -> playerBoard.developProduce(0));
   }
 
-//  @Test
-//  void leaderProduceTest() throws IOException, NegativeQuantityException, AbuseOfFaithException, InvalidLeaderCardException, NeedAResourceToAddException, NotEnoughResourcesException, AlreadyProducedException {
-//    PlayerBoard playerBoard = initializer();
-//    playerBoard.getChest().addResources(ResourceType.GOLD,50);
-//    playerBoard.getChest().addResources(ResourceType.STONE,50);
-//    playerBoard.getChest().addResources(ResourceType.SERVANT,50);
-//    playerBoard.getChest().addResources(ResourceType.SHIELD,50);
-//    playerBoard.getChest().endOfTurnMapsMerge();
-//
-//    playerBoard.leaderProduce(2, ResourceType.GOLD);
-//  }
+  @Test
+  void leaderProduceTest() throws IOException, NegativeQuantityException, AbuseOfFaithException, InvalidLeaderCardException, NeedAResourceToAddException, NotEnoughResourcesException, AlreadyProducedException {
+    PlayerBoard playerBoard = initializer();
+    playerBoard.getChest().addResources(ResourceType.GOLD,50);
+    playerBoard.getChest().addResources(ResourceType.STONE,50);
+    playerBoard.getChest().addResources(ResourceType.SERVANT,50);
+    playerBoard.getChest().addResources(ResourceType.SHIELD,50);
+    playerBoard.getChest().endOfTurnMapsMerge();
+
+    playerBoard.leaderProduce(2, ResourceType.GOLD);
+
+    assertEquals(playerBoard.getChest().getNumberOf(ResourceType.GOLD),50);
+    assertEquals(playerBoard.getChest().getNumberOf(ResourceType.STONE),50);
+    assertEquals(playerBoard.getChest().getNumberOf(ResourceType.SHIELD),50);
+    assertEquals(playerBoard.getChest().getNumberOf(ResourceType.SERVANT),50);
+  }
 }

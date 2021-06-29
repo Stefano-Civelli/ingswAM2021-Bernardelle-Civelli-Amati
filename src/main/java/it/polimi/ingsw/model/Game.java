@@ -91,7 +91,7 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
     * @throws InvalidUsernameException if the specified player doesn't exist
     */
    public String nextConnectedPlayer(String currentPlayer) throws InvalidUsernameException {
-
+      System.out.println("Game");
       if(endGame && currentPlayer.equals(playerBoards.get(playerBoards.size()-1).getKey().getUsername())) {
          handleEndGame();
          return null;
@@ -242,7 +242,6 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
       int bResources=0;
       
       for(Pair<PlayerBoard, Boolean> p : playerBoards) {
-         System.out.println(p.getKey().getUsername() + " " + p.getKey().returnScore());
          if (p.getKey().returnScore() > score) {
             bResources = p.getKey().getChest().totalNumberOfResources() + p.getKey().getWarehouse().totalResources();
             winner = p.getKey().getUsername();
@@ -257,7 +256,6 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
             }
          }
       }
-      System.out.println(winner);
       winnerAndScore = new Pair<>(winner, score);
       controller.endGameUpdate(GSON.getGsonBuilder().toJson(winnerAndScore));
    }
