@@ -54,6 +54,8 @@ public class LocalVirtualModel implements VirtualModel, PhaseChangedObservable{
 
 
    private void actionAnswereMessage(Message answerMessage){
+      if(answerMessage == null)
+         return;
       MessageType messageType = answerMessage.getMessageType();
       String payload = answerMessage.getPayload();
       switch (messageType){
