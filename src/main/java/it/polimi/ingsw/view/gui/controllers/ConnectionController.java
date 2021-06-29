@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 /**
  * Java controller of the connection.fxml file
  */
-public class ConnectController extends GUIController {
+public class ConnectionController extends GUIController {
 
     @FXML
     private CheckBox local_checkBox;
@@ -63,9 +63,9 @@ public class ConnectController extends GUIController {
     }
 
     @FXML
-    private void login(ActionEvent actionEvent) {
+    private void connect(ActionEvent actionEvent) {
         if(this.local_checkBox.isSelected()) {
-            ((GUI) super.client.getView()).local(); // FIXME
+            super.client.setLocal();
             super.client.getView().displayLogin();
         } else {
             if (!this.serverPort_textField.getText().equals("")
@@ -100,7 +100,7 @@ public class ConnectController extends GUIController {
     }
 
     /**
-     * Notify the player that the login failed
+     * Notify the player that the connect failed
      * @param error error message
      */
     public void loginError(String error) {

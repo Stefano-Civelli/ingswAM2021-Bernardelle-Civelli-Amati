@@ -9,7 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.controllers.ConnectController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.controllers.ConnectionController">
    <children>
       <ImageView fitWidth="300.0" layoutX="150.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <viewport>
@@ -20,13 +20,13 @@
          </image>
       </ImageView>
       <Label layoutX="150.0" layoutY="200.0" text="Server IP:" />
-      <TextField fx:id="serverIP_textField" editable="false" layoutX="226.0" layoutY="196.0" onAction="#login" />
+      <TextField fx:id="serverIP_textField" editable="false" layoutX="226.0" layoutY="196.0" onAction="#connect" />
       <CheckBox fx:id="localHostServerIP_checkBox" layoutX="404.0" layoutY="200.0" mnemonicParsing="false" onAction="#localhostServerIP" text="LocalHost" />
       <Label layoutX="150.0" layoutY="233.0" text="Server port:" />
-      <TextField fx:id="serverPort_textField" editable="false" layoutX="226.0" layoutY="229.0" onAction="#login" />
+      <TextField fx:id="serverPort_textField" editable="false" layoutX="226.0" layoutY="229.0" onAction="#connect" />
       <CheckBox fx:id="defaultServerPort_checkBox" layoutX="404.0" layoutY="233.0" mnemonicParsing="false" onAction="#defaultServerPort" text="Default" />
       <Label fx:id="error_label" layoutX="150.0" layoutY="345.0" text="ERROR" textFill="RED" visible="false" />
-      <Button fx:id="connect_button" layoutX="492.0" layoutY="341.0" mnemonicParsing="false" onAction="#login" text="connect" />
+      <Button fx:id="connect_button" layoutX="492.0" layoutY="341.0" mnemonicParsing="false" onAction="#connect" text="connect" />
       <CheckBox fx:id="local_checkBox" layoutX="404.0" layoutY="268.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="Local singleplayer" onAction="#local" />
    </children>
 </Pane>

@@ -328,6 +328,16 @@ public class Cli implements ViewInterface {
   }
 
   @Override
+  public void displayMatchAlreadyExist() {
+    // TODO
+  }
+
+  @Override
+  public void displayCannotJoinMatch() {
+    // TODO
+  }
+
+  @Override
   public void displayLorenzoDiscarded(DevelopCardDeckUpdate state) {
     clearScreen();
     drawer.displayLorenzoHasDiscarded(state);

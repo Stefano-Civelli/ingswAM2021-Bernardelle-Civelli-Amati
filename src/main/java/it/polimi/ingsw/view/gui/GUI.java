@@ -21,18 +21,9 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    private GuiTurnManager turnManager;
    private final SceneController sceneController;
    private String username;
-   private boolean local = false;
 
    public GUI(Client client) {
       this.sceneController = new SceneController(client);
-   }
-
-   public void local() {
-      this.local = true;
-   }
-
-   public boolean isLocal() {
-      return this.local;
    }
 
    public SceneController getSceneController() {
@@ -78,7 +69,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayLogin() { //FIXME PERCHÉ VIENE MOSTRATO ANCHE SE C'`E UN ERRORE DI CONNESSIONE??
+   public void displayLogin() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(this.sceneController::loadLogin);
    }
@@ -87,7 +78,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displaySetupFailure() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
-         ConnectController controller = this.sceneController.getConnectionController();
+         ConnectionController controller = this.sceneController.getConnectionController();
          controller.loginError("This server doesn't exist");
       });
    }
@@ -98,7 +89,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayFailedLogin() { // FIXME PERCHÉ VIENE SUBITO "RISCRITTO" DA UNA CHIAMATA A displayLogin DA PARTE DEL CLIENT??
+   public void displayFailedLogin() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          LoginController controller = this.sceneController.getLoginController();
@@ -112,9 +103,6 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       this.username = username;
    }
 
-   /**
-    *
-    */
    @Override
    public void displayLobbyCreated() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
@@ -143,6 +131,11 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayWaiting() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> {
+         LoginController loginController = this.sceneController.getLoginController();
+         if(loginController != null)
+            loginController.gameWait();
+      });
    }
 
    @Override
@@ -320,6 +313,24 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
+   public void displayMatchAlreadyExist() {
+      Platform.runLater(() -> {
+         LoginController loginController = this.sceneController.getLoginController();
+         if(loginController != null)
+            loginController.gameAlreadyExists();
+      });
+   }
+
+   @Override
+   public void displayCannotJoinMatch() {
+      Platform.runLater(() -> {
+         LoginController loginController = this.sceneController.getLoginController();
+         if(loginController != null)
+            loginController.gameCannotJoin();
+      });
+   }
+
+   @Override
    public void displayLorenzoDiscarded(DevelopCardDeckUpdate state) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
 //      Platform.runLater( () -> {
@@ -479,8 +490,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void chestMergeUpdate(String username) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
-         PlayerboardController controller = this.sceneController.getGameboardController().getPlayerBoardController(username);
-         controller.chestMergeUpdate();
+         GameboardController gameboardController = this.sceneController.getGameboardController();
+         PlayerboardController playerboardController = null;
+         if(gameboardController != null)
+            playerboardController = gameboardController.getPlayerBoardController(username);
+         if(playerboardController != null)
+            playerboardController.chestMergeUpdate();
       });
    }
 

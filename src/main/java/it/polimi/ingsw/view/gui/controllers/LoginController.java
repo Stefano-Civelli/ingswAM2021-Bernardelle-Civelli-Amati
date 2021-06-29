@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import it.polimi.ingsw.view.gui.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -34,7 +33,7 @@ public class LoginController extends GUIController {
      * Check if the game is local and in case set invisible the correct components
      */
     public void checkLocal() {
-        if(((GUI) super.client.getView()).isLocal()) {
+        if(super.client.isLocal()) {
             this.gameId_label.setVisible(false);
             this.join_radioButton.setVisible(false);
             this.create_radioButton.setVisible(false);
@@ -44,7 +43,7 @@ public class LoginController extends GUIController {
 
     @FXML
     private void login(ActionEvent actionEvent) {
-        if(((GUI) super.client.getView()).isLocal()) {
+        if(super.client.isLocal()) {
             super.client.setUsername(this.username_textField.getText());
             super.client.getView().displayLoginSuccessful(this.username_textField.getText());
             super.client.getView().startingSetupUpdate();
@@ -66,10 +65,29 @@ public class LoginController extends GUIController {
     }
 
     /**
-     * Notify the player that the gameID is invalid
+     * notify the player that the name of the match they tried to create is occupied by another match
      */
-    public void gameFailed() {
-        this.error_label.setText("ERROR: invalid gameID");
+    public void gameAlreadyExists() {
+        this.error_label.setText("ERROR: invalid gameID: this game already exists");
+        this.error_label.setVisible(true);
+        this.login_button.setDisable(false);
+    }
+
+    /**
+     * Notify the player that they cannot join the match they tried to:
+     * i.e. the match doesn't exist, the match is full or the match is already started
+     */
+    public void gameCannotJoin() {
+        this.error_label.setText("ERROR: invalid gameID: this match doesn't exist or is already started");
+        this.error_label.setVisible(true);
+        this.login_button.setDisable(false);
+    }
+
+    /**
+     * Notify the player that the creation of the game they tried to join is not already completed
+     */
+    public void gameWait() {
+        this.error_label.setText("Wait a moment: your mate is creating this game");
         this.error_label.setVisible(true);
         this.login_button.setDisable(false);
     }
