@@ -22,7 +22,8 @@ This repository includes:
 | Multiple Games | [![GREEN](http://placehold.it/15/44bb44/44bb44)](#)|
 | Disconnection Resilience | [![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#)|
 
-
+[![GREEN](http://placehold.it/15/44bb44/44bb44)](#) Implemented &nbsp;&nbsp;&nbsp;
+[![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#) WIP
 <!--
 [![RED](http://placehold.it/15/f03c15/f03c15)](#)
 [![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#)
@@ -46,7 +47,7 @@ This repository includes:
 
 
 ## Project Documentation
-| **[Installation][installation-link]**     | **[Compiling][compiling-link]**     |    **[Running][running-link]**       | **[Javadocs][javadocs]** | **[communication Protocol][communicationProtocol-link]**
+| **[Installation][installation-link]**     | **[Compiling][compiling-link]**     |    **[Running][running-link]**       | **[Javadocs][javadocs]** | **[Communication Protocol][communicationProtocol-link]**
 |-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|
 
 
