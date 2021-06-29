@@ -45,9 +45,10 @@ This repository includes:
 
 
 
-## COMMUNICATION PROTOCOL
+## Project Documentation
+| **[Installation][installation-link]**     | **[Compiling][compiling-link]**     |    **[Running][running-link]**       | **[Javadocs][javadocs]** | **[communication Protocol][communicationProtocol-link]**
+|-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|
 
-See our **[communication Protocol wiki][communicationProtocol-link]**
 
 ## API Reference
 
@@ -86,6 +87,7 @@ Here is an example of how to create a message countaining a specific action:
 ```java
    Action buyCardAction = new BuyDevelopCardAction(row, column, cardSlot);
 ```
+
 
 
 [communicationProtocol-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Communication+Protocol
