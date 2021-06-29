@@ -490,9 +490,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void chestMergeUpdate(String username) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
-         PlayerboardController controller = this.sceneController.getGameboardController().getPlayerBoardController(username);
-         if(controller != null)
-            controller.chestMergeUpdate();
+         GameboardController gameboardController = this.sceneController.getGameboardController();
+         PlayerboardController playerboardController = null;
+         if(gameboardController != null)
+            playerboardController = gameboardController.getPlayerBoardController(username);
+         if(playerboardController != null)
+            playerboardController.chestMergeUpdate();
       });
    }
 
