@@ -81,4 +81,4 @@ Here is an example of how to create a message countaining a specific action:
 ```
 
 
-[communicationProtocol-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati.wiki.git
+[communicationProtocol-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/COMMPROTOCOL
