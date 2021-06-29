@@ -313,6 +313,24 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
+   public void displayMatchAlreadyExist() {
+      Platform.runLater(() -> {
+         LoginController loginController = this.sceneController.getLoginController();
+         if(loginController != null)
+            loginController.gameAlreadyExists();
+      });
+   }
+
+   @Override
+   public void displayCannotJoinMatch() {
+      Platform.runLater(() -> {
+         LoginController loginController = this.sceneController.getLoginController();
+         if(loginController != null)
+            loginController.gameCannotJoin();
+      });
+   }
+
+   @Override
    public void displayLorenzoDiscarded(DevelopCardDeckUpdate state) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
 //      Platform.runLater( () -> {

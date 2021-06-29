@@ -178,4 +178,15 @@ public interface ViewInterface extends LorenzoViewInterface {
    * Displays that a card can't be placed in the slot the player wanted to
    */
   void displayInvalidCardPlacement();
+
+  /**
+   * Displays that the name of the match the player tried to create is occupied by another match
+   */
+  void displayMatchAlreadyExist();
+
+  /**
+   * Displays that the player cannot join the match they tried to:
+   * i.e. the match doesn't exist, the match is full or the match is already started
+   */
+  void displayCannotJoinMatch();
 }

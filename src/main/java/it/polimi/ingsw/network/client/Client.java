@@ -344,6 +344,12 @@ public class Client implements PhaseChangedObserver {
         view.displayInvalidCardPlacement();
         clientTurnManager.currentPhasePrint();
         break;
+      case MATCH_ALREADY_EXISTS:
+        view.displayMatchAlreadyExist();
+        break;
+      case CANNOT_JOIN_MATCH:
+        view.displayCannotJoinMatch();
+        break;
       default:
     }
   }

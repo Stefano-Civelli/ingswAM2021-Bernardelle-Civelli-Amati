@@ -65,10 +65,20 @@ public class LoginController extends GUIController {
     }
 
     /**
-     * Notify the player that the gameID is invalid
+     * notify the player that the name of the match they tried to create is occupied by another match
      */
-    public void gameFailed() {
-        this.error_label.setText("ERROR: invalid gameID");
+    public void gameAlreadyExists() {
+        this.error_label.setText("ERROR: invalid gameID: this game already exists");
+        this.error_label.setVisible(true);
+        this.login_button.setDisable(false);
+    }
+
+    /**
+     * Notify the player that they cannot join the match they tried to:
+     * i.e. the match doesn't exist, the match is full or the match is already started
+     */
+    public void gameCannotJoin() {
+        this.error_label.setText("ERROR: invalid gameID: this match doesn't exist or is already started");
         this.error_label.setVisible(true);
         this.login_button.setDisable(false);
     }
