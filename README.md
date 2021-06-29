@@ -1,4 +1,5 @@
 # MAESTRI DEL RINASCIMENTO - Progetto IngSW - 2021
+<img src="https://user-images.githubusercontent.com/63519918/123807789-73b62680-d8f0-11eb-94cf-faca0ef8a6a3.PNG" width=200px height=115 px align="right" />
 
 ## Project Description
 The project consists of a Java version of the board game [Maestri del Rinascimento](https://www.craniocreations.it/prodotto/masters-of-renaissance/) by CranioCreations.
@@ -44,9 +45,10 @@ This repository includes:
 
 
 
-## COMMUNICATION PROTOCOL
+## Project Documentation
+| **[Installation][installation-link]**     | **[Compiling][compiling-link]**     |    **[Running][running-link]**       | **[Javadocs][javadocs]** | **[communication Protocol][communicationProtocol-link]**
+|-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|
 
-See our **[communication Protocol wiki][communicationProtocol-link]**
 
 ## API Reference
 
@@ -85,6 +87,7 @@ Here is an example of how to create a message countaining a specific action:
 ```java
    Action buyCardAction = new BuyDevelopCardAction(row, column, cardSlot);
 ```
+
 
 
 [communicationProtocol-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Communication+Protocol
