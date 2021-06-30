@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.io.IOException;
 import java.util.*;
@@ -140,7 +141,7 @@ public class Match {
 
    private void start() {
       sendToClient(new Message(MessageType.STARTING_GAME_SETUP));
-      Game game = null; //TODO sarebbe merglio avere solo controller qua
+      Game game = null;
       List<String> playersInOrder = null;
       boolean singlePlayer = (playersNumber == 1);
       ModelObserver virtualView = new NetworkVirtualView(this);
@@ -152,10 +153,10 @@ public class Match {
             game = new SinglePlayer(virtualView);
          else
             game = new Game(virtualView);
-      }catch(IOException | JsonSyntaxException e){ //TODO controllare se viene lanciata la JsonSyntaxException
-         //TODO bisogna chiudere la partita (disconnetto tutti i client 1 per volta dicendo "Errore nei file di configurazione del gioco")
-         sendToClient(new Message(MessageType.GENERIC_MESSAGE, e.getStackTrace()));
-         return; //TODO è un po alla cazzo per non far sottoilineare initialMoveForward
+      }catch(IOException | JsonSyntaxException e){
+         System.out.println(Color.ANSI_RED.escape() + "fatal error on server: game configuration files are malformed. Server will be closed." + Color.RESET.escape());
+         System.exit(0);
+         return;
       }
 
       try {
@@ -165,7 +166,7 @@ public class Match {
          System.out.println("playerboard constructor probably has a problem");
          e.printStackTrace();
       } catch (MaximumNumberOfPlayersException e) {
-         System.out.println("added more than 1 player in singleplayer"); //TODO dovrei fare altro quando ho un errore così grave ?
+         System.out.println("added more than 1 player in singleplayer");
          e.printStackTrace();
       }
       sendToClient(new Message(MessageType.GAME_STARTED, playersInOrder));

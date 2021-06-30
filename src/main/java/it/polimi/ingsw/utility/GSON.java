@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.track.LorenzoTrack;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.controller.action.*;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.io.*;
 import java.lang.reflect.Modifier;
@@ -38,7 +39,12 @@ public final class GSON {
     * @throws IOException if it is unable to read the configuration file
     */
    public static DevelopCardDeck cardParser() throws IOException {
-      InputStreamReader reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/DevelopCardConfig.json"), StandardCharsets.UTF_8);
+      InputStreamReader reader = null;
+      try {
+         reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/DevelopCardConfig.json"), StandardCharsets.UTF_8);
+      }catch (NullPointerException e){
+         fatalErrorWhenLoadingJSON("DevelopCardDeck");
+      }
       DevelopCardDeck developCardDeck = gsonBuilder.fromJson(reader, DevelopCardDeck.class);
       reader.close();
       developCardDeck.setupClass();
@@ -52,7 +58,12 @@ public final class GSON {
     * @throws IOException if it is unable to read the configuration file
     */
    public static Track trackParser() throws IOException {
-      InputStreamReader reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/SquareConfig.json"), StandardCharsets.UTF_8);
+      InputStreamReader reader = null;
+      try {
+         reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/SquareConfig.json"), StandardCharsets.UTF_8);
+      }catch (NullPointerException e){
+         fatalErrorWhenLoadingJSON("Track");
+      }
       Track track = gsonBuilder.fromJson(reader, Track.class);
       reader.close();
       return track;
@@ -65,7 +76,12 @@ public final class GSON {
     * @throws IOException if it is unable to read the configuration file
     */
    public static LorenzoTrack lorenzoTrackParser() throws IOException {
-      InputStreamReader reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/SquareConfig.json"), StandardCharsets.UTF_8);
+      InputStreamReader reader = null;
+      try {
+         reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/SquareConfig.json"), StandardCharsets.UTF_8);
+      }catch (NullPointerException e){
+         fatalErrorWhenLoadingJSON("Track");
+      }
       LorenzoTrack lorenzoTrack = gsonBuilder.fromJson(reader, LorenzoTrack.class);
       reader.close();
       return lorenzoTrack;
@@ -91,11 +107,15 @@ public final class GSON {
               .enableComplexMapKeySerialization()
               .registerTypeAdapterFactory(cardBehaviourAdapter);
       Gson gson = builder.create();
-      InputStreamReader reader;
-      if (ConfigParameters.TESTING) {
+      InputStreamReader reader = null;
+      try {
+         if (ConfigParameters.TESTING) {
          reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/LeaderCardConfig0Requirements.json"), StandardCharsets.UTF_8);
       } else {
          reader = new InputStreamReader(GSON.class.getResourceAsStream("/configfiles/LeaderCardConfig.json"), StandardCharsets.UTF_8);
+      }
+      }catch (NullPointerException e){
+         fatalErrorWhenLoadingJSON("LeaderCard");
       }
       LeaderCardDeck leaderCardDeck = gson.fromJson(reader, LeaderCardDeck.class);
       reader.close();
@@ -141,6 +161,11 @@ public final class GSON {
       actionBuilder = builder.create();
 
       return actionBuilder;
+   }
+
+   private static void fatalErrorWhenLoadingJSON(String missingJsonName){
+      System.out.println(Color.ANSI_RED.escape() + "fatal error on server: unable to locate " + missingJsonName + " JSON file " + Color.RESET.escape());
+      System.exit(0);
    }
 
    private GSON() {

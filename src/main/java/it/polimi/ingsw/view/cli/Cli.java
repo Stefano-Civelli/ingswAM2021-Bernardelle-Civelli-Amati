@@ -377,7 +377,7 @@ public class Cli implements ViewInterface {
         //this cases can be performed every moment of the game
         switch(line) {
           case "cheat":
-            //if (ConfigParameters.TESTING) {
+            if (ConfigParameters.TESTING) {
               client.forwardMessage(new Message(stateViewer.getUsername(), MessageType.CHEAT));
               System.out.println("cheats activated");
               actionAlreadyPerformed = true;
@@ -386,7 +386,7 @@ public class Cli implements ViewInterface {
               } catch (InterruptedException e) {
                 e.printStackTrace();
               }
-            //}
+            }
             break;
           case "quit":
             client.forwardMessage(new Message(stateViewer.getUsername(), MessageType.QUIT));

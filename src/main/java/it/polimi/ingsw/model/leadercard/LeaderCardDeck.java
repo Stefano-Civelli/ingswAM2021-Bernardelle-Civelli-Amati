@@ -9,23 +9,24 @@ import java.util.List;
 
 public class LeaderCardDeck {
 
+  //assigned via JSON parsing
   private List<LeaderCard> leaderCardList;
 
   public LeaderCardDeck(){
   }
 
-  public LeaderCard removeCard(){
-    return leaderCardList.remove(leaderCardList.size()-1);
-  }
-
+  /**
+   * Randomly permutes leaderCards in the deck
+   */
   public void shuffleLeaderList(){
     Collections.shuffle(leaderCardList);
   }
 
-  public List<LeaderCard> getLeaderCardList() {
-    return new ArrayList<>(leaderCardList);
-  }
-
+  /**
+   * draws 4 cards from the deck and returns them as a list
+   *
+   * @return the 4 drawn cards
+   */
   public List<LeaderCard> drawFourCards(){
     List<LeaderCard> fourCards = new ArrayList<>();
     for(int i=0; i<4; i++){
@@ -35,6 +36,13 @@ public class LeaderCardDeck {
     return fourCards;
   }
 
+  /**
+   * get the leaderCard corresponding to the specified Id
+   *
+   * @param id Id of the leaderCard to get
+   * @return the the leaderCard corresponding to the specified Id
+   * @throws InvalidCardException if there isn't a card with the specified id in the deck
+   */
    public LeaderCard getCardFromId(int id) throws InvalidCardException {
      for(LeaderCard d : leaderCardList)
        if(d.getLeaderId() == id)
