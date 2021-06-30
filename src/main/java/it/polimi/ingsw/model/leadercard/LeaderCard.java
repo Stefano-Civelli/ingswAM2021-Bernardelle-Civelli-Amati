@@ -8,14 +8,16 @@ import java.util.Map;
 
 public class LeaderCard {
 
+   @SuppressWarnings({"FieldCanBeLocal"})
    private transient final int numberOfRequiredResources = 5;
    private int leaderId;
+   @SuppressWarnings({"unused"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
    private String image;
    private boolean active;
-   private ResourceType requiredResources; //is null if no resources are required
-   private Map<CardFlag,Integer> requiredCardFlags; //is empty if no flags are required
-   private  int victoryPoints;
-   private CardBehaviour cardBehaviour;
+   private final ResourceType requiredResources; //is null if no resources are required
+   private final Map<CardFlag,Integer> requiredCardFlags; //is empty if no flags are required
+   private final int victoryPoints;
+   private final CardBehaviour cardBehaviour;
 
    /**
     * class constructor
@@ -52,9 +54,13 @@ public class LeaderCard {
    public void setActive(InterfacePlayerBoard playerBoard) throws NotEnoughResourcesException, InvalidLeaderCardException {
       if(active)
          return;
+
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
+
+       if (requiredResources != null && warehouse.getNumberOf(requiredResources) + chest.getNumberOf(requiredResources) < numberOfRequiredResources)
+           throw new NotEnoughResourcesException("you can't activate this card, you need more resources");
 
       try {
          this.addStorageSpace(playerBoard);
@@ -70,9 +76,6 @@ public class LeaderCard {
             throw new NotEnoughResourcesException("you need more flags to be able to activate this card");
          }
       }
-
-      if (requiredResources != null && warehouse.getNumberOf(requiredResources) + chest.getNumberOf(requiredResources) < numberOfRequiredResources)
-            throw new NotEnoughResourcesException("you can't activate this card, you need more resources");
 
       active = true;
    }
