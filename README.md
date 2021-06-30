@@ -10,6 +10,15 @@ This repository includes:
 * the actual Game;
 * all required resources to run the game.
 
+## How to play
+Our game both supports local games and online.
+
+- In order to play in local mode you will need to run a client (either CLI or GUI) and once the game asks for playing local or online you will need to go for the first option. <br>
+- You can also play online but you will need at least a running server and a client. 
+If you can't run a server on your own you can use our online one. You can start playing simply connect to it at this ip address `35.212.247.189` and port `6754`
+
+You can find more documentation on how to run the game [`here`][running-link]
+
 ## Implemented Functionalities
 | Functionality | Status |
 |:-----------------------|:------------------------------------:|
