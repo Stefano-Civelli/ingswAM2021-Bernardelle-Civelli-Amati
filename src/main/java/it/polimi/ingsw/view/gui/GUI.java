@@ -141,6 +141,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayServerDown() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(() -> this.sceneController.fatalError("ERROR: connection lost with server"));
    }
 
    @Override
@@ -332,7 +333,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayFatalError(String errorMessage) {
-      this.sceneController.fatalError(errorMessage);
+      Platform.runLater(() -> this.sceneController.fatalError(errorMessage));
    }
 
    @Override

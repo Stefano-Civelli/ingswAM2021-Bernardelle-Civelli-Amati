@@ -309,7 +309,7 @@ public class Client implements PhaseChangedObserver {
     switch (errorType){
       case GAME_ALREADY_STARTED:
         view.displayGameAlreadyStarted();
-        close();
+        close(); //FIXME ?? perché?
         break;
       case INVALID_LOGIN_USERNAME:
         view.displayFailedLogin();
