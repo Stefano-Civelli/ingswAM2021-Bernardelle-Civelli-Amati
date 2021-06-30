@@ -30,7 +30,7 @@ public abstract class Main {
               .getLocation()
               .getPath()).getName();
 
-      helpString =   "Usage: java -jar " + jarName +" [OPTIONS]\n" +
+      helpString =   "Usage: java -jar " + jarName + " [OPTIONS]\n" +
                      "Option    Long option    Meaning" +
                      "-s        --server       start the game server\n" +
                      "-g        --gui          start the game client whit GUI\n" +
