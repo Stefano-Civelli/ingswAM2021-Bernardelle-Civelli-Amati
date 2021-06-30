@@ -48,7 +48,7 @@ public interface ViewInterface extends LorenzoViewInterface {
 
   /**
    * Displays that login setup has been operated correctly
-   * @param username
+   * @param username the player's username
    */
   void displayLoginSuccessful(String username);
 
@@ -191,6 +191,8 @@ public interface ViewInterface extends LorenzoViewInterface {
 
   /**
    * Display a fatal error and ask the player to close the game
+   *
+   * @param errorMessage the error description
    */
   void displayFatalError(String errorMessage);
 

@@ -35,6 +35,11 @@ public class GUIStarter extends Application {
      */
     @Override
     public void stop() {
+        try {
+            super.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.client.close();
     }
 

@@ -171,7 +171,8 @@ public class Client implements PhaseChangedObserver {
    */
   public void close() {
     System.out.println("You will be disconnected...");
-    virtualModel.stop();
+    if(virtualModel != null)
+      virtualModel.stop();
     System.exit(0);
   }
 

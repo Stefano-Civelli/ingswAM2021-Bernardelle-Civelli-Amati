@@ -16,7 +16,7 @@ public class CardSlotUpdate implements ModelUpdate {
 
    /**
     * returns ID of the card to be placed in the slot
-    * @returnID of the card to be placed in the slot
+    * @return ID of the card to be placed in the slot
     */
    public int getDevCardID() {
       return devCardID;
