@@ -19,7 +19,7 @@ public class Server {
    public static final int MIN_PORT_NUMBER = 1024;
    public static final int MAX_PORT_NUMBER = 65535;
 
-   private Map<String, Match> matchMap = new HashMap<>();
+   private final Map<String, Match> matchMap = new HashMap<>();
 
    /**
     * Creates a new match with the specified Id
@@ -60,9 +60,7 @@ public class Server {
     * @return true if the specified matchId is already present
     */
    public synchronized Boolean matchIdPresent(String matchId){
-      if(this.matchMap.entrySet().stream().map(x -> x.getKey()).filter(x -> x.equals(matchId)).count() > 0)
-         return true;
-      return false;
+      return this.matchMap.keySet().stream().anyMatch(x -> x.equals(matchId));
    }
 
    /**

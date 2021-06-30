@@ -9,7 +9,7 @@ import java.util.List;
 
 public class LeaderCardDeck {
 
-  //assigned via JSON parsing
+  @SuppressWarnings({"unused"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
   private List<LeaderCard> leaderCardList;
 
   public LeaderCardDeck(){
@@ -49,4 +49,5 @@ public class LeaderCardDeck {
          return d;
      throw new InvalidCardException("there isn't a card with this id in the deck");
    }
+
 }

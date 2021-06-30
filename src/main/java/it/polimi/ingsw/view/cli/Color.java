@@ -14,7 +14,8 @@ public enum Color {
   ANSI_BRIGHT_YELLOW("\u001B[93m"),
   RESET("\u001B[0m");
 
-  private String escape;
+  private final String escape;
+
   Color(String escape) {
     this.escape = escape;
   }

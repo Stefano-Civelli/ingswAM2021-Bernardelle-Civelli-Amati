@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class ClientModelState implements ClientModelUpdaterInterface, ClientStateViewer {
 
   private String clientUsername;
-  private SimpleGameState simpleGameState;
+  private final SimpleGameState simpleGameState;
   private LinkedHashMap<String, SimplePlayerState> simplePlayerStateMap;
 
   /**
@@ -144,9 +144,8 @@ public class ClientModelState implements ClientModelUpdaterInterface, ClientStat
 
   @Override
   public List<String> otherPlayersUsername(){
-    return simplePlayerStateMap.entrySet().stream()
-            .filter(x -> !x.getKey().equals(this.clientUsername))
-            .map(x -> x.getKey())
+    return simplePlayerStateMap.keySet().stream()
+            .filter(simplePlayerState -> !simplePlayerState.equals(this.clientUsername))
             .collect(Collectors.toList());
   }
 

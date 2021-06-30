@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -16,7 +15,7 @@ public class EndGameController extends GUIController {
     private Label winner_label;
 
     @FXML
-    private void quitButton(ActionEvent actionEvent) {
+    private void quitButton() {
         super.client.close();
     }
 

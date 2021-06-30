@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class DiscountBehaviour extends CardBehaviour{
 
-   private ResourceType resourceToDiscount;
+   private final ResourceType resourceToDiscount;
 
    public DiscountBehaviour(ResourceType resourceToDiscount) {
       this.resourceToDiscount = resourceToDiscount;

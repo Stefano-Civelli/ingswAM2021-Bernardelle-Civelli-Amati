@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -22,7 +21,7 @@ public class FatalErrorController extends GUIController {
     }
 
     @FXML
-    private void closeGame(ActionEvent actionEvent) {
+    private void closeGame() {
         super.client.close();
     }
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.controller.action.Action;
-import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 
@@ -11,7 +10,7 @@ import it.polimi.ingsw.network.messages.MessageType;
  */
 public class NetworkVirtualModel implements VirtualModel{
 
-   private ServerConnector serverConnector;
+   private final ServerConnector serverConnector;
 
    /**
     * Constructor for NetworkVirtualModel class

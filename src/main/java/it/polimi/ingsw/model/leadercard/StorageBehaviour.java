@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.modelexceptions.MaxLeaderCardLevelsException;
 
 public class StorageBehaviour extends CardBehaviour{
 
-   private ResourceType storageType;
+   private final ResourceType storageType;
 
    public StorageBehaviour(ResourceType storageType) {
       this.storageType = storageType;

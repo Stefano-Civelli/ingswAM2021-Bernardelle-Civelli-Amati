@@ -11,7 +11,9 @@ import java.util.Map;
  * Represents a develop card
  */
 public class DevelopCard {
+   @SuppressWarnings({"unused", "FieldCanBeLocal"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
    private int devCardId;
+   @SuppressWarnings({"unused", "FieldCanBeLocal"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
    private String image;
    private final CardFlag cardFlag;
    private final HashMap<ResourceType, Integer> cost;
@@ -38,7 +40,7 @@ public class DevelopCard {
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
-      DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck();
+      DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck(); //FIXME serve?
       HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
 
       //apply discount

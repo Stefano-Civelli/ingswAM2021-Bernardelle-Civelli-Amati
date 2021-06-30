@@ -41,7 +41,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.setTempMarbleVisible();
+         if(controller != null)
+            controller.setTempMarbleVisible();
       });
    }
 
@@ -50,7 +51,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.displayLeaderChoiceLable(this.username);
+         if(controller != null)
+            controller.displayLeaderChoiceLable(this.username);
       });
    }
 
@@ -59,7 +61,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.displayInitialResourcesChoice(this.username);
+         if(controller != null)
+            controller.displayInitialResourcesChoice(this.username);
       });
    }
 
@@ -79,7 +82,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          ConnectionController controller = this.sceneController.getConnectionController();
-         controller.loginError("This server doesn't exist");
+         if(controller != null)
+            controller.loginError("This server doesn't exist");
       });
    }
 
@@ -93,7 +97,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          LoginController controller = this.sceneController.getLoginController();
-         controller.loginFailed();
+         if(controller != null)
+            controller.loginFailed();
       });
    }
 
@@ -174,7 +179,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.otherPlayerTurn(player);
+         if(controller != null)
+            controller.otherPlayerTurn(player);
       });
    }
 
@@ -183,7 +189,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.enableInitialAction();
+         if(controller != null)
+            controller.enableInitialAction();
       });
    }
 
@@ -206,7 +213,11 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       if("".equals(winner))
          winner = "Lorenzo Il Magnifico";
       final String finalWinner = winner; // necessary for lambda
-      Platform.runLater(() -> this.sceneController.getEndGameController().setWinner(finalWinner, score));
+      Platform.runLater(() -> {
+         EndGameController controller = this.sceneController.getEndGameController();
+         if(controller != null)
+            controller.setWinner(finalWinner, score);
+      });
 
    }
 
@@ -221,7 +232,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       Platform.runLater(() -> {
          this.sceneController.loadGameboard();
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.setUsername(this.username);
+         if(controller != null)
+            controller.setUsername(this.username);
       });
    }
 
@@ -229,7 +241,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayChooseLeaderOnWhite() {
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.askLeaderOnWHite(this.username);
+         if(controller != null)
+            controller.askLeaderOnWHite(this.username);
       });
    }
 
@@ -237,7 +250,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayFinalPhase() {
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.enableFinalAction();
+         if(controller != null)
+            controller.enableFinalAction();
       });
    }
 
@@ -245,7 +259,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayProducingPhase() {
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.enableProductionAction();
+         if(controller != null)
+            controller.enableProductionAction();
       });
    }
 
@@ -253,7 +268,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayShoppingPhase() {
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.enableShoppingAction();
+         if(controller != null)
+            controller.enableShoppingAction();
       });
    }
 
@@ -261,7 +277,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayNotBuyable() {
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.setErrorLable(ClientStrings.NOT_BUYABLE);
+         if(controller != null)
+            controller.setErrorLable(ClientStrings.NOT_BUYABLE);
       });
    }
 
@@ -269,7 +286,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayInvalidLeadercard() {
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.setErrorLable(ClientStrings.INVALID_LEADERCARD);
+         if(controller != null)
+            controller.setErrorLable(ClientStrings.INVALID_LEADERCARD);
       });
    }
 
@@ -277,7 +295,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayCannotDiscardActiveLeader() {
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.setErrorLable(ClientStrings.CANNOT_DISCARD_ACTIVE_LEADER);
+         if(controller != null)
+            controller.setErrorLable(ClientStrings.CANNOT_DISCARD_ACTIVE_LEADER);
       });
    }
 
@@ -285,7 +304,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayNotActivatableProduction() {
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.setErrorLable(ClientStrings.NOT_ACTIVATABLE_PRODUCTION);
+         if(controller != null)
+            controller.setErrorLable(ClientStrings.NOT_ACTIVATABLE_PRODUCTION);
       });
    }
 
@@ -293,7 +313,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayAlreadyProduced() {
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.setErrorLable(ClientStrings.ALREADY_PRODUCED);
+         if(controller != null)
+            controller.setErrorLable(ClientStrings.ALREADY_PRODUCED);
       });
    }
 
@@ -301,7 +322,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayNotEnoughResources() {
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.setErrorLable(ClientStrings.NOT_ENOUGH_RESOURCES);
+         if(controller != null)
+            controller.setErrorLable(ClientStrings.NOT_ENOUGH_RESOURCES);
       });
    }
 
@@ -309,7 +331,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void displayInvalidCardPlacement() {
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.setErrorLable(ClientStrings.INVALID_CARD_PLACEMENT);
+         if(controller != null)
+            controller.setErrorLable(ClientStrings.INVALID_CARD_PLACEMENT);
       });
    }
 
@@ -339,28 +362,16 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayLorenzoDiscarded(DevelopCardDeckUpdate state) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-//      Platform.runLater( () -> {
-//         GameboardController controller = (GameboardController) this.sceneController.getCurrentController();
-//         controller.setLorenzoToken(GuiResources.deckTokensMap.get(state.getColumn()));
-//      });
    }
 
    @Override
    public void displayLorenzoMoved() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-//      Platform.runLater(() -> {
-//         GameboardController gameController = (GameboardController) this.sceneController.getCurrentController();
-//         gameController.setLorenzoToken(GuiResources.lorenzoMoveTrackToken);
-//      });
    }
 
    @Override
    public void displayLorenzoShuffled() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-//      Platform.runLater(() -> {
-//         GameboardController gameController = (GameboardController) this.sceneController.getCurrentController();
-//         gameController.setLorenzoToken(GuiResources.lorenzoShuffleToken);
-//      });
    }
 //------------- ViewInterface --------------
 
@@ -375,15 +386,24 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void chestUpdate(String username, ChestUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+
       Platform.runLater( () -> {
-         GameboardController controller = this.sceneController.getGameboardController();
-         controller.getPlayerBoardController(username).updateChest(stateUpdate);
+         GameboardController gameboardController = this.sceneController.getGameboardController();
+         if(gameboardController != null) {
+            PlayerboardController playerboardController = gameboardController.getPlayerBoardController(username);
+            if(playerboardController != null)
+               playerboardController.updateChest(stateUpdate);
+         }
       });
 
-      Platform.runLater(() -> {
-         GameboardController controller = this.sceneController.getGameboardController();
-         controller.getPlayerBoardController(username).updateChest(stateUpdate);
-      });
+//      Platform.runLater(() -> {
+//         GameboardController gameboardController = this.sceneController.getGameboardController();
+//         if(gameboardController != null) {
+//            PlayerboardController playerboardController = gameboardController.getPlayerBoardController(username);
+//            if(playerboardController != null)
+//               playerboardController.updateChest(stateUpdate);
+//         }
+//      });
 
    }
 
@@ -391,9 +411,13 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void warehouseUpdate(String username, WarehouseUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
-         GameboardController controller = this.sceneController.getGameboardController();
-         controller.getPlayerBoardController(username).updateWarehouse(stateUpdate);
-         //controller.updateWarehouse(username, stateUpdate);
+         GameboardController gameboardController = this.sceneController.getGameboardController();
+         if(gameboardController != null) {
+            PlayerboardController playerboardController = gameboardController.getPlayerBoardController(username);
+            if(playerboardController != null)
+               playerboardController.updateWarehouse(stateUpdate);
+            //controller.updateWarehouse(username, stateUpdate);
+         }
       });
    }
 
@@ -401,8 +425,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void leaderUpdate(String username, LeaderUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
-         PlayerboardController controller = this.sceneController.getGameboardController().getPlayerBoardController(username);
-         controller.updateActivatedLeader(stateUpdate);
+         GameboardController gameboardController = this.sceneController.getGameboardController();
+         if(gameboardController != null) {
+            PlayerboardController playerboardController = gameboardController.getPlayerBoardController(username);
+            if(playerboardController != null)
+               playerboardController.updateActivatedLeader(stateUpdate);
+         }
       });
    }
 
@@ -412,7 +440,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
          //controller.getPlayerBoardController(username).leaderSetup(stateUpdate);
-         controller.leaderSetup(username, stateUpdate);
+         if(controller != null)
+            controller.leaderSetup(username, stateUpdate);
       });
    }
 
@@ -421,10 +450,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         if(this.username.equals(this.turnManager.getCurrentPlayer()))
-            controller.updateMarket(stateUpdate);
-         else
-            controller.updateMarketOtherPlayers(stateUpdate);
+         if(controller != null) {
+            if (this.username.equals(this.turnManager.getCurrentPlayer()))
+               controller.updateMarket(stateUpdate);
+            else
+               controller.updateMarketOtherPlayers(stateUpdate);
+         }
       });
    }
 
@@ -433,7 +464,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.constructMarket(stateUpdate);
+         if(controller != null)
+            controller.constructMarket(stateUpdate);
       });
    }
 
@@ -441,9 +473,13 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void cardSlotUpdate(String username, CardSlotUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
-         GameboardController controller = this.sceneController.getGameboardController();
-         controller.getPlayerBoardController(username).updateCardSlot(stateUpdate);
-         //controller.updateCardSlot(username, stateUpdate);
+         GameboardController gameboardController = this.sceneController.getGameboardController();
+         if(gameboardController != null) {
+            PlayerboardController playerboardController = gameboardController.getPlayerBoardController(username);
+            if(playerboardController != null)
+               playerboardController.updateCardSlot(stateUpdate);
+            //controller.updateCardSlot(username, stateUpdate);
+         }
       });
    }
 
@@ -451,8 +487,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void trackUpdate(String username, TrackUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
-         GameboardController controller = this.sceneController.getGameboardController();
-         controller.getPlayerBoardController(username).updatePlayerTrack(stateUpdate);
+         GameboardController gameboardController = this.sceneController.getGameboardController();
+         if(gameboardController != null) {
+            PlayerboardController playerboardController = gameboardController.getPlayerBoardController(username);
+            if(playerboardController != null)
+               playerboardController.updatePlayerTrack(stateUpdate);
+         }
       });
    }
 
@@ -460,8 +500,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void vaticanUpdate(String username, VaticanReport stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
-         GameboardController controller = this.sceneController.getGameboardController();
-         controller.getPlayerBoardController(username).updateVatican(stateUpdate);
+         GameboardController gameboardController = this.sceneController.getGameboardController();
+         if(gameboardController != null) {
+            PlayerboardController playerboardController = gameboardController.getPlayerBoardController(username);
+            if(playerboardController != null)
+               playerboardController.updateVatican(stateUpdate);
+         }
       });
    }
 
@@ -470,7 +514,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.updateDeck(stateUpdate);
+         if(controller != null)
+            controller.updateDeck(stateUpdate);
       });
    }
 
@@ -479,7 +524,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.constructDeck(stateUpdate);
+         if(controller != null)
+            controller.constructDeck(stateUpdate);
       });
    }
 
@@ -487,8 +533,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void tempChestUpdate(String username, ChestUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
-         PlayerboardController controller = this.sceneController.getGameboardController().getPlayerBoardController(username);
-         controller.updateTempChest(stateUpdate);
+         GameboardController gameboardController = this.sceneController.getGameboardController();
+         if(gameboardController != null) {
+            PlayerboardController playerboardController = gameboardController.getPlayerBoardController(username);
+            if(playerboardController != null)
+               playerboardController.updateTempChest(stateUpdate);
+         }
       });
    }
 
@@ -509,8 +559,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void discardedLeaderUpdate(String username, LeaderUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
-         PlayerboardController controller = this.sceneController.getGameboardController().getPlayerBoardController(username);
-         controller.updateDiscardedLeader(stateUpdate);
+         GameboardController gameboardController = this.sceneController.getGameboardController();
+         if(gameboardController != null) {
+            PlayerboardController playerboardController = gameboardController.getPlayerBoardController(username);
+            if(playerboardController != null)
+               playerboardController.updateDiscardedLeader(stateUpdate);
+         }
       });
    }
 
@@ -518,10 +572,13 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    public void lorenzoTrackUpdate(TrackUpdate stateUpdate) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
-         PlayerboardController controller = this.sceneController.getGameboardController().getPlayerBoardController(this.username);
-         controller.updateLorenzoTrack(stateUpdate);
-         GameboardController gameController = this.sceneController.getGameboardController();
-         gameController.setLorenzoToken(GuiResources.lorenzoMoveTrackToken);
+         GameboardController gameboardController = this.sceneController.getGameboardController();
+         if(gameboardController != null) {
+            PlayerboardController playerboardController = gameboardController.getPlayerBoardController(this.username);
+            if(playerboardController != null)
+               playerboardController.updateLorenzoTrack(stateUpdate);
+            gameboardController.setLorenzoToken(GuiResources.lorenzoMoveTrackToken);
+         }
       });
    }
 
@@ -530,7 +587,8 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController gameController = this.sceneController.getGameboardController();
-         gameController.setLorenzoToken(GuiResources.lorenzoShuffleToken);
+         if(gameController != null)
+            gameController.setLorenzoToken(GuiResources.lorenzoShuffleToken);
       });
    }
 
@@ -539,8 +597,10 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.updateDeck(stateUpdate);
-         controller.setLorenzoToken(GuiResources.deckTokensMap.get(stateUpdate.getColumn()));
+         if(controller != null) {
+            controller.updateDeck(stateUpdate);
+            controller.setLorenzoToken(GuiResources.deckTokensMap.get(stateUpdate.getColumn()));
+         }
       });
    }
 
@@ -549,9 +609,11 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.setOtherPlayer(stateUpdate);
-         if(stateUpdate.size() == 1) {
-            controller.setupLorenzo();
+         if(controller != null) {
+            controller.setOtherPlayer(stateUpdate);
+            if (stateUpdate.size() == 1) {
+               controller.setupLorenzo();
+            }
          }
       });
    }

@@ -11,7 +11,7 @@ import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
 public class LeaderProduceBehaviour extends CardBehaviour{
 
-   private ResourceType resourceToRemove;
+   private final ResourceType resourceToRemove;
 
    public LeaderProduceBehaviour(ResourceType resourceToRemove) {
       this.resourceToRemove = resourceToRemove;
@@ -26,7 +26,7 @@ public class LeaderProduceBehaviour extends CardBehaviour{
 
       Chest chest = playerBoard.getChest();
       Warehouse warehouse = playerBoard.getWarehouse();
-      int remainingToRemove = 0;
+      int remainingToRemove;
       try {
          remainingToRemove = warehouse.removeResources(resourceToRemove, 1);
          chest.removeResources(resourceToRemove, remainingToRemove);

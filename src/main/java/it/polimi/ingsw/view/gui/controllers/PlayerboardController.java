@@ -30,9 +30,9 @@ public class PlayerboardController extends GUIController {
 
     private boolean isPlayer = false;
     private String username;
-    private int i=2;
-    private int j=0;
-    private Map<ImageView, Integer> leaderImageIdMap = new HashMap<>();
+    private final int i=2;
+    private final int j=0;
+    private final Map<ImageView, Integer> leaderImageIdMap = new HashMap<>();
     private ImageView selectedLeader = null;
     private ImageView selectedLeaderToDiscard;
     private ResourceType firstToConsume = null;
@@ -43,7 +43,7 @@ public class PlayerboardController extends GUIController {
     private boolean forLeaderProd = false;
 
     @FXML
-    private List<Pair<ResourceType, HBox>> resourceTypeHBoxPairList = new ArrayList<>();
+    private final List<Pair<ResourceType, HBox>> resourceTypeHBoxPairList = new ArrayList<>();
     @FXML
     private ImageView leader0_ImageView;
     @FXML
@@ -112,6 +112,7 @@ public class PlayerboardController extends GUIController {
 
 
     @FXML
+    @SuppressWarnings("unchecked") // For lines 131 and 135
     private void initialize() {
         this.leader0_ImageView.setVisible(false);
         this.leader1_ImageView.setVisible(false);
@@ -129,7 +130,7 @@ public class PlayerboardController extends GUIController {
         //non so se ste cose sono valide qua
         this.storageLevels = new Pair[5];
         for(int i=0; i<5; i++)
-            storageLevels[i] = new Pair(null, null);
+            storageLevels[i] = new Pair<>(null, null);
 
         this.guiStorage = new List[5];
         for(int i=0; i<5; i++) {
@@ -251,7 +252,7 @@ public class PlayerboardController extends GUIController {
      */
     public void chestMergeUpdate() {
         String[] amounts;
-        int amount = 0;
+        int amount;
 
         amounts = coinCounter.getText().split("\\(");
         amount = Integer.parseInt(amounts[0]) + (amounts.length >= 2 ? Integer.parseInt(amounts[1].replace(")", "")) : 0);
@@ -366,28 +367,28 @@ public class PlayerboardController extends GUIController {
         clone.setLayoutY(cardCardSlotY - (leaderLevel * 40));
         clone.setFitHeight(height);
         clone.setFitWidth(width);
-        clone.setOnMouseEntered((MouseEvent event) -> mouseHover(event));
-        clone.setOnMouseExited((MouseEvent event) -> mouseHoverReset(event));
+        clone.setOnMouseEntered(this::mouseHover);
+        clone.setOnMouseExited(this::mouseHoverReset);
 
         playerBoardPane.getChildren().add(clone);
 
     }
 
     @FXML
-    private void baseProduction(ActionEvent event) {
+    private void baseProduction() {
         this.baseProdChoice.setVisible(true);
     }
 
     @FXML
-    private void produceSlot1(ActionEvent event) {
+    private void produceSlot1() {
         createProductionAction(0);
     }
     @FXML
-    private void produceSlot2(ActionEvent event) {
+    private void produceSlot2() {
         createProductionAction(1);
     }
     @FXML
-    private void produceSlot3(ActionEvent event) {
+    private void produceSlot3() {
         createProductionAction(2);
     }
 
@@ -405,15 +406,15 @@ public class PlayerboardController extends GUIController {
      */
     public void askLeaderOnWhite(){
         this.enableLeader();
-        leader0_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
-        leader1_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
-        leader2_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
-        leader3_ImageView.setOnMouseClicked((MouseEvent event) -> selectWhiteLeader(event));
+        leader0_ImageView.setOnMouseClicked(this::selectWhiteLeader);
+        leader1_ImageView.setOnMouseClicked(this::selectWhiteLeader);
+        leader2_ImageView.setOnMouseClicked(this::selectWhiteLeader);
+        leader3_ImageView.setOnMouseClicked(this::selectWhiteLeader);
     }
 
     @FXML
     private void selectWhiteLeader(MouseEvent event) {
-        Action chooseLeaderOnWhiteMarbleAction = new ChooseLeaderOnWhiteMarbleAction(leaderImageIdMap.get((ImageView) event.getSource()));
+        Action chooseLeaderOnWhiteMarbleAction = new ChooseLeaderOnWhiteMarbleAction(leaderImageIdMap.get(event.getSource()));
         client.forwardAction(chooseLeaderOnWhiteMarbleAction);
         //set click on leaders to do nothing
         leader0_ImageView.setOnMouseClicked(null);
@@ -432,7 +433,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    private void activateLeader(ActionEvent event) {
+    private void activateLeader() {
         Action activateLeaderAction = new ActivateLeaderAction(leaderImageIdMap.get(this.selectedLeader));
         System.out.println(leaderImageIdMap.get(this.selectedLeader));
         client.forwardAction(activateLeaderAction);
@@ -441,7 +442,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    private void discardLeader(ActionEvent event) {
+    private void discardLeader() {
         Action discardLeaderAction = new DiscardLeaderAction(leaderImageIdMap.get(this.selectedLeader));
         System.out.println(leaderImageIdMap.get(this.selectedLeader));
         client.forwardAction(discardLeaderAction);
@@ -450,7 +451,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    private void chooseGold(MouseEvent event) {
+    private void chooseGold() {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.GOLD);
         else
@@ -459,7 +460,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    private void chooseServant(MouseEvent event) {
+    private void chooseServant() {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.SERVANT);
         else
@@ -467,7 +468,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    private void chooseShield(MouseEvent event) {
+    private void chooseShield() {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.SHIELD);
         else
@@ -475,7 +476,7 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    private void chooseStone(MouseEvent event) {
+    private void chooseStone() {
         if(!forLeaderProd)
             createBaseProduction(ResourceType.STONE);
         else
@@ -498,12 +499,12 @@ public class PlayerboardController extends GUIController {
     }
 
     @FXML
-    private void addStone(MouseEvent event) {
+    private void addStone() {
         updateWarehouse(new WarehouseUpdate(ResourceType.STONE, 2, 1));
     }
 
     @FXML
-    private void addShield(MouseEvent event) {
+    private void addShield() {
         updateWarehouse(new WarehouseUpdate(ResourceType.SHIELD, 2, 0));
         updateWarehouse(new WarehouseUpdate(ResourceType.STONE, 3, 2));
     }
@@ -532,8 +533,6 @@ public class PlayerboardController extends GUIController {
                             for(int k=0; k<update.getQuantity(); k++){
                                 guiStorage[i].add(new ImageView(GuiResources.resTypeToImageMap.get(storageLevels[i].getKey())));
                             }
-                            updateWarehouseVisuals();
-                            return;
                         } else {
                             guiStorage[update.getLevel()].clear();
                             guiStorage[i].clear();
@@ -548,9 +547,9 @@ public class PlayerboardController extends GUIController {
                             for(int k=0; temp.getValue()!= null && k<temp.getValue(); k++){
                                 guiStorage[i].add(new ImageView(GuiResources.resTypeToImageMap.get(storageLevels[i].getKey())));
                             }
-                            updateWarehouseVisuals();
-                            return;
                         }
+                        updateWarehouseVisuals();
+                        return;
                     }
                 }
             }
@@ -621,17 +620,17 @@ public class PlayerboardController extends GUIController {
             this.selectedLeaderToDiscard.setDisable(true);
         }
         else {
-            Action discardLeaderAction = new DiscardInitialLeaderAction(leaderImageIdMap.get((ImageView) event.getSource()), leaderImageIdMap.get(this.selectedLeaderToDiscard));
-            leaderCardVbox.getChildren().remove((ImageView) event.getSource());
+            Action discardLeaderAction = new DiscardInitialLeaderAction(leaderImageIdMap.get(event.getSource()), leaderImageIdMap.get(this.selectedLeaderToDiscard));
+            leaderCardVbox.getChildren().remove(event.getSource());
             leaderCardVbox.getChildren().remove(this.selectedLeaderToDiscard);
             client.forwardAction(discardLeaderAction);
 
             this.selectedLeaderToDiscard = null;
 
-            leader0_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
-            leader1_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
-            leader2_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
-            leader3_ImageView.setOnMouseClicked((MouseEvent event1) -> showDiscardActivateMenu(event1));
+            leader0_ImageView.setOnMouseClicked(this::showDiscardActivateMenu);
+            leader1_ImageView.setOnMouseClicked(this::showDiscardActivateMenu);
+            leader2_ImageView.setOnMouseClicked(this::showDiscardActivateMenu);
+            leader3_ImageView.setOnMouseClicked(this::showDiscardActivateMenu);
         }
     }
 
@@ -720,7 +719,7 @@ public class PlayerboardController extends GUIController {
                     //potrei mettere bordo rosso e fare che non fa nulla on mouse hover
                     try {
                         if (LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement() != null) {
-                            activatedCard.setOnMouseClicked((MouseEvent event1) -> activateLeaderProduction(event1));
+                            activatedCard.setOnMouseClicked(this::activateLeaderProduction);
                         }
                     } catch (InvalidCardException e) {
                         e.printStackTrace();

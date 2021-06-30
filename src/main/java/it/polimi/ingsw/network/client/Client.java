@@ -13,7 +13,6 @@ import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.view.*;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.CliDrawer;
@@ -44,7 +43,6 @@ public class Client implements PhaseChangedObserver {
 
   public static void main(String[] args) {
     boolean isCli = false;
-    boolean isLocal = false;
 
 //    if(args.length > 0)
 ////      isLocal = true;
@@ -123,7 +121,7 @@ public class Client implements PhaseChangedObserver {
       ServerConnector serverConnector = new ServerConnector(server, this);
       this.virtualModel = new NetworkVirtualModel(serverConnector);
 
-      Runnable threadServerConnection = () -> serverConnector.handleServerConnection();
+      Runnable threadServerConnection = serverConnector::handleServerConnection;
       Thread thread = new Thread(threadServerConnection);
       thread.setName("StreamIn");
       thread.start();
@@ -193,6 +191,7 @@ public class Client implements PhaseChangedObserver {
    * NOTE: msg cannot be null
    * @param msg the message to be handled, received from the server
    */
+  @SuppressWarnings("unchecked") // For lines 235 and 238
   public void handleMessage(Message msg) {
     if(msg == null)
       return;
@@ -372,7 +371,7 @@ public class Client implements PhaseChangedObserver {
     TurnManager gameTurnManager = null;
     try {
       Game game = new SinglePlayer(localVirtualView);
-      gameTurnManager = new TurnManager(game, Arrays.asList(username));
+      gameTurnManager = new TurnManager(game, Collections.singletonList(username));
       gameTurnManager.startGame();
     } catch (IOException |MaximumNumberOfPlayersException e) {
       System.out.println("A problem has occurred while creating the game.");

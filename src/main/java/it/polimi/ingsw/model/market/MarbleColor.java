@@ -15,9 +15,9 @@ public enum MarbleColor {
     RED (Color.ANSI_RED.escape(), ConfigParameters.marbleCharacter + Color.RESET.escape(), javafx.scene.paint.Color.RED),
     WHITE (Color.RESET.escape(), ConfigParameters.marbleCharacter + Color.RESET.escape(), javafx.scene.paint.Color.WHITE);
 
-    private String escape;
-    private String color;
-    private javafx.scene.paint.Color guiColor;
+    private final String escape;
+    private final String color;
+    private final javafx.scene.paint.Color guiColor;
 
     MarbleColor(String color, String escape, javafx.scene.paint.Color guiColor) {
         this.color = color;

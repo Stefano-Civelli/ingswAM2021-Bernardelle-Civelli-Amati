@@ -8,4 +8,5 @@ public interface PhaseChangedObserver {
    * @param nextPhase, update content
    */
   void phaseUpdate(TurnState nextPhase);
+
 }

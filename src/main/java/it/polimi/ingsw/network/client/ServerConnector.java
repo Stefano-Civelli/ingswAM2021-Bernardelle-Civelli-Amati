@@ -20,8 +20,8 @@ import java.util.TimerTask;
  * This class receives and send Messages
  */
 public class ServerConnector{
-  private Client client;
-  private Socket server;
+  private final Client client;
+  private final Socket server;
   private PrintWriter out;
   private BufferedReader in;
   private Timer pingTimer = null;
@@ -62,6 +62,7 @@ public class ServerConnector{
       server.close();
       System.exit(0);
     } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
@@ -107,7 +108,7 @@ public class ServerConnector{
     if(in == null) {
       this.client.getView().displayServerDown();
     }
-    Message message = null;
+    Message message;
     JsonObject jsonObject = (JsonObject) JsonParser.parseString(in);
     if(jsonObject.getAsJsonObject().get("messageType").getAsString().equals(MessageType.ERROR.name()))
       in = in.replaceAll("\\\\\"", "");
