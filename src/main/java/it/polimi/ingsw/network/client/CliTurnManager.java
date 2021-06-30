@@ -41,7 +41,7 @@ public class CliTurnManager implements ClientTurnManagerInterface {
         if(stateViewer.getPlayerTurnPosition()!=1) {
           view.displayDefaultCanvas(stateViewer.getUsername());
           System.out.println("\nYou need to choose " + stateViewer.getPlayerTurnPosition() / 2 + " resource(s) to add from the following");
-          view.displayMarbleChoice();
+          view.displayInitialResourcesChoice();
           System.out.println("Which resource do you want to pick? (index)");
         }
         else {

@@ -173,7 +173,7 @@ public class ServerClientHandler implements Runnable {
          tempChest.addResources(ResourceType.SERVANT, 50);
          tempChest.addResources(ResourceType.GOLD, 50);
          tempChest.endOfTurnMapsMerge();
-         match.getTurnManager().getGame().getPlayerBoard(match.getTurnManager().getCurrentPlayer()).getTrack().moveForward(23);
+         match.getTurnManager().getGame().getPlayerBoard(match.getTurnManager().getCurrentPlayer()).getTrack().moveForward(2);
       } catch (InvalidUsernameException | NegativeQuantityException | AbuseOfFaithException e) {e.printStackTrace();}
    }
 

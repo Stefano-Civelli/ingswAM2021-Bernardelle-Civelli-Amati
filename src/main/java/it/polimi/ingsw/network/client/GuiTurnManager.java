@@ -4,8 +4,6 @@ import it.polimi.ingsw.model.PhaseType;
 import it.polimi.ingsw.model.updatecontainers.TurnState;
 import it.polimi.ingsw.view.ViewInterface;
 
-import java.util.List;
-
 /**
  * Class instantiated once a game is played in GUI configuration.
  * Manages turns client side
@@ -35,7 +33,7 @@ public class GuiTurnManager implements ClientTurnManagerInterface{
             view.displayYourTurn(this.currentPlayer); // it's necessary in singleplayer, in multiplayer it's repeated
             break;
          case SETUP_CHOOSING_RESOURCES:
-            view.displayMarbleChoice();
+            view.displayInitialResourcesChoice();
             break;
          case SETUP_DISCARDING_LEADERS:
             view.displayLeaderHand();

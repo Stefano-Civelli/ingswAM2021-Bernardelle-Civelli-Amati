@@ -55,11 +55,11 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    @Override
-   public void displayMarbleChoice() {
+   public void displayInitialResourcesChoice() {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
-         controller.displayMarbleChoice(this.username);
+         controller.displayInitialResourcesChoice(this.username);
       });
    }
 
