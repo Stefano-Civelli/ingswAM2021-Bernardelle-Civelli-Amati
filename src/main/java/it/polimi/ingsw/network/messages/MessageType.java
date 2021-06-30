@@ -14,7 +14,6 @@ public enum MessageType {
   YOU_JOINED,
   OTHER_USER_JOINED,
   SERVER_DOWN,
-  DISCONNECTED_SERVER_SIDE,
   RECONNECTED,
   DISCONNECTED,
   STARTING_GAME_SETUP,
@@ -22,9 +21,7 @@ public enum MessageType {
 
   ACTION, // -> se ho questo tipo il payload del messaggio deve contenere il Type dell'azione e i correti field per poter fare le doAction
 
-  GENERIC_MESSAGE,
   GAME_STARTED,
-  INIT_TURN,
 
   MARKET_UPDATED,
   VATICAN_REPORT,
@@ -37,7 +34,6 @@ public enum MessageType {
   CHEST_MERGED,
   ACTIVATED_LEADERCARD_UPDATE,
   DISCARDED_LEADERCARD,
-  WINNING_PLAYER,
 
   LORENZO_TRACK_UPDATE,
   LORENZO_SHUFFLE_UPDATE,
@@ -50,12 +46,9 @@ public enum MessageType {
   ERROR,
   QUIT,
   NEXT_TURN_STATE,
-  CHAT,
   CHEAT,
-  GAME_ENDED,
+  GAME_ENDED;
 
-  PLAYER_CONNECTION, // a player connected
-  PLAYER_DISCONNECTION; // a player disconnected
 
   private final boolean isSetup;
 

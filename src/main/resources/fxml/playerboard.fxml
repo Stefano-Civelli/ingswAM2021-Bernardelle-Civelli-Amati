@@ -37,12 +37,12 @@
                         <Image url="@../images/punchboard/servant.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="95.0" layoutY="429.0" onMouseClicked="#addShield" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="95.0" layoutY="429.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/punchboard/shield.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="93.0" layoutY="466.0" onMouseClicked="#addStone" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="93.0" layoutY="466.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/punchboard/stone.png" />
                      </image>
