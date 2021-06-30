@@ -105,7 +105,7 @@ public class Warehouse implements WarehouseUpdateObservable {
         for(int i = 0; i < this.numberOfLeaderCardsLevels(); i++) {
             if(this.leaderLevels.get(i).getKey() == resource && this.leaderLevels.get(i).getValue() + 1 <= 2) {
                 this.leaderLevels.set(i, new Pair<>(resource, this.leaderLevels.get(i).getValue() + 1));
-                notifyModelChange(new WarehouseUpdate(resource, this.leaderLevels.get(i).getValue(), i + 3)); //3 is the first leader that as been activated
+                notifyWarehouseUpdate(new WarehouseUpdate(resource, this.leaderLevels.get(i).getValue(), i + 3)); //3 is the first leader that as been activated
                 return;
             }
         }
@@ -115,7 +115,7 @@ public class Warehouse implements WarehouseUpdateObservable {
         if(level != -1) { //There is already a level with this type of resource
             if (this.levels[level].getValue() + 1 <= this.numberOfNormalLevels() - level) {
                 this.levels[level] = new Pair<>(resource, this.levels[level].getValue() + 1);
-                notifyModelChange(new WarehouseUpdate(resource, this.levels[level].getValue(), level));
+                notifyWarehouseUpdate(new WarehouseUpdate(resource, this.levels[level].getValue(), level));
                 return;
             } else { //Try to swap levels
                 for(int i = level - 1; i >= 0; i--) {
@@ -125,7 +125,7 @@ public class Warehouse implements WarehouseUpdateObservable {
                         swap = this.levels[i];
                         this.levels[i] = new Pair<>(resource, this.levels[level].getValue() + 1);
                         this.levels[level] = swap;
-                        notifyModelChange(new WarehouseUpdate(resource, this.levels[i].getValue(), i));
+                        notifyWarehouseUpdate(new WarehouseUpdate(resource, this.levels[i].getValue(), i));
                         return;
                     }
                 }
@@ -134,7 +134,7 @@ public class Warehouse implements WarehouseUpdateObservable {
             for(int i = this.numberOfNormalLevels() - 1; i >= 0; i--)
                 if(this.levels[i] == null) {
                     this.levels[i] = new Pair<>(resource, 1);
-                    notifyModelChange(new WarehouseUpdate(resource, this.levels[i].getValue(), i));
+                    notifyWarehouseUpdate(new WarehouseUpdate(resource, this.levels[i].getValue(), i));
                     return;
                 }
         }
@@ -163,11 +163,11 @@ public class Warehouse implements WarehouseUpdateObservable {
             if( this.levels[level].getValue() <= quantity) {
                 quantity -= this.levels[level].getValue();
                 this.levels[level] = null;
-                notifyModelChange(new WarehouseUpdate(resourceType, 0, level));
+                notifyWarehouseUpdate(new WarehouseUpdate(resourceType, 0, level));
             } else {
                 this.levels[level] = new Pair<>(resourceType, this.levels[level].getValue() - quantity);
                 quantity = 0;
-                notifyModelChange(new WarehouseUpdate(resourceType, this.levels[level].getValue(), level));
+                notifyWarehouseUpdate(new WarehouseUpdate(resourceType, this.levels[level].getValue(), level));
             }
 
         }
@@ -185,7 +185,7 @@ public class Warehouse implements WarehouseUpdateObservable {
                     quantity = 0;
                 }
 
-                notifyModelChange(new WarehouseUpdate(resourceType, this.leaderLevels.get(i).getValue(), i + 3));
+                notifyWarehouseUpdate(new WarehouseUpdate(resourceType, this.leaderLevels.get(i).getValue(), i + 3));
             }
         }
 
@@ -224,7 +224,7 @@ public class Warehouse implements WarehouseUpdateObservable {
     }
 
     @Override
-    public void notifyModelChange(WarehouseUpdate msg) {
+    public void notifyWarehouseUpdate(WarehouseUpdate msg) {
         if (controller != null)
             controller.warehouseUpdate(msg);
     }

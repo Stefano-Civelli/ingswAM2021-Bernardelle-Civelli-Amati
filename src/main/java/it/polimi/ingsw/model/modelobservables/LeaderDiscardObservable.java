@@ -4,6 +4,10 @@ import it.polimi.ingsw.model.updatecontainers.LeaderUpdate;
 
 public interface LeaderDiscardObservable {
 
+   /**
+    * notify the model observers that a leader card has been discarded
+    * Along with the notification sends the proper update Object as further explained in project documentation
+    */
    void notifyLeaderDiscard(LeaderUpdate msg);
 
 }
