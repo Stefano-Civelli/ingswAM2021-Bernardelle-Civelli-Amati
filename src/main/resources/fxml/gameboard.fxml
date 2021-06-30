@@ -149,7 +149,7 @@
       </GridPane>
       <ImageView fx:id="lorenzoToken" fitHeight="82.0" fitWidth="91.0" layoutX="941.0" layoutY="166.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverReset" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/punchboard/retro%20cerchi.png" />
+            <Image url="@../images/punchboard/retro cerchi.png" />
          </image>
       </ImageView>
    </children>
