@@ -20,7 +20,7 @@ public interface ViewInterface extends LorenzoViewInterface {
   /**
    * Displays the four marbles associated to a resource
    */
-  void displayMarbleChoice();
+  void displayInitialResourcesChoice();
 
   /**
    * Display the network setup options.

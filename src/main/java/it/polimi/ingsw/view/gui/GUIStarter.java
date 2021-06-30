@@ -3,22 +3,15 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.client.GuiTurnManager;
-import it.polimi.ingsw.view.gui.controllers.GUIController;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 /**
  * Class used by javafx to start GUI
  */
 public class GUIStarter extends Application {
 
-    Client client = null;
+    private Client client = null;
 
     /**
      * Method called by javafx when the gui starts:
@@ -36,6 +29,10 @@ public class GUIStarter extends Application {
         gui.getSceneController().start(stage);
     }
 
+    /**
+     * Method called by javafx when the last stage will be closed:
+     * close the server socket and the process
+     */
     @Override
     public void stop() {
         this.client.close();

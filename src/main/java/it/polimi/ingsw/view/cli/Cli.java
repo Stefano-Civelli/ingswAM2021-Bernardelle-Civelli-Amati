@@ -51,7 +51,7 @@ public class Cli implements ViewInterface {
   }
 
   @Override
-  public void displayMarbleChoice() {
+  public void displayInitialResourcesChoice() {
     drawer.displayResourcesChoice();
   }
 

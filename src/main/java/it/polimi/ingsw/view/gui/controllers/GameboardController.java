@@ -610,7 +610,7 @@ public class GameboardController extends GUIController {
      * Display the tmp marbles bought form market
      * @param username the player who bought from market
      */
-    public void displayMarbleChoice(String username){
+    public void displayInitialResourcesChoice(String username){
         this.turnPhaseLable.setText("It's " + username + "'s turn");
         this.market_anchorPane.setDisable(true);
         this.deckGridPane.setDisable(true);
@@ -647,7 +647,7 @@ public class GameboardController extends GUIController {
     @FXML
     private void chooseStone(MouseEvent event) { onChosenResource(ResourceType.STONE); }
 
-    private void onChosenResource(ResourceType resource){
+    private void onChosenResource(ResourceType resource) { //FIXME
         if(chosenResourceMap.containsKey(resource))
             chosenResourceMap.compute(resource, (k,v) -> (v==null) ? 1 : v + 1);
         else {
