@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.modelexceptions.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a leader card
+ */
 public class LeaderCard {
 
    @SuppressWarnings({"FieldCanBeLocal"})

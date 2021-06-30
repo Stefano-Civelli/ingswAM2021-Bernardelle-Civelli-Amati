@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.ResourceType;
 
 import java.util.HashMap;
 
+/**
+ * The CardBehaviour that represents the discount behaviour: a leader card with this behaviour will reduce the develop card price
+ */
 public class DiscountBehaviour extends CardBehaviour{
 
    private final ResourceType resourceToDiscount;

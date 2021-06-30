@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.modelexceptions.NeedAResourceToAddException;
 import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
+/**
+ * The CardBehaviour that represents the producing behaviour: a leader card with this behaviour can perform a production
+ */
 public class LeaderProduceBehaviour extends CardBehaviour{
 
    private final ResourceType resourceToRemove;

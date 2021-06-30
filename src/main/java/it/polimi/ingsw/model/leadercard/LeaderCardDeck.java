@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Represents the deck of leader cards before they are distributed to the players
+ */
 public class LeaderCardDeck {
 
   @SuppressWarnings({"unused"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
