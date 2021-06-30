@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.market.MarbleColor;
-import it.polimi.ingsw.view.cli.Color;
 
 /**
  * Represents all the possible type of resources

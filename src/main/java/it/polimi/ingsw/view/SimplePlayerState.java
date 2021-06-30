@@ -1,10 +1,8 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.updatecontainers.*;
 import it.polimi.ingsw.utility.Pair;
-import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
 import java.util.*;
 
 /**
@@ -16,9 +14,9 @@ public class SimplePlayerState {
    private final int MAX_SPECIAL_LEVELS = 2;
 
    private int trackPosition;
-   private boolean[] vaticanFlipped;
+   private final boolean[] vaticanFlipped;
    private  List<Integer> notActiveLederCards; //identified by ID
-   private  List<Integer> activeLeaderCards;   //identified by ID
+   private final List<Integer> activeLeaderCards;   //identified by ID
    private final Map<ResourceType, Integer> chest;
    private final Map<ResourceType, Integer> tempChest;
    private final Pair<ResourceType, Integer>[] storageLevels;
@@ -27,6 +25,7 @@ public class SimplePlayerState {
    /**
     * Constructor for SimplePlayerState class
     */
+   @SuppressWarnings("unchecked") // For lines 38 and 42
    public SimplePlayerState() {
       this.trackPosition = 0;
       this.chest = new HashMap<>();
@@ -36,7 +35,7 @@ public class SimplePlayerState {
       this.tempChest = new HashMap<>();
       this.storageLevels = new Pair[MAX_SPECIAL_LEVELS+NUMBER_OF_NORMAL_LEVELS];
       for(int i=0; i<MAX_SPECIAL_LEVELS+NUMBER_OF_NORMAL_LEVELS; i++)
-         storageLevels[i] = new Pair(null, null);
+         storageLevels[i] = new Pair<>(null, null);
 
       this.cardSlots = new List[3];
       for(int i=0; i<3; i++)
@@ -81,13 +80,12 @@ public class SimplePlayerState {
                if (storageLevels[i].getKey().equals(resource)) {
                   if (i == update.getLevel()) {
                      storageLevels[i] = new Pair<>(resource, update.getQuantity());
-                     return;
                   } else {
                      Pair<ResourceType, Integer> temp = new Pair<>(storageLevels[update.getLevel()].getKey(), storageLevels[update.getLevel()].getValue());
                      storageLevels[update.getLevel()] = new Pair<>(resource, update.getQuantity());
                      storageLevels[i] = new Pair<>(temp.getKey(), temp.getValue());
-                     return;
                   }
+                  return;
                }
             }
          }
@@ -100,8 +98,7 @@ public class SimplePlayerState {
     * @param stateUpdate, update content
     */
    public void trackUpdate(TrackUpdate stateUpdate) {
-      int newPosition = stateUpdate.getPlayerPosition();
-      this.trackPosition = newPosition;
+      this.trackPosition = stateUpdate.getPlayerPosition();
    }
 
    /**
@@ -190,6 +187,7 @@ public class SimplePlayerState {
     * Returns normal levels of warehouse (so excluding leader levels if they are present)
     * @return normal levels of warehouse
     */
+   @SuppressWarnings("unchecked")
    public Pair<ResourceType, Integer>[] getWarehouseLevels() {
       Pair<ResourceType, Integer>[] warehouseLevels = new Pair[3];
       for(int i=0; i<3; i++)
@@ -215,6 +213,7 @@ public class SimplePlayerState {
       return trackPosition;
    }
 
+   @SuppressWarnings("unchecked")
    public List<Integer>[] getCardSlots() {
       List<Integer>[] tempCardSlots = new List[3];
       for(int i=0; i<3; i++)

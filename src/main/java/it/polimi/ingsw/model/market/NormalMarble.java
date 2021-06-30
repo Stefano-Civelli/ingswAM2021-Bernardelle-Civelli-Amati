@@ -8,12 +8,7 @@ import it.polimi.ingsw.model.modelexceptions.*;
  */
 public class NormalMarble extends MarketMarble{
 
-    private ResourceType resource = null;
-
-//    @SuppressWarnings("unused") // It may be called using reflection during JSON deserialization
-//    private NormalMarble() {
-//        super(MarbleColor.NORMAL);
-//    }
+    private final ResourceType resource;
 
     public NormalMarble(ResourceType resource) throws AbuseOfFaithException {
         super((resource == null) ? null : resource.getColor());

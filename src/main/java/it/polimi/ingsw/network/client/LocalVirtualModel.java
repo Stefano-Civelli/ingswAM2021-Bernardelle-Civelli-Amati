@@ -15,9 +15,9 @@ import it.polimi.ingsw.utility.GSON;
  */
 public class LocalVirtualModel implements VirtualModel, PhaseChangedObservable{
 
-   private TurnManager turnManager;
-   private ClientTurnManagerInterface clientTurnManager;
-   private Client client;
+   private final TurnManager turnManager;
+   private final ClientTurnManagerInterface clientTurnManager;
+   private final Client client;
 
    /**
     * Constructor for LocalVirtualModel class

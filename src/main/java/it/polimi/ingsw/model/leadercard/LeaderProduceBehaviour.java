@@ -9,9 +9,12 @@ import it.polimi.ingsw.model.modelexceptions.NeedAResourceToAddException;
 import it.polimi.ingsw.model.modelexceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.modelexceptions.NotEnoughResourcesException;
 
+/**
+ * The CardBehaviour that represents the producing behaviour: a leader card with this behaviour can perform a production
+ */
 public class LeaderProduceBehaviour extends CardBehaviour{
 
-   private ResourceType resourceToRemove;
+   private final ResourceType resourceToRemove;
 
    public LeaderProduceBehaviour(ResourceType resourceToRemove) {
       this.resourceToRemove = resourceToRemove;
@@ -26,7 +29,7 @@ public class LeaderProduceBehaviour extends CardBehaviour{
 
       Chest chest = playerBoard.getChest();
       Warehouse warehouse = playerBoard.getWarehouse();
-      int remainingToRemove = 0;
+      int remainingToRemove;
       try {
          remainingToRemove = warehouse.removeResources(resourceToRemove, 1);
          chest.removeResources(resourceToRemove, remainingToRemove);

@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.modelexceptions.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;

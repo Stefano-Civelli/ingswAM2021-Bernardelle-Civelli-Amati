@@ -141,7 +141,7 @@ public class Match {
 
    private void start() {
       sendToClient(new Message(MessageType.STARTING_GAME_SETUP));
-      Game game = null;
+      Game game;
       List<String> playersInOrder = null;
       boolean singlePlayer = (playersNumber == 1);
       ModelObserver virtualView = new NetworkVirtualView(this);

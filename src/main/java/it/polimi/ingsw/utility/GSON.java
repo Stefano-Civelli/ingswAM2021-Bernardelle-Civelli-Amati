@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.leadercard.*;
 import it.polimi.ingsw.model.track.LorenzoTrack;
 import it.polimi.ingsw.model.track.Track;
 import it.polimi.ingsw.controller.action.*;
-import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.io.*;
@@ -130,8 +129,7 @@ public final class GSON {
     * @return the newly created action
     */
    public static Action buildAction(String payload) {
-      Action action = getActionBuilder().fromJson(payload, Action.class);
-      return action;
+      return getActionBuilder().fromJson(payload, Action.class);
    }
 
    private static Gson getActionBuilder() {

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -42,7 +41,7 @@ public class LoginController extends GUIController {
     }
 
     @FXML
-    private void login(ActionEvent actionEvent) {
+    private void login() {
         if(!isAlphanumeric(this.username_textField.getText())) {
             this.error_label.setText("ERROR: all fields must be alphanumeric");
             this.error_label.setVisible(true);

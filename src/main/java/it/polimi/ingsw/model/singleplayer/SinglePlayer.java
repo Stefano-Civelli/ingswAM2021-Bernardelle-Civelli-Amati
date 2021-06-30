@@ -7,10 +7,8 @@ import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
 import it.polimi.ingsw.model.track.LorenzoTrack;
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
-import it.polimi.ingsw.view.LorenzoViewInterface;
 
 import java.io.IOException;
 import java.util.*;
@@ -76,7 +74,6 @@ public class SinglePlayer extends Game {
          token.useToken(this.actionTokenStack, this.lorenzoTrack, super.developCardDeck);
          this.actionTokenStack.addLast(token);
          if (endGame) {
-            int score = calculateScore();
             handleEndGame("", calculateScore());
             return null;
          }

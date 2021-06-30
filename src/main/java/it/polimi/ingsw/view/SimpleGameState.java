@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.updatecontainers.DevelopCardDeckUpdate;
 import it.polimi.ingsw.model.updatecontainers.MarketSetup;
 import it.polimi.ingsw.model.updatecontainers.MarketUpdate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class SimpleGameState {
    private List<Integer>[][] developCardDeck; //identified by ID
    private MarbleColor[][] market;
    private MarbleColor slide;
-   private List<MarbleColor> tempMarble;
+   private final List<MarbleColor> tempMarble;
    private int lorenzoTrackPosition = 0;
 
    /**
@@ -97,11 +98,10 @@ public class SimpleGameState {
     */
    public void setTempMarble(boolean row, int index){
       if(row)
-         for(int i=0; i<market[0].length; i++)
-            this.tempMarble.add(market[index-1][i]);
+         this.tempMarble.addAll(Arrays.asList(market[index - 1]).subList(0, market[0].length));
       else
-         for(int i=0; i<market.length; i++)
-            this.tempMarble.add(market[i][index-1]);
+         for (MarbleColor[] marbleColors : market)
+            this.tempMarble.add(marbleColors[index - 1]);
    }
 
    /**

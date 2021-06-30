@@ -7,19 +7,21 @@ package it.polimi.ingsw.model.track;
 public interface VaticanReportObservable {
 
   /**
-   * add an observer to a list of observers
-   * @param observerToAdd
+   * Add an observer to a list of observers
+   *
+   * @param observerToAdd the observer to add
    */
   void addToVaticanReportObserverList(VaticanReportObserver observerToAdd);
 
   /**
-   * remove an observer from a list of observers
-   * @param observerToRemove
+   * Remove an observer from a list of observers
+   *
+   * @param observerToRemove the observer to remove
    */
   void removeFromVaticanReportObserverList(VaticanReportObserver observerToRemove);
 
   /**
-   * notify the vaticanReport observers that a vatican report is started
+   * Notify the vaticanReport observers that a vatican report is started
    */
   void notifyForVaticanReport(int active);
 

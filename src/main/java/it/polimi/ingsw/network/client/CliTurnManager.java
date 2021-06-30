@@ -15,11 +15,11 @@ import java.util.HashMap;
  * Manages turns client side
  */
 public class CliTurnManager implements ClientTurnManagerInterface {
-  private Client client;
+  private final Client client;
   private PhaseType currentPhase;
   private String currentPlayer;
-  private ViewInterface view;
-  private ClientStateViewer stateViewer;
+  private final ViewInterface view;
+  private final ClientStateViewer stateViewer;
 
   /**
    * Constructor for CliTurnManager class
@@ -102,7 +102,7 @@ public class CliTurnManager implements ClientTurnManagerInterface {
    * @return true if the action performed can be actually done in this phase, false otherwise
    */
   public boolean isValidInCurrentPhase(String input) {
-    ActionType action = null;
+    ActionType action;
     switch (input) {
       case "P": case "p":
         action = ActionType.PRODUCE;

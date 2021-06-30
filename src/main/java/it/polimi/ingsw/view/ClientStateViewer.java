@@ -27,7 +27,7 @@ public interface ClientStateViewer {
 
   /**
    * Returns the username list of the players in the game
-   * @returnthe username list of the players in the game
+   * @return the username list of the players in the game
    */
   List<String> usernameList();
 

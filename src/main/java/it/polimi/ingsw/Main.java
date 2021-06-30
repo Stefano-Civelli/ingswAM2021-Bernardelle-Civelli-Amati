@@ -8,7 +8,14 @@ import it.polimi.ingsw.network.server.Server;
  */
 public abstract class Main {
 
+   /**
+    * The string printed on -h or --help program argument
+    */
    public static final String helpString;
+
+   /**
+    * The string printed when the program starts with wrongs arguments
+    */
    public static final String errorString;
 
    static {

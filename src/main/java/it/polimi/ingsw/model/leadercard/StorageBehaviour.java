@@ -5,9 +5,12 @@ import it.polimi.ingsw.model.ResourceType;
 import it.polimi.ingsw.model.modelexceptions.AbuseOfFaithException;
 import it.polimi.ingsw.model.modelexceptions.MaxLeaderCardLevelsException;
 
+/**
+ * The CardBehaviour that represents the producing behaviour: a leader card with this behaviour will add a new warehouse level
+ */
 public class StorageBehaviour extends CardBehaviour{
 
-   private ResourceType storageType;
+   private final ResourceType storageType;
 
    public StorageBehaviour(ResourceType storageType) {
       this.storageType = storageType;

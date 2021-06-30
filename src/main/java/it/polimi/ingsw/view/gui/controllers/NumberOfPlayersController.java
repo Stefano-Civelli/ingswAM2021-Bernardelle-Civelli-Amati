@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -34,12 +33,13 @@ public class NumberOfPlayersController extends GUIController {
     }
 
     @FXML
-    private void modeRadioButtons(ActionEvent actionEvent) {
+    private void modeRadioButtons() {
         this.multiplayer_pane.setVisible(this.multiPlayer_radioButton.isSelected());
     }
 
     @FXML
-    private void createGame(ActionEvent actionEvent) {
+    private void createGame() {
+        this.createGame_button.setDisable(true);
         int playersNumber = 0;
         if(this.singlePlayer_radioButton.isSelected())
             playersNumber = 1;

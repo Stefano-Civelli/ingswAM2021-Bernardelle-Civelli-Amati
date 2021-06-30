@@ -9,7 +9,7 @@ import it.polimi.ingsw.utility.GSON;
 public class Message {
    //provare a vedere se deserializzando LoginMessage posso impostare questi attributi private
    private String username = null; //username del Client mittente,
-   private MessageType messageType;
+   private final MessageType messageType;
    private String payload = null;
 
    /**

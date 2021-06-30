@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import it.polimi.ingsw.view.gui.GUI;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -39,7 +37,7 @@ public class ConnectionController extends GUIController {
     }
 
     @FXML
-    private void localhostServerIP(ActionEvent actionEvent) {
+    private void localhostServerIP() {
         if(this.localHostServerIP_checkBox.isSelected()) {
             this.serverIP_textField.setText("127.0.0.1");
             this.serverIP_textField.setDisable(true);
@@ -51,7 +49,7 @@ public class ConnectionController extends GUIController {
     }
 
     @FXML
-    private void defaultServerPort(ActionEvent actionEvent) {
+    private void defaultServerPort() {
         if(this.defaultServerPort_checkBox.isSelected()) {
             this.serverPort_textField.setText("6754");
             this.serverPort_textField.setDisable(true);
@@ -63,7 +61,7 @@ public class ConnectionController extends GUIController {
     }
 
     @FXML
-    private void connect(ActionEvent actionEvent) {
+    private void connect() {
         if(this.local_checkBox.isSelected()) {
             super.client.setLocal();
             super.client.getView().displayLogin();
@@ -83,7 +81,7 @@ public class ConnectionController extends GUIController {
     }
 
     @FXML
-    private void local(ActionEvent actionEvent) {
+    private void local() {
         if(this.local_checkBox.isSelected()) {
             this.serverIP_textField.setText("");
             this.serverIP_textField.setDisable(true);

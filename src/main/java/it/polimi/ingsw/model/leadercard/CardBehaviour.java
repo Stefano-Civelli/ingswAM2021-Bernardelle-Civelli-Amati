@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.modelexceptions.*;
 import java.util.HashMap;
 
 /**
- * class that contains all possibile leaderCards behaviours.
+ * Class that contains all possibile leaderCards behaviours.
  * When a leadercard ability gets activated these methods get called to perform the card ability.
  * These methods are Overridden by the specific subclasses that represent the various possible card Types;
  * so in order to create the specific cards it is possible to compose at will this methods in a new implementation of the CardBehaviour interface

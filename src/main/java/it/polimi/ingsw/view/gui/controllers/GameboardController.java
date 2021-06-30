@@ -119,8 +119,8 @@ public class GameboardController extends GUIController {
                 try {
                     url = "images/front/" + DevelopCardConstructor.getDevelopCardFromId(developCardDeck[i][j].get(developCardDeck[i][j].size() - 1)).getImage();
                     imagesDevelopCardDeck[i][j] = createRectangleFromImageUrl(url, GuiResources.cardWidth, GuiResources.cardHeight);
-                    imagesDevelopCardDeck[i][j].setOnMouseEntered((MouseEvent event) -> mouseHover(event));
-                    imagesDevelopCardDeck[i][j].setOnMouseExited((MouseEvent event) -> mouseHoverReset(event));
+                    imagesDevelopCardDeck[i][j].setOnMouseEntered(this::mouseHover);
+                    imagesDevelopCardDeck[i][j].setOnMouseExited(this::mouseHoverReset);
                     assignMethodToCard(imagesDevelopCardDeck[i][j], i, j);
                     deckGridPane.add(imagesDevelopCardDeck[i][j], j, i);
                 } catch (InvalidCardException e) {
@@ -146,48 +146,48 @@ public class GameboardController extends GUIController {
             case 0:
                 switch (j) {
                     case 0:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard1(event));
+                        image.setOnMouseClicked(this::buyCard1);
                         break;
                     case 1:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard2(event));
+                        image.setOnMouseClicked(this::buyCard2);
                         break;
                     case 2:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard3(event));
+                        image.setOnMouseClicked(this::buyCard3);
                         break;
                     case 3:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard4(event));
+                        image.setOnMouseClicked(this::buyCard4);
                         break;
                 }
                 break;
             case 1:
                 switch (j) {
                     case 0:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard5(event));
+                        image.setOnMouseClicked(this::buyCard5);
                         break;
                     case 1:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard6(event));
+                        image.setOnMouseClicked(this::buyCard6);
                         break;
                     case 2:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard7(event));
+                        image.setOnMouseClicked(this::buyCard7);
                         break;
                     case 3:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard8(event));
+                        image.setOnMouseClicked(this::buyCard8);
                         break;
                 }
                 break;
             case 2:
                 switch (j) {
                     case 0:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard9(event));
+                        image.setOnMouseClicked(this::buyCard9);
                         break;
                     case 1:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard10(event));
+                        image.setOnMouseClicked(this::buyCard10);
                         break;
                     case 2:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard11(event));
+                        image.setOnMouseClicked(this::buyCard11);
                         break;
                     case 3:
-                        image.setOnMouseClicked((MouseEvent event) -> buyCard12(event));
+                        image.setOnMouseClicked(this::buyCard12);
                         break;
                 }
                 break;
@@ -225,7 +225,7 @@ public class GameboardController extends GUIController {
      */
     public void setUsername(String username) {
         try {
-            Parent root = null;
+            Parent root;
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(SceneController.class.getClassLoader().getResource(GuiResources.playerboardFXML));
             if(loader.getLocation() == null)
@@ -358,7 +358,7 @@ public class GameboardController extends GUIController {
 
     /**
      * Display a market update when another player bought a row or a column
-     * @param stateUpdate
+     * @param stateUpdate the model update representing the market update
      */
     public void updateMarketOtherPlayers(MarketUpdate stateUpdate) {
         boolean isRow = stateUpdate.getIsRow();
@@ -458,30 +458,30 @@ public class GameboardController extends GUIController {
 
 
     @FXML
-    private void pushColumn1(MouseEvent event) { onColumnPushed(0); }
+    private void pushColumn1() { onColumnPushed(0); }
 
     @FXML
-    private void pushColumn2(MouseEvent event) { onColumnPushed(1); }
+    private void pushColumn2() { onColumnPushed(1); }
 
     @FXML
-    private void pushColumn3(MouseEvent event) { onColumnPushed(2); }
+    private void pushColumn3() { onColumnPushed(2); }
 
     @FXML
-    private void pushColumn4(MouseEvent event) { onColumnPushed(3); }
+    private void pushColumn4() { onColumnPushed(3); }
 
     @FXML
-    private void pushRow1(MouseEvent event) { onRowPushed(0); }
+    private void pushRow1() { onRowPushed(0); }
 
     @FXML
-    private void pushRow2(MouseEvent event) { onRowPushed(1); }
+    private void pushRow2() { onRowPushed(1); }
 
     @FXML
-    private void pushRow3(MouseEvent event) { onRowPushed(2); }
+    private void pushRow3() { onRowPushed(2); }
 
 
     private Circle cloneCircle(Circle circle) {
         Circle clonedCircle = new Circle(circle.getRadius(), circle.getFill());
-        clonedCircle.setOnMouseClicked((MouseEvent event) -> selectedMarble(event));
+        clonedCircle.setOnMouseClicked(this::selectedMarble);
         return clonedCircle;
     }
 
@@ -542,48 +542,48 @@ public class GameboardController extends GUIController {
     }
 
     @FXML
-    private void endTurn(ActionEvent event) {
+    private void endTurn() {
         Action endTurnAction = new EndTurnAction(client.getUsername());
         client.forwardAction(endTurnAction);
     }
 
     @FXML
-    private void showMyPlayerboard(ActionEvent event) {
+    private void showMyPlayerboard() {
         player_anchorPane.getChildren().remove(0);
         player_anchorPane.getChildren().add(playerboardList.get(0));
     }
 
     @FXML
-    private void showPlayerboard1(ActionEvent event) {
+    private void showPlayerboard1() {
         player_anchorPane.getChildren().remove(0);
         player_anchorPane.getChildren().add(playerboardList.get(1));
     }
 
     @FXML
-    private void showPlayerboard2(ActionEvent event) {
+    private void showPlayerboard2() {
         player_anchorPane.getChildren().remove(0);
         player_anchorPane.getChildren().add(playerboardList.get(2));
     }
 
     @FXML
-    private void showPlayerboard3(ActionEvent event) {
+    private void showPlayerboard3() {
         player_anchorPane.getChildren().remove(0);
         player_anchorPane.getChildren().add(playerboardList.get(3));
     }
 
 
     @FXML
-    private void completeBuyWithSlot1(ActionEvent event) {
+    private void completeBuyWithSlot1() {
         createBuyCardAction(0);
     }
 
     @FXML
-    private void completeBuyWithSlot2(ActionEvent event) {
+    private void completeBuyWithSlot2() {
         createBuyCardAction(1);
     }
 
     @FXML
-    private void completeBuyWithSlot3(ActionEvent event) {
+    private void completeBuyWithSlot3() {
         createBuyCardAction(2);
     }
 
@@ -636,16 +636,16 @@ public class GameboardController extends GUIController {
 
 
     @FXML
-    private void chooseGold(MouseEvent event) { onChosenResource(ResourceType.GOLD); }
+    private void chooseGold() { onChosenResource(ResourceType.GOLD); }
 
     @FXML
-    private void chooseServant(MouseEvent event) { onChosenResource(ResourceType.SERVANT); }
+    private void chooseServant() { onChosenResource(ResourceType.SERVANT); }
 
     @FXML
-    private void chooseShield(MouseEvent event) { onChosenResource(ResourceType.SHIELD); }
+    private void chooseShield() { onChosenResource(ResourceType.SHIELD); }
 
     @FXML
-    private void chooseStone(MouseEvent event) { onChosenResource(ResourceType.STONE); }
+    private void chooseStone() { onChosenResource(ResourceType.STONE); }
 
     private void onChosenResource(ResourceType resource) { //FIXME
         if(chosenResourceMap.containsKey(resource))
