@@ -151,7 +151,7 @@ public class LeaderCard {
          cardBehaviour.createStorage(playerBoard);
    }
 
-   public ResourceType getResToDiscount() {
+  public ResourceType getResToDiscount() {
      return cardBehaviour.getResourceToDiscount();
    }
 

@@ -13,6 +13,7 @@ import it.polimi.ingsw.network.messages.ErrorType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.MessageType;
 import it.polimi.ingsw.network.server.Server;
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.view.*;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.CliDrawer;
@@ -118,6 +119,7 @@ public class Client implements PhaseChangedObserver {
     Socket server;
     try {
       server = new Socket(serverIP, serverPort);
+      //server.setSoTimeout(ConfigParameters.SERVER_TIMEOUT);
       ServerConnector serverConnector = new ServerConnector(server, this);
       this.virtualModel = new NetworkVirtualModel(serverConnector);
 
@@ -187,7 +189,7 @@ public class Client implements PhaseChangedObserver {
   /**
    * Takes the message and handles it performing the expected action
    * based on the message type and the payload content
-   *
+   * NOTE: msg cannot be null
    * @param msg the message to be handled, received from the server
    */
   public void handleMessage(Message msg) {
