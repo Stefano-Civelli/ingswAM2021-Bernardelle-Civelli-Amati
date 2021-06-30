@@ -11,7 +11,7 @@ import it.polimi.ingsw.view.cli.Color;
 public class LorenzoDrawer implements Buildable, Fillable {
   private final int LORENZO_LENGTH = 25*3 + 11 + 6 + 11 + 2 + 13;
   private final int LORENZO_HEIGHT = 4;
-  private TrackDrawer trackDrawer = new TrackDrawer();
+  private final TrackDrawer trackDrawer = new TrackDrawer();
 
   @Override
   public String[][] build() {

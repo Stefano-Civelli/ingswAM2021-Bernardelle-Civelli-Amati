@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class LeaderSetup implements ModelUpdate {
 
-   private List<Integer> leaderList;
+   private final List<Integer> leaderList;
 
    public LeaderSetup(List<Integer> leaderList) {
       this.leaderList = leaderList;

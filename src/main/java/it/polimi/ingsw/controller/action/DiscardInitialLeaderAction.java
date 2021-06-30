@@ -49,7 +49,7 @@ public class DiscardInitialLeaderAction extends Action {
     @Override
     public PhaseType performAction(IGameState gameState)
             throws InvalidActionException, NotAllowedActionException, WrongPlayerException,
-            InvalidUsernameException, InvalidLeaderCardException, LeaderIsActiveException {
+            InvalidUsernameException, InvalidLeaderCardException {
         if(!this.isActionValid())
             throw new InvalidActionException("This Action is not correctly initialized.");
         if(!super.isCurrentPlayer(gameState))

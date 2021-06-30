@@ -14,7 +14,7 @@ public interface Fillable {
    * @param fillMe, the representation of the Object who needs to be filled
    * @param playerState, state of the player
    */
-  public void fill(String[][] fillMe, SimplePlayerState playerState);
+  void fill(String[][] fillMe, SimplePlayerState playerState);
 
   /**
    * Fill the Cli representation of the Object passed as parameter with its current state
@@ -22,5 +22,6 @@ public interface Fillable {
    * @param fillMe, the representation of the Object who needs to be filled
    * @param gameState, state of the game
    */
-  public void fill(String[][] fillMe, SimpleGameState gameState);
+  void fill(String[][] fillMe, SimpleGameState gameState);
+
 }

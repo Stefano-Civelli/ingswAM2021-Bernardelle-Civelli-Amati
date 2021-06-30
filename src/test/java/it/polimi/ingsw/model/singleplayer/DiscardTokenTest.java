@@ -5,11 +5,9 @@ import it.polimi.ingsw.model.DevelopCardColor;
 import it.polimi.ingsw.model.DevelopCardDeck;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.modelexceptions.InvalidDevelopCardException;
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;

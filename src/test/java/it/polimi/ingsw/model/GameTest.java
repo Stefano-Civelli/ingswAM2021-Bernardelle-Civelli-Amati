@@ -1,12 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.LocalVirtualView;
-import it.polimi.ingsw.controller.NetworkVirtualView;
 import it.polimi.ingsw.model.modelexceptions.InvalidUsernameException;
 import it.polimi.ingsw.model.modelexceptions.MaximumNumberOfPlayersException;
 import it.polimi.ingsw.model.modelexceptions.NoConnectedPlayerException;
-import it.polimi.ingsw.network.server.Match;
-import it.polimi.ingsw.network.server.Server;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

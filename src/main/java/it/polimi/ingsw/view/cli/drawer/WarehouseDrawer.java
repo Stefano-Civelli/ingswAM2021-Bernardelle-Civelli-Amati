@@ -5,6 +5,8 @@ import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.SimpleGameState;
 import it.polimi.ingsw.view.SimplePlayerState;
 
+import java.util.Arrays;
+
 /**
  * Class that builds and fills the Cli representation of the Warehouse
  */
@@ -21,8 +23,7 @@ public class WarehouseDrawer implements Buildable, Fillable{
       for(int j=0; j<warehouseSkeleton[0].length; j++)
         warehouseSkeleton[i][j] = " ";
 
-    for(int c = 0; c < warehouseSkeleton[0].length; c++)
-      warehouseSkeleton[0][c] = " ";
+    Arrays.fill(warehouseSkeleton[0], " ");
 
     for(char c : "WAREHOUSE".toCharArray()) {
       warehouseSkeleton[0][col] = Character.toString(c);

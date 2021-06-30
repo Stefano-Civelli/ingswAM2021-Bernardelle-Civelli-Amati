@@ -8,7 +8,6 @@ import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
 import it.polimi.ingsw.view.gui.GuiResources;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -414,7 +413,8 @@ public class PlayerboardController extends GUIController {
 
     @FXML
     private void selectWhiteLeader(MouseEvent event) {
-        Action chooseLeaderOnWhiteMarbleAction = new ChooseLeaderOnWhiteMarbleAction(leaderImageIdMap.get(event.getSource()));
+        ImageView source = (ImageView) event.getSource();
+        Action chooseLeaderOnWhiteMarbleAction = new ChooseLeaderOnWhiteMarbleAction(leaderImageIdMap.get(source));
         client.forwardAction(chooseLeaderOnWhiteMarbleAction);
         //set click on leaders to do nothing
         leader0_ImageView.setOnMouseClicked(null);
@@ -620,8 +620,9 @@ public class PlayerboardController extends GUIController {
             this.selectedLeaderToDiscard.setDisable(true);
         }
         else {
-            Action discardLeaderAction = new DiscardInitialLeaderAction(leaderImageIdMap.get(event.getSource()), leaderImageIdMap.get(this.selectedLeaderToDiscard));
-            leaderCardVbox.getChildren().remove(event.getSource());
+            ImageView source = (ImageView) event.getSource();
+            Action discardLeaderAction = new DiscardInitialLeaderAction(leaderImageIdMap.get(source), leaderImageIdMap.get(this.selectedLeaderToDiscard));
+            leaderCardVbox.getChildren().remove(source);
             leaderCardVbox.getChildren().remove(this.selectedLeaderToDiscard);
             client.forwardAction(discardLeaderAction);
 

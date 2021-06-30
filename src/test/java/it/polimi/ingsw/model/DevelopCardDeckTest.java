@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.market.Market;
 import it.polimi.ingsw.model.modelexceptions.*;
 import it.polimi.ingsw.utility.GSON;
@@ -17,7 +16,7 @@ class DevelopCardDeckTest {
    void buyableCardsTest() throws AbuseOfFaithException, IOException, NegativeQuantityException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser();
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(null), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getChest().addResources(ResourceType.GOLD,3);
       playerBoard.getChest().endOfTurnMapsMerge();
       for(DevelopCard d : developCardDeck.buyableCards(playerBoard))
@@ -38,7 +37,6 @@ class DevelopCardDeckTest {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser();
       boolean pippo = false;
-      boolean isSame = true;
       ArrayList<DevelopCard> previous = developCardDeck.visibleCards();
       try {
          developCardDeck.removeCard(null);
@@ -51,10 +49,9 @@ class DevelopCardDeckTest {
    }
 
    @Test
-   void removeInvalidCard() throws IOException, InvalidDevelopCardException, InvalidCardException {
+   void removeInvalidCard() throws IOException, InvalidDevelopCardException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser();
-      boolean pippo = false;
       DevelopCard developCard = developCardDeck.getCard(0,0);
       try {
          developCardDeck.removeCard(developCard);
@@ -85,7 +82,7 @@ class DevelopCardDeckTest {
    void canBuyAllCards() throws IOException, AbuseOfFaithException, InvalidDevelopCardException, InvalidCardSlotException, NegativeQuantityException {
       DevelopCardDeck developCardDeck;
       developCardDeck = GSON.cardParser();
-      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<LeaderCard>(), new Market(null), developCardDeck);
+      InterfacePlayerBoard playerBoard = new PlayerBoard("Mario", new ArrayList<>(), new Market(null), developCardDeck);
       playerBoard.getChest().addResources(ResourceType.GOLD,9);
       playerBoard.getChest().addResources(ResourceType.SERVANT,9);
       playerBoard.getChest().addResources(ResourceType.SHIELD,9);
@@ -112,9 +109,9 @@ class DevelopCardDeckTest {
       }
 
       int count = 0;
-      for (DevelopCard developCard : developCardDeck.buyableCards(playerBoard))
+      for (DevelopCard ignored : developCardDeck.buyableCards(playerBoard))
          count++;
-      assertTrue(count == 12);
+      assertEquals(count, 12);
    }
 
    // TODO need to add a test to check the endGame notify call

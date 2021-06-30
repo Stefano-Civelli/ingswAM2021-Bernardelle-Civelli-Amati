@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.modelexceptions.*;
  */
 public abstract class MarketMarble {
 
-    @SuppressWarnings({"unused", "FieldCanBeLocal"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
+    @SuppressWarnings({"unused"}) // Because the field is necessary for JSON serialization and it may be accessed using reflection
     private final MarbleColor color;
 
     protected MarketMarble(MarbleColor color) {

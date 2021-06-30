@@ -53,13 +53,12 @@ public class LeaderConstructor {
         leader[leader.length - 1][6] = "\u25C6";
         leader[leader.length - 1][7] = Integer.toString(victory / 10);
         leader[leader.length - 1][8] = Integer.toString(victory % 10);
-        leader[leader.length - 1][9] = " ";
       } else {
         leader[leader.length - 1][6] = " ";
         leader[leader.length - 1][7] = "\u25C6";
         leader[leader.length - 1][8] = Integer.toString(victory);
-        leader[leader.length - 1][9] = " ";
       }
+      leader[leader.length - 1][9] = " ";
 
       if (requiredResources != null)
         leader[1][c] = requiredResources.getColor().getColor() + "5" + Color.RESET.escape();

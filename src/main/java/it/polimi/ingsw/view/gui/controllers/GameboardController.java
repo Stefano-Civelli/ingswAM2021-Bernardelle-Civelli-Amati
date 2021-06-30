@@ -9,7 +9,6 @@ import it.polimi.ingsw.view.cli.drawer.DevelopCardConstructor;
 import it.polimi.ingsw.view.gui.GuiResources;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -393,7 +392,8 @@ public class GameboardController extends GUIController {
             }
             i++;
         }
-        tempMarbleHbox.getChildren().remove(event.getSource());
+        Node source = (Node) event.getSource();
+        tempMarbleHbox.getChildren().remove(source);
     }
 
     @FXML

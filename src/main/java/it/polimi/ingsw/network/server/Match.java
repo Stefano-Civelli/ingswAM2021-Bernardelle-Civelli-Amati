@@ -232,11 +232,9 @@ public class Match {
       if(username == null){              //messaggi senza username vengono inviati a tutti
          for(ServerClientHandler s : clients)
             s.sendMessage(message);
-         return;
       }
       else
          usernameToClientHandler.get(username).sendMessage(message);
-
    }
 
    /**

@@ -6,6 +6,8 @@ import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.cli.drawer.*;
 
+import java.util.Arrays;
+
 /**
  * Class that manage the Cli representation of the game state
  */
@@ -25,18 +27,18 @@ public class CliDrawer {
   private String[][] deck;
   private String[][] leaders;
   private String[][] activatedLeaders;
-  private String[][] lorenzo = lorenzoDrawer.build();
+  private final String[][] lorenzo = lorenzoDrawer.build();
   private final ClientStateViewer state;
 
-  private static CardSlotsDrawer slotsDrawer = new CardSlotsDrawer();
-  private static ChestDrawer chestDrawer = new ChestDrawer();
-  private static DeckDrawer deckDrawer = new DeckDrawer();
-  private static MarketDrawer marketDrawer = new MarketDrawer();
-  private static TrackDrawer trackDrawer = new TrackDrawer();
-  private static WarehouseDrawer warehouseDrawer = new WarehouseDrawer();
-  private static LeaderHandDrawer leaderHandDrawer = new LeaderHandDrawer();
-  private static ActivatedLeaderDrawer activatedLeaderDrawer = new ActivatedLeaderDrawer();
-  private static LorenzoDrawer lorenzoDrawer = new LorenzoDrawer();
+  private static final CardSlotsDrawer slotsDrawer = new CardSlotsDrawer();
+  private static final ChestDrawer chestDrawer = new ChestDrawer();
+  private static final DeckDrawer deckDrawer = new DeckDrawer();
+  private static final MarketDrawer marketDrawer = new MarketDrawer();
+  private static final TrackDrawer trackDrawer = new TrackDrawer();
+  private static final WarehouseDrawer warehouseDrawer = new WarehouseDrawer();
+  private static final LeaderHandDrawer leaderHandDrawer = new LeaderHandDrawer();
+  private static final ActivatedLeaderDrawer activatedLeaderDrawer = new ActivatedLeaderDrawer();
+  private static final LorenzoDrawer lorenzoDrawer = new LorenzoDrawer();
 
   /**
    * Constructor for CliDrawer class
@@ -394,7 +396,7 @@ public class CliDrawer {
   }
 
   private void placeHereOnCanvas(int r, int c, String[][] placeMe) {
-    int startRow = r, startCol = c;
+    int startRow = r, startCol;
     for (int i = 0; i < placeMe.length; i++, startRow++) {
       startCol = c;
       for (int j = 0; j < placeMe[0].length; j++, startCol++)

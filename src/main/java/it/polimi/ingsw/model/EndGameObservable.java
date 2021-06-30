@@ -7,13 +7,13 @@ public interface EndGameObservable {
 
   /**
    * add an observer to a list of observers
-   * @param observerToAdd
+   * @param observerToAdd the observer to add
    */
   void addToEndGameObserverList(EndGameObserver observerToAdd);
 
   /**
    * remove an observer from a list of observers
-   * @param observerToRemove
+   * @param observerToRemove the observer to remove
    */
   void removeFromEndGameObserverList(EndGameObserver observerToRemove);
 

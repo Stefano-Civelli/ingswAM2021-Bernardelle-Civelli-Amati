@@ -29,7 +29,7 @@ class ActionTest {
       this.turnManager = new TurnManager(game, Collections.singletonList("pippo"));
       this.turnManager.startGame();
       this.playerBoard =  this.turnManager.getGame().getPlayerBoard("pippo");
-      Map resourcesMap = Map.of(
+      Map<ResourceType, Integer> resourcesMap = Map.of(
               ResourceType.GOLD, 1,
               ResourceType.SERVANT, 2
       );
@@ -53,7 +53,7 @@ class ActionTest {
    }
 
    @Test
-   void disconnectionActionTest() throws IOException, MaximumNumberOfPlayersException, InvalidUsernameException, NoConnectedPlayerException {
+   void disconnectionActionTest() throws IOException, MaximumNumberOfPlayersException, NoConnectedPlayerException {
       assertThrows(NoConnectedPlayerException.class, () -> this.turnManager.handleAction(new PlayerDisconnectionAction("pippo")));
 
       Game game = new Game(null);
@@ -69,17 +69,13 @@ class ActionTest {
       {
          assertNull(localTurnManager.handleAction(new PlayerDisconnectionAction("pippo")));
       }
-
-
-
    }
 
    @Test
-   void notAllowedActionsTest() throws IOException, InvalidUsernameException, MaximumNumberOfPlayersException, NoConnectedPlayerException {
+   void notAllowedActionsTest() throws IOException, MaximumNumberOfPlayersException, NoConnectedPlayerException {
       Game game = new SinglePlayer(null);
       TurnManager turnManager = new TurnManager(game, Collections.singletonList("pippo"));
       turnManager.startGame();
-      PlayerBoard playerboard =  turnManager.getGame().getPlayerBoard("pippo");
 
       Message returnedMessage = turnManager.handleAction(new DiscardInitialLeaderAction("pippo", 1, 2));
       assertEquals(returnedMessage.getMessageType(), MessageType.ERROR);
@@ -127,11 +123,10 @@ class ActionTest {
    }
 
    @Test
-   void wrongParametersActionTest() throws InvalidUsernameException, NoConnectedPlayerException, IOException, MaximumNumberOfPlayersException {
+   void wrongParametersActionTest() throws NoConnectedPlayerException, IOException, MaximumNumberOfPlayersException {
       Game game = new SinglePlayer(null);
       TurnManager turnManager = new TurnManager(game, Collections.singletonList("pippo"));
       turnManager.startGame();
-      PlayerBoard playerboard =  turnManager.getGame().getPlayerBoard("pippo");
 
       Message returnedMessage = turnManager.handleAction(new DiscardInitialLeaderAction( 1, 2));
       assertEquals(returnedMessage.getMessageType(), MessageType.ERROR);
@@ -231,8 +226,7 @@ class ActionTest {
    }
 
    private String removeVirgolette(String string){
-      String modifiedString = string.replaceAll("\"", "");
-      return modifiedString;
+      return string.replaceAll("\"", "");
    }
 
 }

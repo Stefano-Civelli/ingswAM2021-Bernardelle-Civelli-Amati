@@ -132,13 +132,12 @@ public class DevelopCardConstructor {
       cardSkeleton[3][6] = "\u25C6";
       cardSkeleton[3][7] = Integer.toString(victoryPoint/10);
       cardSkeleton[3][8] = Integer.toString(victoryPoint%10);
-      cardSkeleton[3][9] = " ";
     }
     else {
       cardSkeleton[3][6] = " ";
       cardSkeleton[3][7] = "\u25C6";
       cardSkeleton[3][8] = Integer.toString(victoryPoint);
-      cardSkeleton[3][9] = " ";
     }
+    cardSkeleton[3][9] = " ";
   }
 }

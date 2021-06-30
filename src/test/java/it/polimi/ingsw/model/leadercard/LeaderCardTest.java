@@ -136,7 +136,7 @@ class LeaderCardTest {
    }
 
    @Test
-   void getProductNotEnoughResources() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException, AbuseOfFaithException {
+   void getProductNotEnoughResources() throws IOException, InvalidLeaderCardException, NotEnoughResourcesException {
       LeaderCard card1 = new LeaderCard(
               null, null, 0, new LeaderProduceBehaviour(ResourceType.GOLD));
       InterfacePlayerBoard playerBoard1 = new PlayerBoard(

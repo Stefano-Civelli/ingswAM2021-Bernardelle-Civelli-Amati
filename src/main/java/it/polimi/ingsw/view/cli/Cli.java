@@ -36,7 +36,7 @@ public class Cli implements ViewInterface {
   private static final Scanner in = new Scanner(System.in);
   private int numOfPlayers = 0;
   private int playersJoinedTheLobby = 0;
-  private int countDown = ConfigParameters.countDown;
+  private final int countDown = ConfigParameters.countDown;
 
   /**
    * Constructor for Cli class

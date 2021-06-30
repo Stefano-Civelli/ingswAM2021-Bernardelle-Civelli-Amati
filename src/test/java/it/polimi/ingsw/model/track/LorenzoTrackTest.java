@@ -1,11 +1,8 @@
 package it.polimi.ingsw.model.track;
 
-import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import org.junit.jupiter.api.Test;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
