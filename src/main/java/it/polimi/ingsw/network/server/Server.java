@@ -35,11 +35,12 @@ public class Server {
    }
 
    /**
+    * assigns a player to the specified match
     *
-    * @param matchId
-    * @param message
-    * @param serverClientHandler
-    * @return
+    * @param matchId the matchId to be joined
+    * @param message the login message sent by the client
+    * @param serverClientHandler the clientHandler to be added to the match
+    * @return the match to which the client has been added
     */
    public synchronized Match assignToMatch(String matchId, Message message,ServerClientHandler serverClientHandler){
       Match match = matchMap.get(matchId);
