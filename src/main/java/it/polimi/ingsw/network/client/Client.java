@@ -191,6 +191,9 @@ public class Client implements PhaseChangedObserver {
    * @param msg the message to be handled, received from the server
    */
   public void handleMessage(Message msg) {
+    if(msg == null)
+      return;
+
     String messageUser = msg.getUsername();
 
     switch (msg.getMessageType()) {

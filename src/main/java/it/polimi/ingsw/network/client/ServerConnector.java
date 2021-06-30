@@ -50,7 +50,6 @@ public class ServerConnector{
         }
       } catch (IOException | NoSuchElementException e) {
         notifyServerLost();
-        stop();
       }
   }
 
@@ -105,6 +104,9 @@ public class ServerConnector{
   }
 
   private Message messageParserFromJson(String in){
+    if(in == null) {
+      this.client.getView().displayServerDown();
+    }
     Message message = null;
     JsonObject jsonObject = (JsonObject) JsonParser.parseString(in);
     if(jsonObject.getAsJsonObject().get("messageType").getAsString().equals(MessageType.ERROR.name()))

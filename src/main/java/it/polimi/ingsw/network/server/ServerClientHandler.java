@@ -138,7 +138,8 @@ public class ServerClientHandler implements Runnable {
             break;
 
          case QUIT:
-            match.handleClientDisconnection(this);
+            //match.handleClientDisconnection(this);
+            this.closeSocket();
             break;
 
          case ACTION:

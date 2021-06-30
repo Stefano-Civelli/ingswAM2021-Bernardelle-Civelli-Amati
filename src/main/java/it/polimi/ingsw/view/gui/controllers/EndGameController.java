@@ -17,7 +17,7 @@ public class EndGameController extends GUIController {
 
     @FXML
     private void quitButton(ActionEvent actionEvent) {
-        System.exit(0);
+        super.client.close();
     }
 
     /**

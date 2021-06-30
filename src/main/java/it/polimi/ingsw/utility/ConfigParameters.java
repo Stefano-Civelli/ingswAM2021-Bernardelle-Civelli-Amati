@@ -19,4 +19,5 @@ public final class ConfigParameters {
   private ConfigParameters() {
     // private constructor to prevent instances of this class (a class can't be final and abstract in Java).
   }
+
 }

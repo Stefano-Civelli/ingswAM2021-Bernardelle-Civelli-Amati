@@ -195,7 +195,8 @@ public class Cli implements ViewInterface {
   public void displayServerDown() {
     for(int i=0; i<5; i++)
       System.out.println();
-    out.println(Color.ANSI_RED.escape() + "Server has crashed, you will be diconnected." + Color.RESET.escape());
+    out.println(Color.ANSI_RED.escape() + "Server has crashed" + Color.RESET.escape());
+    this.client.close();
   }
 
   @Override

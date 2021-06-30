@@ -16,7 +16,7 @@ public class FatalErrorController extends GUIController {
 
     @FXML
     private void closeGame(ActionEvent actionEvent) {
-        System.exit(0);
+        super.client.close();
     }
 
 }

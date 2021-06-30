@@ -86,7 +86,8 @@ public class PlayerDisconnectionAction extends Action {
         try {
             int leaderID1, leaderID2;
             leaderID1 = gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().stream()
-                    .map(LeaderCard::getLeaderId).collect(Collectors.toList()).get(random.nextInt(4));
+                    .map(LeaderCard::getLeaderId).collect(Collectors.toList())
+                    .get(random.nextInt(4));
             do {
                 leaderID2 = gameState.getGame().getPlayerBoard(super.getUsername()).getLeaderCards().stream()
                         .map(LeaderCard::getLeaderId).collect(Collectors.toList()).get(random.nextInt(4));
