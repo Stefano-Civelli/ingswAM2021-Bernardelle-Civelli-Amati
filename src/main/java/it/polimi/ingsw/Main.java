@@ -34,15 +34,16 @@ public abstract class Main {
       } catch (Exception ignored) { }
       jarName = tmpJarName;
 
-      helpString =   "Usage: java -jar " + jarName + " [OPTIONS]\n" +
+      helpString =   "Usage: java -jar " + jarName + " [OPTION]\n" +
                      "Option    Long option    Meaning" +
                      "-s        --server       start the game server\n" +
                      "-g        --gui          start the game client whit GUI\n" +
                      "-c        --cli          start the game client in CLI\n" +
-                     "With no argument will be started the game client in CLI mode.";
+                     "Options cannot be combined.\n" +
+                     "With no argument will be started the game client in CLI mode.\n";
 
       errorString =  "Unrecognized options\n" +
-                     "Type 'java -jar " + jarName + " -h' for a list of available options.";
+                     "Type 'java -jar " + jarName + " -h' for a list of available options.\n";
 
    }
 
