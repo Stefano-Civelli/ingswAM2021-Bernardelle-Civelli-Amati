@@ -498,16 +498,6 @@ public class PlayerboardController extends GUIController {
         }
     }
 
-    @FXML
-    private void addStone() {
-        updateWarehouse(new WarehouseUpdate(ResourceType.STONE, 2, 1));
-    }
-
-    @FXML
-    private void addShield() {
-        updateWarehouse(new WarehouseUpdate(ResourceType.SHIELD, 2, 0));
-        updateWarehouse(new WarehouseUpdate(ResourceType.STONE, 3, 2));
-    }
 
     /**
      * Display a warehouse update
