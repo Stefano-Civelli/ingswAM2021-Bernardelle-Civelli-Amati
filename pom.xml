@@ -10,8 +10,8 @@
   <packaging>jar</packaging>
 
   <name>AM54</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+
+  <url>https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -48,6 +48,27 @@
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
       <version>16</version>
+    </dependency>
+    <!-- JavaFX Windows -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>16</version>
+      <classifier>win</classifier>
+    </dependency>
+    <!-- JavaFX Linux -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics </artifactId>
+      <version>16</version>
+      <classifier>linux</classifier>
+    </dependency>
+    <!-- JavaFx MAC OS-->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics </artifactId>
+      <version>16</version>
+      <classifier>mac</classifier>
     </dependency>
   </dependencies>
 
