@@ -9,6 +9,11 @@ import it.polimi.ingsw.network.server.Server;
 public abstract class Main {
 
    /**
+    * The name of the executing jar file
+    */
+   public static final String jarName;
+
+   /**
     * The string printed on -h or --help program argument
     */
    public static final String helpString;
@@ -19,15 +24,22 @@ public abstract class Main {
    public static final String errorString;
 
    static {
-      helpString =   "Usage: java -jar MoR.jar [OPTIONS]\n" +
-                     "Option    Long option     Meaning" +
+
+      jarName = new java.io.File(Main.class.getProtectionDomain()
+              .getCodeSource()
+              .getLocation()
+              .getPath()).getName();
+
+      helpString =   "Usage: java -jar " + jarName +" [OPTIONS]\n" +
+                     "Option    Long option    Meaning" +
                      "-s        --server       start the game server\n" +
                      "-g        --gui          start the game client whit GUI\n" +
                      "-c        --cli          start the game client in CLI\n" +
                      "With no argument will be started the game client in CLI mode.";
 
-      errorString =  "MoR: unrecognized options\n" +
-                     "Type 'java -jar MoR.jar -h' for a list of available options.";
+      errorString =  "Unrecognized options\n" +
+                     "Type 'java -jar " + jarName + " -h' for a list of available options.";
+
    }
 
    /**
