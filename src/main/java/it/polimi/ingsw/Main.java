@@ -25,10 +25,14 @@ public abstract class Main {
 
    static {
 
-      jarName = new java.io.File(Main.class.getProtectionDomain()
-              .getCodeSource()
-              .getLocation()
-              .getPath()).getName();
+      String tmpJarName = "<jarname>.jar";
+      try {
+         tmpJarName = new java.io.File(Main.class.getProtectionDomain()
+                 .getCodeSource()
+                 .getLocation()
+                 .getPath()).getName();
+      } catch (Exception ignored) { }
+      jarName = tmpJarName;
 
       helpString =   "Usage: java -jar " + jarName + " [OPTIONS]\n" +
                      "Option    Long option    Meaning" +
