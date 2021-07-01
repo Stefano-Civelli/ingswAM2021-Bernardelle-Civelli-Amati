@@ -151,7 +151,12 @@ public class SimplePlayerState {
     */
    public void activatedLeaderUpdate(LeaderUpdate stateUpdate) {
       this.activeLeaderCards.add(stateUpdate.getCardId());
-      this.notActiveLederCards.remove((Integer) stateUpdate.getCardId()); //potrebbe non andare a causa dell'indice
+      if(this.notActiveLederCards.get(0) == 0 && this.notActiveLederCards.size()==2)
+         this.notActiveLederCards.remove(0);
+      else if(this.notActiveLederCards.get(0) == 0 && this.notActiveLederCards.size()<2)
+         this.notActiveLederCards = new ArrayList();
+      else
+         this.notActiveLederCards.remove((Integer) stateUpdate.getCardId()); //potrebbe non andare a causa dell'indice
    }
 
 
