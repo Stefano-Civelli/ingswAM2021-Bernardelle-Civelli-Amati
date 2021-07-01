@@ -104,6 +104,13 @@ public class Cli implements ViewInterface {
     boolean create = false;
     out.println("Choose your username:");
     username = in.nextLine();
+
+    while(isNotAlphanumeric(username)){
+      System.out.println(Color.ANSI_RED.escape() + "ERROR: username must be alphanumeric" + Color.RESET.escape());
+      out.println("Choose your username:");
+      username = in.nextLine();
+    }
+
     if(client.isLocal()){
       client.setUsername(username);
       return;
@@ -112,8 +119,15 @@ public class Cli implements ViewInterface {
     String input = stringInputValidation(in, "c", "j");
     if(input.equals("c"))
       create = true;
+
     out.println("Room name?");
     roomName = in.nextLine();
+
+    while(isNotAlphanumeric(roomName)){
+      System.out.println(Color.ANSI_RED.escape() + "ERROR: roomName must be alphanumeric" + Color.RESET.escape());
+      out.println("Room name?");
+      roomName = in.nextLine();
+    }
 
     client.setUsername(username);
     client.sendLogin(create, roomName);
@@ -733,5 +747,9 @@ public class Cli implements ViewInterface {
       }
     }
     return output;
+  }
+
+  private boolean isNotAlphanumeric(String string) {
+    return !string.matches("[a-zA-Z0-9]+");
   }
 }

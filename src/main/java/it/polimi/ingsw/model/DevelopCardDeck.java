@@ -180,6 +180,13 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
       return idCube;
    }
 
+   /**
+    * get the developCard corresponding to the specified Id
+    *
+    * @param id Id of the card to get
+    * @return the the developCard corresponding to the specified Id
+    * @throws InvalidCardException if there isn't a card with the specified id in the deck
+    */
    public DevelopCard getCardFromId(int id) throws InvalidCardException {
       for(DevelopCard d : developCardList)
          if(d.getCardId() == id)
