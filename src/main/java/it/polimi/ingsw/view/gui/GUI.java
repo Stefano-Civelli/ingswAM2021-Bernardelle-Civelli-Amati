@@ -117,6 +117,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    @Override
    public void displayOtherUserJoined(Message msg) {
       System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      Platform.runLater(this.sceneController::loadLobby);
    }
 
    @Override
