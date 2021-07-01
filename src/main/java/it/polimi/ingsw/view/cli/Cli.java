@@ -172,7 +172,7 @@ public class Cli implements ViewInterface {
   @Override
   public void displayWaiting(){
     //int secondsRemaining = this.countDown;
-    System.out.println("There's a player creating a lobby, retry to login in a few seconds");
+    System.out.println("There's a player creating the lobby, retry to login in a few seconds");
 //    Timer myTimer = new Timer();
 //    TimerTask countDownTimer = new TimerTask() {
 //      @Override
@@ -295,37 +295,37 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayNotBuyable() {
-    System.out.println(ClientStrings.NOT_BUYABLE);
+    System.out.println(Color.ANSI_RED.escape() + ClientStrings.NOT_BUYABLE + Color.RESET.escape());
   }
 
   @Override
   public void displayInvalidLeadercard() {
-    System.out.println(ClientStrings.INVALID_LEADERCARD);
+    System.out.println(Color.ANSI_RED.escape() + ClientStrings.INVALID_LEADERCARD + Color.RESET.escape());
   }
 
   @Override
   public void displayCannotDiscardActiveLeader() {
-    System.out.println(ClientStrings.CANNOT_DISCARD_ACTIVE_LEADER);
+    System.out.println(Color.ANSI_RED.escape() + ClientStrings.CANNOT_DISCARD_ACTIVE_LEADER + Color.RESET.escape());
   }
 
   @Override
   public void displayNotActivatableProduction() {
-    System.out.println(ClientStrings.NOT_ACTIVATABLE_PRODUCTION);
+    System.out.println(Color.ANSI_RED.escape() + ClientStrings.NOT_ACTIVATABLE_PRODUCTION + Color.RESET.escape());
   }
 
   @Override
   public void displayAlreadyProduced() {
-    System.out.println(ClientStrings.ALREADY_PRODUCED);
+    System.out.println(Color.ANSI_RED.escape() + ClientStrings.ALREADY_PRODUCED + Color.RESET.escape());
   }
 
   @Override
   public void displayNotEnoughResources() {
-    System.out.println(ClientStrings.NOT_ENOUGH_RESOURCES);
+    System.out.println(Color.ANSI_RED.escape() + ClientStrings.NOT_ENOUGH_RESOURCES + Color.RESET.escape());
   }
 
   @Override
   public void displayInvalidCardPlacement() {
-    System.out.println(ClientStrings.INVALID_CARD_PLACEMENT);
+    System.out.println(Color.ANSI_RED.escape() + ClientStrings.INVALID_CARD_PLACEMENT + Color.RESET.escape());
   }
 
   @Override
@@ -430,18 +430,23 @@ public class Cli implements ViewInterface {
                 break;
               case SHOPPING:
                 Action insertMarbleAction = createInsertMarbleAction(line);
+                if(stateViewer.getSimpleGameState().getTempMarble().isEmpty())
+                  drawer.displayPlainCanvas();
                 client.forwardAction(insertMarbleAction);
                 break;
               case SHOPPING_LEADER:
                 int index = validateIntInput(line, 1, 2);
                 int leaderId = stateViewer.getSimplePlayerState().getActiveLeaderCards().get(index-1);
+                drawer.displayPlainCanvas();
                 client.forwardAction(new ChooseLeaderOnWhiteMarbleAction(leaderId));
                 break;
               default:
                 if (cliTurnManager.isValidInCurrentPhase(line)) //to see if the input is valid in this turnPhase
                   handleInput(line);
                 else {
-                  System.out.println("Command you gave me is not allowed in this phase of the game or doesn't exists\n");
+                  drawer.displayPlainCanvas();
+                  System.out.println(Color.ANSI_RED.escape() + "Command you gave me is not allowed in this phase of the game or doesn't exists"
+                          + Color.RESET.escape());
                   cliTurnManager.currentPhasePrint();
                 }
             }//switch
@@ -468,6 +473,7 @@ public class Cli implements ViewInterface {
       case "B": case "b":
         drawer.drawDevelopCardDeck();
         Action buyCardAction = createBuyCardAction();
+        drawer.displayPlainCanvas();
         client.forwardAction(buyCardAction);
         break;
       case "S": case "s":
@@ -476,21 +482,42 @@ public class Cli implements ViewInterface {
         break;
       case "P": case "p":
         Action produceAction = createProduceAction();
+        drawer.displayPlainCanvas();
         client.forwardAction(produceAction);
         break;
       case "A": case "a"://activate leader card
-        Action activateLeaderAction = createActivateLeaderAction();
-        client.forwardAction(activateLeaderAction);
+        if(stateViewer.getSimplePlayerState().getNotActiveLeaderCards().isEmpty()) {
+          drawer.displayPlainCanvas();
+          System.out.println(Color.ANSI_RED.escape() + "Sorry, you don't have other leader in your hand that can be activated"
+                  + Color.RESET.escape());
+          cliTurnManager.currentPhasePrint();
+        }
+        else {
+          Action activateLeaderAction = createActivateLeaderAction();
+          drawer.displayPlainCanvas();
+          client.forwardAction(activateLeaderAction);
+        }
         break;
       case "D": case "d"://discard leader card
-        Action discardLeaderAction = createDiscardLeaderAction();
-        client.forwardAction(discardLeaderAction);
+        if(stateViewer.getSimplePlayerState().getNotActiveLeaderCards().isEmpty()) {
+          drawer.displayPlainCanvas();
+          System.out.println(Color.ANSI_RED.escape() + "Sorry, you can't discard any leader because your hand is empty"
+                  + Color.RESET.escape());
+          cliTurnManager.currentPhasePrint();
+        }
+        else {
+          Action discardLeaderAction = createDiscardLeaderAction();
+          drawer.displayPlainCanvas();
+          client.forwardAction(discardLeaderAction);
+        }
         break;
       case "E": case "e"://end turn
         client.forwardAction(new EndTurnAction(stateViewer.getUsername()));
         break;
       default:
-        System.out.println("Command you gave me is not allowed in this phase of the game\n");
+        drawer.displayPlainCanvas();
+        System.out.println(Color.ANSI_RED.escape() + "Command you gave me is not allowed in this phase of the game"
+                + Color.RESET.escape());
         cliTurnManager.currentPhasePrint();
     }
   }
