@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientTurnManagerInterface;
 import it.polimi.ingsw.network.client.GuiTurnManager;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.utility.GSON;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.view.ClientModelUpdaterInterface;
@@ -38,7 +39,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayMarbleShopping() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -48,7 +49,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayLeaderHand() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -58,7 +59,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayInitialResourcesChoice() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -68,18 +69,18 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayNetworkSetup() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayLogin() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(this.sceneController::loadLogin);
    }
 
    @Override
    public void displaySetupFailure() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          ConnectionController controller = this.sceneController.getConnectionController();
          if(controller != null)
@@ -89,12 +90,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayDisconnected() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayFailedLogin() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          LoginController controller = this.sceneController.getLoginController();
          if(controller != null)
@@ -104,39 +105,36 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayLoginSuccessful(String username) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       this.username = username;
    }
 
    @Override
    public void displayLobbyCreated() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(this.sceneController::loadLobby);
    }
 
    @Override
    public void displayOtherUserJoined(Message msg) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(this.sceneController::loadLobby);
    }
 
    @Override
    public void displayYouJoined() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
-   /**
-    * Display the form where the first player can choose the number of players
-    */
    @Override
    public void displayPlayersNumberChoice() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(this.sceneController::loadNumberOfPlayer);
    }
 
    @Override
    public void displayWaiting() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          LoginController loginController = this.sceneController.getLoginController();
          if(loginController != null)
@@ -146,38 +144,38 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayServerDown() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> this.sceneController.fatalError("ERROR: connection lost with server"));
    }
 
    @Override
    public void displayGameAlreadyStarted() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayReconnection() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayGameStarted() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayRecievedLeadercards() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayMarket() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayPlayerTurn(String player) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -187,7 +185,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayYourTurn(String username) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -197,12 +195,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayDefaultCanvas(String username) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayGameEnded(String payload) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Type token = new TypeToken<Pair<String, Integer>>(){}.getType();
       Pair<String, Integer> winnerAndScore = GSON.getGsonBuilder().fromJson(payload, token);
       String winner = winnerAndScore.getKey();
@@ -224,12 +222,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayPlainCanvas() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void startingSetupUpdate() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          this.sceneController.loadGameboard();
          GameboardController controller = this.sceneController.getGameboardController();
@@ -240,6 +238,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayChooseLeaderOnWhite() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -249,6 +248,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayFinalPhase() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -258,6 +258,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayProducingPhase() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -267,6 +268,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayShoppingPhase() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -276,6 +278,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayNotBuyable() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -285,6 +288,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayInvalidLeadercard() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -294,6 +298,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayCannotDiscardActiveLeader() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -303,6 +308,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayNotActivatableProduction() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -312,6 +318,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayAlreadyProduced() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -321,6 +328,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayNotEnoughResources() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -330,6 +338,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayInvalidCardPlacement() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -339,6 +348,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayMatchAlreadyExist() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          LoginController loginController = this.sceneController.getLoginController();
          if(loginController != null)
@@ -348,6 +358,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayCannotJoinMatch() {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          LoginController loginController = this.sceneController.getLoginController();
          if(loginController != null)
@@ -357,22 +368,23 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void displayFatalError(String errorMessage) {
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> this.sceneController.fatalError(errorMessage));
    }
 
    @Override
    public void displayLorenzoDiscarded(DevelopCardDeckUpdate state) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayLorenzoMoved() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void displayLorenzoShuffled() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 //------------- ViewInterface --------------
 
@@ -381,13 +393,12 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 //------------- ClientModelUpdaterInterface ---------------
    @Override
    public void setClientUsername(String username) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
    }
 
    @Override
    public void chestUpdate(String username, ChestUpdate stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
-
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController gameboardController = this.sceneController.getGameboardController();
          if(gameboardController != null) {
@@ -410,7 +421,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void warehouseUpdate(String username, WarehouseUpdate stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController gameboardController = this.sceneController.getGameboardController();
          if(gameboardController != null) {
@@ -424,7 +435,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void leaderUpdate(String username, LeaderUpdate stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController gameboardController = this.sceneController.getGameboardController();
          if(gameboardController != null) {
@@ -437,7 +448,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void leaderSetup(String username, LeaderSetup stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
          //controller.getPlayerBoardController(username).leaderSetup(stateUpdate);
@@ -448,7 +459,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void marketUpdate(MarketUpdate stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null) {
@@ -462,7 +473,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void marketSetup(MarketSetup stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -472,7 +483,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void cardSlotUpdate(String username, CardSlotUpdate stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController gameboardController = this.sceneController.getGameboardController();
          if(gameboardController != null) {
@@ -486,7 +497,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void trackUpdate(String username, TrackUpdate stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController gameboardController = this.sceneController.getGameboardController();
          if(gameboardController != null) {
@@ -499,7 +510,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void vaticanUpdate(String username, VaticanReport stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController gameboardController = this.sceneController.getGameboardController();
          if(gameboardController != null) {
@@ -512,7 +523,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void devDeckUpdate(DevelopCardDeckUpdate stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -522,7 +533,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void devDeckSetup(DevelopCardDeckSetup stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null)
@@ -532,7 +543,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void tempChestUpdate(String username, ChestUpdate stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController gameboardController = this.sceneController.getGameboardController();
          if(gameboardController != null) {
@@ -545,7 +556,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void chestMergeUpdate(String username) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController gameboardController = this.sceneController.getGameboardController();
          PlayerboardController playerboardController = null;
@@ -558,7 +569,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void discardedLeaderUpdate(String username, LeaderUpdate stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController gameboardController = this.sceneController.getGameboardController();
          if(gameboardController != null) {
@@ -571,7 +582,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void lorenzoTrackUpdate(TrackUpdate stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController gameboardController = this.sceneController.getGameboardController();
          if(gameboardController != null) {
@@ -585,7 +596,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void lorenzoShuffleUpdate() {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater(() -> {
          GameboardController gameController = this.sceneController.getGameboardController();
          if(gameController != null)
@@ -595,7 +606,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void lorenzoDevDeckUpdate(DevelopCardDeckUpdate stateUpdate) {
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null) {
@@ -607,7 +618,7 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
 
    @Override
    public void gameStartedSetup(List<String> stateUpdate){
-      System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
+      if(ConfigParameters.TESTING) System.out.println(new Object(){}.getClass().getEnclosingMethod().getName()); // print method name for debug
       Platform.runLater( () -> {
          GameboardController controller = this.sceneController.getGameboardController();
          if(controller != null) {
@@ -620,4 +631,5 @@ public class GUI implements ViewInterface, ClientModelUpdaterInterface {
    }
 
    //------------- ClientModelUpdaterInterface ---------------
+
 }

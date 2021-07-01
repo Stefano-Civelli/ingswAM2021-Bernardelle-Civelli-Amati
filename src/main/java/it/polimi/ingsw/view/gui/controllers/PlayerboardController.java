@@ -29,8 +29,6 @@ public class PlayerboardController extends GUIController {
 
     private boolean isPlayer = false;
     private String username;
-    private final int i=2;
-    private final int j=0;
     private final Map<ImageView, Integer> leaderImageIdMap = new HashMap<>();
     private ImageView selectedLeader = null;
     private ImageView selectedLeaderToDiscard;
@@ -226,19 +224,15 @@ public class PlayerboardController extends GUIController {
         Label resourceCounter = null;
         switch (resource) {
             case GOLD:
-                System.out.println("GOLD");
                 resourceCounter = coinCounter;
                 break;
             case STONE:
-                System.out.println("STONE");
                 resourceCounter = stoneCounter;
                 break;
             case SHIELD:
-                System.out.println("SHIELD");
                 resourceCounter = shieldCounter;
                 break;
             case SERVANT:
-                System.out.println("SERVANT");
                 resourceCounter = servantCounter;
                 break;
         }
@@ -435,7 +429,6 @@ public class PlayerboardController extends GUIController {
     @FXML
     private void activateLeader() {
         Action activateLeaderAction = new ActivateLeaderAction(leaderImageIdMap.get(this.selectedLeader));
-        System.out.println(leaderImageIdMap.get(this.selectedLeader));
         client.forwardAction(activateLeaderAction);
         this.activateLeaderButton.setVisible(false);
         this.discardLeaderButton.setVisible(false);
@@ -444,7 +437,6 @@ public class PlayerboardController extends GUIController {
     @FXML
     private void discardLeader() {
         Action discardLeaderAction = new DiscardLeaderAction(leaderImageIdMap.get(this.selectedLeader));
-        System.out.println(leaderImageIdMap.get(this.selectedLeader));
         client.forwardAction(discardLeaderAction);
         this.activateLeaderButton.setVisible(false);
         this.discardLeaderButton.setVisible(false);
@@ -484,7 +476,6 @@ public class PlayerboardController extends GUIController {
     }
 
     private void createBaseProduction(ResourceType r) {
-        System.out.println(r);
         if(firstToConsume == null)
             firstToConsume = r;
         else if(secondToConsume == null)
