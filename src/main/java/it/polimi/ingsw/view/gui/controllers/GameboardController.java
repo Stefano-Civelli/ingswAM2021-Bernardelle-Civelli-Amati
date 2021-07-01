@@ -385,7 +385,6 @@ public class GameboardController extends GUIController {
         int i = 0;
         for (Node n : tempMarbleHbox.getChildren()) {
             if (n.equals(event.getSource())) {
-                System.out.println("selectedGreyMarble " + i);
                 Action buyCardAction = new InsertMarbleAction(i);
                 client.forwardAction(buyCardAction);
                 break;
