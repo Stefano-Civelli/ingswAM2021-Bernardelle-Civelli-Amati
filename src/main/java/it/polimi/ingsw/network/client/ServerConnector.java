@@ -104,7 +104,7 @@ public class ServerConnector{
     client.handleMessage(new Message(MessageType.SERVER_DOWN));
   }
 
-  private Message messageParserFromJson(String in){
+  private Message messageParserFromJson(String in) {
     if(in == null) {
       this.client.getView().displayServerDown();
     }

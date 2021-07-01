@@ -137,7 +137,7 @@ public class Client implements PhaseChangedObserver {
    * @param create this parameter should be true if you want to create a game, false if you want to join
    * @param roomName name of the room to create or join
    */
-  public void sendLogin(boolean create, String roomName){
+  public void sendLogin(boolean create, String roomName) {
     this.state.setClientUsername(this.username);
     if(create)
       forwardMessage(new Message(username, MessageType.CREATE_MATCH, roomName));
@@ -343,7 +343,7 @@ public class Client implements PhaseChangedObserver {
         break;
       case NOT_ENOUGH_RESOURCES:
         view.displayNotEnoughResources();
-                clientTurnManager.currentPhasePrint();
+        clientTurnManager.currentPhasePrint();
         break;
       case INVALID_CARD_PLACEMENT:
         view.displayInvalidCardPlacement();

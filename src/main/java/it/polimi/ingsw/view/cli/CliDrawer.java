@@ -60,9 +60,9 @@ public class CliDrawer {
     clearCanvas();
     placeHereOnCanvas(0, 0, canvas);
     displayCanvas();
+    displayCanvas();
   }
 
-  //TODO gestire il caso delle leader girate quando printeró le altre playerboard
   /**
    * Builds, fills and prints the default representation of the game.
    * Default representation includes the Market, the DevelopCard Deck and the PlayerBoard of the player which as
@@ -390,8 +390,8 @@ public class CliDrawer {
   }
 
   private void clearCanvas() {
-    for (int i = 0; i < canvas.length; i++)
-      for (int j = 0; j < canvas[i].length; j++)
+    for (int i = 0; i < MAX_DISPLAYABLE_HEIGHT; i++)
+      for (int j = 0; j <  MAX_DISPLAYABLE_LENGTH; j++)
         canvas[i][j] = " ";
   }
 
