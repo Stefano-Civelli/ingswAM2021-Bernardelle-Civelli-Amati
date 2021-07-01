@@ -13,6 +13,10 @@ public interface VaticanReportObserver {
    */
   void update(int active);
 
+  /**
+   * Add an observer to a list of observers
+   *
+   * @param observerToAdd the observer to add
+   */
   void addToVaticanReportObserverList(VaticanReportObserver observerToAdd);
-
 }

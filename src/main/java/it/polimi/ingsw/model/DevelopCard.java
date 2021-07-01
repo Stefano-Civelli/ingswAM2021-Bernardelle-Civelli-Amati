@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.leadercard.LeaderCard;
 import it.polimi.ingsw.model.modelexceptions.*;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,10 +46,6 @@ public class DevelopCard {
       for(LeaderCard l : playerBoard.getLeaderCards())
          l.applyDiscount(localCost);
 
-      //check if the card is visible
-//      if(!developCardDeck.visibleCards().contains(this))
-//         return false;
-
       //check if the number of resources is sufficient
       for(Map.Entry<ResourceType, Integer> entry : localCost.entrySet())
          if (warehouse.getNumberOf(entry.getKey()) + chest.getNumberOf(entry.getKey()) < entry.getValue())
@@ -63,7 +58,6 @@ public class DevelopCard {
                return true;
          } catch (InvalidCardSlotException e) { e.printStackTrace(); }
       }
-
       return false;
    }
 
@@ -113,7 +107,6 @@ public class DevelopCard {
          throw new NotBuyableException("you are trying to buy a card you cannot buy");
       if(cardSlots.returnTopCard(cardSlotNumber).getCardFlag().getLevel() != (this.getCardFlag().getLevel() - 1))
          throw new InvalidCardSlotException();
-
 
       //apply discount
       for(LeaderCard l : playerBoard.getLeaderCards())

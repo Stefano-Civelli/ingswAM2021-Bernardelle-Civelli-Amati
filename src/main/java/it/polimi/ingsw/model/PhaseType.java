@@ -119,5 +119,4 @@ public enum PhaseType {
    public List<ActionType> getAvailableActions() {
       return Collections.unmodifiableList(this.availableActionsList);
    }
-
 }

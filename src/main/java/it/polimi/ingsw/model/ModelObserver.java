@@ -10,7 +10,7 @@ public interface ModelObserver {
   void chestUpdate(ChestUpdate stateUpdate);
   void warehouseUpdate(WarehouseUpdate stateUpdate);
   void leaderUpdate(LeaderUpdate stateUpdate);
-  void leaderSetupUpdate(String username, LeaderSetup stateUpdate); // !! non è broadcast !!
+  void leaderSetupUpdate(String username, LeaderSetup stateUpdate); // this update isn't sent broadcast
   void marketUpdate(MarketUpdate stateUpdate);
   void marketSetupUpdate(MarketSetup stateUpdate);
   void cardSlotUpdate(CardSlotUpdate stateUpdate);

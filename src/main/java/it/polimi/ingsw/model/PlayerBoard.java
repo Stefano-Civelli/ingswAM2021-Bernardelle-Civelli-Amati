@@ -332,10 +332,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
       this.developCardDeck.addToEndGameObserverList(obs);
    }
 
-   public void setTrackObserverOn (PlayerBoard playerBoard) {
-   // FIXME penso debba fare qualcosa
-   }
-
    @Override
    public Warehouse getWarehouse() {
       return warehouse;

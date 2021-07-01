@@ -12,5 +12,4 @@ public interface MoveForwardObserver {
   void update();
 
   int getTrackPosition();
-
 }

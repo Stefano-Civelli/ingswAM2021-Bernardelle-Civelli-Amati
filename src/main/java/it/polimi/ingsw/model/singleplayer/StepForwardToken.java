@@ -28,5 +28,4 @@ public class StepForwardToken implements ActionToken {
     public boolean equals(Object obj) {
         return obj != null && this.getClass() == obj.getClass();
     }
-
 }

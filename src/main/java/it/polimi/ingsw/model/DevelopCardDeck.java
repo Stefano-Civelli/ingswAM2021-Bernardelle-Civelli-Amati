@@ -54,6 +54,10 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
 
    }
 
+   /**
+    * Shuffles the deck, assigns the ModelObserver and notifies the client about the deck setup
+    * @param controller the modelObserver to be assigned to this class
+    */
    public void finalizeDeckSetup(ModelObserver controller){
       this.controller = controller;
       shuffleDeck(); // if you want to write tests that use the parsed Deck you need to move this call elsewhere
@@ -72,7 +76,6 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
       }
    }
 
-   //TODO probabilmente non serve questo metodo (o magari farlo private)
    /**
     * returns the visible cards (the ones on top of the card square)
     * @return matrix of DevelopCard
@@ -114,7 +117,6 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
             //if there are no cards to remove simply return
             if (k == cardsCube.length) {
                notifyForEndGame();
-               //dovrebbe fare phaseUpdate di un observer che guarda se il game è finito
                return;
             }
          }

@@ -79,6 +79,9 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
       return this.playerBoards.get(0).getKey().getUsername();
    }
 
+   /**
+    * Performs the initial move forward on the playerBoards that require it
+    */
    public void initialMoveForward() {
          this.playerBoards.stream().map(Pair::getKey).collect(Collectors.toList())
                  .forEach(playerBoard -> playerBoard.getTrack().moveForward(initialFaith(playerBoard.getUsername())));
@@ -215,6 +218,11 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
               .get(0).getKey().getUsername().equals(username);
    }
 
+   /**
+    * Returns true if the specified player is first in the turn order
+    * @param username, username of the player of which to verify the property
+    * @return true if the specified player is first in the turn order
+    */
    public boolean isFirst(String username) {
       return this.playerBoards.get(0).getKey().getUsername().equals(username);
    }
@@ -230,6 +238,10 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
       this.gameStarted = true;
    }
 
+   /**
+    * Returns true if the game has already started, false otherwise
+    * @return true if the game has already started
+    */
    public boolean isGameStarted() {
       return this.gameStarted;
    }
@@ -269,5 +281,4 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
    public void update() {
       this.endGame = true;
    }
-
 }

@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.modelobservables.CardSlotObservable;
 import it.polimi.ingsw.model.modelexceptions.InvalidCardSlotException;
 import it.polimi.ingsw.model.updatecontainers.CardSlotUpdate;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,15 +106,17 @@ public class CardSlots implements EndGameObservable, CardSlotObservable {
     return numberOfCardSlots;
   }
 
-  /**
-   * add 1 to card's counter
-   */
   private void addedACardInACardSlot(){
     totalCards++;
     if (totalCards == 7)
       notifyForEndGame();
   }
 
+  /**
+   * Returns the number of cards in the slots with the card flag passed as parameter
+   * @param cardFlag, the card flag of which the number of instances are to be returned
+   * @return the number of cards in the slots with the specified card flag
+   */
   public int numberOf(CardFlag cardFlag){
     int numberOf = 0;
 

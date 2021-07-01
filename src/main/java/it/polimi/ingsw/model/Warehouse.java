@@ -212,7 +212,7 @@ public class Warehouse implements WarehouseUpdateObservable {
     }
 
     /**
-     *
+     * Returns the total amount of resources contained in the warehouse
      * @return total amount of resources contained in the warehouse
      */
     public int totalResources() {
@@ -232,5 +232,4 @@ public class Warehouse implements WarehouseUpdateObservable {
     public void setController(ModelObserver controller) {
         this.controller = controller;
     }
-
 }
