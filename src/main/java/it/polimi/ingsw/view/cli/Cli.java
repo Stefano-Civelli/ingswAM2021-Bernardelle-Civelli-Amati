@@ -330,17 +330,19 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayMatchAlreadyExist() {
-    // TODO
+    System.out.println(ClientStrings.MATCH_ALREADY_EXISTS);
+    displayLogin();
   }
 
   @Override
   public void displayCannotJoinMatch() {
-    // TODO
+    System.out.println(ClientStrings.CANNOT_JOIN_MATCH);
+    displayLogin();
   }
 
   @Override
   public void displayFatalError(String errorMessage) {
-    // TODO
+    /* DOES NOTHING */
   }
 
   @Override
@@ -439,7 +441,7 @@ public class Cli implements ViewInterface {
                 if (cliTurnManager.isValidInCurrentPhase(line)) //to see if the input is valid in this turnPhase
                   handleInput(line);
                 else {
-                  System.out.println("Command you gave me is not allowed in this phase of the game or doesn't exists");
+                  System.out.println("Command you gave me is not allowed in this phase of the game or doesn't exists\n");
                   cliTurnManager.currentPhasePrint();
                 }
             }//switch
@@ -488,7 +490,7 @@ public class Cli implements ViewInterface {
         client.forwardAction(new EndTurnAction(stateViewer.getUsername()));
         break;
       default:
-        System.out.println("Command you gave me is not allowed in this phase of the game");
+        System.out.println("Command you gave me is not allowed in this phase of the game\n");
         cliTurnManager.currentPhasePrint();
     }
   }

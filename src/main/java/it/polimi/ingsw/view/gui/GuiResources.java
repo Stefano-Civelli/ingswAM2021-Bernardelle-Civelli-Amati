@@ -16,6 +16,8 @@ public final class GuiResources {
    public final static double cardWidth = 90;
    public final static double trackCrossHeight = 31;
    public final static double trackCrossWidth = 32;
+   public final static double lorenzoTrackCrossHeight = 36;
+   public final static double lorenzoTrackCrossWidth = 36;
    public final static double resourcesDimension = 30;
 
    //fxml files

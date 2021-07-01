@@ -647,13 +647,14 @@ public class GameboardController extends GUIController {
     @FXML
     private void chooseStone() { onChosenResource(ResourceType.STONE); }
 
-    private void onChosenResource(ResourceType resource) { //FIXME
+    private void onChosenResource(ResourceType resource) {
         if(chosenResourceMap.containsKey(resource))
             chosenResourceMap.compute(resource, (k,v) -> (v==null) ? 1 : v + 1);
         else {
             chosenResourceMap.put(resource, 1);
         }
-        if(chosenResourceMap.size() == this.numberOfInitRes){
+        int numberOfResourcesInMap = chosenResourceMap.values().stream().reduce(0, Integer::sum);
+        if(numberOfResourcesInMap == this.numberOfInitRes){
             client.forwardAction(new ChooseInitialResourcesAction(chosenResourceMap));
             choseResourcesGridPane.setVisible(false);
             choseResourcesGridPane.setDisable(true);

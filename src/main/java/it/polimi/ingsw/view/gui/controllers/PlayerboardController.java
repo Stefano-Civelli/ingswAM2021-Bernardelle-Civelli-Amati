@@ -287,19 +287,19 @@ public class PlayerboardController extends GUIController {
 
     private void positionTrackMarker(GridPane grid, ImageView image, int position){
         if(position<3)
-            trackGrid.add(image, position, 2);
+            grid.add(image, position, 2);
         if(position>2 && position<5)
-            trackGrid.add(image, 2, 4-position);
+            grid.add(image, 2, 4-position);
         if(position>4 && position<10)
-            trackGrid.add(image, position-2, 0);
+            grid.add(image, position-2, 0);
         if(position>9 && position<12)
-            trackGrid.add(image, 7, position-9);
+            grid.add(image, 7, position-9);
         if(position>11 && position<17)
-            trackGrid.add(image, position-4, 2);
+            grid.add(image, position-4, 2);
         if(position>16 && position<19)
-            trackGrid.add(image, 12, 18-position);
+            grid.add(image, 12, 18-position);
         if(position>18)
-            trackGrid.add(image, position-6, 0);
+            grid.add(image, position-6, 0);
     }
 
     /**
@@ -700,14 +700,13 @@ public class PlayerboardController extends GUIController {
             newCard.setFitHeight(GuiResources.cardHeight);
             newCard.setFitWidth(GuiResources.cardWidth);
             this.leaderCardVbox.getChildren().add(newCard);
-            //this.leaderImageIdMap.put(newCard, leaderId); //FIXME mi sa che non va messa sta istruzione
         } else {
             for (Map.Entry<ImageView, Integer> p : leaderImageIdMap.entrySet()) {
                 if (p.getValue() == leaderId) {
                     ImageView activatedCard = p.getKey();
                     activatedCard.setOnMouseClicked(null);
-                    //p.getKey(). //TODO settare qualche proprietà per far vedere visivamente che è attiva
-                    //potrei mettere bordo rosso e fare che non fa nulla on mouse hover
+                    //p.getKey().
+                    // here we could set a property to show that the card is active
                     try {
                         if (LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement() != null) {
                             activatedCard.setOnMouseClicked(this::activateLeaderProduction);
@@ -753,8 +752,8 @@ public class PlayerboardController extends GUIController {
         this.lorenzoTrackPosition.setVisible(false);
         ImageView image = new ImageView(GuiResources.lorenzoFaithTrackCross);
         this.lorenzoTrackPosition = image;
-        image.setFitWidth(GuiResources.trackCrossWidth);
-        image.setFitHeight(GuiResources.trackCrossHeight);
+        image.setFitWidth(GuiResources.lorenzoTrackCrossWidth);
+        image.setFitHeight(GuiResources.lorenzoTrackCrossHeight);
 
         positionTrackMarker(this.lorenzoTrackGrid, image, position);
     }
