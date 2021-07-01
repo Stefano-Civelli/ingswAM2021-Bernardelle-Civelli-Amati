@@ -46,5 +46,4 @@ public enum ResourceType {
   public String toString () {
     return getColor().toString();
   }
-
 }

@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.ModelObserver;
 import it.polimi.ingsw.model.MoveForwardObserver;
 import it.polimi.ingsw.model.modelobservables.TrackObservable;
 import it.polimi.ingsw.model.updatecontainers.TrackUpdate;
-
 import java.util.HashSet;
 import java.util.Set;
 

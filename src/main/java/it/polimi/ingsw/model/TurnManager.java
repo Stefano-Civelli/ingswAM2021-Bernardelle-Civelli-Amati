@@ -154,5 +154,4 @@ public class TurnManager implements IGameState {
     public Game getGame() {
         return this.game;
     }
-
 }

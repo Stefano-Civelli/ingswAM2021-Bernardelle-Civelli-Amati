@@ -115,4 +115,4 @@ Here is an example of how to create a message countaining a specific action:
 [installation-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Installation
 [compiling-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Compiling
 [running-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Running
-[javadocs]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Javadoc
+[javadocs]: https://stefano-civelli.github.io/MoR-Javadoc/

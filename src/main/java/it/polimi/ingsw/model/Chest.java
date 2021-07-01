@@ -130,5 +130,4 @@ public class Chest implements ChestUpdateObservable, TempChestObservable, ChestM
     if (controller != null)
       controller.chestMergeUpdate();
   }
-
 }

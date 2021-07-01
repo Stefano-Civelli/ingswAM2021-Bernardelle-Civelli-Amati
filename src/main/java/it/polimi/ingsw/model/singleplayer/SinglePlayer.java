@@ -51,8 +51,12 @@ public class SinglePlayer extends Game {
     */
    @Override
    public void addPlayer(String username) throws IOException, MaximumNumberOfPlayersException {
-      if(super.getOrderedPlayers().size() == 0)
+      if(super.getOrderedPlayers().size() == 0) {
          super.addPlayer(username);
+         try {
+            this.lorenzoTrack.addToVaticanReportObserverList(getPlayerBoard(username).getTrack());
+         } catch (InvalidUsernameException e) { e.printStackTrace(); }
+      }
       else
          throw new MaximumNumberOfPlayersException(1);
    }
@@ -91,6 +95,4 @@ public class SinglePlayer extends Game {
          return p.getKey().returnScore();
       return 0;
    }
-
 }
-

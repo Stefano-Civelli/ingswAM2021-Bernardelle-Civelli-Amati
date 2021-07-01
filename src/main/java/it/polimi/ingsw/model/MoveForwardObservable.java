@@ -5,13 +5,15 @@ package it.polimi.ingsw.model;
  * a track that have to move their faith marker
  */
 public interface MoveForwardObservable {
-
   /**
    * Notify the moveForward observers that they have to move their faith marker
    */
   void notifyForMoveForward();
 
+  /**
+   * Add an observer to a list of observers
+   *
+   * @param observerToAdd the observer to add
+   */
   void addToMoveForwardObserverList(MoveForwardObserver observerToAdd);
-
 }
-
