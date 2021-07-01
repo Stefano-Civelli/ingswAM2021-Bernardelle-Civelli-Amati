@@ -104,6 +104,10 @@ public class Cli implements ViewInterface {
     boolean create = false;
     out.println("Choose your username:");
     username = in.nextLine();
+    if(client.isLocal()){
+      client.setUsername(username);
+      return;
+    }
     out.println("Create or Join?");
     String input = stringInputValidation(in, "c", "j");
     if(input.equals("c"))
@@ -594,6 +598,8 @@ public class Cli implements ViewInterface {
     int secondDiscard = validateIntInput(1, stateViewer.getSimplePlayerState().getNotActiveLeaderCards().size());
     int id2 = stateViewer.getSimplePlayerState().getNotActiveLeaderCards().get(secondDiscard-1);
     stateViewer.getSimplePlayerState().discardLeader(secondDiscard - 1);
+    if(client.isLocal())
+      drawer.displayPlainCanvas();
     client.forwardAction(new DiscardInitialLeaderAction(stateViewer.getUsername(), id1, id2));
   }
 

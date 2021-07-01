@@ -138,7 +138,6 @@ public class Client implements PhaseChangedObserver {
    * @param roomName name of the room to create or join
    */
   public void sendLogin(boolean create, String roomName) {
-    this.state.setClientUsername(this.username);
     if(create)
       forwardMessage(new Message(username, MessageType.CREATE_MATCH, roomName));
     else
@@ -178,6 +177,7 @@ public class Client implements PhaseChangedObserver {
 
   public void setUsername(String username) {
     this.username = username;
+    this.state.setClientUsername(this.username);
 
   }
 
