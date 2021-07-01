@@ -484,7 +484,7 @@ public class Cli implements ViewInterface {
         client.forwardAction(produceAction);
         break;
       case "A": case "a"://activate leader card
-        if(stateViewer.getSimplePlayerState().getActiveLeaderCards().size() == 2) {
+        if(stateViewer.getSimplePlayerState().getNotActiveLeaderCards().isEmpty()) {
           drawer.displayPlainCanvas();
           System.out.println(Color.ANSI_RED.escape() + "Sorry, you don't have other leader in your hand that can be activated"
                   + Color.RESET.escape());
@@ -497,7 +497,7 @@ public class Cli implements ViewInterface {
         }
         break;
       case "D": case "d"://discard leader card
-        if(stateViewer.getSimplePlayerState().getActiveLeaderCards().size() == 2) {
+        if(stateViewer.getSimplePlayerState().getNotActiveLeaderCards().isEmpty()) {
           drawer.displayPlainCanvas();
           System.out.println(Color.ANSI_RED.escape() + "Sorry, you can't discard any leader because your hand is empty"
                   + Color.RESET.escape());
