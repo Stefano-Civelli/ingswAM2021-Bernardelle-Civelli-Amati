@@ -425,11 +425,14 @@ public class Cli implements ViewInterface {
             } while (!stateViewer.otherPlayersUsername().contains(user) && !user.equals("all"));
 
             if (user.equals("all")) {
+              drawer.displayPlainCanvas();
               for (String s : stateViewer.otherPlayersUsername())
-                drawer.displayDefaultCanvas(s);
+                drawer.displayPlayerBoard(s);
             }
-            else
-              drawer.displayDefaultCanvas(user);
+            else {
+              drawer.displayPlainCanvas();
+              drawer.displayPlayerBoard(user);
+            }
             actionAlreadyPerformed = true;
             break;
         }

@@ -70,36 +70,21 @@ public class CliDrawer {
    * @param username, username of the player
    */
   public void displayDefaultCanvas(String username) {
-    clearCanvas();
-    placeHereOnCanvas(0, 0, MarginConstructor.buildMargins(PLAYERBOARD_HEIGHT, PLAYERBOARD_LENGTH));
-    setUsernameOnCanvas(username);
-
+    buildPlayerBoard(username);
     deck = deckDrawer.build();
     market = marketDrawer.build();
-    chest = chestDrawer.build();
-    slots = slotsDrawer.build();
-    warehouse = warehouseDrawer.build();
-    track = trackDrawer.build();
-    leaders = leaderHandDrawer.build();
-    activatedLeaders = activatedLeaderDrawer.build();
 
     deckDrawer.fill(deck, state.getSimpleGameState());
     marketDrawer.fill(market, state.getSimpleGameState());
-    chestDrawer.fill(chest, state.getSimplePlayerState(username));
-    trackDrawer.fill(track, state.getSimplePlayerState(username));
-    warehouseDrawer.fill(warehouse, state.getSimplePlayerState(username));
-    slotsDrawer.fill(slots, state.getSimplePlayerState(username));
-    leaderHandDrawer.fill(leaders, state.getSimplePlayerState(username));
-    activatedLeaderDrawer.fill(activatedLeaders, state.getSimplePlayerState(username));
 
-    placeHereOnCanvas(1, 3, track);
     placeHereOnCanvas(0, PLAYERBOARD_LENGTH + 4, market);
     placeHereOnCanvas(0, PLAYERBOARD_LENGTH + 21, deck);
-    placeHereOnCanvas(5, 3, warehouse);
-    placeHereOnCanvas(10, 3, chest);
-    placeHereOnCanvas(5, 20, slots);
-    placeHereOnCanvas(PLAYERBOARD_HEIGHT, 0, leaders);
-    placeHereOnCanvas(5, 75, activatedLeaders);
+
+    displayCanvas();
+  }
+
+  public void displayPlayerBoard(String username) {
+    buildPlayerBoard(username);
     displayCanvas();
   }
 
@@ -314,37 +299,6 @@ public class CliDrawer {
     }
   }
 
-//  public void drawTotalResourcesChoice(String username) {
-//    String[][] resources = new String[8][2];
-//    int row=0, col=0;
-//    for(int i=0; i<resources.length; i++)
-//      for(int j=0; j<resources[i].length; j++)
-//        resources[i][j] = " ";
-//
-//    for(Map.Entry<ResourceType, Integer> entry : playerState.get(username).throwableResources().entrySet()) {
-//      resources[row][col] = entry.getKey().toString();
-//      switch (entry.getKey()) {
-//        case GOLD:
-//          resources[row+1][col] = "Y";
-//          break;
-//        case SERVANT:
-//          resources[row+1][col] = "P";
-//          break;
-//        case STONE:
-//          resources[row+1][col] = "G";
-//          break;
-//        case SHIELD:
-//          resources[row+1][col] = "B";
-//          break;
-//      }
-//      col += 2;
-//    }
-//
-//    for(int i=0; i<resources.length; i++)
-//      for(int j=0; j<resources[i].length; j++)
-//        System.out.println(resources[i][j]);
-//  }
-
   /**
    * Builds, fills and prints the DevelopCard Deck
    */
@@ -402,6 +356,33 @@ public class CliDrawer {
       for (int j = 0; j < placeMe[0].length; j++, startCol++)
         canvas[startRow][startCol] = placeMe[i][j];
     }
+  }
+
+  private void buildPlayerBoard(String username) {
+    clearCanvas();
+    placeHereOnCanvas(0, 0, MarginConstructor.buildMargins(PLAYERBOARD_HEIGHT, PLAYERBOARD_LENGTH));
+    setUsernameOnCanvas(username);
+
+    chest = chestDrawer.build();
+    slots = slotsDrawer.build();
+    warehouse = warehouseDrawer.build();
+    track = trackDrawer.build();
+    leaders = leaderHandDrawer.build();
+    activatedLeaders = activatedLeaderDrawer.build();
+
+    chestDrawer.fill(chest, state.getSimplePlayerState(username));
+    trackDrawer.fill(track, state.getSimplePlayerState(username));
+    warehouseDrawer.fill(warehouse, state.getSimplePlayerState(username));
+    slotsDrawer.fill(slots, state.getSimplePlayerState(username));
+    leaderHandDrawer.fill(leaders, state.getSimplePlayerState(username));
+    activatedLeaderDrawer.fill(activatedLeaders, state.getSimplePlayerState(username));
+
+    placeHereOnCanvas(1, 3, track);
+    placeHereOnCanvas(5, 3, warehouse);
+    placeHereOnCanvas(10, 3, chest);
+    placeHereOnCanvas(5, 20, slots);
+    placeHereOnCanvas(PLAYERBOARD_HEIGHT, 0, leaders);
+    placeHereOnCanvas(5, 75, activatedLeaders);
   }
 
   private void setUsernameOnCanvas(String username) {
