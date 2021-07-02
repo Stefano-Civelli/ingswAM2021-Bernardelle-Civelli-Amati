@@ -19,6 +19,25 @@ If you can't run a server on your own you can use ours. You can start playing si
 
 You can find more information on how to run the game [`here`][running-link]
 
+## Running
+
+### Unexperienced users
+For the unexperienced user it is possible to simply double click the jar file to run the game in GUI client mode.
+
+### Experienced users
+To run the jar via Terminal you need to go to the project Shade directory where the jar is located.<br>
+You can use the command: `java -jar <jarname>.jar --help` for more informations <br>
+NOTE: by default the program will start in GUI client mode.
+#### Server mode
+To run the jar in server mode you can use the following commands: <br>
+`java -jar <jarname>.jar -s` or  `java -jar <jarname>.jar --server`
+
+#### Client mode
+To run the jar in client mode you can use the following commands: <br>
+- for GUI -> `java -jar <jarname>.jar -g` or `java -jar <jarname>.jar --gui`
+- for CLI -> `java -jar <jarname>.jar -c` or `java -jar <jarname>.jar --cli`<br>
+For the best experience in CLI mode you should use the **`Linux/Unix bash shell`** (you can also play in Windows using **`wsl`**). 
+
 ## Implemented Functionalities
 | Functionality | Status |
 |:-----------------------|:------------------------------------:|
