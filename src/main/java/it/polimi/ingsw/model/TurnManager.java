@@ -111,14 +111,16 @@ public class TurnManager implements IGameState {
 
         // If the player turn is ended change the current player
         if(this.currentPhase == PhaseType.END_SETUP) {
+            String previousPlayer = this.currentPlayer;
             try {
+
                 this.currentPlayer = this.game.nextConnectedPlayer(this.currentPlayer);
             } catch (InvalidUsernameException e) {
                 // This code should never be executed
                 e.printStackTrace();
             }
 
-            if(this.game.isFirst(this.currentPlayer)) {
+            if(this.game.getOrderedPlayers().indexOf(this.currentPlayer) <= this.game.getOrderedPlayers().indexOf(previousPlayer)) {
                 this.currentPhase = PhaseType.INITIAL;
                 this.game.gameStarted();
             } else
