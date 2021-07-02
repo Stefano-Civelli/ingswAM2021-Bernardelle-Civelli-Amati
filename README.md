@@ -17,7 +17,6 @@ Our game both supports local games and online.
 - You can also play online but you will need a running server and at least 1 client. 
 If you can't run a server on your own you can use ours. You can start playing simply connecting to this ip address `35.212.247.189` and port `6754`.
 
-You can find more information on how to run the game [`here`][running-link]
 
 ## Running
 
@@ -102,6 +101,5 @@ For the best experience in CLI mode you should use the **`Linux/Unix bash shell`
 
 
 [communicationProtocol-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Communication+Protocol
-[running-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Running
 [javadocs]: https://stefano-civelli.github.io/MasterOfReinassance_JavaDoc/
 [messageTable-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Message+Tables
