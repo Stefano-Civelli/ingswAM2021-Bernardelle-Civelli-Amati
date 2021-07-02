@@ -657,8 +657,18 @@ public class Cli implements ViewInterface {
       }while(output3 == null);
       return new BaseProductionAction(output1, output2, output3);
     }
-    else if(index <= stateViewer.getSimplePlayerState().getProducibleCardSlotsId().size())
-      return new ProductionAction(index-1);
+    else if(index <= stateViewer.getSimplePlayerState().getProducibleCardSlotsId().size()) {
+      int i=0;
+      Integer cardId = stateViewer.getSimplePlayerState().getProducibleCardSlotsId().get(index - 1);
+      for(List<Integer> l : stateViewer.getSimplePlayerState().getCardSlots()) {
+        if (!l.isEmpty() && l.get(l.size() - 1) == cardId) {
+          index = i;
+          break;
+        } else
+          i++;
+      }
+      return new ProductionAction(index);
+    }
     else {
       ResourceType output;
       System.out.println("choose the resource to produce (first character of the resource color)");
