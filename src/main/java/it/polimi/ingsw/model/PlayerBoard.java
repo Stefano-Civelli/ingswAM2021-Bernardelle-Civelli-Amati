@@ -207,7 +207,9 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
 
       if(alreadyProduced[0])
          throw new AlreadyProducedException();
-      if(warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) > 0 && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) > 0) {
+      if(resource1 != resource2 && warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) >= 1
+              && warehouse.getNumberOf(resource2) + chest.getNumberOf(resource2) >= 1
+         || resource1 == resource2 && warehouse.getNumberOf(resource1) + chest.getNumberOf(resource1) >= 2) {
          try {
             int remainingToRemove = warehouse.removeResources(resource1,1);
             chest.removeResources(resource1, remainingToRemove);
