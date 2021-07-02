@@ -21,6 +21,11 @@ You can find more information on how to run the game [`here`][running-link]
 
 ## Running
 
+### Advices for better Gameplay
+
+- CLI is best played at full screen on the terminal with a dark background
+- In GUI the game is optimized for a 1920 x 1080 screen but can be played with a lower resolution. If your screen has a resolution higher than 1080p the game will probably look small for you so it is advised to adjust the screen resolution  
+
 ### Unexperienced users
 For the unexperienced user it is possible to simply double click the jar file to run the game in GUI client mode.
 
