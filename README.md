@@ -93,6 +93,11 @@ For the best experience in CLI mode you should use the **`Linux/Unix bash shell`
 <img src="https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/blob/main/WikiResources/GUI_Screenshot2.PNG" align="center" />
 <br><br>
 
+## The Team
+
+* [Alex Amati](https://github.com/Alexamati)
+* [Pietro Bernardelle](https://github.com/PietroBernardelle)
+* [Stefano Civelli](https://github.com/Stefano-Civelli)
 
 
 [communicationProtocol-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Communication+Protocol
