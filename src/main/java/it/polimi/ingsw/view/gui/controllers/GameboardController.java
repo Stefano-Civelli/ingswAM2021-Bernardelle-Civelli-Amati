@@ -238,7 +238,7 @@ public class GameboardController extends GUIController {
             this.player_anchorPane.getChildren().add(root);
             playerboardList.add(root);
         } catch (IOException e) {
-            e.printStackTrace(); //TODO gestire
+            e.printStackTrace();
             this.client.getView().displayFatalError("Fatal Error: loading fxml file failed");
         }
     }
@@ -275,7 +275,7 @@ public class GameboardController extends GUIController {
                 }
             }
         }catch (IOException e) {
-            e.printStackTrace(); //TODO gestire
+            e.printStackTrace();
             this.client.getView().displayFatalError("Fatal Error: loading fxml file failed");
         }
     }
