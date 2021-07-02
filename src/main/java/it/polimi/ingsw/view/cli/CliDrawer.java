@@ -6,15 +6,15 @@ import it.polimi.ingsw.utility.ConfigParameters;
 import it.polimi.ingsw.view.ClientStateViewer;
 import it.polimi.ingsw.view.cli.drawer.*;
 
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class that manage the Cli representation of the game state
  */
 public class CliDrawer {
 
-  private final int PLAYERBOARD_LENGTH = 90;
-  private final int PLAYERBOARD_HEIGHT = 16;
+  private final int PLAYER_BOARD_LENGTH = 90;
+  private final int PLAYER_BOARD_HEIGHT = 16;
   private final int MAX_DISPLAYABLE_LENGTH = 200;
   private final int MAX_DISPLAYABLE_HEIGHT = 20;
 
@@ -77,12 +77,16 @@ public class CliDrawer {
     deckDrawer.fill(deck, state.getSimpleGameState());
     marketDrawer.fill(market, state.getSimpleGameState());
 
-    placeHereOnCanvas(0, PLAYERBOARD_LENGTH + 4, market);
-    placeHereOnCanvas(0, PLAYERBOARD_LENGTH + 21, deck);
+    placeHereOnCanvas(0, PLAYER_BOARD_LENGTH + 4, market);
+    placeHereOnCanvas(0, PLAYER_BOARD_LENGTH + 21, deck);
 
     displayCanvas();
   }
 
+  /**
+   * Builds, fills the PlayerBoard of the player which as the username that is passed as parameter
+   * @param username, username of the player
+   */
   public void displayPlayerBoard(String username) {
     buildPlayerBoard(username);
     displayCanvas();
@@ -167,47 +171,50 @@ public class CliDrawer {
   }
 
 
-//  public void displayProducibleCards() {
-//    List<Integer> producibleLeader = state.getSimplePlayerState().getProducibleLeaders();
-//    List<Integer> producibleSlots = state.getSimplePlayerState().getProducibleCardSlotsId();
-//    int productionLength = producibleLeader.size() + producibleLeader.size();
-//    int c=0, b, p=1;
-//    String[][] produce = new String[5][productionLength*11];
-//
-//    for (int i = 0; i < produce.length; i++)
-//      for (int j = 0; j < produce[i].length; j++)
-//        produce[i][j] = " ";
-//
-//    for (c = 0, b=5; c < productionLength; c++, b+=11, p++)
-//        produce[4][b] = Integer.toString(p);
-//
-//    c=0;
-//
-//    for(Integer id : producibleSlots) {
-//      String[][] card = DevelopCardConstructor.constructDevelopFromId(id);
-//      for(int r=0; r<card.length; r++) {
-//        for (int col=0, e=c; col < card[r].length; e++, col++)
-//          produce[r][e] = card[r][col];
-//      }
-//      c+=11;
-//    }
-//
-//    for(Integer id : producibleLeader) {
-//      String[][] card = LeaderConstructor.constructLeaderFromId(id);
-//      for(int r=0; r<card.length; r++) {
-//          for (int col=0, e=c; col < card[r].length; e++, col++)
-//            produce[r][e] = card[r][col];
-//        }
-//        c+=11;
-//    }
-//
-//    if(productionLength>0)
-//      for (int i = 0; i < produce.length; i++) {
-//        for (int j = 0; j < produce[i].length; j++)
-//          System.out.print(produce[i][j]);
-//        System.out.println();
-//      }
-//  }
+  /**
+   * Builds, Fills and displays the cards on which the player can active the production on
+   */
+  public void displayProducibleCards() {
+    List<Integer> producibleLeader = state.getSimplePlayerState().getProducibleLeaders();
+    List<Integer> producibleSlots = state.getSimplePlayerState().getProducibleCardSlotsId();
+    int productionLength = producibleLeader.size() + producibleSlots.size();
+    int c=0, b, p=1;
+    String[][] produce = new String[5][productionLength*11];
+
+    for (int i = 0; i < produce.length; i++)
+      for (int j = 0; j < produce[i].length; j++)
+        produce[i][j] = " ";
+
+    for (c = 0, b=5; c < productionLength; c++, b+=11, p++)
+        produce[4][b] = Integer.toString(p);
+
+    c=0;
+
+    for(Integer id : producibleSlots) {
+      String[][] card = DevelopCardConstructor.constructDevelopFromId(id);
+      for(int r=0; r<card.length; r++) {
+        for (int col=0, e=c; col < card[r].length; e++, col++)
+          produce[r][e] = card[r][col];
+      }
+      c+=11;
+    }
+
+    for(Integer id : producibleLeader) {
+      String[][] card = LeaderConstructor.constructLeaderFromId(id);
+      for(int r=0; r<card.length; r++) {
+          for (int col=0, e=c; col < card[r].length; e++, col++)
+            produce[r][e] = card[r][col];
+        }
+        c+=11;
+    }
+
+    if(productionLength>0)
+      for (int i = 0; i < produce.length; i++) {
+        for (int j = 0; j < produce[i].length; j++)
+          System.out.print(produce[i][j]);
+        System.out.println();
+      }
+  }
 
   /**
    * Prints the four marbles associated to resources
@@ -360,7 +367,7 @@ public class CliDrawer {
 
   private void buildPlayerBoard(String username) {
     clearCanvas();
-    placeHereOnCanvas(0, 0, MarginConstructor.buildMargins(PLAYERBOARD_HEIGHT, PLAYERBOARD_LENGTH));
+    placeHereOnCanvas(0, 0, MarginConstructor.buildMargins(PLAYER_BOARD_HEIGHT, PLAYER_BOARD_LENGTH));
     setUsernameOnCanvas(username);
 
     chest = chestDrawer.build();
@@ -381,7 +388,7 @@ public class CliDrawer {
     placeHereOnCanvas(5, 3, warehouse);
     placeHereOnCanvas(10, 3, chest);
     placeHereOnCanvas(5, 20, slots);
-    placeHereOnCanvas(PLAYERBOARD_HEIGHT, 0, leaders);
+    placeHereOnCanvas(PLAYER_BOARD_HEIGHT, 0, leaders);
     placeHereOnCanvas(5, 75, activatedLeaders);
   }
 

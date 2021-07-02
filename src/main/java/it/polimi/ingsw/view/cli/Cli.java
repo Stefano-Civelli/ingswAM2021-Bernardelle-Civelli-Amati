@@ -36,7 +36,6 @@ public class Cli implements ViewInterface {
   private static final Scanner in = new Scanner(System.in);
   private int numOfPlayers = 0;
   private int playersJoinedTheLobby = 0;
-  private final int countDown = ConfigParameters.countDown;
 
   /**
    * Constructor for Cli class
@@ -116,7 +115,7 @@ public class Cli implements ViewInterface {
       return;
     }
     out.println("Create or Join?");
-    String input = stringInputValidation(in, "c", "j");
+    String input = stringInputValidation("c", "j");
     if(input.equals("c"))
       create = true;
 
@@ -189,24 +188,8 @@ public class Cli implements ViewInterface {
 
   @Override
   public void displayWaiting(){
-    //int secondsRemaining = this.countDown;
     System.out.println("There's a player creating the lobby, retry to login in a few seconds");
-//    Timer myTimer = new Timer();
-//    TimerTask countDownTimer = new TimerTask() {
-//      @Override
-//      public void run() {
-//        while (secondsRemaining > 0) {
-//          System.out.println("Waiting time: " + secondsRemaining + " second(s) ...");
-//          secondsRemaining --;
-//        }
-//      }
-//    };
-//
-//    myTimer.schedule(countDownTimer, 0, 1*1000);
-//
-//    if(secondsRemaining == 0)
-      //out.println("Countdown terminated, retry to login");
-      displayLogin();
+    displayLogin();
   }
 
   @Override
@@ -236,8 +219,6 @@ public class Cli implements ViewInterface {
     for(String s: otherUsernames)
       System.out.println("-" + s);
 
-    //clearScreen();
-    //drawer.displayDefaultCanvas(client.getUsername());
     waitForInput();
   }
 
@@ -398,6 +379,7 @@ public class Cli implements ViewInterface {
         switch(line) {
           case "cheat":
             if (ConfigParameters.TESTING) {
+              drawer.displayPlainCanvas();
               client.forwardMessage(new Message(stateViewer.getUsername(), MessageType.CHEAT));
               System.out.println("cheats activated");
               actionAlreadyPerformed = true;
@@ -625,7 +607,7 @@ public class Cli implements ViewInterface {
     System.out.println("Do you want to push a " + Color.ANSI_RED.escape() + "R" + Color.RESET.escape() + "ow or a "
             + Color.ANSI_RED.escape() + "C" + Color.RESET.escape() + "olumn ? ");
     in.nextLine();
-    String choice = stringInputValidation(in,"r","c");
+    String choice = stringInputValidation("r","c");
     boolean row = choice.equals("r");
     System.out.println("what number ?");
     int index;
@@ -647,8 +629,11 @@ public class Cli implements ViewInterface {
   }
 
   private Action createProduceAction(){
+    int productionLength = stateViewer.getSimplePlayerState().getProducibleLeaders().size() +
+            stateViewer.getSimplePlayerState().getProducibleCardSlotsId().size();
     System.out.println("Choose a Card you want to activate production on. (0 for base Production)");
-    int index = validateIntInput(0, 5);
+    drawer.displayProducibleCards();
+    int index = validateIntInput(0, productionLength);
     if(index == 0) {
       String input;
       ResourceType output1, output2, output3;
@@ -672,7 +657,7 @@ public class Cli implements ViewInterface {
       }while(output3 == null);
       return new BaseProductionAction(output1, output2, output3);
     }
-    else if(index<4)
+    else if(index <= stateViewer.getSimplePlayerState().getProducibleCardSlotsId().size())
       return new ProductionAction(index-1);
     else {
       ResourceType output;
@@ -680,18 +665,19 @@ public class Cli implements ViewInterface {
       in.nextLine();
       String line = in.nextLine();
       output = parsStringToResource(line);
-      int id = stateViewer.getSimplePlayerState().getActiveLeaderCards().get(index - 4);
+      int id = stateViewer.getSimplePlayerState().getActiveLeaderCards().
+              get(index - (stateViewer.getSimplePlayerState().getProducibleCardSlotsId().size() + 1));
       return new LeaderProductionAction(id, output);
     }
   }
 
-  private static String stringInputValidation(Scanner in, String a, String b) {
+  private static String stringInputValidation(String a, String b) {
     String input;
-    input = in.nextLine().toLowerCase();
+    input = Cli.in.nextLine().toLowerCase();
 
     while(!input.equals(a) && !input.equals(b)){
       System.out.print("input must be " + a + " or " + b + ". try again: ");
-        input = in.nextLine();
+        input = Cli.in.nextLine();
     }
     return input;
   }

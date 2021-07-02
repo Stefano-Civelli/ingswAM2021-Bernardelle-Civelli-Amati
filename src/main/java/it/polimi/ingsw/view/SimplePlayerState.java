@@ -1,8 +1,11 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.modelexceptions.InvalidCardException;
 import it.polimi.ingsw.model.updatecontainers.*;
 import it.polimi.ingsw.utility.Pair;
+import it.polimi.ingsw.view.cli.drawer.LeaderConstructor;
+
 import java.util.*;
 
 /**
@@ -238,30 +241,38 @@ public class SimplePlayerState {
       return new ArrayList<>(this.activeLeaderCards);
    }
 
-//   public List<Integer> getProducibleLeaders() {
-//      List<Integer> producibleLeaderList = new ArrayList<>();
-//
-//      for(Integer leaderId : activeLeaderCards) {
-//         ResourceType produceRequirement = null;
-//         try {
-//            produceRequirement = LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement();
-//         } catch (InvalidCardException e) {
-//            e.printStackTrace();
-//         }
-//         if (produceRequirement != null)
-//            producibleLeaderList.add(leaderId);
-//      }
-//      return producibleLeaderList;
-//   }
-//
-//   public List<Integer> getProducibleCardSlotsId() {
-//      List<Integer> producibleCardList = new ArrayList<>();
-//      for(List<Integer> slot : cardSlots)
-//         if(!slot.isEmpty())
-//            producibleCardList.add(slot.get(slot.size()-1));
-//
-//      return producibleCardList;
-//   }
+   /**
+    * Returns the ids of the leader cards on which the player can activate the production on
+    * @return the ids of the leader cards on which the player can activate the production on
+    */
+   public List<Integer> getProducibleLeaders() {
+      List<Integer> producibleLeaderList = new ArrayList<>();
+
+      for(Integer leaderId : activeLeaderCards) {
+         ResourceType produceRequirement = null;
+         try {
+            produceRequirement = LeaderConstructor.getLeaderCardFromId(leaderId).getProductionRequirement();
+         } catch (InvalidCardException e) {
+            e.printStackTrace();
+         }
+         if (produceRequirement != null)
+            producibleLeaderList.add(leaderId);
+      }
+      return producibleLeaderList;
+   }
+
+   /**
+    * Returns the ids of the develop cards on which the player can activate the production on
+    * @return the ids of the develop cards on which the player can activate the production on
+    */
+   public List<Integer> getProducibleCardSlotsId() {
+      List<Integer> producibleCardList = new ArrayList<>();
+      for(List<Integer> slot : cardSlots)
+         if(!slot.isEmpty())
+            producibleCardList.add(slot.get(slot.size()-1));
+
+      return producibleCardList;
+   }
 
    //----------------------------------------------------------
 
