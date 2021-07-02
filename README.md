@@ -103,5 +103,5 @@ For the best experience in CLI mode you should use the **`Linux/Unix bash shell`
 
 [communicationProtocol-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Communication+Protocol
 [running-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Running
-[javadocs]: https://stefano-civelli.github.io/MasterOfReinassance-Javadoc/
+[javadocs]: https://stefano-civelli.github.io/MasterOfReinassance_JavaDoc/
 [messageTable-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Message+Tables
