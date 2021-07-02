@@ -109,7 +109,7 @@ public class CardSlots implements EndGameObservable, CardSlotObservable {
   private void addedACardInACardSlot(){
     totalCards++;
     if (totalCards == 7)
-      notifyForEndGame();
+      notifyForEndGame(false);
   }
 
   /**
@@ -137,9 +137,9 @@ public class CardSlots implements EndGameObservable, CardSlotObservable {
   }
 
   @Override
-  public void notifyForEndGame() {
+  public void notifyForEndGame(boolean onySinglePlayer) {
     for(EndGameObserver x : endGameObserverList)
-      x.update();
+      x.update(onySinglePlayer);
   }
 
   @Override

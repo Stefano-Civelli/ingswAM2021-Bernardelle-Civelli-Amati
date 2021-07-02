@@ -278,7 +278,8 @@ public class Game implements LeaderSetupObservable, EndGameObserver {
    }
 
    @Override
-   public void update() {
-      this.endGame = true;
+   public void update(boolean onySinglePlayer) {
+      this.endGame = !onySinglePlayer;
    }
+
 }

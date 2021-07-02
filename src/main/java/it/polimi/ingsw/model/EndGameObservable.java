@@ -18,6 +18,9 @@ public interface EndGameObservable {
 
   /**
    * notify the endgame observers that the game is in the endgame state
+   *
+   * @param onySinglePlayer true the game must end only if it is in single player
    */
-  void notifyForEndGame();
+  void notifyForEndGame(boolean onySinglePlayer);
+
 }

@@ -116,7 +116,7 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
             k++;
             //if there are no cards to remove simply return
             if (k == cardsCube.length) {
-               notifyForEndGame();
+               notifyForEndGame(true);
                return;
             }
          }
@@ -169,7 +169,7 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
          if (!lists[column].isEmpty())
             return;
 
-      notifyForEndGame();
+      notifyForEndGame(true);
    }
 
    @SuppressWarnings("unchecked")
@@ -210,9 +210,9 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
    }
 
    @Override
-   public void notifyForEndGame() {
+   public void notifyForEndGame(boolean onySinglePlayer) {
       for (EndGameObserver x : endGameObserverList)
-         x.update();
+         x.update(onySinglePlayer);
    }
 
    @Override

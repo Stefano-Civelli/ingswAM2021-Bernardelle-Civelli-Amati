@@ -95,4 +95,10 @@ public class SinglePlayer extends Game {
          return p.getKey().returnScore();
       return 0;
    }
+
+   @Override
+   public void update(boolean onySinglePlayer) {
+      super.update(false);
+   }
+
 }

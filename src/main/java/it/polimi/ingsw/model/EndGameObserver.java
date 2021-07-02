@@ -5,6 +5,6 @@ package it.polimi.ingsw.model;
  */
 public interface EndGameObserver {
 
-  void update();
+  void update(boolean onySinglePlayer);
 
 }

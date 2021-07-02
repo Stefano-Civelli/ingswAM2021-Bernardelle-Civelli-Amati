@@ -62,7 +62,7 @@ public class Track extends LorenzoTrack implements VaticanReportObserver, Vatica
 
       if(playerPosition == 24)
         //if a player reaches the end of the track he notifies the observer of the endGame
-        notifyForEndGame();
+        notifyForEndGame(false);
     }
   }
 
