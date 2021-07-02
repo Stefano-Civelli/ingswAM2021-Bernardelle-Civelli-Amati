@@ -61,6 +61,7 @@ public class CliDrawer {
     placeHereOnCanvas(0, 0, canvas);
     displayCanvas();
     displayCanvas();
+    displayCanvas();
   }
 
   /**
