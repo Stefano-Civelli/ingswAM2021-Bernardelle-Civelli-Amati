@@ -138,6 +138,8 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
    public DevelopCard getCard(int row, int column) throws InvalidDevelopCardException {
       if(row<0 || row>2 || column<0 || column>3)
          throw new InvalidDevelopCardException("row is between 0 and " + (cardsCube.length-1) + " , column is between 0 and " + (cardsCube[0].length-1));
+      if(cardsCube[row][column] == null)
+         throw new InvalidDevelopCardException();
 
       return cardsCube[row][column].get(cardsCube[row][column].size() - 1);
    }
@@ -162,7 +164,7 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
       cardsCube[row][column].remove(cardsCube[row][column].size() - 1);
       notifyDeckUpdate(new DevelopCardDeckUpdate(row, column));
 
-      //checks if the column where i removed a card is completly empty call the notifyForEndGame method
+      //checks if the column where i removed a card is completely empty call the notifyForEndGame method
       for (List<DevelopCard>[] lists : cardsCube)
          if (!lists[column].isEmpty())
             return;
