@@ -138,7 +138,7 @@ public class DevelopCardDeck implements EndGameObservable, DeckSetupObservable, 
    public DevelopCard getCard(int row, int column) throws InvalidDevelopCardException {
       if(row<0 || row>2 || column<0 || column>3)
          throw new InvalidDevelopCardException("row is between 0 and " + (cardsCube.length-1) + " , column is between 0 and " + (cardsCube[0].length-1));
-      if(cardsCube[row][column] == null)
+      if(cardsCube[row][column].isEmpty())
          throw new InvalidDevelopCardException();
 
       return cardsCube[row][column].get(cardsCube[row][column].size() - 1);
