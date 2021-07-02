@@ -294,6 +294,7 @@ In most cases, messages sent to Server contain an [Action](#Action-Table) as pay
 Here is an example of how to create a message countaining a specific action:
 ```java
    Action buyCardAction = new BuyDevelopCardAction(row, column, cardSlot);
+   Message msg = new Message(username, MessageType.ACTION, buyCardAction);
 ```
 
 
