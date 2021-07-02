@@ -71,9 +71,9 @@ You can find more information on how to run the game [`here`][running-link]
 
 
 
-## API Reference
+## Write your own client
 
-Here are some advices if you want to use the API provided by our server to create your own client.
+Here are some advices if you want to use the API provided by our server to create your own client in java using some of our classes.
 
 Remember to also reference the [Communication Protocol](#COMMUNICATION-PROTOCOL) documentation for more 
 informations on protocol structure.
