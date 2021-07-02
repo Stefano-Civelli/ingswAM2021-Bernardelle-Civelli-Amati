@@ -31,7 +31,7 @@ For the unexperienced user it is possible to simply double click the jar file to
 ### Experienced users
 To run the jar via Terminal you need to go to the project Shade directory where the jar is located.<br>
 You can use the command: `java -jar <jarname>.jar --help` for more informations <br>
-NOTE: by default the program will start in GUI client mode.
+NOTE: by default the program will start in GUI client mode. 
 #### Server mode
 To run the jar in server mode you can use the following commands: <br>
 `java -jar <jarname>.jar -s` or  `java -jar <jarname>.jar --server`
