@@ -161,7 +161,7 @@ Example of a possible error message after a buy card actions:
 
 <img src="https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/blob/main/deliverables/Network%20Sequence%20Diagram/endGameSequenceDiagram.png" align="center" />
 
-## Messages Table
+## Message Tables
 
 | Source     | Message Type  | payload content    |  description
 | :----:     |    :----:   |          :----:  |     :----:  |
@@ -285,7 +285,7 @@ For example:
 ```
 
 If you have trouble finding the right object you can simply call the ` getPayload() ` method to view
-a JSON representation of the received Object or look at [Messages Table](#Messages-Table) documentation.
+a JSON representation of the received Object or look at [Message Tables](#Message-Tables) documentation.
 
 #### Sending a message: Client -> Server
 
