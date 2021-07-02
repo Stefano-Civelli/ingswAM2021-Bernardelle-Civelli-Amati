@@ -262,7 +262,7 @@
                 "color": "PURPLE"
             },
             "cost": {
-                "SERVANT": "3",
+                "SERVANT": "2",
                 "STONE": "2"
             },
             "requirement": {
