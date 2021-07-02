@@ -14,18 +14,10 @@ public class VaticanReport implements ModelUpdate {
       this.active = active;
    }
 
-   /**
-    * //TODO
-    * @return
-    */
    public int getZone() {
       return zone;
    }
 
-   /**
-    * //TODO
-    * @return
-    */
    public boolean isActive() {
       return active;
    }

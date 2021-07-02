@@ -146,7 +146,6 @@ public class PlayerBoard implements InterfacePlayerBoard, MoveForwardObservable,
     */
    public void addMarbleToWarehouse(int marbleIndex)
            throws MoreWhiteLeaderCardsException, NotEnoughSpaceException, MarbleNotExistException {
-         // TODO usare boolean invece che un'eccezione quando ci sono due leader che convertono una biglia bianca
          if (marbleIndex < 0 || marbleIndex >= tempMarketMarble.size())
             throw new MarbleNotExistException("The index of the marble u gave me doesn't match the length of my array");
             try {

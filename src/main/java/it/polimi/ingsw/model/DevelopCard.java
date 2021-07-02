@@ -39,7 +39,6 @@ public class DevelopCard {
       Warehouse warehouse = playerBoard.getWarehouse();
       Chest chest = playerBoard.getChest();
       CardSlots cardSlots = playerBoard.getCardSlots();
-      DevelopCardDeck developCardDeck = playerBoard.getDevelopCardDeck(); //FIXME serve?
       HashMap<ResourceType, Integer> localCost = new HashMap<>(cost);
 
       //apply discount

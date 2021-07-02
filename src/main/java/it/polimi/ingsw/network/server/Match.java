@@ -99,7 +99,7 @@ public class Match {
 
       if(gameRunning){
          clientHandler.sendMessage(new Message(MessageType.ERROR, ErrorType.GAME_ALREADY_STARTED));
-         handleClientDisconnection(clientHandler); //TODO probabilmente andrà modificata un pochino
+         handleClientDisconnection(clientHandler);
          return;
       }
 

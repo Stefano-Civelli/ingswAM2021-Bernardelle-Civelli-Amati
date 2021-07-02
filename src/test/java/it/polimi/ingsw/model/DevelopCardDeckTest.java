@@ -114,11 +114,6 @@ class DevelopCardDeckTest {
       assertEquals(count, 12);
    }
 
-   // TODO need to add a test to check the endGame notify call
-   @Test
-   void checkForEndGameNotifyCall(){
-      //
-   }
 
    @Test
    void getCardFromIdTest() throws IOException, InvalidCardException {
