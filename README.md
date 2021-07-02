@@ -84,6 +84,11 @@ For the best experience in CLI mode you should use the **`Linux/Unix bash shell`
 |-------------------------------------|-------------------------------------|-------------------------------------|
 | [<p align="center"> <img src="https://user-images.githubusercontent.com/62955439/123870984-63736b00-d933-11eb-92ed-ad35f055eaa7.png" width="60px"> </p>][running-link] | [<p align="center"> <img src="https://user-images.githubusercontent.com/62955439/123876084-0d0a2a80-d93b-11eb-81a3-d3fd39ef1bf6.png" width="90px"> </p>][javadocs] | [<p align="center"> <img src="https://user-images.githubusercontent.com/62955439/123874920-227e5500-d939-11eb-9ecb-abcfb76a7625.png" width="80px"> </p>][communicationProtocol-link]
 
+## The Team
+* [Alex Amati](https://github.com/Axelamati)
+* [Pietro Bernardelle](https://github.com/PietroBernardelle)
+* [Stefano Civelli](https://github.com/Stefano-Civelli)
+
 ## Gameplay Screenshots
 
 <img src="https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/blob/main/WikiResources/CLI_Screenshot.PNG" align="center" />
@@ -93,11 +98,7 @@ For the best experience in CLI mode you should use the **`Linux/Unix bash shell`
 <img src="https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/blob/main/WikiResources/GUI_Screenshot2.PNG" align="center" />
 <br><br>
 
-## The Team
 
-* [Alex Amati](https://github.com/Alexamati)
-* [Pietro Bernardelle](https://github.com/PietroBernardelle)
-* [Stefano Civelli](https://github.com/Stefano-Civelli)
 
 
 [communicationProtocol-link]: https://github.com/Stefano-Civelli/ingswAM2021-Bernardelle-Civelli-Amati/wiki/Communication+Protocol
