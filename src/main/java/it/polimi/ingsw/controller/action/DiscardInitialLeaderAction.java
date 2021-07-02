@@ -44,7 +44,6 @@ public class DiscardInitialLeaderAction extends Action {
      * @throws WrongPlayerException the player for which this action must be performed isn't the current player
      * @throws InvalidUsernameException the player for which this action must be performed doesn't exist in this game
      * @throws InvalidLeaderCardException the specified leader card doesn't exist
-     * @throws LeaderIsActiveException the specified leader is already active
      */
     @Override
     public PhaseType performAction(IGameState gameState)
