@@ -45,17 +45,17 @@ For the best experience in CLI mode you should use the **`Linux/Unix bash shell`
 ## Implemented Functionalities
 | Functionality | Status |
 |:-----------------------|:------------------------------------:|
-| Basic rules |[![GREEN](http://placehold.it/15/44bb44/44bb44)](#)|
-| Complete rules | [![GREEN](http://placehold.it/15/44bb44/44bb44)](#) |
-| Socket | [![GREEN](http://placehold.it/15/44bb44/44bb44)](#) |
-| CLI | [![GREEN](http://placehold.it/15/44bb44/44bb44)](#) |
-| GUI | [![GREEN](http://placehold.it/15/44bb44/44bb44)](#) |
-| Local Game | [![GREEN](http://placehold.it/15/44bb44/44bb44)](#)|
-| Multiple Games | [![GREEN](http://placehold.it/15/44bb44/44bb44)](#)|
-| Disconnection Resilience | [![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#)|
+| Basic rules |[![GREEN](https://via.placeholder.com/15/00f000/00f000)](#)|
+| Complete rules | [![GREEN](https://via.placeholder.com/15/00f000/00f000)](#) |
+| Socket | [![GREEN](https://via.placeholder.com/15/00f000/00f000)](#) |
+| CLI | [![GREEN](https://via.placeholder.com/15/00f000/00f000)](#) |
+| GUI | [![GREEN](https://via.placeholder.com/15/00f000/00f000)](#) |
+| Local Game | [![GREEN](https://via.placeholder.com/15/00f000/00f000)](#)|
+| Multiple Games | [![GREEN](https://via.placeholder.com/15/00f000/00f000)](#)|
+| Disconnection Resilience | [![YELLOW](https://via.placeholder.com/15/ffdd00/ffdd00)](#)|
 
-[![GREEN](http://placehold.it/15/44bb44/44bb44)](#) Implemented &nbsp;&nbsp;&nbsp;
-[![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#) WIP
+[![GREEN](https://via.placeholder.com/15/00f000/00f000)](#) Implemented &nbsp;&nbsp;&nbsp;
+[![YELLOW](https://via.placeholder.com/15/ffdd00/ffdd00)](#) WIP
 <!--
 [![RED](http://placehold.it/15/f03c15/f03c15)](#)
 [![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#)
